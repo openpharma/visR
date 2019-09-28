@@ -10,8 +10,10 @@
 #' @param complement_descriptions An array of characters of length M - 1 
 #' describing the complement of each step in the cohort selection except for 
 #' the first (e.g. patients less than 18 years old at diagnosis).
+#' @param output_path The path to the output (either a .ps or a .svg file).
 #'
-pvr_attrition <- function(N_array, descriptions, complement_descriptions) {
+pvr_attrition <- function(N_array, descriptions, complement_descriptions, 
+    output_path = NULL) {
     dot_string <- "digraph G {\n    rankdir=TB;"
     
     for (i in 1:length(N_array)) {
@@ -43,12 +45,12 @@ pvr_attrition <- function(N_array, descriptions, complement_descriptions) {
             dot_string <- paste(dot_string, 
                 sprintf("\n    }}", i))
             dot_string <- paste(dot_string, 
-                sprintf("\n    step_node_%d -> invisible_node_%d;", i, i))
+                sprintf("\n    step_node_%d -> invisible_node_%d [arrowhead=none];", i, i))
         }
     }
     
     dot_string <- paste(dot_string, "\n}")
-    plot <- dot(dot_string)
+    plot <- dot(dot_string, file = output_path)
     
     return(plot)
 }

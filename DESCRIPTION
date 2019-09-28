@@ -1,0 +1,12 @@
+Package: pharmavisR
+Type: Package
+Title: Fit-for-purpose, reusable Pharma visualizations and tables with sensible defaults and based on sound graphical principles.
+Version: 0.01
+Date: 2019-09-27
+Author: Diego Saldana, ...
+Maintainer: John Doe <john_doe@example.com>
+Description: ...
+License: What license is it under?
+Imports:
+    DOT
+RoxygenNote: 6.1.1
