@@ -1,5 +1,5 @@
 ---
-title: Attrition Plot
+title: Attrition Diagram 
 author: Diego Saldana
 date: 
 output:
@@ -12,7 +12,7 @@ output:
 
 # PharmavisR by Example
 
-## Attrition plots
+## Attrition diagrams
 
 A common task at the beginning of an observational study is the selection of 
 a cohort by applying a set of inclusion and exclusion criteria. We will often 
