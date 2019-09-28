@@ -14,5 +14,6 @@ install.packages("devtools")
 Install pharmavisR from github:
 
 ```{r}
+library(devtools)
 install_github("https://github.com/openpharma/pharmavisR.git")
 ```
