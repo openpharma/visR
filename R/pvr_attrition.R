@@ -14,7 +14,7 @@
 #'
 pvr_attrition <- function(N_array, descriptions, complement_descriptions, 
     output_path = NULL) {
-    dot_string <- "digraph G {\n    rankdir=TB;"
+    dot_string <- "digraph G {\n    rankdir=TB\n    ranksep=0.1;"
     
     for (i in 1:length(N_array)) {
         text <- sprintf("%s (N = %d)", descriptions[i], N_array[i])
@@ -34,7 +34,7 @@ pvr_attrition <- function(N_array, descriptions, complement_descriptions,
             dot_string <- paste(dot_string, 
                 sprintf("\n        { rank=same;", i))
             dot_string <- paste(dot_string, 
-                sprintf("\n        invisible_node_%d [label=\"\" height=0 width=0 style=invisible];", i))
+                sprintf("\n        invisible_node_%d [label=\"\" height=0 width=0 color=black];", i))
             text <- sprintf("%s (N = %d)", complement_descriptions[i], 
                 N_array[i] - N_array[i + 1])
             dot_string <- paste(dot_string, sprintf(
