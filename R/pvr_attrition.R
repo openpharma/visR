@@ -13,7 +13,7 @@
 #' @param output_path The path to the output (either a .ps or a .svg file).
 #'
 pvr_attrition <- function(N_array, descriptions, complement_descriptions, 
-    output_path = NULL) {
+    output_path = NULL, display = FALSE) {
     dot_string <- "digraph G {\n    rankdir=TB\n    ranksep=0.1;"
     
     for (i in 1:length(N_array)) {
@@ -50,6 +50,7 @@ pvr_attrition <- function(N_array, descriptions, complement_descriptions,
     }
     
     dot_string <- paste(dot_string, "\n}")
+    if (display) cat("DOT:\n%s\n", dot_string)
     plot <- dot(dot_string, file = output_path)
     
     return(plot)
