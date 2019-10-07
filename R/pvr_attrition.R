@@ -1,3 +1,10 @@
+.stringWrap <- function(strings, wrap_width) {
+    wrapped_strings <- sapply(strings, function(string) 
+        paste(strwrap(string, width = wrap_width), collapse = "\\n"))
+    return(wrapped_strings)
+}
+
+
 #' Attrition
 #' 
 #' Simple attrition diagrams for cohort selection
@@ -11,15 +18,22 @@
 #' describing the complement of each step in the cohort selection except for 
 #' the first (e.g. patients less than 18 years old at diagnosis).
 #' @param output_path The path to the output (either a .ps or a .svg file).
+#' @param display Whether to display the dot string.
+#' @param wrap_width The width of the text for text wrapping, as used in 
+#' the strwrap function..
+#' @param node_width The width of the node as used in graphviz (dot).
 #'
 pvr_attrition <- function(N_array, descriptions, complement_descriptions, 
-    output_path = NULL, display = FALSE) {
-    dot_string <- "digraph G {\n    rankdir=TB\n    ranksep=0.1;"
+    output_path = NULL, display = FALSE, wrap_width = 50, node_width = 3) {
+    descriptions <- .stringWrap(descriptions, wrap_width)
+    complement_descriptions <- .stringWrap(complement_descriptions, wrap_width)
     
+    dot_string <- "digraph G {\n    rankdir=TB\n    ranksep=0.1;"
     for (i in 1:length(N_array)) {
         text <- sprintf("%s (N = %d)", descriptions[i], N_array[i])
         dot_string <- paste(dot_string, 
-            sprintf("\n    step_node_%d [label=\"%s\", shape=rect];", i, text))
+            sprintf("\n    step_node_%d [label=\"%s\", shape=rect, width=%d];", 
+                i, text, node_width))
         
         if (i > 1) {
             dot_string <- paste(dot_string, 
@@ -38,8 +52,8 @@ pvr_attrition <- function(N_array, descriptions, complement_descriptions,
             text <- sprintf("%s (N = %d)", complement_descriptions[i], 
                 N_array[i] - N_array[i + 1])
             dot_string <- paste(dot_string, sprintf(
-                "\n        exclusion_node_%d [label=\"%s\", shape=rect];", i, 
-                text))
+                "\n        exclusion_node_%d [label=\"%s\", shape=rect, width=%d];", 
+                i, text, node_width))
             dot_string <- paste(dot_string, sprintf(
                 "\n        invisible_node_%d -> exclusion_node_%d;", i, i))
             dot_string <- paste(dot_string, 
@@ -50,7 +64,9 @@ pvr_attrition <- function(N_array, descriptions, complement_descriptions,
     }
     
     dot_string <- paste(dot_string, "\n}")
-    if (display) cat("DOT:\n%s\n", dot_string)
+    if (display) cat(sprintf("DOT:\n%s\n", dot_string))
+    dot_string <- gsub("'", "\\'", dot_string, fixed = TRUE)
+    dot_string <- gsub("\"", "\\\"", dot_string, fixed = TRUE)
     plot <- dot(dot_string, file = output_path)
     
     return(plot)
