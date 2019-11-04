@@ -1,3 +1,5 @@
 import(DOT)
 import(dplyr)
+importFrom(reshape2, dcast)
+importFrom(MESS, round_percent)
 exportPattern("^[[:alpha:]]+")

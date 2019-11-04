@@ -1,30 +1,40 @@
+.get_label <- function(cnt, percent, label_mode) {
+    if (label_mode == "count") {
+        label <- case_when(percent >= 5 ~ sprintf("%d", cnt), TRUE ~ "")
+    } else if (label_mode == "percent") {
+        label <- case_when(percent >= 5 ~ sprintf("%.1f%%", percent), TRUE ~ "")
+    } else if (label_mode == "both") {
+        label <- case_when(percent >= 10 ~ sprintf("%d\n(%.1f%%)", cnt, 
+            percent), TRUE ~ "")
+    } else {
+        stop(sprintf("Unrecognized label mode: '%s'.", label_mode))
+    }
+    return(label)
+}
+
+
 pvr_stacked_barchart <- function(
     data, 
-    group, 
-    subgroup, 
-    cnt, 
     title = "", 
     abbreviations = "", 
     variable_definitions = "", 
-    N_unit = "patients"
+    N_unit = "patients", 
+    label_mode = "both"
 ) {
     # Setup main data frame
-    group_name <- eval(substitute(bquote(group)), data, parent.frame())
-    subgroup_name <- eval(substitute(bquote(subgroup)), data, parent.frame())
-    data <- data.frame(
-        group = factor(eval(substitute(factor(group)), data, parent.frame())), 
-        subgroup = eval(substitute(factor(subgroup)), data, parent.frame()), 
-        cnt = eval(substitute(as.integer(cnt)), data, parent.frame())
-    )
-
+    column_names <- colnames(data)
+    colnames(data) <- c("group", "subgroup", "cnt")
+    data$group <- as.factor(data$group)
+    data$subgroup <- as.factor(data$subgroup)
+    
     # Get counts
     N <- sum(data$cnt)
-    cnt <- 
+    counts <- 
         data %>% 
         group_by(group) %>% 
         summarize(cnt = sum(cnt))
     levels(data$group) <- sprintf("%s\n[%d]", levels(data$group), counts$cnt)
-
+    
     # Setup plotting data frame
     plot_data <- 
         data %>% 
@@ -33,8 +43,7 @@ pvr_stacked_barchart <- function(
         mutate(
             percent = cnt * 100 / sum(cnt), 
             label_height = 100 - (cumsum(percent) - (0.5 * percent)), 
-            label_text = case_when(percent >= 10 ~ sprintf("%d\n(%.1f%%)", cnt, 
-            percent), TRUE ~ "")
+            label_text = .get_label(cnt, percent, label_mode)
         )
         
     # Plot the figure
@@ -45,10 +54,10 @@ pvr_stacked_barchart <- function(
         scale_fill_nejm() + 
         theme_linedraw() + 
         labs(
-            fill = subgroup_name, 
+            fill = column_names[2], 
             caption = abbreviations
         ) + 
-        xlab(group_name) + 
+        xlab(column_names[1]) + 
         ylab("%") + 
         ggtitle(title, subtitle = sprintf("N [%s] = %d", N_unit, N))
         
