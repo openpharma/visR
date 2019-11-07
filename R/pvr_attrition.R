@@ -22,9 +22,11 @@
 #' @param wrap_width The width of the text for text wrapping, as used in 
 #' the strwrap function..
 #' @param node_width The width of the node as used in graphviz (dot).
+#' @param font_size The label font size as used in graphviz (dot).
 #'
 pvr_attrition <- function(N_array, descriptions, complement_descriptions, 
-    output_path = NULL, display = FALSE, wrap_width = 50, node_width = 3) {
+    output_path = NULL, display = FALSE, wrap_width = 50, node_width = 3, 
+    font_size = 8) {
     descriptions <- .stringWrap(descriptions, wrap_width)
     complement_descriptions <- .stringWrap(complement_descriptions, wrap_width)
     
@@ -32,8 +34,8 @@ pvr_attrition <- function(N_array, descriptions, complement_descriptions,
     for (i in 1:length(N_array)) {
         text <- sprintf("%s (N = %d)", descriptions[i], N_array[i])
         dot_string <- paste(dot_string, 
-            sprintf("\n    step_node_%d [label=\"%s\", shape=rect, width=%d];", 
-                i, text, node_width))
+            sprintf("\n    step_node_%d [label=\"%s\", shape=rect, width=%d, fontsize=%d];", 
+                i, text, node_width, font_size))
         
         if (i > 1) {
             dot_string <- paste(dot_string, 
@@ -52,8 +54,8 @@ pvr_attrition <- function(N_array, descriptions, complement_descriptions,
             text <- sprintf("%s (N = %d)", complement_descriptions[i], 
                 N_array[i] - N_array[i + 1])
             dot_string <- paste(dot_string, sprintf(
-                "\n        exclusion_node_%d [label=\"%s\", shape=rect, width=%d];", 
-                i, text, node_width))
+                "\n        exclusion_node_%d [label=\"%s\", shape=rect, width=%d, fontsize=%d];", 
+                i, text, node_width, font_size))
             dot_string <- paste(dot_string, sprintf(
                 "\n        invisible_node_%d -> exclusion_node_%d;", i, i))
             dot_string <- paste(dot_string, 
