@@ -1,4 +1,4 @@
-# pharmavisR
+# visR
 
 A repository for fit-for-purpose, reusable Pharma visualizations and tables 
 with sensible defaults and based on sound graphical principles.
@@ -11,9 +11,9 @@ If not already installed, install devtools:
 install.packages("devtools")
 ```
 
-Install pharmavisR from github:
+Install visR from github:
 
 ```{r}
 library(devtools)
-install_github("https://github.com/openpharma/pharmavisR.git")
+install_github("https://github.com/openpharma/visR.git")
 ```

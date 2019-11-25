@@ -1,4 +1,4 @@
-Package: pharmavisR
+Package: visR
 Type: Package
 Title: Fit-for-purpose, reusable Pharma visualizations and tables with sensible defaults and based on sound graphical principles.
 Version: 0.01
@@ -9,4 +9,4 @@ Description: ...
 License: What license is it under?
 Imports:
     DOT
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.1

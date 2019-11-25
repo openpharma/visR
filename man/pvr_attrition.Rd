@@ -4,7 +4,16 @@
 \alias{pvr_attrition}
 \title{Attrition}
 \usage{
-pvr_attrition(N_array, descriptions, complement_descriptions)
+pvr_attrition(
+  N_array,
+  descriptions,
+  complement_descriptions,
+  output_path = NULL,
+  display = FALSE,
+  wrap_width = 50,
+  node_width = 3,
+  font_size = 8
+)
 }
 \arguments{
 \item{N_array}{An array of integers of length M, where M is the number of 
@@ -17,6 +26,17 @@ diagnosis).}
 \item{complement_descriptions}{An array of characters of length M - 1 
 describing the complement of each step in the cohort selection except for 
 the first (e.g. patients less than 18 years old at diagnosis).}
+
+\item{output_path}{The path to the output (either a .ps or a .svg file).}
+
+\item{display}{Whether to display the dot string.}
+
+\item{wrap_width}{The width of the text for text wrapping, as used in 
+the strwrap function..}
+
+\item{node_width}{The width of the node as used in graphviz (dot).}
+
+\item{font_size}{The label font size as used in graphviz (dot).}
 }
 \description{
 Simple attrition diagrams for cohort selection

@@ -10,7 +10,7 @@ output:
             collapsed: false
 ---
 
-# PharmavisR by Example
+# visR by Example
 
 ## Attrition diagrams
 
@@ -22,11 +22,11 @@ diagram. The function 'pvr_attrition' implements a simple attrition diagram,
 as shown below.
 
 ```{r results=FALSE, warning=FALSE}
-library(pharmavisR)
+library(visR)
 library(knitr)
 
 # Create figures directory 
-setwd("/cloud/project/pharmavisR/notebooks")
+setwd("/cloud/project/visR/notebooks")
 figures_directory <- "../figures"
 dir.create(figures_directory, recursive = TRUE)
 
