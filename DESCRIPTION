@@ -7,6 +7,5 @@ Author: Diego Saldana, ...
 Maintainer: John Doe <john_doe@example.com>
 Description: ...
 License: What license is it under?
-Imports:
-    DOT
 RoxygenNote: 7.0.1
+Imports: DOT, dplyr, reshape2, MESS
