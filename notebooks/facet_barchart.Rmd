@@ -1,0 +1,118 @@
+---
+title: "Faceted bar chart"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r setupR}
+library(rmarkdown)
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(readr)
+library(Hmisc)
+library(here)
+## Set global ggplot theme
+theme_set(theme_light(base_size = 12))
+```
+
+## Read data
+
+Load the CRS dataset.
+
+```{r}
+crs <- read_csv(here("data-raw","med_hist.csv"))
+```
+
+
+# Descriptive summary
+
+Univariate analyses. 
+
+Calculate the number of patients.
+
+```{r}
+bigN <- nrow(crs)
+print(bigN)
+```
+
+## Medical history
+
+A summary of medical history measured at *diagnosis* (TODO: check when medical history / comorbidities were assessed):
+* AFib, 
+* MI
+* CHF
+* Diabetes 
+* Crohn's disease	
+
+Print out descriptive summary. 
+
+```{r}
+crs %>% 
+  select(chf, afib, mi, diabetes, crohn, ulcercol, ibd) %>%
+  Hmisc::describe()
+```
+
+Plot of the distribution of patients with specific comorbidities measured at diagnosis. 
+
+Process steps:
+* Select comorbidities
+* Transform data frame from wide to long
+* Transform and spell out factors for plotting
+* Plot counts by comorbidity 
+
+```{r}
+crs %>%
+  select(id, chf, afib, diabetes, mi, copd, crohn, ulcercol, ibd) %>%
+  pivot_longer(-id, names_to = "comorb", values_to = "value") %>%
+  mutate(
+    comorb = case_when(
+      comorb == "chf" ~ "Congestive heart failure",
+      comorb == "afib" ~ "Atrial fibrillation",
+      comorb == "diabetes" ~ "Diabetes",
+      comorb == "copd" ~ "COPD",
+      comorb == "mi" ~ "Myocardial infarction",
+      comorb == "crohn" ~ "Crohn's disease",
+      comorb == "ulcercol" ~ "Ulcerative colitis",
+      comorb == "ibd" ~ "Inflammatory bowel disease"
+    ),
+    value = case_when(value == "0" ~ "no",
+                      value == "1" ~ "yes")
+  ) %>%
+  group_by(comorb, value) %>%
+  summarise(n = n()) %>%
+  mutate(
+    inc = n / bigN,
+    perc = n / bigN * 100,
+    plot_lab = paste0('(', n, ', ', round(perc, digits = 1), '%)'),
+    axis_lab = paste0(value, ' ', '(', n, ', ', round(perc, digits = 1), '%)')
+  ) %>%
+  ggplot(aes(axis_lab, n)) +
+  geom_col(width = 0.6,
+           alpha = 0.15,
+           fill = "black") +
+  coord_flip() +
+  facet_wrap(~ comorb, ncol = 2, scales = "free_y") +
+  ggtitle("Number and percentage of patients reporting\n a comorbidity at diagnosis") +
+  theme_minimal(base_size = 12) +
+  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major.y = element_blank(),
+    axis.title = element_blank()
+  )
+```
+
+
+## Patient characteristics 
+
+TODO
+
+# Session info
+
+```{r}
+sessionInfo()
+```
