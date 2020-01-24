@@ -1,5 +1,5 @@
 vr_plt_kaplan_meier <- function(
-    estimate, 
+    broom_object, 
     title = "", 
     abbreviations = "", 
     variable_definitions = "", 
