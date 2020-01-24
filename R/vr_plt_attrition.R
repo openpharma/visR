@@ -24,9 +24,16 @@
 #' @param node_width The width of the node as used in graphviz (dot).
 #' @param font_size The label font size as used in graphviz (dot).
 #'
-pvr_attrition <- function(N_array, descriptions, complement_descriptions, 
-    output_path = NULL, display = FALSE, wrap_width = 50, node_width = 3, 
-    font_size = 8) {
+vr_plt_attrition <- function(
+    N_array, 
+    descriptions, 
+    complement_descriptions, 
+    output_path = NULL, 
+    display = FALSE, 
+    wrap_width = 50, 
+    node_width = 3, 
+    font_size = 8
+) {
     descriptions <- .stringWrap(descriptions, wrap_width)
     complement_descriptions <- .stringWrap(complement_descriptions, wrap_width)
     

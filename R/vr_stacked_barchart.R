@@ -13,7 +13,7 @@
 }
 
 
-pvr_stacked_barchart <- function(
+vr_stacked_barchart <- function(
     data, 
     title = "", 
     abbreviations = "", 
