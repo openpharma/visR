@@ -24,7 +24,7 @@
 #' @param node_width The width of the node as used in graphviz (dot).
 #' @param font_size The label font size as used in graphviz (dot).
 #'
-vr_plt_attrition <- function(
+vr_attrition <- function(
     N_array, 
     descriptions, 
     complement_descriptions, 
