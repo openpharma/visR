@@ -1,3 +1,4 @@
 /figures
 /notebooks/libs
 /notebooks/*.html
+.Rproj.user

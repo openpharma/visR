@@ -6,6 +6,9 @@ Date: 2019-09-27
 Author: Diego Saldana, ...
 Maintainer: John Doe <john_doe@example.com>
 Description: ...
-License: What license is it under?
-RoxygenNote: 7.0.1
+License: MIT + file LICENSE
+RoxygenNote: 7.0.2
 Imports: DOT, dplyr, reshape2, MESS
+Suggests: 
+    broom,
+    testthat (>= 2.1.0)
