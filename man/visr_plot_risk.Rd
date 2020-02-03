@@ -24,7 +24,5 @@ library(dplyr)
 library(ggplot2)
 library(broom)
 fit <- survival::survfit(Surv(time, status) ~ sex, data = lung)
-visr_plot_risk(fit, 50) \%>\%
-ggplot(aes(x = time, y = strata_id, label = n.risk, group= strata)) + 
-geom_text() 
+visr_plot_risk(fit, 50) 
 }

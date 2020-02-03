@@ -34,6 +34,7 @@ library(dplyr)
 library(ggplot2)
 library(broom)
 library(patchwork)
+
 fit <- survfit(Surv(time, status) ~ sex, data = lung) 
 a <- fit %>% 
   tidy() %>% 
@@ -42,11 +43,44 @@ a
 ```
 
 
-Display risk table
+Change and update the plot asthestics. 
+
 ```{r}
-b <- visr_plot_risk(fit, 500) %>%
-  ggplot(aes(x = time, y = strata, label = n.risk)) + 
-  geom_text() 
+a <- 
+  a + 
+  ggtitle("Change the title") +
+  xlab("Days from index measurement") +
+  ylab("Survival") +
+  theme_classic() 
+
+a
+```
+
+Add annotations. 
+
+```{r}
+library(ggrepel)
+a <- a +
+  geom_text_repel(data = fit %>% 
+                    tidy() %>% 
+                    group_by(strata) %>% 
+                    slice(n()),
+    aes(label = strata),
+    size = 4.5,
+    point.padding = .2,
+    box.padding = .3,
+    force = 1,
+    min.segment.length = 0
+  )
+
+a
+```
+
+
+Display risk table
+
+```{r}
+b <- visr_plot_risk(fit, 500) 
 b
 ```
 

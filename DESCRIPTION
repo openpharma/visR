@@ -15,7 +15,9 @@ Imports:
     MESS,
     ggplot2,
     magrittr,
-    survival
+    survival,
+    patchwork,
+    ggrepel
 Suggests: 
     broom,
     testthat (>= 2.1.0),

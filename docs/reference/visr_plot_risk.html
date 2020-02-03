@@ -151,9 +151,7 @@
 #&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>broom</span>)
 <span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>survival</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/survival/man/survfit.html'>survfit</a></span>(<span class='fu'><a href='https://rdrr.io/pkg/survival/man/Surv.html'>Surv</a></span>(<span class='no'>time</span>, <span class='no'>status</span>) ~ <span class='no'>sex</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>lung</span>)
-<span class='fu'>visr_plot_risk</span>(<span class='no'>fit</span>, <span class='fl'>50</span>) <span class='kw'>%&gt;%</span>
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>time</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>strata_id</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='no'>n.risk</span>, <span class='kw'>group</span><span class='kw'>=</span> <span class='no'>strata</span>)) +
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_text.html'>geom_text</a></span>()</div><div class='img'><img src='visr_plot_risk-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'>visr_plot_risk</span>(<span class='no'>fit</span>, <span class='fl'>50</span>)</div><div class='img'><img src='visr_plot_risk-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

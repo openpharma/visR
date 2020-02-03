@@ -24,8 +24,8 @@ visr_plot_surv <- function(x) {
   gg <-
     df %>%
     ggplot2::ggplot(aes(time, estimate, group = strata)) +
-    ggplot2::geom_line() +
-    ggplot2::geom_linerange(aes(ymin = conf.low, ymax = conf.high), alpha = 0.2) +
+    ggplot2::geom_step() +
+    ggplot2::geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = 0.2) +
     ggplot2::geom_point(
       data = df %>% dplyr::filter(n.censor > 0),
       aes(time, estimate),
@@ -80,11 +80,21 @@ visr_summary_surv <- function(x, timeby){
 #' library(ggplot2)
 #' library(broom)
 #' fit <- survival::survfit(Surv(time, status) ~ sex, data = lung)
-#' visr_plot_risk(fit, 50) %>%
-#' ggplot(aes(x = time, y = strata_id, label = n.risk, group= strata)) + 
-#' geom_text() 
+#' visr_plot_risk(fit, 50) 
 visr_plot_risk <- function(x, timeby = 10){
-  df <- visr_summary_surv(x, timeby) %>%
-    dplyr::mutate(strata_id = group_indices(., strata) - 1)
-  return(df)  
+  
+  gg <- visr_summary_surv(x, timeby) %>%
+    dplyr::mutate(strata_id = group_indices(., strata) - 1) %>%
+    ggplot2::ggplot(aes(x = time, y = strata, label = n.risk)) + 
+    ggplot2::geom_text() +
+    ggplot2::theme_minimal() +
+    ggplot2::theme(
+      axis.title = element_blank(),
+      axis.text.x = element_blank(),
+      axis.ticks = element_blank(),
+      panel.grid.major.x = element_blank(),
+      panel.grid.minor = element_blank()
+    )
+  
+  return(gg)  
 }
