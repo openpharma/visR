@@ -1,5 +1,7 @@
 # visR
 
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+
 A repository for fit-for-purpose, reusable Pharma visualizations and tables 
 with sensible defaults and based on sound graphical principles.
 
