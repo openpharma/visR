@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Attrition — vr_attrition • visR</title>
+<title>Function to summarise risk by interval
+See code from here https://mcfromnz.wordpress.com/2012/05/05/kaplan-meier-survival-plot-with-at-risk-table-by-sub-groups/ — visr_summary_surv • visR</title>
 
 
 <!-- jquery -->
@@ -35,8 +36,10 @@
 
 
 
-<meta property="og:title" content="Attrition — vr_attrition" />
-<meta property="og:description" content="Simple attrition diagrams for cohort selection" />
+<meta property="og:title" content="Function to summarise risk by interval
+See code from here https://mcfromnz.wordpress.com/2012/05/05/kaplan-meier-survival-plot-with-at-risk-table-by-sub-groups/ — visr_summary_surv" />
+<meta property="og:description" content="Function to summarise risk by interval
+See code from here https://mcfromnz.wordpress.com/2012/05/05/kaplan-meier-survival-plot-with-at-risk-table-by-sub-groups/" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -112,75 +115,64 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Attrition</h1>
+    <h1>Function to summarise risk by interval
+See code from here https://mcfromnz.wordpress.com/2012/05/05/kaplan-meier-survival-plot-with-at-risk-table-by-sub-groups/</h1>
     
-    <div class="hidden name"><code>vr_attrition.Rd</code></div>
+    <div class="hidden name"><code>visr_summary_surv.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Simple attrition diagrams for cohort selection</p>
+    <p>Function to summarise risk by interval
+See code from here https://mcfromnz.wordpress.com/2012/05/05/kaplan-meier-survival-plot-with-at-risk-table-by-sub-groups/</p>
     </div>
 
-    <pre class="usage"><span class='fu'>vr_attrition</span>(
-  <span class='no'>N_array</span>,
-  <span class='no'>descriptions</span>,
-  <span class='no'>complement_descriptions</span>,
-  <span class='kw'>output_path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>display</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>wrap_width</span> <span class='kw'>=</span> <span class='fl'>50</span>,
-  <span class='kw'>node_width</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-  <span class='kw'>font_size</span> <span class='kw'>=</span> <span class='fl'>8</span>
-)</pre>
+    <pre class="usage"><span class='fu'>visr_summary_surv</span>(<span class='no'>x</span>, <span class='no'>timeby</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>N_array</th>
-      <td><p>An array of integers of length M, where M is the number of 
-steps in your cohort selection.</p></td>
+      <th>x</th>
+      <td><p>surv object to summarise</p></td>
     </tr>
     <tr>
-      <th>descriptions</th>
-      <td><p>An array of characters of length M describing each 
-step of the cohort selection (e.g. patients at least 18 years old at 
-diagnosis).</p></td>
-    </tr>
-    <tr>
-      <th>complement_descriptions</th>
-      <td><p>An array of characters of length M - 1 
-describing the complement of each step in the cohort selection except for 
-the first (e.g. patients less than 18 years old at diagnosis).</p></td>
-    </tr>
-    <tr>
-      <th>output_path</th>
-      <td><p>The path to the output (either a .ps or a .svg file).</p></td>
-    </tr>
-    <tr>
-      <th>display</th>
-      <td><p>Whether to display the dot string.</p></td>
-    </tr>
-    <tr>
-      <th>wrap_width</th>
-      <td><p>The width of the text for text wrapping, as used in 
-the strwrap function..</p></td>
-    </tr>
-    <tr>
-      <th>node_width</th>
-      <td><p>The width of the node as used in graphviz (dot).</p></td>
-    </tr>
-    <tr>
-      <th>font_size</th>
-      <td><p>The label font size as used in graphviz (dot).</p></td>
+      <th>timeby</th>
+      <td><p>intervals to disaply the risk table</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>tidy tibble</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>survival</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>magrittr</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>broom</span>)
+<span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>survival</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/survival/man/survfit.html'>survfit</a></span>(<span class='fu'><a href='https://rdrr.io/pkg/survival/man/Surv.html'>Surv</a></span>(<span class='no'>time</span>, <span class='no'>status</span>) ~ <span class='no'>sex</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>lung</span>)
+<span class='fu'>visr_summary_surv</span>(<span class='no'>fit</span>, <span class='fl'>50</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 42 x 3</span><span>
+#&gt;    strata  time n.risk
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> sex=1      0    138
+#&gt; </span><span style='color: #555555;'> 2</span><span> sex=1     50    128
+#&gt; </span><span style='color: #555555;'> 3</span><span> sex=1    100    114
+#&gt; </span><span style='color: #555555;'> 4</span><span> sex=1    150    102
+#&gt; </span><span style='color: #555555;'> 5</span><span> sex=1    200     78
+#&gt; </span><span style='color: #555555;'> 6</span><span> sex=1    250     62
+#&gt; </span><span style='color: #555555;'> 7</span><span> sex=1    300     49
+#&gt; </span><span style='color: #555555;'> 8</span><span> sex=1    350     39
+#&gt; </span><span style='color: #555555;'> 9</span><span> sex=1    400     31
+#&gt; </span><span style='color: #555555;'>10</span><span> sex=1    450     25
+#&gt; </span><span style='color: #555555;'># … with 32 more rows</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

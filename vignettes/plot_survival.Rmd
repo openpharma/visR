@@ -1,0 +1,58 @@
+---
+title: "plot_survival"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{plot_survival}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+---
+title: "time_to_event"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{time_to_event}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(visR)
+```
+
+```{r}
+library(survival)
+library(magrittr)
+library(dplyr)
+library(ggplot2)
+library(broom)
+library(patchwork)
+fit <- survfit(Surv(time, status) ~ sex, data = lung) 
+a <- fit %>% 
+  tidy() %>% 
+  visr_plot_surv()
+a
+```
+
+
+Display risk table
+```{r}
+b <- visr_plot_risk(fit, 500) %>%
+  ggplot(aes(x = time, y = strata, label = n.risk)) + 
+  geom_text() 
+b
+```
+
+
+```{r}
+a / b
+```
+
+TODO: How to add to displayed ggplot object. ggproto? e.g. add facetting by strata. 

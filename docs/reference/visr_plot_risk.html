@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Attrition — vr_attrition • visR</title>
+<title>Create a ggplot of a risk table — visr_plot_risk • visR</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Attrition — vr_attrition" />
-<meta property="og:description" content="Simple attrition diagrams for cohort selection" />
+<meta property="og:title" content="Create a ggplot of a risk table — visr_plot_risk" />
+<meta property="og:description" content="Create a ggplot of a risk table" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -112,75 +112,55 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Attrition</h1>
+    <h1>Create a ggplot of a risk table</h1>
     
-    <div class="hidden name"><code>vr_attrition.Rd</code></div>
+    <div class="hidden name"><code>visr_plot_risk.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Simple attrition diagrams for cohort selection</p>
+    <p>Create a ggplot of a risk table</p>
     </div>
 
-    <pre class="usage"><span class='fu'>vr_attrition</span>(
-  <span class='no'>N_array</span>,
-  <span class='no'>descriptions</span>,
-  <span class='no'>complement_descriptions</span>,
-  <span class='kw'>output_path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>display</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>wrap_width</span> <span class='kw'>=</span> <span class='fl'>50</span>,
-  <span class='kw'>node_width</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-  <span class='kw'>font_size</span> <span class='kw'>=</span> <span class='fl'>8</span>
-)</pre>
+    <pre class="usage"><span class='fu'>visr_plot_risk</span>(<span class='no'>x</span>, <span class='kw'>timeby</span> <span class='kw'>=</span> <span class='fl'>10</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>N_array</th>
-      <td><p>An array of integers of length M, where M is the number of 
-steps in your cohort selection.</p></td>
+      <th>x</th>
+      <td><p>survfit object</p></td>
     </tr>
     <tr>
-      <th>descriptions</th>
-      <td><p>An array of characters of length M describing each 
-step of the cohort selection (e.g. patients at least 18 years old at 
-diagnosis).</p></td>
-    </tr>
-    <tr>
-      <th>complement_descriptions</th>
-      <td><p>An array of characters of length M - 1 
-describing the complement of each step in the cohort selection except for 
-the first (e.g. patients less than 18 years old at diagnosis).</p></td>
-    </tr>
-    <tr>
-      <th>output_path</th>
-      <td><p>The path to the output (either a .ps or a .svg file).</p></td>
-    </tr>
-    <tr>
-      <th>display</th>
-      <td><p>Whether to display the dot string.</p></td>
-    </tr>
-    <tr>
-      <th>wrap_width</th>
-      <td><p>The width of the text for text wrapping, as used in 
-the strwrap function..</p></td>
-    </tr>
-    <tr>
-      <th>node_width</th>
-      <td><p>The width of the node as used in graphviz (dot).</p></td>
-    </tr>
-    <tr>
-      <th>font_size</th>
-      <td><p>The label font size as used in graphviz (dot).</p></td>
+      <th>timeby</th>
+      <td><p>Integer to indicate range to summarise risk table</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>ggplot object</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>survival</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>magrittr</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: 'dplyr'</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from 'package:stats':</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from 'package:base':</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>broom</span>)
+<span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>survival</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/survival/man/survfit.html'>survfit</a></span>(<span class='fu'><a href='https://rdrr.io/pkg/survival/man/Surv.html'>Surv</a></span>(<span class='no'>time</span>, <span class='no'>status</span>) ~ <span class='no'>sex</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>lung</span>)
+<span class='fu'>visr_plot_risk</span>(<span class='no'>fit</span>, <span class='fl'>50</span>) <span class='kw'>%&gt;%</span>
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>time</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>strata_id</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='no'>n.risk</span>, <span class='kw'>group</span><span class='kw'>=</span> <span class='no'>strata</span>)) +
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_text.html'>geom_text</a></span>()</div><div class='img'><img src='visr_plot_risk-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
