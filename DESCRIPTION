@@ -17,7 +17,9 @@ Imports:
     magrittr,
     survival,
     patchwork,
-    ggrepel
+    ggrepel,
+    RBesT,
+    assertthat
 Suggests: 
     broom,
     testthat (>= 2.1.0),
