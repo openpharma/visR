@@ -1,18 +1,143 @@
+#' Returns a tidied tibble of a RBesT gMAP object
+#'
+#' @param x gMAP object 
+#'
+#' @return td tidied tibble
+#' @export
+#'
+#' @examples
+tidy_gMAP <- function(x, prob = 0.95){
+  
+  assertthat::assert_that(inherits(x, "gMAP"))
+  td <- tibble::tibble()
+  low <- (1-prob)/2
+  up <- 1-low
+  
+#--------------------------------------------  
+  # stratified model 
+  # is the median needed for stratified model
+
+  strat <- as.data.frame(x$est_strat(1-prob))
+  strat2 <- cbind(strat[1:2], median=strat$mean, strat[3:4])
+  
+  df_strat <- tibble(
+    study = row.names(strat2),
+    estimate = strat2$mean,
+    se = strat$se,
+    conf.low = strat[,3],
+    conf.high = strat[,4],
+    model = "stratified"
+  )
+
+#---------------------------------------------- 
+##  fitted meta model 
+  
+  fit <- as.data.frame(fitted(x, type="response", probs=c(0.5, low, up)))
+  
+  df_model <- tibble(
+    study = row.names(fit),
+    estimate = fit$mean,
+    se = fit$sd,
+    conf.low = strat[,3],
+    conf.high = strat[,4],
+    model = "meta"
+  )
+  
+#------------------------------------------  
+  
+  pred_est <- as.data.frame(
+    do.call(
+      rbind, 
+      summary(x,probs=c(0.5, low, up), type="response")[c("theta.pred", "theta")]
+    )
+  )
+  pred_est2 <- transform(pred_est,  study=c("MAP", "Mean") , model="meta")
+  
+  est = c("both", "MAP", "Mean", "none")
+  pred_est3 <- pred_est2[c("MAP", "Mean") %in% est,]
+  pred_est3 
+  
+  df_meta <- tibble(
+    study = pred_est3$study,
+    estimate = pred_est3$mean,
+    se = pred_est3$sd,
+    conf.low = pred_est3[,4],
+    conf.high = pred_est3[,5],
+    model = pred_est3$model
+  )
+
+  #------------------------------------------
+  ### merge tibbles in to one
+  
+  td <- rbind(df_strat, df_model, df_meta) %>%
+    as_tibble() %>%
+    dplyr::mutate(
+      study_id = group_indices(., study),
+      row_id = row_number()
+      )
+  return(td)
+}
+
+
+
+
+library(tidyverse)
+
+tidy_gMAP(map_crohn)
+
+
+map_crohn %>%
+  tidy_gMAP() %>%
+  ggplot(aes(x = row_id, y = estimate)) +
+  geom_pointrange(aes(y = estimate, ymin = conf.low, ymax = conf.high)) +
+  geom_point() +
+  coord_flip()
+  
+
+
+
+### this is the endpoint label - 
+## TODO: BUILD THIS IN TO META DATA
+xlab_str <- switch(x$family$family,
+                   gaussian="Response",
+                   binomial="Response Rate",
+                   poisson="Counting Rate")
+
+
+
+map_crohn %>%
+  tidy_gMAP() %>%
+  ggplot(aes(
+    x = study,
+    y = estimate,
+    ymin = conf.low,
+    ymax = conf.high,
+    colour = model,
+    group = model
+  )) +
+  geom_pointrange(show.legend = FALSE,
+                  position = "dodge",
+                  width = 1) +
+  coord_flip() +
+  #  facet_wrap( ~ model) +
+  theme_light()
+
+position_dodge(width = 1)
+
+
+
 
 library(RBesT)
 library(tidyverse)
 library(ggplot2)
-library(bayesplot)
-# Default settings for bayesplot
-color_scheme_set("blue")
-theme_set(theme_default(base_size=12))
-# Load example gMAP object
 example(crohn)
 print(map_crohn)
-
-
 str(map_crohn)
 forest_plot(map_crohn)
+
+
+
+
 
 
 ###
@@ -23,124 +148,3 @@ forest_plot(map_crohn, model="both", est="MAP", size=1) + legend_move("right") +
        caption="Plot shows point estimates (posterior medians) with 95% intervals")
 
 ### what is the response to be -125?
-
-
-
-#' Returns a tidied tibble of a RBesT gMAP object
-#'
-#' @param x gMAP object 
-#'
-#' @return td tidied tibble
-#' @export
-#'
-#' @examples
-tidy_gMAP <- function(x){
-  assertthat::assert_that(inherits(x, "gMAP"))
-  td <- tibble::tibble(
-    study = c("study 1", "study 1", "study 2", "study 2", "MEAN", "MAP"),
-    type = c("study", "study", "study", "study", "estimate", "estimate"),
-    estimate = c(0.1, 0.2, 0.1, 0.2, 0.1, 0.2),
-    estimate.type = c("stratified", "map", "stratified", "map", "stratified", "map"),
-    conf.low = c(0.05, 0.05, 0.05, 0.05, 0.05, 0.05),
-    conf.high = c(0.15, 0.25, 0.15, 0.25, 0.15, 0.25)
-  ) %>%
-    dplyr::mutate(
-      study_id = group_indices(., study),
-      row_id = row_number()
-      )
-  return(td)
-}
-
-library(tidyverse)
-map_crohn %>%
-  tidy_gMAP() %>%
-  ggplot(aes(x = row_id, y = estimate)) +
-  geom_pointrange(aes(y = estimate, ymin = conf.low, ymax = conf.high)) +
-  geom_point() +
-  coord_flip()
-  
-
-
-prob <- 0.95
-df <- as_tibble(map_crohn$data)
-strat <- as.data.frame(map_crohn$est_strat(1-prob))
-strat2 <- cbind(strat[1:2], median=strat$mean, strat[3:4])
-
-# stratified model 
-# is the median needed for stratified model
-df_strat <- tibble(
-  study = row.names(strat2),
-  estimate = strat2$mean,
-  se = strat$se,
-  conf.low = strat[3],
-  conf.high = strat[4],
-  model = "stratified"
-)
-
-
-x <- map_crohn
-low <- (1-prob)/2
-up <- 1-low
-fit <- as.data.frame(fitted(x, type="response", probs=c(0.5, low, up)))
-fit
-
-df_model <- tibble(
-  study = row.names(fit),
-  estimate = fit$mean,
-  se = fit$sd,
-  conf.low = strat[3],
-  conf.high = strat[4],
-  model = "meta"
-)
-
-assert_that(inherits(x, "gMAP"))
-  td <- tibble::tibble(
-    study = 1,
-    type = 1,
-    estimate = 1,
-    lower = 1,
-    upper = 1
-  )
-  return(td)
-}
-
-tidy_gMAP(map_crohn)
-
-summary(map_crohn)
-x <- map_crohn
-
-
-pred_est <- as.data.frame(
-  do.call(
-    rbind, 
-    summary(x,probs=c(0.5, low, up), type="response")[c("theta.pred", "theta")]
-    )
-  )
-
-pred_est2 <- transform(pred_est,  study=c("MAP", "Mean") , model="meta")
-
-est = c("both", "MAP", "Mean", "none")
-pred_est3 <- pred_est2[c("MAP", "Mean") %in% est,]
-pred_est3 
-
-
-df_meta <- tibble(
-  study = pred_est3$study,
-  estimate = pred_est3$mean,
-  se = pred_est3$sd,
-  conf.low = pred_est3[4],
-  conf.high = pred_est3[5],
-  model = pred_est3$model
-)
-
-df_meta
-
-### merge tibbles in to one
-bind_rows(list(df_strat, df_model, df_meta), model)
-rbind(df_strat, df_model, df_meta)
-
-### this is the endpoint label
-xlab_str <- switch(x$family$family,
-                   gaussian="Response",
-                   binomial="Response Rate",
-                   poisson="Counting Rate")
