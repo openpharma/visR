@@ -6,3 +6,5 @@ inst/doc
 *.Rproj
 *.RData
 *.Rhistory
+.Rhistory
+.RData
