@@ -79,7 +79,15 @@ tidy_gMAP <- function(x, prob = 0.95){
 }
 
 
-
+# TODO: 
+# 1. add estimate type 
+# 2. add raw data i.e. n, y, etc. 
+# 3. think about glue information to y to make more informative labels
+# 4. think about how to plot forest plot in different ways
+# 5. meta data arounf endpoint type, title, subtitles, data source, time executred, etc. 
+# 6. function write to ARD. 
+#     - could the meta data be a tibble with the estimates a tibble to keep table strucutre. 
+#     - the overarching tibble would contain meta data and unique analysis id. 
 
 library(tidyverse)
 
@@ -136,7 +144,14 @@ str(map_crohn)
 forest_plot(map_crohn)
 
 
+ddf <- map_crohn %>%
+  tidy_gMAP()
 
+map_crohn %>%
+  tidy_gMAP() %>%
+  ggplot(aes(y = row_id, x = estimate, label = study)) +
+  geom_point() +
+  geom_text()
 
 
 

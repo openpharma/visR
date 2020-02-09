@@ -3,3 +3,6 @@
 /notebooks/*.html
 .Rproj.user
 inst/doc
+*.Rproj
+*.RData
+*.Rhistory
