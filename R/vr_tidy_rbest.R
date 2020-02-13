@@ -67,7 +67,8 @@ tidy_gMAP <- function(x, prob = 0.95){
   )
 
   #------------------------------------------
-  ### merge tibbles in to one
+  ## merge tibbles in to one
+  ## provide index for study
   
   td <- rbind(df_strat, df_model, df_meta) %>%
     as_tibble() %>%
