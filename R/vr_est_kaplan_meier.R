@@ -1,7 +1,5 @@
-vr_kaplan_meier <- function(
-    data, 
-    ...
-) {
-    # TODO Diego to implement this
-    # See vr_attrition for an example of documentation strings
+vr_est_kaplan_meier <- function(data) {
+    survfit_object <- survfit(Surv(time, status) ~ trt, data = data)
+    broom_object <- tidy(survfit_object)
+    return(broom_object)
 }
