@@ -1,5 +1,6 @@
 vr_est_km_risk_table <- function(data, min_at_risk = 3) {
     survfit_object <- survfit(Surv(time, status) ~ trt, data = data)
+    survfit_summary <- summary(survfit_object)
     
     # Get time limit
     limit_data <- data.frame(
