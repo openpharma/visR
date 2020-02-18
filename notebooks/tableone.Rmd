@@ -1,0 +1,48 @@
+---
+title: "Summary Tables"
+author: Charlotta Fruechtenicht
+output:
+    bookdown::html_document2:
+        code_folding: hide
+        toc: true
+        toc_float:
+            collapsed: false
+---
+
+Summary tables can be easily created and rendered using visR.
+
+```{r}
+library("dplyr")
+library("survival")
+data(ovarian)
+
+ovarian_pts <- ovarian %>% 
+  select(-fustat) %>% 
+  mutate(age_group = factor(case_when(age <= 50 ~ "<= 50 years",
+                               age <= 60 ~ "<= 60 years",
+                               age <= 70 ~ "<= 70 years",
+                               TRUE ~ "> 70 years")),
+         rx = factor(rx),
+         ecog.ps = factor(ecog.ps)) %>% 
+  select(age, age_group, everything())
+```
+
+# Table with overall summary statistics
+```{r}
+# create table 1
+tab1_overall <- vr_create_tableone(ovarian_pts) 
+
+# render table
+tab1_overall %>% vr_render_tableone()
+```
+
+# Table with summary statistics stratified by age groups
+```{r}
+# create table
+tab1_groups <- vr_create_tableone(ovarian_pts, groupCols = c("age_group"))
+
+# render table
+tab1_groups %>% vr_render_tableone()
+```
+
+

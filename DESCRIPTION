@@ -3,9 +3,20 @@ Type: Package
 Title: Fit-for-purpose, reusable Pharma visualizations and tables with sensible defaults and based on sound graphical principles.
 Version: 0.01
 Date: 2019-09-27
-Author: Diego Saldana, ...
+Author: Diego Saldana, Mark Baillie, Charlotta Fruechtenicht
 Maintainer: John Doe <john_doe@example.com>
 Description: ...
-License: What license is it under?
+License: MIT
 RoxygenNote: 7.0.1
-Imports: DOT, dplyr, reshape2, MESS
+Imports: 
+    DOT,
+    dplyr,
+    tidyr,
+    ggplot2,
+    tibble
+    reshape2,
+    MESS,
+    gt,
+    kableExtra,
+    knitr
+    
