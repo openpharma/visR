@@ -11,7 +11,8 @@
 
 vr_render_tableone <- function(table1_df, caption, output_format="html", engine="gt"){
   # TODO: add code to support datatable output for html, as well as all functionality for rtf and latex output
-  # TODO: do we need a routine for falling back on minimal 
+  # TODO: do we need a routine for falling back on minimal?
+  # TODO: do we need features to further specify styling of the table?
   
   # stop if output format is not supported
   if(!tolower(output_format) %in% c("html", "rtf", "latex")){
@@ -23,27 +24,44 @@ vr_render_tableone <- function(table1_df, caption, output_format="html", engine=
     stop(paste("Output engine needs to be kable, gt or datatables (DT) and not", engine))
   }
   
-  if(tolower(engine) == "kable"){
-    table1_out <- knitr::kable(caption = caption) %>% 
-      kableExtra::collapse_rows(valign="top")
+  # HTML output 
+  if(output_format == "html"){
+    if(tolower(engine) == "kable"){
+      table1_out <- table1_df %>% knitr::kable(format = "html", 
+                                               caption = caption,
+                                               digits = 2) %>% 
+        kableExtra::collapse_rows(valign="top")
+    }
+    
+    if(tolower(engine) == "gt"){
+      numcols <- table1_df %>% dplyr::select_if(is.numeric) %>% names()
+      table1_out <- table1_df %>% 
+        gt::gt(groupname_col = "variable",
+               rowname_col = "summary_id") %>% 
+        gt::fmt_number(
+          columns = numcols,
+          decimals = 2
+        )%>% 
+        # no decimal points for sample count
+        gt::fmt_number(
+          columns = numcols,
+          rows = grepl("^N$", summary_id),
+          decimals = 0
+        ) %>% 
+        gt::tab_header(
+          title = caption
+        )
+    }
   }
   
-  if(tolower(engine) == "gt"){
-    numcols <- table1_df %>% dplyr::select_if(is.numeric) %>% names()
-    table1_out <- table1_df %>% 
-      gt::gt(groupname_col = "variable",
-             rowname_col = "summary_id") %>% 
-      gt::fmt_number(
-        columns = numcols,
-        decimals = 2
-      )%>% 
-      # no decimal points for sample count
-      gt::fmt_number(
-        columns = numcols,
-        rows = grepl("^N$", summary_id),
-        decimals = 0
-      )
+  # Latex output 
+  if(output_format == "latex"){
+    table1_out <- table1_df %>% knitr::kable(format = "latex", 
+                                             caption = caption,
+                                             digits = 2) %>% 
+      kableExtra::collapse_rows(valign="top")
   }
+    
   
   return(table1_out)
 }

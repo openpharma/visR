@@ -8,12 +8,15 @@ output:
         toc_float:
             collapsed: false
 ---
+```{r}
+library(dplyr)
+library(survival)
+library(visR)
+```
 
 Summary tables can be easily created and rendered using visR.
 
 ```{r}
-library("dplyr")
-library("survival")
 data(ovarian)
 
 ovarian_pts <- ovarian %>% 
@@ -33,7 +36,7 @@ ovarian_pts <- ovarian %>%
 tab1_overall <- vr_create_tableone(ovarian_pts) 
 
 # render table
-tab1_overall %>% vr_render_tableone()
+tab1_overall %>% vr_render_tableone("Overview over ovarian dataset")
 ```
 
 # Table with summary statistics stratified by age groups
@@ -42,7 +45,13 @@ tab1_overall %>% vr_render_tableone()
 tab1_groups <- vr_create_tableone(ovarian_pts, groupCols = c("age_group"))
 
 # render table
-tab1_groups %>% vr_render_tableone()
+tab1_groups %>% vr_render_tableone(caption = "Ovarian patients")
 ```
+
+## Render table using kable
+```{r}
+tab1_groups %>% vr_render_tableone(engine = "kable", caption = "Ovarian patients")
+```
+
 
 
