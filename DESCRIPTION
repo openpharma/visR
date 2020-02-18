@@ -13,7 +13,7 @@ Imports:
     dplyr,
     tidyr,
     ggplot2,
-    tibble
+    tibble,
     reshape2,
     MESS,
     gt,
