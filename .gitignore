@@ -1,3 +1,6 @@
 /figures
 /notebooks/libs
 /notebooks/*.html
+.Rproj.user
+visR-2.Rproj
+.Rbuildignore
