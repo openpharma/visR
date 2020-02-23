@@ -1,12 +1,20 @@
-#' Returns a tidied tibble of a RBesT gMAP object
+#' Returns a tidied RBesT gMAP object
 #'
-#' @param x gMAP object 
+#' @param x RBesT gMAP object 
+#' @param prob probability range for uncertainty interval
 #'
 #' @return td tidied tibble
 #' @export
 #'
 #' @examples
-tidy_gMAP <- function(x, prob = 0.95){
+#' library(RBesT)
+#' vr_tidy_rbest(map_crohn)
+#' 
+#' map_crohn %>% vr_tidy_rbest() %>% filter(model == "meta") %>% ggplot(aes( x =
+#' study, y = estimate, ymin = conf.low, ymax = conf.high )) +
+#' geom_pointrange(show.legend = FALSE, width = 1) + coord_flip()
+#' 
+vr_tidy_rbest <- function(x, prob = 0.95){
   
   assertthat::assert_that(inherits(x, "gMAP"))
   td <- tibble::tibble()
@@ -15,7 +23,6 @@ tidy_gMAP <- function(x, prob = 0.95){
   
   #--------------------------------------------  
   # stratified model 
-  # is the median needed for stratified model
   
   strat <- as.data.frame(x$est_strat(1-prob))
   strat2 <- cbind(strat[1:2], median=strat$mean, strat[3:4])
@@ -30,7 +37,7 @@ tidy_gMAP <- function(x, prob = 0.95){
   )
   
   #---------------------------------------------- 
-  ##  fitted meta model 
+  #  fitted meta model 
   
   fit <- as.data.frame(fitted(x, type="response", probs=c(0.5, low, up)))
   
@@ -44,6 +51,7 @@ tidy_gMAP <- function(x, prob = 0.95){
   )
   
   #------------------------------------------  
+  # model averaged study estimates
   
   pred_est <- as.data.frame(
     do.call(
@@ -51,6 +59,7 @@ tidy_gMAP <- function(x, prob = 0.95){
       summary(x,probs=c(0.5, low, up), type="response")[c("theta.pred", "theta")]
     )
   )
+  
   pred_est2 <- transform(pred_est,  study=c("MAP", "Mean") , model="meta")
   
   est = c("both", "MAP", "Mean", "none")
@@ -67,99 +76,17 @@ tidy_gMAP <- function(x, prob = 0.95){
   )
   
   #------------------------------------------
-  ## merge tibbles in to one
-  ## provide index for study
+  # merge tibbles in to one
+  # provide index for study
   
   td <- rbind(df_strat, df_model, df_meta) %>%
-    as_tibble() %>%
+    tidyr::as_tibble() %>%
     dplyr::mutate(
       study_id = group_indices(., study),
       row_id = row_number()
     )
+  
+  #------------------------------------------
+  # retrun tidied tibble
   return(td)
 }
-
-
-# TODO: 
-# 1. add estimate type 
-# 2. add raw data i.e. n, y, etc. 
-# 3. think about glue information to y to make more informative labels
-# 4. think about how to plot forest plot in different ways
-# 5. meta data arounf endpoint type, title, subtitles, data source, time executred, etc. 
-# 6. function write to ARD. 
-#     - could the meta data be a tibble with the estimates a tibble to keep table strucutre. 
-#     - the overarching tibble would contain meta data and unique analysis id. 
-
-library(tidyverse)
-
-tidy_gMAP(map_crohn)
-
-
-map_crohn %>%
-  tidy_gMAP() %>%
-  ggplot(aes(x = row_id, y = estimate)) +
-  geom_pointrange(aes(y = estimate, ymin = conf.low, ymax = conf.high)) +
-  geom_point() +
-  coord_flip()
-
-
-
-
-### this is the endpoint label - 
-## TODO: BUILD THIS IN TO META DATA
-xlab_str <- switch(x$family$family,
-                   gaussian="Response",
-                   binomial="Response Rate",
-                   poisson="Counting Rate")
-
-
-
-map_crohn %>%
-  tidy_gMAP() %>%
-  ggplot(aes(
-    x = study,
-    y = estimate,
-    ymin = conf.low,
-    ymax = conf.high,
-    colour = model,
-    group = model
-  )) +
-  geom_pointrange(show.legend = FALSE,
-                  position = "dodge",
-                  width = 1) +
-  coord_flip() +
-  #  facet_wrap( ~ model) +
-  theme_light()
-
-position_dodge(width = 1)
-
-
-
-
-library(RBesT)
-library(tidyverse)
-library(ggplot2)
-example(crohn)
-print(map_crohn)
-str(map_crohn)
-forest_plot(map_crohn)
-
-
-ddf <- map_crohn %>%
-  tidy_gMAP()
-
-map_crohn %>%
-  tidy_gMAP() %>%
-  ggplot(aes(y = row_id, x = estimate, label = study)) +
-  geom_point() +
-  geom_text()
-
-
-
-###
-# adjust the base font size
-theme_set(theme_default(base_size=16))
-forest_plot(map_crohn, model="both", est="MAP", size=1) + legend_move("right") +
-  labs(title="Forest plot", subtitle="Results of Meta-Analytic-Predictive (MAP) analysis", 
-       caption="Plot shows point estimates (posterior medians) with 95% intervals")
-
