@@ -28,12 +28,12 @@ vr_plt_kaplan_meier <- function(
         variable_definitions)
     
     plot <- ggplot(broom_object, aes(x = time)) + 
-        geom_stepribbon(aes(ymin = conf.low, ymax = conf.high, fill = strata), 
+        pammtools::geom_stepribbon(aes(ymin = conf.low, ymax = conf.high, fill = strata), 
             alpha = 0.25) + 
         geom_step(aes(y = estimate, col = strata)) + 
         theme_light() + 
-        scale_color_nejm() + 
-        scale_fill_nejm() + 
+        ggsci::scale_color_nejm() + 
+        ggsci::scale_fill_nejm() + 
         ylab(estimate_name) + 
         xlab(sprintf("time (%s)", time_unit)) + 
         labs(

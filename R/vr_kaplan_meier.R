@@ -14,7 +14,8 @@ vr_kaplan_meier <- function(
     risk_table_data <- vr_est_km_risk_table(data)
     
     # Create plot
-    table <- vr_plt_km_risk_table(risk_table_data)
+    table <- vr_plt_km_risk_table(risk_table_data,
+                                  time_unit = time_unit)
     curve <- vr_plt_kaplan_meier(
         broom_object, 
         title = title, 
@@ -26,7 +27,7 @@ vr_kaplan_meier <- function(
         data_source = data_source
     ) + xlim(c(0, max(risk_table_data$time)))
     
-    plot_object <- ggarrange(plotlist = list(curve, table), nrow = 2, ncol = 1, 
+    plot_object <- ggpubr::ggarrange(plotlist = list(curve, table), nrow = 2, ncol = 1, 
         heights = c(4, 1), align = "v")
     return(plot_object)
 }
