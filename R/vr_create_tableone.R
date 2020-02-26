@@ -3,12 +3,9 @@ vr_summarize <- function(x) UseMethod("vr_summarize")
 vr_summarize.factor <- function(x){
   dat <- tibble::enframe(x) %>%
     dplyr::group_by(value) %>%
-    dplyr::summarise(n = n()) %>%
-    dplyr::mutate(perc = round(100 * n/sum(n), 3)) %>%
-    # mutate(stringval = perc) %>% # paste0(n, " (", perc, "%)")) %>%
-    dplyr::mutate(stringval = perc) %>% 
-    dplyr::select(-n, -perc) %>%
-    tidyr::pivot_wider(names_from = value, values_from = "stringval", names_prefix = "% ") %>%
+    dplyr::summarise(N = n()) %>%
+    dplyr::mutate(`%` = round(100 * N/sum(N), 3)) %>%
+    tidyr::pivot_wider(names_from = value, values_from = c("N", "%"), names_sep=" ") %>%
     as.list()
   list(dat)
 }
@@ -99,10 +96,11 @@ vr_create_tableone <- function(data, groupCols = NULL, overall=TRUE, summary_fun
     tidyr::pivot_wider(names_from = tidyselect::any_of(groupCols), values_from = "summary")
   
   data_table1 <- rbind(data_ns, data_summary) %>% 
-    dplyr::select(variable, summary_id, everything())
+    dplyr::rename(statistic = summary_id) %>% 
+    dplyr::select(variable, statistic, everything())
   
   if(overall & combine_dfs){
-    data_table1 <- data_table1 %>% dplyr::left_join(overall_table1, by=c("variable", "summary_id"))
+    data_table1 <- data_table1 %>% dplyr::left_join(overall_table1, by=c("variable", "statistic"))
   }
   
   return(data_table1)

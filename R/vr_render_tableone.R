@@ -37,7 +37,7 @@ vr_render_tableone <- function(table1_df, caption, output_format="html", engine=
       numcols <- table1_df %>% dplyr::select_if(is.numeric) %>% names()
       table1_out <- table1_df %>% 
         gt::gt(groupname_col = "variable",
-               rowname_col = "summary_id") %>% 
+               rowname_col = "statistic") %>% 
         gt::fmt_number(
           columns = numcols,
           decimals = 2
@@ -45,7 +45,7 @@ vr_render_tableone <- function(table1_df, caption, output_format="html", engine=
         # no decimal points for sample count
         gt::fmt_number(
           columns = numcols,
-          rows = grepl("^N$", summary_id),
+          rows = grepl("^N$", statistic),
           decimals = 0
         ) %>% 
         gt::tab_header(

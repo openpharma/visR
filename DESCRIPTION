@@ -18,5 +18,8 @@ Imports:
     MESS,
     gt,
     kableExtra,
-    knitr
+    knitr,
+    ggsci,
+    pammtools,
+    ggpubr
     
