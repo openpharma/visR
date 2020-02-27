@@ -46,7 +46,7 @@ This is a basic example which shows you how to solve a common problem:
 TODO: add an example. 
 
 ```{r example}
-##library(visR)
+## library(visR)
 ## basic example code
 ```
 
