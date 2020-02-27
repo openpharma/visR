@@ -5,12 +5,12 @@ Description: The goal of visR is to enable fit-for-purpose, reusable clinical an
 Version: 0.1.0
 Date: 2020-01-30
 Authors@R: as.person(c(
-    "Diego Saldana <diego.saldana@roche.com> [aut, cre]", 
-    "Charlotta Fruechtenicht <charlotta.fruechtenicht@roche.com> [aut, cre]",
+    "Diego Saldana <diego.saldana@roche.com> [aut]", 
+    "Charlotta Fruechtenicht <charlotta.fruechtenicht@roche.com> [aut]",
     "Mark Baillie <bailliem@gmail.com> [aut, cre]",
-    "Marc Vandemeulebroecke <marc.vandemeulebroecke@novartis.com> [cre]"
+    "Marc Vandemeulebroecke <marc.vandemeulebroecke@novartis.com> [aut]",
     "Thanos Siadimas <thanos.siadimas@roche.com> [aut]", 
-    "Pawel Kawski <pawel.kawski@contractors.roche.com> [aut]",   
+    "Pawel Kawski <pawel.kawski@contractors.roche.com> [aut]"  
   ))
 Maintainer: Mark Baillie <bailliem@gmail.com>
 URL: https://github.com/openpharma/visR
