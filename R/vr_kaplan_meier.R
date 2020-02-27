@@ -1,3 +1,18 @@
+#' Title
+#'
+#' @param data 
+#' @param title 
+#' @param abbreviations 
+#' @param variable_definitions 
+#' @param N 
+#' @param N_unit 
+#' @param time_unit 
+#' @param data_source 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 vr_kaplan_meier <- function(
     data, 
     title = "", 

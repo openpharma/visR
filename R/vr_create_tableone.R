@@ -1,5 +1,14 @@
+
 vr_summarize <- function(x) UseMethod("vr_summarize")
 
+#' Title
+#'
+#' @param x 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 vr_summarize.factor <- function(x){
   dat <- tibble::enframe(x) %>%
     dplyr::group_by(value) %>%
@@ -10,6 +19,14 @@ vr_summarize.factor <- function(x){
   list(dat)
 }
 
+#' Title
+#'
+#' @param x 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 vr_summarize.numeric <- function(x){
   dat <- list(
     mean = mean(x, na.rm = T),
@@ -23,6 +40,14 @@ vr_summarize.numeric <- function(x){
   list(dat)
 }
 
+#' Title
+#'
+#' @param x 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 vr_summarize.default <- function(x){
   dat <- list(
     unique_values = length(unique(x)),
@@ -50,7 +75,11 @@ vr_summarize.default <- function(x){
 #' @note All columns in the table will be summarized. If only some columns shall be used, please select only those
 #' variables prior to creating the summary table by using dplyr::select()
 #' 
+#' @export
+#' 
 #' @examples
+#' library(survival)
+#' library(tidyverse)
 #' ovarian %>% 
 #' select(-fustat) %>% 
 #'   mutate(age_group = factor(case_when(age <= 50 ~ "<= 50 years",
@@ -61,7 +90,6 @@ vr_summarize.default <- function(x){
 #'          ecog.ps = factor(ecog.ps)) %>% 
 #'   select(age, age_group, everything()) %>% 
 #'   vr_create_tableone()
-
 vr_create_tableone <- function(data, groupCols = NULL, overall=TRUE, summary_function = vr_summarize){
   
   summary_FUN <- match.fun(summary_function)

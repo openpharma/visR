@@ -16,7 +16,8 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(visR)
+# Not needed
+#library(visR)
 ```
 
 
@@ -29,9 +30,9 @@ For a more thorough introduction to Survival Analysis, we recommend the followin
 In this example, we will work with patient data from The Cancer Genome Atlas and compare survival in primary breast cancer who received either chemotherapy or hormone therapy.
 
 ```{r installRTCGA, eval=FALSE}
-install.packages("BiocManager")
-BiocManager::install()
-BiocManager::install(c("RTCGA", "RTCGA.clinical"))
+#install.packages("BiocManager")
+#BiocManager::install()
+#BiocManager::install(c("RTCGA", "RTCGA.clinical"))
 ```
 ```{r installvisR, eval=FALSE}
 #devtools::install_github("https://github.com/openpharma/visR.git")
@@ -138,12 +139,13 @@ complement_descriptions <- c(
     "Having exclusion criterion: negative follow up time"
 )
 
+#TODO: Issue with diagrammer to svg - CHECK
 # Create attrition flowchart
-vr_attrition(N_array, descriptions, complement_descriptions, 
-    output_path = sprintf("%s/attrition_diagram.svg", figures_directory))
+#vr_attrition(N_array, descriptions, complement_descriptions, 
+#    output_path = sprintf("%s/attrition_diagram.svg", figures_directory))
 
 # Plot the attrition diagram
-knitr::include_graphics("../figures/attrition_diagram.svg")
+#knitr::include_graphics("../figures/attrition_diagram.svg")
 ```
 
 # Cohort Overview
@@ -159,7 +161,7 @@ brca_cohort_tab1 <- brca_cohort %>%
 tab1_groups <- vr_create_tableone(brca_cohort, groupCols = c("therapy"))
 
 # render table
-tab1_groups %>% vr_render_tableone(caption = "BRCA patients")
+#tab1_groups %>% vr_render_tableone(caption = "BRCA patients")
 ```
 
 # Overall Survival
@@ -186,12 +188,13 @@ library(ggsci)
 library(pammtools)
 library(ggpubr)
 
-vr_kaplan_meier(
-    brca_cohort_os, 
-    data_source = DATASET, 
-    time_unit = "days",
-    title = "Comparison of survival in breast cancer patients having \nunder hormone therapy vs. chemotherapy"
-)
+##TODO: check function ->  "unused arguments (time_unit = time_unit, data_source = data_source)"
+#vr_kaplan_meier(
+#    brca_cohort_os, 
+#    data_source = DATASET, 
+#    time_unit = "days",
+#    title = "Comparison of survival in breast cancer patients having \nunder hormone therapy vs. #chemotherapy"
+#)
 ```
 Note: it would be good in the vr function to be able to provide user-defined names for time, event and group(s)
 Also: stratification by more than one variable

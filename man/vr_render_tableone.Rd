@@ -4,8 +4,7 @@
 \alias{vr_render_tableone}
 \title{Render Summary Table}
 \usage{
-vr_render_tableone(table1_df, caption, output_format = "html",
-  engine = "gt")
+vr_render_tableone(table1_df, caption, output_format = "html", engine = "gt")
 }
 \arguments{
 \item{table1_df}{The summary table of a dataset created by \code{vr_create_tableone}}

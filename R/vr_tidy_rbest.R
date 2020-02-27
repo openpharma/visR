@@ -11,9 +11,8 @@
 #' example(crohn)
 #' vr_tidy_rbest(map_crohn)
 #' 
-#' map_crohn %>% vr_tidy_rbest() %>% filter(model == "meta") %>% ggplot(aes( x =
-#' study, y = estimate, ymin = conf.low, ymax = conf.high )) +
-#' geom_pointrange(show.legend = FALSE, width = 1) + coord_flip()
+#' map_crohn %>% 
+#' vr_tidy_rbest() 
 #' 
 vr_tidy_rbest <- function(x, prob = 0.95){
   
@@ -83,8 +82,8 @@ vr_tidy_rbest <- function(x, prob = 0.95){
   td <- rbind(df_strat, df_model, df_meta) %>%
     tidyr::as_tibble() %>%
     dplyr::mutate(
-      study_id = group_indices(., study),
-      row_id = row_number()
+      study_id = dplyr::group_indices(., study),
+      row_id = dplyr::row_number()
     )
   
   #------------------------------------------

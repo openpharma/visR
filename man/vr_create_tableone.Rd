@@ -4,8 +4,12 @@
 \alias{vr_create_tableone}
 \title{Create Summary Table (also known as Table 1)}
 \usage{
-vr_create_tableone(data, groupCols = NULL, overall = TRUE,
-  summary_function = vr_summarize)
+vr_create_tableone(
+  data,
+  groupCols = NULL,
+  overall = TRUE,
+  summary_function = vr_summarize
+)
 }
 \arguments{
 \item{data}{The dataset to summarize as dataframe or tibble}
@@ -34,6 +38,8 @@ All columns in the table will be summarized. If only some columns shall be used,
 variables prior to creating the summary table by using dplyr::select()
 }
 \examples{
+library(survival)
+library(tidyverse)
 ovarian \%>\% 
 select(-fustat) \%>\% 
   mutate(age_group = factor(case_when(age <= 50 ~ "<= 50 years",

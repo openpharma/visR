@@ -22,8 +22,7 @@ library(RBesT)
 example(crohn)
 vr_tidy_rbest(map_crohn)
 
-map_crohn \%>\% vr_tidy_rbest() \%>\% filter(model == "meta") \%>\% ggplot(aes( x =
-study, y = estimate, ymin = conf.low, ymax = conf.high )) +
-geom_pointrange(show.legend = FALSE, width = 1) + coord_flip()
+map_crohn \%>\% 
+vr_tidy_rbest() 
 
 }

@@ -6,23 +6,18 @@
 #' @export
 #'
 #' @examples
-#' library(RBesT)
-#' example(crohn)
+#' library(RBesT) 
+#' library(tidyverse) 
+#' 
+#' example(crohn) 
 #' vr_tidy_rbest(map_crohn)
-#' map_crohn %>% 
-#' vr_tidy_rbest() %>% 
-#' filter(model == "meta") %>% 
-#' vr_plot_forest() 
-#' 
-#' map_crohn %>% 
-#' vr_tidy_rbest() %>% 
-#' filter(model == "stratified") %>% 
-#' vr_plot_forest() 
-#' 
-#' map_crohn %>% 
-#' vr_tidy_rbest() %>% 
-#' vr_plot_forest() +
-#' facet_wrap(~ model)
+#' map_crohn %>% vr_tidy_rbest() %>% filter(model == "meta") %>%
+#' vr_plot_forest()
+#'
+#' map_crohn %>% vr_tidy_rbest() %>% filter(model == "stratified") %>%
+#' vr_plot_forest()
+#'
+#' map_crohn %>% vr_tidy_rbest() %>% vr_plot_forest() + facet_wrap(~ model)
 #' 
 vr_plot_forest <- function(td){
   gg <- 

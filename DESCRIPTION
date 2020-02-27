@@ -32,5 +32,17 @@ Imports:
     ggplot2,
     patchwork,
     tibble,
-    RBesT
+    RBesT,
+    DOT,
+    tidyr,
+    dplyr,
+    RTCGA,
+    RTCGA.clinical,
+    ggpubr,
+    ggsci,
+    pammtools,
+    kableExtra,
+    assertthat,
+    gt,
+    tidyselect
 VignetteBuilder: knitr
