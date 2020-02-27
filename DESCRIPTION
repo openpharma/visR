@@ -31,5 +31,6 @@ Imports:
     magrittr,
     ggplot2,
     patchwork,
-    tibble
+    tibble,
+    RBesT
 VignetteBuilder: knitr
