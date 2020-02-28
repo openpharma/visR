@@ -1,6 +1,6 @@
-#' Render a simple forest plot given a tibble
+#' Display a simple forest plot given a tidy data set
 #'
-#' @param td tidied tibble 
+#' @param td tidy data set 
 #'
 #' @return ggplot object
 #' @export
