@@ -1,5 +1,7 @@
 #' Display a simple forest plot given a tidy data set
 #'
+#' TODO: Through a nudge or note if study and study_abel are the same.Do you want to update and provide more informative labels
+#'
 #' @param td tidy data set 
 #'
 #' @return ggplot object
@@ -22,7 +24,7 @@
 vr_plot_forest <- function(td){
   gg <- 
     td %>% 
-    ggplot2::ggplot(aes( x = reorder(study, -row_id), 
+    ggplot2::ggplot(aes( x = reorder(study_label, -row_id), 
               y = estimate, 
               ymin = conf.low, 
               ymax = conf.high )

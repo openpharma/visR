@@ -86,7 +86,8 @@ vr_tidy_rbest <- function(x, prob = 0.95){
     tidyr::as_tibble() %>%
     dplyr::mutate(
       study_id = dplyr::group_indices(., study),
-      row_id = dplyr::row_number()
+      row_id = dplyr::row_number(),
+      study_label = study
     )
   
   #------------------------------------------
