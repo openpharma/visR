@@ -4,3 +4,5 @@
 .Rproj.user
 visR-2.Rproj
 .Rbuildignore
+visR-usethis.Rproj
+inst/doc

@@ -1,25 +1,48 @@
 Package: visR
 Type: Package
-Title: Fit-for-purpose, reusable Pharma visualizations and tables with sensible defaults and based on sound graphical principles.
-Version: 0.01
-Date: 2019-09-27
-Author: Diego Saldana, Mark Baillie, Charlotta Fruechtenicht
-Maintainer: John Doe <john_doe@example.com>
-Description: ...
-License: MIT
-RoxygenNote: 7.0.1
-Imports: 
-    DOT,
-    dplyr,
-    tidyr,
-    ggplot2,
-    tibble,
-    reshape2,
-    MESS,
-    gt,
-    kableExtra,
+Title: A package to wrap functionality for plots, tables and diagrams adhering to graphical principles.
+Description: The goal of visR is to enable fit-for-purpose, reusable clinical and medcial research focused visualizations and tables with sensible defaults and based on sound graphical principles.
+Version: 0.1.0
+Date: 2020-01-30
+Authors@R: as.person(c(
+    "Diego Saldana <diego.saldana@roche.com> [aut]", 
+    "Charlotta Fruechtenicht <charlotta.fruechtenicht@roche.com> [aut]",
+    "Mark Baillie <bailliem@gmail.com> [aut, cre]",
+    "Marc Vandemeulebroecke <marc.vandemeulebroecke@novartis.com> [aut]",
+    "Thanos Siadimas <thanos.siadimas@roche.com> [aut]", 
+    "Pawel Kawski <pawel.kawski@contractors.roche.com> [aut]"  
+  ))
+Maintainer: Mark Baillie <bailliem@gmail.com>
+URL: https://github.com/openpharma/visR
+BugReports: https://github.com/openpharma/visR/issues
+License: MIT + file LICENSE
+Depends:
+    R (>= 3.0.0)
+Suggests:
+    covr,
+    testthat (>= 2.1.0),
     knitr,
+    rmarkdown
+RoxygenNote: 7.0.2
+Roxygen: list(markdown = TRUE)
+Imports: 
+    survival,
+    broom,
+    magrittr,
+    ggplot2,
+    patchwork,
+    tibble,
+    RBesT,
+    DOT,
+    tidyr,
+    dplyr,
+    RTCGA,
+    RTCGA.clinical,
+    ggpubr,
     ggsci,
     pammtools,
-    ggpubr
-    
+    kableExtra,
+    assertthat,
+    gt,
+    tidyselect
+VignetteBuilder: knitr

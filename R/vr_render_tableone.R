@@ -8,7 +8,8 @@
 #' @param caption Table caption to include in the rendered table
 #' @param output_format If TRUE, the summary statistics for the overall dataset are also calculated 
 #' @param engine If html is selected as output format, one can chose between using kable, gt and DT as engine to create the output table
-
+#' 
+#' @export
 vr_render_tableone <- function(table1_df, caption, output_format="html", engine="gt"){
   # TODO: add code to support datatable output for html, as well as all functionality for rtf and latex output
   # TODO: do we need a routine for falling back on minimal?

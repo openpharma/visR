@@ -1,5 +1,5 @@
 vr_est_km_risk_table <- function(data, min_at_risk = 3) {
-    survfit_object <- survfit(Surv(time, status) ~ trt, data = data)
+    survfit_object <- survival::survfit(survival::Surv(time, status) ~ trt, data = data)
     survfit_summary <- summary(survfit_object)
     
     # Get time limit
@@ -31,13 +31,13 @@ vr_est_km_risk_table <- function(data, min_at_risk = 3) {
     )
     table_data <- 
         table_data %>% 
-        mutate(n.censor = lag(n.risk) - (n.risk + n.event)) %>% 
-        mutate(n.censor = case_when(
+        dplyr::mutate(n.censor = lag(n.risk) - (n.risk + n.event)) %>% 
+        dplyr::mutate(n.censor = case_when(
             n.censor >= 0 ~ n.censor, 
             TRUE ~ 0
         )) %>% 
-        gather(key = "variable", value = "value", n.risk, n.event, n.censor) %>% 
-        mutate(strata_variable = sprintf("%s, %s", strata, variable))
+        tidyr::gather(key = "variable", value = "value", n.risk, n.event, n.censor) %>% 
+        dplyr::mutate(strata_variable = sprintf("%s, %s", strata, variable))
     
     return(table_data)
 }
