@@ -1,4 +1,4 @@
-vr_plt_kaplan_meier <- function(
+vr_sankey <- function(
     data, 
     title = "", 
     abbreviations = "", 
