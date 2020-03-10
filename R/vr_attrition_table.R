@@ -94,20 +94,20 @@ vr_attrition_table <- function(
    }}
 }
 
-cohort <-  dplyr::tibble(
-  # create 500 patient ids
-  patient_id=base::sample(x = 1:1000, size=500), 
-  # with 'lung' or 'breast' as cancer type
-  cancer_type=base::sample(c('lung','breast'), 500, replace=T),
-  # aged between 5 and 105 years old
-  age=base::sample(x = 5:105, size=500, replace=T)
-)
+# cohort <-  dplyr::tibble(
+#   # create 500 patient ids
+#   patient_id=base::sample(x = 1:1000, size=500), 
+#  # with 'lung' or 'breast' as cancer type
+#   cancer_type=base::sample(c('lung','breast'), 500, replace=T),
+#   # aged between 5 and 105 years old
+#   age=base::sample(x = 5:105, size=500, replace=T)
+# )
  
 # Run function
 
-vr_attrition_table(
-data                  = cohort, 
-criteria_descriptions = c("1. lung cancer diagnosis", "2. Be 18 years of age or older."),
-criteria_conditions   = c("cancer_type=='lung'","age>=18"),
-subject_column_name   = 'patient_id'
-)
+# vr_attrition_table(
+# data                  = cohort, 
+# criteria_descriptions = c("1. lung cancer diagnosis", "2. Be 18 years of age or older."),
+# criteria_conditions   = c("cancer_type=='lung'","age>=18"),
+# subject_column_name   = 'patient_id'
+# )
