@@ -50,6 +50,8 @@ map_mcmc <- gMAP(cbind(log_or, selogor) ~ 1 | trial,
 td <- map_mcmc %>% 
   vr_tidy_rbest() 
 
+td
+
 stroke <- stroke %>% mutate(
   study_id = trial
 )
@@ -74,4 +76,76 @@ map_mcmc %>%
   vr_tidy_rbest() %>% 
   filter(model == "meta") %>%
   vr_plot_forest() 
+
+
+
+
+library(RBesT)
+set.seed(34563)
+map_mcmc_as <- gMAP(cbind(r, n-r) ~ 1 | study,
+                 data=AS,
+                 tau.dist="HalfNormal",
+                 tau.prior=1,
+                 beta.prior=2,
+                 family=binomial)
+
+td <- map_mcmc_as %>% 
+  vr_tidy_rbest() 
+
+td2 <- map_mcmc %>% 
+  vr_tidy_rbest() 
+
+
+td %>% vr_plot_forest()
+
+td2
+
+
+td %>% 
+#  filter(model != "stratified") %>%
+  ggplot2::ggplot(aes( x = reorder(study.label, study.id), 
+                       y = estimate, 
+                       ymin = conf.low, 
+                       ymax = conf.high )
+  ) +
+  ggplot2::geom_pointrange(show.legend = FALSE, width = 1) + 
+  ggplot2::coord_flip() +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(
+    axis.title = element_blank(),
+    axis.text.x = element_blank(),
+    axis.ticks = element_blank(),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank()
+  ) +
+  facet_wrap( ~ study, ncol = 1, scales = "free_y") + 
+  ggtitle("Update the title", subtitle = "Fill out the population")
+
+
+td2 %>% 
+  #  filter(model != "stratified") %>%
+  ggplot2::ggplot(aes( x = reorder(model, estimate), 
+                       y = estimate, 
+                       ymin = conf.low, 
+                       ymax = conf.high )
+  ) +
+  ggplot2::geom_pointrange(show.legend = FALSE) + 
+  geom_hline(yintercept = 0.5) +
+  ggplot2::coord_flip() +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(
+    axis.title = element_blank(),
+    axis.text.x = element_blank(),
+    axis.ticks = element_blank(),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank()
+  ) +
+  facet_wrap( ~ study, ncol = 1, scales = "free_y") + 
+  ggtitle("Update the title", subtitle = "Fill out the population")
+
+
+
+
+
+
 

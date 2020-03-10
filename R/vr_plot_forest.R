@@ -2,9 +2,9 @@
 #'
 #' TODO: Through a nudge or note if study and study_abel are the same.Do you want to update and provide more informative labels
 #'
-#' @param td tidy data set 
+#' @param data tidy data set 
 #'
-#' @return ggplot object
+#' @return gg ggplot object
 #' @export
 #'
 #' @examples
@@ -21,10 +21,10 @@
 #'
 #' map_crohn %>% vr_tidy_rbest() %>% vr_plot_forest() + facet_wrap(~ model)
 #' 
-vr_plot_forest <- function(td){
+vr_plot_forest <- function(data){
   gg <- 
-    td %>% 
-    ggplot2::ggplot(aes( x = reorder(study_label, -row_id), 
+    data %>% 
+    ggplot2::ggplot(aes( x = reorder(study.label, study.id), 
               y = estimate, 
               ymin = conf.low, 
               ymax = conf.high )
