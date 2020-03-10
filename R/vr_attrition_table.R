@@ -30,14 +30,14 @@
 #' @export
 #' @importFrom 
  
-cohort <-  dplyr::tibble(
-  # create 500 patient ids
-  patient_id=base::sample(x = 1:1000, size=500), 
-  # with 'lung' or 'breast' as cancer type
-  cancer_type=base::sample(c('lung','breast'), 500, replace=T),
-  # aged between 5 and 105 years old
-  age=base::sample(x = 5:105, size=500, replace=T)
-)
+# cohort <-  dplyr::tibble(
+#   # create 500 patient ids
+#   patient_id=base::sample(x = 1:1000, size=500), 
+#   # with 'lung' or 'breast' as cancer type
+#   cancer_type=base::sample(c('lung','breast'), 500, replace=T),
+#   # aged between 5 and 105 years old
+#   age=base::sample(x = 5:105, size=500, replace=T)
+# )
 
 vr_attrition_table <- function(
   data, 
