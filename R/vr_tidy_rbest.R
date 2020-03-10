@@ -4,6 +4,7 @@
 #'   Define and consolidate data model across functions
 #'   More robust approach for setting up meta-data
 #'   Capture row order for display to be captured in the meta-data?
+#'   Introduce unit tests to make sure all correct information is obtained
 #' 
 #'
 #' @param x RBesT gMAP object 
@@ -25,6 +26,9 @@
 vr_tidy_rbest <- function(x, prob = 0.95){
   
   assertthat::assert_that(inherits(x, "gMAP"))
+  checkmate::assert_number(prob, lower = 0, upper = 1)
+  assertthat::assert_that(x$has_intercept)
+  
   
   td <- tibble::tibble()
   low <- (1 - prob)/2
@@ -42,8 +46,8 @@ vr_tidy_rbest <- function(x, prob = 0.95){
     study = row.names(strat2),
     estimate = strat2$mean,
     se = strat$se,
-    conf.low = strat2[,3],
-    conf.high = strat2[,4],
+    conf.low = strat[,3],
+    conf.high = strat[,4],
     model = "stratified"
   ) 
 
@@ -57,8 +61,8 @@ vr_tidy_rbest <- function(x, prob = 0.95){
     study = row.names(fit),
     estimate = fit$mean,
     se = fit$sd,
-    conf.low = strat[, 3],
-    conf.high = strat[, 4],
+    conf.low = fit[, 4],
+    conf.high = fit[, 5],
     model = "meta"
   ) 
   
@@ -83,8 +87,8 @@ vr_tidy_rbest <- function(x, prob = 0.95){
     study = as.character(pred_est3$study),
     estimate = pred_est3$mean,
     se = pred_est3$sd,
-    conf.low = pred_est3[,4],
-    conf.high = pred_est3[,5],
+    conf.low = pred_est3[, 4],
+    conf.high = pred_est3[, 5],
     model = pred_est3$model
   )
   
