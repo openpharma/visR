@@ -2,6 +2,8 @@
 title: "Example Survivan Analysis using visR"
 author: Charlotta Fruechtenicht
 output:
+      html_notebook:
+      code_folding: hide
     bookdown::html_document2:
         code_folding: hide
         toc: true
@@ -17,27 +19,31 @@ For a more thorough introduction to Survival Analysis, we recommend the followin
 
 In this example, we will work with patient data from The Cancer Genome Atlas and compare survival in primary breast cancer who received either chemotherapy or hormone therapy.
 
-```{r installRTCGA, eval=FALSE}
-install.packages("BiocManager")
-BiocManager::install()
-BiocManager::install(c("RTCGA", "RTCGA.clinical"))
+```{r installRTCGA, eval=FALSE, include=FALSE}
+# install.packages("BiocManager")
+# BiocManager::install()
+# BiocManager::install(c("RTCGA", "RTCGA.clinical"))
 ```
-```{r installvisR, eval=FALSE}
-devtools::install_github("https://github.com/openpharma/visR.git")
+```{r installvisR, eval=FALSE, include=FALSE}
+# devtools::install_github("https://github.com/openpharma/visR.git", ref="develop")
 ```
 
 
-```{r imports, echo=FALSE}
+```{r imports, echo=FALSE, include=FALSE}
 library(dplyr)
 library(ggplot2)
 library(RTCGA)
 library(RTCGA.clinical)
+library(survival)
 library(visR)
+
+library(ggsci)
+library(pammtools)
+library(ggpubr)
 ```
 
 ```{r globalSetup}
 DATASET <- paste0("TCGA BRCA dataset (RTCGA version ", packageVersion("RTCGA"), ")")
-
 ```
 
 
@@ -64,7 +70,6 @@ brca_cohort <- survivalTCGA(BRCA.clinical,
          ) %>% 
   mutate(er_status = factor(er_status),
          progesterone_status = factor(progesterone_status),
-         therapy = factor(therapy),
          dx_age = as.numeric(dx_age),
          dx_age_group = factor(case_when(dx_age < 30 ~ "< 30y",
                                          dx_age >= 30 & dx_age <= 50 ~ "30-50y",
@@ -112,7 +117,7 @@ f5N <- n_distinct(brca_cohort$bcr_patient_barcode)
 # create array of Ns
 N_array = c(allN, f1N, f2N, f3N, f4N, f5N)
 descriptions <- c(                                                              
-    "All patiensts",                                                            
+    "All patients",                                                            
     "Primary disease",                                         
     "Non-missing therapy",                                         
     "Chemotherapy or hormone therapy",
@@ -128,7 +133,7 @@ complement_descriptions <- c(
 )
 
 # Create attrition flowchart
-vr_attrition(N_array, descriptions, complement_descriptions, 
+vr_attrition(N_array, descriptions, complement_descriptions,
     output_path = sprintf("%s/attrition_diagram.svg", figures_directory))
 
 # Plot the attrition diagram
@@ -142,14 +147,21 @@ brca_cohort_tab1 <- brca_cohort %>%
   select(-bcr_patient_barcode, admin.disease_code) %>% 
   mutate(patient.vital_status = case_when(patient.vital_status == 0 ~ "alive",
                                           patient.vital_status == 1 ~ "dead",
-                                          is.na(patient.vital_status) ~ "missing"))
+                                          is.na(patient.vital_status) ~ "missing"),
+         therapy = factor(therapy))
 
 # create table
 tab1_groups <- vr_create_tableone(brca_cohort, groupCols = c("therapy"))
 
 # render table
-tab1_groups %>% vr_render_tableone(caption = "BRCA patients")
+tab1_groups %>% vr_render_tableone(caption = "BRCA patients") %>% 
+  gt::tab_options(data_row.padding = gt::px(4)) %>% 
+  gt::tab_source_note(source_note = paste("Source:", DATASET))
 ```
+
+Note: 
+Number of decimal points should be a parameter
+add as issue/nice to have: Order of variables: should order of variables be defined by users? selection
 
 # Overall Survival
 ## Survival Object
@@ -160,29 +172,57 @@ brca_cohort_os <- brca_cohort %>%
          status = patient.vital_status,
          trt = therapy)
 
-os_obj <- vr_est_kaplan_meier(brca_cohort_os)
 
 
-knitr::kable(os_obj) %>% 
-    kableExtra::kable_styling()
+# knitr::kable(os_obj) %>%
+#     kableExtra::kable_styling()
 
 ```
+Note: it would be good in the vr function to be able to provide user-defined names for time, event and group(s)
+Also: stratification by more than one variable
+Maybe pass data and formula
+
+```{r}
+os_obj <- vr_est_kaplan_meier(brca_cohort_os)
+vr_plt_kaplan_meier (os_obj, title = "test", abbreviations = "abbv", time_unit = "days", data_source = DATASET)
+```
+```{r}
+risk_obs <- vr_est_km_risk_table(brca_cohort_os)
+vr_plt_km_risk_table (risk_obs, time_unit = "days")
+```
+
 
 ## Kaplan-Meier 
-```{r fig.cap="Comparison of survival in breast cancer patients having under hormone therapy vs. chemotherapy", fig.height=6, fig.width=6}
-library(ggplot2)
-library(ggsci)
-library(pammtools)
-library(ggpubr)
-
+```{r fig.cap="Comparison of survival in breast cancer patients having under hormone therapy vs. chemotherapy", fig.height=4, fig.width=5}
 vr_kaplan_meier(
-    brca_cohort_os, 
+    brca_cohort_os,
     data_source = DATASET, 
     time_unit = "days",
     title = "Comparison of survival in breast cancer patients having \nunder hormone therapy vs. chemotherapy"
 )
 ```
-Note: it would be good in the vr function to be able to provide user-defined names for time, event and group(s)
-Also: stratification by more than one variable
 
 Note2: there seems to be a bug in plot_risk_table where it expects the time_unit but is not provided time_unit in the function parameters
+Note3: median survival time by strata
+Nice to have: have facets with km and risk table together (maybe use patchwork?)
+
+## Cox Proportional Hazards Model
+Not quite applicable when looking at the KM curve, but we'll do it anyhow to illustrate how it works
+```{r}
+coxph_model <- coxph(Surv(time, status) ~ trt + er_status, data=brca_cohort_os)
+
+```
+Question: how do we best combine this with the broom object created before for exactly the same surv object (potentially)
+
+### Show model stats
+
+```{r}
+broom::tidy(coxph_model)
+```
+
+
+### Forest Plot
+```{r}
+
+```
+

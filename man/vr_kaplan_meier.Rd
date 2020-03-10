@@ -2,7 +2,7 @@
 % Please edit documentation in R/vr_kaplan_meier.R
 \name{vr_kaplan_meier}
 \alias{vr_kaplan_meier}
-\title{Title}
+\title{Create Kaplan-Meier Curve for Survival Data}
 \usage{
 vr_kaplan_meier(
   data,
@@ -36,5 +36,5 @@ vr_kaplan_meier(
 
 }
 \description{
-Title
+Create Kaplan-Meier Curve for Survival Data
 }

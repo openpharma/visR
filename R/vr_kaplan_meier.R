@@ -1,4 +1,4 @@
-#' Title
+#' Create Kaplan-Meier Curve for Survival Data
 #'
 #' @param data 
 #' @param title 
@@ -40,7 +40,7 @@ vr_kaplan_meier <- function(
         N_unit = N_unit, 
         time_unit = time_unit, 
         data_source = data_source
-    ) + xlim(c(0, max(risk_table_data$time)))
+    ) + ggplot2::xlim(c(0, max(risk_table_data$time)))
     
     plot_object <- ggpubr::ggarrange(plotlist = list(curve, table), nrow = 2, ncol = 1, 
         heights = c(4, 1), align = "v")

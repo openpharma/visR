@@ -1,4 +1,4 @@
-#' Title
+#' Create Tidy Survival Object
 #'
 #' @param data 
 #'
