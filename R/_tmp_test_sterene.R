@@ -98,10 +98,10 @@ td2 <- map_mcmc %>%
 
 td %>% vr_plot_forest()
 
-td2
+td2 %>% vr_plot_forest()
 
 
-td %>% 
+td2 %>% 
 #  filter(model != "stratified") %>%
   ggplot2::ggplot(aes( x = reorder(study.label, study.id), 
                        y = estimate, 
@@ -144,8 +144,88 @@ td2 %>%
   ggtitle("Update the title", subtitle = "Fill out the population")
 
 
+td
+td2
 
 
+
+#----------------------------------
+crs %>%
+  select(id, chf, afib, diabetes, mi, copd, crohn, ulcercol, ibd) %>%
+  pivot_longer(-id, names_to = "comorb", values_to = "value") %>%
+  mutate(
+    comorb = case_when(
+      comorb == "chf" ~ "Congestive heart failure",
+      comorb == "afib" ~ "Atrial fibrillation",
+      comorb == "diabetes" ~ "Diabetes",
+      comorb == "copd" ~ "COPD",
+      comorb == "mi" ~ "Myocardial infarction",
+      comorb == "crohn" ~ "Crohn's disease",
+      comorb == "ulcercol" ~ "Ulcerative colitis",
+      comorb == "ibd" ~ "Inflammatory bowel disease"
+    ),
+    value = case_when(value == "0" ~ "no",
+                      value == "1" ~ "yes")
+  ) %>%
+  group_by(comorb, value) %>%
+  summarise(n = n()) %>%
+  mutate(
+    inc = n / bigN,
+    perc = n / bigN * 100,
+    plot_lab = paste0('(', n, ', ', round(perc, digits = 1), '%)'),
+    axis_lab = paste0(comorb, ' ', '(', n, ', ', round(perc, digits = 1), '%)')
+  ) %>%
+  filter(value == "yes") %>%
+  ggplot(aes(reorder(axis_lab, inc), inc)) +
+  geom_point() +
+  coord_flip() +
+  ggtitle("Proportion of patients reporting a comorbidity at diagnosis") +
+  theme_minimal(base_size = 10) +
+  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major.y = element_blank(),
+    axis.title = element_blank()
+  )
+
+
+
+#----------------------------------------
+
+
+col1 <- td %>%  
+  ggplot(aes(reorder(study.label, study.id), 1, label = study.label), hjust = 0) +
+  geom_text() +
+  coord_flip() +
+  ggplot2::theme_minimal() +
+  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_blank(),
+    axis.title = element_blank(),
+    axis.text = element_blank()
+  )
+
+col2 <- td %>% 
+  filter(model != "stratified") %>%
+  ggplot2::ggplot(aes( x = reorder(study.label, study.id), 
+                       y = estimate, 
+                       ymin = conf.low, 
+                       ymax = conf.high )
+  ) +
+  ggplot2::geom_pointrange(show.legend = FALSE) + 
+  geom_hline(yintercept = 0.2) +
+  ggplot2::coord_flip() +
+  ggplot2::theme_minimal() +
+  theme(
+    panel.grid.minor.y = element_blank(),
+    panel.grid.major.y = element_blank(),
+    axis.title.y = element_blank(),
+    axis.text.y = element_blank()
+  ) +
+  ylab("Measurement [units]")
+
+library(patchwork)
+plot <- col1 + col2
+plot
 
 
 
