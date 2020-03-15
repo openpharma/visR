@@ -5,12 +5,14 @@
 #' Create formatted table
 #'
 #' @param table1_df The summary table of a dataset created by `vr_create_tableone`
-#' @param caption Table caption to include in the rendered table
+#' @param title Table title to include in the rendered table
+#' @param subtitle Table title to include in the rendered table
+#' @param caption Table title to include in the rendered table
 #' @param output_format If TRUE, the summary statistics for the overall dataset are also calculated 
 #' @param engine If html is selected as output format, one can chose between using kable, gt and DT as engine to create the output table
 #' 
 #' @export
-vr_render_tableone <- function(table1_df, caption, output_format="html", engine="gt"){
+vr_render_tableone <- function(table1_df, title, caption, datasource, subtitle="", output_format="html", engine="gt"){
   # TODO: add code to support datatable output for html, as well as all functionality for rtf and latex output
   # TODO: do we need a routine for falling back on minimal?
   # TODO: do we need features to further specify styling of the table?
@@ -50,8 +52,13 @@ vr_render_tableone <- function(table1_df, caption, output_format="html", engine=
           decimals = 0
         ) %>% 
         gt::tab_header(
-          title = caption
-        )
+          title = title
+        ) %>% 
+        # add metadata
+        gt::tab_source_note(source_note = paste("Source:", datasource)) %>% 
+        # add formatting
+        gt::tab_options(data_row.padding = gt::px(4))
+      
     }
   }
   
