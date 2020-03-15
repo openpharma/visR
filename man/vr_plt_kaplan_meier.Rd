@@ -5,12 +5,15 @@
 \title{Plot Kaplan-Meier Curve for Existing Tidy Survival Object}
 \usage{
 vr_plt_kaplan_meier(
-  data,
+  broom_object,
   title = "",
-  abbreviations = "",
-  variable_definitions = "",
-  N,
-  N_unit = "patients"
+  abbreviations = NULL,
+  variable_definitions = NULL,
+  N = NULL,
+  N_unit = "patients",
+  time_unit = "days",
+  data_source = NULL,
+  estimate_name = "survival probability"
 )
 }
 \arguments{
