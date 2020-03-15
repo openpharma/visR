@@ -6,8 +6,10 @@
 #' @export
 #'
 #' @examples
-vr_est_km_risk_table <- function(data, min_at_risk = 3) {
-    survfit_object <- survival::survfit(survival::Surv(time, status) ~ trt, data = data)
+vr_est_km_risk_table <- function(data, equation, min_at_risk = 3) {
+    survfit_object <- survival::survfit(
+        eval(parse(text=equation)), data = data
+    )
     survfit_summary <- summary(survfit_object)
     
     # Get time limit

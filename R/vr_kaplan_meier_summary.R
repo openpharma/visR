@@ -1,15 +1,15 @@
-library(survminer)
-library(survival)
-library(broom)
-library(RTCGA.clinical)
-
-survivalTCGA(BRCA.clinical, OV.clinical, extract.cols = "admin.disease_code") -> BRCAOV.survInfo
-options(scipen=999)
-
+#' Plot Kaplan-Meier Summary Table for Existing
+#'
+#' @param data 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 vr_kaplan_meier_summary <- function(data, equation) {
 
 # Run survival function
-fit <- survfit(eval(parse(text=equation)) , data = data)
+fit <- survival::survfit(eval(parse(text=equation)), data = data)
 
 # Summary Table with persons at risk, events, median survival times along with 95% CIs over strata
 median_survival_time_summary <- 
@@ -25,17 +25,25 @@ tarone_ware <- cbind(Test='Tarone-Ware', broom::glance(survdiff(eval(parse(text=
 
 # Summary table with test of equality over strata
 equality_of_strata <- 
-log_rank  %>%
-dplyr::bind_rows(wilcoxon) %>%
-dplyr::bind_rows(tarone_ware)   
+  log_rank  %>%
+  dplyr::bind_rows(wilcoxon) %>%
+  dplyr::bind_rows(tarone_ware)   
 
-return(list(median_survival_time_summary,equality_of_strata))
+return(list(median_survival_time_summary, equality_of_strata))
 
 }
 
 
-# Example
-output <- vr_kaplan_meier_summary(data=BRCAOV.survInfo, equation="Surv(times, patient.vital_status) ~ admin.disease_code")
+# # Example
+# output <- vr_kaplan_meier_summary(data=BRCAOV.survInfo, equation="Surv(times, patient.vital_status) ~ admin.disease_code")
+# 
+# output[1] # Summary Table with persons at risk, events, median survival times along with 95% CIs over strata
+# output[2] # Summary table with test of equality over strata
 
-output[1] # Summary Table with persons at risk, events, median survival times along with 95% CIs over strata
-output[2] # Summary table with test of equality over strata
+# library(survminer)
+# library(survival)
+# library(broom)
+# library(RTCGA.clinical)
+# 
+# survivalTCGA(BRCA.clinical, OV.clinical, extract.cols = "admin.disease_code") -> BRCAOV.survInfo
+# options(scipen=999)

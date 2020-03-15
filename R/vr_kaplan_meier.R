@@ -15,6 +15,7 @@
 #' @examples
 vr_kaplan_meier <- function(
     data, 
+    equation = "survival::Surv(time, status) ~ trt",
     title = "", 
     abbreviations = NULL, 
     variable_definitions = NULL, 
@@ -25,8 +26,8 @@ vr_kaplan_meier <- function(
 ) {
 
     # Create interim data models
-    broom_object <- vr_est_kaplan_meier(data)
-    risk_table_data <- vr_est_km_risk_table(data)
+    broom_object <- vr_est_kaplan_meier(data, equation)
+    risk_table_data <- vr_est_km_risk_table(data, equation)
     
     # Create plot
     table <- vr_plt_km_risk_table(risk_table_data,
