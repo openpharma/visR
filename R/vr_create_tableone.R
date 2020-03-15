@@ -1,7 +1,7 @@
 
 vr_summarize <- function(x) UseMethod("vr_summarize")
 
-#' Title
+#' Create variable summary for factors
 #'
 #' @param x 
 #'
@@ -10,7 +10,9 @@ vr_summarize <- function(x) UseMethod("vr_summarize")
 #'
 #' @examples
 vr_summarize.factor <- function(x){
-  dat <- tibble::enframe(x) %>%
+  x1 <- forcats::fct_explicit_na(x, na_level = "Missing")
+  
+  dat <- tibble::enframe(x1) %>%
     dplyr::group_by(value) %>%
     dplyr::summarise(N = n()) %>%
     dplyr::mutate(`%` = round(100 * N/sum(N), 3)) %>%
@@ -19,11 +21,11 @@ vr_summarize.factor <- function(x){
   list(dat)
 }
 
-#' Title
+#' Create variable summary for numeric variables
 #'
 #' @param x 
 #'
-#' @return
+#' @return 
 #' @export
 #'
 #' @examples
@@ -40,7 +42,7 @@ vr_summarize.numeric <- function(x){
   list(dat)
 }
 
-#' Title
+#' Create variable summary for all other variable types
 #'
 #' @param x 
 #'
