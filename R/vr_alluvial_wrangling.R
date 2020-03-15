@@ -2,16 +2,26 @@
 #'
 #' Create tables with alluvial data.
 #'
-#' @param data
-#' @param id 
-#' @param linename 
-#' @param linenumber 
-#' @param n_common 
+#' @param data a dataframe containg 
+#' @param id patient id variable name, Defoult: 'PatientID'
+#' @param linename lines of therapy variable name, Defoult: 'LineName'
+#' @param linenumber lines of therapy number variable name, Defoult: 'LineNumber' 
+#' @param n_common, Number of most common lines of therapy presented in alluvial plot, Default: 2 
 #' 
 #' @return list
 #'
 #' @examples
-#' result <- data %>% vr_alluvial_wrangling()
+#' 
+# cohort <-  dplyr::tibble(
+#   # create 500 repeated patient ids
+#   PatientID = base::sample(x = 1:500, size=5000, replace = T),
+#   # with 'a', 'b', 'c', 'd' as line of therapy name
+#   LineName = base::sample(c('a', 'b', 'c', 'd'), 5000, replace = T),
+#   # linenumver between 0 and 4
+#   LineNumber = base::sample(x = 0:4, size=5000, replace=T)
+# )
+#'
+#' result <- cohort %>% vr_alluvial_wrangling()
 #' result$alluvial_plot_data
 #' result$linenames_summary
 #' 
@@ -22,20 +32,36 @@ vr_alluvial_wrangling <- function(
   id = "PatientID",
   linename = "LineName",
   linenumber = "LineNumber",
+  drop_maintenance_therapy = TRUE,
+  linenumber_upper_limit = 4,
   n_common = 2
 ) {
   
+  if("IsMaintenanceTherapy" %in% names(data) & drop_maintenance_therapy){
+    
+    data <- data %>% 
+      dplyr::filter(IsMaintenanceTherapy == FALSE)
+    
+  }
+  
   data <- data %>%
-    dplyr::select(PatientID,LineName,LineNumber) %>%
     dplyr::rename(
       "id" = id,
       "linename" = linename,
       "linenumber" = linenumber
-    )
+    ) %>%
+    dplyr::select(id, linename, linenumber)
+  
+  data <- data %>% 
+    dplyr::filter(dplyr::between(linenumber, 0, linenumber_upper_limit))
+  
+  data <- data %>% 
+    dplyr::group_by(id, linenumber) %>% 
+    dplyr::slice(1)
   
   data_with_no_tx <- vr_add_no_tx(data)
   
-  mostcommon_linenames <- vr_mostcommon_linenames(data)
+  mostcommon_linenames <- vr_mostcommon_linenames(data, n_common)
   
   linenames_summary_long <- 
     data_with_no_tx %>%
@@ -99,7 +125,7 @@ vr_add_no_tx <- function(data){
   
 }
 
-vr_mostcommon_linenames <- function(data){
+vr_mostcommon_linenames <- function(data, n_common){
   
   mostcommon <- data %>%
     dplyr::group_by(linename, linenumber) %>%
@@ -120,7 +146,7 @@ vr_cut_linenames <- function(data, mostcommon_linenames){
   mostcommon_linenames <- mostcommon_linenames %>%
     dplyr::mutate(linename = paste0(linename , " ", linenumber, "L"))
   
-  data2 <- data %>% 
+  data <- data %>% 
     left_join(mostcommon_linenames, 
               by = c("linename" = "linename",
                      "linenumber" = "linenumber")
@@ -134,6 +160,6 @@ vr_cut_linenames <- function(data, mostcommon_linenames){
       )
     ) %>% select(-n)
   
-  return(output_data)
+  return(data)
   
 }
