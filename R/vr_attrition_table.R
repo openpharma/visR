@@ -28,17 +28,6 @@
 #'  subject_column_name   = 'patient_id'
 #') 
 #' @export
-#' @importFrom 
- 
-# cohort <-  dplyr::tibble(
-#   # create 500 patient ids
-#   patient_id=base::sample(x = 1:1000, size=500), 
-#   # with 'lung' or 'breast' as cancer type
-#   cancer_type=base::sample(c('lung','breast'), 500, replace=T),
-#   # aged between 5 and 105 years old
-#   age=base::sample(x = 5:105, size=500, replace=T)
-# )
-
 vr_attrition_table <- function(
   data, 
   criteria_descriptions, 
@@ -85,10 +74,13 @@ vr_attrition_table <- function(
       dplyr::mutate(`Remaining %`= 100*`Remaining N`/max(`Remaining N`),
            `Excluded N` = lag(`Remaining N`, n=1L, default=max(`Remaining N`))-`Remaining N`,
            `Excluded %` = 100*`Excluded N`/ max(`Remaining N`)) %>%
-      
-    # fix formatting  
-      dplyr::mutate_at(vars(matches(' N')), list(~format(., big.mark=','))) %>%
-      dplyr::mutate_at(vars(matches(' %')), list(~round(., 2)))  
+       # rename columns
+       dplyr::rename(Condition = criteria_conditions,
+                     Criteria = criteria_descriptions) %>% 
+      # fix formatting
+      dplyr::select(Criteria, Condition, dplyr::everything())
+      # dplyr::mutate_at(vars(matches(' N')), list(~format(., big.mark=','))) %>%
+      # dplyr::mutate_at(vars(matches(' %')), list(~round(., 2)))  
     return(attrition_table)
     
    }}
