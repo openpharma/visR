@@ -2,7 +2,7 @@
 % Please edit documentation in R/vr_create_tableone.R
 \name{vr_summarize.numeric}
 \alias{vr_summarize.numeric}
-\title{Title}
+\title{Create variable summary for numeric variables}
 \usage{
 \method{vr_summarize}{numeric}(x)
 }
@@ -13,5 +13,5 @@
 
 }
 \description{
-Title
+Create variable summary for numeric variables
 }

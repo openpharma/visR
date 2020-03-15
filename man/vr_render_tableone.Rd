@@ -4,12 +4,24 @@
 \alias{vr_render_tableone}
 \title{Render Summary Table}
 \usage{
-vr_render_tableone(table1_df, caption, output_format = "html", engine = "gt")
+vr_render_tableone(
+  table1_df,
+  title,
+  caption,
+  datasource,
+  subtitle = "",
+  output_format = "html",
+  engine = "gt"
+)
 }
 \arguments{
 \item{table1_df}{The summary table of a dataset created by \code{vr_create_tableone}}
 
-\item{caption}{Table caption to include in the rendered table}
+\item{title}{Table title to include in the rendered table}
+
+\item{caption}{Table title to include in the rendered table}
+
+\item{subtitle}{Table title to include in the rendered table}
 
 \item{output_format}{If TRUE, the summary statistics for the overall dataset are also calculated}
 

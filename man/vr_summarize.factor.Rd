@@ -2,7 +2,7 @@
 % Please edit documentation in R/vr_create_tableone.R
 \name{vr_summarize.factor}
 \alias{vr_summarize.factor}
-\title{Title}
+\title{Create variable summary for factors}
 \usage{
 \method{vr_summarize}{factor}(x)
 }
@@ -13,5 +13,5 @@
 
 }
 \description{
-Title
+Create variable summary for factors
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/vr_create_tableone.R
 \name{vr_summarize.default}
 \alias{vr_summarize.default}
-\title{Title}
+\title{Create variable summary for all other variable types}
 \usage{
 \method{vr_summarize}{default}(x)
 }
@@ -13,5 +13,5 @@
 
 }
 \description{
-Title
+Create variable summary for all other variable types
 }
