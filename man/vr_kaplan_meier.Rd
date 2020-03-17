@@ -6,6 +6,7 @@
 \usage{
 vr_kaplan_meier(
   data,
+  equation = "survival::Surv(time, status) ~ trt",
   title = "",
   abbreviations = NULL,
   variable_definitions = NULL,

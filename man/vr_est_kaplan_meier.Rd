@@ -4,7 +4,7 @@
 \alias{vr_est_kaplan_meier}
 \title{Create Tidy Survival Object}
 \usage{
-vr_est_kaplan_meier(data)
+vr_est_kaplan_meier(data, equation)
 }
 \arguments{
 \item{data}{}

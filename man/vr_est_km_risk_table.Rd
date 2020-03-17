@@ -4,7 +4,7 @@
 \alias{vr_est_km_risk_table}
 \title{Create Tidy Risk Table}
 \usage{
-vr_est_km_risk_table(data, min_at_risk = 3)
+vr_est_km_risk_table(data, equation, min_at_risk = 3)
 }
 \arguments{
 \item{data}{}
