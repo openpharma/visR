@@ -8,7 +8,7 @@ vr_create_tableone(
   data,
   groupCols = NULL,
   overall = TRUE,
-  summary_function = vr_summarize
+  summary_function = vr_summarize_tab1
 )
 }
 \arguments{
