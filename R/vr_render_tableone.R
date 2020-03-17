@@ -45,7 +45,7 @@ vr_render_tableone <- function(table1_df, title, caption, datasource,
                      booktabs = T) %>% 
         kableExtra::collapse_rows(valign="top") %>% 
         kableExtra::footnote(general = datasource,
-                             general_title = "Source:")
+                             general_title = "Data Source:")
     }
     else{
       warning(paste("Supported output format of the kable engine are html and latex and not", output_format, " - falling back to html"))
@@ -87,7 +87,7 @@ vr_render_tableone <- function(table1_df, title, caption, datasource,
       "function(settings){",
       "  var datatable = settings.oInstance.api();",
       "  var table = datatable.table().node();",
-      paste("  var caption = 'Source:", datasource, "'"),
+      paste("  var caption = 'Data Source:", datasource, "'"),
       "  $(table).append('<caption style=\"caption-side: bottom\">' + caption + '</caption>');",
       "}"
     )
@@ -144,7 +144,7 @@ vr_render_tableone_gt <- function(table1_df, title, caption, datasource){
       title = title
     ) %>% 
     # add metadata
-    gt::tab_source_note(source_note = paste("Source:", datasource)) %>% 
+    gt::tab_source_note(source_note = paste("Data Source:", datasource)) %>% 
     # add formatting
     gt::tab_options(data_row.padding = gt::px(4))
   
