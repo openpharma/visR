@@ -1,8 +1,9 @@
 #' Plot Kaplan-Meier Summary Table for Existing
 #'
-#' @param data 
+#' @param data Dataset as dataframe/tibble containing with event data (one row per subject)
+#' @param equation Formula to create survival object
 #'
-#' @return
+#' @return List containing two summary tables: 1) Summary Table with persons at risk, events, median survival times along with 95% CIs over strata and 2) Summary table with test of equality over strata
 #' @export
 #'
 #' @examples
