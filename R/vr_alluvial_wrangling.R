@@ -2,7 +2,7 @@
 #'
 #' Create tables with alluvial data.
 #'
-#' @param data a dataframe containg 
+#' @param data a dataframe
 #' @param id patient id variable name, Defoult: 'PatientID'
 #' @param linename lines of therapy variable name, Defoult: 'LineName'
 #' @param linenumber lines of therapy number variable name, Defoult: 'LineNumber' 
@@ -12,16 +12,33 @@
 #'
 #' @examples
 #' 
-# cohort <-  dplyr::tibble(
-#   # create 500 repeated patient ids
-#   PatientID = base::sample(x = 1:500, size=5000, replace = T),
-#   # with 'a', 'b', 'c', 'd' as line of therapy name
-#   LineName = base::sample(c('a', 'b', 'c', 'd'), 5000, replace = T),
-#   # linenumver between 0 and 4
-#   LineNumber = base::sample(x = 0:4, size=5000, replace=T)
-# )
+#' dataset <- NULL
 #'
-#' result <- cohort %>% vr_alluvial_wrangling()
+#' for(PatientID in 1:5000){
+#'   
+#'   max_line <- sample(0:5, 1, prob = c(0.2, 0.4, 0.2, 0.15, 0.04, 0.01))
+#'   
+#'   if(max_line == 1){ 
+#'     
+#'     min_line <- sample(c(0, 1), 1, prob = c(0.3, 0.7)) 
+#'     
+#'   } else{ min_line <- 0 }
+#'   
+#'   for(LineNumber in min_line:max_line){
+#'     
+#'     LineName <- sample(c('Treatment_A', 'Treatment_B', 'Treatment_C'), 1, prob = c(0.5, 0.3, 0.2))
+#'     
+#'     patient_data_line <- data.frame(PatientID = PatientID,
+#'                                     LineName = LineName,
+#'                                     LineNumber = LineNumber)
+#'     
+#'     dataset <- rbind(patient_data_line , dataset)
+#'     
+#'   }
+#'   
+#' }
+#'
+#' result <- dataset %>% vr_alluvial_wrangling()
 #' result$alluvial_plot_data
 #' result$linenames_summary
 #' 

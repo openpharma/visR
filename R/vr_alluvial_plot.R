@@ -2,7 +2,7 @@
 #'
 #' Create alluvial plot.
 #'
-#' @param data a dataframe containg 
+#' @param data a dataframe
 #' @param id patient id variable name, Default: 'PatientID'
 #' @param linename lines of therapy variable name, Default: 'LineName'
 #' @param linenumber lines of therapy number variable name, Default: 'LineNumber' 
@@ -13,31 +13,48 @@
 #' @param data_source data source name, Default: 'Flatiron'
 #' @param fill_by one_of(c('first_variable', 'last_variable', 'all_flows', 'values')), Default: 'first_variable'
 #' @param col_vector_flow HEX color values for flows, Default: easyalluvial::palette_filter( greys = F)
-#' @param col_vector_value HEX color values  for y levels/values, Default:RColorBrewer::brewer.pal(9, 'Blues')[c(3,6,4,7,5)]
+#' @param col_vector_value HEX color values  for y levels/values, Default:RColorBrewer::brewer.pal(9, 'Blues')[c(3,6,4,7,5,8)]
 #' @param linenames_labels_size, Default: 2.5
 #' 
 #' @return list
 #'
 #' @examples
 #' 
-# cohort <-  dplyr::tibble(
-#   # create 500 repeated patient ids
-#   PatientID = base::sample(x = 1:500, size=5000, replace = T),
-#   # with 'a', 'b', 'c', 'd' as line of therapy name
-#   LineName = base::sample(c('a', 'b', 'c', 'd'), 5000, replace = T),
-#   # linenumver between 0 and 4
-#   LineNumber = base::sample(x = 0:4, size=5000, replace=T)
-# )
+#' dataset <- NULL
 #'
-#' vr_alluvial_plot(cohort)
+#' for(PatientID in 1:5000){
+#'   
+#'   max_line <- sample(0:5, 1, prob = c(0.2, 0.4, 0.2, 0.15, 0.04, 0.01))
+#'   
+#'   if(max_line == 1){ 
+#'     
+#'     min_line <- sample(c(0, 1), 1, prob = c(0.3, 0.7)) 
+#'     
+#'   } else{ min_line <- 0 }
+#'   
+#'   for(LineNumber in min_line:max_line){
+#'     
+#'     LineName <- sample(c('Treatment_A', 'Treatment_B', 'Treatment_C'), 1, prob = c(0.5, 0.3, 0.2))
+#'     
+#'     patient_data_line <- data.frame(PatientID = PatientID,
+#'                                     LineName = LineName,
+#'                                     LineNumber = LineNumber)
+#'     
+#'     dataset <- rbind(patient_data_line , dataset)
+#'     
+#'   }
+#'   
+#' }
+#'
+#' vr_alluvial_plot(dataset)
 #' 
-#' vr_alluvial_plot(data, interactive = TRUE)
+#' vr_alluvial_plot(dataset, interactive = TRUE)
 #' 
-#' vr_alluvial_plot(data, fill_by = "all_flows")
+#' vr_alluvial_plot(dataset, fill_by = "all_flows")
 #' 
-#' vr_alluvial_plot(data, interactive = TRUE, fill_by = "all_flows")
+#' vr_alluvial_plot(dataset, interactive = TRUE, fill_by = "all_flows")
 #' 
-#' vr_alluvial_plot(data, col_vector_value =  RColorBrewer::brewer.pal(9, 'Greys')[c(3,6,4,7,5)])
+#' vr_alluvial_plot(dataset, col_vector_value =  RColorBrewer::brewer.pal(9, 'Greys')[c(3,6,4,7,5,8)])
 #'
 #' @export
 
@@ -54,7 +71,7 @@ vr_alluvial_plot <- function(
   data_source = "Flatiron",
   fill_by = "first_variable",
   col_vector_flow = easyalluvial::palette_qualitative() %>% easyalluvial::palette_filter( greys = F),
-  col_vector_value =  RColorBrewer::brewer.pal(9, 'Blues')[c(3,6,4,7,5)],
+  col_vector_value =  RColorBrewer::brewer.pal(9, 'Blues')[c(3,6,4,7,5,8)],
   linenames_labels_size = 2.5
 ) {
   
@@ -96,9 +113,9 @@ vr_alluvial_plot <- function(
   } else {
     
     plot <- p + 
-      ylab("Patients count") +
-      xlab("Line of therapy") +
-      labs(
+      ggplot2::ylab("Patients count") +
+      ggplot2::xlab("Line of therapy") +
+      ggplot2::labs(
         title = title, 
         subtitle = sprintf("N [%s] = %d", N_unit, N), 
         caption = paste(data_source_caption)
