@@ -23,10 +23,18 @@
 #' the strwrap function..
 #' @param node_width The width of the node as used in graphviz (dot).
 #' @param font_size The label font size as used in graphviz (dot).
-#'
-pvr_attrition <- function(N_array, descriptions, complement_descriptions, 
-    output_path = NULL, display = FALSE, wrap_width = 50, node_width = 3, 
-    font_size = 8) {
+#' @export
+#' 
+vr_attrition <- function(
+    N_array, 
+    descriptions, 
+    complement_descriptions, 
+    output_path = NULL, 
+    display = FALSE, 
+    wrap_width = 50, 
+    node_width = 3, 
+    font_size = 8
+) {
     descriptions <- .stringWrap(descriptions, wrap_width)
     complement_descriptions <- .stringWrap(complement_descriptions, wrap_width)
     
@@ -69,7 +77,7 @@ pvr_attrition <- function(N_array, descriptions, complement_descriptions,
     if (display) cat(sprintf("DOT:\n%s\n", dot_string))
     dot_string <- gsub("'", "\\'", dot_string, fixed = TRUE)
     dot_string <- gsub("\"", "\\\"", dot_string, fixed = TRUE)
-    plot <- dot(dot_string, file = output_path)
+    plot <- DOT::dot(dot_string, file = output_path)
     
     return(plot)
 }

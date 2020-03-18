@@ -1,4 +1,4 @@
-pvr_cross_tab <- function(data, type = "count", overall_row = TRUE, 
+vr_cross_tab <- function(data, type = "count", overall_row = TRUE, 
     overall_column = TRUE) {
     if (!type %in% c("count", "percent", "both")) {
         stop("Type not recognized.")
