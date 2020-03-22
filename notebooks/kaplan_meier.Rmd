@@ -58,3 +58,22 @@ vr_kaplan_meier(
     title = "Comparison of survival in male patients having advanced inoperable lung cancer \nunder standard therapy vs. test chemotherapy"
 )
 ```
+
+
+```{r, fig.asp=1, fig.width=1, fig.height=1}
+os_obj <- vr_est_kaplan_meier(data, equation = "survival::Surv(time, status) ~ trt")
+plthex <- vr_plt_kaplan_meier(os_obj, title = "test") +
+  theme_classic2() +
+    theme(
+    panel.background = element_rect(fill = "transparent"), # bg of the panel
+    plot.background = element_rect(fill = "transparent", color = NA), # bg of the plot
+    legend.position = "none",
+    panel.grid.major = element_blank(), # get rid of major grid
+    panel.grid.minor = element_blank(), # get rid of minor grid
+    # legend.background = element_rect(fill = "transparent"), # get rid of legend bg
+    # legend.box.background = element_rect(fill = "transparent") # get rid of legend panel bg
+  )
+
+ggsave("~/Downloads/KMhex.png", plot = plthex, width = 5, height = 5, units = "cm", bg = "transparent")
+```
+
