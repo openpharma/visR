@@ -11,7 +11,6 @@ vr_table_one(
   caption = "",
   groupCols = NULL,
   summary_function = vr_summarize_tab1,
-  engine = "html",
   ...
 )
 }
