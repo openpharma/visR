@@ -1,18 +1,36 @@
-#' Create Kaplan-Meier Curve for Survival Data
+#' Generate Kaplan-Meier plot for survival data
 #'
-#' @param data 
-#' @param title 
+#' @param data input data set
+#' @param title plot title
 #' @param abbreviations 
 #' @param variable_definitions 
 #' @param N 
-#' @param N_unit 
-#' @param time_unit 
-#' @param data_source 
+#' @param N_unit unit label for big N (i.e. patients, subjects, etc.)
+#' @param time_unit unit label for the x-axis (i.e. minutes, days, weeks, years)
+#' @param data_source label for the data source 
 #'
-#' @return
+#' @return ggplot object for the KM plot
 #' @export
 #'
 #' @examples
+#' library(dplyr)
+#' library(magrittr)
+#' library(ggplot2)
+#' # Load data from the Veteran's Cancer Study
+#' data(veteran)
+#' 
+#' data <-  veteran %>% 
+#'   mutate(trt = as.factor(case_when(
+#'   trt == 1 ~ "standard therapy", 
+#'   trt == 2 ~ "test chemotherapy"
+#'   )))
+#'   
+#'   vr_kaplan_meier(
+#'     data = data, 
+#'     data_source = "Veteran's Lung Cancer Study", 
+#'     title = "Comparison of survival in male patients having advanced inoperable lung cancer \nunder standard therapy vs. test chemotherapy"
+#'     )
+
 vr_kaplan_meier <- function(
     data, 
     equation = "survival::Surv(time, status) ~ trt",
