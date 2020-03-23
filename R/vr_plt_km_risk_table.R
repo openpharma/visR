@@ -1,3 +1,11 @@
+#' Plot Kaplan-Meier Risk Table for Existing Tidy Risk Object
+#'
+#' @param data 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 vr_plt_km_risk_table <- function(risk_table_data, time_unit) {
     plot <- 
         ggplot(risk_table_data, aes(x = time)) + 

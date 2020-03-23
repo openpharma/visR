@@ -1,61 +1,4 @@
 
-vr_summarize <- function(x) UseMethod("vr_summarize")
-
-#' Title
-#'
-#' @param x 
-#'
-#' @return
-#' @export
-#'
-#' @examples
-vr_summarize.factor <- function(x){
-  dat <- tibble::enframe(x) %>%
-    dplyr::group_by(value) %>%
-    dplyr::summarise(N = n()) %>%
-    dplyr::mutate(`%` = round(100 * N/sum(N), 3)) %>%
-    tidyr::pivot_wider(names_from = value, values_from = c("N", "%"), names_sep=" ") %>%
-    as.list()
-  list(dat)
-}
-
-#' Title
-#'
-#' @param x 
-#'
-#' @return
-#' @export
-#'
-#' @examples
-vr_summarize.numeric <- function(x){
-  dat <- list(
-    mean = mean(x, na.rm = T),
-    min = min(x, na.rm = T),
-    Q1 = quantile(x, probs=0.25),
-    median = median(x, na.rm = T) ,
-    Q3 = quantile(x, probs=0.75),
-    max = max(x, na.rm = T),
-    sd = sd(x, na.rm = T)
-  )
-  list(dat)
-}
-
-#' Title
-#'
-#' @param x 
-#'
-#' @return
-#' @export
-#'
-#' @examples
-vr_summarize.default <- function(x){
-  dat <- list(
-    unique_values = length(unique(x)),
-    nmiss = sum(is.na(x))
-  )
-  list(dat)
-}
-
 #' Create Summary Table (also known as Table 1)
 #' 
 #' @description Create a summary table of descriptive statistics from a dataframe or tibble. 
@@ -90,12 +33,12 @@ vr_summarize.default <- function(x){
 #'          ecog.ps = factor(ecog.ps)) %>% 
 #'   select(age, age_group, everything()) %>% 
 #'   vr_create_tableone()
-vr_create_tableone <- function(data, groupCols = NULL, overall=TRUE, summary_function = vr_summarize){
+vr_create_tableone <- function(data, groupCols = NULL, overall=TRUE, summary_function = vr_summarize_tab1){
   
   summary_FUN <- match.fun(summary_function)
   
   if(overall & !is.null(groupCols)){
-    overall_table1 <- vr_create_tableone(data, groupCols = NULL, overall = FALSE)
+    overall_table1 <- vr_create_tableone(data, groupCols = NULL, overall = FALSE, summary_function = summary_function)
     combine_dfs <- TRUE
   }
   else{

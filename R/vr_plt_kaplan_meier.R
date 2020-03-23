@@ -1,3 +1,11 @@
+#' Plot Kaplan-Meier Curve for Existing Tidy Survival Object
+#'
+#' @param data 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 vr_plt_kaplan_meier <- function(
     broom_object, 
     title = "", 
@@ -14,11 +22,11 @@ vr_plt_kaplan_meier <- function(
     if (is.null(N)) {
         N <- 
             broom_object  %>% 
-            group_by(strata) %>% 
-            filter(row_number() == 1) %>% 
-            ungroup() %>% 
-            summarize(N = sum(n.risk)) %>% 
-            pull(N)
+            dplyr::group_by(strata) %>% 
+            dplyr::filter(row_number() == 1) %>% 
+            dplyr::ungroup() %>% 
+            dplyr::summarize(N = sum(n.risk)) %>% 
+            dplyr::pull(N)
     }
 
     # Build caption
@@ -27,16 +35,16 @@ vr_plt_kaplan_meier <- function(
     variable_definitions_caption <- sprintf("Variable Definitions: %s", 
         variable_definitions)
     
-    plot <- ggplot(broom_object, aes(x = time)) + 
+    plot <- ggplot2::ggplot(broom_object, aes(x = time)) + 
         pammtools::geom_stepribbon(aes(ymin = conf.low, ymax = conf.high, fill = strata), 
             alpha = 0.25) + 
         geom_step(aes(y = estimate, col = strata)) + 
-        theme_light() + 
+        ggplot2::theme_light() + 
         ggsci::scale_color_nejm() + 
         ggsci::scale_fill_nejm() + 
-        ylab(estimate_name) + 
-        xlab(sprintf("time (%s)", time_unit)) + 
-        labs(
+        ggplot2::ylab(estimate_name) + 
+        ggplot2::xlab(sprintf("time (%s)", time_unit)) + 
+        ggplot2::labs(
             title = title, 
             subtitle = sprintf("N [%s] = %d", N_unit, N), 
             caption = paste(abbreviations_caption, 

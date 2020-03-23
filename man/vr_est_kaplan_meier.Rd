@@ -2,9 +2,9 @@
 % Please edit documentation in R/vr_est_kaplan_meier.R
 \name{vr_est_kaplan_meier}
 \alias{vr_est_kaplan_meier}
-\title{Title}
+\title{Create Tidy Survival Object}
 \usage{
-vr_est_kaplan_meier(data)
+vr_est_kaplan_meier(data, equation)
 }
 \arguments{
 \item{data}{}
@@ -13,5 +13,5 @@ vr_est_kaplan_meier(data)
 
 }
 \description{
-Title
+Create Tidy Survival Object
 }

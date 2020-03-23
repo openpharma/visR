@@ -4,16 +4,30 @@
 \alias{vr_render_tableone}
 \title{Render Summary Table}
 \usage{
-vr_render_tableone(table1_df, caption, output_format = "html", engine = "gt")
+vr_render_tableone(
+  table1_df,
+  title,
+  caption,
+  datasource,
+  output_format = "html",
+  engine = "gt",
+  download_format = c("copy", "csv", "excel")
+)
 }
 \arguments{
 \item{table1_df}{The summary table of a dataset created by \code{vr_create_tableone}}
 
+\item{title}{Table title to include in the rendered table}
+
 \item{caption}{Table caption to include in the rendered table}
 
-\item{output_format}{If TRUE, the summary statistics for the overall dataset are also calculated}
+\item{datasource}{String specifying the datasource underlying the data set}
+
+\item{output_format}{String specifying the format to render the table. Supported formats are: html and latex}
 
 \item{engine}{If html is selected as output format, one can chose between using kable, gt and DT as engine to create the output table}
+
+\item{download_format}{Vector of file formats to use for download buttons - passed on to DT buttons. NULL if no download button should be created. Default: c('copy', 'csv', 'excel')}
 }
 \description{
 Render a previously created summary table

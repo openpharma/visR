@@ -1,6 +1,6 @@
 ---
 title: "Example Survivan Analysis using visR"
-author: Charlotta Fruechtenicht
+author: Mark Baillie, Charlotta Fruechtenicht, Diego Saldana, Thanos Siadimas
 output:
     bookdown::html_document2:
         code_folding: hide
@@ -17,37 +17,36 @@ For a more thorough introduction to Survival Analysis, we recommend the followin
 
 In this example, we will work with patient data from The Cancer Genome Atlas and compare survival in primary breast cancer who received either chemotherapy or hormone therapy.
 
-```{r installRTCGA, eval=FALSE}
-install.packages("BiocManager")
-BiocManager::install()
-BiocManager::install(c("RTCGA", "RTCGA.clinical"))
+```{r installRTCGA, eval=FALSE, include=FALSE}
+# install.packages("BiocManager")
+# BiocManager::install()
+# BiocManager::install(c("RTCGA", "RTCGA.clinical"))
 ```
-```{r installvisR, eval=FALSE}
-devtools::install_github("https://github.com/openpharma/visR.git")
+```{r installvisR, eval=FALSE, include=FALSE}
+# devtools::install_github("https://github.com/openpharma/visR.git", ref="sankey")
 ```
 
 
-```{r imports, echo=FALSE}
+```{r imports, echo=FALSE, include=FALSE}
 library(dplyr)
 library(ggplot2)
 library(RTCGA)
 library(RTCGA.clinical)
+library(survival)
 library(visR)
+
+library(ggsci)
+library(pammtools)
+library(ggpubr)
 ```
 
 ```{r globalSetup}
 DATASET <- paste0("TCGA BRCA dataset (RTCGA version ", packageVersion("RTCGA"), ")")
-
 ```
 
 
 
 ```{r initialCohort}
-# names(BRCA.clinical)[grepl("ecog", names(BRCA.clinical) )]
-# 
-# head(BRCA.clinical, 50) %>% 
-#   select(patient.bcr_patient_barcode, patient.distant_metastasis_present_ind2)
-
 brca_cohort <- survivalTCGA(BRCA.clinical, 
                      extract.cols=c("admin.disease_code", 
                                     "patient.breast_carcinoma_estrogen_receptor_status",
@@ -64,61 +63,45 @@ brca_cohort <- survivalTCGA(BRCA.clinical,
          ) %>% 
   mutate(er_status = factor(er_status),
          progesterone_status = factor(progesterone_status),
-         therapy = factor(therapy),
          dx_age = as.numeric(dx_age),
          dx_age_group = factor(case_when(dx_age < 30 ~ "< 30y",
                                          dx_age >= 30 & dx_age <= 50 ~ "30-50y",
                                          dx_age > 50 & dx_age <= 70 ~ "51-70y",
                                          dx_age > 70 ~ "> 70y"),
                                levels=c("< 30y", "30-50y", "51-70y", "> 70y")))
-
-head(brca_cohort)
-
 ```
 
 # Cohort Selection
 For this exercise we will only include patients with (1) primary breast cancer who have (2) received either chemotherapy or hormone therapy in our analysis
-```{r fig.cap='Attrition Diagram of BRCA cohort'}
+
+```{r attritionTable}
+cohort_attrition <- vr_attrition_table(
+  data = brca_cohort,
+  criteria_descriptions = c("1. Primary tumors", 
+                            "2. Non-missing therapy", 
+                            "3. Chemotherapy or hormone therapy", 
+                            "4. Non-missing vital status",
+                            "5. Positive follow up time"),
+  criteria_conditions   = c("tumor_type=='primary'",
+                            "!is.na(therapy)",
+                            "therapy %in% c('chemotherapy', 'hormone therapy')",
+                            "!is.na(patient.vital_status)",
+                            "followup_time >= 0"),
+  subject_column_name   = 'bcr_patient_barcode'
+)
+
+brca_cohort <- brca_cohort %>% 
+  filter(tumor_type=='primary',
+         !is.na(therapy),
+         therapy %in% c('chemotherapy', 'hormone therapy'),
+         !is.na(patient.vital_status),
+         followup_time >= 0)
+```
+
+
+```{r attritionFig, include=FALSE}
 figures_directory = "../figures"
 
-# original cohort
-allN <- n_distinct(brca_cohort$bcr_patient_barcode)
-
-# remove non-primary
-brca_cohort <- brca_cohort %>% 
-  filter(tumor_type == "primary")
-f1N <- n_distinct(brca_cohort$bcr_patient_barcode)
-
-# remove non-missing therapy
-brca_cohort <- brca_cohort %>% 
-  filter(!is.na(therapy))
-f2N <- n_distinct(brca_cohort$bcr_patient_barcode)
-
-# remove everything except chemo and hormone therapy
-brca_cohort <- brca_cohort %>% 
-  filter(therapy %in% c("chemotherapy", "hormone therapy"))
-f3N <- n_distinct(brca_cohort$bcr_patient_barcode)
-
-# remove pts without vital status
-brca_cohort <- brca_cohort %>% 
-  filter(!is.na(patient.vital_status))
-f4N <- n_distinct(brca_cohort$bcr_patient_barcode)
-
-# remove pts without vital status
-brca_cohort <- brca_cohort %>% 
-  filter(followup_time >= 0)
-f5N <- n_distinct(brca_cohort$bcr_patient_barcode)
-
-# create array of Ns
-N_array = c(allN, f1N, f2N, f3N, f4N, f5N)
-descriptions <- c(                                                              
-    "All patiensts",                                                            
-    "Primary disease",                                         
-    "Non-missing therapy",                                         
-    "Chemotherapy or hormone therapy",
-    "Vital Status",
-    "Positive follow up time"
-)                                                                               
 complement_descriptions <- c(                                                   
     "Having exclusion criterion: non-primary disease",                                            
     "Having exclusion criterion: missing therapy data",                                            
@@ -128,61 +111,120 @@ complement_descriptions <- c(
 )
 
 # Create attrition flowchart
-vr_attrition(N_array, descriptions, complement_descriptions, 
+attrition_flow <- vr_attrition(cohort_attrition$`Remaining N`, cohort_attrition$Criteria, complement_descriptions,
     output_path = sprintf("%s/attrition_diagram.svg", figures_directory))
+```
 
+```{r attritionFigShow, fig.cap='Attrition Diagram of BRCA cohort', results='asis'}
 # Plot the attrition diagram
 knitr::include_graphics("../figures/attrition_diagram.svg")
 ```
 
+```{r}
+cohort_attrition %>% 
+  vr_render_table("Attrition Table", "Summary of sampels fulfilling inclusion/exclusion criteria", DATASET)
+```
+
+
 # Cohort Overview
 Prior to starting any survival analysis, we want to further inspect our cohort and see if the there are systematic differences between the chemotherapy and hormone therapy arms.
-```{r}
+```{r table1}
 brca_cohort_tab1 <- brca_cohort %>% 
   select(-bcr_patient_barcode, admin.disease_code) %>% 
-  mutate(patient.vital_status = case_when(patient.vital_status == 0 ~ "alive",
-                                          patient.vital_status == 1 ~ "dead",
-                                          is.na(patient.vital_status) ~ "missing"))
+  mutate(patient.vital_status = factor(case_when(patient.vital_status == 0 ~ "Alive",
+                                          patient.vital_status == 1 ~ "Dead",
+                                          is.na(patient.vital_status) ~ "Missing")),
+         therapy = factor(therapy))
 
 # create table
-tab1_groups <- vr_create_tableone(brca_cohort, groupCols = c("therapy"))
+# tab1_groups <- visR::vr_create_tableone(brca_cohort_tab1, groupCols = c("therapy"))
+
+# use alternative summary function
+# tab1_groups <- visR::vr_create_tableone(brca_cohort_tab1, groupCols = c("therapy"), summary_function = visR::vr_summarize)
 
 # render table
-tab1_groups %>% vr_render_tableone(caption = "BRCA patients")
+# tab1_groups %>% vr_render_tableone(title = "Overview over BRCA patients",
+                                   # caption = "Baseline characteristics of study cohort stratified by treatment type", 
+                                   # datasource = DATASET, engine = "dt")
 ```
+
+```{r table1Convenience}
+vr_table_one(brca_cohort_tab1, title = "Overview over BRCA patients",
+             caption = "Baseline characteristics of study cohort stratified by treatment type", 
+             datasource = DATASET, groupCols = c("therapy"))
+```
+
+Note: 
+Number of decimal points should be a parameter
+add as issue/nice to have: Order of variables: should order of variables be defined by users? selection
 
 # Overall Survival
 ## Survival Object
 ```{r}
-
+# currently this step is required as the function is not fully parameterized
 brca_cohort_os <- brca_cohort %>% 
   rename(time = followup_time,
          status = patient.vital_status,
          trt = therapy)
+```
+Note: it would be good in the vr function to be able to provide user-defined names for time, event and group(s)
+Also: stratification by more than one variable
+Maybe pass data and formula
 
-os_obj <- vr_est_kaplan_meier(brca_cohort_os)
-
-
-knitr::kable(os_obj) %>% 
-    kableExtra::kable_styling()
-
+```{r estOS, eval=FALSE}
+os_obj <- vr_est_kaplan_meier(brca_cohort_os, equation = "survival::Surv(time, status) ~ trt")
+vr_plt_kaplan_meier(os_obj) +
+  theme_minimal()
+```
+```{r estOSTable, eval=FALSE}
+risk_obs <- vr_est_km_risk_table(brca_cohort_os, equation = "survival::Surv(time, status) ~ trt")
+vr_plt_km_risk_table(risk_obs, time_unit = "days")
 ```
 
-## Kaplan-Meier 
-```{r fig.cap="Comparison of survival in breast cancer patients having under hormone therapy vs. chemotherapy", fig.height=6, fig.width=6}
-library(ggplot2)
-library(ggsci)
-library(pammtools)
-library(ggpubr)
 
+## Kaplan-Meier Curve
+```{r fig.cap="Comparison of survival in breast cancer patients having under hormone therapy vs. chemotherapy", fig.height=6, fig.width=8, warning=FALSE}
 vr_kaplan_meier(
-    brca_cohort_os, 
+    brca_cohort_os,
+    equation = "survival::Surv(time, status) ~ trt",
     data_source = DATASET, 
     time_unit = "days",
     title = "Comparison of survival in breast cancer patients having \nunder hormone therapy vs. chemotherapy"
 )
 ```
-Note: it would be good in the vr function to be able to provide user-defined names for time, event and group(s)
-Also: stratification by more than one variable
+Nice to have: have facets with km and risk table together (maybe use patchwork?)
 
-Note2: there seems to be a bug in plot_risk_table where it expects the time_unit but is not provided time_unit in the function parameters
+## Summary of Kaplan Meier Curve
+```{r}
+km_summary <- vr_kaplan_meier_summary(
+    brca_cohort_os, "survival::Surv(time, status) ~ trt"
+)
+
+km_summary[[1]] %>% 
+  vr_render_table("Overall Survival", "Median survival times for each strata", DATASET)
+
+km_summary[[2]] %>% 
+  vr_render_table("Equality between Strata", "Summary table with test of equality over strata", DATASET)
+```
+
+## Cox Proportional Hazards Model
+Not quite applicable when looking at the KM curve, but we'll do it anyhow to illustrate how it works
+```{r}
+coxph_model <- coxph(Surv(time, status) ~ trt + er_status, data=brca_cohort_os)
+```
+Question: how do we best combine this with the broom object created before for exactly the same surv object (potentially)
+
+### Show model stats
+
+```{r}
+broom::tidy(coxph_model) %>% 
+  vr_render_table("Cox Proportional Hazards Model", "Estimates for all included model parameters", DATASET)
+```
+
+
+### Forest Plot
+To Do
+```{r eval=FALSE}
+# TODO
+```
+

@@ -1,4 +1,4 @@
-#' Title
+#' Create Tidy Survival Object
 #'
 #' @param data 
 #'
@@ -6,10 +6,10 @@
 #' @export
 #'
 #' @examples
-vr_est_kaplan_meier <- function(data) {
+vr_est_kaplan_meier <- function(data, equation) {
   
     survfit_object <- survival::survfit(
-      survival::Surv(time, status) ~ trt, data = data
+      eval(parse(text=equation)), data = data
       )
     
     broom_object <- broom::tidy(survfit_object)
