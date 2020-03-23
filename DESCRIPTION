@@ -44,5 +44,7 @@ Imports:
     kableExtra,
     assertthat,
     gt,
-    tidyselect
+    tidyselect,
+    parcats,
+    easyalluvial
 VignetteBuilder: knitr

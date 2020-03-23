@@ -86,6 +86,7 @@ vr_attrition_table <- function(
    }}
 }
 
+
 # cohort <-  dplyr::tibble(
 #   # create 500 patient ids
 #   patient_id=base::sample(x = 1:1000, size=500), 
