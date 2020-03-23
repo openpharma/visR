@@ -1,0 +1,172 @@
+---
+title: "Alluvial plot analysis using visR"
+author: Paweł Kawski
+output:
+    bookdown::html_document2:
+        code_folding: show
+        toc: true
+        toc_float:
+            collapsed: false
+---
+
+# visR by Example
+
+## Alluvial plot
+
+Alluvial/Sankey plots which are often used for assessing patterns in patient flow, e.g., consecutively received treatments.
+The function 'vr_alluvial_plot' is wrapper based on easyalluvial and parcats packages, to facilitate this task. 
+Short tutorial below.
+
+```{r installvisR, eval=FALSE}
+devtools::install_github("https://github.com/openpharma/visR.git", ref = "develop")
+```
+
+
+```{r imports, echo=FALSE}
+# library(dplyr)
+# library(ggplot2)
+# library(visR)
+```
+
+<br>
+
+To use this function we need to have data, which contain variables: patients ids, treatments names and lines of therapy numbers.
+Let's simulate such dataset.
+
+```{r globalSetup}
+dataset <- NULL
+
+for(PatientID in 1:5000){
+  
+  max_line <- sample(0:5, 1, prob = c(0.2, 0.4, 0.2, 0.15, 0.04, 0.01))
+  
+  if(max_line == 1){ 
+    
+    min_line <- sample(c(0, 1), 1, prob = c(0.3, 0.7)) 
+    
+  } else{ min_line <- 0 }
+  
+  for(LineNumber in min_line:max_line){
+    
+    LineName <- sample(
+      c('Treatment_A', 'Treatment_B', 'Treatment_C', 'Treatment_D' ), 
+      1, 
+      prob = c(0.5, 0.3, 0.1, 0.1)
+    )
+    
+    patient_data_line <- data.frame(PatientID = PatientID,
+                                    LineName = LineName,
+                                    LineNumber = LineNumber)
+    
+    dataset <- rbind(patient_data_line , dataset)
+    
+  }
+  
+}
+```
+
+<br>
+
+When we have any dataset, minimally what we need to pass to function in parameters are variable names corresponding to patients ids, treatments names and lines of therapy numbers like that:
+
+
+```{r fig.cap='Alluvial plot for simulated dataset'}
+vr_alluvial_plot(dataset,
+                 id = "PatientID",
+                 linename = "LineName",
+                 linenumber = "LineNumber",
+                 data_source = "Simulatation")
+```
+
+<br>
+
+If you will use our package to work with Flatiron database, there is good information for you. 
+You do not need to pass variable names because names existing in Flatiron database are taken as default, it means: ("PatientID", "LineName", "LineNumber"). In this case you can simply do:
+
+```{r fig.cap='Alluvial plot for simulated dataset',  eval=FALSE}
+vr_alluvial_plot(dataset)
+```
+
+<br>
+
+Except discussed already parameters there are other important parameters. Here are all of them:
+
+```{r}
+#' @param n_common Number of most common lines of therapy presented in alluvial plot, Default: 2 
+#' @param title plot title, Default: NULL
+#' @param interactive, interactive plot, Default: FALSE
+#' @param N_unit, Default: 'patients' 
+#' @param data_source data source name, Default: 'Flatiron'
+#' @param fill_by one_of(c('first_variable', 'last_variable', 'all_flows', 'values')), Default: 'first_variable'
+#' @param col_vector_flow HEX color values for flows, Default: easyalluvial::palette_filter( greys = F)
+#' @param col_vector_value HEX color values  for y levels/values, Default:RColorBrewer::brewer.pal(9, 'Blues')[c(3,6,4,7,5,8)]
+#' @param linenames_labels_size, Default: 2.5
+```
+
+<br>
+
+Parameter 'interactive' gives possibility of seeing interactive version of plot. But remember, this is html vidget and it will not take into account parameters like 'title' or 'data_source'.
+
+```{r fig.cap='Alluvial plot for simulated dataset'}
+vr_alluvial_plot(
+  dataset,
+  id = "PatientID",
+  linename = "LineName",
+  linenumber = "LineNumber",
+  interactive = TRUE
+  )
+```
+
+<br>
+
+## Alluvial data wrangling
+
+When you use 'vr_alluvial_plot', in the backgroun there is working 'vr_alluvial_wrangling' function which is responsible for finding most common treatments in each line of therapy and death (no later treatment) censoring.
+
+You can receive 'vr_alluvial_wrangling' output data by:
+  
+```{r}  
+
+result <- vr_alluvial_wrangling(dataset,
+                                id = "PatientID",
+                                linename = "LineName",
+                                linenumber = "LineNumber",
+                                n_common = 2)
+
+output <- result$alluvial_plot_data
+
+knitr::kable(output[1:10,]) %>%
+  kableExtra::kable_styling(full_width = TRUE,
+                            position = "center")
+        
+```
+
+<br>
+
+There is also a summary table:
+
+
+```{r}  
+
+output <- result$linenames_summary
+
+knitr::kable(output[1:10,]) %>%
+  kableExtra::kable_styling(full_width = TRUE,
+                            position = "center")
+        
+```
+
+<br>
+
+Additionally if you need summary table for patients data before truncating data to n most common treatments then you can do it by:
+
+```{r}  
+
+output <- result$linenames_summary_long
+
+knitr::kable(output[1:10,]) %>%
+  kableExtra::kable_styling(full_width = TRUE,
+                            position = "center")
+        
+```
+
