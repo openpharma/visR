@@ -8,13 +8,11 @@
 
 <title>Create Summary Table (also known as Table 1) — vr_create_tableone • visR</title>
 
-
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -34,8 +32,8 @@
 
 
 
-
 <meta property="og:title" content="Create Summary Table (also known as Table 1) — vr_create_tableone" />
+
 <meta property="og:description" content="Create a summary table of descriptive statistics from a dataframe or tibble.
 By default the following summary stats are calculated:
 Numeric variables: mean, min, 25th-percentile, median, 75th-percentile, maximum, standard deviation
@@ -44,7 +42,6 @@ Default: number of unique values and number of missing values
 
 " />
 <meta name="twitter:card" content="summary" />
-
 
 
 
@@ -106,6 +103,7 @@ Default: number of unique values and number of missing values
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
+      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/openpharma/visR">
@@ -132,6 +130,7 @@ Default: number of unique values and number of missing values
     </div>
 
     <div class="ref-description">
+    
     <p>Create a summary table of descriptive statistics from a dataframe or tibble.</p>
 <p>By default the following summary stats are calculated:</p><ul>
 <li><p>Numeric variables: mean, min, 25th-percentile, median, 75th-percentile, maximum, standard deviation</p></li>
@@ -139,15 +138,12 @@ Default: number of unique values and number of missing values
 <li><p>Default: number of unique values and number of missing values</p></li>
 </ul>
 
+    
     </div>
 
-    <pre class="usage"><span class='fu'>vr_create_tableone</span>(
-  <span class='no'>data</span>,
-  <span class='kw'>groupCols</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>overall</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>summary_function</span> <span class='kw'>=</span> <span class='no'>vr_summarize</span>
-)</pre>
-
+    <pre class="usage"><span class='fu'>vr_create_tableone</span>(<span class='no'>data</span>, <span class='kw'>groupCols</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>overall</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>summary_function</span> <span class='kw'>=</span> <span class='no'>vr_summarize_tab1</span>)</pre>
+    
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -168,52 +164,57 @@ Default: number of unique values and number of missing values
       <td><p>A function defining summary statistics for numeric and categorical values</p></td>
     </tr>
     </table>
-
+    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>It is possible to provide your own summary function. Please have a loot at vr_summary for inspiration.</p>
+    
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>All columns in the table will be summarized. If only some columns shall be used, please select only those
 variables prior to creating the summary table by using dplyr::select()</p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>survival</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>tidyverse</span>)</div><div class='output co'>#&gt; <span class='message'>-- <span style='font-weight: bold;'>Attaching packages</span><span> ------------------------------------------------------------------ tidyverse 1.3.0 --</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #0000BB;'>ggplot2</span><span> 3.2.1     </span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #0000BB;'>purrr  </span><span> 0.3.3</span>
-#&gt; <span class='message'></span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #0000BB;'>tibble </span><span> 2.1.3     </span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #0000BB;'>dplyr  </span><span> 0.8.4</span>
-#&gt; <span class='message'></span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #0000BB;'>tidyr  </span><span> 1.0.2     </span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #0000BB;'>stringr</span><span> 1.4.0</span>
-#&gt; <span class='message'></span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #0000BB;'>readr  </span><span> 1.3.1     </span><span style='color: #00BB00;'>v</span><span> </span><span style='color: #0000BB;'>forcats</span><span> 0.4.0</span></div><div class='output co'>#&gt; <span class='message'>-- </span><span style='font-weight: bold;'>Conflicts</span><span> --------------------------------------------------------------------- tidyverse_conflicts() --</span>
-#&gt; <span class='message'></span><span style='color: #BB0000;'>x</span><span> </span><span style='color: #0000BB;'>dplyr</span><span>::</span><span style='color: #00BB00;'>filter()</span><span> masks </span><span style='color: #0000BB;'>stats</span><span>::filter()</span>
-#&gt; <span class='message'></span><span style='color: #BB0000;'>x</span><span> </span><span style='color: #0000BB;'>dplyr</span><span>::</span><span style='color: #00BB00;'>lag()</span><span>    masks </span><span style='color: #0000BB;'>stats</span><span>::lag()</span></div><div class='input'><span class='no'>ovarian</span> <span class='kw'>%&gt;%</span>
-<span class='fu'>select</span>(-<span class='no'>fustat</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>mutate</span>(<span class='kw'>age_group</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='fu'>case_when</span>(<span class='no'>age</span> <span class='kw'>&lt;=</span> <span class='fl'>50</span> ~ <span class='st'>"&lt;= 50 years"</span>,
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: 'dplyr'</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from 'package:stats':</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from 'package:base':</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='no'>ovarian</span> <span class='kw'>%&gt;%</span>
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(-<span class='no'>fustat</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>age_group</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span>(<span class='no'>age</span> <span class='kw'>&lt;=</span> <span class='fl'>50</span> ~ <span class='st'>"&lt;= 50 years"</span>,
                                       <span class='no'>age</span> <span class='kw'>&lt;=</span> <span class='fl'>60</span> ~ <span class='st'>"&lt;= 60 years"</span>,
                                       <span class='no'>age</span> <span class='kw'>&lt;=</span> <span class='fl'>70</span> ~ <span class='st'>"&lt;= 70 years"</span>,
                                       <span class='fl'>TRUE</span> ~ <span class='st'>"&gt; 70 years"</span>)),
          <span class='kw'>rx</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='no'>rx</span>),
          <span class='kw'>ecog.ps</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='no'>ecog.ps</span>)) <span class='kw'>%&gt;%</span>
-  <span class='fu'>select</span>(<span class='no'>age</span>, <span class='no'>age_group</span>, <span class='fu'>everything</span>()) <span class='kw'>%&gt;%</span>
-  <span class='fu'>vr_create_tableone</span>()</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 38 x 3</span><span>
-#&gt;    variable  statistic     Overall
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> Sample    N                26  
-#&gt; </span><span style='color: #555555;'> 2</span><span> age       mean             56.2
-#&gt; </span><span style='color: #555555;'> 3</span><span> age       min              38.9
-#&gt; </span><span style='color: #555555;'> 4</span><span> age       Q1               50.2
-#&gt; </span><span style='color: #555555;'> 5</span><span> age       median           56.8
-#&gt; </span><span style='color: #555555;'> 6</span><span> age       Q3               62.4
-#&gt; </span><span style='color: #555555;'> 7</span><span> age       max              74.5
-#&gt; </span><span style='color: #555555;'> 8</span><span> age       sd               10.1
-#&gt; </span><span style='color: #555555;'> 9</span><span> age_group N &lt;= 50 years     6  
-#&gt; </span><span style='color: #555555;'>10</span><span> age_group N &lt;= 60 years    13  
-#&gt; </span><span style='color: #555555;'># ... with 28 more rows</span><span></div></span></pre>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='no'>age</span>, <span class='no'>age_group</span>, <span class='fu'><a href='https://dplyr.tidyverse.org/reference/reexports.html'>everything</a></span>()) <span class='kw'>%&gt;%</span>
+  <span class='fu'>vr_create_tableone</span>()</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 21 x 3</span><span>
+#&gt;    variable  statistic    Overall                   
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                     
+#&gt; </span><span style='color: #555555;'> 1</span><span> Sample    N            26                        
+#&gt; </span><span style='color: #555555;'> 2</span><span> age       Mean (SD)    56.2 (10.1)               
+#&gt; </span><span style='color: #555555;'> 3</span><span> age       Median (IQR) 56.8466 (50.16712-62.3781)
+#&gt; </span><span style='color: #555555;'> 4</span><span> age       Min-max      38.8932-74.5041           
+#&gt; </span><span style='color: #555555;'> 5</span><span> age       Missing      0 (0%)                    
+#&gt; </span><span style='color: #555555;'> 6</span><span> age_group &lt;= 50 years  6 (23.1%)                 
+#&gt; </span><span style='color: #555555;'> 7</span><span> age_group &lt;= 60 years  13 (50.0%)                
+#&gt; </span><span style='color: #555555;'> 8</span><span> age_group &lt;= 70 years  4 (15.4%)                 
+#&gt; </span><span style='color: #555555;'> 9</span><span> age_group &gt; 70 years   3 (11.5%)                 
+#&gt; </span><span style='color: #555555;'>10</span><span> futime    Mean (SD)    600 (340)                 
+#&gt; </span><span style='color: #555555;'># ... with 11 more rows</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      
       <li><a href="#details">Details</a></li>
+
       <li><a href="#note">Note</a></li>
+      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

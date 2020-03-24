@@ -4,24 +4,17 @@
 \alias{vr_render_table}
 \title{Render a dataframe or tibble}
 \usage{
-vr_render_table(
-  df,
-  title,
-  caption,
-  datasource,
-  subtitle = "",
-  output_format = "html",
-  engine = "gt"
-)
+vr_render_table(data, title, caption, datasource, output_format = "html",
+  engine = "gt")
 }
 \arguments{
-\item{df}{The dataframe or tibble to visualise}
+\item{data}{The dataframe or tibble to visualise}
 
 \item{title}{Table title to include in the rendered table}
 
 \item{caption}{Table caption to include in the rendered table}
 
-\item{subtitle}{Table title to include in the rendered table}
+\item{datasource}{String specifying the datasource underlying the data set}
 
 \item{output_format}{If TRUE, the summary statistics for the overall dataset are also calculated}
 

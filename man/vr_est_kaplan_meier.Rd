@@ -2,16 +2,24 @@
 % Please edit documentation in R/vr_est_kaplan_meier.R
 \name{vr_est_kaplan_meier}
 \alias{vr_est_kaplan_meier}
-\title{Create Tidy Survival Object}
+\title{Tidy a survival survfit object}
 \usage{
 vr_est_kaplan_meier(data, equation)
 }
 \arguments{
-\item{data}{}
+\item{data}{input data frame for the KM analysis.}
+
+\item{euqation}{Survival equation that defines the analysis.}
 }
 \value{
-
+tidy data frame (tibble) using the broom tidy function.
 }
 \description{
-Create Tidy Survival Object
+This function tidies a Surv object using broom tidy function.
+The function expects a data frame and the equation for the survival model.
+}
+\examples{
+library(survival)
+vr_est_kaplan_meier(lung, "Surv(time, status) ~ sex")
+
 }

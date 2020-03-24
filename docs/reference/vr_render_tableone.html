@@ -8,13 +8,11 @@
 
 <title>Render Summary Table — vr_render_tableone • visR</title>
 
-
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -34,12 +32,11 @@
 
 
 
-
 <meta property="og:title" content="Render Summary Table — vr_render_tableone" />
+
 <meta property="og:description" content="Render a previously created summary table
 Create formatted table" />
 <meta name="twitter:card" content="summary" />
-
 
 
 
@@ -101,6 +98,7 @@ Create formatted table" />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
+      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/openpharma/visR">
@@ -127,12 +125,16 @@ Create formatted table" />
     </div>
 
     <div class="ref-description">
+    
     <p>Render a previously created summary table</p>
 <p>Create formatted table</p>
+    
     </div>
 
-    <pre class="usage"><span class='fu'>vr_render_tableone</span>(<span class='no'>table1_df</span>, <span class='no'>caption</span>, <span class='kw'>output_format</span> <span class='kw'>=</span> <span class='st'>"html"</span>, <span class='kw'>engine</span> <span class='kw'>=</span> <span class='st'>"gt"</span>)</pre>
-
+    <pre class="usage"><span class='fu'>vr_render_tableone</span>(<span class='no'>table1_df</span>, <span class='no'>title</span>, <span class='no'>caption</span>, <span class='no'>datasource</span>,
+  <span class='kw'>output_format</span> <span class='kw'>=</span> <span class='st'>"html"</span>, <span class='kw'>engine</span> <span class='kw'>=</span> <span class='st'>"gt"</span>, <span class='kw'>download_format</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"copy"</span>,
+  <span class='st'>"csv"</span>, <span class='st'>"excel"</span>))</pre>
+    
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -141,26 +143,38 @@ Create formatted table" />
       <td><p>The summary table of a dataset created by <code>vr_create_tableone</code></p></td>
     </tr>
     <tr>
+      <th>title</th>
+      <td><p>Table title to include in the rendered table</p></td>
+    </tr>
+    <tr>
       <th>caption</th>
       <td><p>Table caption to include in the rendered table</p></td>
     </tr>
     <tr>
+      <th>datasource</th>
+      <td><p>String specifying the datasource underlying the data set</p></td>
+    </tr>
+    <tr>
       <th>output_format</th>
-      <td><p>If TRUE, the summary statistics for the overall dataset are also calculated</p></td>
+      <td><p>String specifying the format to render the table. Supported formats are: html and latex</p></td>
     </tr>
     <tr>
       <th>engine</th>
       <td><p>If html is selected as output format, one can chose between using kable, gt and DT as engine to create the output table</p></td>
     </tr>
+    <tr>
+      <th>download_format</th>
+      <td><p>Vector of file formats to use for download buttons - passed on to DT buttons. NULL if no download button should be created. Default: c('copy', 'csv', 'excel')</p></td>
+    </tr>
     </table>
-
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-    </ul>
+                </ul>
 
   </div>
 </div>

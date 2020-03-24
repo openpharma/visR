@@ -23,7 +23,7 @@ In this example, we will work with patient data from The Cancer Genome Atlas and
 # BiocManager::install(c("RTCGA", "RTCGA.clinical"))
 ```
 ```{r installvisR, eval=FALSE, include=FALSE}
-# devtools::install_github("https://github.com/openpharma/visR.git", ref="develop")
+# devtools::install_github("https://github.com/openpharma/visR.git", ref="sankey")
 ```
 
 
@@ -121,9 +121,8 @@ knitr::include_graphics("../figures/attrition_diagram.svg")
 ```
 
 ```{r}
-cohort_attrition %>% gt::gt() %>% 
-  gt::tab_options(data_row.padding = gt::px(4)) %>% 
-  gt::fmt_number(c("Remaining %", "Excluded %"), decimals = 2, sep_mark=',')
+cohort_attrition %>% 
+  vr_render_table("Attrition Table", "Summary of sampels fulfilling inclusion/exclusion criteria", DATASET)
 ```
 
 
@@ -174,7 +173,8 @@ Maybe pass data and formula
 
 ```{r estOS, eval=FALSE}
 os_obj <- vr_est_kaplan_meier(brca_cohort_os, equation = "survival::Surv(time, status) ~ trt")
-vr_plt_kaplan_meier(os_obj)
+vr_plt_kaplan_meier(os_obj) +
+  theme_minimal()
 ```
 ```{r estOSTable, eval=FALSE}
 risk_obs <- vr_est_km_risk_table(brca_cohort_os, equation = "survival::Surv(time, status) ~ trt")
@@ -201,12 +201,10 @@ km_summary <- vr_kaplan_meier_summary(
 )
 
 km_summary[[1]] %>% 
-  gt::gt() %>% 
-  gt::fmt_number(c("median survival time", "0.95LCL", "0.95UCL"), decimals = 2)
+  vr_render_table("Overall Survival", "Median survival times for each strata", DATASET)
 
 km_summary[[2]] %>% 
-  gt::gt() %>% 
-  gt::fmt_number(c("statistic", "p.value"), decimals = 2)
+  vr_render_table("Equality between Strata", "Summary table with test of equality over strata", DATASET)
 ```
 
 ## Cox Proportional Hazards Model
@@ -220,12 +218,13 @@ Question: how do we best combine this with the broom object created before for e
 
 ```{r}
 broom::tidy(coxph_model) %>% 
-  gt::gt()
+  vr_render_table("Cox Proportional Hazards Model", "Estimates for all included model parameters", DATASET)
 ```
 
 
 ### Forest Plot
-```{r}
+To Do
+```{r eval=FALSE}
 # TODO
 ```
 

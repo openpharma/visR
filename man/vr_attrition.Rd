@@ -4,16 +4,9 @@
 \alias{vr_attrition}
 \title{Attrition}
 \usage{
-vr_attrition(
-  N_array,
-  descriptions,
-  complement_descriptions,
-  output_path = NULL,
-  display = FALSE,
-  wrap_width = 50,
-  node_width = 3,
-  font_size = 8
-)
+vr_attrition(N_array, descriptions, complement_descriptions,
+  output_path = NULL, display = FALSE, wrap_width = 50,
+  node_width = 3, font_size = 8)
 }
 \arguments{
 \item{N_array}{An array of integers of length M, where M is the number of

@@ -173,7 +173,7 @@ brca_cohort_os <- brca_cohort %>%
          status = patient.vital_status,
          trt = therapy)
 
-os_obj <- vr_est_kaplan_meier(brca_cohort_os)
+os_obj <- vr_est_kaplan_meier(brca_cohort_os, "survival::Surv(time, status) ~ trt")
 
 
 knitr::kable(os_obj) %>% 

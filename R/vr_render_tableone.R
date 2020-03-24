@@ -16,10 +16,9 @@
 vr_render_tableone <- function(table1_df, title, caption, datasource, 
                                output_format="html", engine="gt", 
                                download_format = c('copy', 'csv', 'excel')){
-  # TODO: add code to support jquery datatable output for html, as well as all functionality for rt
+  # TODO: add code to support rtf
   # TODO: do we need features to further specify styling of the table?
-  # TODO: figure out if we need caption and title
-  
+
   # stop if output format is not supported
   if(!tolower(output_format) %in% c("html", "latex")){ #"rtf", 
     stop(paste("Currently supported output formats are html and latex.", output_format, "is not yet supported."))
