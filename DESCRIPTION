@@ -23,7 +23,7 @@ Suggests:
     testthat (>= 2.1.0),
     knitr,
     rmarkdown
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 Roxygen: list(markdown = TRUE)
 Imports: 
     survival,
@@ -43,11 +43,12 @@ Imports:
     pammtools,
     kableExtra,
     assertthat,
-    gt,
+    gt (>= 0.1.0),
     tidyselect,
     parcats (>= 0.0.1.9000),
     easyalluvial (>= 0.2.2.900)
 VignetteBuilder: knitr
-Remotes:  
+Remotes: 
     erblast/easyalluvial,
-    erblast/parcats
+    erblast/parcats,
+    rstudio/gt

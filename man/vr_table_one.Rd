@@ -4,8 +4,15 @@
 \alias{vr_table_one}
 \title{Summary Table (Table One)}
 \usage{
-vr_table_one(data, title, datasource, caption = "", groupCols = NULL,
-  summary_function = vr_summarize_tab1, ...)
+vr_table_one(
+  data,
+  title,
+  datasource,
+  caption = "",
+  groupCols = NULL,
+  summary_function = vr_summarize_tab1,
+  ...
+)
 }
 \arguments{
 \item{data}{The dataframe or tibble to visualise}
