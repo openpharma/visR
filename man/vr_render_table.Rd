@@ -4,14 +4,8 @@
 \alias{vr_render_table}
 \title{Render a dataframe or tibble}
 \usage{
-vr_render_table(
-  data,
-  title,
-  caption,
-  datasource,
-  output_format = "html",
-  engine = "gt"
-)
+vr_render_table(data, title, caption, datasource, output_format = "html",
+  engine = "gt")
 }
 \arguments{
 \item{data}{The dataframe or tibble to visualise}

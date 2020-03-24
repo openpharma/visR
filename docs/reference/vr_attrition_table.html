@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Render Summary Table — vr_render_tableone • visR</title>
+<title>Generate cohort attrition table — vr_attrition_table • visR</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,10 +32,11 @@
 
 
 
-<meta property="og:title" content="Render Summary Table — vr_render_tableone" />
+<meta property="og:title" content="Generate cohort attrition table — vr_attrition_table" />
 
-<meta property="og:description" content="Render a previously created summary table
-Create formatted table" />
+<meta property="og:description" content="This function calculates the subjects counts for each step of the cohort selection.
+By using the description tag you'll notice that I
+can have multiple paragraphs in the description section" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -119,62 +120,79 @@ Create formatted table" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Render Summary Table</h1>
-    <small class="dont-index">Source: <a href='https://github.com/openpharma/visR/blob/master/R/vr_render_tableone.R'><code>R/vr_render_tableone.R</code></a></small>
-    <div class="hidden name"><code>vr_render_tableone.Rd</code></div>
+    <h1>Generate cohort attrition table</h1>
+    <small class="dont-index">Source: <a href='https://github.com/openpharma/visR/blob/master/R/vr_attrition_table.R'><code>R/vr_attrition_table.R</code></a></small>
+    <div class="hidden name"><code>vr_attrition_table.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Render a previously created summary table</p>
-<p>Create formatted table</p>
+    <p>This function calculates the subjects counts for each step of the cohort selection.</p>
+<p>By using the description tag you'll notice that I
+can have multiple paragraphs in the description section</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>vr_render_tableone</span>(<span class='no'>table1_df</span>, <span class='no'>title</span>, <span class='no'>caption</span>, <span class='no'>datasource</span>,
-  <span class='kw'>output_format</span> <span class='kw'>=</span> <span class='st'>"html"</span>, <span class='kw'>engine</span> <span class='kw'>=</span> <span class='st'>"gt"</span>, <span class='kw'>download_format</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"copy"</span>,
-  <span class='st'>"csv"</span>, <span class='st'>"excel"</span>))</pre>
+    <pre class="usage"><span class='fu'>vr_attrition_table</span>(<span class='no'>data</span>, <span class='no'>criteria_descriptions</span>, <span class='no'>criteria_conditions</span>, <span class='no'>subject_column_name</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>table1_df</th>
-      <td><p>The summary table of a dataset created by <code>vr_create_tableone</code></p></td>
+      <th>data</th>
+      <td><p>r table. It is used as the input data to count the subjects that meets the criteria of interest</p></td>
     </tr>
     <tr>
-      <th>title</th>
-      <td><p>Table title to include in the rendered table</p></td>
+      <th>criteria_descriptions</th>
+      <td><p>character vector. It contains the descriptions of the inclusion/exclusion criteria.
+Each element of the vector corresponds to the description of each criterion.</p></td>
     </tr>
     <tr>
-      <th>caption</th>
-      <td><p>Table caption to include in the rendered table</p></td>
+      <th>criteria_conditions</th>
+      <td><p>character vector. It contains the corresponding conditions of the criteria.
+These conditions will be used in the table to compute the counts of the subjects.</p></td>
     </tr>
     <tr>
-      <th>datasource</th>
-      <td><p>String specifying the datasource underlying the data set</p></td>
-    </tr>
-    <tr>
-      <th>output_format</th>
-      <td><p>String specifying the format to render the table. Supported formats are: html and latex</p></td>
-    </tr>
-    <tr>
-      <th>engine</th>
-      <td><p>If html is selected as output format, one can chose between using kable, gt and DT as engine to create the output table</p></td>
-    </tr>
-    <tr>
-      <th>download_format</th>
-      <td><p>Vector of file formats to use for download buttons - passed on to DT buttons. NULL if no download button should be created. Default: c('copy', 'csv', 'excel')</p></td>
+      <th>subject_column_name</th>
+      <td><p>character. The column name of the table that contains the subject id.</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>The counts and percentages of the remaining and excluded subjects for each step of the cohort selection in a table format.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The vector criteria_descriptions must have the same length with the vector criteria_descriptions</p>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'># NOT RUN: TODO: This example is throwing an error. Check the issue. 
+# create 500 patient ids, with 'lung' or 'breast' as cancer type, aged between 5 and 105 years old
+# calculate how many patients have lung cancer patients and subsequently which of them are at least 18 years old.
+# cohort <-  dplyr::tibble(patient_id=base::sample(x = 1:1000, size=500), cancer_type=base::sample(c('lung','breast'), 500, replace=T), age=base::sample(x = 5:105, size=500, replace=T))
+
+# Run function
+#vr_attrition_table(
+# data                  = cohort, 
+# criteria_descriptions = c("1. lung cancer diagnosis", "2. Be 18 years of age or older."),
+# criteria_conditions   = c("cancer_type=='lung'","age>=18"),
+# subject_column_name   = 'patient_id'
+#) 
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

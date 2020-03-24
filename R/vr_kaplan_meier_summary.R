@@ -11,6 +11,7 @@
 #' @examples
 #' #' # Create interim data models
 #' library(survival)
+#' library(survminer)
 #' library(ggplot2)
 #' library(dplyr)
 #' data("veteran")

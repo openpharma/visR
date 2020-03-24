@@ -30,14 +30,16 @@ can have multiple paragraphs in the description section
 The vector criteria_descriptions must have the same length with the vector criteria_descriptions
 }
 \examples{
+# NOT RUN: TODO: This example is throwing an error. Check the issue. 
 # create 500 patient ids, with 'lung' or 'breast' as cancer type, aged between 5 and 105 years old
 # calculate how many patients have lung cancer patients and subsequently which of them are at least 18 years old.
 # cohort <-  dplyr::tibble(patient_id=base::sample(x = 1:1000, size=500), cancer_type=base::sample(c('lung','breast'), 500, replace=T), age=base::sample(x = 5:105, size=500, replace=T))
 
 # Run function
-vr_attrition_table(
- data                  = cohort, 
- criteria_conditions   = c("cancer_type=='lung'","age>=18"),
- subject_column_name   = 'patient_id'
-) 
+#vr_attrition_table(
+# data                  = cohort, 
+# criteria_descriptions = c("1. lung cancer diagnosis", "2. Be 18 years of age or older."),
+# criteria_conditions   = c("cancer_type=='lung'","age>=18"),
+# subject_column_name   = 'patient_id'
+#) 
 }

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Generate Kaplan-Meier plot for survival data — vr_kaplan_meier • visR</title>
+<title>Generate a tidied risk table — vr_est_km_risk_table • visR</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,9 +32,9 @@
 
 
 
-<meta property="og:title" content="Generate Kaplan-Meier plot for survival data — vr_kaplan_meier" />
+<meta property="og:title" content="Generate a tidied risk table — vr_est_km_risk_table" />
 
-<meta property="og:description" content="Generate Kaplan-Meier plot for survival data" />
+<meta property="og:description" content="TODO: Describe purpose of function and inputs / outputs" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -118,21 +118,18 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Generate Kaplan-Meier plot for survival data</h1>
-    <small class="dont-index">Source: <a href='https://github.com/openpharma/visR/blob/master/R/vr_kaplan_meier.R'><code>R/vr_kaplan_meier.R</code></a></small>
-    <div class="hidden name"><code>vr_kaplan_meier.Rd</code></div>
+    <h1>Generate a tidied risk table</h1>
+    <small class="dont-index">Source: <a href='https://github.com/openpharma/visR/blob/master/R/vr_est_km_risk_table.R'><code>R/vr_est_km_risk_table.R</code></a></small>
+    <div class="hidden name"><code>vr_est_km_risk_table.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Generate Kaplan-Meier plot for survival data</p>
+    <p>TODO: Describe purpose of function and inputs / outputs</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>vr_kaplan_meier</span>(<span class='no'>data</span>, <span class='kw'>equation</span> <span class='kw'>=</span> <span class='st'>"survival::Surv(time, status) ~ trt"</span>,
-  <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>abbreviations</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>variable_definitions</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>N</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>N_unit</span> <span class='kw'>=</span> <span class='st'>"patients"</span>, <span class='kw'>time_unit</span> <span class='kw'>=</span> <span class='st'>"days"</span>,
-  <span class='kw'>data_source</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>vr_est_km_risk_table</span>(<span class='no'>data</span>, <span class='no'>equation</span>, <span class='kw'>min_at_risk</span> <span class='kw'>=</span> <span class='fl'>3</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -142,59 +139,64 @@
       <td><p>input data set</p></td>
     </tr>
     <tr>
-      <th>title</th>
-      <td><p>plot title</p></td>
+      <th>equation</th>
+      <td><p>Survival function to be estimated in the format of Survfit.</p></td>
     </tr>
     <tr>
-      <th>abbreviations</th>
-      <td></td>
-    </tr>
-    <tr>
-      <th>variable_definitions</th>
-      <td></td>
-    </tr>
-    <tr>
-      <th>N</th>
-      <td></td>
-    </tr>
-    <tr>
-      <th>N_unit</th>
-      <td><p>unit label for big N (i.e. patients, subjects, etc.)</p></td>
-    </tr>
-    <tr>
-      <th>time_unit</th>
-      <td><p>unit label for the x-axis (i.e. minutes, days, weeks, years)</p></td>
-    </tr>
-    <tr>
-      <th>data_source</th>
-      <td><p>label for the data source</p></td>
+      <th>min_at_risk</th>
+      <td><p>default = 3</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>ggplot object for the KM plot</p>
+    <p>tibble that contains the tidied risk table</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>survival</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>magrittr</span>)
+    <pre class="examples"><div class='input'><span class='co'># Create interim data models</span>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>survival</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
-<span class='co'># Load data from the Veteran's Cancer Study</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>veteran</span>)
-
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"veteran"</span>)
 <span class='no'>data</span> <span class='kw'>&lt;-</span>  <span class='no'>veteran</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>trt</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>(<span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span>(
-  <span class='no'>trt</span> <span class='kw'>==</span> <span class='fl'>1</span> ~ <span class='st'>"standard therapy"</span>,
-  <span class='no'>trt</span> <span class='kw'>==</span> <span class='fl'>2</span> ~ <span class='st'>"test chemotherapy"</span>
-  )))
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>trt</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>(<span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span>(
+       <span class='no'>trt</span> <span class='kw'>==</span> <span class='fl'>1</span> ~ <span class='st'>"standard therapy"</span>,
+       <span class='no'>trt</span> <span class='kw'>==</span> <span class='fl'>2</span> ~ <span class='st'>"test chemotherapy"</span>
+   )))
 
-  <span class='fu'>vr_kaplan_meier</span>(
-    <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>,
-    <span class='kw'>data_source</span> <span class='kw'>=</span> <span class='st'>"Veteran's Lung Cancer Study"</span>,
-    <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"Comparison of survival in male patients having advanced inoperable lung cancer \nunder standard therapy vs. test chemotherapy"</span>
-    )</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 6 rows containing missing values (geom_path).</span></div><div class='img'><img src='vr_kaplan_meier-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='no'>equation</span> <span class='kw'>&lt;-</span> <span class='st'>"survival::Surv(time, status) ~ trt"</span>
+<span class='fu'>vr_est_km_risk_table</span>(<span class='no'>data</span>, <span class='no'>equation</span>)</div><div class='output co'>#&gt;    time                strata variable value                 strata_variable
+#&gt; 1     0  trt=standard therapy   n.risk    69    trt=standard therapy, n.risk
+#&gt; 2   100  trt=standard therapy   n.risk    34    trt=standard therapy, n.risk
+#&gt; 3   200  trt=standard therapy   n.risk    12    trt=standard therapy, n.risk
+#&gt; 4   300  trt=standard therapy   n.risk     5    trt=standard therapy, n.risk
+#&gt; 5   400  trt=standard therapy   n.risk     2    trt=standard therapy, n.risk
+#&gt; 6     0 trt=test chemotherapy   n.risk    68   trt=test chemotherapy, n.risk
+#&gt; 7   100 trt=test chemotherapy   n.risk    21   trt=test chemotherapy, n.risk
+#&gt; 8   200 trt=test chemotherapy   n.risk    13   trt=test chemotherapy, n.risk
+#&gt; 9   300 trt=test chemotherapy   n.risk     8   trt=test chemotherapy, n.risk
+#&gt; 10  400 trt=test chemotherapy   n.risk     4   trt=test chemotherapy, n.risk
+#&gt; 11    0  trt=standard therapy  n.event     0   trt=standard therapy, n.event
+#&gt; 12  100  trt=standard therapy  n.event    34   trt=standard therapy, n.event
+#&gt; 13  200  trt=standard therapy  n.event    19   trt=standard therapy, n.event
+#&gt; 14  300  trt=standard therapy  n.event     6   trt=standard therapy, n.event
+#&gt; 15  400  trt=standard therapy  n.event     3   trt=standard therapy, n.event
+#&gt; 16    0 trt=test chemotherapy  n.event     0  trt=test chemotherapy, n.event
+#&gt; 17  100 trt=test chemotherapy  n.event    45  trt=test chemotherapy, n.event
+#&gt; 18  200 trt=test chemotherapy  n.event     7  trt=test chemotherapy, n.event
+#&gt; 19  300 trt=test chemotherapy  n.event     4  trt=test chemotherapy, n.event
+#&gt; 20  400 trt=test chemotherapy  n.event     4  trt=test chemotherapy, n.event
+#&gt; 21    0  trt=standard therapy n.censor     0  trt=standard therapy, n.censor
+#&gt; 22  100  trt=standard therapy n.censor     1  trt=standard therapy, n.censor
+#&gt; 23  200  trt=standard therapy n.censor     3  trt=standard therapy, n.censor
+#&gt; 24  300  trt=standard therapy n.censor     1  trt=standard therapy, n.censor
+#&gt; 25  400  trt=standard therapy n.censor     0  trt=standard therapy, n.censor
+#&gt; 26    0 trt=test chemotherapy n.censor     0 trt=test chemotherapy, n.censor
+#&gt; 27  100 trt=test chemotherapy n.censor     2 trt=test chemotherapy, n.censor
+#&gt; 28  200 trt=test chemotherapy n.censor     1 trt=test chemotherapy, n.censor
+#&gt; 29  300 trt=test chemotherapy n.censor     1 trt=test chemotherapy, n.censor
+#&gt; 30  400 trt=test chemotherapy n.censor     0 trt=test chemotherapy, n.censor</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

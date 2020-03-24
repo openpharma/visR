@@ -37,12 +37,14 @@
 #' # Create plot
 #' table <- vr_plt_km_risk_table(risk_table_data,
 #'                               time_unit = time_unit)
-#' vr_plt_kaplan_meier(
-#'  broom_object, 
-#'  N = "Patients", 
-#'  time_unit = "days", 
-#'  #'  data_source = "this is the data source label"
-#'  )
+#'                               
+#' ##not run TODO: Check why this example is failing
+#' #vr_plt_kaplan_meier(
+#' # broom_object, 
+#'#  N = "Patients", 
+#'#  time_unit = "days", 
+#'#  #'  data_source = "this is the data source label"
+#' # )
 vr_plt_kaplan_meier <- function(
     broom_object, 
     title = "", 

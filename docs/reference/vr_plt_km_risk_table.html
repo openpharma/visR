@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Render Summary Table — vr_render_tableone • visR</title>
+<title>Plot (Kaplan-Meier) Risk Table for an existing tidy risk object — vr_plt_km_risk_table • visR</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,10 +32,9 @@
 
 
 
-<meta property="og:title" content="Render Summary Table — vr_render_tableone" />
+<meta property="og:title" content="Plot (Kaplan-Meier) Risk Table for an existing tidy risk object — vr_plt_km_risk_table" />
 
-<meta property="og:description" content="Render a previously created summary table
-Create formatted table" />
+<meta property="og:description" content="Plot (Kaplan-Meier) Risk Table for an existing tidy risk object" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -119,62 +118,67 @@ Create formatted table" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Render Summary Table</h1>
-    <small class="dont-index">Source: <a href='https://github.com/openpharma/visR/blob/master/R/vr_render_tableone.R'><code>R/vr_render_tableone.R</code></a></small>
-    <div class="hidden name"><code>vr_render_tableone.Rd</code></div>
+    <h1>Plot (Kaplan-Meier) Risk Table for an existing tidy risk object</h1>
+    <small class="dont-index">Source: <a href='https://github.com/openpharma/visR/blob/master/R/vr_plt_km_risk_table.R'><code>R/vr_plt_km_risk_table.R</code></a></small>
+    <div class="hidden name"><code>vr_plt_km_risk_table.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Render a previously created summary table</p>
-<p>Create formatted table</p>
+    <p>Plot (Kaplan-Meier) Risk Table for an existing tidy risk object</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>vr_render_tableone</span>(<span class='no'>table1_df</span>, <span class='no'>title</span>, <span class='no'>caption</span>, <span class='no'>datasource</span>,
-  <span class='kw'>output_format</span> <span class='kw'>=</span> <span class='st'>"html"</span>, <span class='kw'>engine</span> <span class='kw'>=</span> <span class='st'>"gt"</span>, <span class='kw'>download_format</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"copy"</span>,
-  <span class='st'>"csv"</span>, <span class='st'>"excel"</span>))</pre>
+    <pre class="usage"><span class='fu'>vr_plt_km_risk_table</span>(<span class='no'>risk_table_data</span>, <span class='no'>time_unit</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>table1_df</th>
-      <td><p>The summary table of a dataset created by <code>vr_create_tableone</code></p></td>
+      <th>time_unit</th>
+      <td></td>
     </tr>
     <tr>
-      <th>title</th>
-      <td><p>Table title to include in the rendered table</p></td>
-    </tr>
-    <tr>
-      <th>caption</th>
-      <td><p>Table caption to include in the rendered table</p></td>
-    </tr>
-    <tr>
-      <th>datasource</th>
-      <td><p>String specifying the datasource underlying the data set</p></td>
-    </tr>
-    <tr>
-      <th>output_format</th>
-      <td><p>String specifying the format to render the table. Supported formats are: html and latex</p></td>
-    </tr>
-    <tr>
-      <th>engine</th>
-      <td><p>If html is selected as output format, one can chose between using kable, gt and DT as engine to create the output table</p></td>
-    </tr>
-    <tr>
-      <th>download_format</th>
-      <td><p>Vector of file formats to use for download buttons - passed on to DT buttons. NULL if no download button should be created. Default: c('copy', 'csv', 'excel')</p></td>
+      <th>data</th>
+      <td></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>ggplot object for the risk table</p>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># Create interim data models</span>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>survival</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"veteran"</span>)
+<span class='no'>data</span> <span class='kw'>&lt;-</span>  <span class='no'>veteran</span> <span class='kw'>%&gt;%</span>
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>trt</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>(<span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span>(
+       <span class='no'>trt</span> <span class='kw'>==</span> <span class='fl'>1</span> ~ <span class='st'>"standard therapy"</span>,
+       <span class='no'>trt</span> <span class='kw'>==</span> <span class='fl'>2</span> ~ <span class='st'>"test chemotherapy"</span>
+   )))
+
+<span class='no'>equation</span> <span class='kw'>&lt;-</span> <span class='st'>"survival::Surv(time, status) ~ trt"</span>
+<span class='no'>risk_table_data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='vr_est_km_risk_table.html'>vr_est_km_risk_table</a></span>(<span class='no'>data</span>, <span class='no'>equation</span>)
+<span class='no'>time_unit</span> <span class='kw'>=</span> <span class='st'>"days"</span>
+
+<span class='co'># Create plot</span>
+<span class='fu'>vr_plt_km_risk_table</span>(<span class='no'>risk_table_data</span>,
+                     <span class='kw'>time_unit</span> <span class='kw'>=</span> <span class='no'>time_unit</span>)</div><div class='img'><img src='vr_plt_km_risk_table-1.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#value">Value</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

@@ -4,22 +4,14 @@
 \alias{vr_alluvial_plot}
 \title{vr_alluvial_plot}
 \usage{
-vr_alluvial_plot(
-  data,
-  id = "PatientID",
-  linename = "LineName",
-  linenumber = "LineNumber",
-  n_common = 2,
-  title = NULL,
-  interactive = FALSE,
-  N_unit = "patients",
-  data_source = "Flatiron",
+vr_alluvial_plot(data, id = "PatientID", linename = "LineName",
+  linenumber = "LineNumber", n_common = 2, title = NULL,
+  interactive = FALSE, N_unit = "patients", data_source = "Flatiron",
   fill_by = "first_variable",
   col_vector_flow = easyalluvial::palette_qualitative() \%>\%
-    easyalluvial::palette_filter(greys = F),
-  col_vector_value = RColorBrewer::brewer.pal(9, "Blues")[c(3, 6, 4, 7, 5, 8)],
-  linenames_labels_size = 2.5
-)
+  easyalluvial::palette_filter(greys = F),
+  col_vector_value = RColorBrewer::brewer.pal(9, "Blues")[c(3, 6, 4, 7,
+  5, 8)], linenames_labels_size = 2.5)
 }
 \arguments{
 \item{data}{a dataframe}

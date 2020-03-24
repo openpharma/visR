@@ -22,7 +22,7 @@
 #' 
 #' @examples
 #' library(survival)
-#' library(tidyverse)
+#' library(dplyr)
 #' ovarian %>% 
 #' select(-fustat) %>% 
 #'   mutate(age_group = factor(case_when(age <= 50 ~ "<= 50 years",

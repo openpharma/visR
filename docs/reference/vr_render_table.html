@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Render Summary Table — vr_render_tableone • visR</title>
+<title>Render a dataframe or tibble — vr_render_table • visR</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,9 +32,9 @@
 
 
 
-<meta property="og:title" content="Render Summary Table — vr_render_tableone" />
+<meta property="og:title" content="Render a dataframe or tibble — vr_render_table" />
 
-<meta property="og:description" content="Render a previously created summary table
+<meta property="og:description" content="Render a previously created dataframe or tibble to html, rtf or latex
 Create formatted table" />
 <meta name="twitter:card" content="summary" />
 
@@ -119,28 +119,27 @@ Create formatted table" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Render Summary Table</h1>
-    <small class="dont-index">Source: <a href='https://github.com/openpharma/visR/blob/master/R/vr_render_tableone.R'><code>R/vr_render_tableone.R</code></a></small>
-    <div class="hidden name"><code>vr_render_tableone.Rd</code></div>
+    <h1>Render a dataframe or tibble</h1>
+    <small class="dont-index">Source: <a href='https://github.com/openpharma/visR/blob/master/R/vr_render_table.R'><code>R/vr_render_table.R</code></a></small>
+    <div class="hidden name"><code>vr_render_table.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Render a previously created summary table</p>
+    <p>Render a previously created dataframe or tibble to html, rtf or latex</p>
 <p>Create formatted table</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>vr_render_tableone</span>(<span class='no'>table1_df</span>, <span class='no'>title</span>, <span class='no'>caption</span>, <span class='no'>datasource</span>,
-  <span class='kw'>output_format</span> <span class='kw'>=</span> <span class='st'>"html"</span>, <span class='kw'>engine</span> <span class='kw'>=</span> <span class='st'>"gt"</span>, <span class='kw'>download_format</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"copy"</span>,
-  <span class='st'>"csv"</span>, <span class='st'>"excel"</span>))</pre>
+    <pre class="usage"><span class='fu'>vr_render_table</span>(<span class='no'>data</span>, <span class='no'>title</span>, <span class='no'>caption</span>, <span class='no'>datasource</span>, <span class='kw'>output_format</span> <span class='kw'>=</span> <span class='st'>"html"</span>,
+  <span class='kw'>engine</span> <span class='kw'>=</span> <span class='st'>"gt"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>table1_df</th>
-      <td><p>The summary table of a dataset created by <code>vr_create_tableone</code></p></td>
+      <th>data</th>
+      <td><p>The dataframe or tibble to visualise</p></td>
     </tr>
     <tr>
       <th>title</th>
@@ -156,15 +155,11 @@ Create formatted table" />
     </tr>
     <tr>
       <th>output_format</th>
-      <td><p>String specifying the format to render the table. Supported formats are: html and latex</p></td>
+      <td><p>If TRUE, the summary statistics for the overall dataset are also calculated</p></td>
     </tr>
     <tr>
       <th>engine</th>
       <td><p>If html is selected as output format, one can chose between using kable, gt and DT as engine to create the output table</p></td>
-    </tr>
-    <tr>
-      <th>download_format</th>
-      <td><p>Vector of file formats to use for download buttons - passed on to DT buttons. NULL if no download button should be created. Default: c('copy', 'csv', 'excel')</p></td>
     </tr>
     </table>
     

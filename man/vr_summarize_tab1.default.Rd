@@ -9,9 +9,6 @@
 \arguments{
 \item{x}{}
 }
-\value{
-
-}
 \description{
 Create variable summary for all other variable types
 }

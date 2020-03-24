@@ -4,15 +4,9 @@
 \alias{vr_render_tableone}
 \title{Render Summary Table}
 \usage{
-vr_render_tableone(
-  table1_df,
-  title,
-  caption,
-  datasource,
-  output_format = "html",
-  engine = "gt",
-  download_format = c("copy", "csv", "excel")
-)
+vr_render_tableone(table1_df, title, caption, datasource,
+  output_format = "html", engine = "gt", download_format = c("copy",
+  "csv", "excel"))
 }
 \arguments{
 \item{table1_df}{The summary table of a dataset created by \code{vr_create_tableone}}

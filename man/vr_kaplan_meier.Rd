@@ -4,17 +4,10 @@
 \alias{vr_kaplan_meier}
 \title{Generate Kaplan-Meier plot for survival data}
 \usage{
-vr_kaplan_meier(
-  data,
-  equation = "survival::Surv(time, status) ~ trt",
-  title = "",
-  abbreviations = NULL,
-  variable_definitions = NULL,
-  N = NULL,
-  N_unit = "patients",
-  time_unit = "days",
-  data_source = NULL
-)
+vr_kaplan_meier(data, equation = "survival::Surv(time, status) ~ trt",
+  title = "", abbreviations = NULL, variable_definitions = NULL,
+  N = NULL, N_unit = "patients", time_unit = "days",
+  data_source = NULL)
 }
 \arguments{
 \item{data}{input data set}
@@ -40,6 +33,7 @@ ggplot object for the KM plot
 Generate Kaplan-Meier plot for survival data
 }
 \examples{
+library(survival)
 library(dplyr)
 library(magrittr)
 library(ggplot2)
@@ -55,6 +49,6 @@ data <-  veteran \%>\%
   vr_kaplan_meier(
     data = data, 
     data_source = "Veteran's Lung Cancer Study", 
-    title = "Comparison of survival in male patients having advanced inoperable lung cancer \nunder standard therapy vs. test chemotherapy"
+    title = "Comparison of survival in male patients having advanced inoperable lung cancer \\nunder standard therapy vs. test chemotherapy"
     )
 }

@@ -13,6 +13,7 @@
 #' @export
 #'
 #' @examples
+#' library(survival)
 #' library(dplyr)
 #' library(magrittr)
 #' library(ggplot2)
