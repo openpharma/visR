@@ -4,17 +4,11 @@
 \alias{vr_table_caption}
 \title{Create a caption for any table}
 \usage{
-vr_table_caption(
-  caption,
-  label = knitr::opts_current$get("label"),
-  width = knitr::opts_current$get("out.width")
-)
+vr_table_caption(caption, label = knitr::opts_current$get("label"),
+  width = knitr::opts_current$get("out.width"))
 }
 \arguments{
 \item{x}{}
-}
-\value{
-
 }
 \description{
 Create a caption for any table

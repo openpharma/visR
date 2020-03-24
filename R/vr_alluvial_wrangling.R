@@ -88,7 +88,7 @@ vr_alluvial_wrangling <- function(
     dplyr::mutate(freq = patient_count / sum(patient_count))
   
   alluvial_plot_data <- vr_cut_linenames(data_with_no_tx, mostcommon_linenames) %>%
-    arrange(id, linenumber)
+    dplyr::arrange(id, linenumber)
   
   linenames_summary <- 
     alluvial_plot_data %>%
@@ -124,7 +124,7 @@ vr_add_no_tx <- function(data){
       temp,
       by = "id")
     
-    temp$linename <- if_else(
+    temp$linename <- dplyr::if_else(
       !is.na(temp$linename),
       paste0(temp$linename, " ", i, "L"),
       paste0("No Tx ", i, "L")
@@ -164,7 +164,7 @@ vr_cut_linenames <- function(data, mostcommon_linenames){
     dplyr::mutate(linename = paste0(linename , " ", linenumber, "L"))
   
   data <- data %>% 
-    left_join(mostcommon_linenames, 
+    dplyr::left_join(mostcommon_linenames, 
               by = c("linename" = "linename",
                      "linenumber" = "linenumber")
     ) %>%
@@ -175,7 +175,7 @@ vr_cut_linenames <- function(data, mostcommon_linenames){
         "Other Tx",
         missing = "No Tx"
       )
-    ) %>% select(-n)
+    ) %>% dplyr::select(-n)
   
   return(data)
   

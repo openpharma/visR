@@ -17,7 +17,8 @@ Render a simple forest plot given a tibble
 }
 \examples{
 library(RBesT) 
-library(tidyverse) 
+library(dplyr)
+library(ggplot2) 
 
 example(crohn) 
 vr_tidy_rbest(map_crohn)
