@@ -9,6 +9,9 @@
 \arguments{
 \item{x}{}
 }
+\value{
+
+}
 \description{
 Create variable summary for numeric variables
 }

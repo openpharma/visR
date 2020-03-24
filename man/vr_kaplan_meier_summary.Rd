@@ -12,7 +12,7 @@ vr_kaplan_meier_summary(data, equation)
 \item{equation}{Formula to create survival object}
 }
 \value{
-List containing two summary tables: 1) Summary Table with persons at risk, events, median survival times along with 95% CIs over strata and 2) Summary table with test of equality over strata
+List containing two summary tables: 1) Summary Table with persons at risk, events, median survival times along with 95\% CIs over strata and 2) Summary table with test of equality over strata
 }
 \description{
 TODO: Check the warnings thrown in the examples.

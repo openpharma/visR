@@ -4,11 +4,18 @@
 \alias{vr_table_download}
 \title{Create a caption for any table}
 \usage{
-vr_table_download(df, filename = NULL, format = "csv",
-  button = "Download data")
+vr_table_download(
+  df,
+  filename = NULL,
+  format = "csv",
+  button = "Download data"
+)
 }
 \arguments{
 \item{x}{}
+}
+\value{
+
 }
 \description{
 Create a caption for any table
