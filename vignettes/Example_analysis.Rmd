@@ -15,12 +15,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
-# Not needed
-#library(visR)
-```
-
-
 # Time to Event Analysis using visR
 
 This short tutorial illustrates a typical use case in clinical development - the analysis of time to a certain event (e.g., death) in different populations. Typically, data obtained in randomized clinical trials (RCT) can be used to estimate the overall survival of patients in one group (e.g., treated with drug X) vs another group (e.g., treated with drug Y) and thus determine if there is a difference between these treatments.
@@ -34,26 +28,30 @@ In this example, we will work with patient data from NCCTG Lung Cancer dataset t
 ```
 
 
-```{r imports, echo=FALSE}
+```{r imports, echo=FALSE, warning=FALSE}
 library(dplyr)
 library(ggplot2)
 library(survival)
 library(visR)
 ```
-
+# Global Document Setup
 ```{r globalSetup}
-data(lung)
+# Constants
 DATASET <- paste0("NCCTG Lung Cancer Dataset (from survival package ", packageVersion("survival"), ")")
+
+# Global visualisation settings
+theme_set(theme_bw())
 ```
 
 
 
 ```{r initialCohort}
+data(lung)
+
 lung_cohort <- lung %>% 
   rename(ECOG = ph.ecog,
          Karnofsky = ph.karno,
-         institution = inst,
-         followup_time = time
+         institution = inst
          ) %>% 
   mutate(patid = paste0("Pat", row_number()),
          institution = factor(institution),
@@ -69,12 +67,14 @@ lung_cohort <- lung %>%
                                          age > 50 & age <= 70 ~ "51-70y",
                                          age > 70 ~ "> 70y"),
                                levels=c("< 30y", "30-50y", "51-70y", "> 70y")),
-    status = if_else(status == 1, 0, 1))
+    status = if_else(status == 1, 0, 1)) %>% 
+    select(-meal.cal, -pat.karno)
 ```
 
 # Cohort Selection
 For this exercise we will only include patients with (1) ECOG available (2) and non-missing weight-loss data in our analysis
 
+## Attrition Table
 ```{r attritionTable}
 cohort_attrition <- vr_attrition_table(
   data = lung_cohort,
@@ -85,17 +85,21 @@ cohort_attrition <- vr_attrition_table(
   criteria_conditions   = c("!is.na(ECOG)",
                             "!is.na(wt.loss)",
                             "!is.na(status)",
-                            "followup_time >= 0"),
+                            "time >= 0"),
   subject_column_name   = 'patid'
 )
 
-lung_cohort <- lung_cohort %>% 
-  filter(!is.na(ECOG),
-         !is.na(wt.loss),
-         !is.na(status),
-         followup_time >= 0)
+cohort_attrition %>% 
+  vr_render_table("Attrition Table", "Summary of samples fulfilling inclusion/exclusion criteria", DATASET, engine = "gt")
+
+cohort_attrition %>% 
+  vr_render_table("Attrition Table", "Summary of samples fulfilling inclusion/exclusion criteria", DATASET, engine = "dt",
+                  download_format=c("csv", "excel"))
+
 ```
 
+
+## Attrition Diagram
 ```{r attritionFig, include=FALSE}
 figures_directory = "/tmp"
 
@@ -112,25 +116,30 @@ attrition_flow <- vr_attrition(cohort_attrition$`Remaining N`, cohort_attrition$
 ```
 
 ```{r attritionFigShow, fig.cap=paste("Attrition Diagram of BRCA cohort. Data Source: ", DATASET), results='asis'}
-# Plot the attrition diagram
 knitr::include_graphics("./attrition_diagram.svg")
 ```
 
+
+Currently, the attrition code does not modify the actual dataset. We thus need to further implement the filtering to produce the analysis dataset
 ```{r}
-cohort_attrition %>% 
-  vr_render_table("Attrition Table", "Summary of samples fulfilling inclusion/exclusion criteria", DATASET, engine = "gt")
+lung_cohort <- lung_cohort %>% 
+  filter(!is.na(ECOG),
+         !is.na(wt.loss),
+         !is.na(status),
+         time >= 0)
 ```
+
 
 # Cohort Overview
 Prior to starting any survival analysis, we want to further inspect our cohort and see if the there are systematic differences between the chemotherapy and hormone therapy arms.
 ```{r table1}
 # some modifications to the table for nice printing of categories
 lung_cohort_tab1 <- lung_cohort %>% 
-  select(-patid, -meal.cal, -pat.karno) %>% 
   mutate(status = factor(case_when(status == 0 ~ "Alive/Censored",
                                    status == 1 ~ "Dead",
                                    is.na(status) ~ "Missing"))) %>% 
-  filter(!is.na(followup_time) & !is.na(age) & !is.na(Karnofsky))
+  filter(!is.na(time) & !is.na(age) & !is.na(Karnofsky)) %>% 
+  select(-institution)
 
 # visR table1 convenience function
 vr_table_one(lung_cohort_tab1, title = "Overview over Lung Cancer patients",
@@ -138,3 +147,29 @@ vr_table_one(lung_cohort_tab1, title = "Overview over Lung Cancer patients",
              datasource = DATASET, groupCols = c("sex"))
 ```
 
+# Overall Survival
+
+## Kaplan-Meier Curve
+```{r fig.cap="Comparison of survival in male and female lung cancer patients", fig.height=6, fig.width=8, warning=FALSE}
+surv_eq <- "survival::Surv(time, status) ~ sex"
+
+vr_kaplan_meier(
+    lung_cohort,
+    equation = surv_eq,
+    data_source = DATASET, 
+    time_unit = "days",
+    title = "Comparison of survival in male and female lung cancer patients"
+)
+```
+
+## Summary of Kaplan Meier Curve
+```{r}
+km_summary <- vr_kaplan_meier_summary(
+    lung_cohort, equation = surv_eq)
+
+km_summary[[1]] %>% 
+  vr_render_table("Overall Survival", "Median survival times in days for each strata", DATASET)
+
+km_summary[[2]] %>% 
+  vr_render_table("Equality between Strata", "Summary table with test of equality over strata", DATASET)
+```
