@@ -4,8 +4,12 @@
 \alias{vr_create_tableone}
 \title{Create Summary Table (also known as Table 1)}
 \usage{
-vr_create_tableone(data, groupCols = NULL, overall = TRUE,
-  summary_function = vr_summarize_tab1)
+vr_create_tableone(
+  data,
+  groupCols = NULL,
+  overall = TRUE,
+  summary_function = vr_summarize_tab1
+)
 }
 \arguments{
 \item{data}{The dataset to summarize as dataframe or tibble}

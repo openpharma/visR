@@ -4,9 +4,15 @@
 \alias{vr_alluvial_wrangling}
 \title{vr_alluvial_wrangling}
 \usage{
-vr_alluvial_wrangling(data, id = "PatientID", linename = "LineName",
-  linenumber = "LineNumber", drop_maintenance_therapy = TRUE,
-  linenumber_upper_limit = 4, n_common = 2)
+vr_alluvial_wrangling(
+  data,
+  id = "PatientID",
+  linename = "LineName",
+  linenumber = "LineNumber",
+  drop_maintenance_therapy = TRUE,
+  linenumber_upper_limit = 4,
+  n_common = 2
+)
 }
 \arguments{
 \item{data}{a dataframe}

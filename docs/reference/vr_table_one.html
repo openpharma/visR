@@ -8,11 +8,13 @@
 
 <title>Summary Table (Table One) — vr_table_one • visR</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -32,11 +34,12 @@
 
 
 
-<meta property="og:title" content="Summary Table (Table One) — vr_table_one" />
 
+<meta property="og:title" content="Summary Table (Table One) — vr_table_one" />
 <meta property="og:description" content="Create and render a summary table for a dataset
 Calculate summary statistics and present them in a formatted table" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -98,7 +101,6 @@ Calculate summary statistics and present them in a formatted table" />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/openpharma/visR">
@@ -125,15 +127,20 @@ Calculate summary statistics and present them in a formatted table" />
     </div>
 
     <div class="ref-description">
-    
     <p>Create and render a summary table for a dataset</p>
 <p>Calculate summary statistics and present them in a formatted table</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>vr_table_one</span>(<span class='no'>data</span>, <span class='no'>title</span>, <span class='no'>datasource</span>, <span class='kw'>caption</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>groupCols</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>summary_function</span> <span class='kw'>=</span> <span class='no'>vr_summarize_tab1</span>, <span class='no'>...</span>)</pre>
-    
+    <pre class="usage"><span class='fu'>vr_table_one</span>(
+  <span class='no'>data</span>,
+  <span class='no'>title</span>,
+  <span class='no'>datasource</span>,
+  <span class='kw'>caption</span> <span class='kw'>=</span> <span class='st'>""</span>,
+  <span class='kw'>groupCols</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>summary_function</span> <span class='kw'>=</span> <span class='no'>vr_summarize_tab1</span>,
+  <span class='no'>...</span>
+)</pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -166,14 +173,14 @@ Calculate summary statistics and present them in a formatted table" />
       <td><p>Rendering engine to use for creating output. Currently implemented are gt, kable and jquery datatable (DT)</p></td>
     </tr>
     </table>
-    
+
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+    </ul>
 
   </div>
 </div>
