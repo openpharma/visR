@@ -6,3 +6,4 @@ visR.Rproj
 .Rbuildignore
 visR-usethis.Rproj
 inst/doc
+.Rhistory

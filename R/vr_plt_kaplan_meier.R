@@ -1,11 +1,48 @@
 #' Plot Kaplan-Meier Curve for Existing Tidy Survival Object
 #'
-#' @param data 
+#' TODO: Define and describe the purpose of this function. 
+#' 
+#' @param broom_object, 
+#' @param title = "", 
+#' @param abbreviations = NULL, 
+#' @param variable_definitions = NULL, 
+#' @param N = NULL, 
+#' @param N_unit = "patients", 
+#' @param time_unit = "days", 
+#' @param data_source = NULL, 
+#' @param estimate_name = "survival probability" 
 #'
-#' @return
+#' @return ggplot object 
 #' @export
 #'
 #' @examples
+#' # TODO: Define an example for this function
+#' # Create interim data models
+#' library(survival)
+#' library(ggplot2)
+#' library(dplyr)
+#' data("veteran")
+#' data <-  veteran %>% 
+#'     mutate(trt = as.factor(case_when(
+#'        trt == 1 ~ "standard therapy", 
+#'        trt == 2 ~ "test chemotherapy"
+#'    )))
+#'
+#' equation <- "survival::Surv(time, status) ~ trt"
+#' risk_table_data <- vr_est_km_risk_table(data, equation)
+#' time_unit = "days"
+#' broom_object <- vr_est_kaplan_meier(data, equation)
+#' risk_table_data <- vr_est_km_risk_table(data, equation)
+#' 
+#' # Create plot
+#' table <- vr_plt_km_risk_table(risk_table_data,
+#'                               time_unit = time_unit)
+#' vr_plt_kaplan_meier(
+#'  broom_object, 
+#'  N = "Patients", 
+#'  time_unit = "days", 
+#'  #'  data_source = "this is the data source label"
+#'  )
 vr_plt_kaplan_meier <- function(
     broom_object, 
     title = "", 

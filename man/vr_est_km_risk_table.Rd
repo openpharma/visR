@@ -2,16 +2,35 @@
 % Please edit documentation in R/vr_est_km_risk_table.R
 \name{vr_est_km_risk_table}
 \alias{vr_est_km_risk_table}
-\title{Create Tidy Risk Table}
+\title{Generate a tidied risk table}
 \usage{
 vr_est_km_risk_table(data, equation, min_at_risk = 3)
 }
 \arguments{
-\item{data}{}
+\item{data}{input data set}
+
+\item{equation}{Survival function to be estimated in the format of Survfit.}
+
+\item{min_at_risk}{default = 3}
 }
 \value{
-
+tibble that contains the tidied risk table
 }
 \description{
-Create Tidy Risk Table
+TODO: Describe purpose of function and inputs / outputs
+}
+\examples{
+# Create interim data models
+library(survival)
+library(ggplot2)
+library(dplyr)
+data("veteran")
+data <-  veteran \%>\% 
+    mutate(trt = as.factor(case_when(
+       trt == 1 ~ "standard therapy", 
+       trt == 2 ~ "test chemotherapy"
+   )))
+
+equation <- "survival::Surv(time, status) ~ trt"
+vr_est_km_risk_table(data, equation) 
 }
