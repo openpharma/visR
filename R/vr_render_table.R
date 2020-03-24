@@ -12,7 +12,8 @@
 #' @param engine If html is selected as output format, one can chose between using kable, gt and DT as engine to create the output table
 #' 
 #' @export
-vr_render_table <- function(data, title, caption, datasource, output_format="html", engine="gt", download_format=NULL){
+vr_render_table <- function(data, title, caption, datasource, output_format="html", engine="gt", 
+                            download_format = c('copy', 'csv', 'excel')){
   # TODO: add code for rtf output
   # TODO: do we need a routine for falling back on minimal?
   # TODO: do we need features to further specify styling of the table?
