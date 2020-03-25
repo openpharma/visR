@@ -78,7 +78,7 @@ vr_plt_kaplan_meier <- function(
         pammtools::geom_stepribbon(aes(ymin = conf.low, ymax = conf.high, fill = strata), 
             alpha = 0.25) + 
         geom_step(aes(y = estimate, col = strata)) + 
-        ggplot2::theme_light() + 
+        # ggplot2::theme_light() + 
         ggsci::scale_color_nejm() + 
         ggsci::scale_fill_nejm() + 
         ggplot2::ylab(estimate_name) + 
