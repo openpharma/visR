@@ -23,11 +23,6 @@ For a more thorough introduction to Survival Analysis, we recommend the followin
 
 In this example, we will work with patient data from NCCTG Lung Cancer dataset that is part of the `survival` package.
 
-```{r installvisR, eval=FALSE}
-#devtools::install_github("https://github.com/openpharma/visR.git")
-```
-
-
 ```{r imports, echo=FALSE, warning=FALSE}
 library(dplyr)
 library(ggplot2)
@@ -37,10 +32,20 @@ library(visR)
 # Global Document Setup
 ```{r globalSetup}
 # Constants
-DATASET <- paste0("NCCTG Lung Cancer Dataset (from survival package ", packageVersion("survival"), ")")
+DATASET <- paste0("NCCTG Lung Cancer Dataset (from survival package ", 
+                  packageVersion("survival"), ")")
 
-# Global visualisation settings
-theme_set(theme_bw())
+# Globql formatting options
+options(digits = 3)
+
+# Global ggplot settings
+theme_set(theme_classic())
+
+# Global table settings 
+options(DT.options = list(pageLength = 10, 
+                          language = list(search = 'Filter:'), 
+                          scrollX = TRUE))
+
 ```
 
 
@@ -86,23 +91,20 @@ cohort_attrition <- vr_attrition_table(
                             "!is.na(wt.loss)",
                             "!is.na(status)",
                             "time >= 0"),
-  subject_column_name   = 'patid'
-)
+  subject_column_name   = 'patid')
 
-cohort_attrition %>% 
-  vr_render_table("Attrition Table", "Summary of samples fulfilling inclusion/exclusion criteria", DATASET, engine = "gt")
-
-cohort_attrition %>% 
-  vr_render_table("Attrition Table", "Summary of samples fulfilling inclusion/exclusion criteria", DATASET, engine = "dt",
-                  download_format=c("csv", "excel"))
+ 
+vr_render_table(data = cohort_attrition, 
+                title = "Attrition Table", 
+                caption = "Summary of samples fulfilling inclusion/exclusion criteria", 
+                datasource = DATASET, 
+                engine = "gt")
 
 ```
 
 
 ## Attrition Diagram
-```{r attritionFig, include=FALSE}
-figures_directory = "/tmp"
-
+```{r attritionFig}
 complement_descriptions <- c(                                                   
     "Having exclusion criterion: non ECOG",                                            
     "Having exclusion criterion: missing weight loss ",
@@ -111,12 +113,16 @@ complement_descriptions <- c(
 )
 
 # Create attrition flowchart
-attrition_flow <- vr_attrition(cohort_attrition$`Remaining N`, cohort_attrition$Criteria, complement_descriptions,
-    output_path = "./attrition_diagram.svg")
+attrition_chart_fn <- "../docs/articles/Example_analysis_files/figure-html/attrition_diagram.svg"
+attrition_flow <- vr_attrition(
+  N_array = cohort_attrition$`Remaining N`,
+  descriptions = cohort_attrition$Criteria, 
+  complement_descriptions = complement_descriptions,
+  output_path = attrition_chart_fn)
 ```
 
 ```{r attritionFigShow, fig.cap=paste("Attrition Diagram of BRCA cohort. Data Source: ", DATASET), results='asis'}
-knitr::include_graphics("./attrition_diagram.svg")
+knitr::include_graphics(attrition_chart_fn)
 ```
 
 
