@@ -1,8 +1,10 @@
-#' Render a simple forest plot given a tibble
+#' Display a simple forest plot given a tidy data set
 #'
-#' @param td tidied tibble 
+#' TODO: Through a nudge or note if study and study_abel are the same.Do you want to update and provide more informative labels
 #'
-#' @return ggplot object
+#' @param data tidy data set 
+#'
+#' @return gg ggplot object
 #' @export
 #'
 #' @examples
@@ -20,10 +22,10 @@
 #'
 #' map_crohn %>% vr_tidy_rbest() %>% vr_plot_forest() + facet_wrap(~ model)
 #' 
-vr_plot_forest <- function(td){
+vr_plot_forest <- function(data){
   gg <- 
-    td %>% 
-    ggplot2::ggplot(aes( x = reorder(study, -row_id), 
+    data %>% 
+    ggplot2::ggplot(aes( x = reorder(study.label, study.id), 
               y = estimate, 
               ymin = conf.low, 
               ymax = conf.high )

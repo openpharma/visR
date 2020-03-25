@@ -26,11 +26,13 @@
 #' @examples
 #' library(dplyr)
 #' library(RBesT)
+#' library(tidyverse)
+#' 
 #' example(crohn)
 #' vr_tidy_rbest(map_crohn)
 #' 
 #' map_crohn %>% 
-#' vr_tidy_rbest() 
+#'   vr_tidy_rbest() 
 #' 
 vr_tidy_rbest <- function(gmap, prob = 0.95){
   
@@ -40,7 +42,9 @@ vr_tidy_rbest <- function(gmap, prob = 0.95){
   up <- 1 - low
   
   #--------------------------------------------  
-  # stratified model 
+  # stratified model
+  # obtain stratified estimates
+  # also initialise meta-data around study label and study id
   
   strat <- as.data.frame(gmap$est_strat(1 - prob))
   strat2 <- cbind(strat[1:2], median = strat$mean, strat[3:4])
@@ -52,8 +56,9 @@ vr_tidy_rbest <- function(gmap, prob = 0.95){
     conf.low = strat[,3],
     conf.high = strat[,4],
     model = "stratified"
-  )
-  
+  ) 
+
+
   #---------------------------------------------- 
   #  fitted meta model 
   
@@ -63,13 +68,14 @@ vr_tidy_rbest <- function(gmap, prob = 0.95){
     study = row.names(fit),
     estimate = fit$mean,
     se = fit$sd,
-    conf.low = strat[,3],
-    conf.high = strat[,4],
+    conf.low = fit[, 4],
+    conf.high = fit[, 5],
     model = "meta"
-  )
+  ) 
+  
   
   #------------------------------------------  
-  # model averaged study estimates
+  # obtain model averaged study estimates
   
   pred_est <- as.data.frame(
     do.call(
@@ -82,29 +88,58 @@ vr_tidy_rbest <- function(gmap, prob = 0.95){
   
   est = c("both", "MAP", "Mean", "none")
   pred_est3 <- pred_est2[c("MAP", "Mean") %in% est,]
-  pred_est3 
+  
   
   df_meta <- tibble(
-    study = pred_est3$study,
+    study = as.character(pred_est3$study),
     estimate = pred_est3$mean,
     se = pred_est3$sd,
-    conf.low = pred_est3[,4],
-    conf.high = pred_est3[,5],
+    conf.low = pred_est3[, 4],
+    conf.high = pred_est3[, 5],
     model = pred_est3$model
   )
   
+
+  
+  #--------------------------------------------  
+  # obtain and set up meta-data around study label and study id
+  # assumption - use order of studies to set the id
+  # initialise the label to be study
+  
+  study_meta <- df_strat %>%
+    dplyr::select(study) %>%
+    dplyr::mutate(
+      study.type = "trial",
+      study.type.id = 1
+    )
+  
+  study_summary <- df_meta %>% 
+    dplyr::select(study) %>%
+    dplyr::mutate(
+      study.type = "combined",
+      study.type.id = 2
+    )
+  
+  study_meta <-
+    dplyr::bind_rows(study_meta, study_summary) %>%
+    dplyr::arrange(study.type.id, study, .by_group = TRUE) %>%
+    dplyr::mutate(
+      study.id = dplyr::group_indices(., study),
+      study.label = study
+    )
+
   #------------------------------------------
   # merge tibbles in to one
   # provide index for study
+  # capture remaining meta-data for broom data model
   
   td <- rbind(df_strat, df_model, df_meta) %>%
-    tidyr::as_tibble() %>%
-    dplyr::mutate(
-      study_id = dplyr::group_indices(., study),
-      row_id = dplyr::row_number()
-    )
-  
+    tidyr::as_tibble() %>% 
+    dplyr::left_join(study_meta, by = "study")  %>%
+    dplyr::arrange(study.id, model, .by_group = TRUE) 
+
   #------------------------------------------
   # retrun tidied tibble
+  
   return(td)
 }
