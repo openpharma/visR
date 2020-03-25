@@ -1,12 +1,30 @@
-#' Returns a tidied RBesT gMAP object
+#' Tidy RBesT gMAP object
+#' 
+#' This function takes a gMAP object from a meta or evidence 
+#' synthesis analysis and returns a tidy data frame (tibble).
+#' 
+#'  TODO: 
+#'  * Provide more detail for the function
+#'  * Provide the data model
 #'
-#' @param x RBesT gMAP object 
-#' @param prob probability range for uncertainty interval
+#' @param gmap RBesT gMAP object to be tidied for reporting
+#' @param prob probability range for the uncertainty interval. Input is a value between [0, 1]. Defailt is a 95% uncertainaty interval.
 #'
-#' @return td tidied tibble
-#' @export
+#' @return tidied tibble based on the broom data model. 
+#' The current data model for the tibble includes the following variables:
+#' * row_id 
+#' * study_id
+#' * study    
+#' * estimate    
+#' * se 
+#' * conf.low 
+#' * conf.high model
+#' 
+#'
+#'  @export
 #'
 #' @examples
+#' library(dplyr)
 #' library(RBesT)
 #' example(crohn)
 #' vr_tidy_rbest(map_crohn)
@@ -14,18 +32,18 @@
 #' map_crohn %>% 
 #' vr_tidy_rbest() 
 #' 
-vr_tidy_rbest <- function(x, prob = 0.95){
+vr_tidy_rbest <- function(gmap, prob = 0.95){
   
-  assertthat::assert_that(inherits(x, "gMAP"))
+  assertthat::assert_that(inherits(gmap, "gMAP"))
   td <- tibble::tibble()
-  low <- (1-prob)/2
-  up <- 1-low
+  low <- (1 - prob)/2
+  up <- 1 - low
   
   #--------------------------------------------  
   # stratified model 
   
-  strat <- as.data.frame(x$est_strat(1-prob))
-  strat2 <- cbind(strat[1:2], median=strat$mean, strat[3:4])
+  strat <- as.data.frame(gmap$est_strat(1 - prob))
+  strat2 <- cbind(strat[1:2], median = strat$mean, strat[3:4])
   
   df_strat <- tibble(
     study = row.names(strat2),
@@ -39,7 +57,7 @@ vr_tidy_rbest <- function(x, prob = 0.95){
   #---------------------------------------------- 
   #  fitted meta model 
   
-  fit <- as.data.frame(fitted(x, type="response", probs=c(0.5, low, up)))
+  fit <- as.data.frame(fitted(gmap, type = "response", probs = c(0.5, low, up)))
   
   df_model <- tibble(
     study = row.names(fit),
@@ -56,11 +74,11 @@ vr_tidy_rbest <- function(x, prob = 0.95){
   pred_est <- as.data.frame(
     do.call(
       rbind, 
-      summary(x,probs=c(0.5, low, up), type="response")[c("theta.pred", "theta")]
+      summary(gmap,probs = c(0.5, low, up), type = "response")[c("theta.pred", "theta")]
     )
   )
   
-  pred_est2 <- transform(pred_est,  study=c("MAP", "Mean") , model="meta")
+  pred_est2 <- transform(pred_est,  study = c("MAP", "Mean") , model = "meta")
   
   est = c("both", "MAP", "Mean", "none")
   pred_est3 <- pred_est2[c("MAP", "Mean") %in% est,]

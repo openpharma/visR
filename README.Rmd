@@ -18,8 +18,7 @@ knitr::opts_chunk$set(
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 
-The goal of visR is to enable fit-for-purpose, reusable clinical and medcial research focused visualizations and tables 
-with sensible defaults and based on sound graphical principles.
+The goal of visR is to enable fit-for-purpose, reproducible and reusable clinical and medcial research focused visualizations and tables with sensible defaults and based on sound graphical principles.
 
 ## Motivation
 By using a common package for visualising data analysis results in the clinical development process, we want to have a **positive influence** on 
@@ -47,8 +46,9 @@ This is a basic example which shows you how to solve a common problem:
 TODO: add an example. 
 
 ```{r example}
-## library(visR)
-## basic example code
+library(visR)
+
+
 ```
 
 Please note that the 'visR' project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Returns a tidied RBesT gMAP object — vr_tidy_rbest • visR</title>
+<title>Tidy RBesT gMAP object — vr_tidy_rbest • visR</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,9 @@
 
 
 
-<meta property="og:title" content="Returns a tidied RBesT gMAP object — vr_tidy_rbest" />
-<meta property="og:description" content="Returns a tidied RBesT gMAP object" />
+<meta property="og:title" content="Tidy RBesT gMAP object — vr_tidy_rbest" />
+<meta property="og:description" content="This function takes a gMAP object from a meta or evidence
+synthesis analysis and returns a tidy data frame (tibble)." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -120,36 +121,56 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Returns a tidied RBesT gMAP object</h1>
+    <h1>Tidy RBesT gMAP object</h1>
     <small class="dont-index">Source: <a href='https://github.com/openpharma/visR/blob/master/R/vr_tidy_rbest.R'><code>R/vr_tidy_rbest.R</code></a></small>
     <div class="hidden name"><code>vr_tidy_rbest.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Returns a tidied RBesT gMAP object</p>
+    <p>This function takes a gMAP object from a meta or evidence
+synthesis analysis and returns a tidy data frame (tibble).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>vr_tidy_rbest</span>(<span class='no'>x</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.95</span>)</pre>
+    <pre class="usage"><span class='fu'>vr_tidy_rbest</span>(<span class='no'>gmap</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.95</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>RBesT gMAP object</p></td>
+      <th>gmap</th>
+      <td><p>RBesT gMAP object to be tidied for reporting</p></td>
     </tr>
     <tr>
       <th>prob</th>
-      <td><p>probability range for uncertainty interval</p></td>
+      <td><p>probability range for the uncertainty interval. Input is a value between 0, 1. Defailt is a 95% uncertainaty interval.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>td tidied tibble</p>
+    <p>tidied tibble based on the broom data model.
+The current data model for the tibble includes the following variables:</p><ul>
+<li><p>row_id</p></li>
+<li><p>study_id</p></li>
+<li><p>study</p></li>
+<li><p>estimate</p></li>
+<li><p>se</p></li>
+<li><p>conf.low</p></li>
+<li><p>conf.high model</p></li>
+</ul>
+
+<p>@export</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>TODO:</p><ul>
+<li><p>Provide more detail for the function</p></li>
+<li><p>Provide the data model</p></li>
+</ul>
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>RBesT</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>RBesT</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/example.html'>example</a></span>(<span class='no'>crohn</span>)</div><div class='output co'>#&gt; 
 #&gt; crohn&gt; ## Setting up dummy sampling for fast execution of example
 #&gt; crohn&gt; ## Please use 4 chains and 20x more warmup &amp; iter in practice
@@ -172,48 +193,17 @@
 #&gt; <span class='warning'>http://mc-stan.org/misc/warnings.html#tail-ess</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Maximal Rhat &gt; 1.1. Consider increasing RBesT.MC.warmup MCMC parameter.</span></div><div class='output co'>#&gt; <span class='message'>Final MCMC sample equivalent to less than 1000 independent draws.</span>
 #&gt; <span class='message'>Please consider increasing the MCMC simulation size.</span></div><div class='output co'>#&gt; 
 #&gt; crohn&gt; ## Recover user set sampling defaults
-#&gt; crohn&gt; options(.user_mc_options)</div><div class='input'><span class='fu'>vr_tidy_rbest</span>(<span class='no'>map_crohn</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 14 x 8</span><span>
-#&gt;    study    estimate    se conf.low conf.high model      study_id row_id
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> Gastr06     -</span><span style='color: #BB0000;'>51</span><span>   10.2     -</span><span style='color: #BB0000;'>71.1</span><span>    -</span><span style='color: #BB0000;'>30.9</span><span>  stratified        5      1
-#&gt; </span><span style='color: #555555;'> 2</span><span> AIMed07     -</span><span style='color: #BB0000;'>49</span><span>    6.83    -</span><span style='color: #BB0000;'>62.4</span><span>    -</span><span style='color: #BB0000;'>35.6</span><span>  stratified        1      2
-#&gt; </span><span style='color: #555555;'> 3</span><span> NEJM07      -</span><span style='color: #BB0000;'>36</span><span>    4.86    -</span><span style='color: #BB0000;'>45.5</span><span>    -</span><span style='color: #BB0000;'>26.5</span><span>  stratified        8      3
-#&gt; </span><span style='color: #555555;'> 4</span><span> Gastr01a    -</span><span style='color: #BB0000;'>47</span><span>   19.7     -</span><span style='color: #BB0000;'>85.6</span><span>     -</span><span style='color: #BB0000;'>8.43</span><span> stratified        3      4
-#&gt; </span><span style='color: #555555;'> 5</span><span> APhTh04     -</span><span style='color: #BB0000;'>90</span><span>   17.6    -</span><span style='color: #BB0000;'>124.</span><span>     -</span><span style='color: #BB0000;'>55.5</span><span>  stratified        2      5
-#&gt; </span><span style='color: #555555;'> 6</span><span> Gastr01b    -</span><span style='color: #BB0000;'>54</span><span>   11.6     -</span><span style='color: #BB0000;'>76.6</span><span>    -</span><span style='color: #BB0000;'>31.4</span><span>  stratified        4      6
-#&gt; </span><span style='color: #555555;'> 7</span><span> Gastr06     -</span><span style='color: #BB0000;'>48.6</span><span>  7.56    -</span><span style='color: #BB0000;'>71.1</span><span>    -</span><span style='color: #BB0000;'>30.9</span><span>  meta              5      7
-#&gt; </span><span style='color: #555555;'> 8</span><span> AIMed07     -</span><span style='color: #BB0000;'>49.3</span><span>  5.58    -</span><span style='color: #BB0000;'>62.4</span><span>    -</span><span style='color: #BB0000;'>35.6</span><span>  meta              1      8
-#&gt; </span><span style='color: #555555;'> 9</span><span> NEJM07      -</span><span style='color: #BB0000;'>39.2</span><span>  5.34    -</span><span style='color: #BB0000;'>45.5</span><span>    -</span><span style='color: #BB0000;'>26.5</span><span>  meta              8      9
-#&gt; </span><span style='color: #555555;'>10</span><span> Gastr01a    -</span><span style='color: #BB0000;'>51.2</span><span> 13.4     -</span><span style='color: #BB0000;'>85.6</span><span>     -</span><span style='color: #BB0000;'>8.43</span><span> meta              3     10
-#&gt; </span><span style='color: #555555;'>11</span><span> APhTh04     -</span><span style='color: #BB0000;'>59.6</span><span> 14.1    -</span><span style='color: #BB0000;'>124.</span><span>     -</span><span style='color: #BB0000;'>55.5</span><span>  meta              2     11
-#&gt; </span><span style='color: #555555;'>12</span><span> Gastr01b    -</span><span style='color: #BB0000;'>50.1</span><span>  8.21    -</span><span style='color: #BB0000;'>76.6</span><span>    -</span><span style='color: #BB0000;'>31.4</span><span>  meta              4     12
-#&gt; </span><span style='color: #555555;'>13</span><span> MAP         -</span><span style='color: #BB0000;'>50.6</span><span> 15.1     -</span><span style='color: #BB0000;'>84.5</span><span>    -</span><span style='color: #BB0000;'>26.9</span><span>  meta              6     13
-#&gt; </span><span style='color: #555555;'>14</span><span> Mean        -</span><span style='color: #BB0000;'>49.4</span><span>  6.55    -</span><span style='color: #BB0000;'>64.7</span><span>    -</span><span style='color: #BB0000;'>38.2</span><span>  meta              7     14</div><div class='input'>
+#&gt; crohn&gt; options(.user_mc_options)</div><div class='input'><span class='fu'>vr_tidy_rbest</span>(<span class='no'>map_crohn</span>)</div><div class='output co'>#&gt; <span class='error'>Error in vr_tidy_rbest(map_crohn): could not find function "vr_tidy_rbest"</span></div><div class='input'>
 <span class='no'>map_crohn</span> <span class='kw'>%&gt;%</span>
-<span class='fu'>vr_tidy_rbest</span>()</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 14 x 8</span><span>
-#&gt;    study    estimate    se conf.low conf.high model      study_id row_id
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> Gastr06     -</span><span style='color: #BB0000;'>51</span><span>   10.2     -</span><span style='color: #BB0000;'>71.1</span><span>    -</span><span style='color: #BB0000;'>30.9</span><span>  stratified        5      1
-#&gt; </span><span style='color: #555555;'> 2</span><span> AIMed07     -</span><span style='color: #BB0000;'>49</span><span>    6.83    -</span><span style='color: #BB0000;'>62.4</span><span>    -</span><span style='color: #BB0000;'>35.6</span><span>  stratified        1      2
-#&gt; </span><span style='color: #555555;'> 3</span><span> NEJM07      -</span><span style='color: #BB0000;'>36</span><span>    4.86    -</span><span style='color: #BB0000;'>45.5</span><span>    -</span><span style='color: #BB0000;'>26.5</span><span>  stratified        8      3
-#&gt; </span><span style='color: #555555;'> 4</span><span> Gastr01a    -</span><span style='color: #BB0000;'>47</span><span>   19.7     -</span><span style='color: #BB0000;'>85.6</span><span>     -</span><span style='color: #BB0000;'>8.43</span><span> stratified        3      4
-#&gt; </span><span style='color: #555555;'> 5</span><span> APhTh04     -</span><span style='color: #BB0000;'>90</span><span>   17.6    -</span><span style='color: #BB0000;'>124.</span><span>     -</span><span style='color: #BB0000;'>55.5</span><span>  stratified        2      5
-#&gt; </span><span style='color: #555555;'> 6</span><span> Gastr01b    -</span><span style='color: #BB0000;'>54</span><span>   11.6     -</span><span style='color: #BB0000;'>76.6</span><span>    -</span><span style='color: #BB0000;'>31.4</span><span>  stratified        4      6
-#&gt; </span><span style='color: #555555;'> 7</span><span> Gastr06     -</span><span style='color: #BB0000;'>48.6</span><span>  7.56    -</span><span style='color: #BB0000;'>71.1</span><span>    -</span><span style='color: #BB0000;'>30.9</span><span>  meta              5      7
-#&gt; </span><span style='color: #555555;'> 8</span><span> AIMed07     -</span><span style='color: #BB0000;'>49.3</span><span>  5.58    -</span><span style='color: #BB0000;'>62.4</span><span>    -</span><span style='color: #BB0000;'>35.6</span><span>  meta              1      8
-#&gt; </span><span style='color: #555555;'> 9</span><span> NEJM07      -</span><span style='color: #BB0000;'>39.2</span><span>  5.34    -</span><span style='color: #BB0000;'>45.5</span><span>    -</span><span style='color: #BB0000;'>26.5</span><span>  meta              8      9
-#&gt; </span><span style='color: #555555;'>10</span><span> Gastr01a    -</span><span style='color: #BB0000;'>51.2</span><span> 13.4     -</span><span style='color: #BB0000;'>85.6</span><span>     -</span><span style='color: #BB0000;'>8.43</span><span> meta              3     10
-#&gt; </span><span style='color: #555555;'>11</span><span> APhTh04     -</span><span style='color: #BB0000;'>59.6</span><span> 14.1    -</span><span style='color: #BB0000;'>124.</span><span>     -</span><span style='color: #BB0000;'>55.5</span><span>  meta              2     11
-#&gt; </span><span style='color: #555555;'>12</span><span> Gastr01b    -</span><span style='color: #BB0000;'>50.1</span><span>  8.21    -</span><span style='color: #BB0000;'>76.6</span><span>    -</span><span style='color: #BB0000;'>31.4</span><span>  meta              4     12
-#&gt; </span><span style='color: #555555;'>13</span><span> MAP         -</span><span style='color: #BB0000;'>50.6</span><span> 15.1     -</span><span style='color: #BB0000;'>84.5</span><span>    -</span><span style='color: #BB0000;'>26.9</span><span>  meta              6     13
-#&gt; </span><span style='color: #555555;'>14</span><span> Mean        -</span><span style='color: #BB0000;'>49.4</span><span>  6.55    -</span><span style='color: #BB0000;'>64.7</span><span>    -</span><span style='color: #BB0000;'>38.2</span><span>  meta              7     14</div><div class='input'>
-</div></span></pre>
+<span class='fu'>vr_tidy_rbest</span>()</div><div class='output co'>#&gt; <span class='error'>Error in vr_tidy_rbest(.): could not find function "vr_tidy_rbest"</span></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
+      <li><a href="#details">Details</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 

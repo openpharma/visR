@@ -2,22 +2,43 @@
 % Please edit documentation in R/vr_tidy_rbest.R
 \name{vr_tidy_rbest}
 \alias{vr_tidy_rbest}
-\title{Returns a tidied RBesT gMAP object}
+\title{Tidy RBesT gMAP object}
 \usage{
-vr_tidy_rbest(x, prob = 0.95)
+vr_tidy_rbest(gmap, prob = 0.95)
 }
 \arguments{
-\item{x}{RBesT gMAP object}
+\item{gmap}{RBesT gMAP object to be tidied for reporting}
 
-\item{prob}{probability range for uncertainty interval}
+\item{prob}{probability range for the uncertainty interval. Input is a value between \link{0, 1}. Defailt is a 95\% uncertainaty interval.}
 }
 \value{
-td tidied tibble
+tidied tibble based on the broom data model.
+The current data model for the tibble includes the following variables:
+\itemize{
+\item row_id
+\item study_id
+\item study
+\item estimate
+\item se
+\item conf.low
+\item conf.high model
+}
+
+@export
 }
 \description{
-Returns a tidied RBesT gMAP object
+This function takes a gMAP object from a meta or evidence
+synthesis analysis and returns a tidy data frame (tibble).
+}
+\details{
+TODO:
+\itemize{
+\item Provide more detail for the function
+\item Provide the data model
+}
 }
 \examples{
+library(dplyr)
 library(RBesT)
 example(crohn)
 vr_tidy_rbest(map_crohn)
