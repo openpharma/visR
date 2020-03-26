@@ -10,7 +10,8 @@ vr_render_table(
   caption,
   datasource,
   output_format = "html",
-  engine = "gt"
+  engine = "gt",
+  download_format = c("copy", "csv", "excel")
 )
 }
 \arguments{
