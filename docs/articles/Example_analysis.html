@@ -6,12 +6,19 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Example Time To Event (Survival) Analysis using visR • visR</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Example Time To Event (Survival) Analysis using visR">
 <meta property="og:description" content="">
+<meta property="og:image" content="/logo.png">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -178,7 +185,7 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#idvswjtmou .gt_table {
+#qhqnwktqzo .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -201,7 +208,7 @@
   border-left-color: #D3D3D3;
 }
 
-#idvswjtmou .gt_heading {
+#qhqnwktqzo .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -213,7 +220,7 @@
   border-right-color: #D3D3D3;
 }
 
-#idvswjtmou .gt_title {
+#qhqnwktqzo .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -223,7 +230,7 @@
   border-bottom-width: 0;
 }
 
-#idvswjtmou .gt_subtitle {
+#qhqnwktqzo .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -233,13 +240,13 @@
   border-top-width: 0;
 }
 
-#idvswjtmou .gt_bottom_border {
+#qhqnwktqzo .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#idvswjtmou .gt_col_headings {
+#qhqnwktqzo .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -254,7 +261,7 @@
   border-right-color: #D3D3D3;
 }
 
-#idvswjtmou .gt_col_heading {
+#qhqnwktqzo .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -274,7 +281,7 @@
   overflow-x: hidden;
 }
 
-#idvswjtmou .gt_column_spanner_outer {
+#qhqnwktqzo .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -286,15 +293,15 @@
   padding-right: 4px;
 }
 
-#idvswjtmou .gt_column_spanner_outer:first-child {
+#qhqnwktqzo .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#idvswjtmou .gt_column_spanner_outer:last-child {
+#qhqnwktqzo .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#idvswjtmou .gt_column_spanner {
+#qhqnwktqzo .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -306,7 +313,7 @@
   width: 100%;
 }
 
-#idvswjtmou .gt_group_heading {
+#qhqnwktqzo .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -328,7 +335,7 @@
   vertical-align: middle;
 }
 
-#idvswjtmou .gt_empty_group_heading {
+#qhqnwktqzo .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -343,19 +350,19 @@
   vertical-align: middle;
 }
 
-#idvswjtmou .gt_striped {
+#qhqnwktqzo .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#idvswjtmou .gt_from_md > :first-child {
+#qhqnwktqzo .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#idvswjtmou .gt_from_md > :last-child {
+#qhqnwktqzo .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#idvswjtmou .gt_row {
+#qhqnwktqzo .gt_row {
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 5px;
@@ -374,7 +381,7 @@
   overflow-x: hidden;
 }
 
-#idvswjtmou .gt_stub {
+#qhqnwktqzo .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -386,7 +393,7 @@
   padding-left: 12px;
 }
 
-#idvswjtmou .gt_summary_row {
+#qhqnwktqzo .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -396,7 +403,7 @@
   padding-right: 5px;
 }
 
-#idvswjtmou .gt_first_summary_row {
+#qhqnwktqzo .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -406,7 +413,7 @@
   border-top-color: #D3D3D3;
 }
 
-#idvswjtmou .gt_grand_summary_row {
+#qhqnwktqzo .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -416,7 +423,7 @@
   padding-right: 5px;
 }
 
-#idvswjtmou .gt_first_grand_summary_row {
+#qhqnwktqzo .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -426,7 +433,7 @@
   border-top-color: #D3D3D3;
 }
 
-#idvswjtmou .gt_table_body {
+#qhqnwktqzo .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -435,7 +442,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#idvswjtmou .gt_footnotes {
+#qhqnwktqzo .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -449,13 +456,13 @@
   border-right-color: #D3D3D3;
 }
 
-#idvswjtmou .gt_footnote {
+#qhqnwktqzo .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#idvswjtmou .gt_sourcenotes {
+#qhqnwktqzo .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -469,46 +476,46 @@
   border-right-color: #D3D3D3;
 }
 
-#idvswjtmou .gt_sourcenote {
+#qhqnwktqzo .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#idvswjtmou .gt_left {
+#qhqnwktqzo .gt_left {
   text-align: left;
 }
 
-#idvswjtmou .gt_center {
+#qhqnwktqzo .gt_center {
   text-align: center;
 }
 
-#idvswjtmou .gt_right {
+#qhqnwktqzo .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#idvswjtmou .gt_font_normal {
+#qhqnwktqzo .gt_font_normal {
   font-weight: normal;
 }
 
-#idvswjtmou .gt_font_bold {
+#qhqnwktqzo .gt_font_bold {
   font-weight: bold;
 }
 
-#idvswjtmou .gt_font_italic {
+#qhqnwktqzo .gt_font_italic {
   font-style: italic;
 }
 
-#idvswjtmou .gt_super {
+#qhqnwktqzo .gt_super {
   font-size: 65%;
 }
 
-#idvswjtmou .gt_footnote_marks {
+#qhqnwktqzo .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="idvswjtmou" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="table gt_table">
+<div id="qhqnwktqzo" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="table gt_table">
 <thead class="gt_header">
 <tr>
 <th colspan="6" class="gt_heading gt_title gt_font_normal" style>Attrition Table</th>
@@ -621,7 +628,7 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#yvuiejxzhp .gt_table {
+#xkzogbeukp .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -644,7 +651,7 @@
   border-left-color: #D3D3D3;
 }
 
-#yvuiejxzhp .gt_heading {
+#xkzogbeukp .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -656,7 +663,7 @@
   border-right-color: #D3D3D3;
 }
 
-#yvuiejxzhp .gt_title {
+#xkzogbeukp .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -666,7 +673,7 @@
   border-bottom-width: 0;
 }
 
-#yvuiejxzhp .gt_subtitle {
+#xkzogbeukp .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -676,13 +683,13 @@
   border-top-width: 0;
 }
 
-#yvuiejxzhp .gt_bottom_border {
+#xkzogbeukp .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#yvuiejxzhp .gt_col_headings {
+#xkzogbeukp .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -697,7 +704,7 @@
   border-right-color: #D3D3D3;
 }
 
-#yvuiejxzhp .gt_col_heading {
+#xkzogbeukp .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -717,7 +724,7 @@
   overflow-x: hidden;
 }
 
-#yvuiejxzhp .gt_column_spanner_outer {
+#xkzogbeukp .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -729,15 +736,15 @@
   padding-right: 4px;
 }
 
-#yvuiejxzhp .gt_column_spanner_outer:first-child {
+#xkzogbeukp .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#yvuiejxzhp .gt_column_spanner_outer:last-child {
+#xkzogbeukp .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#yvuiejxzhp .gt_column_spanner {
+#xkzogbeukp .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -749,7 +756,7 @@
   width: 100%;
 }
 
-#yvuiejxzhp .gt_group_heading {
+#xkzogbeukp .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -771,7 +778,7 @@
   vertical-align: middle;
 }
 
-#yvuiejxzhp .gt_empty_group_heading {
+#xkzogbeukp .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -786,19 +793,19 @@
   vertical-align: middle;
 }
 
-#yvuiejxzhp .gt_striped {
+#xkzogbeukp .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#yvuiejxzhp .gt_from_md > :first-child {
+#xkzogbeukp .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#yvuiejxzhp .gt_from_md > :last-child {
+#xkzogbeukp .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#yvuiejxzhp .gt_row {
+#xkzogbeukp .gt_row {
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 5px;
@@ -817,7 +824,7 @@
   overflow-x: hidden;
 }
 
-#yvuiejxzhp .gt_stub {
+#xkzogbeukp .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -829,7 +836,7 @@
   padding-left: 12px;
 }
 
-#yvuiejxzhp .gt_summary_row {
+#xkzogbeukp .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -839,7 +846,7 @@
   padding-right: 5px;
 }
 
-#yvuiejxzhp .gt_first_summary_row {
+#xkzogbeukp .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -849,7 +856,7 @@
   border-top-color: #D3D3D3;
 }
 
-#yvuiejxzhp .gt_grand_summary_row {
+#xkzogbeukp .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -859,7 +866,7 @@
   padding-right: 5px;
 }
 
-#yvuiejxzhp .gt_first_grand_summary_row {
+#xkzogbeukp .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -869,7 +876,7 @@
   border-top-color: #D3D3D3;
 }
 
-#yvuiejxzhp .gt_table_body {
+#xkzogbeukp .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -878,7 +885,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#yvuiejxzhp .gt_footnotes {
+#xkzogbeukp .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -892,13 +899,13 @@
   border-right-color: #D3D3D3;
 }
 
-#yvuiejxzhp .gt_footnote {
+#xkzogbeukp .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#yvuiejxzhp .gt_sourcenotes {
+#xkzogbeukp .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -912,46 +919,46 @@
   border-right-color: #D3D3D3;
 }
 
-#yvuiejxzhp .gt_sourcenote {
+#xkzogbeukp .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#yvuiejxzhp .gt_left {
+#xkzogbeukp .gt_left {
   text-align: left;
 }
 
-#yvuiejxzhp .gt_center {
+#xkzogbeukp .gt_center {
   text-align: center;
 }
 
-#yvuiejxzhp .gt_right {
+#xkzogbeukp .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#yvuiejxzhp .gt_font_normal {
+#xkzogbeukp .gt_font_normal {
   font-weight: normal;
 }
 
-#yvuiejxzhp .gt_font_bold {
+#xkzogbeukp .gt_font_bold {
   font-weight: bold;
 }
 
-#yvuiejxzhp .gt_font_italic {
+#xkzogbeukp .gt_font_italic {
   font-style: italic;
 }
 
-#yvuiejxzhp .gt_super {
+#xkzogbeukp .gt_super {
   font-size: 65%;
 }
 
-#yvuiejxzhp .gt_footnote_marks {
+#xkzogbeukp .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="yvuiejxzhp" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="table gt_table">
+<div id="xkzogbeukp" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="table gt_table">
 <thead class="gt_header">
 <tr>
 <th colspan="4" class="gt_heading gt_title gt_font_normal" style>Overview over Lung Cancer patients</th>
@@ -1201,7 +1208,7 @@ Comparison of survival in male and female lung cancer patients
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#mysmotseqf .gt_table {
+#azdptmizro .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1224,7 +1231,7 @@ Comparison of survival in male and female lung cancer patients
   border-left-color: #D3D3D3;
 }
 
-#mysmotseqf .gt_heading {
+#azdptmizro .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1236,7 +1243,7 @@ Comparison of survival in male and female lung cancer patients
   border-right-color: #D3D3D3;
 }
 
-#mysmotseqf .gt_title {
+#azdptmizro .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1246,7 +1253,7 @@ Comparison of survival in male and female lung cancer patients
   border-bottom-width: 0;
 }
 
-#mysmotseqf .gt_subtitle {
+#azdptmizro .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1256,13 +1263,13 @@ Comparison of survival in male and female lung cancer patients
   border-top-width: 0;
 }
 
-#mysmotseqf .gt_bottom_border {
+#azdptmizro .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#mysmotseqf .gt_col_headings {
+#azdptmizro .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1277,7 +1284,7 @@ Comparison of survival in male and female lung cancer patients
   border-right-color: #D3D3D3;
 }
 
-#mysmotseqf .gt_col_heading {
+#azdptmizro .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1297,7 +1304,7 @@ Comparison of survival in male and female lung cancer patients
   overflow-x: hidden;
 }
 
-#mysmotseqf .gt_column_spanner_outer {
+#azdptmizro .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1309,15 +1316,15 @@ Comparison of survival in male and female lung cancer patients
   padding-right: 4px;
 }
 
-#mysmotseqf .gt_column_spanner_outer:first-child {
+#azdptmizro .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#mysmotseqf .gt_column_spanner_outer:last-child {
+#azdptmizro .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#mysmotseqf .gt_column_spanner {
+#azdptmizro .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1329,7 +1336,7 @@ Comparison of survival in male and female lung cancer patients
   width: 100%;
 }
 
-#mysmotseqf .gt_group_heading {
+#azdptmizro .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1351,7 +1358,7 @@ Comparison of survival in male and female lung cancer patients
   vertical-align: middle;
 }
 
-#mysmotseqf .gt_empty_group_heading {
+#azdptmizro .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1366,19 +1373,19 @@ Comparison of survival in male and female lung cancer patients
   vertical-align: middle;
 }
 
-#mysmotseqf .gt_striped {
+#azdptmizro .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#mysmotseqf .gt_from_md > :first-child {
+#azdptmizro .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#mysmotseqf .gt_from_md > :last-child {
+#azdptmizro .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#mysmotseqf .gt_row {
+#azdptmizro .gt_row {
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 5px;
@@ -1397,7 +1404,7 @@ Comparison of survival in male and female lung cancer patients
   overflow-x: hidden;
 }
 
-#mysmotseqf .gt_stub {
+#azdptmizro .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1409,7 +1416,7 @@ Comparison of survival in male and female lung cancer patients
   padding-left: 12px;
 }
 
-#mysmotseqf .gt_summary_row {
+#azdptmizro .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1419,7 +1426,7 @@ Comparison of survival in male and female lung cancer patients
   padding-right: 5px;
 }
 
-#mysmotseqf .gt_first_summary_row {
+#azdptmizro .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1429,7 +1436,7 @@ Comparison of survival in male and female lung cancer patients
   border-top-color: #D3D3D3;
 }
 
-#mysmotseqf .gt_grand_summary_row {
+#azdptmizro .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1439,7 +1446,7 @@ Comparison of survival in male and female lung cancer patients
   padding-right: 5px;
 }
 
-#mysmotseqf .gt_first_grand_summary_row {
+#azdptmizro .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1449,7 +1456,7 @@ Comparison of survival in male and female lung cancer patients
   border-top-color: #D3D3D3;
 }
 
-#mysmotseqf .gt_table_body {
+#azdptmizro .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1458,7 +1465,7 @@ Comparison of survival in male and female lung cancer patients
   border-bottom-color: #D3D3D3;
 }
 
-#mysmotseqf .gt_footnotes {
+#azdptmizro .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1472,13 +1479,13 @@ Comparison of survival in male and female lung cancer patients
   border-right-color: #D3D3D3;
 }
 
-#mysmotseqf .gt_footnote {
+#azdptmizro .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#mysmotseqf .gt_sourcenotes {
+#azdptmizro .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1492,46 +1499,46 @@ Comparison of survival in male and female lung cancer patients
   border-right-color: #D3D3D3;
 }
 
-#mysmotseqf .gt_sourcenote {
+#azdptmizro .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#mysmotseqf .gt_left {
+#azdptmizro .gt_left {
   text-align: left;
 }
 
-#mysmotseqf .gt_center {
+#azdptmizro .gt_center {
   text-align: center;
 }
 
-#mysmotseqf .gt_right {
+#azdptmizro .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#mysmotseqf .gt_font_normal {
+#azdptmizro .gt_font_normal {
   font-weight: normal;
 }
 
-#mysmotseqf .gt_font_bold {
+#azdptmizro .gt_font_bold {
   font-weight: bold;
 }
 
-#mysmotseqf .gt_font_italic {
+#azdptmizro .gt_font_italic {
   font-style: italic;
 }
 
-#mysmotseqf .gt_super {
+#azdptmizro .gt_super {
   font-size: 65%;
 }
 
-#mysmotseqf .gt_footnote_marks {
+#azdptmizro .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="mysmotseqf" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="table gt_table">
+<div id="azdptmizro" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="table gt_table">
 <thead class="gt_header">
 <tr>
 <th colspan="6" class="gt_heading gt_title gt_font_normal" style>Overall Survival</th>
@@ -1577,7 +1584,7 @@ Comparison of survival in male and female lung cancer patients
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#dyhwducllw .gt_table {
+#expgkcdyii .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1600,7 +1607,7 @@ Comparison of survival in male and female lung cancer patients
   border-left-color: #D3D3D3;
 }
 
-#dyhwducllw .gt_heading {
+#expgkcdyii .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1612,7 +1619,7 @@ Comparison of survival in male and female lung cancer patients
   border-right-color: #D3D3D3;
 }
 
-#dyhwducllw .gt_title {
+#expgkcdyii .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1622,7 +1629,7 @@ Comparison of survival in male and female lung cancer patients
   border-bottom-width: 0;
 }
 
-#dyhwducllw .gt_subtitle {
+#expgkcdyii .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1632,13 +1639,13 @@ Comparison of survival in male and female lung cancer patients
   border-top-width: 0;
 }
 
-#dyhwducllw .gt_bottom_border {
+#expgkcdyii .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#dyhwducllw .gt_col_headings {
+#expgkcdyii .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1653,7 +1660,7 @@ Comparison of survival in male and female lung cancer patients
   border-right-color: #D3D3D3;
 }
 
-#dyhwducllw .gt_col_heading {
+#expgkcdyii .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1673,7 +1680,7 @@ Comparison of survival in male and female lung cancer patients
   overflow-x: hidden;
 }
 
-#dyhwducllw .gt_column_spanner_outer {
+#expgkcdyii .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1685,15 +1692,15 @@ Comparison of survival in male and female lung cancer patients
   padding-right: 4px;
 }
 
-#dyhwducllw .gt_column_spanner_outer:first-child {
+#expgkcdyii .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#dyhwducllw .gt_column_spanner_outer:last-child {
+#expgkcdyii .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#dyhwducllw .gt_column_spanner {
+#expgkcdyii .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1705,7 +1712,7 @@ Comparison of survival in male and female lung cancer patients
   width: 100%;
 }
 
-#dyhwducllw .gt_group_heading {
+#expgkcdyii .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1727,7 +1734,7 @@ Comparison of survival in male and female lung cancer patients
   vertical-align: middle;
 }
 
-#dyhwducllw .gt_empty_group_heading {
+#expgkcdyii .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1742,19 +1749,19 @@ Comparison of survival in male and female lung cancer patients
   vertical-align: middle;
 }
 
-#dyhwducllw .gt_striped {
+#expgkcdyii .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#dyhwducllw .gt_from_md > :first-child {
+#expgkcdyii .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#dyhwducllw .gt_from_md > :last-child {
+#expgkcdyii .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#dyhwducllw .gt_row {
+#expgkcdyii .gt_row {
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 5px;
@@ -1773,7 +1780,7 @@ Comparison of survival in male and female lung cancer patients
   overflow-x: hidden;
 }
 
-#dyhwducllw .gt_stub {
+#expgkcdyii .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1785,7 +1792,7 @@ Comparison of survival in male and female lung cancer patients
   padding-left: 12px;
 }
 
-#dyhwducllw .gt_summary_row {
+#expgkcdyii .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1795,7 +1802,7 @@ Comparison of survival in male and female lung cancer patients
   padding-right: 5px;
 }
 
-#dyhwducllw .gt_first_summary_row {
+#expgkcdyii .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1805,7 +1812,7 @@ Comparison of survival in male and female lung cancer patients
   border-top-color: #D3D3D3;
 }
 
-#dyhwducllw .gt_grand_summary_row {
+#expgkcdyii .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1815,7 +1822,7 @@ Comparison of survival in male and female lung cancer patients
   padding-right: 5px;
 }
 
-#dyhwducllw .gt_first_grand_summary_row {
+#expgkcdyii .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1825,7 +1832,7 @@ Comparison of survival in male and female lung cancer patients
   border-top-color: #D3D3D3;
 }
 
-#dyhwducllw .gt_table_body {
+#expgkcdyii .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1834,7 +1841,7 @@ Comparison of survival in male and female lung cancer patients
   border-bottom-color: #D3D3D3;
 }
 
-#dyhwducllw .gt_footnotes {
+#expgkcdyii .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1848,13 +1855,13 @@ Comparison of survival in male and female lung cancer patients
   border-right-color: #D3D3D3;
 }
 
-#dyhwducllw .gt_footnote {
+#expgkcdyii .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#dyhwducllw .gt_sourcenotes {
+#expgkcdyii .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1868,46 +1875,46 @@ Comparison of survival in male and female lung cancer patients
   border-right-color: #D3D3D3;
 }
 
-#dyhwducllw .gt_sourcenote {
+#expgkcdyii .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#dyhwducllw .gt_left {
+#expgkcdyii .gt_left {
   text-align: left;
 }
 
-#dyhwducllw .gt_center {
+#expgkcdyii .gt_center {
   text-align: center;
 }
 
-#dyhwducllw .gt_right {
+#expgkcdyii .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#dyhwducllw .gt_font_normal {
+#expgkcdyii .gt_font_normal {
   font-weight: normal;
 }
 
-#dyhwducllw .gt_font_bold {
+#expgkcdyii .gt_font_bold {
   font-weight: bold;
 }
 
-#dyhwducllw .gt_font_italic {
+#expgkcdyii .gt_font_italic {
   font-style: italic;
 }
 
-#dyhwducllw .gt_super {
+#expgkcdyii .gt_super {
   font-size: 65%;
 }
 
-#dyhwducllw .gt_footnote_marks {
+#expgkcdyii .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="dyhwducllw" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="table gt_table">
+<div id="expgkcdyii" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="table gt_table">
 <thead class="gt_header">
 <tr>
 <th colspan="5" class="gt_heading gt_title gt_font_normal" style>Equality between Strata</th>
