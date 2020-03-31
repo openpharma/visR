@@ -3,7 +3,7 @@ title: "Example alluvial plot analysis using visR"
 author: Paweł Kawski
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Alluvial_analysis}
+  %\VignetteIndexEntry{Alluvial}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
