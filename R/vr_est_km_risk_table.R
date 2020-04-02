@@ -24,8 +24,12 @@
 #' equation <- "survival::Surv(time, status) ~ trt"
 #' vr_est_km_risk_table(data, equation) 
 vr_est_km_risk_table <- function(data, equation, min_at_risk = 3) {
+    formula <- as.formula(equation)
+    # The second element of `formula` is `survival::Surv(time, status)`, the
+    # second element of that is `time`
+    time_column_name <- deparse(formula[[2]][[2]])
     survfit_object <- survival::survfit(
-        eval(parse(text = equation)), data = data
+        formula, data = data
     )
     
     survfit_summary <- summary(survfit_object)
@@ -46,7 +50,7 @@ vr_est_km_risk_table <- function(data, equation, min_at_risk = 3) {
         pull(min_time)
     
     # Get time tick mark positions
-    times <- data$time[data$time <= max_time]
+    times <- data[[time_column_name]][data[[time_column_name]] <= max_time]
     time_ticks <- pretty(times, 5)
     
     # Build risk table
