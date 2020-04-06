@@ -12,7 +12,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 <!-- badges: end -->
 
 The goal of visR is to enable fit-for-purpose, reusable clinical and
-medcial research focused visualizations and tables with sensible
+medical research focused visualizations and tables with sensible
 defaults and based on sound graphical principles.
 
 ## Motivation
