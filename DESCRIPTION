@@ -27,7 +27,9 @@ RoxygenNote: 7.1.0
 Roxygen: list(markdown = TRUE)
 biocViews:
 Imports: 
-    BiocManager
+    BiocManager,
+    RTCGA,
+    RTCGA.clinical,
     survival,
     broom,
     magrittr,
@@ -38,8 +40,6 @@ Imports:
     DOT,
     tidyr,
     dplyr,
-    RTCGA,
-    RTCGA.clinical,
     ggpubr,
     ggsci,
     pammtools,
