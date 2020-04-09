@@ -27,9 +27,6 @@ RoxygenNote: 7.1.0
 Roxygen: list(markdown = TRUE)
 biocViews:
 Imports: 
-    BiocManager,
-    RTCGA,
-    RTCGA.clinical,
     survival,
     broom,
     magrittr,
@@ -40,6 +37,8 @@ Imports:
     DOT,
     tidyr,
     dplyr,
+    RTCGA,
+    RTCGA.clinical,
     ggpubr,
     ggsci,
     pammtools,
@@ -53,4 +52,6 @@ VignetteBuilder: knitr
 Remotes: 
     erblast/easyalluvial,
     erblast/parcats,
-    rstudio/gt
+    rstudio/gt,
+    bioc::3.10/RTCGA,
+    bioc::3.10/RTCGA.clinical
