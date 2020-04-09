@@ -12,6 +12,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install linux dependencies
         run: |
+          sudo apt-get install libv8-dev
           sudo apt-get install libcurl4-openssl-dev
       - uses: r-lib/actions/setup-r@master
       - name: Install dependencies
