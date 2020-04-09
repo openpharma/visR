@@ -25,7 +25,9 @@ Suggests:
     rmarkdown
 RoxygenNote: 7.1.0
 Roxygen: list(markdown = TRUE)
+biocViews:
 Imports: 
+    BiocManager
     survival,
     broom,
     magrittr,
