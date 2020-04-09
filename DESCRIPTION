@@ -51,4 +51,6 @@ VignetteBuilder: knitr
 Remotes: 
     erblast/easyalluvial,
     erblast/parcats,
-    rstudio/gt
+    rstudio/gt,
+    bioc::3.10/RTCGA,
+    bioc::3.10/RTCGA.clinical
