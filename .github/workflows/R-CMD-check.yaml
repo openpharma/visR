@@ -56,7 +56,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          remotes::install_cran("rstantools", "RBesT", "rcmdcheck")
+          remotes::install_cran(c("rstantools", "RBesT", "rcmdcheck"))
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
 
