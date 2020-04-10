@@ -46,8 +46,8 @@ Imports:
     assertthat,
     gt (>= 0.1.0),
     tidyselect,
-    parcats (>= 0.0.1.9000),
-    easyalluvial (>= 0.2.2.900)
+    parcats (>= 0.0.1),
+    easyalluvial (>= 0.2.2)
 VignetteBuilder: knitr
 Remotes: 
     erblast/easyalluvial,
