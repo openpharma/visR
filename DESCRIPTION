@@ -32,6 +32,7 @@ Imports:
     magrittr,
     ggplot2,
     patchwork,
+    tibble,    
     RBesT,
     DOT,
     tidyr,
