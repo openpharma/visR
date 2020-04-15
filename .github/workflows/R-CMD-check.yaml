@@ -2,6 +2,7 @@ on:
   push:
     branches:
       - github_actions_ci
+      - develop
 
 name: R-CMD-check
 
