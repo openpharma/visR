@@ -3,6 +3,7 @@ on:
     branches:
       - github_actions_ci
       - develop
+      - master
 
 name: R-CMD-check
 
@@ -64,7 +65,7 @@ jobs:
       - name: Check
         env:
           _R_CHECK_CRAN_INCOMING_REMOTE_: false
-        run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
+        run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), check_dir = "check")
         shell: Rscript {0}
 
       - name: Upload check results
@@ -73,3 +74,39 @@ jobs:
         with:
           name: ${{ runner.os }}-r${{ matrix.config.r }}-results
           path: check
+
+      - name: Install rmarkdown
+        if: runner.os == 'Linux'
+        run: Rscript -e 'install.packages("rmarkdown")'
+        
+      - name: Render README
+        if: runner.os == 'Linux'
+        run: Rscript -e 'rmarkdown::render("README.Rmd")'
+        
+      - name: Commit and push README
+        if: runner.os == 'Linux'
+        run: |
+          git add README.md
+          git commit -m 'Re-build README.Rmd' || echo "No changes to commit"
+          git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git HEAD:${{ github.ref }} || echo "No changes to commit"
+
+      - name: Install pkgdown
+        if: runner.os == 'Linux'
+        run: remotes::install_dev("pkgdown")
+        shell: Rscript {0}
+
+      - name: Install visR package
+        if: runner.os == 'Linux'
+        run: R CMD INSTALL .
+
+      - name: Build visR package website
+        if: runner.os == 'Linux'
+        run: pkgdown::build_site()
+        shell: Rscript {0}
+        
+      - name: Commit and push docs files
+        if: runner.os == 'Linux'
+        run: |
+          git add docs
+          git commit -m 'Re-build website' || echo "No changes to commit"
+          git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git HEAD:${{ github.ref }} || echo "No changes to commit"
