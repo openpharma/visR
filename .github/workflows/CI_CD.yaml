@@ -1,17 +1,17 @@
 on:
   push:
-    branches-ignore:
+    branches:
       - github_actions_ci
-      - master
       - develop
+      - master
 
-name: R-CMD-check
+name: CI_CD
 
 jobs:
-  R-CMD-check:
+  CI_CD:
     runs-on: ${{ matrix.config.os }}
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
-
+    
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
 
     strategy:
@@ -75,3 +75,43 @@ jobs:
         with:
           name: ${{ runner.os }}-r${{ matrix.config.r }}-results
           path: check
+
+      - name: Install rmarkdown
+        if: runner.os == 'Linux'
+        run: Rscript -e 'install.packages("rmarkdown")'
+        
+      - name: Render README
+        if: runner.os == 'Linux'
+        run: Rscript -e 'rmarkdown::render("README.Rmd")'
+        
+      - name: Commit and push README
+        if: runner.os == 'Linux'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add README.md
+          git commit -m 'Re-build README.Rmd' || echo "No changes to commit"
+          git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git HEAD:${{ github.ref }} || echo "No changes to commit"
+
+      - name: Install pkgdown
+        if: runner.os == 'Linux'
+        run: remotes::install_dev("pkgdown")
+        shell: Rscript {0}
+
+      - name: Install visR package
+        if: runner.os == 'Linux'
+        run: R CMD INSTALL .
+
+      - name: Build visR package website
+        if: runner.os == 'Linux'
+        run: pkgdown::build_site()
+        shell: Rscript {0}
+        
+      - name: Commit and push docs files
+        if: runner.os == 'Linux'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add docs
+          git commit -m 'Re-build website' || echo "No changes to commit"
+          git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git HEAD:${{ github.ref }} || echo "No changes to commit"
