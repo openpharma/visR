@@ -1,6 +1,6 @@
 ---
-name: "\U0001F680 Plot idea"
-about: "I have a suggestion (and may want to implement it \U0001F4A1)!"
+name: "\U0001F4A1 Plot idea"
+about: "I have a suggestion (and may want to implement it \U0001F609)!"
 title: ''
 labels: enhancement, idea
 assignees: ''
