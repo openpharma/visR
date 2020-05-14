@@ -25,13 +25,14 @@ Suggests:
     rmarkdown
 RoxygenNote: 7.1.0
 Roxygen: list(markdown = TRUE)
+biocViews:
 Imports: 
     survival,
     broom,
     magrittr,
     ggplot2,
     patchwork,
-    tibble,
+    tibble,    
     RBesT,
     DOT,
     tidyr,
@@ -45,10 +46,11 @@ Imports:
     assertthat,
     gt (>= 0.1.0),
     tidyselect,
-    parcats (>= 0.0.1.9000),
-    easyalluvial (>= 0.2.2.900)
+    parcats (>= 0.0.1),
+    easyalluvial (>= 0.2.2)
 VignetteBuilder: knitr
 Remotes: 
+    tidyverse/tibble@v2.1.3,
     erblast/easyalluvial,
     erblast/parcats,
     rstudio/gt,
