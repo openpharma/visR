@@ -2,7 +2,7 @@
 name: "\U0001F4A3 Bug report"
 about: "Share a bug you have run into"
 title: ''
-labels: 'i: enhancement, i: idea'
+labels: issue, bug
 assignees: ''
 
 ---

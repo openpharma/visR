@@ -19,7 +19,7 @@ jobs:
         contains(github.event.issue.labels.*.name, 'issue') ||
         contains(github.event.pull_request.labels.*.name, 'issue')
       with:
-        project: 'https://github.com/openpharma/visR/projects/2'
+        project: 'https://github.com/openpharma/visR/projects/1'
         column_name: 'Inbox'
 
     - name: Assign issues and pull requests with `idea` label to project for ideas
