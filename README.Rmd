@@ -11,6 +11,8 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-",
   out.width = "100%"
 )
+
+library(magrittr)
 ```
 
 # visR 
@@ -56,3 +58,13 @@ TODO: add an example.
 ```
 
 Please note that the 'visR' project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
+
+## Thanks!
+
+Many thanks to the contributors;
+
+```{r, results = "asis", echo = FALSE, message=FALSE}
+contributors <- usethis::use_tidy_thanks() %>%
+  paste0("[",.,"](https://github.com/",.,")",collapse = ", ") %>%
+  cat()
+```
