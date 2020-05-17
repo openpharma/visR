@@ -7,9 +7,9 @@
 vr_plt_km_risk_table(risk_table_data, time_unit)
 }
 \arguments{
-\item{time_unit}{}
+\item{risk_table_data}{Input is risk table or output of vr_est_km_risk_table}
 
-\item{data}{}
+\item{time_unit}{What unit is the time unit}
 }
 \value{
 ggplot object for the risk table
@@ -23,9 +23,9 @@ library(survival)
 library(ggplot2)
 library(dplyr)
 data("veteran")
-data <-  veteran \%>\% 
+data <-  veteran \%>\%
     mutate(trt = as.factor(case_when(
-       trt == 1 ~ "standard therapy", 
+       trt == 1 ~ "standard therapy",
        trt == 2 ~ "test chemotherapy"
    )))
 

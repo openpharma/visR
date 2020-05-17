@@ -23,12 +23,17 @@ vr_render_table(
 
 \item{datasource}{String specifying the datasource underlying the data set}
 
-\item{output_format}{If TRUE, the summary statistics for the overall dataset are also calculated}
+\item{output_format}{If TRUE, the summary statistics for the overall dataset
+are also calculated}
 
-\item{engine}{If html is selected as output format, one can chose between using kable, gt and DT as engine to create the output table}
+\item{engine}{If html is selected as output format, one can chose between
+using kable, gt and DT as engine to create the output table}
+
+\item{download_format}{How can users download it}
 }
 \description{
-Render a previously created dataframe or tibble to html, rtf or latex
+Render a previously created dataframe or tibble to html,
+rtf or latex
 
 Create formatted table
 }
