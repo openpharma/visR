@@ -5,6 +5,7 @@ on:
   pull_request:
     branches:
       - master
+      - develop 
 
 name: R-CMD-check-master
 
