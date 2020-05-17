@@ -81,6 +81,7 @@ For this exercise we will only include patients with (1) ECOG available (2) and 
 
 ## Attrition Table
 ```{r attritionTable}
+
 cohort_attrition <- vr_attrition_table(
   data = lung_cohort,
   criteria_descriptions = c("1. ECOG available", 
@@ -113,16 +114,19 @@ complement_descriptions <- c(
 )
 
 # Create attrition flowchart
-attrition_chart_fn <- "../docs/articles/Example_analysis_files/figure-html/attrition_diagram.svg"
-attrition_flow <- vr_attrition(
-  N_array = cohort_attrition$`Remaining N`,
-  descriptions = cohort_attrition$Criteria, 
-  complement_descriptions = complement_descriptions,
-  output_path = attrition_chart_fn)
+
+#attrition_chart_fn <- "../docs/articles/Example_analysis_files/figure-html/attrition_diagram.svg"
+
+#appears to be broken
+# attrition_flow <- vr_attrition(
+#   N_array = cohort_attrition$`Remaining N`,
+#   descriptions = cohort_attrition$Criteria, 
+#   complement_descriptions = complement_descriptions,
+#   output_path = file.path(tempdir(), "attrition_diagram.svg"))
 ```
 
 ```{r attritionFigShow, fig.cap=paste("Attrition Diagram of BRCA cohort. Data Source: ", DATASET), results='asis'}
-knitr::include_graphics(attrition_chart_fn)
+#knitr::include_graphics(attrition_chart_fn)
 ```
 
 
