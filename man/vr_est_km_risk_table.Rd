@@ -25,12 +25,12 @@ library(survival)
 library(ggplot2)
 library(dplyr)
 data("veteran")
-data <-  veteran \%>\% 
+data <-  veteran \%>\%
     mutate(trt = as.factor(case_when(
-       trt == 1 ~ "standard therapy", 
+       trt == 1 ~ "standard therapy",
        trt == 2 ~ "test chemotherapy"
    )))
 
 equation <- "survival::Surv(time, status) ~ trt"
-vr_est_km_risk_table(data, equation) 
+vr_est_km_risk_table(data, equation)
 }

@@ -22,7 +22,7 @@ library(RBesT)
 example(crohn)
 vr_tidy_rbest(map_crohn)
 
-map_crohn \%>\% 
-vr_tidy_rbest() 
+map_crohn \%>\%
+vr_tidy_rbest()
 
 }

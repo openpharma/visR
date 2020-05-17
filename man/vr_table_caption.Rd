@@ -13,9 +13,6 @@ vr_table_caption(
 \arguments{
 \item{x}{}
 }
-\value{
-
-}
 \description{
 Create a caption for any table
 }

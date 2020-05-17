@@ -58,17 +58,8 @@ Please note that the ‘visR’ project is released with a [Contributor Code
 of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you
 agree to abide by its terms.
 
-## Thanks\!
+## Code contributors
 
-Many thanks to the contributors;
-
-[bailliem](https://github.com/bailliem),
-[cschaerfe](https://github.com/cschaerfe),
-[diego-s](https://github.com/diego-s),
-[epijim](https://github.com/epijim),
-[ginberg](https://github.com/ginberg),
-[jameshunterbr](https://github.com/jameshunterbr),
-[jinjooshim](https://github.com/jinjooshim),
-[kawap](https://github.com/kawap),
-[thanos-siadimas](https://github.com/thanos-siadimas),
-[thomas-neitmann](https://github.com/thomas-neitmann)
+<a href="https://github.com/openpharma/visR/graphs/contributors">
+<img src="https://contributors-img.web.app/image?repo=openpharma/visR" />
+</a>

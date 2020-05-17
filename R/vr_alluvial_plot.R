@@ -91,7 +91,7 @@ vr_alluvial_plot <- function(
   data_source_caption <- sprintf("Data Source: %s", data_source)
 
   p = dplyr::select(alluvial_data, linenumber, linename, id) %>%
-    mutate(
+    dplyr::mutate(
       linenumber = paste0("L",linenumber)
     ) %>%
     easyalluvial::alluvial_long(
