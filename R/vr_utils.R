@@ -1,3 +1,5 @@
+#' Method summarise
+#' @param x placeholder
 #' @export
 vr_summarize <- function(x) UseMethod("vr_summarize")
 
@@ -49,6 +51,8 @@ vr_summarize.default <- function(x){
   list(dat)
 }
 
+#' Create variable summary for table1
+#' @param x placeholder
 #' @export
 vr_summarize_tab1 <- function(x) UseMethod("vr_summarize_tab1")
 
