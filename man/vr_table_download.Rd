@@ -14,9 +14,6 @@ vr_table_download(
 \arguments{
 \item{x}{}
 }
-\value{
-
-}
 \description{
 Create a caption for any table
 }

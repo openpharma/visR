@@ -9,7 +9,7 @@ vr_est_kaplan_meier(data, equation)
 \arguments{
 \item{data}{input data frame for the KM analysis.}
 
-\item{euqation}{Survival equation that defines the analysis.}
+\item{equation}{Survival equation that defines the analysis.}
 }
 \value{
 tidy data frame (tibble) using the broom tidy function.
