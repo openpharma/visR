@@ -24,7 +24,13 @@ Suggests:
     testthat (>= 2.1.0),
     knitr,
     rmarkdown,
-    survminer
+    survminer,
+    RColorBrewer,
+    DT,
+    forcats,
+    glue,
+    stringr,
+    xlsx
 RoxygenNote: 7.1.0
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
