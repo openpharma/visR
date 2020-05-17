@@ -11,7 +11,11 @@ vr_table_caption(
 )
 }
 \arguments{
-\item{x}{}
+\item{caption}{The table caption}
+
+\item{label}{Label}
+
+\item{width}{Width}
 }
 \description{
 Create a caption for any table

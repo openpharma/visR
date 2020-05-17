@@ -105,7 +105,9 @@ vr_summarize_tab1.default <- function(x){
 
 #' Create a caption for any table
 #'
-#' @param x
+#' @param caption The table caption
+#' @param label Label
+#' @param width Width
 #'
 #' @export
 vr_table_caption <-function(caption,
@@ -123,10 +125,14 @@ vr_table_caption <-function(caption,
 
 #' Create a caption for any table
 #'
-#' @param x
+#' @param df The df
+#' @param filename The filename
+#' @param format What format. One of "txt", "tsv", "csv", "xlsx"
+#' @param button What does the download button say
 #'
 #' @export
-vr_table_download <- function(df, filename=NULL, format="csv", button="Download data"){
+vr_table_download <- function(
+  df, filename=NULL, format="csv", button="Download data"){
 
   if(!format %in% c("txt", "tsv", "csv", "xlsx")){
     stop("Output file format has to be either txt, tsv, csv or xlsx.")
