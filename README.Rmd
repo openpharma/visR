@@ -15,19 +15,15 @@ knitr::opts_chunk$set(
 library(magrittr)
 ```
 
-# visR 
-
-<img src="man/figures/logo.png" align="right" />
-
-<!-- badges: start -->
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![R build status](https://github.com/openpharma/visR/workflows/R-CMD-check/badge.svg)](https://github.com/openpharma/visR/actions)
-<!-- badges: end -->
+# visR <img src='man/figures/logo.png' align="right" height="131.5" />
 
 The goal of visR is to enable fit-for-purpose, reusable clinical and medical research focused visualizations and tables 
 with sensible defaults and based on sound graphical principles.
 
+[Package documentation](https://openpharma.github.io/visR/)
+
 ## Motivation
+
 By using a common package for visualising data analysis results in the clinical development process, we want to have a **positive influence** on 
 
 * **choice of visualisation** by making it easy explore different visualisation and to use impactful visualisations fit-for-purpose
@@ -35,7 +31,22 @@ By using a common package for visualising data analysis results in the clinical 
 
 We are not judging on what visualisation you chose for your research question, but want facilitate to make you do your work as you need it!
 
-You can read more about the philosophy and architecture in the repo wiki.
+You can read more about the philosophy and architecture in the repo wiki
+
+<!-- badges: start -->
+
+| Badge | Description
+|----------------------|-------------------|
+| [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)     |  |
+| ![R CMD Check develop](https://github.com/openpharma/visR/workflows/R-CMD-check-master/badge.svg?branch=develop)    | Develop |
+| ![R CMD Check master](https://github.com/openpharma/visR/workflows/R-CMD-check-master/badge.svg?branch=master) | Master |
+| [![R build status last active branch (exclude dev and master)](https://github.com/openpharma/visR/workflows/R-CMD-check/badge.svg)](https://github.com/openpharma/visR/actions) | R build status last active branch (exclude dev and master) |
+
+<!-- badges: end -->
+
+
+
+.
 
 ## Installation
 
@@ -64,3 +75,38 @@ Please note that the 'visR' project is released with a [Contributor Code of Cond
 <a href="https://github.com/openpharma/visR/graphs/contributors">
   <img src="https://contributors-img.web.app/image?repo=openpharma/visR" />
 </a>
+
+```{r, echo=FALSE, warning=FALSE, message = FALSE}
+library(dplyr)
+library(ggplot2)
+# remotes::install_github("lorenzwalthert/gitsum")
+activity <- gitsum::parse_log_detailed()
+
+# last 10 commits
+# activity %>%
+#   select(date, short_message, author_name) %>%
+#   arrange(desc(date)) %>%
+#   dplyr::filter(author_name != "GitHub Action") %>%
+#   slice(1:10) %>%
+#   knitr::kable(caption = "last 10 commits")
+
+# plot
+activity %>%
+  dplyr::filter(author_name != "GitHub Action") %>%
+  group_by(
+    Month = lubridate::floor_date(date, "month"),
+    author_email
+    ) %>%
+  summarise(
+    Commits = n()
+  ) %>%
+  ggplot() +
+  geom_col(
+    aes(x = Month, y = Commits, fill = author_email)
+  ) +
+  theme_minimal() +
+  labs(
+    title = "Commit activity in openpharma/visR",
+    subtitle = "Colour = author (names hidden)"
+  ) + theme(legend.position = "none")
+```
