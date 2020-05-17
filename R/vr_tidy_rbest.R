@@ -31,7 +31,7 @@ vr_tidy_rbest <- function(x, prob = 0.95){
   strat <- as.data.frame(x$est_strat(1-prob))
   strat2 <- cbind(strat[1:2], median=strat$mean, strat[3:4])
 
-  df_strat <- tibble(
+  df_strat <- tibble::tibble(
     study = row.names(strat2),
     estimate = strat2$mean,
     se = strat$se,
@@ -45,7 +45,7 @@ vr_tidy_rbest <- function(x, prob = 0.95){
 
   fit <- as.data.frame(fitted(x, type="response", probs=c(0.5, low, up)))
 
-  df_model <- tibble(
+  df_model <-  tibble::tibble(
     study = row.names(fit),
     estimate = fit$mean,
     se = fit$sd,
@@ -70,7 +70,7 @@ vr_tidy_rbest <- function(x, prob = 0.95){
   pred_est3 <- pred_est2[c("MAP", "Mean") %in% est,]
   pred_est3
 
-  df_meta <- tibble(
+  df_meta <-  tibble::tibble(
     study = pred_est3$study,
     estimate = pred_est3$mean,
     se = pred_est3$sd,
@@ -86,7 +86,7 @@ vr_tidy_rbest <- function(x, prob = 0.95){
   td <- rbind(df_strat, df_model, df_meta) %>%
     tidyr::as_tibble() %>%
     dplyr::mutate(
-      study_id = dplyr::group_indices(.data, study),
+      study_id = dplyr::group_indices(., study),
       row_id = dplyr::row_number()
     )
 
