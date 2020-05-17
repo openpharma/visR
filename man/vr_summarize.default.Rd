@@ -7,7 +7,7 @@
 \method{vr_summarize}{default}(x)
 }
 \arguments{
-\item{x}{}
+\item{x}{placeholder}
 }
 \description{
 Create variable summary for all other variable types

@@ -5,7 +5,7 @@ vr_summarize <- function(x) UseMethod("vr_summarize")
 
 #' Create variable summary for factors
 #'
-#' @param x
+#' @param x placeholder
 #'
 #' @export
 vr_summarize.factor <- function(x){
@@ -22,7 +22,7 @@ vr_summarize.factor <- function(x){
 
 #' Create variable summary for numeric variables
 #'
-#' @param x
+#' @param x placeholder
 #'
 #' @export
 vr_summarize.numeric <- function(x){
@@ -40,7 +40,7 @@ vr_summarize.numeric <- function(x){
 
 #' Create variable summary for all other variable types
 #'
-#' @param x
+#' @param x placeholder
 #'
 #' @export
 vr_summarize.default <- function(x){
@@ -58,7 +58,7 @@ vr_summarize_tab1 <- function(x) UseMethod("vr_summarize_tab1")
 
 #' Create variable summary for factors
 #'
-#' @param x
+#' @param x placeholder
 #'
 #' @export
 vr_summarize_tab1.factor <- function(x){
@@ -76,7 +76,7 @@ vr_summarize_tab1.factor <- function(x){
 
 #' Create variable summary for numeric variables
 #'
-#' @param x
+#' @param x placeholder
 #'
 #' @export
 vr_summarize_tab1.numeric <- function(x){
@@ -92,7 +92,7 @@ vr_summarize_tab1.numeric <- function(x){
 
 #' Create variable summary for all other variable types
 #'
-#' @param x
+#' @param x placeholder
 #'
 #' @export
 vr_summarize_tab1.default <- function(x){
