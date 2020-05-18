@@ -5,7 +5,7 @@ on:
       - master
       - develop
   pull_request:
-    branches:
+    branches-ignore:
       - master
       - develop
       - github_actions_ci
