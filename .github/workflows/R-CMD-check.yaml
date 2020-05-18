@@ -1,9 +1,4 @@
 on:
-  push:
-    branches-ignore:
-      - github_actions_ci
-      - master
-      - develop
   pull_request:
     branches-ignore:
       - master
