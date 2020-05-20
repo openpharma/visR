@@ -19,13 +19,15 @@ vr_kaplan_meier(
 \arguments{
 \item{data}{input data set}
 
+\item{equation}{The equation for the KM estimate}
+
 \item{title}{plot title}
 
-\item{abbreviations}{}
+\item{abbreviations}{passed to plot}
 
-\item{variable_definitions}{}
+\item{variable_definitions}{passed to plot}
 
-\item{N}{}
+\item{N}{patients, subjects, etc.}
 
 \item{N_unit}{unit label for big N (i.e. patients, subjects, etc.)}
 
@@ -47,15 +49,16 @@ library(ggplot2)
 # Load data from the Veteran's Cancer Study
 data(veteran)
 
-data <-  veteran \%>\% 
+data <-  veteran \%>\%
   mutate(trt = as.factor(case_when(
-  trt == 1 ~ "standard therapy", 
+  trt == 1 ~ "standard therapy",
   trt == 2 ~ "test chemotherapy"
   )))
-  
+
   vr_kaplan_meier(
-    data = data, 
-    data_source = "Veteran's Lung Cancer Study", 
-    title = "Comparison of survival in male patients having advanced inoperable lung cancer \nunder standard therapy vs. test chemotherapy"
-    )
+    data = data,
+    data_source = "Veteran's Lung Cancer Study",
+    title = paste0(
+      "Comparison of survival in male patients having advanced inoperable ",
+      "lung cancer under standard therapy vs. test chemotherapy"))
 }

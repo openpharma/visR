@@ -47,7 +47,8 @@
 
 
 <meta property="og:title" content="Generate cohort attrition table — vr_attrition_table" />
-<meta property="og:description" content="This function calculates the subjects counts for each step of the cohort selection.
+<meta property="og:description" content="This function calculates the subjects counts for each step of
+the cohort selection.
 By using the description tag you'll notice that I
 can have multiple paragraphs in the description section" />
 <meta property="og:image" content="/logo.png" />
@@ -142,56 +143,71 @@ can have multiple paragraphs in the description section" />
     </div>
 
     <div class="ref-description">
-    <p>This function calculates the subjects counts for each step of the cohort selection.</p>
+    <p>This function calculates the subjects counts for each step of
+the cohort selection.</p>
 <p>By using the description tag you'll notice that I
 can have multiple paragraphs in the description section</p>
     </div>
 
-    <pre class="usage"><span class='fu'>vr_attrition_table</span>(<span class='no'>data</span>, <span class='no'>criteria_descriptions</span>, <span class='no'>criteria_conditions</span>, <span class='no'>subject_column_name</span>)</pre>
+    <pre class="usage"><span class='fu'>vr_attrition_table</span>(<span class='no'>data</span>, <span class='no'>criteria_descriptions</span>, <span class='no'>criteria_conditions</span>,
+<span class='no'>subject_column_name</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>r table. It is used as the input data to count the subjects that meets the criteria of interest</p></td>
+      <td><p>r table. It is used as the input data to count the subjects
+that meets the criteria of interest</p></td>
     </tr>
     <tr>
       <th>criteria_descriptions</th>
-      <td><p>character vector. It contains the descriptions of the inclusion/exclusion criteria.
+      <td><p>character vector. It contains the descriptions
+of the inclusion/exclusion criteria.
 Each element of the vector corresponds to the description of each criterion.</p></td>
     </tr>
     <tr>
       <th>criteria_conditions</th>
-      <td><p>character vector. It contains the corresponding conditions of the criteria.
-These conditions will be used in the table to compute the counts of the subjects.</p></td>
+      <td><p>character vector. It contains the corresponding
+conditions of the criteria.
+These conditions will be used in the table to compute the counts of the
+subjects.</p></td>
     </tr>
     <tr>
       <th>subject_column_name</th>
-      <td><p>character. The column name of the table that contains the subject id.</p></td>
+      <td><p>character. The column name of the table that
+contains the subject id.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The counts and percentages of the remaining and excluded subjects for each step of the cohort selection in a table format.</p>
+    <p>The counts and percentages of the remaining and excluded subjects
+for each step of the cohort selection in a table format.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The vector criteria_descriptions must have the same length with the vector criteria_descriptions</p>
+    <p>The vector criteria_descriptions must have the same length with
+the vector criteria_descriptions</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'># NOT RUN: TODO: This example is throwing an error. Check the issue. 
-# create 500 patient ids, with 'lung' or 'breast' as cancer type, aged between 5 and 105 years old
-# calculate how many patients have lung cancer patients and subsequently which of them are at least 18 years old.
-# cohort &lt;-  dplyr::tibble(patient_id=base::sample(x = 1:1000, size=500), cancer_type=base::sample(c('lung','breast'), 500, replace=T), age=base::sample(x = 5:105, size=500, replace=T))
+    <pre class="examples"><div class='input'># NOT RUN: TODO: This example is throwing an error. Check the issue.
+# create 500 patient ids, with 'lung' or 'breast' as cancer type, aged
+# between 5 and 105 years old
+# calculate how many patients have lung cancer patients and subsequently
+# which of them are at least 18 years old.
+# cohort &lt;-  dplyr::tibble(
+# patient_id=base::sample(x = 1:1000, size=500),
+# cancer_type=base::sample(c('lung','breast'), 500, replace=T),
+# age=base::sample(x = 5:105, size=500, replace=T))
 
 # Run function
 #vr_attrition_table(
-# data                  = cohort, 
-# criteria_descriptions = c("1. lung cancer diagnosis", "2. Be 18 years of age or older."),
+# data                  = cohort,
+# criteria_descriptions =
+  # c("1. lung cancer diagnosis", "2. Be 18 years of age or older."),
 # criteria_conditions   = c("cancer_type=='lung'","age&gt;=18"),
 # subject_column_name   = 'patient_id'
-#) 
+#)
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -208,7 +224,7 @@ These conditions will be used in the table to compute the counts of the subjects
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

@@ -1,16 +1,17 @@
 on:
-  pull_request:
-    branches-ignore:
+  push:
+    branches:
       - master
-      - develop
-      - github_actions_ci
+  pull_request:
+    branches:
+      - master
+      - develop 
 
-name: R-CMD-check
+name: R-CMD-check-master
 
 jobs:
   R-CMD-check:
     runs-on: ${{ matrix.config.os }}
-    if: "!contains(github.event.head_commit.message, '[ci skip]')"
 
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
 
@@ -18,8 +19,10 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: ubuntu-16.04, r: '3.6', rspm: "https://demo.rstudiopm.com/all/__linux__/xenial/latest"}
-          - {os: windows-latest, r: '3.6'}
+          - {os: windows-latest, r: 'release'}
+          - {os: macOS-latest, r: 'release'}
+          - {os: macOS-latest, r: 'devel'}
+          - {os: ubuntu-16.04, r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest"}
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
@@ -37,7 +40,7 @@ jobs:
       - name: Query dependencies
         run: |
           install.packages('remotes')
-          saveRDS(remotes::dev_package_deps(dependencies = TRUE), "depends.Rds", version = 2)
+          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
         shell: Rscript {0}
 
       - name: Cache R packages
@@ -45,8 +48,8 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-r-${{ matrix.config.r }}-${{ hashFiles('depends.Rds') }}
-          restore-keys: ${{ runner.os }}-r-${{ matrix.config.r }}-
+          key: ${{ runner.os }}-r-${{ matrix.config.r }}-1-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ${{ runner.os }}-r-${{ matrix.config.r }}-1-
 
       - name: Install system dependencies
         if: runner.os == 'Linux'
@@ -59,14 +62,14 @@ jobs:
 
       - name: Install dependencies
         run: |
-          remotes::install_cran(c("rstantools", "RBesT", "rcmdcheck"))
           remotes::install_deps(dependencies = TRUE)
+          remotes::install_cran("rcmdcheck")
         shell: Rscript {0}
 
       - name: Check
         env:
           _R_CHECK_CRAN_INCOMING_REMOTE_: false
-        run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), check_dir = "check")
+        run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
         shell: Rscript {0}
 
       - name: Upload check results

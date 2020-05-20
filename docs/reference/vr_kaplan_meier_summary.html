@@ -150,7 +150,8 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>Dataset as dataframe/tibble containing with event data (one row per subject)</p></td>
+      <td><p>Dataset as dataframe/tibble containing with event
+data (one row per subject)</p></td>
     </tr>
     <tr>
       <th>equation</th>
@@ -160,12 +161,14 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>List containing two summary tables: 1) Summary Table with persons at risk, events, median survival times along with 95% CIs over strata and 2) Summary table with test of equality over strata</p>
+    <p>List containing two summary tables: 1) Summary Table with persons
+at risk, events, median survival times along with 95% CIs over strata
+and 2) Summary table with test of equality over strata</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>#' # Create interim data models</span>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>survival</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>survminer</span>)</div><div class='output co'>#&gt; <span class='error'>Error in library(survminer): there is no package called ‘survminer’</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>survminer</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: ggpubr</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"veteran"</span>)
 <span class='no'>data</span> <span class='kw'>&lt;-</span>  <span class='no'>veteran</span> <span class='kw'>%&gt;%</span>
@@ -193,7 +196,26 @@
 #&gt; 3                           Tarone-Ware is in between
 #&gt; </div><div class='input'>
 <span class='co'># Example</span>
-<span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>vr_kaplan_meier_summary</span>(<span class='kw'>data</span><span class='kw'>=</span><span class='no'>BRCAOV.survInfo</span>, <span class='kw'>equation</span><span class='kw'>=</span><span class='st'>"Surv(times, patient.vital_status) ~ admin.disease_code"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in is.data.frame(data): object 'BRCAOV.survInfo' not found</span></div><div class='input'><span class='no'>output</span>[<span class='fl'>1</span>] <span class='co'># Summary Table with persons at risk, events, median survival times along with 95% CIs over strata</span></div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'output' not found</span></div><div class='input'><span class='no'>output</span>[<span class='fl'>2</span>] <span class='co'># Summary table with test of equality over strata</span></div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'output' not found</span></div><div class='input'>
+<span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>vr_kaplan_meier_summary</span>(
+  <span class='kw'>data</span><span class='kw'>=</span><span class='no'>BRCAOV.survInfo</span>,
+  <span class='kw'>equation</span><span class='kw'>=</span><span class='st'>"Surv(times, patient.vital_status) ~ admin.disease_code"</span>)
+<span class='no'>output</span>[<span class='fl'>1</span>] <span class='co'># Summary Table with persons at risk, events,</span></div><div class='output co'>#&gt; [[1]]
+#&gt; </span><span style='color: #555555;'># A tibble: 2 x 6</span><span>
+#&gt;   strata `# persons` `# events` `median survival time` `0.95LCL` `0.95UCL`
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>                  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> brca          </span><span style='text-decoration: underline;'>1</span><span>098        104                   </span><span style='text-decoration: underline;'>3</span><span>472      </span><span style='text-decoration: underline;'>3</span><span>126      </span><span style='text-decoration: underline;'>4</span><span>456
+#&gt; </span><span style='color: #555555;'>2</span><span> ov             576        297                   </span><span style='text-decoration: underline;'>1</span><span>354      </span><span style='text-decoration: underline;'>1</span><span>229      </span><span style='text-decoration: underline;'>1</span><span>470
+#&gt; </div><div class='input'>          <span class='co'># median survival times along with 95% CIs over strata</span>
+<span class='no'>output</span>[<span class='fl'>2</span>] <span class='co'># Summary table with test of equality over strata</span></div><div class='output co'>#&gt; [[1]]
+#&gt;          Test statistic df p.value
+#&gt; 1    Log-rank  222.7897  1       0
+#&gt; 2    Wilcoxon  219.2567  1       0
+#&gt; 3 Tarone-Ware  211.5361  1       0
+#&gt;                                           Description
+#&gt; 1 Log-rank gives more weight on higher values of time
+#&gt; 2  Wilcoxon gives more weight on lower values of time
+#&gt; 3                           Tarone-Ware is in between
+#&gt; </div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -210,7 +232,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

@@ -1,6 +1,6 @@
 Package: visR
 Type: Package
-Title: A package to wrap functionality for plots, tables and diagrams adhering to graphical principles.
+Title: A package to wrap functionality for plots, tables and diagrams adhering to graphical principles
 Description: The goal of visR is to enable fit-for-purpose, reusable clinical and medcial research focused visualizations and tables with sensible defaults and based on sound graphical principles.
 Version: 0.1.1
 Date: 2020-05-14
@@ -23,7 +23,14 @@ Suggests:
     covr,
     testthat (>= 2.1.0),
     knitr,
-    rmarkdown
+    rmarkdown,
+    survminer,
+    RColorBrewer,
+    DT,
+    forcats,
+    glue,
+    stringr,
+    xlsx
 RoxygenNote: 7.1.0
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

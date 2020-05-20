@@ -4,42 +4,57 @@
 \alias{vr_attrition_table}
 \title{Generate cohort attrition table}
 \usage{
-vr_attrition_table(data, criteria_descriptions, criteria_conditions, subject_column_name)
+vr_attrition_table(data, criteria_descriptions, criteria_conditions,
+subject_column_name)
 }
 \arguments{
-\item{data}{r table. It is used as the input data to count the subjects that meets the criteria of interest}
+\item{data}{r table. It is used as the input data to count the subjects
+that meets the criteria of interest}
 
-\item{criteria_descriptions}{character vector. It contains the descriptions of the inclusion/exclusion criteria.
+\item{criteria_descriptions}{character vector. It contains the descriptions
+of the inclusion/exclusion criteria.
 Each element of the vector corresponds to the description of each criterion.}
 
-\item{criteria_conditions}{character vector. It contains the corresponding conditions of the criteria.
-These conditions will be used in the table to compute the counts of the subjects.}
+\item{criteria_conditions}{character vector. It contains the corresponding
+conditions of the criteria.
+These conditions will be used in the table to compute the counts of the
+subjects.}
 
-\item{subject_column_name}{character. The column name of the table that contains the subject id.}
+\item{subject_column_name}{character. The column name of the table that
+contains the subject id.}
 }
 \value{
-The counts and percentages of the remaining and excluded subjects for each step of the cohort selection in a table format.
+The counts and percentages of the remaining and excluded subjects
+for each step of the cohort selection in a table format.
 }
 \description{
-This function calculates the subjects counts for each step of the cohort selection.
+This function calculates the subjects counts for each step of
+the cohort selection.
 
 By using the description tag you'll notice that I
 can have multiple paragraphs in the description section
 }
 \details{
-The vector criteria_descriptions must have the same length with the vector criteria_descriptions
+The vector criteria_descriptions must have the same length with
+the vector criteria_descriptions
 }
 \examples{
-# NOT RUN: TODO: This example is throwing an error. Check the issue. 
-# create 500 patient ids, with 'lung' or 'breast' as cancer type, aged between 5 and 105 years old
-# calculate how many patients have lung cancer patients and subsequently which of them are at least 18 years old.
-# cohort <-  dplyr::tibble(patient_id=base::sample(x = 1:1000, size=500), cancer_type=base::sample(c('lung','breast'), 500, replace=T), age=base::sample(x = 5:105, size=500, replace=T))
+# NOT RUN: TODO: This example is throwing an error. Check the issue.
+# create 500 patient ids, with 'lung' or 'breast' as cancer type, aged
+# between 5 and 105 years old
+# calculate how many patients have lung cancer patients and subsequently
+# which of them are at least 18 years old.
+# cohort <-  dplyr::tibble(
+# patient_id=base::sample(x = 1:1000, size=500),
+# cancer_type=base::sample(c('lung','breast'), 500, replace=T),
+# age=base::sample(x = 5:105, size=500, replace=T))
 
 # Run function
 #vr_attrition_table(
-# data                  = cohort, 
-# criteria_descriptions = c("1. lung cancer diagnosis", "2. Be 18 years of age or older."),
+# data                  = cohort,
+# criteria_descriptions =
+  # c("1. lung cancer diagnosis", "2. Be 18 years of age or older."),
 # criteria_conditions   = c("cancer_type=='lung'","age>=18"),
 # subject_column_name   = 'patient_id'
-#) 
+#)
 }
