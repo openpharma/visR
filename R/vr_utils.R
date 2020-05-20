@@ -1,9 +1,11 @@
+#' Method summarise
+#' @param x placeholder
 #' @export
 vr_summarize <- function(x) UseMethod("vr_summarize")
 
 #' Create variable summary for factors
 #'
-#' @param x
+#' @param x placeholder
 #'
 #' @export
 vr_summarize.factor <- function(x){
@@ -20,7 +22,7 @@ vr_summarize.factor <- function(x){
 
 #' Create variable summary for numeric variables
 #'
-#' @param x
+#' @param x placeholder
 #'
 #' @export
 vr_summarize.numeric <- function(x){
@@ -38,7 +40,7 @@ vr_summarize.numeric <- function(x){
 
 #' Create variable summary for all other variable types
 #'
-#' @param x
+#' @param x placeholder
 #'
 #' @export
 vr_summarize.default <- function(x){
@@ -49,12 +51,14 @@ vr_summarize.default <- function(x){
   list(dat)
 }
 
+#' Create variable summary for table1
+#' @param x placeholder
 #' @export
 vr_summarize_tab1 <- function(x) UseMethod("vr_summarize_tab1")
 
 #' Create variable summary for factors
 #'
-#' @param x
+#' @param x placeholder
 #'
 #' @export
 vr_summarize_tab1.factor <- function(x){
@@ -72,7 +76,7 @@ vr_summarize_tab1.factor <- function(x){
 
 #' Create variable summary for numeric variables
 #'
-#' @param x
+#' @param x placeholder
 #'
 #' @export
 vr_summarize_tab1.numeric <- function(x){
@@ -88,7 +92,7 @@ vr_summarize_tab1.numeric <- function(x){
 
 #' Create variable summary for all other variable types
 #'
-#' @param x
+#' @param x placeholder
 #'
 #' @export
 vr_summarize_tab1.default <- function(x){
@@ -101,7 +105,9 @@ vr_summarize_tab1.default <- function(x){
 
 #' Create a caption for any table
 #'
-#' @param x
+#' @param caption The table caption
+#' @param label Label
+#' @param width Width
 #'
 #' @export
 vr_table_caption <-function(caption,
@@ -119,10 +125,14 @@ vr_table_caption <-function(caption,
 
 #' Create a caption for any table
 #'
-#' @param x
+#' @param df The df
+#' @param filename The filename
+#' @param format What format. One of "txt", "tsv", "csv", "xlsx"
+#' @param button What does the download button say
 #'
 #' @export
-vr_table_download <- function(df, filename=NULL, format="csv", button="Download data"){
+vr_table_download <- function(
+  df, filename=NULL, format="csv", button="Download data"){
 
   if(!format %in% c("txt", "tsv", "csv", "xlsx")){
     stop("Output file format has to be either txt, tsv, csv or xlsx.")

@@ -13,7 +13,7 @@
 #' @param data_source data source name, Default: 'Flatiron'
 #' @param fill_by one_of(c('first_variable', 'last_variable', 'all_flows', 'values')), Default: 'first_variable'
 #' @param col_vector_flow HEX color values for flows, Default: easyalluvial::palette_filter( greys = F)
-#' @param col_vector_value HEX color values  for y levels/values, Default:RColorBrewer::brewer.pal(9, 'Blues')[c(3,6,4,7,5,8)]
+#' @param col_vector_value HEX color values  for y levels/values,.
 #' @param linenames_labels_size, Default: 2.5
 #'
 #' @return list

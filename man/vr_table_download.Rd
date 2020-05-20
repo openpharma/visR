@@ -12,7 +12,13 @@ vr_table_download(
 )
 }
 \arguments{
-\item{x}{}
+\item{df}{The df}
+
+\item{filename}{The filename}
+
+\item{format}{What format. One of "txt", "tsv", "csv", "xlsx"}
+
+\item{button}{What does the download button say}
 }
 \description{
 Create a caption for any table

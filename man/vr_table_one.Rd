@@ -23,11 +23,13 @@ vr_table_one(
 
 \item{caption}{Table caption to include in the rendered table}
 
-\item{groupCols}{Character vector with column names to use for stratification in the summary table. Default: NULL}
+\item{groupCols}{Character vector with column names to use for
+stratification in the summary table. Default: NULL}
 
-\item{summary_function}{A function to summarize variables of different types. Pre-implemented functions are vr_summarize and vr_summarize_tab1}
+\item{summary_function}{A function to summarize variables of different types.
+Pre-implemented functions are vr_summarize and vr_summarize_tab1}
 
-\item{engine}{Rendering engine to use for creating output. Currently implemented are gt, kable and jquery datatable (DT)}
+\item{...}{Pass options to vr_render_tableone}
 }
 \description{
 Create and render a summary table for a dataset
