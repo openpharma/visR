@@ -39,12 +39,12 @@
 #'                               time_unit = time_unit)
 #'                               
 #' ##not run TODO: Check why this example is failing
-#' #vr_plt_kaplan_meier(
-#' # broom_object, 
-#'#  N = "Patients", 
-#'#  time_unit = "days", 
-#'#  #'  data_source = "this is the data source label"
-#' # )
+#' vr_plt_kaplan_meier(
+#'  broom_object, 
+#'  N = "Patients", 
+#'  time_unit = "days", 
+#'  data_source = "this is the data source label"
+#')
 vr_plt_kaplan_meier <- function(
     broom_object, 
     title = "", 
@@ -85,7 +85,7 @@ vr_plt_kaplan_meier <- function(
         ggplot2::xlab(sprintf("time (%s)", time_unit)) + 
         ggplot2::labs(
             title = title, 
-            subtitle = sprintf("N [%s] = %d", N_unit, N), 
+            subtitle = sprintf("N [%s] = %s", N_unit, N), 
             caption = paste(abbreviations_caption, 
                 variable_definitions_caption, data_source_caption))
       
