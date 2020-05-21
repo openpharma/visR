@@ -2,8 +2,8 @@
 #'
 #' TODO: Check the warnings thrown in the examples. 
 #' 
-#' @param data Dataset as dataframe/tibble containing with event data (one row per subject)
-#' @param equation Formula to create survival object
+#' @param data Dataset as dataframe/tibble/data.table containing time-to-event data (one row per subject)
+#' @param equation Formula to create Kaplan-Meier survival object
 #'
 #' @return List containing two summary tables: 1) Summary Table with persons at risk, events, median survival times along with 95% CIs over strata and 2) Summary table with test of equality over strata
 #' @export
@@ -36,7 +36,7 @@ vr_kaplan_meier_summary <- function(
   ) {
 
   # Run survival function
-  fit <- survival::survfit(eval(parse(text = equation)), data = data)
+  fit <- survival::survfit(eval(parse(text = equation)), data = as.data.frame(data))
 
   #quick fix for no strata: Create an artificial one
   if (is.null(fit$strata)){
