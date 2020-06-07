@@ -10,7 +10,6 @@
 #' @export
 #'
 #' @examples
-#' library(visR)
 #' library(survival)
 #' 
 #' ## No stratification
@@ -20,7 +19,6 @@
 #' vr_est_kaplan_meier(data = lung, equation = "Surv(time, status) ~ sex")
 #' 
 #' ## Stratification with one level
-#' 
 #' df <- lung
 #' df$blah <- "One level present"
 #' vr_est_kaplan_meier(data = df, equation = "Surv(time, status) ~ blah")
@@ -28,16 +26,18 @@
 
 vr_est_kaplan_meier <- function(data, equation) {
   data <- as.data.frame(data)
+  formula <- stats::as.formula(equation)
   
   survfit_object <- survival::survfit(
-    eval(parse(text = equation)), data = data
+   formula, data = data
   )
 
   # No strata: Create an artificial one for compatibility with downstream processing
   if (is.null(survfit_object$strata)){
     survfit_object$strata <- as.vector(length(survfit_object$time))
     
-    strat_var <- base::trimws(base::sub('.*~', '', base::gsub(' ', '', equation)), which="both")
+    strat_var <- deparse(formula[[3]])
+    #strat_var <- base::trimws(base::sub('.*~', '', base::gsub(' ', '', equation)), which="both")
     
     if (strat_var == "1"){
       # overall analysis

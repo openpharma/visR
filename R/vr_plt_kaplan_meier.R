@@ -98,8 +98,27 @@
     ## legend position
     
     
-    ## Risk table
-    
+    # ## Risk table
+    #  # use broom object as input
+    # risk_table_data <- vr_est_km_risk_table(data, equation)
+    # 
+    # # Create plot
+    # table <- vr_plt_km_risk_table(risk_table_data,
+    #                               time_unit = time_unit)
+    # curve <- vr_plt_kaplan_meier(
+    #     broom_object, 
+    #     title = title, 
+    #     abbreviations = abbreviations, 
+    #     variable_definitions = variable_definitions, 
+    #     N = N, 
+    #     N_unit = N_unit, 
+    #     time_unit = time_unit, 
+    #     data_source = data_source
+    # ) + ggplot2::xlim(c(0, max(risk_table_data$time)))
+    # 
+    # plot_object <- ggpubr::ggarrange(plotlist = list(curve, table), nrow = 2, ncol = 1, 
+    #     heights = c(4, 1), align = "v")
+    # 
     
     ## ggrob everything into grid
  
