@@ -52,10 +52,10 @@ vr_create_tableone <- function(data, groupCols = NULL, overall=TRUE, summary_fun
   }
   
   data <- data %>% 
-    dplyr::group_by(!!!syms(groupCols))
+    dplyr::group_by(!!!dplyr::syms(groupCols))
   
   data_ns <- data %>% 
-    dplyr::summarise(summary = n()) %>% 
+    dplyr::summarise(summary = dplyr::n()) %>% 
     tidyr::pivot_wider(names_from = tidyselect::any_of(groupCols), values_from = "summary") %>%
     dplyr::mutate(variable = "Sample", summary_id = "N")
   
