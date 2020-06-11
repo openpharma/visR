@@ -27,13 +27,13 @@ vr_summarize.factor <- function(x){
 #' @export
 vr_summarize.numeric <- function(x){
   dat <- list(
-    mean = mean(x, na.rm = T),
-    min = min(x, na.rm = T),
-    Q1 = quantile(x, probs=0.25),
-    median = median(x, na.rm = T) ,
-    Q3 = quantile(x, probs=0.75),
-    max = max(x, na.rm = T),
-    sd = sd(x, na.rm = T)
+    mean = mean(x, na.rm = TRUE),
+    min = min(x, na.rm = TRUE),
+    Q1 = quantile(x, probs=0.25, na.rm = TRUE),
+    median = median(x, na.rm = TRUE),
+    Q3 = quantile(x, probs=0.75, na.rm = TRUE),
+    max = max(x, na.rm = TRUE),
+    sd = sd(x, na.rm = TRUE)
   )
   list(dat)
 }
@@ -81,10 +81,10 @@ vr_summarize_tab1.factor <- function(x){
 #' @export
 vr_summarize_tab1.numeric <- function(x){
   dat <- list(
-    `Mean (SD)` = paste0(format(mean(x, na.rm = T), digits = 3), " (", format(sd(x, na.rm = T), digits = 3), ")"),
-    `Median (IQR)` = paste0(format(median(x, na.rm = T)), " (", format(quantile(x, probs=0.25)),
-                            "-", format(quantile(x, probs=0.75)), ")"),
-    `Min-max` = paste0(format(min(x, na.rm = T)), "-", format(max(x, na.rm = T))),
+    `Mean (SD)` = paste0(format(mean(x, na.rm = TRUE), digits = 3), " (", format(sd(x, na.rm = TRUE), digits = 3), ")"),
+    `Median (IQR)` = paste0(format(median(x, na.rm = TRUE)), " (", format(quantile(x, probs=0.25, na.rm = TRUE)),
+                            "-", format(quantile(x, probs=0.75, na.rm = TRUE)), ")"),
+    `Min-max` = paste0(format(min(x, na.rm = TRUE)), "-", format(max(x, na.rm = TRUE))),
     Missing = paste0(format(sum(is.na(x))), " (", format(100 * sum(is.na(x))/dplyr::n(), trim=TRUE), "%)")
   )
   list(dat)
