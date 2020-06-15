@@ -69,10 +69,15 @@ vr_KM_est <- function(data = NULL
     main <- paste(strata, collapse = " + ")
   }
   
+  ## Calculate survival and add starting point (time 0) to the survfit object.
   formula <- stats::as.formula(glue::glue("Surv({aval}, status) ~ {main}"))
   
   survfit_object <- survival::survfit(
    formula, data = data
+  )
+  
+  survfit_object <- survfit0(
+    survfit_object, start.time = 0
   )
 
   ## No strata: Create an artificial one for compatibility with downstream processing
@@ -88,7 +93,13 @@ vr_KM_est <- function(data = NULL
     }
   } 
 
-  broom_object <- broom::tidy(survfit_object)#%>%
+  broom_object <- broom::tidy(survfit_object)%>%
+    mutate( time = as.integer(time)
+           ,n.risk = as.integer(n.risk)
+           ,n.event = as.integer(n.event)
+           ,n.censor = as.integer(n.censor)
+           )
+
     # dplyr::rename(survival = estimate)%>%
     # dplyr::mutate(failure = 1-survival) #add CI. Would this simple be 1-conf of survival?
   
