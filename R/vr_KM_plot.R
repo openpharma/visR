@@ -67,6 +67,8 @@
     ,xaxistable=FALSE
     ,theme=NULL                         # feed it company-specific theme
     #,footers =                         # I would not use it. We put footers in RTF itself.
+    ,min_at_risk = 0
+    ,time_ticks = NULL
   ){
 
   #validation and verification: eg are we dealing with tidy object or list of objects?
@@ -108,9 +110,12 @@
       plot <- plot +  ggplot2::theme_bw()
     }
   
-    
-
     ## legend position
+    
+    ## risk table
+    if (!is.null(risk_table)){
+      vr_KM_risktable(broom_object, min_at_risk = min_at_risk, time_ticks = time_ticks)
+    }
     
     
     # ## Risk table
