@@ -1,8 +1,45 @@
+#' @title Extended tidy cleaning of selected objects using S3 method
+#'
+#' @description S3 method for extended tidying of selected model outputs.
+#'     The default method relies on broom::tidy to return a tidied object
+#'
+#' @param x S3 object
+#' @param ... other arguments
+#' @examples
+#' 
+#' ## Extended tidying for a survfit object
+#' surv_object <- survival::survfit(data = adtte, Surv(AVAL, 1-CNSR) ~ TRTP)
+#' tidied <- tidyme(surv_object)
+#' 
+#' ## Tidyme for non-included classes
+#' data <- cars
+#' lm_object <- lm(data = cars, speed ~ dist)
+#' lm_tidied <- tidyme(lm_object)
+#' 
+#' @rdname tidyme
+#' @export tidyme
 
 tidyme <- function(x, ...){
   UseMethod("tidyme")
-}  
+} 
 
+#' @return \code{NULL}
+#'
+#' @rdname tidyme
+#' @method tidyme default
+#' @S3method tidyme default
+
+tidyme.default <- function(x, ...){
+  library(broom)
+  base::writeLines("tidyme S3 default method (broom::tidy) used.")
+  return(broom::tidy(x))
+}
+ 
+#' @return \code{NULL}
+#'
+#' @rdname tidyme
+#' @method tidyme survfit
+#' @S3method tideme survfit
 
 tidyme.survfit <- function(x, ...) {
   if (inherits(x, "survfit")) {
@@ -12,8 +49,7 @@ tidyme.survfit <- function(x, ...) {
     
     ## Prepare for cleaning
     reps <- as.vector(length(x$time))
-    callme <- x$call
-  
+
     ## Lists to vectors
     cleaner <- function (x) {
       if (length(x) == 1){
@@ -29,7 +65,7 @@ tidyme.survfit <- function(x, ...) {
              ,n.risk = as.integer(n.risk)
              ,n.event = as.integer(n.event)
              ,n.censor = as.integer(n.censor)
-             ,call = rep(base::paste(x$call, collapse = " "), reps) 
+             ,call = list(x$call) 
             )
 
     if (!is.null(x$strata)) {
