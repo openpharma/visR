@@ -1,7 +1,7 @@
 #' @title Tidied Kaplan Meier analysis based on survival::survfit
 #'
 #' @description This function tidies up a Kaplan-Meier Surv object for downstream processing 
-#'  where the survival probability, number at risk or number censored at each unique time point are required. \cr
+#'  where the survival probability, number at risk or number censored at each unique time point are required.
 #'
 #' @author ??
 #' @author Steven Haesendonckx {shaesen2@@its.jnj.com}
