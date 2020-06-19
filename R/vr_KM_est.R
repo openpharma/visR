@@ -1,6 +1,6 @@
-#' @title Kaplan Meier survival (and failure?) probability for each unique time point 
+#' @title Tidied Kaplan Meier analysis based on survival::survfit
 #'
-#' @description This function tidies a Kaplan-Meier Surv object using broom tidy function for downstream processing 
+#' @description This function tidies up a Kaplan-Meier Surv object for downstream processing 
 #'  where the survival probability, number at risk or number censored at each unique time point are required. \cr
 #'
 #' @author ??
@@ -9,9 +9,10 @@
 #' @param data ADaM Basic Data Structure (BDS) for Time-to-Event analysis. 
 #' @param aval Character Analysis variable. Default is AVAL.
 #' @param strata Character vector, representing the strata for Time-to-Event analysis eg TRT01P. When NULL, an overall analysis is performed.
-#'   Default is NULL.       
+#'   Default is NULL.
+#' @param ... additional arguments passed on to the ellipsis of the call survival::survfit(data = data, formula = Surv({aval}, 1-CNSR) ~ {main}), ...)       
 #'
-#' @return Tidy data frame (tibble) containing the KM summary table. 
+#' @return Tidied data frame (tibble) containing the KM summary table. 
 #' @export
 #'
 #' @examples
@@ -31,12 +32,17 @@
 #' 
 #' ## Stratification with one level
 #' vr_KM_est(data = adtte, strata = "PARAMCD")
+#' 
+#' ## Modify the default analysis by using the ellipsis
+#' vr_KM_est(data=adtte, strata=NULL, ctype=1, conf.int = F)
 
 vr_KM_est <- function(data = NULL
                      ,aval = "AVAL"
                      ,strata = NULL
+                     ,...
                     )
-{  
+{ 
+  
   ## Ensure to have data frame and remove missing aval, strata
   data <- as.data.frame(data)%>%
     tidyr::drop_na({{aval}}, CNSR)
@@ -68,12 +74,12 @@ vr_KM_est <- function(data = NULL
   } else {
     main <- paste(strata, collapse = " + ")
   }
-  
+
   ## Calculate survival and add starting point (time 0) to the survfit object.
   formula <- stats::as.formula(glue::glue("Surv({aval}, status) ~ {main}"))
   
   survfit_object <- survival::survfit(
-   formula, data = data
+   formula, data = data, ...
   )
   
   survfit_object <- survfit0(
@@ -91,17 +97,28 @@ vr_KM_est <- function(data = NULL
       # ~ x with One level in variable present
       attr(survfit_object$strata, "names") <- as.character(data[1, main])
     }
-  } 
-
-  broom_object <- broom::tidy(survfit_object)%>%
+  }
+  
+  ## Tidy complete survfit_object: To manipulate the object, we need to remove class "survfit"
+  class(survfit_object) <-  ("list")
+  l <- survfit_object$strata
+  
+  tidy_survfit <- function (x){
+    if (length(x) == 1 & !is.call(x)){
+      rep(x, l)
+    } else if(is.call(x)){
+      rep(base::paste(x, collapse = " "), l)
+    } else {
+      x
+    }
+  }
+  
+  tidy_object <- dplyr::bind_rows(base::lapply(survfit_object, tidy_survfit))%>%
     mutate( time = as.integer(time)
            ,n.risk = as.integer(n.risk)
            ,n.event = as.integer(n.event)
            ,n.censor = as.integer(n.censor)
            )
 
-    # dplyr::rename(survival = estimate)%>%
-    # dplyr::mutate(failure = 1-survival) #add CI. Would this simple be 1-conf of survival?
-  
-  return(broom_object)
+  return(tidy_object)
 }
