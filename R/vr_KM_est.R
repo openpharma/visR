@@ -42,7 +42,6 @@ vr_KM_est <- function(data = NULL
                      ,...
                     )
 { 
-  
   ## Ensure to have data frame and remove missing aval, strata
   data <- as.data.frame(data)%>%
     tidyr::drop_na({{aval}}, CNSR)
@@ -100,25 +99,7 @@ vr_KM_est <- function(data = NULL
   }
   
   ## Tidy complete survfit_object: To manipulate the object, we need to remove class "survfit"
-  class(survfit_object) <-  ("list")
-  l <- survfit_object$strata
-  
-  tidy_survfit <- function (x){
-    if (length(x) == 1 & !is.call(x)){
-      rep(x, l)
-    } else if(is.call(x)){
-      rep(base::paste(x, collapse = " "), l)
-    } else {
-      x
-    }
-  }
-  
-  tidy_object <- dplyr::bind_rows(base::lapply(survfit_object, tidy_survfit))%>%
-    mutate( time = as.integer(time)
-           ,n.risk = as.integer(n.risk)
-           ,n.event = as.integer(n.event)
-           ,n.censor = as.integer(n.censor)
-           )
+  tidy_object <- tidyme.survfit(survfit_object)
 
   return(tidy_object)
 }
