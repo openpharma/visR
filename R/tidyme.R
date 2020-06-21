@@ -2,7 +2,7 @@
 #'
 #' @description S3 method for extended tidying of selected model outputs.
 #'     The default method relies on broom::tidy to return a tidied object
-#'
+#'     
 #' @param x S3 object
 #' @param ... other arguments
 #' @examples
@@ -36,7 +36,7 @@ tidyme.default <- function(x, ...){
 }
  
 #' @return \code{NULL}
-#'
+#' 
 #' @rdname tidyme
 #' @method tidyme survfit
 #' @S3method tideme survfit
@@ -73,6 +73,7 @@ tidyme.survfit <- function(x, ...) {
       retme$n.strata <- rep(x$n, x$strata)
     } 
   }
+  
   
   return(as_tibble(retme))
 }

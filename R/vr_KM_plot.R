@@ -17,7 +17,7 @@
 #'
 #' ## No stratification
 #' vr_KM_plot(
-#'     broom_object = vr_KM_est(data = adtte)
+#'     survfit_object = vr_KM_est(data = adtte)
 #'    ,title = "Time to First Dermatologic Event"
 #'    ,y_label = "Suvival Probability"
 #'    ,x_label = NULL                    
@@ -27,7 +27,7 @@
 #'  
 #' ## Stratified Kaplan-Meier analysis by `TRTP`
 #' vr_KM_plot(
-#'     broom_object = vr_KM_est(data = adtte, strata = "TRTP")
+#'     survfit_object = vr_KM_est(data = adtte, strata = "TRTP")
 #'    ,title = "Time to First Dermatologic Event"
 #'    ,y_label = "Suvival Probability"
 #'    ,x_label = NULL                    
@@ -37,7 +37,7 @@
 #' 
 #' ## Stratified Kaplan-Meier analysis by `TRTP` and `SEX` 
 #' vr_KM_plot(
-#'     broom_object = vr_KM_est(data = adtte, strata = c("TRTP", "SEX"))
+#'     survfit_object = vr_KM_est(data = adtte, strata = c("TRTP", "SEX"))
 #'    ,title = "Time to First Dermatologic Event"
 #'    ,y_label = "Suvival Probability"
 #'    ,x_label = NULL                    
@@ -47,7 +47,7 @@
 #' 
 #' ## Stratification with one level
 #' vr_KM_plot(
-#'     broom_object = vr_KM_est(data = adtte, strata = "PARAMCD")
+#'     survfit_object = vr_KM_est(data = adtte, strata = "PARAMCD")
 #'    ,title = "Time to First Dermatologic Event"
 #'    ,y_label = "Suvival Probability"
 #'    ,x_label = NULL                    
@@ -58,10 +58,10 @@
 
 ## minimal proposal
   vr_KM_plot <- function(
-     broom_object = NULL
+     survfit_object = NULL
     ,title = NULL
     ,subtitle=NULL                                
-    ,conf_limits=FALSE                  # Alpha level?
+    ,conf_limits=FALSE                  
     ,y_label = "Suvival Probability"
     ,x_label = "time"                   # take PARAMCD (put it inside broom) => "Time to resolution of xxx" How to get units (days/hours)
     ,xaxistable=FALSE
@@ -70,6 +70,9 @@
     ,min_at_risk = 0
     ,time_ticks = NULL
   ){
+    
+  # Extended tidy of survfit class
+  tidy_object <- tidyme.survfit(survfit_object)
 
   #validation and verification: eg are we dealing with tidy object or list of objects?
     
@@ -77,8 +80,8 @@
     
   #look for defined theme inside global environment, if not present look for theme argument, otherwise use bw
     
-    plot <- ggplot2::ggplot(broom_object, aes(x = time)) +
-      geom_step(aes(y = estimate, col = strata)) + 
+    plot <- ggplot2::ggplot(tidy_object, aes(x = time)) +
+      geom_step(aes(y = surv, col = strata)) + 
       ggsci::scale_color_nejm() + 
       ggsci::scale_fill_nejm() + 
       ggplot2::ylab(y_label) + 
@@ -86,7 +89,11 @@
       NULL
       
     if (conf_limits == T){
-      plot <- plot + pammtools::geom_stepribbon(aes(ymin = conf.low, ymax = conf.high, fill = strata), alpha = 0.25)
+      if (survfit_object$conf.type != "none"){
+        plot <- plot + pammtools::geom_stepribbon(aes(ymin = lower, ymax = upper, fill = strata), alpha = 0.25)
+      } else {
+        warning("Confidence limits will not be drawn as they were not estimated.")
+      }
     }
     
     if (!is.null(title)){
@@ -114,7 +121,7 @@
     
     ## risk table
     if (!is.null(risk_table)){
-      vr_KM_risktable(broom_object, min_at_risk = min_at_risk, time_ticks = time_ticks)
+      vr_KM_risktable(tidy_object, min_at_risk = min_at_risk, time_ticks = time_ticks)
     }
     
     

@@ -1,9 +1,8 @@
-#' @title Tidied Kaplan Meier analysis based on survival::survfit
+#' @title Wrapper for Kaplan Meier analysis for an ADaM Basic Data Structure (BDS) for Time-to-Event analysis
+#'  
+#' @description This function performs a a Kaplan-Meier analysis, based on the expected ADaM Basic Data Structure (BDS).
+#'   The function expects that the data has been filtered on the PARAM/PARAMCD of interest. Alternatively, PARAM/PARAMCD can be used as strata. 
 #'
-#' @description This function tidies up a Kaplan-Meier Surv object for downstream processing 
-#'  where the survival probability, number at risk or number censored at each unique time point are required.
-#'
-#' @author ??
 #' @author Steven Haesendonckx {shaesen2@@its.jnj.com}
 #' 
 #' @param data ADaM Basic Data Structure (BDS) for Time-to-Event analysis. 
@@ -12,7 +11,7 @@
 #'   Default is NULL.
 #' @param ... additional arguments passed on to the ellipsis of the call survival::survfit(data = data, formula = Surv({aval}, 1-CNSR) ~ {main}), ...)       
 #'
-#' @return Tidied data frame (tibble) containing the KM summary table. 
+#' @return survfit object, ready for downstream processing in estimation or visualization functions. 
 #' @export
 #'
 #' @examples
@@ -36,11 +35,11 @@
 #' ## Modify the default analysis by using the ellipsis
 #' vr_KM_est(data=adtte, strata=NULL, ctype=1, conf.int = F)
 
-vr_KM_est <- function(data = NULL
-                     ,aval = "AVAL"
-                     ,strata = NULL
-                     ,...
-                    )
+vr_KM_est <- function( data = NULL
+                      ,aval = "AVAL"
+                      ,strata = NULL
+                      ,...
+                     )
 { 
   ## Ensure to have data frame and remove missing aval, strata
   data <- as.data.frame(data)%>%
@@ -98,8 +97,5 @@ vr_KM_est <- function(data = NULL
     }
   }
   
-  ## Tidy complete survfit_object: To manipulate the object, we need to remove class "survfit"
-  tidy_object <- tidyme.survfit(survfit_object)
-
-  return(tidy_object)
+  return(survfit_object)
 }
