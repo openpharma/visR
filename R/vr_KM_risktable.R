@@ -89,5 +89,5 @@ vr_KM_risktable <- function(
       tidyr::gather(key = "variable", value = "value", n.risk, n.event, n.censor) %>%
       dplyr::mutate(strata_variable = sprintf("%s, %s", strata, variable))
 
-  return(risk_table)
+  return(table_data)
 }

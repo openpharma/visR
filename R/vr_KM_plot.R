@@ -120,8 +120,8 @@
     ## legend position
     
     ## risk table
-    if (!is.null(risk_table)){
-      vr_KM_risktable(tidy_object, min_at_risk = min_at_risk, time_ticks = time_ticks)
+    if (!is.null(xaxistable)){
+      risktable <- vr_KM_risktable(tidy_object, min_at_risk = min_at_risk, time_ticks = time_ticks)
     }
     
     
@@ -151,5 +151,5 @@
  
 
     
-    return(plot)
+    return(list(plot, risktable) )
 }
