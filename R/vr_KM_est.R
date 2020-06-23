@@ -2,7 +2,8 @@
 #'  
 #' @description This function performs a a Kaplan-Meier analysis, based on the expected ADaM Basic Data Structure (BDS)
 #'    for Time-to-Event analysis. The function expects that the data has been filtered on the PARAM/PARAMCD of interest.
-#'    Alternatively, PARAM/PARAMCD can be used as strata. 
+#'    Alternatively, PARAM/PARAMCD can be used as strata. \cr
+#'    The result is an object of class `survfit` which can be used in downstream functions.
 #'
 #' @author Steven Haesendonckx {shaesen2@@its.jnj.com}
 #' 
@@ -12,7 +13,8 @@
 #'   Default is NULL.
 #' @param ... additional arguments passed on to the ellipsis of the call survival::survfit(data = data, formula = Surv({aval}, 1-CNSR) ~ {main}), ...)       
 #'
-#' @return survfit object, ready for downstream processing in estimation or visualization functions. 
+#' @return survfit object, ready for downstream processing in estimation or visualization functions.
+#' 
 #' @export
 #'
 #' @examples
@@ -34,7 +36,7 @@
 #' vr_KM_est(data = adtte, strata = "PARAMCD")
 #' 
 #' ## Modify the default analysis by using the ellipsis
-#' vr_KM_est(data=adtte, strata=NULL, ctype=1, conf.int = F)
+#' vr_KM_est(data=adtte, strata=NULL, ctype=1, conf.int = F, timefix=TRUE)
 
 vr_KM_est <- function( data = NULL
                       ,aval = "AVAL"
@@ -42,9 +44,11 @@ vr_KM_est <- function( data = NULL
                       ,...
                      )
 { 
+  #### Capture input + identify ... for updating $call ####
   Call <- as.list(match.call())
-  
-  ## Ensure to have data frame and remove missing aval, strata
+  dots <- list(...)
+
+  #### Ensure to have data frame and remove missing aval, strata ####
   data <- as.data.frame(data)%>%
     tidyr::drop_na({{aval}}, CNSR)
   
@@ -53,7 +57,7 @@ vr_KM_est <- function( data = NULL
       tidyr::drop_na(any_of({{strata}}))
   }
 
-  ## Validate input
+  #### Validate input ####
   reqcols <- c(aval, "CNSR", strata)
 
   if (!sum(reqcols %in% colnames(data)) == length(reqcols))  {
@@ -67,30 +71,37 @@ vr_KM_est <- function( data = NULL
     stop("Censor variable, CNSR, is not numeric.")
   }
   
-  ## Reverse censoring: see ADaM guidelines versus R survival KM analysis
-  data$status <- abs(1-data$CNSR)
-  
+  #### ensure strata is present ####
   if (is.null(strata)){
     main <- "1"
   } else {
     main <- paste(strata, collapse = " + ")
   }
 
-  ## Calculate survival and add starting point (time 0) to the survfit object.
-  formula <- stats::as.formula(glue::glue("Surv({aval}, status) ~ {main}"))
+  #### Calculate survival and add starting point (time 0) to the survfit object. ####
+    ## Reverse censoring: see ADaM guidelines versus R survival KM analysis
+  
+  formula <- stats::as.formula(glue::glue("Surv({aval}, 1-CNSR) ~ {main}"))
   
   survfit_object <- survival::survfit(
    formula, data = data, ...
   )
-  
+
   survfit_object <- survfit0(
     survfit_object, start.time = 0
   )
   
-  ## Update call statement and extend information
+  #### Update call statement with original information and dots, similar as update.default method ####
   survfit_object$call[["formula"]] <- formula
   survfit_object$call[["data"]] <- Call$data
-
+  if (length(dots) > 0){
+    names(survfit_object$call)
+    names(dots)
+    for (i in seq_along(dots)){
+      survfit_object$call[[names(dots)[i]]] <- unlist(dots[i], use.names = F)
+    }
+  }
+  
   if ("PARAM" %in% colnames(data) && length(setdiff(c("PARAMCD", "PARAM"), strata)) == 2){
     # we expect only one unique value => catch mistakes
     survfit_object[["PARAM"]] <- paste(unique(data[["PARAM"]]), collapse = ", ")
@@ -101,7 +112,7 @@ vr_KM_est <- function( data = NULL
     survfit_object[["PARAMCD"]] <- paste(unique(data[["PARAMCD"]]), collapse = ", ")
   } 
   
-  ## No strata: Create an artificial one for compatibility with downstream processing
+  #### No strata: Create an artificial one for compatibility with downstream processing ####
   if (is.null(survfit_object$strata)){
     survfit_object$strata <- as.vector(length(survfit_object$time))
     
@@ -114,5 +125,6 @@ vr_KM_est <- function( data = NULL
     }
   }
   
+  #### Return ####
   return(survfit_object)
 }
