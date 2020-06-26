@@ -13,7 +13,7 @@ vr_summarize.factor <- function(x){
 
   dat <- tibble::enframe(x1) %>%
     dplyr::group_by(value) %>%
-    dplyr::summarise(N = n()) %>%
+    dplyr::summarise(N = dplyr::n()) %>%
     dplyr::mutate(`%` = round(100 * N/sum(N), 3)) %>%
     tidyr::pivot_wider(names_from = value, values_from = c("N", "%"), names_sep=" ") %>%
     as.list()
@@ -27,13 +27,13 @@ vr_summarize.factor <- function(x){
 #' @export
 vr_summarize.numeric <- function(x){
   dat <- list(
-    mean = mean(x, na.rm = T),
-    min = min(x, na.rm = T),
-    Q1 = quantile(x, probs=0.25),
-    median = median(x, na.rm = T) ,
-    Q3 = quantile(x, probs=0.75),
-    max = max(x, na.rm = T),
-    sd = sd(x, na.rm = T)
+    mean = mean(x, na.rm = TRUE),
+    min = min(x, na.rm = TRUE),
+    Q1 = quantile(x, probs=0.25, na.rm = TRUE),
+    median = median(x, na.rm = TRUE),
+    Q3 = quantile(x, probs=0.75, na.rm = TRUE),
+    max = max(x, na.rm = TRUE),
+    sd = sd(x, na.rm = TRUE)
   )
   list(dat)
 }
@@ -66,7 +66,7 @@ vr_summarize_tab1.factor <- function(x){
 
   dat <- tibble::enframe(x1) %>%
     dplyr::group_by(value) %>%
-    dplyr::summarise(N = n()) %>%
+    dplyr::summarise(N = dplyr::n()) %>%
     dplyr::mutate(`n (%)` = paste0(N, " (", format(100 * N/sum(N), digits = 3, trim=TRUE), "%)")) %>%
     dplyr::select(-N) %>%
     tidyr::pivot_wider(names_from = value, values_from = c("n (%)"), names_sep=" ") %>%
@@ -81,11 +81,11 @@ vr_summarize_tab1.factor <- function(x){
 #' @export
 vr_summarize_tab1.numeric <- function(x){
   dat <- list(
-    `Mean (SD)` = paste0(format(mean(x, na.rm = T), digits = 3), " (", format(sd(x, na.rm = T), digits = 3), ")"),
-    `Median (IQR)` = paste0(format(median(x, na.rm = T)), " (", format(quantile(x, probs=0.25)),
-                            "-", format(quantile(x, probs=0.75)), ")"),
-    `Min-max` = paste0(format(min(x, na.rm = T)), "-", format(max(x, na.rm = T))),
-    Missing = paste0(format(sum(is.na(x))), " (", format(100 * sum(is.na(x))/n(), trim=TRUE), "%)")
+    `Mean (SD)` = paste0(format(mean(x, na.rm = TRUE), digits = 3), " (", format(sd(x, na.rm = TRUE), digits = 3), ")"),
+    `Median (IQR)` = paste0(format(median(x, na.rm = TRUE)), " (", format(quantile(x, probs=0.25, na.rm = TRUE)),
+                            "-", format(quantile(x, probs=0.75, na.rm = TRUE)), ")"),
+    `Min-max` = paste0(format(min(x, na.rm = TRUE)), "-", format(max(x, na.rm = TRUE))),
+    Missing = paste0(format(sum(is.na(x))), " (", format(100 * sum(is.na(x))/dplyr::n(), trim=TRUE), "%)")
   )
   list(dat)
 }
@@ -98,7 +98,7 @@ vr_summarize_tab1.numeric <- function(x){
 vr_summarize_tab1.default <- function(x){
   dat <- list(
     `Unique values` = format(length(unique(x))),
-    `Missing (%)` = paste0(format(sum(is.na(x))), " (", format(100 * sum(is.na(x))/n(), trim=TRUE), "%)")
+    `Missing (%)` = paste0(format(sum(is.na(x))), " (", format(100 * sum(is.na(x))/dplyr::n(), trim=TRUE), "%)")
   )
   list(dat)
 }
