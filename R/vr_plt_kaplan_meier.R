@@ -4,7 +4,17 @@
 #' 
 #' @param broom_object, 
 #'
-#' @return ggplot object 
+#' @param broom_object An object via broom
+#' @param title = ""
+#' @param abbreviations = NULL
+#' @param variable_definitions = NULL
+#' @param N = NULL
+#' @param N_unit = "patients"
+#' @param time_unit = "days"
+#' @param data_source = NULL
+#' @param estimate_name = "survival probability"
+#'
+#' @return ggplot object
 #' @export
 #'
 #' @examples
@@ -15,9 +25,9 @@
 #' library(ggplot2)
 #' 
 #' data("veteran")
-#' data <-  veteran %>% 
+#' data <-  veteran %>%
 #'     mutate(trt = as.factor(case_when(
-#'        trt == 1 ~ "standard therapy", 
+#'        trt == 1 ~ "standard therapy",
 #'        trt == 2 ~ "test chemotherapy"
 #'        ))
 #'        , blah = "Only level")

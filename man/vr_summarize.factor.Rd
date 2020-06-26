@@ -7,10 +7,7 @@
 \method{vr_summarize}{factor}(x)
 }
 \arguments{
-\item{x}{}
-}
-\value{
-
+\item{x}{placeholder}
 }
 \description{
 Create variable summary for factors

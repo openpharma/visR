@@ -1,5 +1,5 @@
 #' Generate a tidied risk table
-#' 
+#'
 #' TODO: Describe purpose of function and inputs / outputs
 #'
 #' @param data input data set
@@ -15,9 +15,9 @@
 #' library(ggplot2)
 #' library(dplyr)
 #' data("veteran")
-#' data <-  veteran %>% 
+#' data <-  veteran %>%
 #'     mutate(trt = as.factor(case_when(
-#'        trt == 1 ~ "standard therapy", 
+#'        trt == 1 ~ "standard therapy",
 #'        trt == 2 ~ "test chemotherapy"
 #'    )))
 #'

@@ -7,10 +7,7 @@
 \method{vr_summarize_tab1}{numeric}(x)
 }
 \arguments{
-\item{x}{}
-}
-\value{
-
+\item{x}{placeholder}
 }
 \description{
 Create variable summary for numeric variables

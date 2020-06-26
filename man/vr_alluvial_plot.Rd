@@ -44,7 +44,7 @@ vr_alluvial_plot(
 
 \item{col_vector_flow}{HEX color values for flows, Default: easyalluvial::palette_filter( greys = F)}
 
-\item{col_vector_value}{HEX color values  for y levels/values, Default:RColorBrewer::brewer.pal(9, 'Blues')\link{c(3,6,4,7,5,8)}}
+\item{col_vector_value}{HEX color values  for y levels/values,.}
 
 \item{linenames_labels_size, }{Default: 2.5}
 }

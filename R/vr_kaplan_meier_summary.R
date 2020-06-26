@@ -5,7 +5,9 @@
 #' @param data Dataset as dataframe/tibble/data.table containing time-to-event data (one row per subject)
 #' @param equation Formula to create Kaplan-Meier survival object
 #'
-#' @return List containing two summary tables: 1) Summary Table with persons at risk, events, median survival times along with 95% CIs over strata and 2) Summary table with test of equality over strata
+#' @return List containing two summary tables: 1) Summary Table with persons
+#' at risk, events, median survival times along with 95% CIs over strata
+#' and 2) Summary table with test of equality over strata
 #' @export
 #'
 #' @examples
@@ -15,9 +17,9 @@
 #' library(ggplot2)
 #' library(dplyr)
 #' data("veteran")
-#' data <-  veteran %>% 
+#' data <-  veteran %>%
 #'     mutate(trt = as.factor(case_when(
-#'        trt == 1 ~ "standard therapy", 
+#'        trt == 1 ~ "standard therapy",
 #'        trt == 2 ~ "test chemotherapy"
 #'    )))
 #'
@@ -25,8 +27,11 @@
 #' output <- vr_kaplan_meier_summary(data, equation) 
 #' 
 #' # Example
-#' output <- vr_kaplan_meier_summary(data=BRCAOV.survInfo, equation="Surv(times, patient.vital_status) ~ admin.disease_code")
-#' output[1] # Summary Table with persons at risk, events, median survival times along with 95% CIs over strata
+#' output <- vr_kaplan_meier_summary(
+#'   data=BRCAOV.survInfo,
+#'   equation="Surv(times, patient.vital_status) ~ admin.disease_code")
+#' output[1] # Summary Table with persons at risk, events,
+#'           # median survival times along with 95% CIs over strata
 #' output[2] # Summary table with test of equality over strata
 
 vr_kaplan_meier_summary <- function(

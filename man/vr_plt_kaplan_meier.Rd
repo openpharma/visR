@@ -17,21 +17,21 @@ vr_plt_kaplan_meier(
 )
 }
 \arguments{
-\item{broom_object, }{}
+\item{broom_object}{An object via broom}
 
-\item{title}{= "",}
+\item{title}{= ""}
 
-\item{abbreviations}{= NULL,}
+\item{abbreviations}{= NULL}
 
-\item{variable_definitions}{= NULL,}
+\item{variable_definitions}{= NULL}
 
-\item{N}{= NULL,}
+\item{N}{= NULL}
 
-\item{N_unit}{= "patients",}
+\item{N_unit}{= "patients"}
 
-\item{time_unit}{= "days",}
+\item{time_unit}{= "days"}
 
-\item{data_source}{= NULL,}
+\item{data_source}{= NULL}
 
 \item{estimate_name}{= "survival probability"}
 }
@@ -48,9 +48,9 @@ library(survival)
 library(ggplot2)
 library(dplyr)
 data("veteran")
-data <-  veteran \%>\% 
+data <-  veteran \%>\%
     mutate(trt = as.factor(case_when(
-       trt == 1 ~ "standard therapy", 
+       trt == 1 ~ "standard therapy",
        trt == 2 ~ "test chemotherapy"
    )))
 
@@ -63,12 +63,12 @@ risk_table_data <- vr_est_km_risk_table(data, equation)
 # Create plot
 table <- vr_plt_km_risk_table(risk_table_data,
                               time_unit = time_unit)
-                              
+
 ##not run TODO: Check why this example is failing
 #vr_plt_kaplan_meier(
-# broom_object, 
-#  N = "Patients", 
-#  time_unit = "days", 
+# broom_object,
+#  N = "Patients",
+#  time_unit = "days",
 #  #'  data_source = "this is the data source label"
 # )
 }

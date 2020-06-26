@@ -1,21 +1,13 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# visR
-
-<img src="man/figures/logo.png" align="right" />
-
-<!-- badges: start -->
-
-[![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![R build
-status](https://github.com/openpharma/visR/workflows/R-CMD-check/badge.svg)](https://github.com/openpharma/visR/actions)
-<!-- badges: end -->
+# visR <img src='man/figures/logo.png' align="right" height="131.5" />
 
 The goal of visR is to enable fit-for-purpose, reusable clinical and
 medical research focused visualizations and tables with sensible
 defaults and based on sound graphical principles.
+
+[Package documentation](https://openpharma.github.io/visR/)
 
 ## Motivation
 
@@ -32,7 +24,20 @@ We are not judging on what visualisation you chose for your research
 question, but want facilitate to make you do your work as you need it\!
 
 You can read more about the philosophy and architecture in the repo
-wiki.
+wiki
+
+<!-- badges: start -->
+
+| Badge                                                                                                                                                                           | Description                                                |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)                                 |                                                            |
+| ![R CMD Check develop](https://github.com/openpharma/visR/workflows/R-CMD-check-master/badge.svg?branch=develop)                                                                | Develop                                                    |
+| ![R CMD Check master](https://github.com/openpharma/visR/workflows/R-CMD-check-master/badge.svg?branch=master)                                                                  | Master                                                     |
+| [![R build status last active branch (exclude dev and master)](https://github.com/openpharma/visR/workflows/R-CMD-check/badge.svg)](https://github.com/openpharma/visR/actions) | R build status last active branch (exclude dev and master) |
+
+<!-- badges: end -->
+
+.
 
 ## Installation
 
@@ -58,17 +63,10 @@ Please note that the ‘visR’ project is released with a [Contributor Code
 of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you
 agree to abide by its terms.
 
-## Thanks\!
+## Code contributors
 
-Many thanks to the contributors;
+<a href="https://github.com/openpharma/visR/graphs/contributors">
+<img src="https://contributors-img.web.app/image?repo=openpharma/visR" />
+</a>
 
-[bailliem](https://github.com/bailliem),
-[cschaerfe](https://github.com/cschaerfe),
-[diego-s](https://github.com/diego-s),
-[epijim](https://github.com/epijim),
-[ginberg](https://github.com/ginberg),
-[jameshunterbr](https://github.com/jameshunterbr),
-[jinjooshim](https://github.com/jinjooshim),
-[kawap](https://github.com/kawap),
-[thanos-siadimas](https://github.com/thanos-siadimas),
-[thomas-neitmann](https://github.com/thomas-neitmann)
+<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />

@@ -163,20 +163,24 @@
       <td><p>input data set</p></td>
     </tr>
     <tr>
+      <th>equation</th>
+      <td><p>The equation for the KM estimate</p></td>
+    </tr>
+    <tr>
       <th>title</th>
       <td><p>plot title</p></td>
     </tr>
     <tr>
       <th>abbreviations</th>
-      <td></td>
+      <td><p>passed to plot</p></td>
     </tr>
     <tr>
       <th>variable_definitions</th>
-      <td></td>
+      <td><p>passed to plot</p></td>
     </tr>
     <tr>
       <th>N</th>
-      <td></td>
+      <td><p>patients, subjects, etc.</p></td>
     </tr>
     <tr>
       <th>N_unit</th>
@@ -213,8 +217,9 @@
   <span class='fu'>vr_kaplan_meier</span>(
     <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>,
     <span class='kw'>data_source</span> <span class='kw'>=</span> <span class='st'>"Veteran's Lung Cancer Study"</span>,
-    <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"Comparison of survival in male patients having advanced inoperable lung cancer \nunder standard therapy vs. test chemotherapy"</span>
-    )</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 6 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='vr_kaplan_meier-1.png' alt='' width='700' height='433' /></div></pre>
+    <span class='kw'>title</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(
+      <span class='st'>"Comparison of survival in male patients having advanced inoperable "</span>,
+      <span class='st'>"lung cancer under standard therapy vs. test chemotherapy"</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 6 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='vr_kaplan_meier-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -230,7 +235,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

@@ -6,7 +6,7 @@
 #' @param data input data frame, tibble or data.table for the Kaplan-Meier analysis. 
 #' @param equation Survival equation that defines the analysis.         
 #'
-#' @return tidy data frame (tibble) using the broom tidy function. 
+#' @return tidy data frame (tibble) using the broom tidy function.
 #' @export
 #'
 #' @examples

@@ -1,37 +1,26 @@
-VERSION = $(shell grep ^Version DESCRIPTION | sed s/Version:\ //)
+# h/t to @jimhester and @yihui for this parse block:
+# https://github.com/yihui/knitr/blob/dc5ead7bcfc0ebd2789fe99c527c7d91afb3de4a/Makefile#L1-L4
+# Note the portability change as suggested in the manual:
+# https://cran.r-project.org/doc/manuals/r-release/R-exts.html#Writing-portable-packages
+PKGNAME = `sed -n "s/Package: *\([^ ]*\)/\1/p" DESCRIPTION`
+PKGVERS = `sed -n "s/Version: *\([^ ]*\)/\1/p" DESCRIPTION`
 
-doc:
-	R --slave -e 'library(roxygen2); roxygenise()'
-	-git add --all man/*.Rd
 
-test:
-	R CMD INSTALL --install-tests .
-	R --slave -e 'Sys.setenv(NOT_CRAN="true"); library(testthat); setwd(file.path(.libPaths()[1], "visRam", "tests")); system.time(test_check("visRam", filter="${file}", reporter=ifelse(nchar("${r}"), "${r}", "summary")))'
+all: check
 
-deps:
-	R --slave -e 'install.packages(c("codetools", "testthat", "devtools", "roxygen2", "knitr"), repo="http://cran.at.r-project.org", lib=ifelse(nchar(Sys.getenv("R_LIB")), Sys.getenv("R_LIB"), .libPaths()[1]))'
-
-build: doc
+build:
 	R CMD build .
 
 check: build
-	-R CMD check --as-cran visRam_$(VERSION).tar.gz
-	rm -rf visRam.Rcheck/
+	R CMD check --no-manual $(PKGNAME)_$(PKGVERS).tar.gz
 
-man: doc
-	R CMD Rd2pdf man/ --force
+install_deps:
+	Rscript \
+	-e 'if (!requireNamespace("remotes")) install.packages("remotes")' \
+	-e 'remotes::install_deps(dependencies = TRUE)'
 
-md:
-	R CMD INSTALL --install-tests .
-	mkdir -p inst/doc
-	R -e 'setwd("vignettes"); lapply(dir(pattern="Rmd"), knitr::knit, envir=globalenv())'
-	mv vignettes/*.md inst/doc/
-	-cd inst/doc && ls | grep .md | xargs -n 1 sed -i '' 's/.html)/.md)/g'
-	-cd inst/doc && ls | grep .md | xargs -n 1 egrep "^.. Error"
+install: install_deps build
+	R CMD INSTALL $(PKGNAME)_$(PKGVERS).tar.gz
 
-build-vignettes: md
-	R -e 'setwd("inst/doc"); lapply(dir(pattern="md"), function(x) markdown::markdownToHTML(x, output=sub("\\\\.md", ".html", x)))'
-	cd inst/doc && ls | grep .html | xargs -n 1 sed -i '' 's/.md)/.html)/g'
-
-covr:
-	R --slave -e 'library(covr); cv <- package_coverage(); df <- covr:::to_shiny_data(cv)[["file_stats"]]; cat("Line coverage:", round(100*sum(df[["Covered"]])/sum(df[["Relevant"]]), 1), "percent\\n")'
+clean:
+	@rm -rf $(PKGNAME)_$(PKGVERS).tar.gz $(PKGNAME).Rcheck
