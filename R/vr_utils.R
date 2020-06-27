@@ -63,11 +63,14 @@ vr_summarize_tab1 <- function(x) UseMethod("vr_summarize_tab1")
 #' @export
 vr_summarize_tab1.factor <- function(x){
   x1 <- forcats::fct_explicit_na(x, na_level = "Missing")
-
+  
   dat <- tibble::enframe(x1) %>%
     dplyr::group_by(value) %>%
     dplyr::summarise(N = dplyr::n()) %>%
-    dplyr::mutate(`n (%)` = paste0(N, " (", format(100 * N/sum(N), digits = 3, trim=TRUE), "%)")) %>%
+    dplyr::mutate(`n (%)` = paste0(
+      N, " (",
+      format(100 * N/sum(N), digits = 3, trim = TRUE), "%)")
+    ) %>%
     dplyr::select(-N) %>%
     tidyr::pivot_wider(names_from = value, values_from = c("n (%)"), names_sep=" ") %>%
     as.list()
@@ -81,11 +84,23 @@ vr_summarize_tab1.factor <- function(x){
 #' @export
 vr_summarize_tab1.numeric <- function(x){
   dat <- list(
-    `Mean (SD)` = paste0(format(mean(x, na.rm = TRUE), digits = 3), " (", format(sd(x, na.rm = TRUE), digits = 3), ")"),
-    `Median (IQR)` = paste0(format(median(x, na.rm = TRUE)), " (", format(quantile(x, probs=0.25, na.rm = TRUE)),
-                            "-", format(quantile(x, probs=0.75, na.rm = TRUE)), ")"),
-    `Min-max` = paste0(format(min(x, na.rm = TRUE)), "-", format(max(x, na.rm = TRUE))),
-    Missing = paste0(format(sum(is.na(x))), " (", format(100 * sum(is.na(x))/dplyr::n(), trim=TRUE), "%)")
+    `Mean (SD)` = paste0(
+      format(mean(x, na.rm = TRUE), digits = 3), " (",
+      format(sd(x, na.rm = TRUE), digits = 3), ")"
+    ),
+    `Median (IQR)` = paste0(
+      format(median(x, na.rm = TRUE), digits = 3), " (",
+      format(quantile(x, probs = 0.25, na.rm = TRUE), digits = 3),  "-",
+      format(quantile(x, probs = 0.75, na.rm = TRUE), digits = 3),
+      ")"),
+    `Min-Max` = paste0(
+      format(min(x, na.rm = TRUE), digits = 3), "-",
+      format(max(x, na.rm = TRUE), digits = 3)
+    ),
+    Missing = paste0(
+      format(sum(is.na(x))), " (",
+      format(100 * sum(is.na(x))/dplyr::n(), digits = 3, trim = TRUE),
+      "%)")
   )
   list(dat)
 }
