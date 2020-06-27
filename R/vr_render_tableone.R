@@ -127,7 +127,7 @@ vr_render_tableone_gt <- function(table1_df, title, caption, data_source){
   numcols <- table1_df %>% dplyr::select_if(is.numeric) %>% names()
   # create gt table 
   table1_out <- table1_df %>% 
-    gt::gt(groupname_col = "variable",
+    gt::gt(groupname_col = "Label",
            rowname_col = "statistic") %>% 
     gt::fmt_number(
       columns = numcols,

@@ -63,12 +63,25 @@ vr_create_tableone <- function(dat,
     table1 <- table1_grouped
     
   } else {
-    table1 <- table1_grouped %>%
-      left_join(table1_overall, by = c("variable", "statistic"))
+    table1 <- table1_overall %>%
+      left_join(table1_grouped, by = c("variable", "statistic"))
     
   }
   
-  # add labels if they exist
+  # get and add variable labels if they have labels set
+  var_labels <-  sapply(names(dat), function(x) {
+    ifelse(
+      is.null(attr(dat[[x]], "label")), 
+      NA, attr(dat[[x]], "label"))
+  })
+  
+  var_labels <- tibble::enframe(var_labels,
+                                name = "variable", value = "Label")
+  
+  table1 <- table1 %>%
+    dplyr::left_join(var_labels, by = "variable") %>%
+    dplyr::mutate(Label = ifelse(is.na(Label), variable, Label)) %>%
+    dplyr::select(Label, statistic, everything(), -variable)
   
   return(table1)
   
