@@ -22,6 +22,9 @@
 #' library(glue)
 #' library(dplyr)
 #' library(tidyr)
+#' 
+#' ## load data
+#` load(file = file.path(getwd(), "data/adtte.rda"))
 #'  
 #' ## No stratification
 #' vr_KM_est(data = adtte)
@@ -43,25 +46,19 @@ vr_KM_est <- function( data = NULL
                       ,strata = NULL
                       ,...
                      )
-{ 
+{
   #### Capture input + identify ... for updating $call ####
   Call <- as.list(match.call())
   dots <- list(...)
 
-  #### Ensure to have data frame and remove missing aval, strata ####
-  data <- as.data.frame(data)%>%
-    tidyr::drop_na({{aval}}, CNSR)
-  
-  if (!is.null(strata)){
-    data <- data%>%
-      tidyr::drop_na(any_of({{strata}}))
-  }
-
   #### Validate input ####
-  reqcols <- c(aval, "CNSR", strata)
-
-  if (!sum(reqcols %in% colnames(data)) == length(reqcols))  {
-    stop(paste0("The following columns are missing from the dataset: ", paste(setdiff(reqcols, colnames(data)), collapse = " "), "."))
+  df <- as.character(Call[["data"]])
+  reqcols <- c(strata, "CNSR", aval)
+  
+  # if (!base::exists(data)) stop(paste0("Data ", df, " not found.")) Not compatible with purrr .x
+  
+  if (!all(reqcols %in% colnames(data))){
+    stop(paste0("Following columns are missing from ", df, ": ", paste(setdiff(reqcols, colnames(data)), collapse = " "), "."))
   }
   
   if (! is.character(aval) | ! is.numeric(data[[aval]])){
@@ -71,11 +68,20 @@ vr_KM_est <- function( data = NULL
     stop("Censor variable, CNSR, is not numeric.")
   }
   
-  #### ensure strata is present ####
+  #### Ensure strata is present ####
   if (is.null(strata)){
     main <- "1"
   } else {
     main <- paste(strata, collapse = " + ")
+  }
+  
+  #### Ensure to have data frame and remove missing aval, strata ####
+  data <- as.data.frame(data)%>%
+    tidyr::drop_na({{aval}}, CNSR)
+  
+  if (!is.null(strata)){
+    data <- data%>%
+      tidyr::drop_na(any_of({{strata}}))
   }
 
   #### Calculate survival and add starting point (time 0) to the survfit object. ####
@@ -84,7 +90,7 @@ vr_KM_est <- function( data = NULL
   formula <- stats::as.formula(glue::glue("Surv({aval}, 1-CNSR) ~ {main}"))
   
   survfit_object <- survival::survfit(
-   formula, data = data, ...
+    formula, data = data, ...
   )
 
   survfit_object <- survfit0(

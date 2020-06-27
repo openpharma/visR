@@ -57,3 +57,12 @@ source(paste0(getwd(), "/R/tidyme.R"))
    eval(as.call(Call))
 
    
+## nesting
+   library(purrr)
+   x <- adtte %>%
+      group_by(SEX) %>%
+      nest() %>%
+      mutate(fit = map(data, ~ vr_KM_est(data = .x, strata = .x[["TRT01P"]]))) %>%
+      mutate(tidytbl = map(fit, ~ tidyme.survfit(.x)))%>%
+      unnest(tidytbl)
+   
