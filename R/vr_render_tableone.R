@@ -7,13 +7,13 @@
 #' @param table1_df The summary table of a dataset created by `vr_create_tableone`
 #' @param title Table title to include in the rendered table
 #' @param caption Table caption to include in the rendered table
-#' @param datasource String specifying the datasource underlying the data set
+#' @param data_source String specifying the data source underlying the data set
 #' @param output_format String specifying the format to render the table. Supported formats are: html and latex 
 #' @param engine If html is selected as output format, one can chose between using kable, gt and DT as engine to create the output table
 #' @param download_format Vector of file formats to use for download buttons - passed on to DT buttons. NULL if no download button should be created. Default: c('copy', 'csv', 'excel') 
 #' 
 #' @export
-vr_render_tableone <- function(table1_df, title, caption, datasource, 
+vr_render_tableone <- function(table1_df, title, caption, data_source, 
                                output_format="html", engine="gt", 
                                download_format = c('copy', 'csv', 'excel')){
   # TODO: add code to support rtf
@@ -43,12 +43,12 @@ vr_render_tableone <- function(table1_df, title, caption, datasource,
                      digits = 2,
                      booktabs = T) %>% 
         kableExtra::collapse_rows(valign="top") %>% 
-        kableExtra::footnote(general = datasource,
+        kableExtra::footnote(general = data_source,
                              general_title = "Data Source:")
     }
     else{
       warning(paste("Supported output format of the kable engine are html and latex and not", output_format, " - falling back to html"))
-      vr_render_tableone(table1_df=table1_df, title=title, caption=caption, datasource=datasource,
+      vr_render_tableone(table1_df=table1_df, title=title, caption=caption, data_source = data_source,
                          output_format="html", engine=engine, download_format=download_format)
     }
   }
@@ -60,7 +60,7 @@ vr_render_tableone <- function(table1_df, title, caption, datasource,
       warning(paste("Supported output format of the gt engine are html and latex and not", output_format, " - falling back to html"))
     }
     
-    table1_out <- vr_render_tableone_gt(table1_df, title, caption, datasource)
+    table1_out <- vr_render_tableone_gt(table1_df, title, caption, data_source)
       
     if(output_format == "latex"){
     # note: after this step, the table is not a gt object anymore and thus cannot be further styled
@@ -79,14 +79,14 @@ vr_render_tableone <- function(table1_df, title, caption, datasource,
     # WIP: we may want to create a custom container to allow for stratification of more than one value and merge cells in the description
     # sketch = htmltools::withTags(table(
     #   DT::tableHeader(colnames(table1_df)),
-    #   DT::tableFooter(paste("Source:", datasource))
+    #   DT::tableFooter(paste("Source:", data_source))
     # ))
     
     source_cap <- c(
       "function(settings){",
       "  var datatable = settings.oInstance.api();",
       "  var table = datatable.table().node();",
-      paste("  var caption = 'Data Source:", datasource, "'"),
+      paste("  var caption = 'Data Source:", data_source, "'"),
       "  $(table).append('<caption style=\"caption-side: bottom\">' + caption + '</caption>');",
       "}"
     )
@@ -122,7 +122,7 @@ vr_render_tableone <- function(table1_df, title, caption, datasource,
 }
 
 
-vr_render_tableone_gt <- function(table1_df, title, caption, datasource){
+vr_render_tableone_gt <- function(table1_df, title, caption, data_source){
   # identify numeric columns for special formatting later
   numcols <- table1_df %>% dplyr::select_if(is.numeric) %>% names()
   # create gt table 
@@ -143,7 +143,7 @@ vr_render_tableone_gt <- function(table1_df, title, caption, datasource){
       title = title
     ) %>% 
     # add metadata
-    gt::tab_source_note(source_note = paste("Data Source:", datasource)) %>% 
+    gt::tab_source_note(source_note = paste("Data Source:", data_source)) %>% 
     # add formatting
     gt::tab_options(data_row.padding = gt::px(4))
   

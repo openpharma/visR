@@ -8,7 +8,7 @@ vr_render_tableone(
   table1_df,
   title,
   caption,
-  datasource,
+  data_source,
   output_format = "html",
   engine = "gt",
   download_format = c("copy", "csv", "excel")
@@ -21,7 +21,7 @@ vr_render_tableone(
 
 \item{caption}{Table caption to include in the rendered table}
 
-\item{datasource}{String specifying the datasource underlying the data set}
+\item{data_source}{String specifying the data source underlying the data set}
 
 \item{output_format}{String specifying the format to render the table. Supported formats are: html and latex}
 

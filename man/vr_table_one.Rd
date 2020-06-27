@@ -5,26 +5,26 @@
 \title{Summary Table (Table One)}
 \usage{
 vr_table_one(
-  data,
+  dat,
   title,
-  datasource,
+  data_source,
   caption = "",
-  groupCols = NULL,
+  group_columns = NULL,
   summary_function = vr_summarize_tab1,
   ...
 )
 }
 \arguments{
-\item{data}{The dataframe or tibble to visualise}
+\item{dat}{The data set to summarize as data frame or tibble}
 
 \item{title}{Table title to include in the rendered table}
 
-\item{datasource}{String specifying the datasource underlying the data set}
+\item{data_source}{String specifying the datas ource underlying the data set}
 
 \item{caption}{Table caption to include in the rendered table}
 
-\item{groupCols}{Character vector with column names to use for
-stratification in the summary table. Default: NULL}
+\item{group_columns}{Stratifying/Grouping variable name(s) as character vector.
+If NULL, only overall results are returned}
 
 \item{summary_function}{A function to summarize variables of different types.
 Pre-implemented functions are vr_summarize and vr_summarize_tab1}
@@ -32,7 +32,7 @@ Pre-implemented functions are vr_summarize and vr_summarize_tab1}
 \item{...}{Pass options to vr_render_tableone}
 }
 \description{
-Create and render a summary table for a dataset
+Create and render a summary table for a data set
 
 Calculate summary statistics and present them in a formatted table
 }

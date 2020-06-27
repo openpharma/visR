@@ -5,28 +5,29 @@
 \title{Create Summary Table (also known as Table 1)}
 \usage{
 vr_create_tableone(
-  data,
-  groupCols = NULL,
+  dat,
+  group_columns = NULL,
   overall = TRUE,
   summary_function = vr_summarize_tab1
 )
 }
 \arguments{
-\item{data}{The dataset to summarize as dataframe or tibble}
+\item{dat}{The data set to summarize as data frame or tibble}
 
-\item{groupCols}{Stratifying/Grouping variable name(s) as character vector. If NULL, only overall results are returned}
+\item{group_columns}{Stratifying/Grouping variable name(s) as character vector.
+If NULL, only overall results are returned}
 
-\item{overall}{If TRUE, the summary statistics for the overall dataset are also calculated}
+\item{overall}{If TRUE, the summary statistics for the overall data set are also calculated}
 
 \item{summary_function}{A function defining summary statistics for numeric and categorical values}
 }
 \description{
-Create a summary table of descriptive statistics from a dataframe or tibble.
+Create a summary table of descriptive statistics from a data frame or tibble.
 
 By default the following summary stats are calculated:
 \itemize{
 \item Numeric variables: mean, min, 25th-percentile, median, 75th-percentile, maximum, standard deviation
-\item Factor variables: proportion of each factor level in the overall dataset
+\item Factor variables: proportion of each factor level in the overall data set
 \item Default: number of unique values and number of missing values
 }
 }
@@ -34,7 +35,8 @@ By default the following summary stats are calculated:
 It is possible to provide your own summary function. Please have a loot at vr_summary for inspiration.
 }
 \note{
-All columns in the table will be summarized. If only some columns shall be used, please select only those
+All columns in the table will be summarized.
+If only some columns shall be used, please select only those
 variables prior to creating the summary table by using dplyr::select()
 }
 \examples{
