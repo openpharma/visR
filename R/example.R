@@ -75,3 +75,8 @@ source(paste0(getwd(), "/R/add_KM_risktable.R"))
        add_KM_risktable(min_at_risk = 3)
   )
    
+#### TODO
+ ## fun argument in vr_KM_plot
+ ## adjust add_KM_CI for different options in fun
+ ## create actual risk table underneath plot instead of list
+ ## figure out how to keep adtte as data argument while piping. It is replaced by "." in the survfit call, inactivating it for recalls.
