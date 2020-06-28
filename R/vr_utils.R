@@ -69,7 +69,7 @@ vr_summarize_tab1.factor <- function(x){
     dplyr::summarise(N = dplyr::n()) %>%
     dplyr::mutate(`n (%)` = paste0(
       N, " (",
-      format(100 * N/sum(N), digits = 3, trim = TRUE), "%)")
+      sprintf(100 * N/sum(N), fmt = '%#.1f'), "%)")
     ) %>%
     dplyr::select(-N) %>%
     tidyr::pivot_wider(names_from = value, values_from = c("n (%)"), names_sep=" ") %>%
@@ -85,21 +85,21 @@ vr_summarize_tab1.factor <- function(x){
 vr_summarize_tab1.numeric <- function(x){
   dat <- list(
     `Mean (SD)` = paste0(
-      format(mean(x, na.rm = TRUE), digits = 3), " (",
-      format(sd(x, na.rm = TRUE), digits = 3), ")"
+      sprintf(mean(x, na.rm = TRUE), fmt = '%#.1f'), " (",
+      sprintf(sd(x, na.rm = TRUE), fmt = '%#.1f'), ")"
     ),
     `Median (IQR)` = paste0(
-      format(median(x, na.rm = TRUE), digits = 3), " (",
-      format(quantile(x, probs = 0.25, na.rm = TRUE), digits = 3),  "-",
-      format(quantile(x, probs = 0.75, na.rm = TRUE), digits = 3),
+      sprintf(median(x, na.rm = TRUE), fmt = '%#.1f'), " (",
+      sprintf(quantile(x, probs = 0.25, na.rm = TRUE), fmt = '%#.1f'),  "-",
+      sprintf(quantile(x, probs = 0.75, na.rm = TRUE), fmt = '%#.1f'),
       ")"),
     `Min-Max` = paste0(
-      format(min(x, na.rm = TRUE), digits = 3), "-",
-      format(max(x, na.rm = TRUE), digits = 3)
+      sprintf(min(x, na.rm = TRUE), fmt = '%#.1f'), "-",
+      sprintf(max(x, na.rm = TRUE), fmt = '%#.1f')
     ),
     Missing = paste0(
-      format(sum(is.na(x))), " (",
-      format(100 * sum(is.na(x))/dplyr::n(), digits = 3, trim = TRUE),
+      sum(is.na(x)), " (",
+      sprintf(100 * sum(is.na(x))/dplyr::n(), fmt = '%#.1f'),
       "%)")
   )
   list(dat)
@@ -112,8 +112,11 @@ vr_summarize_tab1.numeric <- function(x){
 #' @export
 vr_summarize_tab1.default <- function(x){
   dat <- list(
-    `Unique values` = format(length(unique(x))),
-    `Missing (%)` = paste0(format(sum(is.na(x))), " (", format(100 * sum(is.na(x))/dplyr::n(), trim=TRUE), "%)")
+    `Unique values` = length(unique(x)),
+    `Missing (%)` = paste0(
+      sum(is.na(x)), " (",
+      sprintf(100 * sum(is.na(x))/dplyr::n(), fmt = '%#.1f'), "%)"
+    )
   )
   list(dat)
 }
