@@ -3,6 +3,8 @@ library(tidyr)
 library(survival)
 library(ggplot2)
 library(broom)
+library(purrr)
+
 
 load(file = file.path(getwd(), "data/adtte.rda"))
 source(paste0(getwd(), "/R/vr_KM_est.R"))
@@ -46,8 +48,7 @@ source(paste0(getwd(), "/R/add_KM_risktable.R"))
 
    
 ## nesting
-   library(purrr)
-   x <- adtte %>%
+   adtte %>%
       group_by(SEX) %>%
       nest() %>%
       mutate(fit = map(data, ~ vr_KM_est(data = .x, strata = .x[["TRT01P"]]))) %>%
@@ -55,21 +56,16 @@ source(paste0(getwd(), "/R/add_KM_risktable.R"))
       unnest(tidytbl)
 
 ## high level plotting
-# (p <-
-#   vr_KM_plot(
-#       survfit_object = survfit_object
-#      ,conf_limits = TRUE                  
-#      ,y_label = "Suvival Probability" 
-#      ,x_label = "time"                   
-#      ,xaxistable=T
-#      ,min_at_risk = 0
-#      ,time_ticks = seq(50,200,50)
-#    )
-# )
-
-   
+ # in this fashion data = "." in call which needs to be replaced => addition functionality in vr_KM_est
  (gg <- adtte%>%
        vr_KM_est(aval = "AVAL", strata = "SEX") %>%
+       vr_KM_plot() %>%
+       add_KM_CI() %>%
+       add_KM_risktable(min_at_risk = 3)
+  )
+
+### in this fashion data = adtte => call can be recycled.  
+ (gg <- vr_KM_est(data=adtte, aval = "AVAL", strata = "SEX") %>%
        vr_KM_plot() %>%
        add_KM_CI() %>%
        add_KM_risktable(min_at_risk = 3)
@@ -79,4 +75,3 @@ source(paste0(getwd(), "/R/add_KM_risktable.R"))
  ## fun argument in vr_KM_plot
  ## adjust add_KM_CI for different options in fun
  ## create actual risk table underneath plot instead of list
- ## figure out how to keep adtte as data argument while piping. It is replaced by "." in the survfit call, inactivating it for recalls.

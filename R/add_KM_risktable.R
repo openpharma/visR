@@ -10,8 +10,7 @@ add_KM_risktable <- function(
     tidy_object <- tidyme(survfit_object)
   } else if (inherits(KM_object, "ggKMsurv")){
     tidy_object <- KM_object$data
-    survfit_object <- KM_object$survfit
-    #survfit_object <- eval(KM_object$data$call[[1]])
+    survfit_object <- eval(KM_object$data$call[[1]])
     ggbld <- ggplot_build(KM_object)
     if (is.null(time_ticks)) time_ticks <- as.numeric(ggbld$layout$panel_params[[1]]$x$get_labels())
   } 
