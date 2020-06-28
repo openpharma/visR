@@ -47,9 +47,29 @@ vr_KM_est <- function( data = NULL
                       ,...
                      )
 {
+  #browser()
+  # https://stackoverflow.com/questions/52066097/get-expression-that-evaluated-to-dot-in-function-called-by-magrittr
+  
   #### Capture input + identify ... for updating $call ####
-  Call <- as.list(match.call())
+  Call <<- as.list(match.call())
   dots <- list(...)
+  syscalls <- as.list(sys.calls())
+  
+  #### Get actual data name as symbol. Magrittre pipe returns "." which inactivates recalls to survfit in downstream functions ####
+    
+    ## Recursively construct Abstract Syntax Tree for a given expression getAST => find first symbol after %>%
+  
+  .getAST <- function(x) purrr::map_if(as.list(x), is.call, .getAST)
+  
+  ASTs <- lapply(syscalls, .getAST ) %>%
+    purrr::keep( ~identical(.[[1]], quote(`%>%`)) )  # Match first element to %>%
+
+  if( !length(ASTs) == 0 ) {
+    uASTs <- base::Filter(function(x) ! as.character(x) %in% c("%>%", as.character(Call[[1]])), unlist(ASTs))
+    Call[["data"]] <- as.symbol(uASTs[[1]])
+  } else {
+    # vr_KM_est is not part of pipe workflow
+  }  
 
   #### Validate input ####
   df <- as.character(Call[["data"]])

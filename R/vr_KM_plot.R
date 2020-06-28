@@ -93,7 +93,6 @@ vr_KM_plot <- function( survfit_object = NULL
     NULL
 
   gg$plotfun <- fun
-  gg$survfit <- survfit_object
   class(gg) <- append(class(gg), "ggKMsurv")
   
   return(gg)
