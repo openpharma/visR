@@ -1,17 +1,19 @@
-library(survival)
-library(dplyr)
-library(tidyr)
-library(broom)
-
-
-vr_KM_risktable <- function(
-   survival_object
+## should we make a method out of this?
+#KM_object <- gg
+add_KM_risktable <- function(
+   KM_object
   ,min_at_risk = 0
   ,time_ticks = NULL
 ){
-  
-  if(inherits(survfit_object, "survfit")){
+
+  if(inherits(KM_object, "survfit")){
     tidy_object <- tidyme(survfit_object)
+  } else if (inherits(KM_object, "ggKMsurv")){
+    tidy_object <- KM_object$data
+    survfit_object <- KM_object$survfit
+    #survfit_object <- eval(KM_object$data$call[[1]])
+    ggbld <- ggplot_build(KM_object)
+    if (is.null(time_ticks)) time_ticks <- as.numeric(ggbld$layout$panel_params[[1]]$x$get_labels())
   } 
   
   ## pull out max time to consider
@@ -89,5 +91,5 @@ vr_KM_risktable <- function(
       tidyr::gather(key = "variable", value = "value", n.risk, n.event, n.censor) %>%
       dplyr::mutate(strata_variable = sprintf("%s, %s", strata, variable))
 
-  return(table_data)
+  return(list(KM_object, table_data))
 }

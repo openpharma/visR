@@ -7,8 +7,9 @@ library(broom)
 load(file = file.path(getwd(), "data/adtte.rda"))
 source(paste0(getwd(), "/R/vr_KM_est.R"))
 source(paste0(getwd(), "/R/vr_KM_plot.R"))
-source(paste0(getwd(), "/R/vr_KM_risktable.R"))
 source(paste0(getwd(), "/R/tidyme.R"))
+source(paste0(getwd(), "/R/add_KM_CI.R"))
+source(paste0(getwd(), "/R/add_KM_risktable.R"))
 
 
 ## Estimation function: return survfit object because it can be passed to many downstream applications
@@ -27,19 +28,6 @@ source(paste0(getwd(), "/R/tidyme.R"))
  # tidyme
    tidy_survobj <- tidyme.survfit(survfit_object)
 
-## high level plotting
-(p <-
-  vr_KM_plot(
-      survfit_object = survfit_object
-     ,conf_limits = TRUE                  
-     ,y_label = "Suvival Probability" 
-     ,x_label = "time"                   
-     ,xaxistable=T
-     ,min_at_risk = 0
-     ,time_ticks = seq(50,200,50)
-   )
-)
-   
 ## rerun the call
    tidy_survobj$call
    eval(tidy_survobj$call[1][[1]])
@@ -65,4 +53,25 @@ source(paste0(getwd(), "/R/tidyme.R"))
       mutate(fit = map(data, ~ vr_KM_est(data = .x, strata = .x[["TRT01P"]]))) %>%
       mutate(tidytbl = map(fit, ~ tidyme.survfit(.x)))%>%
       unnest(tidytbl)
+
+## high level plotting
+# (p <-
+#   vr_KM_plot(
+#       survfit_object = survfit_object
+#      ,conf_limits = TRUE                  
+#      ,y_label = "Suvival Probability" 
+#      ,x_label = "time"                   
+#      ,xaxistable=T
+#      ,min_at_risk = 0
+#      ,time_ticks = seq(50,200,50)
+#    )
+# )
+
+   
+ (gg <- adtte%>%
+       vr_KM_est(aval = "AVAL", strata = "SEX") %>%
+       vr_KM_plot() %>%
+       add_KM_CI() %>%
+       add_KM_risktable(min_at_risk = 3)
+  )
    
