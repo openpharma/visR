@@ -10,7 +10,7 @@
 #' @return Returns the data frame after applying the labels
 #' @export
 #' @examples
-#' mtcars_labeled <- vr_set_attr_labels(
+#' mtcars_labeled <- vr_var_label(
 #'     mtcars,
 #'     labels = list(
 #'         "mpg" = "Miles Per Gallon",
@@ -18,7 +18,7 @@
 #'     )
 #' )
 
-vr_set_attr_labels <- function(dat, labels) {
+vr_var_label <- function(dat, labels) {
     
     for(i in seq_along(labels)) {
         attr(dat[[names(labels[i])]], "label") <- labels[[i]]
