@@ -8,10 +8,9 @@
 #' @author Steven Haesendonckx {shaesen2@@its.jnj.com}
 #' 
 #' @param data ADaM Basic Data Structure (BDS) for Time-to-Event analysis. 
-#' @param aval Character, representing the analysis variable. Default is AVAL.
 #' @param strata Character vector, representing the strata for Time-to-Event analysis eg TRT01P. When NULL, an overall analysis is performed.
 #'   Default is NULL.
-#' @param ... additional arguments passed on to the ellipsis of the call survival::survfit(data = data, formula = Surv({aval}, 1-CNSR) ~ {main}), ...)       
+#' @param ... additional arguments passed on to the ellipsis of the call survival::survfit(data = data, formula = Surv(AVAL, 1-CNSR) ~ {main}), ...)       
 #'
 #' @return survfit object, ready for downstream processing in estimation or visualization functions.
 #' 
@@ -22,6 +21,9 @@
 #' library(glue)
 #' library(dplyr)
 #' library(tidyr)
+#' 
+#' ## load data
+#` load(file = file.path(getwd(), "data/adtte.rda"))
 #'  
 #' ## No stratification
 #' vr_KM_est(data = adtte)
@@ -39,52 +41,63 @@
 #' vr_KM_est(data=adtte, strata=NULL, ctype=1, conf.int = F, timefix=TRUE)
 
 vr_KM_est <- function( data = NULL
-                      ,aval = "AVAL"
                       ,strata = NULL
                       ,...
                      )
-{ 
+{
+
   #### Capture input + identify ... for updating $call ####
-  Call <- as.list(match.call())
+  Call <<- as.list(match.call())
   dots <- list(...)
 
+  #### Get actual data name as symbol ####
+    ## Magrittre pipe returns "." which inactivates recalls to survfit in downstream functions
+    ## map passes .x as Call$data
+  
+  if (as.character(Call[["data"]]) %in% c(".", ".x")){
+    Call[["data"]] <- as.symbol(the_lhs())
+  } 
+
+  #### Validate input ####
+  df <- as.character(Call[["data"]])
+  reqcols <- c(strata, "CNSR", "AVAL")
+  
+  if (! base::exists(df)) stop(paste0("Data ", df, " not found."))
+  
+  if (! all(reqcols %in% colnames(data))){
+    stop(paste0("Following columns are missing from ", df, ": ", paste(setdiff(reqcols, colnames(data)), collapse = " "), "."))
+  }
+  
+  if (! is.numeric(data[["AVAL"]])){
+    stop("Analysis variable, AVAL, is not numeric.")
+  }
+  if (! is.numeric(data[["CNSR"]])){
+    stop("Censor variable, CNSR, is not numeric.")
+  }
+  
+  #### Ensure strata is present ####
+  if (is.null(strata)){
+    main <- "1"
+  } else {
+    main <- paste(strata, collapse = " + ")
+  }
+  
   #### Ensure to have data frame and remove missing aval, strata ####
   data <- as.data.frame(data)%>%
-    tidyr::drop_na({{aval}}, CNSR)
+    tidyr::drop_na(AVAL, CNSR)
   
   if (!is.null(strata)){
     data <- data%>%
       tidyr::drop_na(any_of({{strata}}))
   }
 
-  #### Validate input ####
-  reqcols <- c(aval, "CNSR", strata)
-
-  if (!sum(reqcols %in% colnames(data)) == length(reqcols))  {
-    stop(paste0("The following columns are missing from the dataset: ", paste(setdiff(reqcols, colnames(data)), collapse = " "), "."))
-  }
-  
-  if (! is.character(aval) | ! is.numeric(data[[aval]])){
-    stop("Analysis variable, aval, is not numeric.")
-  }
-  if (! is.numeric(data[["CNSR"]])){
-    stop("Censor variable, CNSR, is not numeric.")
-  }
-  
-  #### ensure strata is present ####
-  if (is.null(strata)){
-    main <- "1"
-  } else {
-    main <- paste(strata, collapse = " + ")
-  }
-
   #### Calculate survival and add starting point (time 0) to the survfit object. ####
     ## Reverse censoring: see ADaM guidelines versus R survival KM analysis
   
-  formula <- stats::as.formula(glue::glue("Surv({aval}, 1-CNSR) ~ {main}"))
+  formula <- stats::as.formula(glue::glue("Surv(AVAL, 1-CNSR) ~ {main}"))
   
   survfit_object <- survival::survfit(
-   formula, data = data, ...
+    formula, data = data, ...
   )
 
   survfit_object <- survfit0(
