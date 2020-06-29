@@ -12,11 +12,12 @@ source(paste0(getwd(), "/R/vr_KM_plot.R"))
 source(paste0(getwd(), "/R/tidyme.R"))
 source(paste0(getwd(), "/R/add_KM_CI.R"))
 source(paste0(getwd(), "/R/add_KM_risktable.R"))
+source(paste0(getwd(), "/R/utilities.R"))
 
 
 ## Estimation function: return survfit object because it can be passed to many downstream applications
-   survfit_object <- vr_KM_est(data = adtte, strata = NULL, aval = "AVAL", conf.int = F,  timefix=TRUE)
-   survfit_object <- vr_KM_est(data = adtte, strata = "TRTP", aval = "AVAL", conf.int = T, timefix=TRUE)
+   survfit_object <- vr_KM_est(data = adtte, strata = NULL, conf.int = F,  timefix=TRUE)
+   survfit_object <- vr_KM_est(data = adtte, strata = "TRTP", conf.int = T, timefix=TRUE)
 
 ## low level plotting depends on list structure of surv object
    plot(survfit_object)
@@ -48,24 +49,26 @@ source(paste0(getwd(), "/R/add_KM_risktable.R"))
 
    
 ## nesting
-   adtte %>%
+   nest <- adtte %>%
       group_by(SEX) %>%
       nest() %>%
       mutate(fit = map(data, ~ vr_KM_est(data = .x, strata = .x[["TRT01P"]]))) %>%
       mutate(tidytbl = map(fit, ~ tidyme.survfit(.x)))%>%
       unnest(tidytbl)
 
+   nest$fit[[1]]
+
 ## high level plotting
  # in this fashion data = "." in call which needs to be replaced => addition functionality in vr_KM_est
  (gg <- adtte%>%
-       vr_KM_est(aval = "AVAL", strata = "SEX") %>%
+       vr_KM_est(strata = "SEX") %>%
        vr_KM_plot() %>%
        add_KM_CI() %>%
        add_KM_risktable(min_at_risk = 3)
   )
 
 ### in this fashion data = adtte => call can be recycled.  
- (gg <- vr_KM_est(data=adtte, aval = "AVAL", strata = "SEX") %>%
+ (gg <- vr_KM_est(data=adtte, strata = "SEX") %>%
        vr_KM_plot() %>%
        add_KM_CI() %>%
        add_KM_risktable(min_at_risk = 3)
