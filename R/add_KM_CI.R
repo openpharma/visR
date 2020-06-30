@@ -9,19 +9,10 @@ add_KM_CI.ggKMsurv <- function(gg, ...){
     return(NULL)
   }
   
- ## find out what was plotted
-  y <- gg$labels$y
-  
  ## CI associated with this:
-  if (y == "surv"){
-    
     gg <- gg +
-      geom_ribbon(aes(ymin = lower, ymax = upper), alpha = 0.1) 
+      geom_ribbon(aes(ymin = est.lower, ymax = est.upper, fill = strata), alpha = 0.1) 
     
-  } else if (y == "cumhaz"){
-    
-  }
-  
   return(gg)
 }
 
