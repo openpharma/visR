@@ -16,7 +16,7 @@ add_KM_CI.ggKMsurv <- function(gg, ...){
   if (y == "surv"){
     
     gg <- gg +
-      geom_ribbon(aes(ymin = lower, ymax = upper), alpha = 0.1) 
+      geom_ribbon(aes(ymin = lower, ymax = upper, fill = strata), alpha = 0.1) 
     
   } else if (y == "cumhaz"){
     
