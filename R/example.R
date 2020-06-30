@@ -10,7 +10,7 @@ load(file = file.path(getwd(), "data/adtte.rda"))
 source(paste0(getwd(), "/R/vr_KM_est.R"))
 source(paste0(getwd(), "/R/vr_KM_plot.R"))
 source(paste0(getwd(), "/R/tidyme.R"))
-source(paste0(getwd(), "/R/add_KM_CI.R"))
+source(paste0(getwd(), "/R/add_CI.R"))
 source(paste0(getwd(), "/R/add_COX_HR.R"))
 source(paste0(getwd(), "/R/add_KM_risktable.R"))
 source(paste0(getwd(), "/R/utilities.R"))
@@ -64,16 +64,21 @@ source(paste0(getwd(), "/R/utilities.R"))
  (gg <- adtte%>%
        vr_KM_est(strata = "SEX") %>%
        vr_KM_plot() %>%
-       add_KM_CI() %>%
+       add_CI() %>%
        add_KM_risktable(min_at_risk = 3)
   )
 
 ### in this fashion data = adtte => call can be recycled.  
  (gg <- vr_KM_est(data=adtte, strata = "SEX") %>%
        vr_KM_plot() %>%
-       add_KM_CI() %>%
+       add_CI() %>%
        add_KM_risktable(min_at_risk = 3)
   )
+   
+  vr_KM_est(data=adtte, strata = "SEX") %>%
+    vr_KM_plot(fun="cumhaz")%>%
+    add_CI()
+   
 
 ### Hazard Ratio
    adtte%>%

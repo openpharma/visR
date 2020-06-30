@@ -34,7 +34,7 @@
 #' vr_KM_plot(survfit_object = fit)
 #' 
 #' ## Plot cumulative hazard
-#' vr_KM_plot(survfit_object = fit, fun = "cumhaz")
+#' vr_KM_plot(survfit_object = fit, fun = "cumhaz", debug=T)
 
 
 vr_KM_plot <- function( survfit_object = NULL
@@ -43,7 +43,7 @@ vr_KM_plot <- function( survfit_object = NULL
                        ,x_units = NULL
                        ,time_ticks = NULL
                        ,y_ticks = NULL
-                       ,fun = "identity"
+                       ,fun = "surv"
                        ,debug = F
                       )
 {
@@ -52,13 +52,29 @@ vr_KM_plot <- function( survfit_object = NULL
   
   #### Input validation ####
   if (!inherits(survfit_object, "survfit")) stop("survfit object is not of class `survfit`")
-  if (!fun %in% c("identity", "surv", "S", "cumhaz", "log", "event", "cloglog")) stop(paste0(fun, " not part of the possibilities."))
 
-  ### Extended tidy of survfit class ####
-  tidy_object <- tidyme.survfit(survfit_object)
+  #### FUN ####
+  if (is.character(fun)) {
+    .transfun <- base::switch(
+      fun,
+      log = function(x) log(x),
+      event = function(x) 1 - x,
+      cumhaz = function(x) -log(x),
+      cloglog = function(x) log(-log(x)),
+      pct = function(x) x * 100,
+      logpct = function(x) 100 * x,
+      surv = function(x) x,
+      stop("Unrecognized fun argument")
+    )
+  } else {
+    stop("fun should be a character.")
+  }
   
-  ### obtain fun ###
-  if (fun %in% c("S", "surv", "identity")) fun <- "surv"
+  ### Extended tidy of survfit class ####
+  tidy_object <- tidyme.survfit(survfit_object) %>%
+    mutate(est= .transfun(surv),
+           est.upper = .transfun(upper),
+           est.lower = .transfun(lower))
 
   #### Obtain alternatives for X-axis ####
   if (is.null(x_label)){
@@ -79,12 +95,7 @@ vr_KM_plot <- function( survfit_object = NULL
   yscaleFUN <- function(x) sprintf("%.2f", x)
   
   gg <- ggplot2::ggplot(tidy_object, aes(x = time, group = strata)) +
-    { if (fun == "cumhaz") {
-        ggplot2::geom_step(aes(y = cumhaz, col = strata))
-      } else if (fun == "surv") {
-        ggplot2::geom_step(aes(y = surv, col = strata))
-      }
-    } +
+    ggplot2::geom_step(aes(y = est, col = strata)) + 
     ggsci::scale_color_nejm() + 
     ggsci::scale_fill_nejm() + 
     ggplot2::scale_x_continuous(name = paste0("\n", x_label), breaks = time_ticks, labels = xscaleFUN, limits = c(min(time_ticks), max(time_ticks))) +
