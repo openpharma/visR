@@ -11,6 +11,7 @@ source(paste0(getwd(), "/R/vr_KM_est.R"))
 source(paste0(getwd(), "/R/vr_KM_plot.R"))
 source(paste0(getwd(), "/R/tidyme.R"))
 source(paste0(getwd(), "/R/add_KM_CI.R"))
+source(paste0(getwd(), "/R/add_COX_HR.R"))
 source(paste0(getwd(), "/R/add_KM_risktable.R"))
 source(paste0(getwd(), "/R/utilities.R"))
 
@@ -73,6 +74,12 @@ source(paste0(getwd(), "/R/utilities.R"))
        add_KM_CI() %>%
        add_KM_risktable(min_at_risk = 3)
   )
+
+### Hazard Ratio
+   adtte%>%
+       vr_KM_est(strata = "SEX") %>%
+       vr_KM_plot() %>%
+       add_COX_HR() 
    
 #### TODO
  ## fun argument in vr_KM_plot
