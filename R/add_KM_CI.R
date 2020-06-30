@@ -11,7 +11,13 @@ add_KM_CI.ggKMsurv <- function(gg, ...){
   
  ## CI associated with this:
     gg <- gg +
+<<<<<<< HEAD
       geom_ribbon(aes(ymin = est.lower, ymax = est.upper, fill = strata), alpha = 0.1) 
+=======
+      geom_ribbon(aes(ymin = lower, ymax = upper, fill = strata), alpha = 0.1) 
+    
+  } else if (y == "cumhaz"){
+>>>>>>> 026ffff029aab733ae1d4fdd31b77b62f00ac333
     
   return(gg)
 }
