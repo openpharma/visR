@@ -1,6 +1,6 @@
 ## should we make a method out of this?
-#KM_object <- gg
-add_KM_risktable <- function(
+
+add_risktable <- function(
    KM_object
   ,min_at_risk = 0
   ,time_ticks = NULL
@@ -13,7 +13,9 @@ add_KM_risktable <- function(
     survfit_object <- eval(KM_object$data$call[[1]])
     ggbld <- ggplot_build(KM_object)
     if (is.null(time_ticks)) time_ticks <- as.numeric(ggbld$layout$panel_params[[1]]$x$get_labels())
-  } 
+  } else {
+    stop("KM object is nor a plot or table created by visR.")
+  }
   
   ## pull out max time to consider
   max_time <- 
