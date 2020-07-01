@@ -4,7 +4,8 @@ library(survival)
 library(ggplot2)
 library(broom)
 library(purrr)
-
+library(gtable)
+library(cowplot)
 
 load(file = file.path(getwd(), "data/adtte.rda"))
 
@@ -67,7 +68,7 @@ source(paste0(getwd(), "/R/utilities.R"))
        vr_KM_est(strata = "SEX") %>%
        vr_plot() %>%
        add_CI() %>%
-       add_KM_risktable(min_at_risk = 3)
+       add_risktable(min_at_risk = 3)
   )
 
 ### in this fashion data = adtte => call can be recycled.  
@@ -79,11 +80,12 @@ source(paste0(getwd(), "/R/utilities.R"))
 
   adtte%>%
     vr_KM_est(strata = "SEX") %>%
-    vr_plot(legend.position = "right") %>%
+    vr_plot(legend.position = "bottom") %>%
     add_CI() %>%
-    add_CNSR(shape = 3, size = 2)
+    add_CNSR(shape = 3, size = 2)%>%
+    add_risktable()
 
-
+ 
 ### Hazard Ratio
    adtte%>%
        vr_KM_est(strata = "SEX") %>%

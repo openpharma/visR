@@ -4,8 +4,10 @@ add_risktable <- function(
    KM_object
   ,min_at_risk = 0
   ,time_ticks = NULL
+  ,display = c("n.risk") #other options could be n.censor n.event
 ){
 
+  #### User input validation ####
   if(inherits(KM_object, "survfit")){
     tidy_object <- tidyme(survfit_object)
   } else if (inherits(KM_object, "ggsurvfit")){
@@ -17,7 +19,10 @@ add_risktable <- function(
     stop("KM object is nor a plot or table created by visR.")
   }
   
-  ## pull out max time to consider
+  if (min_at_risk < 0 && min_at_risk %% 1 == 0) stop("min_at_risk needs to be a positive integer.")
+  
+  
+  #### Pull out max time to consider ####
   max_time <- 
     tidy_object %>% 
     filter(n.risk >= min_at_risk) %>% 
@@ -27,7 +32,7 @@ add_risktable <- function(
     summarize(min_time = min(max_time)) %>% 
     pull(min_time)
   
-  ## time_ticks
+  #### Time_ticks ####
   if (is.null(time_ticks)){
     times <- tidy_object[["time"]][tidy_object[["time"]] <= max_time]
     time_ticks <- pretty(times, 5)
@@ -74,23 +79,61 @@ add_risktable <- function(
   #   arrange(strata, time) %>%
   #   mutate(at.risk = n-cumsum(n.event)-cumsum(n.censor))
 
-  # Build risk table
+  #### Build risk table ####
   survfit_summary <- summary(survfit_object, times = time_ticks, extend = TRUE)
-  table_data <- data.frame(
+  
+  summary_data <- data.frame(
       time = survfit_summary$time,
       n.risk = survfit_summary$n.risk,
       n.event = survfit_summary$n.event,
-      strata = survfit_summary$strata
-  )
-  table_data <-
-      table_data %>%
-      dplyr::mutate(n.censor = lag(n.risk) - (n.risk + n.event)) %>%
-      dplyr::mutate(n.censor = case_when(
-          n.censor >= 0 ~ n.censor,
-          TRUE ~ 0
-      )) %>%
-      tidyr::gather(key = "variable", value = "value", n.risk, n.event, n.censor) %>%
-      dplyr::mutate(strata_variable = sprintf("%s, %s", strata, variable))
+      strata = base::sub('.*=', '', survfit_summary$strata)
+  ) %>%
+    ## correct calculation of n.censor
+    dplyr::mutate(n.censor = lag(n.risk) - (n.risk + n.event)) %>%
+    dplyr::mutate(n.censor = case_when(
+      n.censor >= 0 ~ n.censor,
+      TRUE ~ 0
+      )
+    ) 
+  
+  if (!inherits(KM_object, "ggsurvfit")){
+    return(summary_data)
+  } else {
+  
+    # pivot_wider( 
+    #           id_cols = strata, 
+    #           names_from = time, 
+    #           values_from = c("n.risk"))
+  
 
-  return(list(KM_object, table_data))
+    ggrisk <- ggplot(summary_data,aes(x = time, y = strata, label = format(get(display), nsmall = 0))) +
+      geom_text(size = 3, hjust=0.5, vjust=0.5, angle=0, show.legend = F) +
+      theme_bw() +
+      ggtitle({{display}}) +
+      theme(axis.title.x = element_text(size = 10, vjust = 1),
+            panel.grid.major = element_blank(),
+            panel.grid.minor = element_blank(),
+            panel.border = element_blank(),
+            axis.line = element_blank(),
+            axis.text.x = element_blank(),
+            axis.ticks = element_blank(),
+            axis.text.y = element_text(size=8, colour = "black", face = "plain"),
+            plot.margin = unit(c(1,0,0,0), "lines"),
+            plot.title = element_text(hjust = 0, vjust = 0)
+           ) +
+      xlab(NULL) + 
+      ylab(NULL) 
+  
+   
+  
+     library(gtable)
+     ## ggplot2 - make plots equal in columns
+     gg <- AlignPlots(KM_object, ggrisk)
+     ## cowplot allows to align according to an axis (+left) and change the heigth
+     gg <- cowplot::plot_grid(gg[[1]], gg[[2]], align = "l", nrow = 2, rel_heights = c(16/20, 4/20))
+
+  
+
+    return(gg)
+  }
 }
