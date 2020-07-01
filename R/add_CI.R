@@ -4,14 +4,13 @@ add_CI <- function(gg, ...){
 
 add_CI.ggKMsurv <- function(gg, ...){
 
-  if (!"conf.int" %in% colnames(gg$data)){
+  if (! base::all(c("est.lower", "est.upper")  %in% colnames(gg$data))) {
     warning("Confidence limits were not part of original estimation.")
     return(NULL)
   }
   
- ## CI associated with this:
-    gg <- gg +
-      geom_ribbon(aes(ymin = est.lower, ymax = est.upper, fill = strata), alpha = 0.1) 
+  gg <- gg +
+    geom_ribbon(aes(ymin = est.lower, ymax = est.upper, fill = strata), alpha = 0.1) 
     
   return(gg)
 }

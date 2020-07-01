@@ -11,8 +11,9 @@ source(paste0(getwd(), "/R/vr_KM_est.R"))
 source(paste0(getwd(), "/R/vr_KM_plot.R"))
 source(paste0(getwd(), "/R/tidyme.R"))
 source(paste0(getwd(), "/R/add_CI.R"))
+source(paste0(getwd(), "/R/add_CNSR.R"))
 source(paste0(getwd(), "/R/add_COX_HR.R"))
-source(paste0(getwd(), "/R/add_KM_risktable.R"))
+source(paste0(getwd(), "/R/add_risktable.R"))
 source(paste0(getwd(), "/R/utilities.R"))
 
 
@@ -72,13 +73,15 @@ source(paste0(getwd(), "/R/utilities.R"))
  (gg <- vr_KM_est(data=adtte, strata = "SEX") %>%
        vr_KM_plot() %>%
        add_CI() %>%
-       add_KM_risktable(min_at_risk = 3)
+       add_risktable(min_at_risk = 3)
   )
-   
-  vr_KM_est(data=adtte, strata = "SEX") %>%
-    vr_KM_plot(fun="cumhaz")%>%
-    add_CI()
-   
+
+  adtte%>%
+    vr_KM_est(strata = "SEX") %>%
+    vr_KM_plot(legend.position = "bottom") %>%
+    add_CI() %>%
+    add_CNSR(shape = 3, size = 2)
+
 
 ### Hazard Ratio
    adtte%>%
@@ -87,6 +90,7 @@ source(paste0(getwd(), "/R/utilities.R"))
        add_COX_HR() 
    
 #### TODO
- ## fun argument in vr_KM_plot
- ## adjust add_KM_CI for different options in fun
+ ## fun argument in vr_KM_plot: validate transformations
  ## create actual risk table underneath plot instead of list
+ ## create actual HR table
+ ## method for plotting?

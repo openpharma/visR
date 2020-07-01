@@ -44,6 +44,7 @@ vr_KM_plot <- function( survfit_object = NULL
                        ,time_ticks = NULL
                        ,y_ticks = NULL
                        ,fun = "surv"
+                       ,legend.position = "right"
                        ,debug = F
                       )
 {
@@ -52,7 +53,12 @@ vr_KM_plot <- function( survfit_object = NULL
   
   #### Input validation ####
   if (!inherits(survfit_object, "survfit")) stop("survfit object is not of class `survfit`")
-
+  if (is.character(legend.position) && ! legend.position %in% c("top", "bottom", "right", "left", "none")){
+    stop("Invalid legend position given.")
+  } else if (is.numeric(legend.position) && length(legend.position) == 2) {
+    stop("Invalid legend position coordinates given.")
+  }
+  
   #### FUN ####
   if (is.character(fun)) {
     .transfun <- base::switch(
@@ -101,6 +107,7 @@ vr_KM_plot <- function( survfit_object = NULL
     ggplot2::scale_x_continuous(name = paste0("\n", x_label), breaks = time_ticks, labels = xscaleFUN, limits = c(min(time_ticks), max(time_ticks))) +
     ggplot2::scale_y_continuous(name = paste0(y_label, "\n"), breaks = y_ticks, labels = yscaleFUN, limits = c(min(y_ticks), max(y_ticks))) +
     ggplot2::theme_bw() +
+    ggplot2::theme(legend.position = legend.position)
     NULL
 
   gg$plotfun <- fun
