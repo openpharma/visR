@@ -2,7 +2,7 @@ add_COX_HR <- function(gg, ...){
   UseMethod("add_COX_HR")
 } 
 
-add_COX_HR.ggKMsurv <- function(gg, ...){
+add_COX_HR.ggsurvfit <- function(gg, ...){
   
   ### Question: how do we want to use this function?
   

@@ -7,8 +7,9 @@ library(purrr)
 
 
 load(file = file.path(getwd(), "data/adtte.rda"))
+
 source(paste0(getwd(), "/R/vr_KM_est.R"))
-source(paste0(getwd(), "/R/vr_KM_plot.R"))
+source(paste0(getwd(), "/R/vr_plot.R"))
 source(paste0(getwd(), "/R/tidyme.R"))
 source(paste0(getwd(), "/R/add_CI.R"))
 source(paste0(getwd(), "/R/add_CNSR.R"))
@@ -64,21 +65,21 @@ source(paste0(getwd(), "/R/utilities.R"))
  # in this fashion data = "." in call which needs to be replaced => addition functionality in vr_KM_est
  (gg <- adtte%>%
        vr_KM_est(strata = "SEX") %>%
-       vr_KM_plot() %>%
+       vr_plot() %>%
        add_CI() %>%
        add_KM_risktable(min_at_risk = 3)
   )
 
 ### in this fashion data = adtte => call can be recycled.  
  (gg <- vr_KM_est(data=adtte, strata = "SEX") %>%
-       vr_KM_plot() %>%
+       vr_plot() %>%
        add_CI() %>%
        add_risktable(min_at_risk = 3)
   )
 
   adtte%>%
     vr_KM_est(strata = "SEX") %>%
-    vr_KM_plot(legend.position = "bottom") %>%
+    vr_plot(legend.position = "right") %>%
     add_CI() %>%
     add_CNSR(shape = 3, size = 2)
 
@@ -86,11 +87,11 @@ source(paste0(getwd(), "/R/utilities.R"))
 ### Hazard Ratio
    adtte%>%
        vr_KM_est(strata = "SEX") %>%
-       vr_KM_plot() %>%
+       vr_plot() %>%
        add_COX_HR() 
    
 #### TODO
- ## fun argument in vr_KM_plot: validate transformations
+ ## fun argument in vr_plot: validate transformations
  ## create actual risk table underneath plot instead of list
  ## create actual HR table
  ## method for plotting?

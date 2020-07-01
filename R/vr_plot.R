@@ -1,3 +1,11 @@
+vr_plot <- function(x, ...){
+  UseMethod("vr_plot")
+} 
+
+add_vr_plot.default <- function(x, ...){
+  base::plot(x)
+}
+
 #' Plot Kaplan-Meier Curve for Existing Tidy Survival Object
 #'
 #' TODO: Currently we choose between survival and cumhazard using the cumhazard argument => use funs = argument to define what to plot
@@ -37,17 +45,17 @@
 #' vr_KM_plot(survfit_object = fit, fun = "cumhaz", debug=T)
 
 
-vr_KM_plot <- function( survfit_object = NULL
-                       ,y_label = NULL
-                       ,x_label = NULL
-                       ,x_units = NULL
-                       ,time_ticks = NULL
-                       ,y_ticks = NULL
-                       ,fun = "surv"
-                       ,legend.position = "right"
-                       ,debug = F
-                      )
-{
+vr_plot.survfit <- function(
+  survfit_object = NULL
+ ,y_label = NULL
+ ,x_label = NULL
+ ,x_units = NULL
+ ,time_ticks = NULL
+ ,y_ticks = NULL
+ ,fun = "surv"
+ ,legend.position = "right"
+ ,debug = F
+ ) {
   
   if (debug == T) browser()
   
@@ -55,7 +63,7 @@ vr_KM_plot <- function( survfit_object = NULL
   if (!inherits(survfit_object, "survfit")) stop("survfit object is not of class `survfit`")
   if (is.character(legend.position) && ! legend.position %in% c("top", "bottom", "right", "left", "none")){
     stop("Invalid legend position given.")
-  } else if (is.numeric(legend.position) && length(legend.position) == 2) {
+  } else if (is.numeric(legend.position) && length(legend.position) != 2) {
     stop("Invalid legend position coordinates given.")
   }
   
@@ -111,7 +119,7 @@ vr_KM_plot <- function( survfit_object = NULL
     NULL
 
   gg$plotfun <- fun
-  class(gg) <- append(class(gg), "ggKMsurv")
+  class(gg) <- append(class(gg), "ggsurvfit")
   
   return(gg)
 }

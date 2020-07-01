@@ -8,7 +8,7 @@ add_risktable <- function(
 
   if(inherits(KM_object, "survfit")){
     tidy_object <- tidyme(survfit_object)
-  } else if (inherits(KM_object, "ggKMsurv")){
+  } else if (inherits(KM_object, "ggsurvfit")){
     tidy_object <- KM_object$data
     survfit_object <- eval(KM_object$data$call[[1]])
     ggbld <- ggplot_build(KM_object)
