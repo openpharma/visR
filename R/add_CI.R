@@ -2,7 +2,7 @@ add_CI <- function(gg, ...){
   UseMethod("add_CI")
 } 
 
-add_CI.ggKMsurv <- function(gg, ...){
+add_CI.ggsurvfit <- function(gg, ...){
 
   if (! base::all(c("est.lower", "est.upper")  %in% colnames(gg$data))) {
     warning("Confidence limits were not part of original estimation.")
