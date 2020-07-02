@@ -5,11 +5,13 @@ add_risktable <- function(
   ,min_at_risk = 0
   ,time_ticks = NULL
   ,display = c("n.risk") #other options could be n.censor n.event
+  ,titles  =c("Subjects at risk")
 ){
-
+  
   #### User input validation ####
   if(inherits(KM_object, "survfit")){
     tidy_object <- tidyme(survfit_object)
+    if (is.null(time_ticks)) time_ticks <- pretty(tidy_object[["time"]], 5)
   } else if (inherits(KM_object, "ggsurvfit")){
     tidy_object <- KM_object$data
     survfit_object <- eval(KM_object$data$call[[1]])
@@ -33,11 +35,8 @@ add_risktable <- function(
     pull(min_time)
   
   #### Time_ticks ####
-  if (is.null(time_ticks)){
-    times <- tidy_object[["time"]][tidy_object[["time"]] <= max_time]
-    time_ticks <- pretty(times, 5)
-  }
-  
+  times <- time_ticks[time_ticks <= max_time]
+
   # ## Create bins for at risk calculation => allows us to select max time where time <= time_ticks
   # binned_object <- survfit_object %>%
   #   mutate(bins = as.character(cut(time, c(-Inf, time_ticks), right = FALSE, include.lowest = TRUE)))%>%
@@ -80,7 +79,7 @@ add_risktable <- function(
   #   mutate(at.risk = n-cumsum(n.event)-cumsum(n.censor))
 
   #### Build risk table ####
-  survfit_summary <- summary(survfit_object, times = time_ticks, extend = TRUE)
+  survfit_summary <- summary(survfit_object, times = times, extend = TRUE)
   
   summary_data <- data.frame(
       time = survfit_summary$time,
@@ -96,44 +95,44 @@ add_risktable <- function(
       )
     ) 
   
-  if (!inherits(KM_object, "ggsurvfit")){
-    return(summary_data)
-  } else {
-  
-    # pivot_wider( 
-    #           id_cols = strata, 
-    #           names_from = time, 
-    #           values_from = c("n.risk"))
-  
+  if (!inherits(KM_object, "ggsurvfit")) return(summary_data)
 
+  .plttbl <- function(display, titles){
     ggrisk <- ggplot(summary_data,aes(x = time, y = strata, label = format(get(display), nsmall = 0))) +
-      geom_text(size = 3, hjust=0.5, vjust=0.5, angle=0, show.legend = F) +
-      theme_bw() +
-      ggtitle({{display}}) +
-      theme(axis.title.x = element_text(size = 10, vjust = 1),
-            panel.grid.major = element_blank(),
-            panel.grid.minor = element_blank(),
-            panel.border = element_blank(),
-            axis.line = element_blank(),
-            axis.text.x = element_blank(),
-            axis.ticks = element_blank(),
-            axis.text.y = element_text(size=8, colour = "black", face = "plain"),
-            plot.margin = unit(c(1,0,0,0), "lines"),
-            plot.title = element_text(hjust = 0, vjust = 0)
-           ) +
-      xlab(NULL) + 
-      ylab(NULL) 
-  
-   
-  
-     library(gtable)
-     ## ggplot2 - make plots equal in columns
-     gg <- AlignPlots(KM_object, ggrisk)
-     ## cowplot allows to align according to an axis (+left) and change the heigth
-     gg <- cowplot::plot_grid(gg[[1]], gg[[2]], align = "l", nrow = 2, rel_heights = c(16/20, 4/20))
-
-  
-
-    return(gg)
+    geom_text(size = 3.5, hjust=0.5, vjust=0.5, angle=0, show.legend = F) +
+    theme_bw() +
+    ggtitle({{titles}}) +
+    theme(axis.title.x = element_text(size = 10, vjust = 1),
+          panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          panel.border = element_blank(),
+          axis.line = element_blank(),
+          axis.text.x = element_blank(),
+          axis.ticks = element_blank(),
+          axis.text.y = element_text(size=8, colour = "black", face = "plain"),
+          plot.margin = unit(c(1,0,0,0), "lines"),
+          plot.title = element_text(hjust = 0, vjust = 0)
+         ) +
+    xlab(NULL) + 
+    ylab(NULL) 
+    
+    return(ggrisk)
   }
+  
+  a <- .plttbl(display[1], titles[1])
+  #b <- .plttbl(display[2], titles[2]) ## find a way to quickly apply function to all what we want to display
+
+  ## ggplot2 - make plots equal in columns
+  ggA <- AlignPlots(KM_object, a) #, b)
+  
+  ## cowplot allows to align according to an axis (+left) and change the heigth
+  ggB <- cowplot::plot_grid(plotlist = ggA,
+                           align = "l",
+                           nrow = length(ggA),
+                           rel_heights = c(1-(8/50 * (length(ggA)-1)), rep(8/50, length(ggA)-1))
+                          )
+  
+  return(ggB)
 }
+
+
