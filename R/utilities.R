@@ -25,7 +25,6 @@ AlignPlots <- function(...) {
     x$widths <- max.widths
     x
   })
-
   
   plots.grobs.eq.widths.aligned <- lapply(plots.grobs.eq.widths, function(x) {
     if (is.gtable(x$grobs[[8]])) {
@@ -36,4 +35,3 @@ AlignPlots <- function(...) {
 
   plots.grobs.eq.widths.aligned
 }
-

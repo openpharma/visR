@@ -83,7 +83,7 @@ source(paste0(getwd(), "/R/utilities.R"))
     vr_plot(legend.position = "bottom") %>%
     add_CI() %>%
     add_CNSR(shape = 3, size = 2)%>%
-    add_risktable()
+    add_risktable(min_at_risk = 5)
 
  
 ### Hazard Ratio
