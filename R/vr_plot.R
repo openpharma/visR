@@ -112,10 +112,16 @@ vr_plot.survfit <- function(
     ggplot2::geom_step(aes(y = est, col = strata)) + 
     ggsci::scale_color_nejm() + 
     ggsci::scale_fill_nejm() + 
-    ggplot2::scale_x_continuous(name = paste0("\n", x_label), breaks = time_ticks, labels = xscaleFUN, limits = c(min(time_ticks), max(time_ticks))) +
-    ggplot2::scale_y_continuous(name = paste0(y_label, "\n"), breaks = y_ticks, labels = yscaleFUN, limits = c(min(y_ticks), max(y_ticks))) +
+    ggplot2::scale_x_continuous(name = paste0("\n", x_label),
+                                breaks = time_ticks, labels = xscaleFUN,
+                                limits = c(min(time_ticks), max(time_ticks))) +
+    ggplot2::scale_y_continuous(name = paste0(y_label, "\n"),
+                                breaks = y_ticks,
+                                labels = yscaleFUN,
+                                limits = c(min(y_ticks), max(y_ticks))) +
     ggplot2::theme_bw() +
-    ggplot2::theme(legend.position = legend.position)
+    ggplot2::theme(legend.position = legend.position) +
+    
     NULL
 
   gg$plotfun <- fun
