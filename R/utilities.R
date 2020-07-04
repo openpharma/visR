@@ -12,14 +12,15 @@ the_lhs <- function() {
 }
 
 # https://stackoverflow.com/questions/26159495/align-multiple-ggplot-graphs-with-and-without-legends
-AlignPlots <- function(...) {
-  LegendWidth <- function(x) x$grobs[[8]]$grobs[[1]]$widths[[4]]
-
-  plots.grobs <- lapply(list(...), ggplotGrob)
-  max.widths <- do.call(grid::unit.pmax, lapply(plots.grobs, "[[", "widths"))
-  legends.widths <- lapply(plots.grobs, LegendWidth)
+AlignPlots <- function(pltlist = NULL) {
   
-  max.legends.width <- do.call(max, legends.widths)
+  .LegendWidth <- function(x) x$grobs[[8]]$grobs[[1]]$widths[[4]]
+
+  plots.grobs <- lapply(pltlist, ggplotGrob)
+  max.widths <- do.call(grid::unit.pmax, lapply(plots.grobs, "[[", "widths"))
+  legends.widths <- lapply(plots.grobs, .LegendWidth)
+  
+  max.legends.width <- base::suppressWarnings(do.call(max, legends.widths))
   
   plots.grobs.eq.widths <- lapply(plots.grobs, function(x) {
     x$widths <- max.widths

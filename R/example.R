@@ -78,12 +78,17 @@ source(paste0(getwd(), "/R/utilities.R"))
        add_risktable(min_at_risk = 3)
   )
 
+### risk table + censor table
+   
   adtte%>%
     vr_KM_est(strata = "SEX") %>%
     vr_plot(legend.position = "bottom") %>%
     add_CI() %>%
-    add_CNSR(shape = 3, size = 2)%>%
-    add_risktable(min_at_risk = 5)
+    add_CNSR(shape = 3, size = 2) %>%
+    add_risktable(min_at_risk = 5,
+                  display= c("n.risk", "n.censor"),
+                  title = c("At risk", "Censored")
+                  )
 
  
 ### Hazard Ratio
