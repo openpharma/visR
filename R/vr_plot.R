@@ -105,7 +105,6 @@ vr_plot.survfit <- function(
   if (is.null(y_label) && fun == "surv") y_label <- "Survival probability"
 
   #### Plotit ####
-  xscaleFUN <- function(x) sprintf("%.0f", x)
   yscaleFUN <- function(x) sprintf("%.2f", x)
   
   gg <- ggplot2::ggplot(tidy_object, aes(x = time, group = strata)) +
@@ -113,7 +112,7 @@ vr_plot.survfit <- function(
     ggsci::scale_color_nejm() + 
     ggsci::scale_fill_nejm() + 
     ggplot2::scale_x_continuous(name = paste0("\n", x_label),
-                                breaks = time_ticks, labels = xscaleFUN,
+                                breaks = time_ticks,
                                 limits = c(min(time_ticks), max(time_ticks))) +
     ggplot2::scale_y_continuous(name = paste0(y_label, "\n"),
                                 breaks = y_ticks,
