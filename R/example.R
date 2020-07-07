@@ -96,7 +96,39 @@ source(paste0(getwd(), "/R/utilities.R"))
        vr_KM_est(strata = "SEX") %>%
        vr_plot() %>%
        add_COX_HR() 
+  
    
+### Quantiles
+   ## 50pct is flat but not at the end => take halfway plateau
+   testq1 <- data.frame(AVAL = c(1,2,3,4),
+                       CNSR = c(0,0,0,0))
+   
+   survfit_object <- vr_KM_est(data = testq1)  
+   vr_plot(survfit_object)
+   quantile(survfit_object)
+   get_quantile(survfit_object)
+
+   ## 50pct is point: take time corresponding to point
+   testq2 <- data.frame(AVAL = c(1,2,2,4),
+                       CNSR = c(0,0,0,0))
+   
+   survfit_object <- vr_KM_est(data = testq2)  
+   vr_plot(survfit_object)
+   quantile(survfit_object)
+   get_quantile(survfit_object)
+
+   
+   ## 50pct is not existing and 75 is last => 50 and 25 NA should be NA
+   testq3 <- data.frame(AVAL = c(1,2,2,4),
+                       CNSR = c(0,1,1,1))
+   
+   survfit_object <- vr_KM_est(data = testq3)  
+   vr_plot(survfit_object)
+   quantile(survfit_object)
+   get_quantile(survfit_object)
+
+   ?survival:::quantile.survfit
+    
 #### TODO
  ## fun argument in vr_plot: validate transformations
  ## create actual risk table underneath plot instead of list
