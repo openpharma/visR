@@ -2,7 +2,7 @@ vr_plot <- function(x, ...){
   UseMethod("vr_plot")
 } 
 
-add_vr_plot.default <- function(x, ...){
+vr_plot.default <- function(x, ...){
   base::plot(x)
 }
 

@@ -13,6 +13,7 @@ get_quantile.survfit <- function(  survfit_object = survfit_object
   if (debug == TRUE) browser()
    
   if(! inherits(survfit_object, "survfit")) stop("x is not of class `survfit`.")
+  if(conf.int == TRUE & ! base::all(c("lower", "upper") %in% names(survfit_object))) stop("Confidence limits were not part of original estimation.")
   
   q <- quantile(survfit_object, probs = probs, conf.int = conf.int, tolerance = tolerance, type = 3)
   qdf <- do.call(rbind.data.frame, q)
