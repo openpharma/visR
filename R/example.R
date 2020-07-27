@@ -22,6 +22,9 @@ source(paste0(getwd(), "/R/utilities.R"))
 ## Estimation function: return survfit object because it can be passed to many downstream applications
    survfit_object <- vr_KM_est(data = adtte, strata = NULL, conf.int = F,  timefix=TRUE)
    survfit_object <- vr_KM_est(data = adtte, strata = "TRTP", conf.int = T, timefix=TRUE)
+   survfit_object <- vr_KM_est(data = adtte[adtte$SEX == "F", c("CNSR", "AVAL", "PARAMCD", "PARAM", "SEX", "TRTP")],
+                               strata = "TRTP")
+   survfit_object$call
 
 ## low level plotting depends on list structure of surv object
    plot(survfit_object)
