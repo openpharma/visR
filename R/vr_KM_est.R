@@ -2,15 +2,15 @@
 #'  
 #' @description This function performs a a Kaplan-Meier analysis, based on the expected ADaM Basic Data Structure (BDS)
 #'    for Time-to-Event analysis. The function expects that the data has been filtered on the PARAM/PARAMCD of interest.
-#'    Alternatively, PARAM/PARAMCD can be used as strata. \cr
+#'    Alternatively, PARAM/PARAMCD can be used in the `strata` argument. \cr
 #'    The result is an object of class `survfit` which can be used in downstream functions.
 #'
 #' @author Steven Haesendonckx {shaesen2@@its.jnj.com}
 #' 
-#' @param data ADaM Basic Data Structure (BDS) for Time-to-Event analysis. 
+#' @param data String, representing the ADaM Basic Data Structure (BDS) for Time-to-Event analysis eg ADTTE. Rows in which AVAL or CNSR contain NA, are removed during analysis. 
 #' @param strata Character vector, representing the strata for Time-to-Event analysis eg TRT01P. When NULL, an overall analysis is performed.
 #'   Default is NULL.
-#' @param ... additional arguments passed on to the ellipsis of the call survival::survfit(data = data, formula = Surv(AVAL, 1-CNSR) ~ {main}), ...)       
+#' @param ... additional arguments passed on to the ellipsis of the call survival::survfit(data = data, formula = Surv(AVAL, 1-CNSR) ~ strata), ...)       
 #'
 #' @return survfit object, ready for downstream processing in estimation or visualization functions.
 #' 
@@ -37,40 +37,50 @@
 #' ## Stratification with one level
 #' vr_KM_est(data = adtte, strata = "PARAMCD")
 #' 
+#' ## Analysis on subset of adtte
+#' vr_KM_est(data = adtte[adtte$SEX == "F", ])
+#' 
 #' ## Modify the default analysis by using the ellipsis
-#' vr_KM_est(data=adtte, strata=NULL, ctype=1, conf.int = F, timefix=TRUE)
+#' vr_KM_est(data = adtte, strata = NULL, ctype = 1, conf.int = F, timefix = TRUE)
 
-vr_KM_est <- function( data = NULL
-                      ,strata = NULL
-                      ,...
-                     )
-{
-
+vr_KM_est <- function(
+   data = NULL
+  ,strata = NULL
+  ,...
+){
+  
   #### Capture input + identify ... for updating $call ####
-  Call <<- as.list(match.call())
+  Call <- as.list(match.call())
   dots <- list(...)
+  dfExpr <- Call[["data"]]
 
   #### Get actual data name as symbol ####
     ## Magrittre pipe returns "." which inactivates recalls to survfit in downstream functions
     ## map passes .x as Call$data
-  
-  if (as.character(Call[["data"]]) %in% c(".", ".x")){
+    ## df: catch expressions that represent base R subsets
+
+  if (base::length(base::deparse(Call[["data"]])) == 1 && base::deparse(Call[["data"]]) %in% c(".", ".x")){
     Call[["data"]] <- as.symbol(the_lhs())
+    df <- as.character(Call[["data"]])
+  } else {
+    df <- as.character(sub("\\[.*$", "", deparse(dfExpr))[1])
   } 
 
   #### Validate input ####
-  df <- as.character(Call[["data"]])
   reqcols <- c(strata, "CNSR", "AVAL")
   
-  if (! base::exists(df)) stop(paste0("Data ", df, " not found."))
+  if (! base::exists(df)){
+    stop(paste0("Data ", df, " not found."))
+  }
   
   if (! all(reqcols %in% colnames(data))){
-    stop(paste0("Following columns are missing from ", df, ": ", paste(setdiff(reqcols, colnames(data)), collapse = " "), "."))
+    stop(paste0("Following columns are missing from `data`: ", paste(setdiff(reqcols, colnames(data)), collapse = " "), "."))
   }
   
   if (! is.numeric(data[["AVAL"]])){
     stop("Analysis variable, AVAL, is not numeric.")
   }
+  
   if (! is.numeric(data[["CNSR"]])){
     stop("Censor variable, CNSR, is not numeric.")
   }
@@ -91,7 +101,7 @@ vr_KM_est <- function( data = NULL
       tidyr::drop_na(any_of({{strata}}))
   }
 
-  #### Calculate survival and add starting point (time 0) to the survfit object. ####
+  #### Calculate survival and add starting point (time 0) to the survfit object ####
     ## Reverse censoring: see ADaM guidelines versus R survival KM analysis
   
   formula <- stats::as.formula(glue::glue("Surv(AVAL, 1-CNSR) ~ {main}"))
@@ -100,7 +110,7 @@ vr_KM_est <- function( data = NULL
     formula, data = data, ...
   )
 
-  survfit_object <- survfit0(
+  survfit_object <- survival::survfit0(
     survfit_object, start.time = 0
   )
   

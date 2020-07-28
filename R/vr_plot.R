@@ -39,10 +39,10 @@ vr_plot.default <- function(x, ...){
 #' fit <- vr_KM_est(data = adtte, strata = "TRTP")
 #'
 #' ## Plot survival probability
-#' vr_KM_plot(survfit_object = fit)
+#' vr_plot(survfit_object = fit)
 #' 
 #' ## Plot cumulative hazard
-#' vr_KM_plot(survfit_object = fit, fun = "cumhaz", debug=T)
+#' vr_plot(survfit_object = fit, fun = "cumhaz", debug=T)
 
 
 vr_plot.survfit <- function(
@@ -55,7 +55,7 @@ vr_plot.survfit <- function(
  ,fun = "surv"
  ,legend.position = "right"
  ,debug = F
- ) {
+ ){
   
   if (debug == T) browser()
   
@@ -120,7 +120,7 @@ vr_plot.survfit <- function(
                                 limits = c(min(y_ticks), max(y_ticks))) +
     ggplot2::theme_bw() +
     ggplot2::theme(legend.position = legend.position) +
-    
+    ggplot2::guides(color=guide_legend(override.aes=list(fill=NA))) +
     NULL
 
   gg$plotfun <- fun

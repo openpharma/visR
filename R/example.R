@@ -17,11 +17,20 @@ source(paste0(getwd(), "/R/add_CNSR.R"))
 source(paste0(getwd(), "/R/add_COX_HR.R"))
 source(paste0(getwd(), "/R/add_risktable.R"))
 source(paste0(getwd(), "/R/utilities.R"))
+source(paste0(getwd(), "/R/get_quantile.R"))
+
+# files <- base::list.files(file.path(getwd(), "R"), pattern = "*.R", full.names = TRUE)
+# lapply(files, source)
+
 
 
 ## Estimation function: return survfit object because it can be passed to many downstream applications
    survfit_object <- vr_KM_est(data = adtte, strata = NULL, conf.int = F,  timefix=TRUE)
    survfit_object <- vr_KM_est(data = adtte, strata = "TRTP", conf.int = T, timefix=TRUE)
+   survfit_object <- vr_KM_est(data = adtte, strata = c("TRTP", "SEX"))
+   survfit_object <- vr_KM_est(data = adtte[adtte$SEX == "F", c("CNSR", "AVAL", "PARAMCD", "PARAM", "SEX", "TRTP")],
+                               strata = "TRTP")
+   survfit_object$call
 
 ## low level plotting depends on list structure of surv object
    plot(survfit_object)
@@ -52,16 +61,26 @@ source(paste0(getwd(), "/R/utilities.R"))
    eval(as.call(Call))
 
    
-## nesting
+## nesting: vr_KM_est has maximal traceability eg data = adtte vs data = .x
    nest <- adtte %>%
       group_by(SEX) %>%
       nest() %>%
-      mutate(fit = map(data, ~ vr_KM_est(data = .x, strata = .x[["TRT01P"]]))) %>%
+      mutate(fit = map(data, ~ vr_KM_est(data = .x, strata = "TRTP"))) %>%
       mutate(tidytbl = map(fit, ~ tidyme.survfit(.x)))%>%
       unnest(tidytbl)
 
    nest$fit[[1]]
+   
+   nest <- adtte %>%
+      group_by(SEX) %>%
+      nest() %>%
+      mutate(fit = map(data, ~ survfit(Surv(AVAL, 1-CNSR) ~ TRTP, data = .x))) %>%
+      mutate(tidytbl = map(fit, ~ tidyme.survfit(.x)))%>%
+      unnest(tidytbl)  
+   
+   nest$fit[[1]]
 
+   
 ## high level plotting
  # in this fashion data = "." in call which needs to be replaced => addition functionality in vr_KM_est
  (gg <- adtte%>%
@@ -78,9 +97,21 @@ source(paste0(getwd(), "/R/utilities.R"))
        add_risktable(min_at_risk = 3)
   )
 
-### risk table + censor table
+### Confidence interval
    
-  adtte%>%
+gg <- adtte%>%
+    vr_KM_est(strata = "SEX") %>%
+    vr_plot(legend.position = "bottom")
+
+gg %>%
+   add_CI()
+
+gg %>%
+   add_CI(style = "step", linetype = 2)
+   
+   
+### risk table + censor table
+  adtte %>%
     vr_KM_est(strata = "SEX") %>%
     vr_plot(legend.position = "bottom") %>%
     add_CI() %>%
@@ -92,7 +123,7 @@ source(paste0(getwd(), "/R/utilities.R"))
 
  
 ### Hazard Ratio
-   adtte%>%
+   adtte %>%
        vr_KM_est(strata = "SEX") %>%
        vr_plot() %>%
        add_COX_HR() 
