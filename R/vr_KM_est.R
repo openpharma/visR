@@ -43,11 +43,12 @@
 #' ## Modify the default analysis by using the ellipsis
 #' vr_KM_est(data = adtte, strata = NULL, ctype = 1, conf.int = F, timefix = TRUE)
 
-vr_KM_est <- function(data = NULL,
-                      strata = NULL,
-                      ...
-                     )
-{
+vr_KM_est <- function(
+   data = NULL
+  ,strata = NULL
+  ,...
+){
+  
   #### Capture input + identify ... for updating $call ####
   Call <- as.list(match.call())
   dots <- list(...)
