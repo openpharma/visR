@@ -81,6 +81,19 @@ source(paste0(getwd(), "/R/utilities.R"))
        add_risktable(min_at_risk = 3)
   )
 
+### Confidence interval
+   
+gg <- adtte%>%
+    vr_KM_est(strata = "SEX") %>%
+    vr_plot(legend.position = "bottom")
+
+gg %>%
+   add_CI()
+
+gg %>%
+   add_CI(style = "step", linetype = 2)
+   
+   
 ### risk table + censor table
    
   adtte%>%
