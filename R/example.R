@@ -6,6 +6,7 @@ library(broom)
 library(purrr)
 library(gtable)
 library(cowplot)
+library(plotly)
 
 load(file = file.path(getwd(), "data/adtte.rda"))
 
@@ -162,6 +163,14 @@ gg %>%
     
 #### TODO
  ## fun argument in vr_plot: validate transformations
- ## create actual risk table underneath plot instead of list
+  # allow for arbitrary function eg for % - fun = function(y) y*100
+ ## validate quantiles: compare with SAS
  ## create actual HR table
- ## method for plotting?
+   
+ ## pvalue: survdiff and trend test for multiple factor levels (adjusted p?) + location on plot [survMisc::comp]
+ ## add median line
+   
+   
+ ## AFT overlay
+ ## COX PH 
+   
