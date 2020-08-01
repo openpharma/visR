@@ -19,6 +19,7 @@ source(paste0(getwd(), "/R/add_COX_HR.R"))
 source(paste0(getwd(), "/R/add_risktable.R"))
 source(paste0(getwd(), "/R/utilities.R"))
 source(paste0(getwd(), "/R/get_quantile.R"))
+source(paste0(getwd(), "/R/vr_plotly.R"))
 
 # files <- base::list.files(file.path(getwd(), "R"), pattern = "*.R", full.names = TRUE)
 # lapply(files, source)
@@ -160,7 +161,17 @@ gg %>%
    get_quantile(survfit_object)
 
    ?survival:::quantile.survfit
-    
+   
+   
+### plotly
+   survfit_object <- vr_KM_est(data = adtte, strata = "TRTP")
+   
+   vr_plotly.default(survfit_object) ## ggplotly
+   vr_plotly.survfit(survfit_object) ## plot_ly
+
+   
+   
+       
 #### TODO
  ## fun argument in vr_plot: validate transformations
   # allow for arbitrary function eg for % - fun = function(y) y*100
@@ -169,6 +180,7 @@ gg %>%
    
  ## pvalue: survdiff and trend test for multiple factor levels (adjusted p?) + location on plot [survMisc::comp]
  ## add median line
+ ## improve ggplotly
    
    
  ## AFT overlay

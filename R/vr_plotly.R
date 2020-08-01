@@ -16,9 +16,16 @@ vr_plotly.default <- function(x, ...){
 }
 
 
-x<- survfit_object
-x_label = "time"
-y_label = "blah"
+vr_plotly.survfit <- function(
+  x,
+  x_label = "time",
+  y_label = "blah",
+  legend.position = "right",
+  legend.orientation = NULL
+  
+){
+  
+
 
 
   ## replace default eg "h" if user specified something else
@@ -27,20 +34,9 @@ y_label = "blah"
   }
 
   showlegend <- TRUE
-  legend.position = "bottom"
-  legend.position = "top"
-  legend.position = "right"
-  legend.position = "left"
-  legend.position = "none"
-  showlegend <- TRUE
-  legend.position = c(0.1,0.8)
 
+  ### common prep for both plots: perhaps we can put this in a separate function or use ggplotly and modify it slightly
 
-  ### common prep for both plots: perhaps we can put this in a separate function?
-
-  
-  
-  
   if (is.character(legend.position)){
     if (legend.position == "bottom"){
       leg_opts <- list(xanchor = "center",
@@ -113,10 +109,4 @@ y_label = "blah"
     yaxis = list(title = y_label,
                  hoverformat=".2f")
   )
-  
-  
-  class(p) <- ggsurvfit_ly
-
-
-  
-  return(p)
+}
