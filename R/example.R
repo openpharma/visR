@@ -173,16 +173,31 @@ gg %>%
    
        
 #### TODO
- ## fun argument in vr_plot: validate transformations
-  # allow for arbitrary function eg for % - fun = function(y) y*100
- ## validate quantiles: compare with SAS
- ## create actual HR table
+ ### Estimation ------
+  ## KM estimation + cumhaz via Nelson-Aalen.
+  ## cumhaz via Nelson-Aalen => survival via exp(cumhaz) = fh estimator. Exponentiation with correction for tied events (fh2)
+   # The MLE -log(S) is not estimated.
+   # Should we accomodate this? If yes how to avoid interference with older methods eg plot.survfit? ctype can only have two values.
+   # We could add a new argument chtype = 1/2 => pass to ctype , chtype = 3 => do -log(S)
+   # we could allow ctype = 0. If zero we remove it from ... and add it on afterwards. How to document this?
    
- ## pvalue: survdiff and trend test for multiple factor levels (adjusted p?) + location on plot [survMisc::comp]
- ## add median line
- ## improve ggplotly
+ ### plotting vr_plot ------- 
+  ## fun argument in vr_plot: validate transformations
+   # allow for arbitrary function eg for % - fun = function(y) y*100
+   # fun = cumhaz uses MLE estimator -log(S) instead of what was requested by user in survfit => how to approach this?
+   
+  ## pvalue: survdiff and trend test for multiple factor levels (adjusted p?) + location on plot [survMisc::comp]
+  ## add median line
+  ## create actual HR table
    
    
- ## AFT overlay
- ## COX PH 
+ ### plotting vr_plotly
+  ## go with own construction vs ggplotly with some modification? ggplotly still under development
+  
+   
+ ### validate quantiles: compare with SAS
+   
+   
+ ### AFT overlay
+ ### COX PH 
    
