@@ -1,18 +1,30 @@
 #' @title Wrapper for Kaplan Meier analysis for an ADaM Basic Data Structure (BDS) for Time-to-Event analysis
 #'  
-#' @description This function performs a a Kaplan-Meier analysis, based on the expected ADaM Basic Data Structure (BDS)
-#'    for Time-to-Event analysis. The function expects that the data has been filtered on the PARAM/PARAMCD of interest.
+#' @description This function is a wrapper around survival::survfit.formula to perform a Kaplan-Meier analysis,
+#'    based on the expected ADaM Basic Data Structure (BDS) for Time-to-Event analysis and assuming right-censored data.
+#'    The function expects that the data has been filtered on the PARAM/PARAMCD of interest.
 #'    Alternatively, PARAM/PARAMCD can be used in the `strata` argument. \cr
-#'    The result is an object of class `survfit` which can be used in downstream functions.
+#'    The result is an object of class `survfit` which can be used in downstream functions and methods that rely on the ´survfit´ class.
+#'    By default:
+#'    \itemize{
+#'      \item{The Kaplan Meier estimate is estimated directly (stype = 1).}
+#'      \item{The cumulative hazard is estimated using the Nelson-Aalen estimator (ctype = 1): H.tilde = cumsum(x$n.event/x$n.risk).
+#'      The MLE (H.hat(t) = -log(S.hat(t))) can't be requested.}
+#'      \item{A two-sided pointwise 0.95 confidence interval is estimated using a log transformation (conf.type = "log").} 
 #'
 #' @author Steven Haesendonckx {shaesen2@@its.jnj.com}
+#' 
+#' @seealso \code{\link[survival]{survfit.formula} \link[survival]{survfitCI}}
 #' 
 #' @param data String, representing the ADaM Basic Data Structure (BDS) for Time-to-Event analysis eg ADTTE. Rows in which AVAL or CNSR contain NA, are removed during analysis. 
 #' @param strata Character vector, representing the strata for Time-to-Event analysis eg TRT01P. When NULL, an overall analysis is performed.
 #'   Default is NULL.
-#' @param ... additional arguments passed on to the ellipsis of the call survival::survfit(data = data, formula = Surv(AVAL, 1-CNSR) ~ strata), ...)       
+#' @param ... additional arguments passed on to the ellipsis of the call survival::survfit.formula(data = data, formula = Surv(AVAL, 1-CNSR) ~ strata), ...) .
+#' Use ?survival::survfit.formula and ?survival::survfitCI for more information.    
 #'
-#' @return survfit object, ready for downstream processing in estimation or visualization functions.
+#' @return survfit object, extended by elements PARAM/PARAMCD, ready for downstream processing in estimation or visualization functions and methods.
+#' 
+#' @references \url{https://https://github.com/therneau/survival}
 #' 
 #' @export
 #'
@@ -41,7 +53,7 @@
 #' vr_KM_est(data = adtte[adtte$SEX == "F", ])
 #' 
 #' ## Modify the default analysis by using the ellipsis
-#' vr_KM_est(data = adtte, strata = NULL, ctype = 1, conf.int = F, timefix = TRUE)
+#' vr_KM_est(data = adtte, strata = NULL, type = "kaplan-meier", conf.int = F, timefix = TRUE)
 
 vr_KM_est <- function(
    data = NULL
