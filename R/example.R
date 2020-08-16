@@ -159,6 +159,9 @@ source(paste0(getwd(), "/R/vr_plotly.R"))
                     display= c("n.risk", "n.censor"),
                     title = c("At risk", "Censored")
                    )
+   ## add style
+    gg %>%
+       style_visR()
 
  
 #### Hazard Ratio ####
@@ -232,6 +235,7 @@ source(paste0(getwd(), "/R/vr_plotly.R"))
    
  ### plotting vr_plotly
   ## go with own construction vs ggplotly with some modification? ggplotly still under development
+  ## Idea: Ristable => put n.censor/n.risk in tooltip, rather than creating a static table
   
    
  ### validate quantiles: compare with SAS
