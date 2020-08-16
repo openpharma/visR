@@ -11,19 +11,9 @@ library(survminer)
 
 load(file = file.path(getwd(), "data/adtte.rda"))
 
-source(paste0(getwd(), "/R/vr_KM_est.R"))
-source(paste0(getwd(), "/R/vr_plot.R"))
-source(paste0(getwd(), "/R/tidyme.R"))
-source(paste0(getwd(), "/R/add_CI.R"))
-source(paste0(getwd(), "/R/add_CNSR.R"))
-source(paste0(getwd(), "/R/add_COX_HR.R"))
-source(paste0(getwd(), "/R/add_risktable.R"))
-source(paste0(getwd(), "/R/utilities.R"))
-source(paste0(getwd(), "/R/get_quantile.R"))
-source(paste0(getwd(), "/R/vr_plotly.R"))
-
-# files <- base::list.files(file.path(getwd(), "R"), pattern = "*.R", full.names = TRUE)
-# lapply(files, source)
+ignore <- base::list.files(file.path(getwd(), "R"), pattern = "example.*\\.R$", full.names = TRUE)
+files <- base::list.files(file.path(getwd(), "R"), pattern = "*.R", full.names = TRUE)
+sapply(base::setdiff(files, ignore), function(x) source(x, echo = FALSE))
 
 
 #### Estimation function : return survfit object allowing it to be used in many downstream applications ####
