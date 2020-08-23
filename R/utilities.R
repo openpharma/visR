@@ -36,3 +36,55 @@ AlignPlots <- function(pltlist = NULL) {
 
   plots.grobs.eq.widths.aligned
 }
+
+
+
+legendopts <- function(
+  legend_position = "right",
+  legend_orientation = NULL
+){
+
+  ## replace default eg "h" if user specified something else
+  .ucoalesce <- function(x, default){
+    ifelse(is.null(x), default, x)
+  }
+
+  showlegend <- TRUE
+
+  if (is.character(legend_position)){
+    if (legend_position == "bottom"){
+      leg_opts <- list(xanchor = "center",
+                       x = 0.5,
+                       y = -0.2,
+                       orientation = .ucoalesce(legend_orientation, "h")
+                      )
+    } else if (legend_position == "right"){
+      leg_opts <- list(yanchor = "center",
+                       x = 1.2,
+                       y = 0.5,
+                       orientation = .ucoalesce(legend_orientation, "v")
+                      )
+    } else if (legend_position == "top"){
+      leg_opts <- list(xanchor = "center",
+                       x = 0.5,
+                       y = 1.2,
+                       orientation = .ucoalesce(legend_orientation, "h")
+                      )
+    } else if (legend_position == "left"){
+      leg_opts <- list(yanchor = "center",
+                       x = -1.0,
+                       y = 0.5,
+                       orientation = .ucoalesce(legend_orientation, "v")
+                      )
+    } else if (legend_position == "none"){
+     showlegend <-  FALSE
+     leg_opts <- NULL
+    }
+  } else {
+    leg_opts <- list(x = legend_position[1],
+                     y = legend_position[2]
+                    )
+  }
+  
+  return(list(leg_opts = leg_opts, showlegend = showlegend))
+}
