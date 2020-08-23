@@ -24,8 +24,8 @@ sapply(base::setdiff(files, ignore), function(x) source(x, echo = FALSE))
       vr_plot(legend_position = "bottom")
    
    vr_plot(survfit_object, legend_position = "bottom")
-   vr_plotly.default(survfit_object, legend_position = "none") ## ggplotly
-   vr_plotly.survfit(survfit_object, legend_position = "right") ## plot_ly
+   vr_plotly.default(survfit_object) ## ggplotly
+   vr_plotly.survfit(survfit_object) ## plot_ly
    
    ## next translate more options
 
