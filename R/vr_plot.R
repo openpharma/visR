@@ -53,7 +53,7 @@ vr_plot.survfit <- function(
  ,time_ticks = NULL
  ,y_ticks = NULL
  ,fun = "surv"
- ,legend.position = "right"
+ ,legend_position = "right"
  ,debug = F
  ){
   
@@ -61,23 +61,23 @@ vr_plot.survfit <- function(
   
   #### Input validation ####
   if (!inherits(survfit_object, "survfit")) stop("survfit object is not of class `survfit`")
-  if (is.character(legend.position) && ! legend.position %in% c("top", "bottom", "right", "left", "none")){
+  if (is.character(legend_position) && ! legend_position %in% c("top", "bottom", "right", "left", "none")){
     stop("Invalid legend position given.")
-  } else if (is.numeric(legend.position) && length(legend.position) != 2) {
+  } else if (is.numeric(legend_position) && length(legend_position) != 2) {
     stop("Invalid legend position coordinates given.")
   }
   
   #### FUN ####
-  if (is.character(fun)) {
+  if (is.character(fun)){
     .transfun <- base::switch(
       fun,
-      log = function(x) log(x),
-      event = function(x) 1 - x,
-      cumhaz = function(x) -log(x),
-      cloglog = function(x) log(-log(x)),
-      pct = function(x) x * 100,
-      logpct = function(x) 100 * x,
-      surv = function(x) x,
+      surv = function(y) y,
+      log = function(y) log(y),
+      event = function(y) 1 - y,
+      cloglog = function(y) log(-log(y)),
+      pct = function(y) y * 100,
+      logpct = function(y) log(y *100),
+      cumhaz = function(y) -log(y), ## survfit object contains an estimate for Cumhaz and SE based on Nelson-Aalen with or without correction for ties
       stop("Unrecognized fun argument")
     )
   } else {
@@ -119,7 +119,7 @@ vr_plot.survfit <- function(
                                 labels = yscaleFUN,
                                 limits = c(min(y_ticks), max(y_ticks))) +
     ggplot2::theme_bw() +
-    ggplot2::theme(legend.position = legend.position) +
+    ggplot2::theme(legend.position = legend_position) +
     ggplot2::guides(color=guide_legend(override.aes=list(fill=NA))) +
     NULL
 

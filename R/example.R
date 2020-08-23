@@ -6,14 +6,28 @@ library(broom)
 library(purrr)
 library(gtable)
 library(cowplot)
-library(plotly)
 library(survminer)
+library(plotly)
 
 load(file = file.path(getwd(), "data/adtte.rda"))
 
 ignore <- base::list.files(file.path(getwd(), "R"), pattern = "example.*\\.R$", full.names = TRUE)
 files <- base::list.files(file.path(getwd(), "R"), pattern = "*.R", full.names = TRUE)
 sapply(base::setdiff(files, ignore), function(x) source(x, echo = FALSE))
+
+
+#### plotly ####
+
+   survfit_object <- vr_KM_est(data = adtte, strata = "TRTP")
+
+   survfit_object %>%
+      vr_plot(legend_position = "bottom")
+   
+   vr_plot(survfit_object, legend_position = "bottom")
+   vr_plotly.default(survfit_object) ## ggplotly
+   vr_plotly.survfit(survfit_object) ## plot_ly
+   
+   ## next translate more options
 
 
 #### Estimation function : return survfit object allowing it to be used in many downstream applications ####
@@ -127,7 +141,7 @@ sapply(base::setdiff(files, ignore), function(x) source(x, echo = FALSE))
    
     gg <- adtte%>%
       vr_KM_est(strata = "SEX") %>%
-      vr_plot(legend.position = "bottom")
+      vr_plot(legend_position = "bottom")
 
     gg %>%
       add_CI()
@@ -142,7 +156,7 @@ sapply(base::setdiff(files, ignore), function(x) source(x, echo = FALSE))
   ## Risk table and Censor table
     adtte %>%
       vr_KM_est(strata = "SEX") %>%
-      vr_plot(legend.position = "bottom") %>%
+      vr_plot(legend_position = "bottom") %>%
       add_CI() %>%
       add_CNSR(shape = 3, size = 2) %>%
       add_risktable(min_at_risk = 5,

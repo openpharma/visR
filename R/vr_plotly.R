@@ -2,59 +2,37 @@ vr_plotly <- function(x, ...){
   UseMethod("vr_plotly")
 } 
 
-vr_plotly.default <- function(
+
+vr_plotly.default <- function (x, ...){
+    p <- plotly::ggplotly(
+      p = ggplot2::last_plot(),
+      width = NULL,
+      height = NULL,
+      tooltip = "all",
+      dynamicTicks = TRUE,
+      layerData = 1,
+      originalData = TRUE,
+      source = "A"
+     ) 
+    
+    return(p)
+}
+
+vr_plotly.survfit  <- function(
   x,
-  legend.position = "right",
-  legend.orientation = NULL,
+  legend_position = "right",
+  legend_orientation = NULL,
   ...
   ){
   
-  ## replace default eg "h" if user specified something else
-  ucoalesce <- function(x, default){
-    ifelse(is.null(x), default, x)
-  }
+  if (! base::inherits(x, "survfit")) stop("Object is not of class survfit.")
 
-  showlegend <- TRUE
-
-  ### common prep for both plots: perhaps we can put this in a separate function or use ggplotly and modify it slightly
-
-  if (is.character(legend.position)){
-    if (legend.position == "bottom"){
-      leg_opts <- list(xanchor = "center",
-                       x = 0.5,
-                       y = -0.2,
-                       orientation = ucoalesce(legend.orientation, "h")
-                      )
-    } else if (legend.position == "right"){
-      leg_opts <- list(yanchor = "center",
-                       x = 1.2,
-                       y = 0.5,
-                       orientation = ucoalesce(legend.orientation, "v")
-                      )
-    } else if (legend.position == "top"){
-      leg_opts <- list(xanchor = "center",
-                       x = 0.5,
-                       y = 1.2,
-                       orientation = ucoalesce(legend.orientation, "h")
-                      )
-    } else if (legend.position == "left"){
-      leg_opts <- list(yanchor = "center",
-                       x = -1.0,
-                       y = 0.5,
-                       orientation = ucoalesce(legend.orientation, "v")
-                      )
-    } else if (legend.position == "none"){
-     showlegend <-  FALSE
-     leg_opts <- NULL
-    }
-  } else {
-    leg_opts <- list(x = legend.position[1],
-                     y = legend.position[2]
-                    )
-  }
-
+  legendoptions <- legendopts(legend_position = legend_position, legend_orientation = legend_orientation)
+  
   p <- plotly::ggplotly(
-    p = vr_plot(x, ...),
+    p = vr_plot(x, 
+                legend_position = legend_position,
+                ...),
     width = NULL,
     height = NULL,
     tooltip = "all",
@@ -62,119 +40,85 @@ vr_plotly.default <- function(
     layerData = 1,
     originalData = TRUE,
     source = "A"
-   )
+   ) 
   
   Nm <- names(survfit_object$strata)
 
-  ## Change legend style
-  for (i in seq_along(Nm)){
-    p <- plotly::style(p, name = Nm[i], traces = i)
-  }
-  
-  p <- p %>%
-    plotly::layout(
-    legend = leg_opts
-    )
+  ## Adjust the legend consistently with ggplot2
+  if (legendoptions$showlegend  == TRUE) {
+    leg_opts <- legendoptions$leg_opts
+    showlegend <- legendoptions$showlegend 
+
     
-  
+    p$x$layout$annotations[[1]]$text <- ""
+    p$x$layout$annotations[[1]]$legendTitle <- FALSE
+
+    leg_opts <- append(leg_opts, list(title=list(text='strata')))
+    
+    p <- p %>%
+      plotly::layout(
+      legend = leg_opts
+      )
+    
+    ## Change legend style
+    for (i in seq_along(Nm)){
+      p <- plotly::style(p, name = Nm[i], traces = i, showlegend = TRUE)
+      # p$x$data[[i]]$name
+      # p$x$data[[i]]$legendgroup
+    }
+  }
+    
   return(p)
   ## change legend pos
 }
 
 
-
-
-
-
-
-vr_plotly.survfit <- function(
-  x,
-  x_label = "time",
-  y_label = "blah",
-  legend.position = "right",
-  legend.orientation = NULL
-  
-){
-  
-  ## replace default eg "h" if user specified something else
-  ucoalesce <- function(x, default){
-    ifelse(is.null(x), default, x)
-  }
-
-  showlegend <- TRUE
-
-  ### common prep for both plots: perhaps we can put this in a separate function or use ggplotly and modify it slightly
-
-  if (is.character(legend.position)){
-    if (legend.position == "bottom"){
-      leg_opts <- list(xanchor = "center",
-                       x = 0.5,
-                       y = -0.2,
-                       orientation = ucoalesce(legend.orientation, "h")
-                      )
-    } else if (legend.position == "right"){
-      leg_opts <- list(yanchor = "center",
-                       x = 1.2,
-                       y = 0.5,
-                       orientation = ucoalesce(legend.orientation, "v")
-                      )
-    } else if (legend.position == "top"){
-      leg_opts <- list(xanchor = "center",
-                       x = 0.5,
-                       y = 1.2,
-                       orientation = ucoalesce(legend.orientation, "h")
-                      )
-    } else if (legend.position == "left"){
-      leg_opts <- list(yanchor = "center",
-                       x = -1.0,
-                       y = 0.5,
-                       orientation = ucoalesce(legend.orientation, "v")
-                      )
-    } else if (legend.position == "none"){
-     showlegend <-  FALSE
-     leg_opts <- NULL
-    }
-  } else {
-    leg_opts <- list(x = legend.position[1],
-                     y = legend.position[2]
-                    )
-  }
-
-
-  tidy_survobj <- tidyme.survfit(survfit_object)
-
-## Template
-  plotly::plot_ly(
-    data = tidy_survobj,
-    x = ~ time,
-    y = ~ surv,
-    split = ~ strata,
-    hoverinfo = "x+y+z+text",
-    text = ~ strata
-    ) %>%
-  
-## Survival lines
-  plotly::add_lines(
-    y = ~ surv,
-    type = "line",
-    name = ~ strata,
-    mode = 'lines',
-    showlegend = TRUE,
-    legendgroup = ~ strata,
-    line = list(color = ~ strata,
-                width = 2,
-                shape = "hvh"
-                )
-    ) %>%
-
-  
-## Legend position
-  plotly::layout(
-    showlegend=showlegend,
-    legend = leg_opts,
-    xaxis = list(title = x_label,
-                 hoverformat=".2f"),
-    yaxis = list(title = y_label,
-                 hoverformat=".2f")
-  )
-}
+# vr_plotly.survfit <- function(
+#   x,
+#   legend_position = "right",
+#   legend_orientation = NULL,
+#   x_label = "time",
+#   y_label = "blah"
+#   
+# ){
+# 
+#   leg_opts <- legendopts(legend_position = legend_position, legend_orientation = legend_orientation)
+# 
+#   tidy_survobj <- tidyme.survfit(survfit_object)
+# 
+# ## Template
+#   plotly::plot_ly(
+#     data = tidy_survobj,
+#     x = ~ time,
+#     y = ~ surv,
+#     split = ~ strata,
+#     hoverinfo = "x+y+z+text",
+#     text = ~ strata
+#     ) %>%
+#   
+# ## Survival lines
+#   plotly::add_lines(
+#     y = ~ surv,
+#     type = "line",
+#     name = ~ strata,
+#     mode = 'lines',
+#     showlegend = TRUE,
+#     legendgroup = ~ strata,
+#     line = list(color = ~ strata,
+#                 width = 2,
+#                 shape = "hvh"
+#                 )
+#     ) %>%
+# 
+#   
+# ## Legend position
+#   plotly::layout(
+#     showlegend=showlegend,
+#     legend = leg_opts,
+#     xaxis = list(title = x_label,
+#                  hoverformat=".2f"),
+#     yaxis = list(title = y_label,
+#                  hoverformat=".2f")
+#   )
+#   
+# }
