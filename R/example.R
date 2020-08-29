@@ -6,24 +6,28 @@ library(broom)
 library(purrr)
 library(gtable)
 library(cowplot)
-library(plotly)
 library(survminer)
+library(plotly)
 
 load(file = file.path(getwd(), "data/adtte.rda"))
 
-source(paste0(getwd(), "/R/vr_KM_est.R"))
-source(paste0(getwd(), "/R/vr_plot.R"))
-source(paste0(getwd(), "/R/tidyme.R"))
-source(paste0(getwd(), "/R/add_CI.R"))
-source(paste0(getwd(), "/R/add_CNSR.R"))
-source(paste0(getwd(), "/R/add_COX_HR.R"))
-source(paste0(getwd(), "/R/add_risktable.R"))
-source(paste0(getwd(), "/R/utilities.R"))
-source(paste0(getwd(), "/R/get_quantile.R"))
-source(paste0(getwd(), "/R/vr_plotly.R"))
+ignore <- base::list.files(file.path(getwd(), "R"), pattern = "example.*\\.R$", full.names = TRUE)
+files <- base::list.files(file.path(getwd(), "R"), pattern = "*.R", full.names = TRUE)
+sapply(base::setdiff(files, ignore), function(x) source(x, echo = FALSE))
 
-# files <- base::list.files(file.path(getwd(), "R"), pattern = "*.R", full.names = TRUE)
-# lapply(files, source)
+
+#### plotly ####
+
+   survfit_object <- vr_KM_est(data = adtte, strata = "TRTP")
+
+   survfit_object %>%
+      vr_plot(legend_position = "bottom")
+   
+   vr_plot(survfit_object, legend_position = "bottom")
+   vr_plotly.default(survfit_object) ## ggplotly
+   vr_plotly.survfit(survfit_object) ## plot_ly
+   
+   ## next translate more options
 
 
 #### Estimation function : return survfit object allowing it to be used in many downstream applications ####
@@ -137,7 +141,7 @@ source(paste0(getwd(), "/R/vr_plotly.R"))
    
     gg <- adtte%>%
       vr_KM_est(strata = "SEX") %>%
-      vr_plot(legend.position = "bottom")
+      vr_plot(legend_position = "bottom")
 
     gg %>%
       add_CI()
@@ -152,13 +156,16 @@ source(paste0(getwd(), "/R/vr_plotly.R"))
   ## Risk table and Censor table
     adtte %>%
       vr_KM_est(strata = "SEX") %>%
-      vr_plot(legend.position = "bottom") %>%
+      vr_plot(legend_position = "bottom") %>%
       add_CI() %>%
       add_CNSR(shape = 3, size = 2) %>%
       add_risktable(min_at_risk = 5,
                     display= c("n.risk", "n.censor"),
                     title = c("At risk", "Censored")
                    )
+   ## add style
+    gg %>%
+       style_visR()
 
  
 #### Hazard Ratio ####
@@ -232,6 +239,7 @@ source(paste0(getwd(), "/R/vr_plotly.R"))
    
  ### plotting vr_plotly
   ## go with own construction vs ggplotly with some modification? ggplotly still under development
+  ## Idea: Ristable => put n.censor/n.risk in tooltip, rather than creating a static table
   
    
  ### validate quantiles: compare with SAS
