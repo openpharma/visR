@@ -1,17 +1,55 @@
-Package: visR-survival
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9001
-Authors@R: 
-    person(given = "First",
-           family = "Last",
-           role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: What license it uses
-Encoding: UTF-8
+Package: visR
+Type: Package
+Title: A package to wrap functionality for plots, tables and diagrams adhering to graphical principles
+Description: The goal of visR is to enable fit-for-purpose, reusable clinical and medcial research focused visualizations and tables with sensible defaults and based on sound graphical principles.
+Version: 1.0.0
+Date: 2020-05-14
 LazyData: true
-Suggests: 
+Authors@R: as.person(c(
+    "Diego Saldana <diego.saldana@roche.com> [aut]", 
+    "Charlotta Fruechtenicht <charlotta.fruechtenicht@roche.com> [aut]",
+    "Mark Baillie <bailliem@gmail.com> [aut, cre]",
+    "Marc Vandemeulebroecke <marc.vandemeulebroecke@novartis.com> [aut]",
+    "Thanos Siadimas <thanos.siadimas@roche.com> [aut]", 
+    "Pawel Kawski <pawel.kawski@contractors.roche.com> [aut]",
+    "Steven Haesendonckx <shaesen2@@its.jnj.com>" [aut],
+    "Pelagia Alexandra Papadopoulou <PPapadop@its.jnj.com> [aut]
+  ))
+Maintainer: Mark Baillie <bailliem@gmail.com>
+URL: https://github.com/openpharma/visR
+BugReports: https://github.com/openpharma/visR/issues
+License: MIT + file LICENSE
+Depends:
+    R (>= 3.0.0)
+Suggests:
+    covr,
+    testthat (>= 2.1.0),
     knitr,
-    rmarkdown
+    rmarkdown,
+    RColorBrewer,
+    DT,
+    xlsx
+RoxygenNote: 7.1.0
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+biocViews:
+Imports: 
+    survival,
+    magrittr,
+    ggplot2,
+    patchwork,
+    tibble,    
+    RBesT,
+    DOT,
+    tidyr,
+    dplyr,
+    ggpubr,
+    ggsci,
+    pammtools,
+    kableExtra,
+    assertthat,
+    gt (>= 0.1.0),
+    tidyselect,
+    parcats (>= 0.0.1),
+    easyalluvial (>= 0.2.2)
 VignetteBuilder: knitr

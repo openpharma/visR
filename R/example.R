@@ -199,8 +199,17 @@ invisible(sapply(base::setdiff(files, ignore), function(x) source(x)))
    survfit_object <- vr_KM_est(data = adtte, strata = "TRTP")
    survdiff(formula = Surv(AVAL, 1 - CNSR) ~ TRTP, data = adtte, rho = 1)
    get_pvalue(survfit_object)
+   
+   get_pvalue(survfit_object, statlist = c("test", "p"), ptype = "Wilcoxon")
+   
+   p <-  get_pvalue(survfit_object, statlist = c("test", "p"), ptype = "All")
+   lbl <- paste(apply(p[ , colnames(p)] , 1 , paste , collapse = ": " ), collapse = " \n")
 
-
+   vr_plot(survfit_object) +
+      annotate("text", x = 100, y = 0.90, label = lbl)
+      
+    
+    
 #### plotly ####
 
    survfit_object <- vr_KM_est(data = adtte, strata = "TRTP")

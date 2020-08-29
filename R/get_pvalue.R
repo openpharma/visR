@@ -29,9 +29,14 @@ get_pvalue <- function(x, ...){
 
 #' @param survfit_object An object of class `survfit`
 #' @param ptype Character vector containing the type of p-value desired. Current options are "Log-Rank" "Wilcoxon" "Tarone-Ware" "Custom" "All".
-#'   "Custom" allows the user to specify the weights on the Kaplan-Meier estimates using the argument `rho`.
-#'   The default is "All" displaying all types possible. When `rho` is specified in context of "All", also a custom p-value is displayed. 
+#'    "Custom" allows the user to specify the weights on the Kaplan-Meier estimates using the argument `rho`.
+#'    The default is "All" displaying all types possible. When `rho` is specified in context of "All", also a custom p-value is displayed. 
+#' @param statlist Character vector containing the desired information to be displayed. The order of the arguments determines the order in which
+#'    they are displayed in the final result. Default is the test name ("test"), Chisquare test statistic ("Chisq"), degrees of freedom (df) and
+#'    p-value ("p").
 #' @inheritParams survival::survdiff
+#' 
+#' @return A tibble with summary measures for the Test of Equality Across Strata
 #'
 #' @rdname get_pvalue
 #' @method get_pvalue.survfit
@@ -41,6 +46,7 @@ get_pvalue.survfit <- function(
   survfit_object,
   ptype = "All",
   rho   = NULL,
+  statlist = c("test", "Chisq", "df", "p"),
   ...
 ) {
   
@@ -56,6 +62,8 @@ get_pvalue.survfit <- function(
     stop("Error in get_pvalue: Specify a valid type")
   if ("Custom" %in% ptype & is.null(rho))
     stop("Error in get_pvalue: ptype = `Custom`. Please, specify rho.")
+  if (is.null(statlist) | ! base::all(statlist %in% c("test", "df", "Chisq", "p")))
+    stop("Error in get_pvalue: Specify valid `statlist` arguments.")
   
   ## Re-use Call from survival object
   
@@ -68,15 +76,16 @@ get_pvalue.survfit <- function(
       ptype = c(ptype, "Custom")
     }
   }
-  
+
   ## Summary list
   
-  psummary <- list(
+  survdifflist <- list(
     `Log-Rank`    = rlang::expr(eval(as.call(append(NewCall, list(rho = 0))))),
     `Wilcoxon`    = rlang::expr(eval(as.call(append(NewCall, list(rho = 1))))),
     `Tarone-Ware` = rlang::expr(eval(as.call(append(NewCall, list(rho = 1.5))))),
     `Custom`      = rlang::expr(eval(as.call(append(NewCall, list(rho = rho)))))
   )[ptype]
+  
   
   .pvalformat <- function(x){
     options(scipen=999)
@@ -85,25 +94,32 @@ get_pvalue.survfit <- function(
     else format(round(x, 3), digits = 3, justify = "right", width = 6)
   }
 
-  psummary_eval <- lapply(psummary, eval, env = environment())
-  Nm <- names(psummary_eval)
-  if ("Custom" %in% ptype) Nm <- base::sub("Custom", paste0("Harrington and Fleming test (rho = ", rho, ")"), Nm, fixed = TRUE)
-  Chisq <- unlist(lapply(psummary_eval, function(x) x$chisq))
-  df <- unlist(lapply(psummary_eval, function(x) length(x$n)-1))
-  pval <- unlist(lapply(psummary_eval, function(x) .pvalformat(stats::pchisq(x$chisq, length(x$n)-1, lower.tail = FALSE))))
+  survdifflist_eval <- lapply(survdifflist, eval, env = environment())
   
-  ## Output to tibble
-  equality <- 
-    data.frame(
-      `Equality across strata` = Nm,
-      Chisq = Chisq,
-      df = df,
-      `p-value` = pval,
+  ## statlist
+  
+  statlist <- unique(statlist)
+  statlist <- base::sub("test", "Equality across strata", statlist, fixed = TRUE)
+  statlist <- base::sub("p", "p-value", statlist, fixed = TRUE)
+  Nms <- names(survdifflist_eval)
+  
+  stat_summary <- list(
+    `Equality across strata` = rlang::expr(base::sub("Custom", paste0("Harrington and Fleming test (rho = ", rho, ")"), Nms, fixed = TRUE)),
+    `Chisq`    = rlang::expr(unlist(lapply(survdifflist_eval, function(x) x$chisq))),
+     df        = rlang::expr(unlist(lapply(survdifflist_eval, function(x) length(x$n)-1))),
+     `p-value` = rlang::expr(unlist(lapply(survdifflist_eval, function(x) .pvalformat(stats::pchisq(x$chisq, length(x$n)-1, lower.tail = FALSE)))))
+  )[statlist]
+  
+  
+  ## output to tibble
+  
+    equality <- data.frame(
+      lapply(stat_summary, eval, env = environment()),
       check.names = FALSE,
       stringsAsFactors = FALSE,
       row.names = NULL
-    ) %>%
-    as_tibble()
+     ) %>%
+  as_tibble()
   
   return(equality)
 } 
