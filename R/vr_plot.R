@@ -84,6 +84,17 @@ vr_plot.survfit <- function(
     stop("fun should be a character.")
   }
   
+  
+  
+       # title <- switch(risk.table.type,
+     #                  absolute = "Number at risk",
+     #                  percentage = "Percentage at risk",
+     #                  abs_pct = "Number at risk: n (%)",
+     #                  nrisk_cumcensor = "Number at risk (number censored)",
+     #                  nrisk_cumevents = "Number at risk (number of events)",
+     #                  "Number at risk")
+
+
   ### Extended tidy of survfit class ####
   tidy_object <- tidyme.survfit(survfit_object) %>%
     mutate(est= .transfun(surv),

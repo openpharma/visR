@@ -30,9 +30,11 @@ vr_plotly.survfit  <- function(
   legendoptions <- legendopts(legend_position = legend_position, legend_orientation = legend_orientation)
   
   p <- plotly::ggplotly(
-    p = vr_plot(x, 
-                legend_position = legend_position,
-                ...),
+    p = vr_plot(
+      x, 
+      legend_position = legend_position,
+      ...
+    ),
     width = NULL,
     height = NULL,
     tooltip = "all",
