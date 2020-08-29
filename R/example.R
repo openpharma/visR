@@ -8,26 +8,13 @@ library(gtable)
 library(cowplot)
 library(survminer)
 library(plotly)
+library(rlang)
 
 load(file = file.path(getwd(), "data/adtte.rda"))
 
 ignore <- base::list.files(file.path(getwd(), "R"), pattern = "example.*\\.R$", full.names = TRUE)
 files <- base::list.files(file.path(getwd(), "R"), pattern = "*.R", full.names = TRUE)
-sapply(base::setdiff(files, ignore), function(x) source(x, echo = FALSE))
-
-
-#### plotly ####
-
-   survfit_object <- vr_KM_est(data = adtte, strata = "TRTP")
-
-   survfit_object %>%
-      vr_plot(legend_position = "bottom")
-   
-   vr_plot(survfit_object, legend_position = "bottom")
-   vr_plotly.default(survfit_object) ## ggplotly
-   vr_plotly.survfit(survfit_object) ## plot_ly
-   
-   ## next translate more options
+invisible(sapply(base::setdiff(files, ignore), function(x) source(x)))
 
 
 #### Estimation function : return survfit object allowing it to be used in many downstream applications ####
@@ -207,13 +194,22 @@ sapply(base::setdiff(files, ignore), function(x) source(x, echo = FALSE))
 
    ?survival:::quantile.survfit
    
-   
-#### plotly ####
+#### P-values: equality across strata ####
+
    survfit_object <- vr_KM_est(data = adtte, strata = "TRTP")
-   
+   survdiff(formula = Surv(AVAL, 1 - CNSR) ~ TRTP, data = adtte, rho = 1)
+   get_pvalue(survfit_object)
+
+
+#### plotly ####
+
+   survfit_object <- vr_KM_est(data = adtte, strata = "TRTP")
+
+   vr_plot(survfit_object)
    vr_plotly.default(survfit_object) ## ggplotly
    vr_plotly.survfit(survfit_object) ## plot_ly
-
+   
+   ## next translate more options
    
    
        
@@ -238,12 +234,13 @@ sapply(base::setdiff(files, ignore), function(x) source(x, echo = FALSE))
    
    
  ### plotting vr_plotly
-  ## go with own construction vs ggplotly with some modification? ggplotly still under development
   ## Idea: Ristable => put n.censor/n.risk in tooltip, rather than creating a static table
+  ## translate more features if not not done properly by ggplotly
   
    
  ### validate quantiles: compare with SAS
-   
+ 
+ ### Look into rendering functions eg vr_render_gt so that character columns are not trimmed and numeric columns not reformatted. 
    
  ### AFT overlay
  ### COX PH 
