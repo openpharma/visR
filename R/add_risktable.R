@@ -10,7 +10,7 @@ add_risktable <- function(
   
   #### User input validation ####
   if(inherits(KM_object, "survfit")){
-    tidy_object <- tidyme(survfit_object)
+    tidy_object <- tidyme(KM_object)
     if (is.null(time_ticks)) time_ticks <- pretty(tidy_object[["time"]], 5)
   } else if (inherits(KM_object, "ggsurvfit")){
     tidy_object <- KM_object$data
