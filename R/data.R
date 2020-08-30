@@ -1,8 +1,8 @@
 #' @title adtte
 #'
 #' @description ADTTE data copied from the 2013 CDISC Pilot
-#' @source CDISC SDTM/ADAM Pilot Project. \url{https://www.cdisc.org/sdtmadam-pilot-project}
-#'
+#' @source CDISC SDTM/ADAM Pilot Project. \url{https://bitbucket.cdisc.org/projects/CED}
+#' 
 #' @format A data frame with 254 rows and 26 variables:
 #' \describe{
 #'  \item{STUDYID}{Study Identifier}
