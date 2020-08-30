@@ -1,27 +1,31 @@
-#' @title Summarize equality across strata from a survival object using S3 method
+#' @title Summarize the test for equality across strata from a survival object using S3 method
 #'
 #' @description S3 method for extracting information regarding equality across strata.
 #'     No default method is available at the moment.
 #'     
-#' @seealso \code{\link[survival]{survdiff}
+#' @author Steven Haesendonckx {shaesen2@@its.jnj.com}
+#' 
+#' @seealso \code{\link[survival]{survdiff}}
 #' 
 #' @param x S3 object
-#' @param ... other arguments
+#' @param ... other arguments passed on to the method
+#' 
 #' @examples
 #' 
 #' ## Extended tidying for a survfit object
 #' surv_object <- survival::survfit(data = adtte, Surv(AVAL, 1-CNSR) ~ TRTP)
 #' get_pvalue(surv_object)
 #'  
+#' @return A tibble with summary measures for the Test of Equality Across Strata
+#'  
 #' @rdname get_pvalue
-#' @export get_pvalue
+#' 
+#' @export
 
 get_pvalue <- function(x, ...){
   UseMethod("get_pvalue")
 }
 
-#' @return \code{NULL}
-#' 
 #' @param survfit_object An object of class `survfit`
 #' @param ptype Character vector containing the type of p-value desired. Current options are "Log-Rank" "Wilcoxon" "Tarone-Ware" "Custom" "All".
 #'    "Custom" allows the user to specify the weights on the Kaplan-Meier estimates using the argument `rho`.
@@ -31,10 +35,10 @@ get_pvalue <- function(x, ...){
 #'    p-value ("p").
 #' @inheritParams survival::survdiff
 #' 
-#' @return A tibble with summary measures for the Test of Equality Across Strata
 #'
 #' @rdname get_pvalue
-#' @export get_pvalue survfit
+#' @method get_pvalue survfit
+#' @export
 
 get_pvalue.survfit <- function(
   survfit_object,

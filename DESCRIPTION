@@ -29,10 +29,7 @@ Suggests:
     RColorBrewer,
     DT,
     xlsx
-RoxygenNote: 7.1.0
 Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
-biocViews:
 Imports: 
     survival,
     magrittr,
@@ -53,3 +50,4 @@ Imports:
     parcats (>= 0.0.1),
     easyalluvial (>= 0.2.2)
 VignetteBuilder: knitr
+RoxygenNote: 7.1.0
