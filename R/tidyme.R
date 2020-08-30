@@ -5,8 +5,11 @@
 #'     
 #' @author Steven Haesendonckx {shaesen2@@its.jnj.com}
 #' 
+#' @seealso \code{\link[broom]{tidy}}
+#' 
 #' @param x S3 object
-#' @param ... other arguments
+#' @param ... other arguments passed on to the method
+#' 
 #' @examples
 #' 
 #' ## Extended tidying for a survfit object
@@ -18,18 +21,19 @@
 #' lm_object <- lm(data = cars, speed ~ dist)
 #' lm_tidied <- tidyme(lm_object)
 #' 
+#' @return Tibble containing all list elements of the S3 object as columns
+#' 
 #' @rdname tidyme
-#' @export tidyme
+#' 
+#' @export
 
 tidyme <- function(x, ...){
   UseMethod("tidyme")
 } 
 
-#' @return \code{NULL}
-#'
 #' @rdname tidyme
 #' @method tidyme default
-#' @S3method tidyme default
+#' @export
 
 tidyme.default <- function(x, ...){
   library(broom)
@@ -37,11 +41,9 @@ tidyme.default <- function(x, ...){
   return(broom::tidy(x))
 }
  
-#' @return \code{NULL}
-#' 
 #' @rdname tidyme
 #' @method tidyme survfit
-#' @S3method tideme survfit
+#' @export
 
 tidyme.survfit <- function(x, ...) {
   if (inherits(x, "survfit")) {

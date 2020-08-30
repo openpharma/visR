@@ -1,3 +1,4 @@
 ^data-raw$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^example*$
