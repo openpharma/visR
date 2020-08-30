@@ -24,7 +24,6 @@ vr_plot.default <- function(x, ...){
 #' TODO: legend_pos option where: inside vs outside. This determines the ggrob later on
 
 
-#' @inheritparams survival:::plot.survival
 #' @return ggplot object 
 #' @export
 #'
