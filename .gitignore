@@ -1,6 +1,7 @@
 # History files
 .Rhistory
 .Rapp.history
+.Rproj.user
 
 # Session Data files
 .RData
@@ -9,7 +10,7 @@
 .Ruserdata
 
 # Example code in package build process
-*-Ex.R
+
 
 # Output files from R CMD build
 /*.tar.gz

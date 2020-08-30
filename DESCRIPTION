@@ -12,8 +12,8 @@ Authors@R: as.person(c(
     "Marc Vandemeulebroecke <marc.vandemeulebroecke@novartis.com> [aut]",
     "Thanos Siadimas <thanos.siadimas@roche.com> [aut]", 
     "Pawel Kawski <pawel.kawski@contractors.roche.com> [aut]",
-    "Steven Haesendonckx <shaesen2@@its.jnj.com>" [aut],
-    "Pelagia Alexandra Papadopoulou <PPapadop@its.jnj.com> [aut]
+    "Steven Haesendonckx <shaesen2@@its.jnj.com> [aut]",
+    "Pelagia Alexandra Papadopoulou <PPapadop@its.jnj.com> [aut]"
   ))
 Maintainer: Mark Baillie <bailliem@gmail.com>
 URL: https://github.com/openpharma/visR

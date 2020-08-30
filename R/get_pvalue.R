@@ -3,8 +3,6 @@
 #' @description S3 method for extracting information regarding equality across strata.
 #'     No default method is available at the moment.
 #'     
-#' @author Steven Haesendonckx {shaesen2@@its.jnj.com}
-#' 
 #' @seealso \code{\link[survival]{survdiff}
 #' 
 #' @param x S3 object
@@ -24,9 +22,6 @@ get_pvalue <- function(x, ...){
 
 #' @return \code{NULL}
 #' 
-#' @author Steven Haesendonckx {shaesen2@@its.jnj.com}
-#' 
-
 #' @param survfit_object An object of class `survfit`
 #' @param ptype Character vector containing the type of p-value desired. Current options are "Log-Rank" "Wilcoxon" "Tarone-Ware" "Custom" "All".
 #'    "Custom" allows the user to specify the weights on the Kaplan-Meier estimates using the argument `rho`.
@@ -39,8 +34,7 @@ get_pvalue <- function(x, ...){
 #' @return A tibble with summary measures for the Test of Equality Across Strata
 #'
 #' @rdname get_pvalue
-#' @method get_pvalue.survfit
-#' @S3method get_pvalue
+#' @export get_pvalue survfit
 
 get_pvalue.survfit <- function(
   survfit_object,

@@ -2,7 +2,6 @@
 #'
 #' @keywords visR
 #' @export
-#' @examples
 
 style_visR <- function(gg) {
   

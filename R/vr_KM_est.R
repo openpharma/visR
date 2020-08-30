@@ -4,19 +4,20 @@
 #'    based on the expected ADaM Basic Data Structure (BDS) for Time-to-Event analysis and assuming right-censored data.
 #'    The function expects that the data has been filtered on the PARAM/PARAMCD of interest.
 #'    Alternatively, PARAM/PARAMCD can be used in the `strata` argument. \cr
-#'    The result is an object of class `survfit` which can be used in downstream functions and methods that rely on the ´survfit´ class.
+#'    The result is an object of class `survfit` which can be used in downstream functions and methods that rely on the `survfit` class.
 #'    By default:
 #'    \itemize{
 #'      \item{The Kaplan Meier estimate is estimated directly (stype = 1).}
 #'      \item{The cumulative hazard is estimated using the Nelson-Aalen estimator (ctype = 1): H.tilde = cumsum(x$n.event/x$n.risk).
 #'      The MLE (H.hat(t) = -log(S.hat(t))) can't be requested.}
-#'      \item{A two-sided pointwise 0.95 confidence interval is estimated using a log transformation (conf.type = "log").} 
+#'      \item{A two-sided pointwise 0.95 confidence interval is estimated using a log transformation (conf.type = "log").}
+#'    }
 #'
 #' @author Steven Haesendonckx {shaesen2@@its.jnj.com}
 #' 
 #' @seealso \code{\link[survival]{survfit.formula} \link[survival]{survfitCI}}
 #' 
-#' @param data String, representing the ADaM Basic Data Structure (BDS) for Time-to-Event analysis eg ADTTE. Rows in which AVAL or CNSR contain NA, are removed during analysis. 
+#' @param data The name of the ADaM Basic Data Structure (BDS) for Time-to-Event analysis eg ADTTE. Rows in which AVAL or CNSR contain NA, are removed during analysis. 
 #' @param strata Character vector, representing the strata for Time-to-Event analysis eg TRT01P. When NULL, an overall analysis is performed.
 #'   Default is NULL.
 #' @param ... additional arguments passed on to the ellipsis of the call survival::survfit.formula(data = data, formula = Surv(AVAL, 1-CNSR) ~ strata), ...) .

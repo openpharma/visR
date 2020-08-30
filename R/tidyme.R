@@ -28,8 +28,7 @@ tidyme <- function(x, ...){
 #' @return \code{NULL}
 #'
 #' @rdname tidyme
-#' @method tidyme default
-#' @S3method tidyme default
+#' @export tidyme default
 
 tidyme.default <- function(x, ...){
   library(broom)
@@ -40,8 +39,7 @@ tidyme.default <- function(x, ...){
 #' @return \code{NULL}
 #' 
 #' @rdname tidyme
-#' @method tidyme survfit
-#' @S3method tideme survfit
+#' @export tidyme survfit
 
 tidyme.survfit <- function(x, ...) {
   if (inherits(x, "survfit")) {
