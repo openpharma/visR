@@ -42,9 +42,11 @@ S3 method for extracting information regarding equality across strata.
     No default method is available at the moment.
 }
 \examples{
+library(survival)
+library(dplyr)
+library(tidyr)
 
-## Extended tidying for a survfit object
-surv_object <- survival::survfit(data = adtte, Surv(AVAL, 1-CNSR) ~ TRTP)
+survfit_object <- survival::survfit(data = adtte, Surv(AVAL, 1-CNSR) ~ TRTP)
 get_pvalue(surv_object)
  
 }

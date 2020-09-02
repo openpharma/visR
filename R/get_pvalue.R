@@ -11,9 +11,11 @@
 #' @param ... other arguments passed on to the method
 #' 
 #' @examples
+#' library(survival)
+#' library(dplyr)
+#' library(tidyr)
 #' 
-#' ## Extended tidying for a survfit object
-#' surv_object <- survival::survfit(data = adtte, Surv(AVAL, 1-CNSR) ~ TRTP)
+#' survfit_object <- survival::survfit(data = adtte, Surv(AVAL, 1-CNSR) ~ TRTP)
 #' get_pvalue(surv_object)
 #'  
 #' @return A tibble with summary measures for the Test of Equality Across Strata
