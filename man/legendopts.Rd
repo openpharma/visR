@@ -2,8 +2,7 @@
 % Please edit documentation in R/utilities.R
 \name{legendopts}
 \alias{legendopts}
-\title{Experimental - Needs to take into account xlimits/ylimits
-    Translates options for legend into a list that can be passed to ggplot2}
+\title{Translates options for legend into a list that can be passed to ggplot2}
 \usage{
 legendopts(legend_position = "right", legend_orientation = NULL)
 }

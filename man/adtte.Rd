@@ -36,7 +36,7 @@ A data frame with 254 rows and 26 variables:
 }
 }
 \source{
-CDISC SDTM/ADAM Pilot Project. \url{https://www.cdisc.org/sdtmadam-pilot-project}
+CDISC SDTM/ADAM Pilot Project. \url{https://bitbucket.cdisc.org/projects/CED}
 }
 \usage{
 adtte

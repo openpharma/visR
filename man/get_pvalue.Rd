@@ -3,7 +3,7 @@
 \name{get_pvalue}
 \alias{get_pvalue}
 \alias{get_pvalue.survfit}
-\title{Summarize the test for equality across strata from a survival object using S3 method}
+\title{Summarize the test for equality across strata from a survival object of class \code{survfit} using S3 method}
 \usage{
 get_pvalue(x, ...)
 
@@ -31,7 +31,7 @@ a scalar parameter that controls the type of test.
 }
 
 \item{statlist}{Character vector containing the desired information to be displayed. The order of the arguments determines the order in which
-they are displayed in the final result. Default is the test name ("test"), Chisquare test statistic ("Chisq"), degrees of freedom (df) and
+they are displayed in the final result. Default is the test name ("test"), Chisquare test statistic ("Chisq"), degrees of freedom ("df") and
 p-value ("p").}
 }
 \value{
@@ -42,9 +42,11 @@ S3 method for extracting information regarding equality across strata.
     No default method is available at the moment.
 }
 \examples{
+library(survival)
+library(dplyr)
+library(tidyr)
 
-## Extended tidying for a survfit object
-surv_object <- survival::survfit(data = adtte, Surv(AVAL, 1-CNSR) ~ TRTP)
+survfit_object <- survival::survfit(data = adtte, Surv(AVAL, 1-CNSR) ~ TRTP)
 get_pvalue(surv_object)
  
 }
