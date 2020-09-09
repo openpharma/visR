@@ -1,4 +1,4 @@
-#' @title Summarize the test for equality across strata from a survival object using S3 method
+#' @title Summarize the test for equality across strata from a survival object of class \code{survfit} using S3 method
 #'
 #' @description S3 method for extracting information regarding equality across strata.
 #'     No default method is available at the moment.
@@ -33,7 +33,7 @@ get_pvalue <- function(x, ...){
 #'    "Custom" allows the user to specify the weights on the Kaplan-Meier estimates using the argument `rho`.
 #'    The default is "All" displaying all types possible. When `rho` is specified in context of "All", also a custom p-value is displayed. 
 #' @param statlist Character vector containing the desired information to be displayed. The order of the arguments determines the order in which
-#'    they are displayed in the final result. Default is the test name ("test"), Chisquare test statistic ("Chisq"), degrees of freedom (df) and
+#'    they are displayed in the final result. Default is the test name ("test"), Chisquare test statistic ("Chisq"), degrees of freedom ("df") and
 #'    p-value ("p").
 #' @inheritParams survival::survdiff
 #' 
