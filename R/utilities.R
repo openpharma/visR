@@ -34,11 +34,11 @@ the_lhs <- function() {
 
 #' @title Align multiple ggplot graphs, taking into account the legend
 #'  
-#' @description This function aligns multiple ggplot graphs by making them the same width by taking into account the legend width.
+#' @description This function aligns multiple \code{ggplot} graphs by making them the same width by taking into account the legend width.
 #'    
 #' @author Steven Haesendonckx {shaesen2@@its.jnj.com}
 #' 
-#' @return List of plots with equal width.
+#' @return List of \code{ggplot} with equal width.
 #' 
 #' @references \url{https://stackoverflow.com/questions/26159495/align-multiple-ggplot-graphs-with-and-without-legends}
 #' 
@@ -88,8 +88,7 @@ AlignPlots <- function(pltlist = NULL) {
   plots.grobs.eq.widths.aligned
 }
 
-#' @title Experimental - Needs to take into account xlimits/ylimits
-#'     Translates options for legend into a list that can be passed to ggplot2
+#' @title Translates options for legend into a list that can be passed to ggplot2
 #'  
 #' @description This function takes the legend position and orientation, defined by the user and puts them into a list for ggplot2.
 #'    
@@ -101,7 +100,7 @@ legendopts <- function(
   legend_position = "right",
   legend_orientation = NULL
 ){
-
+  
   ## replace default eg "h" if user specified something else
   .ucoalesce <- function(x, default){
     ifelse(is.null(x), default, x)

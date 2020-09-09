@@ -7,10 +7,10 @@
 AlignPlots(pltlist = NULL)
 }
 \value{
-List of plots with equal width.
+List of \code{ggplot} with equal width.
 }
 \description{
-This function aligns multiple ggplot graphs by making them the same width by taking into account the legend width.
+This function aligns multiple \code{ggplot} graphs by making them the same width by taking into account the legend width.
 }
 \examples{
 library(ggplot2)
