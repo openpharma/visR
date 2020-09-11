@@ -100,6 +100,18 @@ vr_plot.survfit <- function(
            est.upper = .transfun(upper),
            est.lower = .transfun(lower))
 
+  if (fun == "cloglog") {
+      
+      if (nrow(tidy_object[tidy_object$est == "-Inf",]) > 0) {
+          
+          warning("NAs introduced by y-axis transformation.\n")
+          
+      } 
+      
+      tidy_object = tidy_object[tidy_object$est != "-Inf",]
+      
+  }
+    
   #### Obtain alternatives for X-axis ####
   if (is.null(x_label)){
     if ("PARAM" %in% names(survfit_object)) x_label = survfit_object$PARAM
@@ -108,8 +120,12 @@ vr_plot.survfit <- function(
   if (is.null(time_ticks)) time_ticks = pretty(survfit_object$time, 10)
   
   #### Obtain alternatives for Y-axis ####
+  if (is.null(y_ticks) && fun == "log") y_ticks <- pretty(c(min(tidy_object$est.lower), max(tidy_object$est.upper)), 5)
+  if (is.null(y_ticks) && fun == "cloglog") y_ticks <- pretty(c(min(tidy_object$est.lower), max(tidy_object$est.lower)), 5)
   if (is.null(y_ticks) && fun == "cumhaz") y_ticks <- pretty(survfit_object$cumhaz, 5)
-  if (is.null(y_ticks) && fun == "surv") y_ticks <- pretty(c(0,1), 5)
+  if (is.null(y_ticks) && (fun == "surv" || fun == "event")) y_ticks <- pretty(c(0,1), 5)
+  if (is.null(y_ticks) && (fun == "pct")) y_ticks <- pretty(c(0,100), 5)
+  if (is.null(y_ticks) && (fun == "logpct")) y_ticks <- pretty(c(0,max(tidy_object$est.upper)), 5)
 
   if (is.null(y_label) && fun == "cumhaz") y_label <- "Cumulative hazard"
   if (is.null(y_label) && fun == "surv") y_label <- "Survival probability"
