@@ -13,9 +13,6 @@
 #' @examples
 #' library(magrittr)
 #' 
-#' ## load data
-#` load(file = file.path(getwd(), "data/adtte.rda"))
-#'  
 #' ## example
 #' blah <- function(x) the_lhs()
 #' adtte %>%
@@ -47,10 +44,7 @@ the_lhs <- function() {
 #' library(gtable)
 #' library(cowplot)
 #' library(ggplot2)
-#' 
-#' ## load data
-#` load(file = file.path(getwd(), "data/adtte.rda"))
-#'  
+#'   
 #' ## create 2 graphs
 #' p1 <- ggplot(adtte, aes(x = as.numeric(AGE), fill = "Age")) +
 #'   geom_histogram(bins = 15)

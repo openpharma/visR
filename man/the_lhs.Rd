@@ -15,8 +15,6 @@ This function finds the left-hand sided symbol in a magrittr pipe.
 \examples{
 library(magrittr)
 
-## load data
- 
 ## example
 blah <- function(x) the_lhs()
 adtte \%>\%

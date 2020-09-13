@@ -31,13 +31,9 @@
 #'
 #' @examples
 #' library(survival)
-#' library(glue)
 #' library(dplyr)
 #' library(tidyr)
 #' 
-#' ## load data
-#` load(file = file.path(getwd(), "data/adtte.rda"))
-#'  
 #' ## No stratification
 #' vr_KM_est(data = adtte)
 #' 
