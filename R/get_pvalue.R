@@ -16,7 +16,7 @@
 #' library(tidyr)
 #' 
 #' survfit_object <- survival::survfit(data = adtte, Surv(AVAL, 1-CNSR) ~ TRTP)
-#' get_pvalue(surv_object)
+#' get_pvalue(survfit_object)
 #'  
 #' @return A tibble with summary measures for the Test of Equality Across Strata
 #'  

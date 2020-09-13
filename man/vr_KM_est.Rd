@@ -34,12 +34,9 @@ This function is a wrapper around \code{survival::survfit.formula} to perform a 
 }
 \examples{
 library(survival)
-library(glue)
 library(dplyr)
 library(tidyr)
 
-## load data
- 
 ## No stratification
 vr_KM_est(data = adtte)
 

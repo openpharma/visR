@@ -1,32 +1,32 @@
-add_COX_HR <- function(gg, ...){
+get_COX_HR <- function(x, ...){
   UseMethod("add_COX_HR")
 } 
 
-add_COX_HR.ggsurvfit <- function(gg, ...){
+update_formula = ". ~ . + SEX"
+
+get_COX_HR.survfit <- function(survfit_object = survfit_object, update_formula = NULL, ...){
   
-  ### Question: how do we want to use this function?
+  if (!base::inherits(gg, "ggsurvfit")) stop("Error in add_COX_HR: Object gg not of class `ggsurvfit`.")
   
-   ## or we pass along a coxph object
+  #### Update ####
   
+  if (!is.null(update_formula)){
+    updated_object <- update(survfit_object,  formula = eval(update_formula), evaluate = TRUE)
+  }
+  else updated_object <- survfit_object
   
+  #### Change call ####
   
-   ## or we allow the user to update the formula
-    # update(survfit_object,  formula = . ~ . + SEX, evaluate = TRUE))
+  SurvCall <- as.list(updated_object$call)
+  CoxArgs <- base::formals(survival::coxph)
+  CoxCall <- append(as.symbol("coxph"), SurvCall[names(SurvCall) %in% names(CoxArgs)])
   
-  
-  
-   ## or we assume no changes to the formula
-      SurvCall <- as.list(gg$data$call[[1]])
-  
-      CoxArgs <- (base::formals(survival::coxph))
-      CoxCall <- append(as.symbol("survdiff"), SurvCall[names(SurvCall) %in% names(CoxArgs)])
-  
-      cox <- eval(as.call(CoxCall))
+  cox <- tidyme(eval(as.call(CoxCall)))
       
-      tidycox <- tidyme(cox)
-      
-  return(list(gg, tidycox))
+
+  return(cox)
 }
+
 
 add_COX_HR.tblKM <- function(gg){
   stop("this object is not yet part of the scope")

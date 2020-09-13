@@ -17,9 +17,7 @@ library(ggplot2)
 library(gtable)
 library(cowplot)
 library(ggplot2)
-
-## load data
- 
+  
 ## create 2 graphs
 p1 <- ggplot(adtte, aes(x = as.numeric(AGE), fill = "Age")) +
   geom_histogram(bins = 15)
