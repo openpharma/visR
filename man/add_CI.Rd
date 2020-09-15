@@ -3,24 +3,28 @@
 \name{add_CI}
 \alias{add_CI}
 \alias{add_CI.ggsurvfit}
-\title{Add pointwise Confidence Interval to a plot created through visR using S3 method}
+\title{Add pointwise Confidence Interval to a an object created by visR through an S3 method}
 \usage{
 add_CI(gg, ...)
 
 \method{add_CI}{ggsurvfit}(gg, alpha = 0.1, style = "ribbon", linetype = 2, ...)
 }
 \arguments{
-\item{gg}{A plot created with visR}
+\item{gg}{A ggplot created with visR}
 
-\item{...}{other arguments passed on to the method}
+\item{...}{other arguments passed on to the method to modify \code{\link[ggplot2]{geom_ribbon}}}
 
-\item{x}{visR plot}
+\item{alpha}{aesthetic of ggplot2 \code{\link[ggplot2]{geom_ribbon}}. Default is 0.1.}
+
+\item{style}{aesthetic of ggplot2 \code{\link[ggplot2]{geom_ribbon}}. Default is "ribbon".}
+
+\item{linetype}{aesthetic of ggplot2 \code{\link[ggplot2]{geom_ribbon}}. Default is 2.}
 }
 \value{
-Pointwise confidence interval overlayed on a visR plot
+Pointwise confidence interval overlayed on a visR ggplot
 }
 \description{
-S3 method for adding a pointwise confidence interval to a visR plot.
+S3 method for adding a pointwise confidence interval to a object created with visR.
     No default method is available at the moment.
 }
 \examples{
@@ -35,5 +39,5 @@ vr_plot(survfit_object) \%>\%
  
 }
 \author{
-Steven Haesendonckx {shaesen2@its.jnj.com}
+Steven Haesendonckx
 }

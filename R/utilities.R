@@ -2,7 +2,7 @@
 #'  
 #' @description This function finds the left-hand sided symbol in a magrittr pipe.
 #'
-#' @author Steven Haesendonckx {shaesen2@@its.jnj.com}
+#' @author Steven Haesendonckx
 #' 
 #' @return Left-hand sided symbol as string in the magrittr pipe.
 #' 
@@ -33,7 +33,7 @@ the_lhs <- function() {
 #'  
 #' @description This function aligns multiple \code{ggplot} graphs by making them the same width by taking into account the legend width.
 #'    
-#' @author Steven Haesendonckx {shaesen2@@its.jnj.com}
+#' @author Steven Haesendonckx
 #' 
 #' @return List of \code{ggplot} with equal width.
 #' 
@@ -86,7 +86,7 @@ AlignPlots <- function(pltlist = NULL) {
 #'  
 #' @description This function takes the legend position and orientation, defined by the user and puts them into a list for ggplot2.
 #'    
-#' @author Steven Haesendonckx {shaesen2@@its.jnj.com}
+#' @author Steven Haesendonckx
 #' 
 #' @return List of legend options for ggplot2.
 

@@ -62,5 +62,5 @@ vr_KM_est(data = adtte, strata = NULL, type = "kaplan-meier", conf.int = F, time
 \code{\link[survival]{survfit.formula} \link[survival]{survfitCI}}
 }
 \author{
-Steven Haesendonckx {shaesen2@its.jnj.com}
+Steven Haesendonckx
 }
