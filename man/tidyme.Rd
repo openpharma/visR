@@ -40,5 +40,5 @@ lm_tidied <- tidyme(lm_object)
 \code{\link[broom]{tidy}}
 }
 \author{
-Steven Haesendonckx {shaesen2@its.jnj.com}
+Steven Haesendonckx
 }

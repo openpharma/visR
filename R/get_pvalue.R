@@ -3,7 +3,7 @@
 #' @description S3 method for extracting information regarding equality across strata.
 #'     No default method is available at the moment.
 #'     
-#' @author Steven Haesendonckx {shaesen2@@its.jnj.com}
+#' @author Steven Haesendonckx
 #' 
 #' @seealso \code{\link[survival]{survdiff}}
 #' 
@@ -14,8 +14,9 @@
 #' library(survival)
 #' library(dplyr)
 #' library(tidyr)
+#' library(ggplot2)
 #' 
-#' survfit_object <- survival::survfit(data = adtte, Surv(AVAL, 1-CNSR) ~ TRTP)
+#' surv_object <- vr_KM_est(data = adtte, strata = "TRTP")
 #' get_pvalue(survfit_object)
 #'  
 #' @return A tibble with summary measures for the Test of Equality Across Strata
@@ -28,7 +29,7 @@ get_pvalue <- function(x, ...){
   UseMethod("get_pvalue")
 }
 
-#' @param survfit_object An object of class `survfit`
+#' @param survfit_object An object of class \code{survfit}
 #' @param ptype Character vector containing the type of p-value desired. Current options are "Log-Rank" "Wilcoxon" "Tarone-Ware" "Custom" "All".
 #'    "Custom" allows the user to specify the weights on the Kaplan-Meier estimates using the argument `rho`.
 #'    The default is "All" displaying all types possible. When `rho` is specified in context of "All", also a custom p-value is displayed. 

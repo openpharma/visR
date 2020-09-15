@@ -13,5 +13,5 @@ List of legend options for ggplot2.
 This function takes the legend position and orientation, defined by the user and puts them into a list for ggplot2.
 }
 \author{
-Steven Haesendonckx {shaesen2@its.jnj.com}
+Steven Haesendonckx
 }

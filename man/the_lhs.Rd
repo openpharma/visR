@@ -24,5 +24,5 @@ adtte \%>\%
 \url{https://github.com/tidyverse/magrittr/issues/115#issuecomment-173894787}
 }
 \author{
-Steven Haesendonckx {shaesen2@its.jnj.com}
+Steven Haesendonckx
 }

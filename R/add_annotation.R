@@ -1,10 +1,10 @@
 #' @title Wrapper around ggplot2::annotation_custom for simplified annotation to ggplot2 plots
 #'
-#' @description This function accepts a string, dataframe, data.table, tibbles and customized objects of class \code{gtable} and
+#' @description This function accepts a string, dataframe, data.table, tibble or customized objects of class \code{gtable} and
 #'   places them on the specified location on the \code{ggplot}. The layout is fixed: bold columnheaders and plain body. Only the
 #'   font size and type can be chosen.
 #'     
-#' @author Steven Haesendonckx {shaesen2@@its.jnj.com}
+#' @author Steven Haesendonckx
 #' 
 #' @seealso \code{\link[gridExtra]{tableGrob}} \code{\link[ggplot2]{annotation_custom}}
 #' 
@@ -16,6 +16,10 @@
 #' @param ymin, ymax y coordinates giving vertical location of raster in which to fit annotation.
 #' 
 #' @examples
+#' library(survival)
+#' library(dplyr)
+#' library(tidyr)
+#' library(ggplot2)
 #' 
 #' ## Estimate survival
 #' surv_object <- vr_KM_est(data = adtte, strata = "TRTP")
@@ -27,7 +31,7 @@
 #' vr_plot(survfit_object) %>%
 #'   add_annotation(lbl = lbl, base_family = "sans", base_size = 9, xmin = 110, xmax = 180, ymin = 0.80)
 #' 
-#' @return Object of class \code{ggplot} \code{ggsurvfit} with added annotation with an object of class \code{gtable}.
+#' @return Object of class \code{ggplot} with added annotation with an object of class \code{gtable}.
 #'  
 #' @export
 
@@ -43,12 +47,14 @@ add_annotation <- function(
   ){
  
   #### Validate user input ####
+  
   if (!base::inherits(gg, "ggplot")) stop("Error in add_annotation: gg is not of class `ggplot`")
   if (!base::exists("lbl")) stop("Error in add_annotation: lbl does not exist")
   if (!font %in% c("sans", "serif", "mono")) stop("Error in add_annotation: Specified font not supported")
   if (!base::any(unlist(lapply(as.list(c(xmin, xmax, ymin, ymax, base_size)), is.numeric)))) stop("Error in add_annotation: One of the coordinates are not numeric.")
 
   #### If user has custom gtable, skip all the remaining steps ####
+  
   if (base::inherits(lbl, "gtable")) {
     
     gg <- gg +
@@ -59,6 +65,7 @@ add_annotation <- function(
   } else {
 
     #### Prepare label: turn into dataframe and avoid factors + add manual bolding to avoid parsing issues with `` in colnames ####
+    
     df <- data.frame(lbl, stringsAsFactors = FALSE, check.names = FALSE)
     colnames(df) <- as.vector(paste(paste0("bold(\"", colnames(df), "\")")))
 
