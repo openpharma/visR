@@ -13,7 +13,7 @@
 #'      \item{A two-sided pointwise 0.95 confidence interval is estimated using a log transformation (conf.type = "log").}
 #'    }
 #'
-#' @author Steven Haesendonckx {shaesen2@@its.jnj.com}
+#' @author Steven Haesendonckx
 #' 
 #' @seealso \code{\link[survival]{survfit.formula} \link[survival]{survfitCI}}
 #' 
@@ -31,13 +31,9 @@
 #'
 #' @examples
 #' library(survival)
-#' library(glue)
 #' library(dplyr)
 #' library(tidyr)
 #' 
-#' ## load data
-#` load(file = file.path(getwd(), "data/adtte.rda"))
-#'  
 #' ## No stratification
 #' vr_KM_est(data = adtte)
 #' 

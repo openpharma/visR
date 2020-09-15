@@ -1,7 +1,50 @@
-## should we make a method out of this?
+#' @title Add risk tables to visR plots through an S3 method
+#'
+#' @description S3 method for adding risk tables to visR plots. 
+#'     No default method is available at the moment.
+#'     
+#' @author Steven Haesendonckx
+#' 
+#' @seealso \code{\link[cowplot]{plot_grid}}
+#' 
+#' @param gg visR object
+#' @param ... other arguments passed on to the method
+#' 
+#' @examples
+#' library(survival)
+#' library(dplyr)
+#' library(tidyr)
+#' library(ggplot2)
+#' library(cowplot)
+#' library(gtable)
+#' 
+#' survfit_object <- survival::survfit(data = adtte, Surv(AVAL, 1-CNSR) ~ TRTP)
+#' vr_plot(survfit_object) %>%
+#'   add_risktable(min_at_risk = 3, title = c("blah"), display = c("n.risk", "n.censor"))
+#'  
+#' @return Object of class \code{ggplot} with added risk table.
+#'  
+#' @rdname add_risktable
+#' 
+#' @export
 
-add_risktable <- function(
-   KM_object
+add_risktable <- function(gg, ...){
+  UseMethod("add_risktable")
+} 
+
+#' @param gg visR plot of class `ggsurvfit`
+#' @param min_at_risk \code{numeric} The cutoff for number of subjects to display. Default is 0.
+#' @param time_ticks Numeric vector with the points along the x-axis at which the summary data needs to be provided. 
+#' @param display Character vector indicating which summary data to present. Current choices are "n.risk" "n.event" "n.censor".
+#' @param title Character vector with titles for the summary tables.
+#'  
+#' @rdname add_risktable
+#' @method add_risktable ggsurvfit
+#' @export
+
+
+add_risktable.ggsurvfit <- function(
+   gg
   ,min_at_risk = 0
   ,time_ticks = NULL
   ,display = c("n.risk")
@@ -9,22 +52,29 @@ add_risktable <- function(
 ){
   
   #### User input validation ####
-  if(inherits(KM_object, "survfit")){
-    tidy_object <- tidyme(KM_object)
-    if (is.null(time_ticks)) time_ticks <- pretty(tidy_object[["time"]], 5)
-  } else if (inherits(KM_object, "ggsurvfit")){
-    tidy_object <- KM_object$data
-    survfit_object <- eval(KM_object$data$call[[1]])
-    ggbld <- ggplot_build(KM_object)
+  
+  if (inherits(gg, "ggsurvfit")){
+    tidy_object <- gg$data
+    survfit_object <- eval(gg$data$call[[1]])
+    ggbld <- ggplot_build(gg)
     if (is.null(time_ticks)) time_ticks <- as.numeric(ggbld$layout$panel_params[[1]]$x$get_labels())
   } else {
-    stop("KM object is nor a plot or table created by visR.")
+    stop("Error in add_risktable: gg is not of class `ggsurvfit`.")
   }
+  if (!base::any(display %in% c("n.risk", "n.censor", "n.event")))
+    stop("Error in add_risktable: Display argument not valid.")
   
-  if (min_at_risk < 0 && min_at_risk %% 1 == 0) stop("min_at_risk needs to be a positive integer.")
+  if (min_at_risk < 0 && min_at_risk %% 1 == 0) 
+    stop("min_at_risk needs to be a positive integer.")
+  
+  if (length(title) < length(display)) 
+    title <- c(title, rep(NA, length(display)-length(title)))
+  if (length(title) > length(display)) 
+    title <- title[1:length(display)]
   
   
   #### Pull out max time to consider ####
+  
   max_time <- 
     tidy_object %>% 
     filter(n.risk >= min_at_risk) %>% 
@@ -36,10 +86,12 @@ add_risktable <- function(
   
   
   #### Time_ticks ####
+  
   times <- time_ticks[time_ticks <= max_time]
 
 
   #### Build risk table ####
+  
   survfit_summary <- summary(survfit_object, times = times, extend = TRUE)
   
   summary_data <- data.frame(
@@ -55,11 +107,9 @@ add_risktable <- function(
       TRUE ~ 0
       )
     ) 
-  
-  if (!inherits(KM_object, "ggsurvfit")) return(summary_data)
-  
 
   #### Plot all requested tables below => use list approach with map function ####
+  
   tbls <-  base::Map(function(display, title = NA) {
     ggrisk <- ggplot2::ggplot(summary_data,aes(x = time, y = strata, label = format(get(display), nsmall = 0))) +
       ggplot2::geom_text(size = 3.5, hjust=0.5, vjust=0.5, angle=0, show.legend = F) +
@@ -96,7 +146,7 @@ add_risktable <- function(
 
   
   #### Make plots same width ####
-  ggA <- list(KM_object) %>%
+  ggA <- list(gg) %>%
     append(tbls) %>%
     AlignPlots()
   

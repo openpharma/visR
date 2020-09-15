@@ -29,14 +29,18 @@ add_annotation(
 \item{ymin, }{ymax y coordinates giving vertical location of raster in which to fit annotation.}
 }
 \value{
-Object of class \code{ggplot} \code{ggsurvfit} with added annotation with an object of class \code{gtable}.
+Object of class \code{ggplot} with added annotation with an object of class \code{gtable}.
 }
 \description{
-This function accepts a string, dataframe, data.table, tibbles and customized objects of class \code{gtable} and
+This function accepts a string, dataframe, data.table, tibble or customized objects of class \code{gtable} and
   places them on the specified location on the \code{ggplot}. The layout is fixed: bold columnheaders and plain body. Only the
   font size and type can be chosen.
 }
 \examples{
+library(survival)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
 
 ## Estimate survival
 surv_object <- vr_KM_est(data = adtte, strata = "TRTP")
@@ -53,5 +57,5 @@ vr_plot(survfit_object) \%>\%
 \code{\link[gridExtra]{tableGrob}} \code{\link[ggplot2]{annotation_custom}}
 }
 \author{
-Steven Haesendonckx {shaesen2@its.jnj.com}
+Steven Haesendonckx
 }

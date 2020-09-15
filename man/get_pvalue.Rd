@@ -20,7 +20,7 @@ get_pvalue(x, ...)
 
 \item{...}{other arguments passed on to the method}
 
-\item{survfit_object}{An object of class `survfit`}
+\item{survfit_object}{An object of class \code{survfit}}
 
 \item{ptype}{Character vector containing the type of p-value desired. Current options are "Log-Rank" "Wilcoxon" "Tarone-Ware" "Custom" "All".
 "Custom" allows the user to specify the weights on the Kaplan-Meier estimates using the argument `rho`.
@@ -45,14 +45,15 @@ S3 method for extracting information regarding equality across strata.
 library(survival)
 library(dplyr)
 library(tidyr)
+library(ggplot2)
 
-survfit_object <- survival::survfit(data = adtte, Surv(AVAL, 1-CNSR) ~ TRTP)
-get_pvalue(surv_object)
+surv_object <- vr_KM_est(data = adtte, strata = "TRTP")
+get_pvalue(survfit_object)
  
 }
 \seealso{
 \code{\link[survival]{survdiff}}
 }
 \author{
-Steven Haesendonckx {shaesen2@its.jnj.com}
+Steven Haesendonckx
 }

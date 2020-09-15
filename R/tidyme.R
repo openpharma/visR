@@ -3,7 +3,7 @@
 #' @description S3 method for extended tidying of selected model outputs.
 #'     The default method relies on \code{broom::tidy} to return a tidied object
 #'     
-#' @author Steven Haesendonckx {shaesen2@@its.jnj.com}
+#' @author Steven Haesendonckx
 #' 
 #' @seealso \code{\link[broom]{tidy}}
 #' 

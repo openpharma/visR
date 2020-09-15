@@ -132,8 +132,7 @@ vr_plot.survfit <- function(
     ggplot2::theme(legend.position = legend_position) +
     ggplot2::guides(color=guide_legend(override.aes=list(fill=NA))) +
     NULL
-
-  gg$plotfun <- fun
+  
   class(gg) <- append(class(gg), "ggsurvfit")
   
   return(gg)

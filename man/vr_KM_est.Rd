@@ -34,12 +34,9 @@ This function is a wrapper around \code{survival::survfit.formula} to perform a 
 }
 \examples{
 library(survival)
-library(glue)
 library(dplyr)
 library(tidyr)
 
-## load data
- 
 ## No stratification
 vr_KM_est(data = adtte)
 
@@ -65,5 +62,5 @@ vr_KM_est(data = adtte, strata = NULL, type = "kaplan-meier", conf.int = F, time
 \code{\link[survival]{survfit.formula} \link[survival]{survfitCI}}
 }
 \author{
-Steven Haesendonckx {shaesen2@its.jnj.com}
+Steven Haesendonckx
 }
