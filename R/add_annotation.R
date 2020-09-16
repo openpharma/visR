@@ -50,7 +50,7 @@ add_annotation <- function(
   
   if (!base::inherits(gg, "ggplot")) stop("Error in add_annotation: gg is not of class `ggplot`")
   if (!base::exists("lbl")) stop("Error in add_annotation: lbl does not exist")
-  if (!font %in% c("sans", "serif", "mono")) stop("Error in add_annotation: Specified font not supported")
+  if (!base_family %in% c("sans", "serif", "mono")) stop("Error in add_annotation: Specified font not supported")
   if (!base::any(unlist(lapply(as.list(c(xmin, xmax, ymin, ymax, base_size)), is.numeric)))) stop("Error in add_annotation: One of the coordinates are not numeric.")
 
   #### If user has custom gtable, skip all the remaining steps ####
