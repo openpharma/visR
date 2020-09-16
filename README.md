@@ -69,7 +69,7 @@ agree to abide by its terms.
 </a>
 
     #> 
-    #>      checking for file ‘/tmp/RtmpTiK1I1/remotes556e52676eaf/lorenzwalthert-gitsum-bd98c22/DESCRIPTION’ ...  [32m✔[39m  [90mchecking for file ‘/tmp/RtmpTiK1I1/remotes556e52676eaf/lorenzwalthert-gitsum-bd98c22/DESCRIPTION’[39m[36m[39m
+    #>      checking for file ‘/tmp/RtmpQ3Y9If/remotes531d2998277c/lorenzwalthert-gitsum-bd98c22/DESCRIPTION’ ...  [32m✔[39m  [90mchecking for file ‘/tmp/RtmpQ3Y9If/remotes531d2998277c/lorenzwalthert-gitsum-bd98c22/DESCRIPTION’[39m[36m[39m
     #>   [90m─[39m[90m  [39m[90mpreparing ‘gitsum’:[39m[36m[39m
     #>      checking DESCRIPTION meta-information ...  [32m✔[39m  [90mchecking DESCRIPTION meta-information[39m[36m[39m
     #>   [90m─[39m[90m  [39m[90mchecking for LF line-endings in source and make files and shell scripts[39m[36m[39m
