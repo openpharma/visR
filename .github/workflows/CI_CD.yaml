@@ -113,8 +113,8 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           rm target_dir -rf
-          git clone https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/visR-docs.git target_dir
+          git clone https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/openpharma/visR-docs.git target_dir
           copy docs target_dir
           git add target_dir
           git commit -m "Publish docs to this repo after build in main repo"
-          git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/visR-docs.git
+          git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/openpharma/visR-docs.git master
