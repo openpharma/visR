@@ -1,3 +1,5 @@
+
+
 vr_plot <- function(x, ...){
   UseMethod("vr_plot")
 } 
@@ -35,13 +37,14 @@ vr_plot.default <- function(x, ...){
 #' library(tidyr)
 #' library(ggplot2)
 #' 
-#' fit <- vr_KM_est(data = adtte, strata = "TRTP")
+#' survfit_object <- vr_KM_est(data = adtte, strata = "TRTP")
 #'
 #' ## Plot survival probability
-#' vr_plot(survfit_object = fit)
+#' vr_plot(survfit_object = survfit_object, fun = "surv")
+#' vr_plot(survfit_object, fun = "pct")
 #' 
 #' ## Plot cumulative hazard
-#' vr_plot(survfit_object = fit, fun = "cumhaz", debug=T)
+#' vr_plot(survfit_object, fun = "cloglog")
 
 
 vr_plot.survfit <- function(
@@ -59,6 +62,7 @@ vr_plot.survfit <- function(
   if (debug == T) browser()
   
   #### Input validation ####
+  
   if (!inherits(survfit_object, "survfit")) stop("survfit object is not of class `survfit`")
   if (is.character(legend_position) && ! legend_position %in% c("top", "bottom", "right", "left", "none")){
     stop("Invalid legend position given.")
@@ -66,7 +70,10 @@ vr_plot.survfit <- function(
     stop("Invalid legend position coordinates given.")
   }
   
+  -log(survfit_object$surv)
+  
   #### FUN ####
+  
   if (is.character(fun)){
     .transfun <- base::switch(
       fun,
@@ -79,42 +86,84 @@ vr_plot.survfit <- function(
       cumhaz = function(y) -log(y), ## survfit object contains an estimate for Cumhaz and SE based on Nelson-Aalen with or without correction for ties
       stop("Unrecognized fun argument")
     )
+  } else if (is.function(fun)) {
+     fun
   } else {
-    stop("fun should be a character.")
+    stop("Error in vr_plot: fun should be a character or a function.")
   }
-  
-  
-  
-       # title <- switch(risk.table.type,
-     #                  absolute = "Number at risk",
-     #                  percentage = "Percentage at risk",
-     #                  abs_pct = "Number at risk: n (%)",
-     #                  nrisk_cumcensor = "Number at risk (number censored)",
-     #                  nrisk_cumevents = "Number at risk (number of events)",
-     #                  "Number at risk")
 
+  #### Y-label ####
+  
+  if (is.null(y_label) & is.character(fun)){
+    y_label <- base::switch(
+      fun,
+      surv = "Survival probability",
+      log = "log(Survival probability)",
+      event = "Failure probability",
+      cloglog = "log(-log(Survival probability))",
+      pct = "Survival probability (%)",
+      logpct = "log(Survival probability (%))",
+      cumhaz = "MLE estimate of cumulative hazard",
+      stop("Unrecognized fun argument")
+    )
+  } else if (is.null(y_label) & is.function(fun)) {
+    stop("Error in vr_plot: No Y label defined. No default is available when `fun` is a function.")
+  }  
 
-  ### Extended tidy of survfit class ####
-  tidy_object <- tidyme.survfit(survfit_object) %>%
-    mutate(est= .transfun(surv),
-           est.upper = .transfun(upper),
-           est.lower = .transfun(lower))
+  ### Extended tidy of survfit class + transformation ####
+  
+  correctme <- NULL
+  tidy_object <- tidyme.survfit(survfit_object)
+  if ("surv" %in% colnames(tidy_object)) {
+    tidy_object[["est"]] <- .transfun(tidy_object[["surv"]])
+    correctme <- c(correctme,"est")
+  }
+  if (base::all(c("upper", "lower") %in% colnames(tidy_object))) {
+    tidy_object[["est.upper"]] <- .transfun(tidy_object[["upper"]])
+    tidy_object[["est.lower"]] <- .transfun(tidy_object[["lower"]])
+    correctme <- c(correctme,"est.lower", "est.upper")
+  } 
+
+  #### Adjust -Inf to minimal value ####
+  
+  tidy_object[ , correctme] <- sapply(tidy_object[ , correctme],
+                                      FUN = function(x) {
+                                              x[which(x == -Inf)] <- min(x[which(x != -Inf)], na.rm = TRUE)
+                                              return(x)
+                                            } 
+  )
+  
+  ymin = min(sapply(tidy_object[ , correctme], function(x) min(x[which(x != -Inf)], na.rm = TRUE)), na.rm = TRUE)
+  ymax = max(sapply(tidy_object[ , correctme], function(x) max(x[which(x != -Inf)], na.rm = TRUE)), na.rm = TRUE)
 
   #### Obtain alternatives for X-axis ####
+  
   if (is.null(x_label)){
-    if ("PARAM" %in% names(survfit_object)) x_label = survfit_object$PARAM
+    if ("PARAM" %in% names(survfit_object)) x_label = survfit_object[["PARAM"]]
     if (!is.null(x_label) && !is.null(x_units)) x_label = paste0(x_label, " (", x_units, ")")
   }
   if (is.null(time_ticks)) time_ticks = pretty(survfit_object$time, 10)
   
   #### Obtain alternatives for Y-axis ####
-  if (is.null(y_ticks) && fun == "cumhaz") y_ticks <- pretty(survfit_object$cumhaz, 5)
-  if (is.null(y_ticks) && fun == "surv") y_ticks <- pretty(c(0,1), 5)
-
-  if (is.null(y_label) && fun == "cumhaz") y_label <- "Cumulative hazard"
-  if (is.null(y_label) && fun == "surv") y_label <- "Survival probability"
+  
+  if (is.null(y_ticks) & is.character(fun)){
+    y_ticks <- base::switch(
+      fun,
+      surv = pretty(c(0,1), 5),
+      log =  pretty(round(c(ymin,ymax), 0), 5),
+      event = pretty(c(0,1), 5),
+      cloglog = pretty(round(c(ymin,ymax), 0), 5),
+      pct = pretty(c(0,100), 5),
+      logpct = pretty(c(0,5), 5),
+      cumhaz =  pretty(round(c(ymin,ymax), 0), 5),
+      stop("Unrecognized fun argument")
+    )
+  } else if (is.null(y_label) & is.function(fun)) {
+    stop("Error in vr_plot: No Y label defined. No default is available when `fun` is a function.")
+  }  
 
   #### Plotit ####
+  
   yscaleFUN <- function(x) sprintf("%.2f", x)
   
   gg <- ggplot2::ggplot(tidy_object, aes(x = time, group = strata)) +
