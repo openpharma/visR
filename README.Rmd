@@ -79,7 +79,7 @@ Please note that the 'visR' project is released with a [Contributor Code of Cond
 ```{r, echo=FALSE, warning=FALSE, message = FALSE}
 library(dplyr)
 library(ggplot2)
-# remotes::install_github("lorenzwalthert/gitsum")
+remotes::install_github("lorenzwalthert/gitsum")
 activity <- gitsum::parse_log_detailed()
 
 # last 10 commits
