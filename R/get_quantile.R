@@ -1,6 +1,41 @@
+#' @title Extended quantile S3 method - EXPERIMENTAL NEEDS TESTING AND COMPARING WITH SAS SOFTWARE
+#'
+#' @description S3 method for extracting quantiles. For survival objects, it takes into account the maximal time of survival as limit instead of NA
+#'   If the quantile requested is larger than the minimal quantile available, the result is NA. 
+#'   No default method is available at the moment.
+#'     
+#' @author Steven Haesendonckx
+#' 
+#' @seealso \code{\link[survival]{quantile.survfit}}
+#' 
+#' @param x S3 object
+#' @param ... other arguments passed on to the method
+#' 
+#' @examples
+#' library(survival)
+#' library(dplyr)
+#' library(tidyr)
+#' 
+#' survfit_object_trt <- vr_KM_est(data = adtte, strata = c("TRTP"))
+#' get_quantile(survfit_object)
+#' quantile(survfit_object)
+#'
+#' @return A tibble with quantiles
+#'  
+#' @rdname get_quantile
+#' 
+#' @export
+
 get_quantile <- function(x, ...){
   UseMethod("get_quantile")
 } 
+
+#' @param survfit_object An object of class \code{survfit}
+#' @inheritParams survival::quantile.survfit
+#'
+#' @rdname get_quantile
+#' @method get_quantile survfit
+#' @export
 
 get_quantile.survfit <- function(  survfit_object = survfit_object
                                  , probs = c(0.25,0.50,0.75)

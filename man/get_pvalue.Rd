@@ -3,7 +3,7 @@
 \name{get_pvalue}
 \alias{get_pvalue}
 \alias{get_pvalue.survfit}
-\title{Summarize the test for equality across strata from a survival object of class \code{survfit} using S3 method}
+\title{Summarize the test for equality across strata from a survival object using S3 method}
 \usage{
 get_pvalue(x, ...)
 
@@ -47,7 +47,7 @@ library(dplyr)
 library(tidyr)
 library(ggplot2)
 
-surv_object <- vr_KM_est(data = adtte, strata = "TRTP")
+survfit_object <- vr_KM_est(data = adtte, strata = "TRTP")
 get_pvalue(survfit_object)
  
 }

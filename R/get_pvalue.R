@@ -1,4 +1,4 @@
-#' @title Summarize the test for equality across strata from a survival object of class \code{survfit} using S3 method
+#' @title Summarize the test for equality across strata from a survival object using S3 method
 #'
 #' @description S3 method for extracting information regarding equality across strata.
 #'     No default method is available at the moment.
@@ -16,7 +16,7 @@
 #' library(tidyr)
 #' library(ggplot2)
 #' 
-#' surv_object <- vr_KM_est(data = adtte, strata = "TRTP")
+#' survfit_object <- vr_KM_est(data = adtte, strata = "TRTP")
 #' get_pvalue(survfit_object)
 #'  
 #' @return A tibble with summary measures for the Test of Equality Across Strata
