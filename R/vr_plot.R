@@ -70,8 +70,6 @@ vr_plot.survfit <- function(
     stop("Invalid legend position coordinates given.")
   }
   
-  -log(survfit_object$surv)
-  
   #### FUN ####
   
   if (is.character(fun)){
