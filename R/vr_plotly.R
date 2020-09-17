@@ -1,3 +1,5 @@
+## EXPERIMENTAL - WILL BE REWRITTEN TO TAKE THE GGPLOT FROM VISR AND GGPLOTLY IT
+
 vr_plotly <- function(x, ...){
   UseMethod("vr_plotly")
 } 
