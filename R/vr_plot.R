@@ -1,38 +1,55 @@
-
+#' @title Create a `ggplot` directly from an object through an S3 method
+#'
+#' @description S3 method for creating plots directly from objects using `ggplot2`, similar to base plot function.
+#'     The default method is base::plot.
+#'     
+#' @author Steven Haesendonckx
+#' 
+#' @seealso \code{\link[ggplot2]{ggplot}}
+#' 
+#' @param x object to be passed on to the method
+#' @param ... other arguments passed on to the method
+#'  
+#' @rdname vr_plot
+#' 
+#' @export
 
 vr_plot <- function(x, ...){
   UseMethod("vr_plot")
 } 
 
+#' @rdname vr_plot
+#' @method vr_plot default
+#' @export
+
 vr_plot.default <- function(x, ...){
   base::plot(x)
 }
 
-#' Plot Kaplan-Meier Curve for Existing Tidy Survival Object
-#'
-#' TODO: Currently we choose between survival and cumhazard using the cumhazard argument => use funs = argument to define what to plot
-#' Apply the fun argument similar to survival:::plot.survfit 
-#' an arbitrary function defining a transformation of the survival curve. 
-#' fun=log => axis labeled with log(S) values 
-#' fun=sqrt => square root scale. 
-#' "S" gives the usual survival curve,
-#' "log" is the same as using the log=T option
-#' "event" or "F" plots the empirical CDF F(t)= 1-S(t) (f(y) = 1-y),
-#' "cumhaz" plots the cumulative hazard function (see details)
-#' "cloglog" creates a complimentary log-log survival plot (f(y) = log(-log(y)) along with log scale for the x-axis).
-#' The terms "identity" and "surv" are allowed as synonyms for type="S".
+#' @param survfit_object Object of class `survfit`
+#' @param y_label \code{character} Label for the y-axis. When not specified, the default will do a proposal, depending on the `fun` argument.
+#' @param x_label \code{character} Label for the x-asis. When not specified, the algorithm will look for "PARAM" information inside the list structure of the `survfit` object.
+#'   Note that this information is automatically added when using visR::vr_KM_est and when the input data has the variable "PARAM". If no "PARAM" information is available
+#'   "time" is used as label.
+#' @param x_unit Unit to be added to the x_label (x_label (x_unit)). Default is NULL.
+#' @param x_ticks Ticks for the x-axis. When not specified, the default will do a proposal. 
+#' @param y_ticks Ticks for the y-axis. When not specified, the default will do a proposal based on the `fun` argument.
+#' @param fun Arbitrary function defining a transformation of the survival curve. This argument will also influence the y_ticks and y_label if not specified. 
+#'    \itemize{
+#'      \item{"surv": survival curve on the probability scale. The default y label will state "Survival probability".}
+#'      \item{"log": log survival curve. The default y label will state "log(Survival probability)".}
+#'      \item{"event": empirical CDF f(y) = 1-y. The default y label will state "Failure probability".}
+#'      \item{"cloglog": complimentary log-log survival f(y) = log(-log(y)). The default y label will state "log(-log(Survival probability))".}
+#'      \item{"pct": survival curve, expressed as percentage. The default y label will state "Survival probability (\%)".}
+#'      \item{"logpct": log survival curve, expressed as percentage. The default y label will state "log(Survival probability (\%))".}
+#'      \item{"cumhaz": MLE estimate of the cumulative hazard f(y) = -log(y). The default y label will state "cumulative hazard".}
+#'    }
+#' @param legend_position Specifies the legend position in the plot. Character values allowed are "top" "left" "bottom" "right". Numeric coordinates are also allowed.
+#'   Default is "right".
 #' 
 #' 
-#' TODO: legend_pos option where: inside vs outside. This determines the ggrob later on
-
-
-#' @return ggplot object 
-#' @export
-#'
 #' @examples
-#' # TODO: Define an example for this function
 #' library(survival)
-#' library(glue)
 #' library(dplyr)
 #' library(tidyr)
 #' library(ggplot2)
@@ -45,21 +62,23 @@ vr_plot.default <- function(x, ...){
 #' 
 #' ## Plot cumulative hazard
 #' vr_plot(survfit_object, fun = "cloglog")
-
-
+#'  
+#' @return Object of class \code{ggplot}  \code{ggsurvplot}.
+#'  
+#' @rdname vr_plot
+#' @method vr_plot survfit
+#' @export
+#
 vr_plot.survfit <- function(
   survfit_object = NULL
  ,y_label = NULL
  ,x_label = NULL
  ,x_units = NULL
- ,time_ticks = NULL
+ ,x_ticks = NULL
  ,y_ticks = NULL
  ,fun = "surv"
  ,legend_position = "right"
- ,debug = F
  ){
-  
-  if (debug == T) browser()
   
   #### Input validation ####
   
@@ -101,7 +120,7 @@ vr_plot.survfit <- function(
       cloglog = "log(-log(Survival probability))",
       pct = "Survival probability (%)",
       logpct = "log(Survival probability (%))",
-      cumhaz = "MLE estimate of cumulative hazard",
+      cumhaz = "cumulative hazard",
       stop("Unrecognized fun argument")
     )
   } else if (is.null(y_label) & is.function(fun)) {
@@ -150,9 +169,10 @@ vr_plot.survfit <- function(
   
   if (is.null(x_label)){
     if ("PARAM" %in% names(survfit_object)) x_label = survfit_object[["PARAM"]]
-    if (!is.null(x_label) && !is.null(x_units)) x_label = paste0(x_label, " (", x_units, ")")
+    if (! "PARAM" %in% names(survfit_object)) x_label = "time"
+    if (!is.null(x_units)) x_label = paste0(x_label, " (", x_units, ")")
   }
-  if (is.null(time_ticks)) time_ticks = pretty(survfit_object$time, 10)
+  if (is.null(x_ticks)) x_ticks = pretty(survfit_object$time, 10)
   
   #### Obtain alternatives for Y-axis ####
   
@@ -181,8 +201,8 @@ vr_plot.survfit <- function(
     ggsci::scale_color_nejm() + 
     ggsci::scale_fill_nejm() + 
     ggplot2::scale_x_continuous(name = paste0("\n", x_label),
-                                breaks = time_ticks,
-                                limits = c(min(time_ticks), max(time_ticks))) +
+                                breaks = x_ticks,
+                                limits = c(min(x_ticks), max(x_ticks))) +
     ggplot2::scale_y_continuous(name = paste0(y_label, "\n"),
                                 breaks = y_ticks,
                                 labels = yscaleFUN,

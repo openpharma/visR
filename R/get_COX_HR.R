@@ -52,7 +52,7 @@ get_COX_HR.survfit <- function(
   update_formula = NULL,
   ...
 ){
-  
+ 
   if (!base::inherits(survfit_object, "survfit")) stop("Error in add_COX_HR: Object gg not of class `ggsurvfit`.")
   
   #### Update ####
@@ -67,7 +67,7 @@ get_COX_HR.survfit <- function(
   SurvCall <- as.list(updated_object$call)
   CoxArgs <- base::formals(survival::coxph)
   CoxCall <- append(as.symbol("coxph"), SurvCall[names(SurvCall) %in% names(CoxArgs)])
-  CoxCall <- append(coxCall, list(...))
+  CoxCall <- append(CoxCall, list(...))
   
   cox <- tidyme(eval(as.call(CoxCall)))
       
