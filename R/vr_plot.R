@@ -153,6 +153,18 @@ vr_plot.survfit <- function(
   ymin = min(sapply(tidy_object[ , correctme], function(x) min(x[which(x != -Inf)], na.rm = TRUE)), na.rm = TRUE)
   ymax = max(sapply(tidy_object[ , correctme], function(x) max(x[which(x != -Inf)], na.rm = TRUE)), na.rm = TRUE)
 
+  if (fun == "cloglog") {
+      
+      if (nrow(tidy_object[tidy_object$est == "-Inf",]) > 0) {
+          
+          warning("NAs introduced by y-axis transformation.\n")
+          
+      } 
+      
+      tidy_object = tidy_object[tidy_object$est != "-Inf",]
+      
+  }
+    
   #### Obtain alternatives for X-axis ####
   
   if (is.null(x_label)){
