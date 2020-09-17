@@ -69,7 +69,7 @@ agree to abide by its terms.
 </a>
 
     #> 
-    #>      checking for file ‘/tmp/RtmpzjCpvw/remotes556e38999ca6/lorenzwalthert-gitsum-bd98c22/DESCRIPTION’ ...  [32m✔[39m  [90mchecking for file ‘/tmp/RtmpzjCpvw/remotes556e38999ca6/lorenzwalthert-gitsum-bd98c22/DESCRIPTION’[39m[36m[39m
+    #>      checking for file ‘/tmp/RtmppZRwim/remotes54956169b021/lorenzwalthert-gitsum-bd98c22/DESCRIPTION’ ...  [32m✔[39m  [90mchecking for file ‘/tmp/RtmppZRwim/remotes54956169b021/lorenzwalthert-gitsum-bd98c22/DESCRIPTION’[39m[36m[39m
     #>   [90m─[39m[90m  [39m[90mpreparing ‘gitsum’:[39m[36m[39m
     #>      checking DESCRIPTION meta-information ...  [32m✔[39m  [90mchecking DESCRIPTION meta-information[39m[36m[39m
     #>   [90m─[39m[90m  [39m[90mchecking for LF line-endings in source and make files and shell scripts[39m[36m[39m
@@ -78,7 +78,7 @@ agree to abide by its terms.
     #>    Removed empty directory ‘gitsum/tests/testthat/test-dir’
     #>    Removed empty directory ‘gitsum/tests/testthat/test-dir-reports/.gitsum’
     #>    Removed empty directory ‘gitsum/tests/testthat/test-dir-reports’
-    #>   [90m─[39m[90m  [39m[90mlooking to see if a ‘data/datalist’ file should be added[39m[36m[39m
+    #> [90m─[39m[90m  [39m[90mlooking to see if a ‘data/datalist’ file should be added[39m[36m[39m
     #>   [90m─[39m[90m  [39m[90mbuilding ‘gitsum_0.0.9001.tar.gz’[39m[36m[39m
     #>      
     #> 
