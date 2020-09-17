@@ -8,3 +8,4 @@ visR-usethis.Rproj
 inst/doc
 .Rhistory
 .gitsum
+/target_dir
