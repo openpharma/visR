@@ -68,17 +68,4 @@ agree to abide by its terms.
 <img src="https://contributors-img.web.app/image?repo=openpharma/visR" />
 </a>
 
-    #> 
-    #>      checking for file ‘/tmp/RtmppZRwim/remotes54956169b021/lorenzwalthert-gitsum-bd98c22/DESCRIPTION’ ...  [32m✔[39m  [90mchecking for file ‘/tmp/RtmppZRwim/remotes54956169b021/lorenzwalthert-gitsum-bd98c22/DESCRIPTION’[39m[36m[39m
-    #>   [90m─[39m[90m  [39m[90mpreparing ‘gitsum’:[39m[36m[39m
-    #>      checking DESCRIPTION meta-information ...  [32m✔[39m  [90mchecking DESCRIPTION meta-information[39m[36m[39m
-    #>   [90m─[39m[90m  [39m[90mchecking for LF line-endings in source and make files and shell scripts[39m[36m[39m
-    #>   [90m─[39m[90m  [39m[90mchecking for empty or unneeded directories[39m[36m[39m
-    #>    Removed empty directory ‘gitsum/tests/testthat/test-dir/.gitsum’
-    #>    Removed empty directory ‘gitsum/tests/testthat/test-dir’
-    #>    Removed empty directory ‘gitsum/tests/testthat/test-dir-reports/.gitsum’
-    #>    Removed empty directory ‘gitsum/tests/testthat/test-dir-reports’
-    #> [90m─[39m[90m  [39m[90mlooking to see if a ‘data/datalist’ file should be added[39m[36m[39m
-    #>   [90m─[39m[90m  [39m[90mbuilding ‘gitsum_0.0.9001.tar.gz’[39m[36m[39m
-    #>      
-    #> 
+<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
