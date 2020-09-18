@@ -1,13 +1,18 @@
-## EXPERIMENTAL - WILL BE REWRITTEN TO TAKE THE GGPLOT FROM VISR AND GGPLOTLY IT
-
 vr_plotly <- function(x, ...){
   UseMethod("vr_plotly")
 } 
 
 
-vr_plotly.default <- function (x, ...){
+vr_plotly.default <- function (
+    x, 
+    ...
+
+    ){
+    
+    p_last = ggplot2::last_plot()
+    
     p <- plotly::ggplotly(
-      p = ggplot2::last_plot(),
+      p = p_last,
       width = NULL,
       height = NULL,
       tooltip = "all",
@@ -15,7 +20,64 @@ vr_plotly.default <- function (x, ...){
       layerData = 1,
       originalData = TRUE,
       source = "A"
-     ) 
+     )
+    
+    # See https://plotly.com/r/reference/#layout-legend for options
+    legend_opts = list()
+    title_opts = list()
+    annotation_opts = list()
+    legend_pos_old = p_last$theme$legend.position
+    
+    if (legend_pos_old %in% c("bottom", "top")) {
+        
+        legend_opts$orientation = "h"
+        legend_opts$xanchor = "left"
+        
+    } else if (legend_pos_old %in% c("right", "left")) {
+        
+        legend_opts$orientation = "v"
+        legend_opts$xanchor = "left"
+    
+    }
+    
+    if (legend_pos_old == "bottom") {
+        legend_opts$x = 0.5
+        legend_opts$y = -0.3
+        legend_opts$xanchor = "center"
+        
+    } else if (legend_pos_old == "top") {
+        
+        legend_opts$x = 0.5
+        legend_opts$y = 1.15
+        legend_opts$xanchor = "center"
+    
+    } else if (legend_pos_old == "left") {
+        
+        legend_opts$x = -0.3
+        legend_opts$y = 0.5
+        legend_opts$xanchor = "left"
+    
+    } else if (legend_pos_old == "right") {
+        
+        legend_opts$x = 1.02
+        legend_opts$y = 0.5
+        legend_opts$xanchor = "left"
+        legend_opts$yanchor = "center"
+    
+    }
+    
+    legend_opts$title = list(text = p$x$layout$annotations[[1]]$text,
+                             font = list(size = p$x$layout$annotations[[1]]$font$size),
+                             xanchor = "left")
+    p$x$layout$annotations[[1]]$text = ""
+    
+    legend_opts$font$size = eval(parse(text=paste0(p_last$theme$legend.text$size, "*", p_last$theme$text$size)))
+    
+    p = plotly::layout(p, 
+                       title = title_opts,
+                       legend = legend_opts,
+                       annotations = annotation_opts)
+
     
     return(p)
 }
