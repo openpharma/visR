@@ -109,15 +109,16 @@ jobs:
         
       - name: Commit and push docs files
         if: |
-          runner.os == 'Linux' && github.ref == 'refs/heads/master'
+          runner.os == 'Linux' 
         run: |
           cd ..  
           rm target_dir -rf
           git clone https://${{github.actor}}:${{secrets.API_TOKEN_GITHUB}}@github.com/openpharma/visR-docs.git target_dir
           cp visR/docs target_dir -r
           cd ./target_dir
+          git checkout copied-docs 2>/dev/null || git checkout -b copied-docs
           git add docs
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git commit -m "Publish docs to this repo after build in main repo"
-          git push https://${{github.actor}}:${{secrets.API_TOKEN_GITHUB}}@github.com/openpharma/visR-docs.git master
+          git push https://${{github.actor}}:${{secrets.API_TOKEN_GITHUB}}@github.com/openpharma/visR-docs.git copied-docs
