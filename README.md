@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -70,3 +71,7 @@ agree to abide by its terms.
 </a>
 
 <img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
+=======
+# visR-survival
+Sandbox for developing Survival ideas for the visR package
+>>>>>>> master-holder
