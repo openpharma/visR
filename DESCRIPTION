@@ -2,11 +2,7 @@ Package: visR
 Type: Package
 Title: A package to wrap functionality for plots, tables and diagrams adhering to graphical principles
 Description: The goal of visR is to enable fit-for-purpose, reusable clinical and medcial research focused visualizations and tables with sensible defaults and based on sound graphical principles.
-<<<<<<< HEAD
 Version: 0.1.1
-=======
-Version: 1.0.0
->>>>>>> master-holder
 Date: 2020-05-14
 LazyData: true
 Authors@R: as.person(c(
@@ -15,13 +11,10 @@ Authors@R: as.person(c(
     "Mark Baillie <bailliem@gmail.com> [aut, cre]",
     "Marc Vandemeulebroecke <marc.vandemeulebroecke@novartis.com> [aut]",
     "Thanos Siadimas <thanos.siadimas@roche.com> [aut]", 
-<<<<<<< HEAD
     "Pawel Kawski <pawel.kawski@contractors.roche.com> [aut]"  
-=======
-    "Pawel Kawski <pawel.kawski@contractors.roche.com> [aut]",
     "Steven Haesendonckx <shaesen2@@its.jnj.com> [aut]",
-    "Pelagia Alexandra Papadopoulou <PPapadop@its.jnj.com> [aut]"
->>>>>>> master-holder
+    "Pelagia Alexandra Papadopoulou <PPapadop@its.jnj.com> [aut]",
+    "Tim Treis <tim.treis@novartis.com> [aut]",
   ))
 Maintainer: Mark Baillie <bailliem@gmail.com>
 URL: https://github.com/openpharma/visR
@@ -34,7 +27,6 @@ Suggests:
     testthat (>= 2.1.0),
     knitr,
     rmarkdown,
-<<<<<<< HEAD
     survminer,
     RColorBrewer,
     DT,
@@ -49,14 +41,10 @@ biocViews:
 Imports: 
     survival,
     broom,
-=======
     RColorBrewer,
     DT,
     xlsx
-Encoding: UTF-8
-Imports: 
     survival,
->>>>>>> master-holder
     magrittr,
     ggplot2,
     patchwork,
@@ -75,7 +63,4 @@ Imports:
     parcats (>= 0.0.1),
     easyalluvial (>= 0.2.2)
 VignetteBuilder: knitr
-<<<<<<< HEAD
-=======
 RoxygenNote: 7.1.0
->>>>>>> master-holder
