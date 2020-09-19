@@ -43,6 +43,8 @@
 
 
 <meta property="og:title" content="Create a <code>ggplot</code> directly from an object through an S3 method — vr_plot" />
+<meta property="og:description" content="S3 method for creating plots directly from objects using ggplot2, similar to base plot function.
+The default method is base::plot." />
 <meta property="og:image" content="https://openpharma.github.io/visR/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -139,6 +141,8 @@
     </div>
 
     <div class="ref-description">
+    <p>S3 method for creating plots directly from objects using <code>ggplot2</code>, similar to base plot function.
+The default method is base::plot.</p>
     </div>
 
     <pre class="usage"><span class='fu'>vr_plot</span>(<span class='no'>x</span>, <span class='no'>...</span>)
@@ -198,42 +202,54 @@ Note that this information is automatically added when using visR::vr_KM_est and
 <li><p>"log": log survival curve. The default y label will state "log(Survival probability)".</p></li>
 <li><p>"event": empirical CDF f(y) = 1-y. The default y label will state "Failure probability".</p></li>
 <li><p>"cloglog": complimentary log-log survival f(y) = log(-log(y)). The default y label will state "log(-log(Survival probability))".</p></li>
-<li><p>"pct": survival curve, expressed as percentage. The default y label will state "Survival probability (\<!-- %)".} -->
-"logpct": log survival curve, expressed as percentage. The default y label will state "log(Survival probability (\<!-- %))".} -->
-"cumhaz": MLE estimate of the cumulative hazard f(y) = -log(y). The default y label will state "cumulative hazard".</p></li>
-<li><p>legend_positionSpecifies the legend position in the plot. Character values allowed are "top" "left" "bottom" "right". Numeric coordinates are also allowed.
-Default is "right".</p></li>
-<li><p>x_unitUnit to be added to the x_label (x_label (x_unit)). Default is NULL.</p></li>
-</ul><p>Object of class <code>ggplot</code>  <code>ggsurvplot</code>.
-
-
-S3 method for creating plots directly from objects using <code>ggplot2</code>, similar to base plot function.
-The default method is base::plot.
-
-
-library(survival)
-library(dplyr)
-library(tidyr)
-library(ggplot2)survfit_object &lt;- vr_KM_est(data = adtte, strata = "TRTP")## Plot survival probability
-vr_plot(survfit_object = survfit_object, fun = "surv")
-vr_plot(survfit_object, fun = "pct")## Plot cumulative hazard
-vr_plot(survfit_object, fun = "cloglog")
-
-<code><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></code>
-
-
-Steven Haesendonckx</p></td>
+<li><p>"pct": survival curve, expressed as percentage. The default y label will state "Survival probability".</p></li>
+<li><p>"logpct": log survival curve, expressed as percentage. The default y label will state "log(Survival probability".</p></li>
+<li><p>"cumhaz": MLE estimate of the cumulative hazard f(y) = -log(y). The default y label will state "cumulative hazard".</p></li>
+</ul></td>
+    </tr>
+    <tr>
+      <th>legend_position</th>
+      <td><p>Specifies the legend position in the plot. Character values allowed are "top" "left" "bottom" "right". Numeric coordinates are also allowed.
+Default is "right".</p></td>
+    </tr>
+    <tr>
+      <th>x_unit</th>
+      <td><p>Unit to be added to the x_label (x_label (x_unit)). Default is NULL.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>Object of class <code>ggplot</code>  <code>ggsurvplot</code>.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></code></p></div>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>survival</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>tidyr</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
+
+<span class='no'>survfit_object</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='vr_KM_est.html'>vr_KM_est</a></span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>adtte</span>, <span class='kw'>strata</span> <span class='kw'>=</span> <span class='st'>"TRTP"</span>)
+
+<span class='co'>## Plot survival probability</span>
+<span class='fu'>vr_plot</span>(<span class='kw'>survfit_object</span> <span class='kw'>=</span> <span class='no'>survfit_object</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"surv"</span>)</div><div class='img'><img src='vr_plot-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>vr_plot</span>(<span class='no'>survfit_object</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"pct"</span>)</div><div class='img'><img src='vr_plot-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'>## Plot cumulative hazard</span>
+<span class='fu'>vr_plot</span>(<span class='no'>survfit_object</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"cloglog"</span>)</div><div class='img'><img src='vr_plot-3.png' alt='' width='700' height='433' /></div><div class='input'> 
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
+      <li><a href="#see-also">See also</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
+    <h2>Author</h2>
+    <p>Steven Haesendonckx</p>
   </div>
 </div>
 

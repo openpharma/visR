@@ -40,8 +40,8 @@ vr_plot.default <- function(x, ...){
 #'      \item{"log": log survival curve. The default y label will state "log(Survival probability)".}
 #'      \item{"event": empirical CDF f(y) = 1-y. The default y label will state "Failure probability".}
 #'      \item{"cloglog": complimentary log-log survival f(y) = log(-log(y)). The default y label will state "log(-log(Survival probability))".}
-#'      \item{"pct": survival curve, expressed as percentage. The default y label will state "Survival probability (\%)".}
-#'      \item{"logpct": log survival curve, expressed as percentage. The default y label will state "log(Survival probability (\%))".}
+#'      \item{"pct": survival curve, expressed as percentage. The default y label will state "Survival probability".}
+#'      \item{"logpct": log survival curve, expressed as percentage. The default y label will state "log(Survival probability".}
 #'      \item{"cumhaz": MLE estimate of the cumulative hazard f(y) = -log(y). The default y label will state "cumulative hazard".}
 #'    }
 #' @param legend_position Specifies the legend position in the plot. Character values allowed are "top" "left" "bottom" "right". Numeric coordinates are also allowed.

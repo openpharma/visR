@@ -44,8 +44,8 @@ Note that this information is automatically added when using visR::vr_KM_est and
 \item{"log": log survival curve. The default y label will state "log(Survival probability)".}
 \item{"event": empirical CDF f(y) = 1-y. The default y label will state "Failure probability".}
 \item{"cloglog": complimentary log-log survival f(y) = log(-log(y)). The default y label will state "log(-log(Survival probability))".}
-\item{"pct": survival curve, expressed as percentage. The default y label will state "Survival probability (\\%)".}
-\item{"logpct": log survival curve, expressed as percentage. The default y label will state "log(Survival probability (\\%))".}
+\item{"pct": survival curve, expressed as percentage. The default y label will state "Survival probability".}
+\item{"logpct": log survival curve, expressed as percentage. The default y label will state "log(Survival probability".}
 \item{"cumhaz": MLE estimate of the cumulative hazard f(y) = -log(y). The default y label will state "cumulative hazard".}
 }}
 
