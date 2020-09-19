@@ -4,7 +4,7 @@
 \alias{vr_plot}
 \alias{vr_plot.default}
 \alias{vr_plot.survfit}
-\title{Create a `ggplot` directly from an object through an S3 method}
+\title{Create a \code{ggplot} directly from an object through an S3 method}
 \usage{
 vr_plot(x, ...)
 
@@ -26,27 +26,27 @@ vr_plot(x, ...)
 
 \item{...}{other arguments passed on to the method}
 
-\item{survfit_object}{Object of class `survfit`}
+\item{survfit_object}{Object of class \code{survfit}}
 
-\item{y_label}{\code{character} Label for the y-axis. When not specified, the default will do a proposal, depending on the `fun` argument.}
+\item{y_label}{\code{character} Label for the y-axis. When not specified, the default will do a proposal, depending on the \code{fun} argument.}
 
-\item{x_label}{\code{character} Label for the x-asis. When not specified, the algorithm will look for "PARAM" information inside the list structure of the `survfit` object.
+\item{x_label}{\code{character} Label for the x-asis. When not specified, the algorithm will look for "PARAM" information inside the list structure of the \code{survfit} object.
 Note that this information is automatically added when using visR::vr_KM_est and when the input data has the variable "PARAM". If no "PARAM" information is available
 "time" is used as label.}
 
 \item{x_ticks}{Ticks for the x-axis. When not specified, the default will do a proposal.}
 
-\item{y_ticks}{Ticks for the y-axis. When not specified, the default will do a proposal based on the `fun` argument.}
+\item{y_ticks}{Ticks for the y-axis. When not specified, the default will do a proposal based on the \code{fun} argument.}
 
-\item{fun}{Arbitrary function defining a transformation of the survival curve. This argument will also influence the y_ticks and y_label if not specified. 
+\item{fun}{Arbitrary function defining a transformation of the survival curve. This argument will also influence the y_ticks and y_label if not specified.
 \itemize{
-  \item{"surv": survival curve on the probability scale. The default y label will state "Survival probability".}
-  \item{"log": log survival curve. The default y label will state "log(Survival probability)".}
-  \item{"event": empirical CDF f(y) = 1-y. The default y label will state "Failure probability".}
-  \item{"cloglog": complimentary log-log survival f(y) = log(-log(y)). The default y label will state "log(-log(Survival probability))".}
-  \item{"pct": survival curve, expressed as percentage. The default y label will state "Survival probability (\%)".}
-  \item{"logpct": log survival curve, expressed as percentage. The default y label will state "log(Survival probability (\%))".}
-  \item{"cumhaz": MLE estimate of the cumulative hazard f(y) = -log(y). The default y label will state "cumulative hazard".}
+\item{"surv": survival curve on the probability scale. The default y label will state "Survival probability".}
+\item{"log": log survival curve. The default y label will state "log(Survival probability)".}
+\item{"event": empirical CDF f(y) = 1-y. The default y label will state "Failure probability".}
+\item{"cloglog": complimentary log-log survival f(y) = log(-log(y)). The default y label will state "log(-log(Survival probability))".}
+\item{"pct": survival curve, expressed as percentage. The default y label will state "Survival probability (\\%)".}
+\item{"logpct": log survival curve, expressed as percentage. The default y label will state "log(Survival probability (\\%))".}
+\item{"cumhaz": MLE estimate of the cumulative hazard f(y) = -log(y). The default y label will state "cumulative hazard".}
 }}
 
 \item{legend_position}{Specifies the legend position in the plot. Character values allowed are "top" "left" "bottom" "right". Numeric coordinates are also allowed.
@@ -58,8 +58,8 @@ Default is "right".}
 Object of class \code{ggplot}  \code{ggsurvplot}.
 }
 \description{
-S3 method for creating plots directly from objects using `ggplot2`, similar to base plot function.
-    The default method is base::plot.
+S3 method for creating plots directly from objects using \code{ggplot2}, similar to base plot function.
+The default method is base::plot.
 }
 \examples{
 library(survival)

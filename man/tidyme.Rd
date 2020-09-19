@@ -22,7 +22,7 @@ Tibble containing all list elements of the S3 object as columns
 }
 \description{
 S3 method for extended tidying of selected model outputs.
-    The default method relies on \code{broom::tidy} to return a tidied object
+The default method relies on \code{broom::tidy} to return a tidied object
 }
 \examples{
 

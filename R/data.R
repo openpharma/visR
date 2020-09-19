@@ -1,10 +1,9 @@
-<<<<<<< HEAD
 #' Cancer survival data
 #'
 #' Creation script in data-raw
 #'
 "brca_cohort"
-=======
+
 #' @title adtte
 #'
 #' @description ADTTE data copied from the 2013 CDISC Pilot
@@ -47,4 +46,3 @@
 #'  data("adtte")
 #' }
 "adtte"
->>>>>>> master-holder

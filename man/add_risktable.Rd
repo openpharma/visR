@@ -16,7 +16,7 @@ add_risktable(gg, ...)
 )
 }
 \arguments{
-\item{gg}{visR plot of class `ggsurvfit`}
+\item{gg}{visR plot of class \code{ggsurvfit}}
 
 \item{...}{other arguments passed on to the method}
 
@@ -32,8 +32,8 @@ add_risktable(gg, ...)
 Object of class \code{ggplot} with added risk table.
 }
 \description{
-S3 method for adding risk tables to visR plots. 
-    No default method is available at the moment.
+S3 method for adding risk tables to visR plots.
+No default method is available at the moment.
 }
 \examples{
 library(survival)

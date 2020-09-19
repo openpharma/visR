@@ -33,8 +33,8 @@ Object of class \code{ggplot} with added annotation with an object of class \cod
 }
 \description{
 This function accepts a string, dataframe, data.table, tibble or customized objects of class \code{gtable} and
-  places them on the specified location on the \code{ggplot}. The layout is fixed: bold columnheaders and plain body. Only the
-  font size and type can be chosen.
+places them on the specified location on the \code{ggplot}. The layout is fixed: bold columnheaders and plain body. Only the
+font size and type can be chosen.
 }
 \examples{
 library(survival)

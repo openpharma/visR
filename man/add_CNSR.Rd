@@ -23,7 +23,7 @@ Censoring symbols overlayed on a visR ggplot
 }
 \description{
 S3 method for adding censoring symbols to visR ggplot.
-    No default method is available at the moment.
+No default method is available at the moment.
 }
 \examples{
 library(survival)

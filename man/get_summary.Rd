@@ -18,7 +18,7 @@ get_summary(x, ...)
 
 \item{...}{other arguments passed on to the method}
 
-\item{survfit_object}{An object of class `survfit`}
+\item{survfit_object}{An object of class \code{survfit}}
 
 \item{statlist}{Character vector containing the desired information to be displayed. The order of the arguments determines the order in which
 they are displayed in the final result. Default is the strata ("strata"), number of subjects ("records"), number of events ("events"),
@@ -29,7 +29,7 @@ A tibble with summary measures for the Overall Survival Across Strata
 }
 \description{
 S3 method for extracting descriptive statistics across strata.
-    No default method is available at the moment.
+No default method is available at the moment.
 }
 \examples{
 library(survival) 

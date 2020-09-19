@@ -23,7 +23,7 @@ A tibble with Hazard Ratios
 }
 \description{
 S3 method for extracting information regarding Hazard Ratios.
-    No default method is available at the moment.
+No default method is available at the moment.
 }
 \examples{
 library(survival)

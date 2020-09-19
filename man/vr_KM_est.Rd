@@ -20,17 +20,17 @@ survfit object, extended by elements PARAM/PARAMCD, ready for downstream process
 }
 \description{
 This function is a wrapper around \code{survival::survfit.formula} to perform a Kaplan-Meier analysis,
-   based on the expected ADaM Basic Data Structure (BDS) for Time-to-Event analysis and assuming right-censored data.
-   The function expects that the data has been filtered on the PARAM/PARAMCD of interest.
-   Alternatively, PARAM/PARAMCD can be used in the \code{strata} argument. \cr
-   The result is an object of class \code{survfit} which can be used in downstream functions and methods that rely on the \code{survfit} class.
-   By default:
-   \itemize{
-     \item{The Kaplan Meier estimate is estimated directly (stype = 1).}
-     \item{The cumulative hazard is estimated using the Nelson-Aalen estimator (ctype = 1): H.tilde = cumsum(x$n.event/x$n.risk).
-     The MLE (H.hat(t) = -log(S.hat(t))) can't be requested.}
-     \item{A two-sided pointwise 0.95 confidence interval is estimated using a log transformation (conf.type = "log").}
-   }
+based on the expected ADaM Basic Data Structure (BDS) for Time-to-Event analysis and assuming right-censored data.
+The function expects that the data has been filtered on the PARAM/PARAMCD of interest.
+Alternatively, PARAM/PARAMCD can be used in the \code{strata} argument. \cr
+The result is an object of class \code{survfit} which can be used in downstream functions and methods that rely on the \code{survfit} class.
+By default:
+\itemize{
+\item{The Kaplan Meier estimate is estimated directly (stype = 1).}
+\item{The cumulative hazard is estimated using the Nelson-Aalen estimator (ctype = 1): H.tilde = cumsum(x$n.event/x$n.risk).
+The MLE (H.hat(t) = -log(S.hat(t))) can't be requested.}
+\item{A two-sided pointwise 0.95 confidence interval is estimated using a log transformation (conf.type = "log").}
+}
 }
 \examples{
 library(survival)

@@ -23,8 +23,8 @@ get_pvalue(x, ...)
 \item{survfit_object}{An object of class \code{survfit}}
 
 \item{ptype}{Character vector containing the type of p-value desired. Current options are "Log-Rank" "Wilcoxon" "Tarone-Ware" "Custom" "All".
-"Custom" allows the user to specify the weights on the Kaplan-Meier estimates using the argument `rho`.
-The default is "All" displaying all types possible. When `rho` is specified in context of "All", also a custom p-value is displayed.}
+"Custom" allows the user to specify the weights on the Kaplan-Meier estimates using the argument \code{rho}.
+The default is "All" displaying all types possible. When \code{rho} is specified in context of "All", also a custom p-value is displayed.}
 
 \item{rho}{
 a scalar parameter that controls the type of test.
@@ -39,7 +39,7 @@ A tibble with summary measures for the Test of Equality Across Strata
 }
 \description{
 S3 method for extracting information regarding equality across strata.
-    No default method is available at the moment.
+No default method is available at the moment.
 }
 \examples{
 library(survival)

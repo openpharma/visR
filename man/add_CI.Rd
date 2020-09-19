@@ -25,7 +25,7 @@ Pointwise confidence interval overlayed on a visR ggplot
 }
 \description{
 S3 method for adding a pointwise confidence interval to a object created with visR.
-    No default method is available at the moment.
+No default method is available at the moment.
 }
 \examples{
 library(survival)

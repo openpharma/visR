@@ -61,4 +61,3 @@ Imports:
     parcats (>= 0.0.1),
     easyalluvial (>= 0.2.2)
 VignetteBuilder: knitr
-RoxygenNote: 7.1.0

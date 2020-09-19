@@ -34,8 +34,8 @@ A tibble with quantiles
 }
 \description{
 S3 method for extracting quantiles. For survival objects, it takes into account the maximal time of survival as limit instead of NA
-  If the quantile requested is larger than the minimal quantile available, the result is NA. 
-  No default method is available at the moment.
+If the quantile requested is larger than the minimal quantile available, the result is NA.
+No default method is available at the moment.
 }
 \examples{
 library(survival)
