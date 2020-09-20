@@ -46,7 +46,7 @@ Imports:
     magrittr,
     ggplot2,
     patchwork,
-    tibble,    
+    tibble,
     RBesT,
     DOT,
     tidyr,
@@ -59,5 +59,8 @@ Imports:
     gt (>= 0.1.0),
     tidyselect,
     parcats (>= 0.0.1),
-    easyalluvial (>= 0.2.2)
+    easyalluvial (>= 0.2.2),
+    cowplot,
+    gtable,
+    here
 VignetteBuilder: knitr

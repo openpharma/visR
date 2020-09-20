@@ -43,7 +43,6 @@ the_lhs <- function() {
 #' library(ggplot2)
 #' library(gtable)
 #' library(cowplot)
-#' library(ggplot2)
 #'   
 #' ## create 2 graphs
 #' p1 <- ggplot(adtte, aes(x = as.numeric(AGE), fill = "Age")) +
