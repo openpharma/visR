@@ -25,10 +25,10 @@
 #' surv_object <- vr_KM_est(data = adtte, strata = "TRTP")
 #' 
 #' ## p value for "Equality across strata"
-#' lbl <- get_pvalue(survfit_object, statlist = c("test", "p"), type = "All")
+#' lbl <- get_pvalue(surv_object, statlist = c("test", "p"), type = "All")
 #' 
 #' ## add results to survival plot
-#' vr_plot(survfit_object) %>%
+#' vr_plot(surv_object) %>%
 #'   add_annotation(lbl = lbl, base_family = "sans", base_size = 9, xmin = 110, xmax = 180, ymin = 0.80)
 #' 
 #' @return Object of class \code{ggplot} with added annotation with an object of class \code{gtable}.
