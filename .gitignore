@@ -1,12 +1,9 @@
-<<<<<<< HEAD
 /figures
 /notebooks/libs
 /notebooks/*.html
 .Rproj.user
 visR.Rproj
-visR-merged.Rproj
 .Rbuildignore
-visR-usethis.Rproj
 inst/doc
 .Rhistory
 .gitsum
