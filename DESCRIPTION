@@ -63,5 +63,6 @@ Imports:
     gridExtra,
     plotly,
     reshape2,
-    rlang
+    rlang,
+    base
 VignetteBuilder: knitr

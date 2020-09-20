@@ -24,10 +24,10 @@ p1 <- ggplot(adtte, aes(x = as.numeric(AGE), fill = "Age")) +
     geom_histogram(bins = 15)
     
 ## default alignment does not take into account legend size
-cowplot::plot_grid(plotlist = list(p1,p2), align = "none", nrow = length(plotlist))
+cowplot::plot_grid(plotlist = list(p1,p2), align = "none", 2) ##nrow = length(plotlist))
 
 ## Alignplots takes into account legend width
-cowplot::plot_grid(plotlist = AlignPlots(pltlist = list(p1, p2)), align = "none", nrow = length(plotlist))
+cowplot::plot_grid(plotlist = AlignPlots(pltlist = list(p1, p2)), align = "none", nrow = 2) ##length(plotlist))
 }
 \references{
 \url{https://stackoverflow.com/questions/26159495/align-multiple-ggplot-graphs-with-and-without-legends}
