@@ -4,12 +4,13 @@
 /notebooks/*.html
 .Rproj.user
 visR.Rproj
+visR-merged.Rproj
 .Rbuildignore
 visR-usethis.Rproj
 inst/doc
 .Rhistory
 .gitsum
-=======
+
 # History files
 .Rhistory
 .Rapp.history
@@ -51,4 +52,3 @@ vignettes/*.pdf
 # R Environment Variables
 .Renviron
 inst/doc
->>>>>>> master-holder
