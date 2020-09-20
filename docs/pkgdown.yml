@@ -4,7 +4,6 @@ pkgdown_sha: ~
 articles:
   Alluvial: Alluvial.html
   Example_analysis: Example_analysis.html
-  psi_example_plot: psi_example_plot.html
 urls:
   reference: https://openpharma.github.io/visR//reference
   article: https://openpharma.github.io/visR//articles

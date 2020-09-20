@@ -57,27 +57,33 @@ the_lhs <- function() {
 #' cowplot::plot_grid(plotlist = AlignPlots(pltlist = list(p1, p2)), align = "none", nrow = length(plotlist))
 
 AlignPlots <- function(pltlist = NULL) {
+  .LegendWidth <- function(x)
+    x$grobs[[8]]$grobs[[1]]$widths[[4]]
   
-  .LegendWidth <- function(x) x$grobs[[8]]$grobs[[1]]$widths[[4]]
-
   plots.grobs <- lapply(pltlist, ggplotGrob)
-  max.widths <- do.call(grid::unit.pmax, lapply(plots.grobs, "[[", "widths"))
+  max.widths <-
+    do.call(grid::unit.pmax, lapply(plots.grobs, "[[", "widths"))
   legends.widths <- lapply(plots.grobs, .LegendWidth)
   
-  max.legends.width <- base::suppressWarnings(do.call(max, legends.widths))
+  max.legends.width <-
+    base::suppressWarnings(do.call(max, legends.widths))
   
   plots.grobs.eq.widths <- lapply(plots.grobs, function(x) {
     x$widths <- max.widths
     x
   })
   
-  plots.grobs.eq.widths.aligned <- lapply(plots.grobs.eq.widths, function(x) {
-    if (is.gtable(x$grobs[[8]])) {
-      x$grobs[[8]] <- gtable_add_cols(x$grobs[[8]], unit(abs(diff(c(LegendWidth(x), max.legends.width))),"mm"))
-    }
-    x
-  })
-
+  plots.grobs.eq.widths.aligned <-
+    lapply(plots.grobs.eq.widths, function(x) {
+      if (is.gtable(x$grobs[[8]])) {
+        x$grobs[[8]] <-
+          gtable_add_cols(x$grobs[[8]], unit(abs(diff(
+            c(LegendWidth(x), max.legends.width)
+          )), "mm"))
+      }
+      x
+    })
+  
   plots.grobs.eq.widths.aligned
 }
 

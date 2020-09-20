@@ -44,41 +44,52 @@ get_summary.survfit <- function(
   #### statlist ####
   
   statlist <- unique(statlist)
-
+  
   #### Input Validation ####
   
-  if(! inherits(survfit_object, "survfit"))
+  if (!inherits(survfit_object, "survfit"))
     stop("Error in get_summary: x is not of class `survfit`.")
-  if (is.null(statlist) | ! base::all(statlist %in% c("strata", "records", "events", "median", "LCL", "UCL", "CI")))
+  if (is.null(statlist) |
+      !base::all(statlist %in% c("strata", "records", "events", "median", "LCL", "UCL", "CI")))
     stop("Error in get_summary: Specify valid `statlist` arguments.")
   
   #### Adjust or Remove UCL/LCL in statlist based on conf.int was estimated in survfit object ####
   
-  if ("conf.int" %in% names(survfit_object) & survfit_object[["conf.type"]] != "none" & ((base::any(grepl("CL",statlist, fixed = TRUE))) | (base::any(grepl("CI",statlist, fixed = TRUE))))){
-    CI <- paste0(survfit_object[["conf.int"]], statlist[grepl("CL",statlist, fixed = TRUE)])
-    statlist[grepl("CL",statlist, fixed = TRUE)] <- CI
-    CI_Varname <- paste0(survfit_object[["conf.int"]], statlist[grepl("CI",statlist, fixed = TRUE)])
-    statlist[grepl("CI",statlist, fixed = TRUE)] <- CI_Varname
-  } else if (! "conf.int" %in% names(survfit_object) | survfit_object[["conf.type"]] == "none") {
-    statlist <- statlist[-which(grepl("CL",statlist, fixed = TRUE))]
-    statlist <- statlist[-which(grepl("CI",statlist, fixed = TRUE))]
+  if ("conf.int" %in% names(survfit_object) &
+      survfit_object[["conf.type"]] != "none" &
+      ((base::any(grepl(
+        "CL", statlist, fixed = TRUE
+      ))) | (base::any(grepl(
+        "CI", statlist, fixed = TRUE
+      ))))) {
+    CI <-
+      paste0(survfit_object[["conf.int"]], statlist[grepl("CL", statlist, fixed = TRUE)])
+    statlist[grepl("CL", statlist, fixed = TRUE)] <- CI
+    CI_Varname <-
+      paste0(survfit_object[["conf.int"]], statlist[grepl("CI", statlist, fixed = TRUE)])
+    statlist[grepl("CI", statlist, fixed = TRUE)] <- CI_Varname
+  } else if (!"conf.int" %in% names(survfit_object) |
+             survfit_object[["conf.type"]] == "none") {
+    statlist <- statlist[-which(grepl("CL", statlist, fixed = TRUE))]
+    statlist <- statlist[-which(grepl("CI", statlist, fixed = TRUE))]
     warning("get_summary_fit: No conf.int estimated in survfit_object.")
   }
   
   #### Summary list: define strata and CI string to make next steps easier to read ####
   
-  if ("strata" %in% names(survfit_object)){
+  if ("strata" %in% names(survfit_object)) {
     strata <- names(survfit_object[["strata"]])
-  } else strata <- "Overall"
+  } else
+    strata <- "Overall"
   
-  .CIpaste <- function(df){
-      if (base::any(grepl("CI", statlist, fixed = TRUE))){
-        paste0("(", apply( df[ , CI, drop = FALSE] , 1 , paste , collapse = ";" ), ")")
-      } else {
-        NULL
-      }
+  .CIpaste <- function(df) {
+    if (base::any(grepl("CI", statlist, fixed = TRUE))) {
+      paste0("(", apply(df[, CI, drop = FALSE] , 1 , paste , collapse = ";"), ")")
+    } else {
+      NULL
+    }
   }
-
+  
   summary_survfit <- 
     as.data.frame(base::rbind(summary(survfit_object)[["table"]]), check.names = F, stringsAsFactors = F, row.names = NULL) %>%
     dplyr::mutate(strata = strata) %>%
@@ -89,10 +100,10 @@ get_summary.survfit <- function(
   statlist <- base::sub("records", "No. of subjects’", statlist, fixed = TRUE)
   statlist <- base::sub("events", "No. of events’", statlist, fixed = TRUE)
   statlist <- base::sub("median", "Median(surv.time)", statlist, fixed = TRUE)
-
+  
   colnames(summary_survfit) <- statlist
   
   ## output to tibble
   
   return(summary_survfit)
-} 
+}
