@@ -114,9 +114,12 @@ jobs:
           cd ..  
           rm target_dir -rf
           git clone https://${{github.actor}}:${{secrets.API_TOKEN_GITHUB}}@github.com/openpharma/visR-docs.git target_dir
-          cp visR/docs target_dir -r
           cd ./target_dir
           git checkout copied-docs 2>/dev/null || git checkout -b copied-docs
+          git pull
+          cd ..
+          cp visR/docs target_dir -r
+          cd ./target_dir
           git add docs
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
