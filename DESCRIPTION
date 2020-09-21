@@ -44,6 +44,7 @@ Imports:
     tibble,    
     RBesT,
     DOT,
+    rstantools,
     tidyr,
     dplyr,
     ggpubr,
