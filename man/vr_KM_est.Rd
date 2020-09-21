@@ -53,7 +53,8 @@ vr_KM_est(data = adtte, strata = "PARAMCD")
 vr_KM_est(data = adtte[adtte$SEX == "F", ])
 
 ## Modify the default analysis by using the ellipsis
-vr_KM_est(data = adtte, strata = NULL, type = "kaplan-meier", conf.int = F, timefix = TRUE)
+#vr_KM_est(data = adtte, strata = NULL, type = "kaplan-meier", conf.int = F, timefix = TRUE)
+vr_KM_est(data = adtte, strata = NULL, type = "kaplan-meier", conf.int = FALSE, timefix = TRUE)
 }
 \references{
 \url{https://https://github.com/therneau/survival}

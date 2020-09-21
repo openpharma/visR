@@ -11,6 +11,7 @@
 #' @param ... other arguments passed on to the method
 #' 
 #' @examples
+#' \donttest{
 #' library(survival)
 #' library(dplyr)
 #' library(tidyr)
@@ -21,6 +22,7 @@
 #' survfit_object <- survival::survfit(data = adtte, Surv(AVAL, 1-CNSR) ~ TRTP)
 #' vr_plot(survfit_object) %>%
 #'   add_risktable(min_at_risk = 3, title = c("blah"), display = c("n.risk", "n.censor"))
+#'   }
 #'  
 #' @return Object of class \code{ggplot} with added risk table.
 #'  

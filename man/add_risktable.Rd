@@ -36,6 +36,7 @@ S3 method for adding risk tables to visR plots.
 No default method is available at the moment.
 }
 \examples{
+\donttest{
 library(survival)
 library(dplyr)
 library(tidyr)
@@ -46,6 +47,7 @@ library(gtable)
 survfit_object <- survival::survfit(data = adtte, Surv(AVAL, 1-CNSR) ~ TRTP)
 vr_plot(survfit_object) \%>\%
   add_risktable(min_at_risk = 3, title = c("blah"), display = c("n.risk", "n.censor"))
+  }
  
 }
 \seealso{

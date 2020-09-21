@@ -40,6 +40,7 @@ the_lhs <- function() {
 #' @references \url{https://stackoverflow.com/questions/26159495/align-multiple-ggplot-graphs-with-and-without-legends}
 #' 
 #' @examples
+#' \donttest{ Here is a example 
 #' library(ggplot2)
 #' library(gtable)
 #' library(cowplot)
@@ -55,6 +56,7 @@ the_lhs <- function() {
 #' 
 #' ## Alignplots takes into account legend width
 #' cowplot::plot_grid(plotlist = AlignPlots(pltlist = list(p1, p2)), align = "none", nrow = 2) ##length(plotlist))
+#' }
 
 AlignPlots <- function(pltlist = NULL) {
   .LegendWidth <- function(x)

@@ -38,6 +38,7 @@ If the quantile requested is larger than the minimal quantile available, the res
 No default method is available at the moment.
 }
 \examples{
+\donttest{
 library(survival)
 library(dplyr)
 library(tidyr)
@@ -45,6 +46,7 @@ library(tidyr)
 survfit_object_trt <- vr_KM_est(data = adtte, strata = c("TRTP"))
 get_quantile(survfit_object)
 quantile(survfit_object)
+}
 
 }
 \seealso{

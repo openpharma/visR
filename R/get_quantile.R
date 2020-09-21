@@ -12,6 +12,7 @@
 #' @param ... other arguments passed on to the method
 #' 
 #' @examples
+#' \donttest{
 #' library(survival)
 #' library(dplyr)
 #' library(tidyr)
@@ -19,7 +20,8 @@
 #' survfit_object_trt <- vr_KM_est(data = adtte, strata = c("TRTP"))
 #' get_quantile(survfit_object)
 #' quantile(survfit_object)
-#'
+#' }
+#' 
 #' @return A tibble with quantiles
 #'  
 #' @rdname get_quantile
