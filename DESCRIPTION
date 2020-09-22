@@ -64,5 +64,6 @@ Imports:
     plotly,
     reshape2,
     rlang,
-    base
+    base,
+    openxlsx
 VignetteBuilder: knitr
