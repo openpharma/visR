@@ -35,12 +35,9 @@ get_summary <- function(x, ...){
 #' @method get_summary survfit
 #' @export
 
-get_summary.survfit <- function(
-  survfit_object,
-  statlist = c("strata", "records", "events", "median", "LCL", "UCL", "CI"),
-  ...
-) {
-  
+get_summary.survfit <- function(survfit_object,
+                                statlist = c("strata", "records", "events", "median", "LCL", "UCL", "CI"),
+                                ...) {
   #### statlist ####
   
   statlist <- unique(statlist)
@@ -71,7 +68,8 @@ get_summary.survfit <- function(
   } else if (!"conf.int" %in% names(survfit_object) |
              survfit_object[["conf.type"]] == "none") {
     statlist <- statlist[-which(grepl("CL", statlist, fixed = TRUE))]
-    statlist <- statlist[-which(grepl("CI", statlist, fixed = TRUE))]
+    statlist <-
+      statlist[-which(grepl("CI", statlist, fixed = TRUE))]
     warning("get_summary_fit: No conf.int estimated in survfit_object.")
   }
   
@@ -90,16 +88,24 @@ get_summary.survfit <- function(
     }
   }
   
-  summary_survfit <- 
-    as.data.frame(base::rbind(summary(survfit_object)[["table"]]), check.names = F, stringsAsFactors = F, row.names = NULL) %>%
+  summary_survfit <-
+    as.data.frame(
+      base::rbind(summary(survfit_object)[["table"]]),
+      check.names = F,
+      stringsAsFactors = F,
+      row.names = NULL
+    ) %>%
     dplyr::mutate(strata = strata) %>%
     dplyr::mutate(!!CI_Varname := .CIpaste(.)) %>%
     dplyr::select(tidyselect::all_of(statlist))
   
   #### Display ####
-  statlist <- base::sub("records", "No. of subjects’", statlist, fixed = TRUE)
-  statlist <- base::sub("events", "No. of events’", statlist, fixed = TRUE)
-  statlist <- base::sub("median", "Median(surv.time)", statlist, fixed = TRUE)
+  statlist <-
+    base::sub("records", "No. of subjects", statlist, fixed = TRUE)
+  statlist <-
+    base::sub("events", "No. of events", statlist, fixed = TRUE)
+  statlist <-
+    base::sub("median", "Median(surv.time)", statlist, fixed = TRUE)
   
   colnames(summary_survfit) <- statlist
   
