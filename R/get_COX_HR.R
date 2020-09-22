@@ -15,6 +15,7 @@
 #' library(dplyr)
 #' library(tidyr)
 #' library(ggplot2)
+#' library(broom)
 #' 
 #' ## treatment effect
 #' survfit_object_trt <- vr_KM_est(data = adtte, strata = c("TRTP"))

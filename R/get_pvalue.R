@@ -43,84 +43,117 @@ get_pvalue <- function(x, ...){
 #' @method get_pvalue survfit
 #' @export
 
-get_pvalue.survfit <- function(
-  survfit_object,
-  ptype = "All",
-  rho   = NULL,
-  statlist = c("test", "Chisq", "df", "p"),
-  ...
-) {
-  
+get_pvalue.survfit <- function(survfit_object,
+                               ptype = "All",
+                               rho   = NULL,
+                               statlist = c("test", "Chisq", "df", "p"),
+                               ...) {
   ## Input Validation
-
-  if(! inherits(survfit_object, "survfit"))
+  
+  if (!inherits(survfit_object, "survfit"))
     stop("Error in get_pvalue: x is not of class `survfit`.")
   if (length(names(survfit_object[["strata"]])) == 1)
-    stop("Error in get_pvalue: Main effect has only 1 level. Test of equality over strata can't be determined")
+    stop(
+      "Error in get_pvalue: Main effect has only 1 level. Test of equality over strata can't be determined"
+    )
   if (is.null(ptype))
     stop("Error in get_pvalue: Specify a valid ptype.")
-  if (! base::any(c("Log-Rank", "Wilcoxon", "Tarone-Ware", "Custom", "All") %in% ptype))
+  if (!base::any(c("Log-Rank", "Wilcoxon", "Tarone-Ware", "Custom", "All") %in% ptype))
     stop("Error in get_pvalue: Specify a valid type")
   if ("Custom" %in% ptype & is.null(rho))
     stop("Error in get_pvalue: ptype = `Custom`. Please, specify rho.")
-  if (is.null(statlist) | ! base::all(statlist %in% c("test", "df", "Chisq", "p")))
+  if (is.null(statlist) |
+      !base::all(statlist %in% c("test", "df", "Chisq", "p")))
     stop("Error in get_pvalue: Specify valid `statlist` arguments.")
   
   ## Re-use Call from survival object
   
   Call <- as.list(survfit_object$call)
-  NewCall <- append(as.list(as.symbol("survdiff")), Call[names(Call) %in% names(formals(survival::survdiff))])
+  NewCall <-
+    append(as.list(as.symbol("survdiff")), Call[names(Call) %in% names(formals(survival::survdiff))])
   
-  if ("All" %in% ptype){
+  if ("All" %in% ptype) {
     ptype = c("Log-Rank", "Wilcoxon", "Tarone-Ware")
-    if (!is.null(rho)){
+    if (!is.null(rho)) {
       ptype = c(ptype, "Custom")
     }
   }
-
+  
   ## Summary list
   
   survdifflist <- list(
-    `Log-Rank`    = rlang::expr(eval(as.call(append(NewCall, list(rho = 0))))),
-    `Wilcoxon`    = rlang::expr(eval(as.call(append(NewCall, list(rho = 1))))),
-    `Tarone-Ware` = rlang::expr(eval(as.call(append(NewCall, list(rho = 1.5))))),
-    `Custom`      = rlang::expr(eval(as.call(append(NewCall, list(rho = rho)))))
+    `Log-Rank`    = rlang::expr(eval(as.call(
+      append(NewCall, list(rho = 0))
+    ))),
+    `Wilcoxon`    = rlang::expr(eval(as.call(
+      append(NewCall, list(rho = 1))
+    ))),
+    `Tarone-Ware` = rlang::expr(eval(as.call(
+      append(NewCall, list(rho = 1.5))
+    ))),
+    `Custom`      = rlang::expr(eval(as.call(
+      append(NewCall, list(rho = rho))
+    )))
   )[ptype]
   
   
-  .pvalformat <- function(x){
-    options(scipen=999)
-    if (x < 0.001) "<0.001"
-    else if (x > 0.999) ">0.999"
-    else format(round(x, 3), digits = 3, justify = "right", width = 6)
+  .pvalformat <- function(x) {
+    options(scipen = 999)
+    if (x < 0.001)
+      "<0.001"
+    else if (x > 0.999)
+      ">0.999"
+    else
+      format(round(x, 3),
+             digits = 3,
+             justify = "right",
+             width = 6)
   }
-
-  survdifflist_eval <- lapply(survdifflist, eval, env = environment())
+  
+  survdifflist_eval <-
+    lapply(survdifflist, eval, env = environment())
   
   ## statlist
   
   statlist <- unique(statlist)
-  statlist <- base::sub("test", "Equality across strata", statlist, fixed = TRUE)
+  statlist <-
+    base::sub("test", "Equality across strata", statlist, fixed = TRUE)
   statlist <- base::sub("p", "p-value", statlist, fixed = TRUE)
   Nms <- names(survdifflist_eval)
   
   stat_summary <- list(
-    `Equality across strata` = rlang::expr(base::sub("Custom", paste0("Harrington and Fleming test (rho = ", rho, ")"), Nms, fixed = TRUE)),
-    `Chisq`    = rlang::expr(unlist(lapply(survdifflist_eval, function(x) x$chisq))),
-     df        = rlang::expr(unlist(lapply(survdifflist_eval, function(x) length(x$n)-1))),
-     `p-value` = rlang::expr(unlist(lapply(survdifflist_eval, function(x) .pvalformat(stats::pchisq(x$chisq, length(x$n)-1, lower.tail = FALSE)))))
+    `Equality across strata` = rlang::expr(base::sub(
+      "Custom",
+      paste0("Harrington and Fleming test (rho = ", rho, ")"),
+      Nms,
+      fixed = TRUE
+    )),
+    `Chisq`    = rlang::expr(unlist(
+      lapply(survdifflist_eval, function(x)
+        x$chisq)
+    )),
+    df        = rlang::expr(unlist(
+      lapply(survdifflist_eval, function(x)
+        length(x$n) - 1)
+    )),
+    `p-value` = rlang::expr(unlist(
+      lapply(survdifflist_eval, function(x)
+        .pvalformat(
+          stats::pchisq(x$chisq, length(x$n) - 1, lower.tail = FALSE)
+        ))
+    ))
   )[statlist]
   
   
   ## output to tibble
   
-    equality <- data.frame(
-      lapply(stat_summary, eval, env = environment()),
-      check.names = FALSE,
-      stringsAsFactors = FALSE,
-      row.names = NULL
-     ) %>%
-  as_tibble()
+  equality <- data.frame(
+    lapply(stat_summary, eval, env = environment()),
+    check.names = FALSE,
+    stringsAsFactors = FALSE,
+    row.names = NULL
+  ) %>%
+    tibble::as_tibble()
   
   return(equality)
 } 

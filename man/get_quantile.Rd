@@ -22,12 +22,14 @@ get_quantile(x, ...)
 
 \item{survfit_object}{An object of class \code{survfit}}
 
-\item{probs}{numeric vector of probabilities with values in [0,1]}
+\item{probs}{probabilies Default = c(0.25,0.50,0.75)}
 
 \item{conf.int}{should lower and upper confidence limits be returned?}
 
 \item{tolerance}{tolerance for checking that the survival curve exactly
     equals one of the quantiles}
+
+\item{debug}{debug mode. Default = FALSE}
 }
 \value{
 A tibble with quantiles

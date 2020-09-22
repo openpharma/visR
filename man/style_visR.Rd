@@ -6,7 +6,18 @@
 \usage{
 style_visR(gg)
 }
+\arguments{
+\item{gg}{ggplot object to style}
+}
+\value{
+
+}
 \description{
 Add visR theme to ggplot chart
+}
+\examples{
+
+library(ggplot2)
+
 }
 \keyword{visR}

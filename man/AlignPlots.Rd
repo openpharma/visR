@@ -6,6 +6,9 @@
 \usage{
 AlignPlots(pltlist = NULL)
 }
+\arguments{
+\item{pltlist}{A list of plots (TODO: provide more detail)}
+}
 \value{
 List of \code{ggplot} with equal width.
 }

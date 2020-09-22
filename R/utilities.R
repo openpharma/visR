@@ -35,6 +35,8 @@ the_lhs <- function() {
 #'    
 #' @author Steven Haesendonckx
 #' 
+#' @param pltlist A list of plots (TODO: provide more detail)
+#' 
 #' @return List of \code{ggplot} with equal width.
 #' 
 #' @references \url{https://stackoverflow.com/questions/26159495/align-multiple-ggplot-graphs-with-and-without-legends}
@@ -95,53 +97,56 @@ AlignPlots <- function(pltlist = NULL) {
 #'    
 #' @author Steven Haesendonckx
 #' 
+#' @param legend_position  Deafult = "right". 
+#' @param legend_orientation Deafult = NULL.
+#' 
 #' @return List of legend options for ggplot2.
 
-legendopts <- function(
-  legend_position = "right",
-  legend_orientation = NULL
-){
-  
+legendopts <- function(legend_position = "right",
+                       legend_orientation = NULL) {
   ## replace default eg "h" if user specified something else
-  .ucoalesce <- function(x, default){
+  .ucoalesce <- function(x, default) {
     ifelse(is.null(x), default, x)
   }
-
+  
   showlegend <- TRUE
-
-  if (is.character(legend_position)){
-    if (legend_position == "bottom"){
-      leg_opts <- list(xanchor = "center",
-                       x = 0.5,
-                       y = -0.2,
-                       orientation = .ucoalesce(legend_orientation, "h")
-                      )
-    } else if (legend_position == "right"){
-      leg_opts <- list(yanchor = "center",
-                       x = 1.2,
-                       y = 0.5,
-                       orientation = .ucoalesce(legend_orientation, "v")
-                      )
-    } else if (legend_position == "top"){
-      leg_opts <- list(xanchor = "center",
-                       x = 0.5,
-                       y = 1.2,
-                       orientation = .ucoalesce(legend_orientation, "h")
-                      )
-    } else if (legend_position == "left"){
-      leg_opts <- list(yanchor = "center",
-                       x = -1.0,
-                       y = 0.5,
-                       orientation = .ucoalesce(legend_orientation, "v")
-                      )
-    } else if (legend_position == "none"){
-     showlegend <-  FALSE
-     leg_opts <- NULL
+  
+  if (is.character(legend_position)) {
+    if (legend_position == "bottom") {
+      leg_opts <- list(
+        xanchor = "center",
+        x = 0.5,
+        y = -0.2,
+        orientation = .ucoalesce(legend_orientation, "h")
+      )
+    } else if (legend_position == "right") {
+      leg_opts <- list(
+        yanchor = "center",
+        x = 1.2,
+        y = 0.5,
+        orientation = .ucoalesce(legend_orientation, "v")
+      )
+    } else if (legend_position == "top") {
+      leg_opts <- list(
+        xanchor = "center",
+        x = 0.5,
+        y = 1.2,
+        orientation = .ucoalesce(legend_orientation, "h")
+      )
+    } else if (legend_position == "left") {
+      leg_opts <- list(
+        yanchor = "center",
+        x = -1.0,
+        y = 0.5,
+        orientation = .ucoalesce(legend_orientation, "v")
+      )
+    } else if (legend_position == "none") {
+      showlegend <-  FALSE
+      leg_opts <- NULL
     }
   } else {
     leg_opts <- list(x = legend_position[1],
-                     y = legend_position[2]
-                    )
+                     y = legend_position[2])
   }
   
   return(list(leg_opts = leg_opts, showlegend = showlegend))

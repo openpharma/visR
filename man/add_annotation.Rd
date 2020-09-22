@@ -24,9 +24,13 @@ add_annotation(
 
 \item{base_size}{\code{numeric}. Base font size in pt}
 
-\item{xmin, }{xmax x coordinates giving horizontal location of raster in which to fit annotation.}
+\item{xmin}{x coordinates giving horizontal location of raster in which to fit annotation.}
 
-\item{ymin, }{ymax y coordinates giving vertical location of raster in which to fit annotation.}
+\item{xmax}{x coordinates giving horizontal location of raster in which to fit annotation.}
+
+\item{ymin}{y coordinates giving vertical location of raster in which to fit annotation.}
+
+\item{ymax}{y coordinates giving vertical location of raster in which to fit annotation.}
 }
 \value{
 Object of class \code{ggplot} with added annotation with an object of class \code{gtable}.

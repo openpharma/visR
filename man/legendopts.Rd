@@ -6,6 +6,11 @@
 \usage{
 legendopts(legend_position = "right", legend_orientation = NULL)
 }
+\arguments{
+\item{legend_position}{Deafult = "right".}
+
+\item{legend_orientation}{Deafult = NULL.}
+}
 \value{
 List of legend options for ggplot2.
 }

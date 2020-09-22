@@ -34,6 +34,8 @@ vr_plot(x, ...)
 Note that this information is automatically added when using visR::vr_KM_est and when the input data has the variable "PARAM". If no "PARAM" information is available
 "time" is used as label.}
 
+\item{x_units}{Unit to be added to the x_label (x_label (x_unit)). Default is NULL.}
+
 \item{x_ticks}{Ticks for the x-axis. When not specified, the default will do a proposal.}
 
 \item{y_ticks}{Ticks for the y-axis. When not specified, the default will do a proposal based on the \code{fun} argument.}
@@ -51,8 +53,6 @@ Note that this information is automatically added when using visR::vr_KM_est and
 
 \item{legend_position}{Specifies the legend position in the plot. Character values allowed are "top" "left" "bottom" "right". Numeric coordinates are also allowed.
 Default is "right".}
-
-\item{x_unit}{Unit to be added to the x_label (x_label (x_unit)). Default is NULL.}
 }
 \value{
 Object of class \code{ggplot}  \code{ggsurvplot}.

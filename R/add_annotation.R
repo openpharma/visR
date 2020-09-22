@@ -12,8 +12,10 @@
 #' @param lbl \code{String, dataframe, data.table, tibble} used to annotate the \code{ggplot}.
 #' @param base_size \code{numeric}. Base font size in pt
 #' @param base_family \code{character}. Base font family
-#' @param xmin, xmax x coordinates giving horizontal location of raster in which to fit annotation.
-#' @param ymin, ymax y coordinates giving vertical location of raster in which to fit annotation.
+#' @param xmin x coordinates giving horizontal location of raster in which to fit annotation.
+#' @param xmax x coordinates giving horizontal location of raster in which to fit annotation.
+#' @param ymin y coordinates giving vertical location of raster in which to fit annotation.
+#' @param ymax y coordinates giving vertical location of raster in which to fit annotation.
 #' 
 #' @examples
 #' library(survival)
@@ -75,8 +77,9 @@ add_annotation <- function(
     core_alignment <- matrix(c(0, 1), ncol=max(ncol(df), 2), nrow=nrow(df), byrow=TRUE)[, 1:(1+as.numeric(ncol(df)>1)), drop = FALSE]
     core_x <- core_alignment
 
-    head_alignment <- matrix(c(0, 1), ncol=max(length(colnames(df)), 2), nrow=1, byrow=TRUE)[, 1:(1+as.numeric(ncol(df)>1)), drop = FALSE]
-    head_x <- head_alignment
+    ## TODO: Commented these two lines for RMD CHECK. 
+    #head_alignment <- matrix(c(0, 1), ncol=max(length(colnames(df)), 2), nrow=1, byrow=TRUE)[, 1:(1+as.numeric(ncol(df)>1)), drop = FALSE]
+    #head_x <- head_alignment
 
     tt1 <-  gridExtra::ttheme_minimal(
       base_size = base_size,
