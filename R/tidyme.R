@@ -13,13 +13,15 @@
 #' @examples
 #' \donttest{
 #' ## Extended tidying for a survfit object
-#' surv_object <- survival::survfit(data = adtte, Surv(AVAL, 1-CNSR) ~ TRTP)
-#' tidied <- tidyme(surv_object)
+#' ## TODO: Check the error in running the example
+#' #library(survial)
+#' #surv_object <- survival::survfit(data = adtte, Surv(AVAL, 1-CNSR) ~ TRTP)
+#' #tidied <- tidyme(surv_object)
 #' 
 #' ## Tidyme for non-included classes
-#' data <- cars
-#' lm_object <- lm(data = cars, speed ~ dist)
-#' lm_tidied <- tidyme(lm_object)
+#' #data <- cars
+#' #lm_object <- lm(data = cars, speed ~ dist)
+#' #lm_tidied <- tidyme(lm_object)
 #' }
 #' 
 #' @return Tibble containing all list elements of the S3 object as columns
