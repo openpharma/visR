@@ -18,8 +18,8 @@
 #' library(tidyr)
 #' 
 #' survfit_object_trt <- vr_KM_est(data = adtte, strata = c("TRTP"))
-#' get_quantile(survfit_object)
-#' quantile(survfit_object)
+#' get_quantile(survfit_object_trt)
+#' quantile(survfit_object_trt)
 #' }
 #' 
 #' @return A tibble with quantiles
