@@ -20,9 +20,14 @@
 #' library(gtable)
 #' 
 #' survfit_object <- survival::survfit(data = adtte, Surv(AVAL, 1-CNSR) ~ TRTP)
-#' vr_plot(survfit_object) %>%
-#'   add_risktable(min_at_risk = 3, title = c("blah"), display = c("n.risk", "n.censor"))
-#'   }
+#' #vr_plot(survfit_object) %>%
+#' #  add_risktable(min_at_risk = 3, title = c("blah"), display = c("n.risk", "n.censor"))
+#'  
+#'  ## TODO: Check the following errors when above example is run
+#'  # > Warning: NAs introduced by coercion
+#'  # > Warning: NAs introduced by coercion
+#'  # Error in data.matrix(data): (list) object cannot be coerced to type 'double'
+#' }
 #'  
 #' @return Object of class \code{ggplot} with added risk table.
 #'  
@@ -43,8 +48,7 @@ add_risktable <- function(gg, ...){
 #' @rdname add_risktable
 #' @method add_risktable ggsurvfit
 #' @export
-
-
+#' 
 add_risktable.ggsurvfit <- function(
    gg
   ,min_at_risk = 0

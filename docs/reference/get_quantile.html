@@ -172,7 +172,7 @@ No default method is available at the moment.</p>
     </tr>
     <tr>
       <th>probs</th>
-      <td><p>numeric vector of probabilities with values in [0,1]</p></td>
+      <td><p>probabilies Default = c(0.25,0.50,0.75)</p></td>
     </tr>
     <tr>
       <th>conf.int</th>
@@ -182,6 +182,10 @@ No default method is available at the moment.</p>
       <th>tolerance</th>
       <td><p>tolerance for checking that the survival curve exactly
     equals one of the quantiles</p></td>
+    </tr>
+    <tr>
+      <th>debug</th>
+      <td><p>debug mode. Default = FALSE</p></td>
     </tr>
     </table>
 
@@ -193,12 +197,14 @@ No default method is available at the moment.</p>
     <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/survival/man/quantile.survfit.html'>quantile.survfit</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>survival</span>)
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>survival</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>tidyr</span>)
 
 <span class='no'>survfit_object_trt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='vr_KM_est.html'>vr_KM_est</a></span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>adtte</span>, <span class='kw'>strata</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"TRTP"</span>))
-<span class='fu'>get_quantile</span>(<span class='no'>survfit_object</span>)</div><div class='output co'>#&gt; <span class='error'>Error in get_quantile(survfit_object): object 'survfit_object' not found</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span>(<span class='no'>survfit_object</span>)</div><div class='output co'>#&gt; <span class='error'>Error in quantile(survfit_object): object 'survfit_object' not found</span></div><div class='input'>
+<span class='fu'>get_quantile</span>(<span class='no'>survfit_object</span>)</div><div class='output co'>#&gt; <span class='error'>Error in get_quantile(survfit_object): object 'survfit_object' not found</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span>(<span class='no'>survfit_object</span>)</div><div class='output co'>#&gt; <span class='error'>Error in quantile(survfit_object): object 'survfit_object' not found</span></div><div class='input'># }
+
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

@@ -232,7 +232,8 @@ Use <code><a href='https://rdrr.io/pkg/survival/man/survfit.formula.html'>?survi
 #&gt;       n  events  median 0.95LCL 0.95UCL 
 #&gt;     143      80      64      47      96 </div><div class='input'>
 <span class='co'>## Modify the default analysis by using the ellipsis</span>
-<span class='fu'>vr_KM_est</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>adtte</span>, <span class='kw'>strata</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"kaplan-meier"</span>, <span class='kw'>conf.int</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>timefix</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Call: survfit(formula = Surv(AVAL, 1 - CNSR) ~ 1, data = adtte, timefix = TRUE, 
+<span class='co'>#vr_KM_est(data = adtte, strata = NULL, type = "kaplan-meier", conf.int = F, timefix = TRUE)</span>
+<span class='fu'>vr_KM_est</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>adtte</span>, <span class='kw'>strata</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"kaplan-meier"</span>, <span class='kw'>conf.int</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>timefix</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Call: survfit(formula = Surv(AVAL, 1 - CNSR) ~ 1, data = adtte, timefix = TRUE, 
 #&gt;     type = "kaplan-meier", conf.int = FALSE)
 #&gt; 
 #&gt;      n events median 

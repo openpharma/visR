@@ -184,10 +184,10 @@ the median survival time ("median"), the Confidence Interval ("CI"), the Lower C
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>tidyr</span>)
 
 <span class='no'>survfit_object</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>survival</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/survival/man/survfit.html'>survfit</a></span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>adtte</span>, <span class='fu'><a href='https://rdrr.io/pkg/survival/man/Surv.html'>Surv</a></span>(<span class='no'>AVAL</span>, <span class='fl'>1</span>-<span class='no'>CNSR</span>) ~ <span class='no'>TRTP</span>)
-<span class='fu'>get_summary</span>(<span class='no'>survfit_object</span>)</div><div class='output co'>#&gt;                      strata No. of subjects’ No. of events’ Median(surv.time)
-#&gt; 1              TRTP=Placebo               86             29                NA
-#&gt; 2 TRTP=Xanomeline High Dose               84             61                36
-#&gt; 3  TRTP=Xanomeline Low Dose               84             62                33
+<span class='fu'>get_summary</span>(<span class='no'>survfit_object</span>)</div><div class='output co'>#&gt;                      strata No. of subjects No. of events Median(surv.time)
+#&gt; 1              TRTP=Placebo              86            29                NA
+#&gt; 2 TRTP=Xanomeline High Dose              84            61                36
+#&gt; 3  TRTP=Xanomeline Low Dose              84            62                33
 #&gt;   0.95LCL 0.95UCL  0.95CI
 #&gt; 1      NA      NA (NA;NA)
 #&gt; 2      25      47 (25;47)
