@@ -57,9 +57,10 @@ the_lhs <- function() {
 #' cowplot::plot_grid(plotlist = list(p1,p2), 
 #'   align = "none", 2) ##nrow = length(plotlist))
 #' 
+#' ## TODO: example throwing error/warning in CMD check
 #' ## Alignplots takes into account legend width
-#' cowplot::plot_grid(plotlist = AlignPlots(pltlist = list(p1, p2)), 
-#'   align = "none", nrow = 2) ##length(plotlist))
+#' ##cowplot::plot_grid(plotlist = AlignPlots(pltlist = list(p1, p2)), 
+#' ##   align = "none", nrow = 2) ##length(plotlist))
 #' }
 
 AlignPlots <- function(pltlist = NULL) {
