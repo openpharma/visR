@@ -172,7 +172,7 @@ and 2) Summary table with test of equality over strata</p>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"veteran"</span>)
 <span class='no'>data</span> <span class='kw'>&lt;-</span>  <span class='no'>veteran</span> <span class='kw'>%&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/dplyr/man/mutate.html'>mutate</a></span>(<span class='kw'>trt</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>(<span class='fu'><a href='https://rdrr.io/pkg/dplyr/man/case_when.html'>case_when</a></span>(
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>trt</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>(<span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span>(
        <span class='no'>trt</span> <span class='kw'>==</span> <span class='fl'>1</span> ~ <span class='st'>"standard therapy"</span>,
        <span class='no'>trt</span> <span class='kw'>==</span> <span class='fl'>2</span> ~ <span class='st'>"test chemotherapy"</span>
    )))

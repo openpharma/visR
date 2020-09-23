@@ -192,14 +192,14 @@ variables prior to creating the summary table by using dplyr::select()</p>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>survival</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
 <span class='no'>ovarian</span> <span class='kw'>%&gt;%</span>
-<span class='fu'><a href='https://rdrr.io/pkg/dplyr/man/select.html'>select</a></span>(-<span class='no'>fustat</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/dplyr/man/mutate.html'>mutate</a></span>(<span class='kw'>age_group</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='fu'><a href='https://rdrr.io/pkg/dplyr/man/case_when.html'>case_when</a></span>(<span class='no'>age</span> <span class='kw'>&lt;=</span> <span class='fl'>50</span> ~ <span class='st'>"&lt;= 50 years"</span>,
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(-<span class='no'>fustat</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>age_group</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span>(<span class='no'>age</span> <span class='kw'>&lt;=</span> <span class='fl'>50</span> ~ <span class='st'>"&lt;= 50 years"</span>,
                                       <span class='no'>age</span> <span class='kw'>&lt;=</span> <span class='fl'>60</span> ~ <span class='st'>"&lt;= 60 years"</span>,
                                       <span class='no'>age</span> <span class='kw'>&lt;=</span> <span class='fl'>70</span> ~ <span class='st'>"&lt;= 70 years"</span>,
                                       <span class='fl'>TRUE</span> ~ <span class='st'>"&gt; 70 years"</span>)),
          <span class='kw'>rx</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='no'>rx</span>),
          <span class='kw'>ecog.ps</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='no'>ecog.ps</span>)) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/dplyr/man/select.html'>select</a></span>(<span class='no'>age</span>, <span class='no'>age_group</span>, <span class='fu'><a href='https://rdrr.io/pkg/dplyr/man/reexports.html'>everything</a></span>()) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='no'>age</span>, <span class='no'>age_group</span>, <span class='fu'><a href='https://dplyr.tidyverse.org/reference/reexports.html'>everything</a></span>()) <span class='kw'>%&gt;%</span>
   <span class='fu'>vr_create_tableone</span>()</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 21 x 3</span><span>
 #&gt;    variable  statistic    Overall                   
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                     
