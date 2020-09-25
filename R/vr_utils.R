@@ -131,30 +131,41 @@ vr_table_caption <-function(caption,
 #' @param button What does the download button say
 #'
 #' @export
-vr_table_download <- function(
-  df, filename=NULL, format="csv", button="Download data"){
-
-  if(!format %in% c("txt", "tsv", "csv", "xlsx")){
+vr_table_download <- function(df,
+                              filename = NULL,
+                              format = "csv",
+                              button = "Download data") {
+  if (!format %in% c("txt", "tsv", "csv", "xlsx")) {
     stop("Output file format has to be either txt, tsv, csv or xlsx.")
   }
-
-  if(is.null(knitr::opts_knit$get("fig.path"))){
+  
+  if (is.null(knitr::opts_knit$get("fig.path"))) {
     fp <- tempdir()
   }
   else{
     fp <- knitr::opts_knit$get("fig.path")
   }
-
-  if(is.null(filename)){
-    filename <- tempfile(pattern = paste("data-"), tmpdir = getwd(), fileext = paste0(".", format))
+  
+  if (is.null(filename)) {
+    filename <-
+      tempfile(
+        pattern = paste("data-"),
+        tmpdir = getwd(),
+        fileext = paste0(".", format)
+      )
   }
-
-  if(format %in% c("csv", "tsv", "txt")){
-    delim <- switch(format, "csv" = ",", "tsv" = "\t", "txt" = " ")
+  
+  if (format %in% c("csv", "tsv", "txt")) {
+    delim <- switch(format,
+                    "csv" = ",",
+                    "tsv" = "\t",
+                    "txt" = " ")
     write.table(df, file = filename, sep = delim)
   }
   else{
-    xlsx::write.xlsx(df, file=filename)
+    ## TODO: Check if we need the xlsx dependency 
+    #xlsx::write.xlsx(df, file=filename)
+    openxlsx::write.xlsx(df, file = filename)
   }
 
   # String result ready to be placed in rmarkdown
