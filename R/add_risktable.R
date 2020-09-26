@@ -48,7 +48,7 @@ add_risktable <- function(gg, ...){
 #' @rdname add_risktable
 #' @method add_risktable ggsurvfit
 #' @export
-#' 
+
 add_risktable.ggsurvfit <- function(
    gg
   ,min_at_risk = 0
@@ -56,13 +56,13 @@ add_risktable.ggsurvfit <- function(
   ,display = c("n.risk")
   ,title  =c("Subjects at risk")
 ){
-  
+
   #### User input validation ####
   
   if (inherits(gg, "ggsurvfit")){
     tidy_object <- gg$data
     survfit_object <- eval(gg$data$call[[1]])
-    ggbld <- ggplot_build(gg)
+    ggbld <- ggplot2::ggplot_build(gg)
     if (is.null(time_ticks)) time_ticks <- as.numeric(ggbld$layout$panel_params[[1]]$x$get_labels())
   } else {
     stop("Error in add_risktable: gg is not of class `ggsurvfit`.")
@@ -80,15 +80,15 @@ add_risktable.ggsurvfit <- function(
   
   
   #### Pull out max time to consider ####
-  
+
   max_time <- 
     tidy_object %>% 
-    filter(n.risk >= min_at_risk) %>% 
-    group_by(strata) %>% 
-    summarize(max_time = max(time)) %>% 
-    ungroup() %>% 
-    summarize(min_time = min(max_time)) %>% 
-    pull(min_time)
+    dplyr::filter(n.risk >= min_at_risk) %>% 
+    dplyr::group_by(strata) %>% 
+    dplyr::summarize(max_time = max(time)) %>% 
+    dplyr::ungroup() %>% 
+    dplyr::summarize(min_time = min(max_time)) %>% 
+    dplyr::pull(min_time)
   
   
   #### Time_ticks ####

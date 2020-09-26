@@ -42,7 +42,7 @@ the_lhs <- function() {
 #' @references \url{https://stackoverflow.com/questions/26159495/align-multiple-ggplot-graphs-with-and-without-legends}
 #' 
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' library(ggplot2)
 #' library(gtable)
 #' library(cowplot)
@@ -50,18 +50,22 @@ the_lhs <- function() {
 #' ## create 2 graphs
 #' p1 <- ggplot(adtte, aes(x = as.numeric(AGE), fill = "Age")) +
 #'   geom_histogram(bins = 15)
-#'   p2 <- ggplot(adtte, aes(x = as.numeric(AGE))) +
-#'     geom_histogram(bins = 15)
+#' p2 <- ggplot(adtte, aes(x = as.numeric(AGE))) +
+#'   geom_histogram(bins = 15)
 #'     
 #' ## default alignment does not take into account legend size
-#' cowplot::plot_grid(plotlist = list(p1,p2), 
-#'   align = "none", 2) ##nrow = length(plotlist))
+#' cowplot::plot_grid(plotlist = list(p1,p2),
+#'   align = "none",
+#'   nrow = 2
+#' )
 #' 
-#' ## TODO: example throwing error/warning in CMD check
 #' ## Alignplots takes into account legend width
-#' ##cowplot::plot_grid(plotlist = AlignPlots(pltlist = list(p1, p2)), 
-#' ##   align = "none", nrow = 2) ##length(plotlist))
+#' cowplot::plot_grid(plotlist = AlignPlots(pltlist = list(p1, p2)), 
+#'    align = "none",
+#'    nrow = 2
+#'  )
 #' }
+#' @export
 
 AlignPlots <- function(pltlist = NULL) {
   .LegendWidth <- function(x)
@@ -82,9 +86,9 @@ AlignPlots <- function(pltlist = NULL) {
   
   plots.grobs.eq.widths.aligned <-
     lapply(plots.grobs.eq.widths, function(x) {
-      if (is.gtable(x$grobs[[8]])) {
+      if (gtable::is.gtable(x$grobs[[8]])) {
         x$grobs[[8]] <-
-          gtable_add_cols(x$grobs[[8]], unit(abs(diff(
+          gtable::gtable_add_cols(x$grobs[[8]], unit(abs(diff(
             c(LegendWidth(x), max.legends.width)
           )), "mm"))
       }
