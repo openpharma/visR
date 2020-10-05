@@ -82,10 +82,12 @@ lung_cohort <- lung %>%
                  ) %>%
     dplyr::select(USUBJID, SITEID, SEX, AGEGR1, WEIGHT, SUBGR1, AVAL, CNSR)
   
-
-knitr::kable(
-  head(lung_cohort, 10), caption = 'A table of the first 10 observations of `lung_cohort`.'
-)
+lung_cohort %>% 
+  head(10) %>% 
+  vr_render_table(title = "First 10 observations of `lung_cohort`.",
+                  caption = "",
+                  datasource = DATASET, 
+                  engine = "gt")
 ```
 
 ## Attrition Table
