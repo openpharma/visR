@@ -78,7 +78,7 @@ The default method relies on broom::tidy to return a tidied object" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">visR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1.9001</span>
       </span>
     </div>
 
@@ -104,7 +104,7 @@ The default method relies on broom::tidy to return a tidied object" />
       <a href="../articles/Alluvial.html">Example alluvial plot analysis using visR</a>
     </li>
     <li>
-      <a href="../articles/Example_analysis.html">Example Time To Event (Survival) Analysis using visR</a>
+      <a href="../articles/Example_analysis.html">Survival Analysis with visR</a>
     </li>
   </ul>
 </li>
@@ -171,15 +171,18 @@ The default method relies on <code><a href='https://rdrr.io/pkg/broom/man/reexpo
     <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/broom/man/reexports.html'>tidy</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='co'>## Extended tidying for a survfit object</span>
-<span class='no'>surv_object</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>survival</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/survival/man/survfit.html'>survfit</a></span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>adtte</span>, <span class='fu'>Surv</span>(<span class='no'>AVAL</span>, <span class='fl'>1</span>-<span class='no'>CNSR</span>) ~ <span class='no'>TRTP</span>)
-<span class='no'>tidied</span> <span class='kw'>&lt;-</span> <span class='fu'>tidyme</span>(<span class='no'>surv_object</span>)
+    <pre class="examples"><div class='input'># \donttest{
+## Extended tidying for a survfit object
+## TODO: Check the error in running the example
+#library(survial)
+#surv_object <- survival::survfit(data = adtte, Surv(AVAL, 1-CNSR) ~ TRTP)
+#tidied <- tidyme(surv_object)
 
-<span class='co'>## Tidyme for non-included classes</span>
-<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='no'>cars</span>
-<span class='no'>lm_object</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>cars</span>, <span class='no'>speed</span> ~ <span class='no'>dist</span>)
-<span class='no'>lm_tidied</span> <span class='kw'>&lt;-</span> <span class='fu'>tidyme</span>(<span class='no'>lm_object</span>)</div><div class='output co'>#&gt; tidyme S3 default method (broom::tidy) used.</div><div class='input'># }
+## Tidyme for non-included classes
+#data <- cars
+#lm_object <- lm(data = cars, speed ~ dist)
+#lm_tidied <- tidyme(lm_object)
+# }
 
 </div></pre>
   </div>

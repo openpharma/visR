@@ -79,7 +79,7 @@ No default method is available at the moment." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">visR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1.9001</span>
       </span>
     </div>
 
@@ -105,7 +105,7 @@ No default method is available at the moment." />
       <a href="../articles/Alluvial.html">Example alluvial plot analysis using visR</a>
     </li>
     <li>
-      <a href="../articles/Example_analysis.html">Example Time To Event (Survival) Analysis using visR</a>
+      <a href="../articles/Example_analysis.html">Survival Analysis with visR</a>
     </li>
   </ul>
 </li>
@@ -203,18 +203,18 @@ No default method is available at the moment.</p>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>tidyr</span>)
 
 <span class='no'>survfit_object_trt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='vr_KM_est.html'>vr_KM_est</a></span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>adtte</span>, <span class='kw'>strata</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"TRTP"</span>))
-<span class='fu'>get_quantile</span>(<span class='no'>survfit_object_trt</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 9 x 5</span><span>
+<span class='fu'>get_quantile</span>(<span class='no'>survfit_object_trt</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 9 x 5</span><span>
 #&gt;   strata                    quantity  `25`  `50`  `75`
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> TRTP=Placebo              lower       35    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>
-#&gt; </span><span style='color: #555555;'>2</span><span> TRTP=Placebo              quantile    70    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>
-#&gt; </span><span style='color: #555555;'>3</span><span> TRTP=Placebo              upper      177    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>
-#&gt; </span><span style='color: #555555;'>4</span><span> TRTP=Xanomeline High Dose lower        5    25    50
-#&gt; </span><span style='color: #555555;'>5</span><span> TRTP=Xanomeline High Dose quantile    14    36    58
-#&gt; </span><span style='color: #555555;'>6</span><span> TRTP=Xanomeline High Dose upper       22    47    94
-#&gt; </span><span style='color: #555555;'>7</span><span> TRTP=Xanomeline Low Dose  lower       15    28    57
-#&gt; </span><span style='color: #555555;'>8</span><span> TRTP=Xanomeline Low Dose  quantile    19    33    80
-#&gt; </span><span style='color: #555555;'>9</span><span> TRTP=Xanomeline Low Dose  upper       27    51   126</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span>(<span class='no'>survfit_object_trt</span>)</div><div class='output co'>#&gt; $quantile
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> TRTP=Placebo              lower       35    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> TRTP=Placebo              quantile    70    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> TRTP=Placebo              upper      177    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> TRTP=Xanomeline High Dose lower        5    25    50
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span> TRTP=Xanomeline High Dose quantile    14    36    58
+#&gt; </span><span style='color: #BCBCBC;'>6</span><span> TRTP=Xanomeline High Dose upper       22    47    94
+#&gt; </span><span style='color: #BCBCBC;'>7</span><span> TRTP=Xanomeline Low Dose  lower       15    28    57
+#&gt; </span><span style='color: #BCBCBC;'>8</span><span> TRTP=Xanomeline Low Dose  quantile    19    33    80
+#&gt; </span><span style='color: #BCBCBC;'>9</span><span> TRTP=Xanomeline Low Dose  upper       27    51   126</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span>(<span class='no'>survfit_object_trt</span>)</div><div class='output co'>#&gt; $quantile
 #&gt;                           25 50 75
 #&gt; TRTP=Placebo              70 NA NA
 #&gt; TRTP=Xanomeline High Dose 14 36 58

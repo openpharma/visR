@@ -78,7 +78,7 @@ No default method is available at the moment." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">visR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1.9001</span>
       </span>
     </div>
 
@@ -104,7 +104,7 @@ No default method is available at the moment." />
       <a href="../articles/Alluvial.html">Example alluvial plot analysis using visR</a>
     </li>
     <li>
-      <a href="../articles/Example_analysis.html">Example Time To Event (Survival) Analysis using visR</a>
+      <a href="../articles/Example_analysis.html">Survival Analysis with visR</a>
     </li>
   </ul>
 </li>
@@ -200,12 +200,12 @@ p-value ("p").</p></td>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
 
 <span class='no'>survfit_object</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='vr_KM_est.html'>vr_KM_est</a></span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>adtte</span>, <span class='kw'>strata</span> <span class='kw'>=</span> <span class='st'>"TRTP"</span>)
-<span class='fu'>get_pvalue</span>(<span class='no'>survfit_object</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 4</span><span>
+<span class='fu'>get_pvalue</span>(<span class='no'>survfit_object</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 4</span><span>
 #&gt;   `Equality across strata` Chisq    df `p-value`
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    
-#&gt; </span><span style='color: #555555;'>1</span><span> Log-Rank                  60.3     2 &lt;0.001   
-#&gt; </span><span style='color: #555555;'>2</span><span> Wilcoxon                  48.0     2 &lt;0.001   
-#&gt; </span><span style='color: #555555;'>3</span><span> Tarone-Ware               41.9     2 &lt;0.001   </div><div class='input'> 
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> Log-Rank                  60.3     2 &lt;0.001   
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> Wilcoxon                  48.0     2 &lt;0.001   
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> Tarone-Ware               41.9     2 &lt;0.001   </div><div class='input'> 
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
