@@ -54,7 +54,8 @@ lbl <- get_pvalue(surv_object, statlist = c("test", "p"), type = "All")
 
 ## add results to survival plot
 vr_plot(surv_object) \%>\%
-  add_annotation(lbl = lbl, base_family = "sans", base_size = 9, xmin = 110, xmax = 180, ymin = 0.80)
+  add_annotation(lbl = lbl, base_family = "sans",
+  base_size = 9, xmin = 110, xmax = 180, ymin = 0.80)
 
 }
 \seealso{

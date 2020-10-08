@@ -2,7 +2,7 @@
 title: "Survival Analysis with visR"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Example_analysis}
+  %\VignetteIndexEntry{Survival Analysis with visR}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -117,8 +117,30 @@ vr_render_table(data = cohort_attrition,
 ```
 
 
+
 ## Attrition Diagram
 Under construction.
+```{r eval=TRUE, echo=TRUE}
+complement_descriptions <- c(
+"Having exclusion criterion: non ECOG",
+"Having exclusion criterion: missing weight loss ", 
+"Having exclusion criterion: missing censoring status", 
+"Having exclusion criterion: negative follow up time")
+
+attrition_chart_fn <- "../docs/articles/Example_analysis_files/figure-html/attrition_diagram.svg"
+
+attrition_flow <- vr_attrition(
+  N_array = cohort_attrition$`Remaining N`,
+  descriptions = cohort_attrition$Criteria,
+  complement_descriptions = complement_descriptions,
+  display = F,
+  output_path = attrition_chart_fn)
+```
+```{r attritionFigShow, fig.cap=paste("Attrition Diagram of Lung cohort. Data Source: ", DATASET), results='asis'} 
+  knitr::include_graphics(attrition_chart_fn)
+
+```
+
 
 <!-- ```{r attritionFig} -->
 <!-- # complement_descriptions <- c( -->
@@ -145,7 +167,7 @@ Under construction.
 <!-- ``` -->
 
 ## Cohort Overview
-To descrbe the population `vr_table_one` can be used.
+To describe the population `vr_table_one` can be used.
 ```{r table1}
 # some modifications to the table for nice printing of categories
 lung_cohort_tab1 <- lung_cohort %>%
@@ -186,16 +208,17 @@ lung_cohort %>%
 
 ### Kaplan-Meier Curve
 The Kaplan Meier plot is build using the pipe framework.
-```{r fig.cap="Comparison of survival in male and female lung cancer patients", fig.height=6, fig.width=8, warning=FALSE, error = FALSE}
+```{r fig.cap="Comparison of survival in male and female lung cancer patients", warning=FALSE, error = FALSE}
 
 lung_cohort %>%
   vr_KM_est(strata = "SEX", conf.int = 0.90) %>%
   vr_plot(legend_position = "right", x_unit = "Days") %>%
   add_CI(alpha = 0.2, style = "ribbon", linetype = 3) %>%
   add_CNSR(shape = 3, size = 2) %>%
-  add_risktable(min_at_risk = 3,
-                display= c("n.risk"),
-                title = c("At risk")
+  add_risktable(min_at_risk = 0,
+                display= c("n.risk", "n.event", "n.censor"),
+                title = c("At risk", "Event", "Censor"),
+                collapse = F
                )
 
 ```

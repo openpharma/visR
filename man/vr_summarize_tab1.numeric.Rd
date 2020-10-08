@@ -7,8 +7,9 @@
 \method{vr_summarize_tab1}{numeric}(x)
 }
 \arguments{
-\item{x}{placeholder}
+\item{x}{an object of class "numeric"}
 }
 \description{
-Create variable summary for numeric variables
+Calculates mean (standard deviation), median (IQR), min-max range and N/\% missing elements
+for a numeric vector.
 }

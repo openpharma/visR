@@ -150,7 +150,8 @@ No default method is available at the moment.</p>
   <span class='kw'>min_at_risk</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>time_ticks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>display</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"n.risk"</span>),
-  <span class='kw'>title</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Subjects at risk"</span>)
+  <span class='kw'>title</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>collapse</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -180,6 +181,11 @@ No default method is available at the moment.</p>
       <th>title</th>
       <td><p>Character vector with titles for the summary tables.</p></td>
     </tr>
+    <tr>
+      <th>collapse</th>
+      <td><p>Boolean, indicates whether to present the data overall, rather than per strata.
+Default is FALSE.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -199,15 +205,25 @@ No default method is available at the moment.</p>
 #&gt; <span class='message'>********************************************************</span></div><div class='output co'>#&gt; <span class='message'>Note: As of version 1.0.0, cowplot does not change the</span></div><div class='output co'>#&gt; <span class='message'>  default ggplot2 theme anymore. To recover the previous</span></div><div class='output co'>#&gt; <span class='message'>  behavior, execute:</span>
 #&gt; <span class='message'>  theme_set(theme_cowplot())</span></div><div class='output co'>#&gt; <span class='message'>********************************************************</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>gtable</span>)
 
-<span class='no'>survfit_object</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>survival</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/survival/man/survfit.html'>survfit</a></span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>adtte</span>, <span class='fu'><a href='https://rdrr.io/pkg/survival/man/Surv.html'>Surv</a></span>(<span class='no'>AVAL</span>, <span class='fl'>1</span>-<span class='no'>CNSR</span>) ~ <span class='no'>TRTP</span>)
-<span class='co'>#vr_plot(survfit_object) %&gt;%</span>
-<span class='co'>#  add_risktable(min_at_risk = 3, title = c("blah"), display = c("n.risk", "n.censor"))</span>
-
- <span class='co'>## TODO: Check the following errors when above example is run</span>
- <span class='co'># &gt; Warning: NAs introduced by coercion</span>
- <span class='co'># &gt; Warning: NAs introduced by coercion</span>
- <span class='co'># Error in data.matrix(data): (list) object cannot be coerced to type 'double'</span>
-<span class='co'># }</span></div></pre>
+<span class='co'>## Display 2 risk tables</span>
+<span class='no'>adtte</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='vr_KM_est.html'>vr_KM_est</a></span>(<span class='kw'>strata</span> <span class='kw'>=</span> <span class='st'>"TRTP"</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='vr_plot.html'>vr_plot</a></span>() <span class='kw'>%&gt;%</span>
+  <span class='fu'>add_risktable</span>( <span class='kw'>min_at_risk</span> <span class='kw'>=</span> <span class='fl'>3</span>
+                ,<span class='kw'>title</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Subjects at Risk"</span>, <span class='st'>"Censored"</span>)
+                ,<span class='kw'>display</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"n.risk"</span>, <span class='st'>"n.censor"</span>)
+                )</div><div class='img'><img src='add_risktable-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'>## Display overall risk table </span>
+<span class='no'>adtte</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='vr_KM_est.html'>vr_KM_est</a></span>(<span class='kw'>strata</span> <span class='kw'>=</span> <span class='st'>"TRTP"</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='vr_plot.html'>vr_plot</a></span>() <span class='kw'>%&gt;%</span>
+  <span class='fu'>add_risktable</span>( <span class='kw'>min_at_risk</span> <span class='kw'>=</span> <span class='fl'>3</span>
+                ,<span class='kw'>display</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"n.risk"</span>, <span class='st'>"n.censor"</span>)
+                ,<span class='kw'>collapse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+                )</div><div class='img'><img src='add_risktable-2.png' alt='' width='700' height='433' /></div><div class='input'> 
+# }
+ 
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

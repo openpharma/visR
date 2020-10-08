@@ -166,7 +166,8 @@ add_risktable.ggsurvfit <- function(
   if (!is.factor(summary_data[["strata"]]))  summary_data[["strata"]] <- as.factor(summary_data[["strata"]])
 
   tbls <-  base::Map(function(display, title = NA) {
-    ggrisk <- ggplot2::ggplot(summary_data, aes(x = time, y = stats::reorder(strata, desc(strata)), label = format(get(display), nsmall = 0))) +
+    ggrisk <- ggplot2::ggplot(summary_data, aes(x = time, y = stats::reorder(strata, desc(strata)),
+                                                label = format(get(display), nsmall = 0))) +
       ggplot2::geom_text(size = 3.5, hjust=0.5, vjust=0.5, angle=0, show.legend = F) +
       ggplot2::theme_bw() +
       ggplot2::scale_x_continuous(breaks = times,

@@ -1,8 +1,9 @@
 #' @title Wrapper around ggplot2::annotation_custom for simplified annotation to ggplot2 plots
 #'
-#' @description This function accepts a string, dataframe, data.table, tibble or customized objects of class \code{gtable} and
-#'   places them on the specified location on the \code{ggplot}. The layout is fixed: bold columnheaders and plain body. Only the
-#'   font size and type can be chosen.
+#' @description This function accepts a string, dataframe, data.table, tibble or
+#'   customized objects of class \code{gtable} and places them on the specified
+#'   location on the \code{ggplot}. The layout is fixed: bold columnheaders and plain body.
+#'   Only the font size and type can be chosen.
 #'
 #' @author Steven Haesendonckx
 #'

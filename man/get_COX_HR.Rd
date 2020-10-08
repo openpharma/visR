@@ -42,8 +42,9 @@ get_COX_HR(survfit_object_trt_sex)
 
 ## update formula of KM estimates by treatment to include "SEX" for HR estimation
 get_COX_HR(survfit_object_trt, update_formula = ". ~ . + SEX")
- 
-## update formula of KM estimates by treatment to include "AGE" for HR estimation with ties considered via the efron method
+
+## update formula of KM estimates by treatment to include "AGE" for
+## HR estimation with ties considered via the efron method
 get_COX_HR(survfit_object_trt, update_formula = ". ~ . + strata(AGE)", ties = "efron")
 
 }

@@ -201,18 +201,18 @@ variables prior to creating the summary table by using dplyr::select()</p>
          <span class='kw'>ecog.ps</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='no'>ecog.ps</span>)) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='no'>age</span>, <span class='no'>age_group</span>, <span class='fu'><a href='https://dplyr.tidyverse.org/reference/reexports.html'>everything</a></span>()) <span class='kw'>%&gt;%</span>
   <span class='fu'>vr_create_tableone</span>()</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 21 x 3</span><span>
-#&gt;    variable  statistic    Overall                   
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                     
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> Sample    N            26                        
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> age       Mean (SD)    56.2 (10.1)               
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> age       Median (IQR) 56.8466 (50.16712-62.3781)
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> age       Min-max      38.8932-74.5041           
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> age       Missing      0 (0%)                    
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> age_group &lt;= 50 years  6 (23.1%)                 
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> age_group &lt;= 60 years  13 (50.0%)                
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> age_group &lt;= 70 years  4 (15.4%)                 
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> age_group &gt; 70 years   3 (11.5%)                 
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> futime    Mean (SD)    600 (340)                 
+#&gt;    variable  statistic    Overall         
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> Sample    N            26              
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> age       Mean (SD)    56.2 (10.1)     
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> age       Median (IQR) 56.8 (50.2-62.4)
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> age       Min-max      38.9-74.5       
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> age       Missing      0 (0%)          
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> age_group &lt;= 50 years  6 (23.1%)       
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> age_group &lt;= 60 years  13 (50.0%)      
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> age_group &lt;= 70 years  4 (15.4%)       
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> age_group &gt; 70 years   3 (11.5%)       
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> futime    Mean (SD)    600 (340)       
 #&gt; </span><span style='color: #949494;'># … with 11 more rows</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
