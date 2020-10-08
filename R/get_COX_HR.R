@@ -55,7 +55,8 @@ get_COX_HR.survfit <- function(
   ...
 ){
 
-  if (!base::inherits(survfit_object, "survfit")) stop("Error in add_COX_HR: Object gg not of class `ggsurvfit`.")
+  if (!base::inherits(survfit_object, "survfit")){
+    stop("Error in add_COX_HR: Object gg not of class `ggsurvfit`.")}
 
   #### Update ####
 
