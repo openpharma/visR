@@ -19,14 +19,24 @@
 #' library(cowplot)
 #' library(gtable)
 #' 
-#' survfit_object <- survival::survfit(data = adtte, Surv(AVAL, 1-CNSR) ~ TRTP)
-#' #vr_plot(survfit_object) %>%
-#' #  add_risktable(min_at_risk = 3, title = c("blah"), display = c("n.risk", "n.censor"))
+#' ## Display 2 risk tables
+#' adtte %>%
+#'   vr_KM_est(strata = "TRTP") %>%
+#'   vr_plot() %>%
+#'   add_risktable( min_at_risk = 3
+#'                 ,title = c("Subjects at Risk", "Censored")
+#'                 ,display = c("n.risk", "n.censor")
+#'                 )
+#'
+#' ## Display overall risk table 
+#' adtte %>%
+#'   vr_KM_est(strata = "TRTP") %>%
+#'   vr_plot() %>%
+#'   add_risktable( min_at_risk = 3
+#'                 ,display = c("n.risk", "n.censor")
+#'                 ,collapse = TRUE
+#'                 )
 #'  
-#'  ## TODO: Check the following errors when above example is run
-#'  # > Warning: NAs introduced by coercion
-#'  # > Warning: NAs introduced by coercion
-#'  # Error in data.matrix(data): (list) object cannot be coerced to type 'double'
 #' }
 #'  
 #' @return Object of class \code{ggplot} with added risk table.
@@ -44,6 +54,8 @@ add_risktable <- function(gg, ...){
 #' @param time_ticks Numeric vector with the points along the x-axis at which the summary data needs to be provided. 
 #' @param display Character vector indicating which summary data to present. Current choices are "n.risk" "n.event" "n.censor".
 #' @param title Character vector with titles for the summary tables.
+#' @param collapse Boolean, indicates whether to present the data overall, rather than per strata. 
+#'   Default is FALSE.
 #'  
 #' @rdname add_risktable
 #' @method add_risktable ggsurvfit
@@ -54,7 +66,8 @@ add_risktable.ggsurvfit <- function(
   ,min_at_risk = 0
   ,time_ticks = NULL
   ,display = c("n.risk")
-  ,title  =c("Subjects at risk")
+  ,title  = NA
+  ,collapse = FALSE
 ){
 
   #### User input validation ####
@@ -69,6 +82,8 @@ add_risktable.ggsurvfit <- function(
   }
   if (!base::any(display %in% c("n.risk", "n.censor", "n.event")))
     stop("Error in add_risktable: Display argument not valid.")
+  if (!base::is.logical(collapse))
+    stop("Error in add_risktable: collapse is expected to be boolean.")
   
   if (min_at_risk < 0 && min_at_risk %% 1 == 0) 
     stop("min_at_risk needs to be a positive integer.")
@@ -78,7 +93,8 @@ add_risktable.ggsurvfit <- function(
   if (length(title) > length(display)) 
     title <- title[1:length(display)]
   
-  
+  display <- unique(display)
+
   #### Pull out max time to consider ####
 
   max_time <- 
@@ -94,7 +110,6 @@ add_risktable.ggsurvfit <- function(
   #### Time_ticks ####
   
   times <- time_ticks[time_ticks <= max_time]
-
 
   #### Build risk table ####
   
@@ -112,12 +127,46 @@ add_risktable.ggsurvfit <- function(
       n.censor >= 0 ~ n.censor,
       TRUE ~ 0
       )
-    ) 
+    ) %>%
+    dplyr::arrange(strata, time)
+  
+  #### Collapse ####
+  
+  if (collapse == TRUE) {
+    summary_data <- summary_data %>%
+      dplyr::arrange(time) %>%
+      dplyr::mutate(strata = "Overall") %>%
+      dplyr::group_by(time, strata) %>%
+      dplyr::summarise(
+         n.risk = sum(n.risk)
+        ,n.event = sum(n.event)
+        ,n.censor = sum(n.censor)
+      ) %>%
+      dplyr::ungroup() %>%
+      dplyr::select(-strata) %>%
+      tidyr::pivot_longer( cols = c("n.risk", "n.event", "n.censor")
+                          ,names_to = "strata"
+                          ,values_to = "Overall") 
+    
+    summary_data <- summary_data[which(summary_data[["strata"]] %in% display), ] 
+    summary_data[["strata"]] <- factor(summary_data[["strata"]], levels = unique(display))
+    summary_data <- summary_data %>%
+      dplyr::arrange(strata, time)
+    
+    levels(summary_data[["strata"]])[match("n.risk", levels(summary_data[["strata"]]))] <- "At risk"   
+    levels(summary_data[["strata"]])[match("n.censor", levels(summary_data[["strata"]]))] <- "Censored"   
+    levels(summary_data[["strata"]])[match("n.event", levels(summary_data[["strata"]]))] <- "Events"   
 
+    title <- ifelse(!is.na(title[1]) & !is.null(title[1]), title[1], "Overall")
+    display <- "Overall"
+  }
+  
   #### Plot all requested tables below => use list approach with map function ####
   
+  if (!is.factor(summary_data[["strata"]]))  summary_data[["strata"]] <- as.factor(summary_data[["strata"]])
+  
   tbls <-  base::Map(function(display, title = NA) {
-    ggrisk <- ggplot2::ggplot(summary_data,aes(x = time, y = strata, label = format(get(display), nsmall = 0))) +
+    ggrisk <- ggplot2::ggplot(summary_data, aes(x = time, y = reorder(strata, desc(strata)), label = format(get(display), nsmall = 0))) +
       ggplot2::geom_text(size = 3.5, hjust=0.5, vjust=0.5, angle=0, show.legend = F) +
       ggplot2::theme_bw() +
       ggplot2::scale_x_continuous(breaks = times,

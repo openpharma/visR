@@ -12,7 +12,8 @@ add_risktable(gg, ...)
   min_at_risk = 0,
   time_ticks = NULL,
   display = c("n.risk"),
-  title = c("Subjects at risk")
+  title = NA,
+  collapse = FALSE
 )
 }
 \arguments{
@@ -27,6 +28,9 @@ add_risktable(gg, ...)
 \item{display}{Character vector indicating which summary data to present. Current choices are "n.risk" "n.event" "n.censor".}
 
 \item{title}{Character vector with titles for the summary tables.}
+
+\item{collapse}{Boolean, indicates whether to present the data overall, rather than per strata.
+Default is FALSE.}
 }
 \value{
 Object of class \code{ggplot} with added risk table.
@@ -44,14 +48,24 @@ library(ggplot2)
 library(cowplot)
 library(gtable)
 
-survfit_object <- survival::survfit(data = adtte, Surv(AVAL, 1-CNSR) ~ TRTP)
-#vr_plot(survfit_object) \%>\%
-#  add_risktable(min_at_risk = 3, title = c("blah"), display = c("n.risk", "n.censor"))
+## Display 2 risk tables
+adtte \%>\%
+  vr_KM_est(strata = "TRTP") \%>\%
+  vr_plot() \%>\%
+  add_risktable( min_at_risk = 3
+                ,title = c("Subjects at Risk", "Censored")
+                ,display = c("n.risk", "n.censor")
+                )
+
+## Display overall risk table 
+adtte \%>\%
+  vr_KM_est(strata = "TRTP") \%>\%
+  vr_plot() \%>\%
+  add_risktable( min_at_risk = 3
+                ,display = c("n.risk", "n.censor")
+                ,collapse = TRUE
+                )
  
- ## TODO: Check the following errors when above example is run
- # > Warning: NAs introduced by coercion
- # > Warning: NAs introduced by coercion
- # Error in data.matrix(data): (list) object cannot be coerced to type 'double'
 }
  
 }
