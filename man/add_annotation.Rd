@@ -6,7 +6,7 @@
 \usage{
 add_annotation(
   gg = NULL,
-  lbl = NULL,
+  label = NULL,
   base_family = "sans",
   base_size = 11,
   xmin = -Inf,
@@ -18,7 +18,7 @@ add_annotation(
 \arguments{
 \item{gg}{Object of class \code{ggplot}.}
 
-\item{lbl}{\code{String, dataframe, data.table, tibble} used to annotate the \code{ggplot}.}
+\item{label}{\code{String, dataframe, data.table, tibble} used to annotate the \code{ggplot}.}
 
 \item{base_family}{\code{character}. Base font family}
 
@@ -36,9 +36,10 @@ add_annotation(
 Object of class \code{ggplot} with added annotation with an object of class \code{gtable}.
 }
 \description{
-This function accepts a string, dataframe, data.table, tibble or customized objects of class \code{gtable} and
-places them on the specified location on the \code{ggplot}. The layout is fixed: bold columnheaders and plain body. Only the
-font size and type can be chosen.
+This function accepts a string, dataframe, data.table, tibble or
+customized objects of class \code{gtable} and places them on the specified
+location on the \code{ggplot}. The layout is fixed: bold columnheaders and plain body.
+Only the font size and type can be chosen.
 }
 \examples{
 library(survival)
@@ -54,7 +55,7 @@ lbl <- get_pvalue(surv_object, statlist = c("test", "p"), type = "All")
 
 ## add results to survival plot
 vr_plot(surv_object) \%>\%
-  add_annotation(lbl = lbl, base_family = "sans",
+  add_annotation(label = lbl, base_family = "sans",
   base_size = 9, xmin = 110, xmax = 180, ymin = 0.80)
 
 }
