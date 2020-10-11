@@ -19,21 +19,34 @@
 #' library(cowplot)
 #' library(gtable)
 #'
-#' ## Display 2 risk tables
+#' ## Display 2 risk tables, 1 per statlist
 #' adtte %>%
 #'   vr_KM_est(strata = "TRTP") %>%
 #'   vr_plot() %>%
 #'   add_risktable( min_at_risk = 3
-#'                 ,title = c("Subjects at Risk", "Censored")
-#'                 ,display = c("n.risk", "n.censor")
+#'                 ,label = c("Subjects at Risk", "Censored")
+#'                 ,statlist = c("n.risk", "n.censor")
+#'                 ,group = "statlist"
 #'                 )
+#'                 
+#' ## Display 2 risk tables, 1 per stratum
+#' adtte %>%
+#'   vr_KM_est(strata = "TRTP") %>%
+#'   vr_plot() %>%
+#'   add_risktable( min_at_risk = 3
+#'                 ,label = c("Subjects at Risk", "Censored")
+#'                 ,statlist = c("n.risk", "n.censor")
+#'                 ,group = "strata"
+#'                 )
+#'                 
 #'
 #' ## Display overall risk table
 #' adtte %>%
 #'   vr_KM_est(strata = "TRTP") %>%
 #'   vr_plot() %>%
 #'   add_risktable( min_at_risk = 3
-#'                 ,display = c("n.risk", "n.censor")
+#'                 ,label = c("Subjects at Risk", "Censored")
+#'                 ,statlist = c("n.risk", "n.censor")
 #'                 ,collapse = TRUE
 #'                 )
 #'
@@ -52,8 +65,15 @@ add_risktable <- function(gg, ...){
 #' @param gg visR plot of class `ggsurvfit`
 #' @param min_at_risk \code{numeric} The cutoff for number of subjects to display. Default is 0.
 #' @param time_ticks Numeric vector with the points along the x-axis at which the summary data needs to be provided.
-#' @param display Character vector indicating which summary data to present. Current choices are "n.risk" "n.event" "n.censor".
-#' @param title Character vector with titles for the summary tables.
+#' @param statlist Character vector indicating which summary data to present. Current choices are "n.risk" "n.event" "n.censor".
+#' @param label Character vector with labels for the statlist.
+#' @param group String indicating the grouping variable for the risk tables. Current options are:
+#'   \itemize{
+#'     \item{"strata": groups the risk tables per stratum. The `label` specifies the lables used within each risk table. This is the default}
+#'      \item{"statlist": groups the risk tables per statlist. The `label` specifies the title for each risk tabel. The strata levels
+#'        are used for labeling within each risk table.}
+#'   } "strata" to group the risk tables
+#'   per strata, and "statlist" to group the risk tables 
 #' @param collapse Boolean, indicates whether to present the data overall, rather than per strata.
 #'   Default is FALSE.
 #'
@@ -65,8 +85,9 @@ add_risktable.ggsurvfit <- function(
    gg
   ,min_at_risk = 0
   ,time_ticks = NULL
-  ,display = c("n.risk")
-  ,title  = NA
+  ,statlist = c("n.risk")
+  ,label  = NULL
+  ,group = "strata"
   ,collapse = FALSE
 ){
 
@@ -80,20 +101,25 @@ add_risktable.ggsurvfit <- function(
   } else {
     stop("Error in add_risktable: gg is not of class `ggsurvfit`.")
   }
-  if (!base::any(display %in% c("n.risk", "n.censor", "n.event")))
-    stop("Error in add_risktable: Display argument not valid.")
+  if (!base::any(statlist %in% c("n.risk", "n.censor", "n.event")))
+    stop("Error in add_risktable: statlist argument not valid.")
   if (!base::is.logical(collapse))
     stop("Error in add_risktable: collapse is expected to be boolean.")
 
   if (min_at_risk < 0 && min_at_risk %% 1 == 0)
     stop("min_at_risk needs to be a positive integer.")
 
-  if (length(title) < length(display))
-    title <- c(title, rep(NA, length(display)-length(title)))
-  if (length(title) > length(display))
-    title <- title[1:length(display)]
+  if (length(label) < length(statlist))
+    label <- c(label, rep(NA, length(statlist)-length(label)))
+    # levels(collapsed[["strata"]])[match("n.risk", levels(collapsed[["strata"]]))] <- "At risk"
+    # levels(collapsed[["strata"]])[match("n.censor", levels(collapsed[["strata"]]))] <- "Censored"
+    # levels(collapsed[["strata"]])[match("n.event", levels(collapsed[["strata"]]))] <- "Events"
 
-  display <- unique(display)
+  
+  if (length(label) > length(statlist))
+    label <- label[1:length(statlist)]
+
+  statlist <- unique(statlist)
 
   #### Pull out max time to consider ####
 
@@ -110,12 +136,14 @@ add_risktable.ggsurvfit <- function(
   #### Time_ticks ####
 
   times <- time_ticks[time_ticks <= max_time]
-
-  #### Build risk table ####
-
+  
+  #### Summary ####
+  
   survfit_summary <- summary(survfit_object, times = times, extend = TRUE)
 
-  summary_data <- data.frame(
+  #### Risk table per statlist: labels of risk table are strata, titles are specifified through `label` ####
+
+  per_statlist <- data.frame(
       time = survfit_summary$time,
       n.risk = survfit_summary$n.risk,
       n.event = survfit_summary$n.event,
@@ -128,12 +156,34 @@ add_risktable.ggsurvfit <- function(
       TRUE ~ 0
       )
     ) %>%
-    dplyr::arrange(strata, time)
+    dplyr::arrange(strata, time)%>%
+    dplyr::rename(y_values = strata)
+  
+  title <- label
+  final <- per_statlist
 
-  #### Collapse ####
+  #### Organize the risk tables per strata => reorganize the data ####
+  
+  if (group == "strata" & collapse == FALSE){
+    per_strata <- per_statlist %>%
+      dplyr::arrange(time) %>%
+      tidyr::pivot_longer( cols = c("n.risk", "n.event", "n.censor")
+                          ,names_to = "statlist"
+                          ,values_to = "values") %>%
+      tidyr::pivot_wider(names_from = "y_values", values_from = values) %>%
+      dplyr::rename(y_values = statlist) %>%
+      dplyr::filter(y_values %in% statlist)
+      
+    per_strata[["y_values"]] <- factor(per_strata[["y_values"]], levels = statlist, labels = label) 
+    title <- levels(per_statlist[["y_values"]])
+    statlist <- title
+    final <- per_strata
+  }
+    
+  #### Collapse: start from the group == "statlist" logic ####
 
   if (collapse == TRUE) {
-    summary_data <- summary_data %>%
+    collapsed <- per_statlist %>%
       dplyr::arrange(time) %>%
       dplyr::mutate(strata = "Overall") %>%
       dplyr::group_by(time, strata) %>%
@@ -145,29 +195,27 @@ add_risktable.ggsurvfit <- function(
       dplyr::ungroup() %>%
       dplyr::select(-strata) %>%
       tidyr::pivot_longer( cols = c("n.risk", "n.event", "n.censor")
-                          ,names_to = "strata"
-                          ,values_to = "Overall")
+                          ,names_to = "y_values"
+                          ,values_to = "Overall") %>%
+      dplyr::filter(y_values %in% statlist)
 
-    summary_data <- summary_data[which(summary_data[["strata"]] %in% display), ]
-    summary_data[["strata"]] <- factor(summary_data[["strata"]], levels = unique(display))
-    summary_data <- summary_data %>%
-      dplyr::arrange(strata, time)
+    collapsed[["y_values"]] <- factor(collapsed[["y_values"]], levels = statlist, labels = label) 
+    collapsed <- collapsed %>%
+      dplyr::arrange(y_values, time)
 
-    levels(summary_data[["strata"]])[match("n.risk", levels(summary_data[["strata"]]))] <- "At risk"
-    levels(summary_data[["strata"]])[match("n.censor", levels(summary_data[["strata"]]))] <- "Censored"
-    levels(summary_data[["strata"]])[match("n.event", levels(summary_data[["strata"]]))] <- "Events"
-
-    title <- ifelse(!is.na(title[1]) & !is.null(title[1]), title[1], "Overall")
-    display <- "Overall"
+    title <- "Overall"
+    statlist <- "Overall"
+    final <- collapsed
   }
-
+  
   #### Plot all requested tables below => use list approach with map function ####
 
-  if (!is.factor(summary_data[["strata"]]))  summary_data[["strata"]] <- as.factor(summary_data[["strata"]])
-
-  tbls <-  base::Map(function(display, title = NA) {
-    ggrisk <- ggplot2::ggplot(summary_data, aes(x = time, y = stats::reorder(strata, desc(strata)),
-                                                label = format(get(display), nsmall = 0))) +
+  tbls <-  base::Map(function(statlist, title = NA) {
+    ggrisk <- ggplot2::ggplot(final, aes(x = time,
+                                         y = stats::reorder(y_values, desc(y_values)),
+                                             label = format(get(statlist), nsmall = 0) # = value columns
+                                         )
+                              ) +
       ggplot2::geom_text(size = 3.5, hjust=0.5, vjust=0.5, angle=0, show.legend = F) +
       ggplot2::theme_bw() +
       ggplot2::scale_x_continuous(breaks = times,
@@ -196,8 +244,8 @@ add_risktable.ggsurvfit <- function(
 
       return(ggrisk)
     },
-    display = as.list(display),
-    title = as.list(c(title, rep(NA, (length(display)- length(title)))))
+    statlist = as.list(statlist),
+    title = as.list(title)
   )
 
 
