@@ -38,7 +38,6 @@
 #'                 ,statlist = c("n.risk", "n.censor")
 #'                 ,group = "strata"
 #'                 )
-#'                 
 #'
 #' ## Display overall risk table
 #' adtte %>%
@@ -66,7 +65,8 @@ add_risktable <- function(gg, ...){
 #' @param min_at_risk \code{numeric} The cutoff for number of subjects to display. Default is 0.
 #' @param time_ticks Numeric vector with the points along the x-axis at which the summary data needs to be provided.
 #' @param statlist Character vector indicating which summary data to present. Current choices are "n.risk" "n.event" "n.censor".
-#' @param label Character vector with labels for the statlist.
+#' @param label Character vector with labels for the statlist. Default matches "n.risk" with "At risk", "n.event" with "Events" and "n.censor"
+#'   with "Censored".
 #' @param group String indicating the grouping variable for the risk tables. Current options are:
 #'   \itemize{
 #'     \item{"strata": groups the risk tables per stratum. The `label` specifies the lables used within each risk table. This is the default}
@@ -109,13 +109,28 @@ add_risktable.ggsurvfit <- function(
   if (min_at_risk < 0 && min_at_risk %% 1 == 0)
     stop("min_at_risk needs to be a positive integer.")
 
-  if (length(label) < length(statlist))
+  if (length(label) < length(statlist)) {
+    vlookup <- data.frame( statlist = c("n.risk", "n.censor", "n.event")
+                          ,label = c("At risk", "Censored", "Events")
+                          ,check.names = FALSE
+                          ,stringsAsFactors = FALSE
+                          )
+    
     label <- c(label, rep(NA, length(statlist)-length(label)))
-    # levels(collapsed[["strata"]])[match("n.risk", levels(collapsed[["strata"]]))] <- "At risk"
-    # levels(collapsed[["strata"]])[match("n.censor", levels(collapsed[["strata"]]))] <- "Censored"
-    # levels(collapsed[["strata"]])[match("n.event", levels(collapsed[["strata"]]))] <- "Events"
+    have <- data.frame( cbind(label, statlist)
+                       ,check.names = FALSE
+                       ,stringsAsFactors = FALSE
+                      )               
 
+    label <- vlookup %>%
+      dplyr::arrange(statlist) %>%
+      dplyr::right_join(have, by = "statlist") %>%
+      dplyr::mutate(label = coalesce(label.y, label.x)) %>% 
+      dplyr::select(-label.x, -label.y) %>%
+      dplyr::pull(label)
+  }
   
+
   if (length(label) > length(statlist))
     label <- label[1:length(statlist)]
 

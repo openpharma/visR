@@ -216,8 +216,8 @@ lung_cohort %>%
   add_CI(alpha = 0.2, style = "ribbon", linetype = 3) %>%
   add_CNSR(shape = 3, size = 2) %>%
   add_risktable(min_at_risk = 0,
-                display= c("n.risk", "n.event", "n.censor"),
-                title = c("At risk", "Event", "Censor"),
+                statlist= c("n.risk", "n.event", "n.censor"),
+                label = c("At risk", "Event", "Censor"),
                 collapse = F
                )
 

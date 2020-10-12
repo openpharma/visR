@@ -36,7 +36,7 @@ library(ggplot2)
 survfit_object <- survival::survfit(data = adtte, Surv(AVAL, 1-CNSR) ~ TRTP)
 vr_plot(survfit_object) \%>\%
   add_CI(alpha = 0.1, style = "step", linetype = 3)
- 
+
 }
 \author{
 Steven Haesendonckx

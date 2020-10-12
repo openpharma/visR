@@ -11,8 +11,9 @@ add_risktable(gg, ...)
   gg,
   min_at_risk = 0,
   time_ticks = NULL,
-  display = c("n.risk"),
-  title = NA,
+  statlist = c("n.risk"),
+  label = NULL,
+  group = "strata",
   collapse = FALSE
 )
 }
@@ -25,9 +26,18 @@ add_risktable(gg, ...)
 
 \item{time_ticks}{Numeric vector with the points along the x-axis at which the summary data needs to be provided.}
 
-\item{display}{Character vector indicating which summary data to present. Current choices are "n.risk" "n.event" "n.censor".}
+\item{statlist}{Character vector indicating which summary data to present. Current choices are "n.risk" "n.event" "n.censor".}
 
-\item{title}{Character vector with titles for the summary tables.}
+\item{label}{Character vector with labels for the statlist. Default matches "n.risk" with "At risk", "n.event" with "Events" and "n.censor"
+with "Censored".}
+
+\item{group}{String indicating the grouping variable for the risk tables. Current options are:
+\itemize{
+\item{"strata": groups the risk tables per stratum. The \code{label} specifies the lables used within each risk table. This is the default}
+\item{"statlist": groups the risk tables per statlist. The \code{label} specifies the title for each risk tabel. The strata levels
+are used for labeling within each risk table.}
+} "strata" to group the risk tables
+per strata, and "statlist" to group the risk tables}
 
 \item{collapse}{Boolean, indicates whether to present the data overall, rather than per strata.
 Default is FALSE.}
@@ -48,26 +58,38 @@ library(ggplot2)
 library(cowplot)
 library(gtable)
 
-## Display 2 risk tables
+## Display 2 risk tables, 1 per statlist
 adtte \%>\%
   vr_KM_est(strata = "TRTP") \%>\%
   vr_plot() \%>\%
   add_risktable( min_at_risk = 3
-                ,title = c("Subjects at Risk", "Censored")
-                ,display = c("n.risk", "n.censor")
+                ,label = c("Subjects at Risk", "Censored")
+                ,statlist = c("n.risk", "n.censor")
+                ,group = "statlist"
+                )
+                
+## Display 2 risk tables, 1 per stratum
+adtte \%>\%
+  vr_KM_est(strata = "TRTP") \%>\%
+  vr_plot() \%>\%
+  add_risktable( min_at_risk = 3
+                ,label = c("Subjects at Risk", "Censored")
+                ,statlist = c("n.risk", "n.censor")
+                ,group = "strata"
                 )
 
-## Display overall risk table 
+## Display overall risk table
 adtte \%>\%
   vr_KM_est(strata = "TRTP") \%>\%
   vr_plot() \%>\%
   add_risktable( min_at_risk = 3
-                ,display = c("n.risk", "n.censor")
+                ,label = c("Subjects at Risk", "Censored")
+                ,statlist = c("n.risk", "n.censor")
                 ,collapse = TRUE
                 )
- 
+
 }
- 
+
 }
 \seealso{
 \code{\link[cowplot]{plot_grid}}
