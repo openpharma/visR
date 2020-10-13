@@ -61,7 +61,7 @@ devtools::install_github("openpharma/visR")
 This is a basic example to demostrate how to plot time to event analyses. 
 
 
-```{r example}
+```{r example, warning=FALSE, message = FALSE}
 library(visR)
 library(survival)
 library(dplyr)

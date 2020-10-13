@@ -117,6 +117,56 @@ vr_render_table(data = cohort_attrition,
 ```
 
 
+
+## Attrition Diagram
+
+Under construction.
+
+```{r eval=TRUE, echo=TRUE}
+complement_descriptions <- c(
+"Having exclusion criterion: non ECOG",
+"Having exclusion criterion: missing weight loss ", 
+"Having exclusion criterion: missing censoring status", 
+"Having exclusion criterion: negative follow up time")
+
+attrition_chart_fn <- "../docs/articles/Example_analysis_files/figure-html/attrition_diagram.svg"
+
+attrition_flow <- vr_attrition(
+  N_array = cohort_attrition$`Remaining N`,
+  descriptions = cohort_attrition$Criteria,
+  complement_descriptions = complement_descriptions,
+  display = F,
+  output_path = attrition_chart_fn)
+```
+
+<div class="figure">
+<img src="Example_analysis_files/figure-html/attrition_diagram.svg" alt="Attrition Diagram of Lung cohort. Data Source: NCCTG Lung Cancer Dataset (from survival package 3.2.3)"><p class="caption">Attrition Diagram of Lung cohort. Data Source: NCCTG Lung Cancer Dataset (from survival package 3.2.3)</p>
+</div>
+
+<!-- ```{r attritionFig} -->
+<!-- # complement_descriptions <- c( -->
+<!-- #     "Having exclusion criterion: non ECOG", -->
+<!-- #     "Having exclusion criterion: missing weight loss ", -->
+<!-- #     "Having exclusion criterion: missing censoring status", -->
+<!-- #     "Having exclusion criterion: negative follow up time" -->
+<!-- # ) -->
+
+<!-- # Create attrition flowchart -->
+
+<!-- #attrition_chart_fn <- "../docs/articles/Example_analysis_files/figure-html/attrition_diagram.svg" -->
+
+<!-- #appears to be broken -->
+<!-- # attrition_flow <- vr_attrition( -->
+<!-- #   N_array = cohort_attrition$`Remaining N`, -->
+<!-- #   descriptions = cohort_attrition$Criteria, -->
+<!-- #   complement_descriptions = complement_descriptions, -->
+<!-- #   output_path = file.path(tempdir(), "attrition_diagram.svg")) -->
+<!-- ``` -->
+
+<!-- ```{r attritionFigShow, fig.cap=paste("Attrition Diagram of BRCA cohort. Data Source: ", DATASET), results='asis'} -->
+<!-- #knitr::include_graphics(attrition_chart_fn) -->
+<!-- ``` -->
+
 ## Cohort Overview
 To describe the population `vr_table_one` can be used.
 ```{r table1}
