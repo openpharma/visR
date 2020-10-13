@@ -1,8 +1,8 @@
 #' Returns a tidied RBesT gMAP object
 #' 
+#' @description
 #' This is an experimental function that may be developed over time. 
 #' 
-#' @description
 #' \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
 #'
 #' @param x RBesT gMAP object
