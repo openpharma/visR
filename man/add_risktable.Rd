@@ -57,7 +57,7 @@ adtte \%>\%
                 ,display = c("n.risk", "n.censor")
                 )
 
-## Display overall risk table 
+## Display overall risk table
 adtte \%>\%
   vr_KM_est(strata = "TRTP") \%>\%
   vr_plot() \%>\%
@@ -65,9 +65,9 @@ adtte \%>\%
                 ,display = c("n.risk", "n.censor")
                 ,collapse = TRUE
                 )
- 
+
 }
- 
+
 }
 \seealso{
 \code{\link[cowplot]{plot_grid}}

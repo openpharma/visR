@@ -10,7 +10,7 @@
 #' @seealso \code{\link[gridExtra]{tableGrob}} \code{\link[ggplot2]{annotation_custom}}
 #'
 #' @param gg Object of class \code{ggplot}.
-#' @param lbl \code{String, dataframe, data.table, tibble} used to annotate the \code{ggplot}.
+#' @param label \code{String, dataframe, data.table, tibble} used to annotate the \code{ggplot}.
 #' @param base_size \code{numeric}. Base font size in pt
 #' @param base_family \code{character}. Base font family
 #' @param xmin x coordinates giving horizontal location of raster in which to fit annotation.
@@ -32,7 +32,7 @@
 #'
 #' ## add results to survival plot
 #' vr_plot(surv_object) %>%
-#'   add_annotation(lbl = lbl, base_family = "sans",
+#'   add_annotation(label = lbl, base_family = "sans",
 #'   base_size = 9, xmin = 110, xmax = 180, ymin = 0.80)
 #'
 #' @return Object of class \code{ggplot} with added annotation with an object of class \code{gtable}.
@@ -41,7 +41,7 @@
 
 add_annotation <- function(
   gg = NULL,
-  lbl = NULL,
+  label = NULL,
   base_family = "sans",
   base_size = 11,
   xmin = -Inf,
@@ -53,16 +53,16 @@ add_annotation <- function(
   #### Validate user input ####
 
   if (!base::inherits(gg, "ggplot")) stop("Error in add_annotation: gg is not of class `ggplot`")
-  if (!base::exists("lbl")) stop("Error in add_annotation: lbl does not exist")
+  if (is.null(label)) stop("Error in add_annotation: label does not exist")
   if (!base_family %in% c("sans", "serif", "mono")) stop("Error in add_annotation: Specified font not supported")
   if (!base::any(unlist(lapply(as.list(c(xmin, xmax, ymin, ymax, base_size)), is.numeric)))) stop("Error in add_annotation: One of the coordinates are not numeric.")
 
   #### If user has custom gtable, skip all the remaining steps ####
 
-  if (base::inherits(lbl, "gtable")) {
+  if (base::inherits(label, "gtable")) {
 
     gg <- gg +
-      ggplot2::annotation_custom(lbl, xmin = xmin, ymin = ymin, xmax = xmax, ymax = ymax)
+      ggplot2::annotation_custom(label, xmin = xmin, ymin = ymin, xmax = xmax, ymax = ymax)
 
     return (gg)
 
@@ -70,7 +70,7 @@ add_annotation <- function(
 
     #### Prepare label: turn into dataframe and avoid factors + add manual bolding to avoid parsing issues with `` in colnames ####
 
-    df <- data.frame(lbl, stringsAsFactors = FALSE, check.names = FALSE)
+    df <- data.frame(label, stringsAsFactors = FALSE, check.names = FALSE)
     colnames(df) <- as.vector(paste(paste0("bold(\"", colnames(df), "\")")))
 
     #### Layout of gtable: access and modify options eg tt1$colhead ####
@@ -103,7 +103,7 @@ add_annotation <- function(
       )
     )
 
-    if (inherits(lbl, "character")) {
+    if (inherits(label, "character")) {
       dfGrob <- gridExtra::tableGrob(df, rows = NULL, theme = tt1, cols = NULL)
     } else {
       dfGrob <- gridExtra::tableGrob(df, rows = NULL, theme = tt1)
