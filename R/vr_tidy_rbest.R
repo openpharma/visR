@@ -1,4 +1,9 @@
 #' Returns a tidied RBesT gMAP object
+#' 
+#' This is an experimental function that may be developed over time. 
+#' 
+#' @description
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
 #'
 #' @param x RBesT gMAP object
 #' @param prob probability range for uncertainty interval
@@ -11,12 +16,14 @@
 #' @export
 #'
 #' @examples
+#' \donttest{
 #' library(RBesT)
 #' example(crohn)
 #' vr_tidy_rbest(map_crohn)
 #'
 #' map_crohn %>%
 #' vr_tidy_rbest()
+#' }
 #'
 vr_tidy_rbest <- function(x, prob = 0.95){
 
