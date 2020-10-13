@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">visR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1.9004</span>
       </span>
     </div>
 
@@ -89,8 +89,7 @@
 
       
 
-      </header><script src="Alluvial_files/htmlwidgets-1.5.1/htmlwidgets.js"></script><script src="Alluvial_files/plotly.js-1.47.4/./plotly.min.js"></script><script src="Alluvial_files/parcats-binding-0.0.2/parcats.js"></script><script src="Alluvial_files/kePrint-0.0.1/kePrint.js"></script><link href="Alluvial_files/lightable-0.0.1/lightable.css" rel="stylesheet">
-<div class="row">
+      </header><script src="Alluvial_files/htmlwidgets-1.5.1/htmlwidgets.js"></script><script src="Alluvial_files/plotly.js-1.47.4/./plotly.min.js"></script><script src="Alluvial_files/parcats-binding-0.0.1.9000/parcats.js"></script><script src="Alluvial_files/kePrint-0.0.1/kePrint.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Example alluvial plot analysis using visR</h1>
@@ -111,55 +110,57 @@
 <h2 class="hasAnchor">
 <a href="#alluvial-plot" class="anchor"></a>Alluvial plot</h2>
 <p>Alluvial/Sankey plots which are often used for assessing patterns in patient flow, e.g., consecutively received treatments. The function ‘vr_alluvial_plot’ is wrapper based on easyalluvial and parcats packages, to facilitate this task. Short tutorial below.</p>
-<pre><code>#&gt; 
+<pre><code>#&gt; Warning: package 'dplyr' was built under R version 3.6.3
+#&gt; 
 #&gt; Attaching package: 'dplyr'
 #&gt; The following objects are masked from 'package:stats':
 #&gt; 
 #&gt;     filter, lag
 #&gt; The following objects are masked from 'package:base':
 #&gt; 
-#&gt;     intersect, setdiff, setequal, union</code></pre>
+#&gt;     intersect, setdiff, setequal, union
+#&gt; Warning: package 'ggplot2' was built under R version 3.6.3</code></pre>
 <p><br></p>
 <p>To use this function we need to have data, which contain variables: patients ids, treatments names and lines of therapy numbers. Let’s simulate such dataset.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">dataset &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="cf">for</span> (PatientID <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">5000</span>) {</a>
-<a class="sourceLine" id="cb2-4" data-line-number="4">  max_line &lt;-</a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="st">    </span><span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="dv">0</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span>, <span class="dt">prob =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.2</span>, <span class="fl">0.4</span>, <span class="fl">0.2</span>, <span class="fl">0.15</span>, <span class="fl">0.04</span>, <span class="fl">0.01</span>))</a>
-<a class="sourceLine" id="cb2-6" data-line-number="6">  </a>
-<a class="sourceLine" id="cb2-7" data-line-number="7">  <span class="cf">if</span> (max_line <span class="op">==</span><span class="st"> </span><span class="dv">1</span>) {</a>
-<a class="sourceLine" id="cb2-8" data-line-number="8">    min_line &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dv">1</span>, <span class="dt">prob =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.3</span>, <span class="fl">0.7</span>))</a>
-<a class="sourceLine" id="cb2-9" data-line-number="9">    </a>
-<a class="sourceLine" id="cb2-10" data-line-number="10">  } <span class="cf">else</span>{</a>
-<a class="sourceLine" id="cb2-11" data-line-number="11">    min_line &lt;-<span class="st"> </span><span class="dv">0</span></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12">  }</a>
-<a class="sourceLine" id="cb2-13" data-line-number="13">  </a>
-<a class="sourceLine" id="cb2-14" data-line-number="14">  <span class="cf">for</span> (LineNumber <span class="cf">in</span> min_line<span class="op">:</span>max_line) {</a>
-<a class="sourceLine" id="cb2-15" data-line-number="15">    LineName &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(</a>
-<a class="sourceLine" id="cb2-16" data-line-number="16">      <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(</a>
-<a class="sourceLine" id="cb2-17" data-line-number="17">        <span class="st">'Treatment_A'</span>,</a>
-<a class="sourceLine" id="cb2-18" data-line-number="18">        <span class="st">'Treatment_B'</span>,</a>
-<a class="sourceLine" id="cb2-19" data-line-number="19">        <span class="st">'Treatment_C'</span>,</a>
-<a class="sourceLine" id="cb2-20" data-line-number="20">        <span class="st">'Treatment_D'</span></a>
-<a class="sourceLine" id="cb2-21" data-line-number="21">      ),</a>
-<a class="sourceLine" id="cb2-22" data-line-number="22">      <span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb2-23" data-line-number="23">      <span class="dt">prob =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.5</span>, <span class="fl">0.3</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>)</a>
-<a class="sourceLine" id="cb2-24" data-line-number="24">    )</a>
-<a class="sourceLine" id="cb2-25" data-line-number="25">    </a>
-<a class="sourceLine" id="cb2-26" data-line-number="26">    patient_data_line &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="dt">PatientID =</span> PatientID,</a>
-<a class="sourceLine" id="cb2-27" data-line-number="27">                                    <span class="dt">LineName =</span> LineName,</a>
-<a class="sourceLine" id="cb2-28" data-line-number="28">                                    <span class="dt">LineNumber =</span> LineNumber)</a>
-<a class="sourceLine" id="cb2-29" data-line-number="29">    </a>
-<a class="sourceLine" id="cb2-30" data-line-number="30">    dataset &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span>(patient_data_line , dataset)</a>
-<a class="sourceLine" id="cb2-31" data-line-number="31">  }</a>
-<a class="sourceLine" id="cb2-32" data-line-number="32">}</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">dataset &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
+<a class="sourceLine" id="cb2-2" title="2"></a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="cf">for</span> (PatientID <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">5000</span>) {</a>
+<a class="sourceLine" id="cb2-4" title="4">  max_line &lt;-</a>
+<a class="sourceLine" id="cb2-5" title="5"><span class="st">    </span><span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="dv">0</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span>, <span class="dt">prob =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.2</span>, <span class="fl">0.4</span>, <span class="fl">0.2</span>, <span class="fl">0.15</span>, <span class="fl">0.04</span>, <span class="fl">0.01</span>))</a>
+<a class="sourceLine" id="cb2-6" title="6">  </a>
+<a class="sourceLine" id="cb2-7" title="7">  <span class="cf">if</span> (max_line <span class="op">==</span><span class="st"> </span><span class="dv">1</span>) {</a>
+<a class="sourceLine" id="cb2-8" title="8">    min_line &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dv">1</span>, <span class="dt">prob =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.3</span>, <span class="fl">0.7</span>))</a>
+<a class="sourceLine" id="cb2-9" title="9">    </a>
+<a class="sourceLine" id="cb2-10" title="10">  } <span class="cf">else</span>{</a>
+<a class="sourceLine" id="cb2-11" title="11">    min_line &lt;-<span class="st"> </span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb2-12" title="12">  }</a>
+<a class="sourceLine" id="cb2-13" title="13">  </a>
+<a class="sourceLine" id="cb2-14" title="14">  <span class="cf">for</span> (LineNumber <span class="cf">in</span> min_line<span class="op">:</span>max_line) {</a>
+<a class="sourceLine" id="cb2-15" title="15">    LineName &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(</a>
+<a class="sourceLine" id="cb2-16" title="16">      <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(</a>
+<a class="sourceLine" id="cb2-17" title="17">        <span class="st">'Treatment_A'</span>,</a>
+<a class="sourceLine" id="cb2-18" title="18">        <span class="st">'Treatment_B'</span>,</a>
+<a class="sourceLine" id="cb2-19" title="19">        <span class="st">'Treatment_C'</span>,</a>
+<a class="sourceLine" id="cb2-20" title="20">        <span class="st">'Treatment_D'</span></a>
+<a class="sourceLine" id="cb2-21" title="21">      ),</a>
+<a class="sourceLine" id="cb2-22" title="22">      <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb2-23" title="23">      <span class="dt">prob =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.5</span>, <span class="fl">0.3</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>)</a>
+<a class="sourceLine" id="cb2-24" title="24">    )</a>
+<a class="sourceLine" id="cb2-25" title="25">    </a>
+<a class="sourceLine" id="cb2-26" title="26">    patient_data_line &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="dt">PatientID =</span> PatientID,</a>
+<a class="sourceLine" id="cb2-27" title="27">                                    <span class="dt">LineName =</span> LineName,</a>
+<a class="sourceLine" id="cb2-28" title="28">                                    <span class="dt">LineNumber =</span> LineNumber)</a>
+<a class="sourceLine" id="cb2-29" title="29">    </a>
+<a class="sourceLine" id="cb2-30" title="30">    dataset &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span>(patient_data_line , dataset)</a>
+<a class="sourceLine" id="cb2-31" title="31">  }</a>
+<a class="sourceLine" id="cb2-32" title="32">}</a></code></pre></div>
 <p><br></p>
 <p>When we have any dataset, minimally what we need to pass to function in parameters are variable names corresponding to patients ids, treatments names and lines of therapy numbers like that:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="../reference/vr_alluvial_plot.html">vr_alluvial_plot</a></span>(dataset,</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">                 <span class="dt">id =</span> <span class="st">"PatientID"</span>,</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3">                 <span class="dt">linename =</span> <span class="st">"LineName"</span>,</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4">                 <span class="dt">linenumber =</span> <span class="st">"LineNumber"</span>,</a>
-<a class="sourceLine" id="cb3-5" data-line-number="5">                 <span class="dt">data_source =</span> <span class="st">"Simulatation"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="../reference/vr_alluvial_plot.html">vr_alluvial_plot</a></span>(dataset,</a>
+<a class="sourceLine" id="cb3-2" title="2">                 <span class="dt">id =</span> <span class="st">"PatientID"</span>,</a>
+<a class="sourceLine" id="cb3-3" title="3">                 <span class="dt">linename =</span> <span class="st">"LineName"</span>,</a>
+<a class="sourceLine" id="cb3-4" title="4">                 <span class="dt">linenumber =</span> <span class="st">"LineNumber"</span>,</a>
+<a class="sourceLine" id="cb3-5" title="5">                 <span class="dt">data_source =</span> <span class="st">"Simulatation"</span>)</a></code></pre></div>
 <div class="figure">
 <img src="Alluvial_files/figure-html/unnamed-chunk-2-1.png" alt="Alluvial plot for simulated dataset" width="700"><p class="caption">
 Alluvial plot for simulated dataset
@@ -167,30 +168,30 @@ Alluvial plot for simulated dataset
 </div>
 <p><br></p>
 <p>If you will use our package to work with Flatiron database, there is good information for you. You do not need to pass variable names because names existing in Flatiron database are taken as default, it means: (“PatientID”, “LineName”, “LineNumber”). In this case you can simply do:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="../reference/vr_alluvial_plot.html">vr_alluvial_plot</a></span>(dataset)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="../reference/vr_alluvial_plot.html">vr_alluvial_plot</a></span>(dataset)</a></code></pre></div>
 <p><br></p>
 <p>Except discussed already parameters there are other important parameters. Here are all of them:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co">#' @param n_common Number of most common lines of therapy presented in alluvial plot, Default: 2 </span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#' @param title plot title, Default: NULL</span></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#' @param interactive, interactive plot, Default: FALSE</span></a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#' @param N_unit, Default: 'patients' </span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#' @param data_source data source name, Default: 'Flatiron'</span></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#' @param fill_by one_of(c('first_variable', 'last_variable', 'all_flows', 'values')), Default: 'first_variable'</span></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#' @param col_vector_flow HEX color values for flows, Default: easyalluvial::palette_filter( greys = F)</span></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#' @param col_vector_value HEX color values  for y levels/values, Default:RColorBrewer::brewer.pal(9, 'Blues')[c(3,6,4,7,5,8)]</span></a>
-<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#' @param linenames_labels_size, Default: 2.5</span></a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="co">#' @param n_common Number of most common lines of therapy presented in alluvial plot, Default: 2 </span></a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="co">#' @param title plot title, Default: NULL</span></a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="co">#' @param interactive, interactive plot, Default: FALSE</span></a>
+<a class="sourceLine" id="cb5-4" title="4"><span class="co">#' @param N_unit, Default: 'patients' </span></a>
+<a class="sourceLine" id="cb5-5" title="5"><span class="co">#' @param data_source data source name, Default: 'Flatiron'</span></a>
+<a class="sourceLine" id="cb5-6" title="6"><span class="co">#' @param fill_by one_of(c('first_variable', 'last_variable', 'all_flows', 'values')), Default: 'first_variable'</span></a>
+<a class="sourceLine" id="cb5-7" title="7"><span class="co">#' @param col_vector_flow HEX color values for flows, Default: easyalluvial::palette_filter( greys = F)</span></a>
+<a class="sourceLine" id="cb5-8" title="8"><span class="co">#' @param col_vector_value HEX color values  for y levels/values, Default:RColorBrewer::brewer.pal(9, 'Blues')[c(3,6,4,7,5,8)]</span></a>
+<a class="sourceLine" id="cb5-9" title="9"><span class="co">#' @param linenames_labels_size, Default: 2.5</span></a></code></pre></div>
 <p><br></p>
 <p>Parameter ‘interactive’ gives possibility of seeing interactive version of plot. But remember, this is html vidget and it will not take into account parameters like ‘title’ or ‘data_source’.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="../reference/vr_alluvial_plot.html">vr_alluvial_plot</a></span>(</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">  dataset,</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3">  <span class="dt">id =</span> <span class="st">"PatientID"</span>,</a>
-<a class="sourceLine" id="cb6-4" data-line-number="4">  <span class="dt">linename =</span> <span class="st">"LineName"</span>,</a>
-<a class="sourceLine" id="cb6-5" data-line-number="5">  <span class="dt">linenumber =</span> <span class="st">"LineNumber"</span>,</a>
-<a class="sourceLine" id="cb6-6" data-line-number="6">  <span class="dt">interactive =</span> <span class="ot">TRUE</span></a>
-<a class="sourceLine" id="cb6-7" data-line-number="7">  )</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw"><a href="../reference/vr_alluvial_plot.html">vr_alluvial_plot</a></span>(</a>
+<a class="sourceLine" id="cb6-2" title="2">  dataset,</a>
+<a class="sourceLine" id="cb6-3" title="3">  <span class="dt">id =</span> <span class="st">"PatientID"</span>,</a>
+<a class="sourceLine" id="cb6-4" title="4">  <span class="dt">linename =</span> <span class="st">"LineName"</span>,</a>
+<a class="sourceLine" id="cb6-5" title="5">  <span class="dt">linenumber =</span> <span class="st">"LineNumber"</span>,</a>
+<a class="sourceLine" id="cb6-6" title="6">  <span class="dt">interactive =</span> <span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb6-7" title="7">  )</a></code></pre></div>
 <div class="figure">
-<div id="htmlwidget-9a82360866a1ffbbdfa7" style="width:700px;height:432.632880098888px;" class="parcats html-widget"></div>
-<script type="application/json" data-for="htmlwidget-9a82360866a1ffbbdfa7">{"x":{"traces":{"parcats":{"type":"parcats","dimensions":[{"label":"L0","values":["No Tx 0L","No Tx 0L","No Tx 0L","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L"],"categoryorder":"array","categoryarray":["Treatment_B 0L","Treatment_A 0L","Other Tx","No Tx 0L"]},{"label":"L1","values":["Other Tx","Treatment_A 1L","Treatment_B 1L","No Tx 1L","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","No Tx 1L","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","No Tx 1L","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L"],"categoryorder":"array","categoryarray":["Treatment_B 1L","Treatment_A 1L","Other Tx","No Tx 1L"]},{"label":"L2","values":["No Tx 2L","No Tx 2L","No Tx 2L","No Tx 2L","No Tx 2L","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","No Tx 2L","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","No Tx 2L","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","No Tx 2L","No Tx 2L","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","No Tx 2L","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","No Tx 2L","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","No Tx 2L","No Tx 2L","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","No Tx 2L","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","No Tx 2L","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L"],"categoryorder":"array","categoryarray":["Treatment_B 2L","Treatment_A 2L","Other Tx","No Tx 2L"]},{"label":"L3","values":["No Tx 3L","No Tx 3L","No Tx 3L","No Tx 3L","No Tx 3L","No Tx 3L","Other Tx","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","Other Tx","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","No Tx 3L","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","Other Tx","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","No Tx 3L","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","No Tx 3L","No Tx 3L","Other Tx","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","Other Tx","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","No Tx 3L","Other Tx","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","Other Tx","Other Tx","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","Other Tx","Other Tx","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","No Tx 3L","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","No Tx 3L","No Tx 3L","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","No Tx 3L","Other Tx","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","No Tx 3L","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","No Tx 3L","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","Other Tx","Other Tx","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L"],"categoryorder":"array","categoryarray":["Treatment_B 3L","Treatment_A 3L","Other Tx","No Tx 3L"]},{"label":"L4","values":["No Tx 4L","No Tx 4L","No Tx 4L","No Tx 4L","No Tx 4L","No Tx 4L","No Tx 4L","No Tx 4L","No Tx 4L","Treatment_A 4L","Treatment_B 4L","No Tx 4L","No Tx 4L","No Tx 4L","Other Tx","No Tx 4L","Other Tx","Treatment_A 4L","Treatment_B 4L","No Tx 4L","No Tx 4L","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Treatment_B 4L","No Tx 4L","Other Tx","No Tx 4L","No Tx 4L","No Tx 4L","Other Tx","No Tx 4L","Other Tx","No Tx 4L","Treatment_A 4L","No Tx 4L","No Tx 4L","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Other Tx","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Treatment_B 4L","No Tx 4L","No Tx 4L","Other Tx","No Tx 4L","Treatment_B 4L","No Tx 4L","Other Tx","Treatment_A 4L","Treatment_B 4L","No Tx 4L","No Tx 4L","No Tx 4L","No Tx 4L","Treatment_A 4L","No Tx 4L","Treatment_A 4L","No Tx 4L","No Tx 4L","Treatment_A 4L","No Tx 4L","Other Tx","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Other Tx","Treatment_B 4L","No Tx 4L","No Tx 4L","Treatment_A 4L","No Tx 4L","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Treatment_A 4L","No Tx 4L","No Tx 4L","No Tx 4L","No Tx 4L","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Other Tx","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Other Tx","Treatment_A 4L","Treatment_B 4L","No Tx 4L","No Tx 4L","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Other Tx","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Other Tx","Treatment_A 4L","No Tx 4L","No Tx 4L","Treatment_A 4L","No Tx 4L","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Other Tx","Treatment_A 4L","No Tx 4L","No Tx 4L","No Tx 4L","Other Tx","Treatment_A 4L","No Tx 4L","Other Tx","Treatment_B 4L","No Tx 4L","Treatment_A 4L","Treatment_B 4L","No Tx 4L","No Tx 4L","Other Tx","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Other Tx","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Other Tx","Treatment_A 4L","Treatment_B 4L","No Tx 4L","No Tx 4L","Other Tx","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Other Tx","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Other Tx","Treatment_A 4L","Treatment_B 4L","No Tx 4L","No Tx 4L","No Tx 4L","Treatment_A 4L","No Tx 4L","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Treatment_A 4L","No Tx 4L","No Tx 4L","Treatment_A 4L","No Tx 4L","Other Tx","Treatment_A 4L","No Tx 4L","Treatment_A 4L","Treatment_B 4L","No Tx 4L","No Tx 4L","Treatment_A 4L","No Tx 4L","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Other Tx","Treatment_A 4L","No Tx 4L","No Tx 4L","No Tx 4L","No Tx 4L","No Tx 4L","Treatment_B 4L","No Tx 4L","No Tx 4L","No Tx 4L","Other Tx","Treatment_A 4L","No Tx 4L","Other Tx","Treatment_A 4L","No Tx 4L","Other Tx","Treatment_A 4L","Treatment_B 4L","No Tx 4L","No Tx 4L","No Tx 4L","Other Tx","No Tx 4L","Treatment_B 4L","No Tx 4L","No Tx 4L","No Tx 4L","No Tx 4L","Other Tx","Treatment_A 4L","No Tx 4L","Treatment_A 4L","No Tx 4L","No Tx 4L","Treatment_A 4L","No Tx 4L","Other Tx","Treatment_A 4L","No Tx 4L","Treatment_A 4L","Treatment_B 4L","No Tx 4L","No Tx 4L","No Tx 4L","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Treatment_A 4L","No Tx 4L","No Tx 4L","No Tx 4L","Treatment_A 4L","No Tx 4L","Other Tx","No Tx 4L","Treatment_A 4L","No Tx 4L","No Tx 4L","Other Tx","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Other Tx","Treatment_A 4L","Treatment_B 4L","No Tx 4L","No Tx 4L","Other Tx","No Tx 4L","Other Tx","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Treatment_A 4L"],"categoryorder":"array","categoryarray":["Treatment_B 4L","Treatment_A 4L","Other Tx","No Tx 4L"]}],"counts":[276,678,417,190,30,9,2,6,2,1,1,22,5,9,3,5,1,1,1,15,1,1,1,4,1,1,1,56,20,3,1,7,1,6,1,66,9,1,1,13,1,4,1,18,1,29,6,1,14,2,5,1,2,3,45,10,3,4,1,1,1,18,4,2,8,2,3,1,4,1,1,15,3,1,10,3,1,1,1,507,53,22,4,1,1,13,1,6,1,5,1,2,2,41,6,1,2,24,1,3,1,16,1,3,40,3,2,10,1,2,10,2,1,163,57,2,1,4,16,2,2,11,3,1,156,25,2,3,5,58,1,5,7,20,3,11,1,78,14,1,1,3,27,1,6,3,15,2,4,2,76,24,8,1,8,1,2,14,1,54,14,2,26,2,4,18,4,2,50,11,1,17,1,1,4,1,1,317,29,11,1,3,1,3,26,2,1,1,13,1,3,5,2,3,1,20,2,7,2,4,1,71,30,5,13,1,2,3,3,74,9,3,26,3,5,17,2,1,46,4,17,4,1,12,4,49,17,5,1,8,1,4,2,57,3,1,1,1,9,3,3,13,2,3,1,17,6,1,10,1,2,1,8,1],"line":{"shape":"hspline","color":["#FF0065","#FF0065","#FF0065","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA"]},"hoveron":"category","hoverinfo":"count","labelfont":{"size":24,"color":"black"},"arrangement":"perpendicular","bundlecolors":true,"sortpaths":"forward","tickfont":null,"domain":{"y":[0,1]}}},"layout":[],"shapes":[],"shapes_original":[],"map_curve":[],"map_trace_2_shape":[],"map_type":[],"map_color":[],"parcats_cols":["#FF0065","#FF0065","#FF0065","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA"],"imp":false},"evals":[],"jsHooks":[]}</script><p class="caption">
+<div id="htmlwidget-6a506f94b803e6ab0440" style="width:700px;height:432.632880098888px;" class="parcats html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6a506f94b803e6ab0440">{"x":{"traces":{"parcats":{"type":"parcats","dimensions":[{"label":"L0","values":["No Tx 0L","No Tx 0L","No Tx 0L","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_A 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L","Treatment_B 0L"],"categoryorder":"array","categoryarray":["Treatment_B 0L","Treatment_A 0L","Other Tx","No Tx 0L"]},{"label":"L1","values":["Other Tx","Treatment_A 1L","Treatment_B 1L","No Tx 1L","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","No Tx 1L","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","No Tx 1L","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_A 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L","Treatment_B 1L"],"categoryorder":"array","categoryarray":["Treatment_B 1L","Treatment_A 1L","Other Tx","No Tx 1L"]},{"label":"L2","values":["No Tx 2L","No Tx 2L","No Tx 2L","No Tx 2L","No Tx 2L","Other Tx","Other Tx","Other Tx","Other Tx","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","No Tx 2L","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","No Tx 2L","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","No Tx 2L","No Tx 2L","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","No Tx 2L","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","No Tx 2L","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","No Tx 2L","No Tx 2L","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","No Tx 2L","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","No Tx 2L","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Other Tx","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_A 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L","Treatment_B 2L"],"categoryorder":"array","categoryarray":["Treatment_B 2L","Treatment_A 2L","Other Tx","No Tx 2L"]},{"label":"L3","values":["No Tx 3L","No Tx 3L","No Tx 3L","No Tx 3L","No Tx 3L","No Tx 3L","Other Tx","Treatment_A 3L","Treatment_B 3L","No Tx 3L","Other Tx","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","No Tx 3L","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","No Tx 3L","No Tx 3L","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","Other Tx","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","No Tx 3L","No Tx 3L","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","No Tx 3L","Other Tx","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","No Tx 3L","No Tx 3L","Other Tx","Other Tx","Other Tx","Treatment_A 3L","Treatment_B 3L","No Tx 3L","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","No Tx 3L","Other Tx","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","Other Tx","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","Other Tx","Other Tx","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","No Tx 3L","Other Tx","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","Other Tx","Other Tx","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","No Tx 3L","No Tx 3L","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","No Tx 3L","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","No Tx 3L","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","Other Tx","Other Tx","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","Other Tx","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","No Tx 3L","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L","No Tx 3L","Other Tx","Other Tx","Other Tx","Treatment_A 3L","Treatment_A 3L","Treatment_A 3L","Treatment_B 3L","Treatment_B 3L","Treatment_B 3L"],"categoryorder":"array","categoryarray":["Treatment_B 3L","Treatment_A 3L","Other Tx","No Tx 3L"]},{"label":"L4","values":["No Tx 4L","No Tx 4L","No Tx 4L","No Tx 4L","No Tx 4L","No Tx 4L","Other Tx","No Tx 4L","No Tx 4L","No Tx 4L","No Tx 4L","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Other Tx","Treatment_A 4L","No Tx 4L","No Tx 4L","No Tx 4L","No Tx 4L","Other Tx","Treatment_B 4L","No Tx 4L","No Tx 4L","No Tx 4L","No Tx 4L","Treatment_A 4L","No Tx 4L","Other Tx","Treatment_B 4L","No Tx 4L","Treatment_A 4L","No Tx 4L","No Tx 4L","Treatment_B 4L","No Tx 4L","Other Tx","Treatment_A 4L","No Tx 4L","Treatment_A 4L","No Tx 4L","No Tx 4L","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Treatment_A 4L","Treatment_B 4L","No Tx 4L","No Tx 4L","No Tx 4L","No Tx 4L","No Tx 4L","Treatment_B 4L","Treatment_A 4L","No Tx 4L","No Tx 4L","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Treatment_A 4L","Treatment_B 4L","No Tx 4L","No Tx 4L","No Tx 4L","Other Tx","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Treatment_B 4L","No Tx 4L","No Tx 4L","No Tx 4L","No Tx 4L","Treatment_A 4L","Treatment_B 4L","No Tx 4L","No Tx 4L","No Tx 4L","No Tx 4L","Treatment_A 4L","No Tx 4L","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Other Tx","Treatment_A 4L","Treatment_B 4L","No Tx 4L","No Tx 4L","Other Tx","No Tx 4L","Other Tx","Treatment_A 4L","No Tx 4L","Treatment_B 4L","No Tx 4L","No Tx 4L","No Tx 4L","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Other Tx","Treatment_B 4L","No Tx 4L","Other Tx","Treatment_A 4L","No Tx 4L","No Tx 4L","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Other Tx","Treatment_A 4L","Treatment_B 4L","No Tx 4L","No Tx 4L","Other Tx","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Other Tx","Treatment_A 4L","Treatment_B 4L","No Tx 4L","No Tx 4L","No Tx 4L","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Treatment_A 4L","Treatment_B 4L","No Tx 4L","No Tx 4L","Other Tx","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Other Tx","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Other Tx","Treatment_A 4L","No Tx 4L","No Tx 4L","Other Tx","No Tx 4L","Other Tx","Treatment_A 4L","No Tx 4L","Other Tx","Treatment_A 4L","Treatment_B 4L","No Tx 4L","No Tx 4L","No Tx 4L","No Tx 4L","Other Tx","No Tx 4L","Treatment_A 4L","No Tx 4L","No Tx 4L","No Tx 4L","No Tx 4L","Other Tx","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Treatment_A 4L","Treatment_B 4L","No Tx 4L","No Tx 4L","No Tx 4L","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Treatment_A 4L","No Tx 4L","No Tx 4L","No Tx 4L","No Tx 4L","Other Tx","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Other Tx","Treatment_A 4L","Treatment_B 4L","No Tx 4L","No Tx 4L","Other Tx","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Other Tx","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Other Tx","Treatment_B 4L","No Tx 4L","No Tx 4L","Other Tx","Treatment_A 4L","No Tx 4L","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Other Tx","Treatment_A 4L","Treatment_B 4L","No Tx 4L","No Tx 4L","No Tx 4L","Treatment_A 4L","No Tx 4L","Treatment_A 4L","No Tx 4L","Treatment_B 4L","No Tx 4L","No Tx 4L","Treatment_A 4L","No Tx 4L","Other Tx","Treatment_A 4L","No Tx 4L","Other Tx","Treatment_A 4L","Treatment_B 4L","No Tx 4L","No Tx 4L","Other Tx","Treatment_B 4L","No Tx 4L","Treatment_A 4L","Treatment_B 4L","No Tx 4L","Treatment_A 4L","Treatment_B 4L"],"categoryorder":"array","categoryarray":["Treatment_B 4L","Treatment_A 4L","Other Tx","No Tx 4L"]}],"counts":[277,665,430,223,25,3,1,5,1,26,3,1,1,11,1,1,6,11,3,3,1,1,3,56,22,4,1,7,1,1,2,1,46,3,3,22,1,4,12,2,31,6,1,1,11,2,1,5,33,10,5,8,1,1,34,6,1,1,17,1,4,13,2,1,14,5,11,3,2,1,4,1,481,54,23,3,1,1,8,7,45,7,2,18,4,2,10,2,3,2,31,4,1,16,1,1,8,1,151,57,3,2,3,24,1,1,10,1,3,121,19,3,2,42,10,1,20,2,3,1,73,11,1,2,1,38,3,4,10,2,6,2,88,34,6,1,1,15,3,1,5,2,1,61,9,1,1,1,33,1,2,4,18,1,4,52,3,1,14,1,1,10,1,1,1,312,38,10,3,1,6,1,1,29,1,17,2,1,1,3,1,1,24,3,7,1,2,5,1,95,26,4,13,3,1,2,7,1,2,1,73,16,1,1,2,22,1,3,1,16,1,1,48,7,1,1,23,3,1,11,1,1,1,64,16,2,1,5,3,2,2,53,12,1,21,1,2,8,1,2,1,32,10,1,1,11,2,2,5,1,2],"line":{"shape":"hspline","color":["#FF0065","#FF0065","#FF0065","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA"]},"hoveron":"category","hoverinfo":"count","labelfont":{"size":24,"color":"black"},"arrangement":"perpendicular","bundlecolors":true,"sortpaths":"forward","tickfont":null,"domain":{"y":[0,1]}}},"layout":[],"shapes":[],"shapes_original":[],"map_curve":[],"map_trace_2_shape":[],"map_type":[],"map_color":[],"parcats_cols":["#FF0065","#FF0065","#FF0065","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#009850","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#A56F2B","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA","#005EAA"],"imp":false},"evals":[],"jsHooks":[]}</script><p class="caption">
 Alluvial plot for simulated dataset
 </p>
 </div>
@@ -201,21 +202,21 @@ Alluvial plot for simulated dataset
 <a href="#alluvial-data-wrangling" class="anchor"></a>Alluvial data wrangling</h2>
 <p>When you use ‘vr_alluvial_plot’, in the backgroun there is working ‘vr_alluvial_wrangling’ function which is responsible for finding most common treatments in each line of therapy and death (no later treatment) censoring.</p>
 <p>You can receive ‘vr_alluvial_wrangling’ output data by:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">result &lt;-<span class="st"> </span><span class="kw"><a href="../reference/vr_alluvial_wrangling.html">vr_alluvial_wrangling</a></span>(dataset,</a>
-<a class="sourceLine" id="cb7-3" data-line-number="3">                                <span class="dt">id =</span> <span class="st">"PatientID"</span>,</a>
-<a class="sourceLine" id="cb7-4" data-line-number="4">                                <span class="dt">linename =</span> <span class="st">"LineName"</span>,</a>
-<a class="sourceLine" id="cb7-5" data-line-number="5">                                <span class="dt">linenumber =</span> <span class="st">"LineNumber"</span>,</a>
-<a class="sourceLine" id="cb7-6" data-line-number="6">                                <span class="dt">n_common =</span> <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb7-8" data-line-number="8">output &lt;-<span class="st"> </span>result<span class="op">$</span>alluvial_plot_data</a>
-<a class="sourceLine" id="cb7-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb7-10" data-line-number="10">knitr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(output[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>,]) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="st">  </span>kableExtra<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/kableExtra/man/kable_styling.html">kable_styling</a></span>(<span class="dt">full_width =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb7-12" data-line-number="12">                            <span class="dt">position =</span> <span class="st">"center"</span>)</a>
-<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">#&gt; Warning in kableExtra::kable_styling(., full_width = TRUE, position = "center"):</span></a>
-<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co">#&gt; Please specify format in kable. kableExtra can customize either HTML or LaTeX</span></a>
-<a class="sourceLine" id="cb7-15" data-line-number="15"><span class="co">#&gt; outputs. See https://haozhu233.github.io/kableExtra/ for details.</span></a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"></a>
+<a class="sourceLine" id="cb7-2" title="2">result &lt;-<span class="st"> </span><span class="kw"><a href="../reference/vr_alluvial_wrangling.html">vr_alluvial_wrangling</a></span>(dataset,</a>
+<a class="sourceLine" id="cb7-3" title="3">                                <span class="dt">id =</span> <span class="st">"PatientID"</span>,</a>
+<a class="sourceLine" id="cb7-4" title="4">                                <span class="dt">linename =</span> <span class="st">"LineName"</span>,</a>
+<a class="sourceLine" id="cb7-5" title="5">                                <span class="dt">linenumber =</span> <span class="st">"LineNumber"</span>,</a>
+<a class="sourceLine" id="cb7-6" title="6">                                <span class="dt">n_common =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb7-7" title="7"></a>
+<a class="sourceLine" id="cb7-8" title="8">output &lt;-<span class="st"> </span>result<span class="op">$</span>alluvial_plot_data</a>
+<a class="sourceLine" id="cb7-9" title="9"></a>
+<a class="sourceLine" id="cb7-10" title="10">knitr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(output[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>,]) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-11" title="11"><span class="st">  </span>kableExtra<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/kableExtra/man/kable_styling.html">kable_styling</a></span>(<span class="dt">full_width =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb7-12" title="12">                            <span class="dt">position =</span> <span class="st">"center"</span>)</a>
+<a class="sourceLine" id="cb7-13" title="13"><span class="co">#&gt; Warning in kableExtra::kable_styling(., full_width = TRUE, position = "center"):</span></a>
+<a class="sourceLine" id="cb7-14" title="14"><span class="co">#&gt; Please specify format in kable. kableExtra can customize either HTML or LaTeX</span></a>
+<a class="sourceLine" id="cb7-15" title="15"><span class="co">#&gt; outputs. See https://haozhu233.github.io/kableExtra/ for details.</span></a></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="right">id</th>
@@ -225,12 +226,12 @@ Alluvial plot for simulated dataset
 <tbody>
 <tr class="odd">
 <td align="right">1</td>
-<td align="left">Other Tx</td>
+<td align="left">No Tx 0L</td>
 <td align="right">0</td>
 </tr>
 <tr class="even">
 <td align="right">1</td>
-<td align="left">No Tx 1L</td>
+<td align="left">Other Tx</td>
 <td align="right">1</td>
 </tr>
 <tr class="odd">
@@ -250,7 +251,7 @@ Alluvial plot for simulated dataset
 </tr>
 <tr class="even">
 <td align="right">2</td>
-<td align="left">No Tx 0L</td>
+<td align="left">Other Tx</td>
 <td align="right">0</td>
 </tr>
 <tr class="odd">
@@ -260,7 +261,7 @@ Alluvial plot for simulated dataset
 </tr>
 <tr class="even">
 <td align="right">2</td>
-<td align="left">No Tx 2L</td>
+<td align="left">Treatment_B 2L</td>
 <td align="right">2</td>
 </tr>
 <tr class="odd">
@@ -277,12 +278,12 @@ Alluvial plot for simulated dataset
 </table>
 <p><br></p>
 <p>There is also a summary table:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb8-2" data-line-number="2">output &lt;-<span class="st"> </span>result<span class="op">$</span>linenames_summary</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4">knitr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(output[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>,]) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="st">  </span>kableExtra<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/kableExtra/man/kable_styling.html">kable_styling</a></span>(<span class="dt">full_width =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb8-6" data-line-number="6">                            <span class="dt">position =</span> <span class="st">"center"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"></a>
+<a class="sourceLine" id="cb8-2" title="2">output &lt;-<span class="st"> </span>result<span class="op">$</span>linenames_summary</a>
+<a class="sourceLine" id="cb8-3" title="3"></a>
+<a class="sourceLine" id="cb8-4" title="4">knitr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(output[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>,]) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-5" title="5"><span class="st">  </span>kableExtra<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/kableExtra/man/kable_styling.html">kable_styling</a></span>(<span class="dt">full_width =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb8-6" title="6">                            <span class="dt">position =</span> <span class="st">"center"</span>)</a></code></pre></div>
 <table class="table table">
 <thead><tr>
 <th style="text-align:right;">
@@ -307,10 +308,10 @@ freq
 Treatment_A 0L
 </td>
 <td style="text-align:right;">
-1853
+1747
 </td>
 <td style="text-align:right;">
-0.3706
+0.3494
 </td>
 </tr>
 <tr>
@@ -321,10 +322,10 @@ Treatment_A 0L
 No Tx 0L
 </td>
 <td style="text-align:right;">
-1371
+1372
 </td>
 <td style="text-align:right;">
-0.2742
+0.2744
 </td>
 </tr>
 <tr>
@@ -335,10 +336,10 @@ No Tx 0L
 Treatment_B 0L
 </td>
 <td style="text-align:right;">
-1046
+1126
 </td>
 <td style="text-align:right;">
-0.2092
+0.2252
 </td>
 </tr>
 <tr>
@@ -349,10 +350,10 @@ Treatment_B 0L
 Other Tx
 </td>
 <td style="text-align:right;">
-730
+755
 </td>
 <td style="text-align:right;">
-0.1460
+0.1510
 </td>
 </tr>
 <tr>
@@ -363,10 +364,10 @@ Other Tx
 Treatment_A 1L
 </td>
 <td style="text-align:right;">
-2023
+1935
 </td>
 <td style="text-align:right;">
-0.4046
+0.3870
 </td>
 </tr>
 <tr>
@@ -377,10 +378,10 @@ Treatment_A 1L
 Treatment_B 1L
 </td>
 <td style="text-align:right;">
-1140
+1251
 </td>
 <td style="text-align:right;">
-0.2280
+0.2502
 </td>
 </tr>
 <tr>
@@ -391,10 +392,10 @@ Treatment_B 1L
 No Tx 1L
 </td>
 <td style="text-align:right;">
-1014
+1016
 </td>
 <td style="text-align:right;">
-0.2028
+0.2032
 </td>
 </tr>
 <tr>
@@ -405,10 +406,10 @@ No Tx 1L
 Other Tx
 </td>
 <td style="text-align:right;">
-823
+798
 </td>
 <td style="text-align:right;">
-0.1646
+0.1596
 </td>
 </tr>
 <tr>
@@ -419,10 +420,10 @@ Other Tx
 No Tx 2L
 </td>
 <td style="text-align:right;">
-2957
+2992
 </td>
 <td style="text-align:right;">
-0.5914
+0.5984
 </td>
 </tr>
 <tr>
@@ -433,22 +434,22 @@ No Tx 2L
 Treatment_A 2L
 </td>
 <td style="text-align:right;">
-1023
+974
 </td>
 <td style="text-align:right;">
-0.2046
+0.1948
 </td>
 </tr>
 </tbody>
 </table>
 <p><br></p>
 <p>Additionally if you need summary table for patients data before truncating data to n most common treatments then you can do it by:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">output &lt;-<span class="st"> </span>result<span class="op">$</span>linenames_summary_long</a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb9-4" data-line-number="4">knitr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(output[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>,]) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="st">  </span>kableExtra<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/kableExtra/man/kable_styling.html">kable_styling</a></span>(<span class="dt">full_width =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb9-6" data-line-number="6">                            <span class="dt">position =</span> <span class="st">"center"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"></a>
+<a class="sourceLine" id="cb9-2" title="2">output &lt;-<span class="st"> </span>result<span class="op">$</span>linenames_summary_long</a>
+<a class="sourceLine" id="cb9-3" title="3"></a>
+<a class="sourceLine" id="cb9-4" title="4">knitr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(output[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>,]) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-5" title="5"><span class="st">  </span>kableExtra<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/kableExtra/man/kable_styling.html">kable_styling</a></span>(<span class="dt">full_width =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb9-6" title="6">                            <span class="dt">position =</span> <span class="st">"center"</span>)</a></code></pre></div>
 <table class="table table">
 <thead><tr>
 <th style="text-align:right;">
@@ -473,10 +474,10 @@ freq
 Treatment_A 0L
 </td>
 <td style="text-align:right;">
-1853
+1747
 </td>
 <td style="text-align:right;">
-0.3706
+0.3494
 </td>
 </tr>
 <tr>
@@ -487,10 +488,10 @@ Treatment_A 0L
 No Tx 0L
 </td>
 <td style="text-align:right;">
-1371
+1372
 </td>
 <td style="text-align:right;">
-0.2742
+0.2744
 </td>
 </tr>
 <tr>
@@ -501,24 +502,10 @@ No Tx 0L
 Treatment_B 0L
 </td>
 <td style="text-align:right;">
-1046
+1126
 </td>
 <td style="text-align:right;">
-0.2092
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:left;">
-Treatment_D 0L
-</td>
-<td style="text-align:right;">
-374
-</td>
-<td style="text-align:right;">
-0.0748
+0.2252
 </td>
 </tr>
 <tr>
@@ -529,10 +516,24 @@ Treatment_D 0L
 Treatment_C 0L
 </td>
 <td style="text-align:right;">
-356
+379
 </td>
 <td style="text-align:right;">
-0.0712
+0.0758
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+Treatment_D 0L
+</td>
+<td style="text-align:right;">
+376
+</td>
+<td style="text-align:right;">
+0.0752
 </td>
 </tr>
 <tr>
@@ -543,10 +544,10 @@ Treatment_C 0L
 Treatment_A 1L
 </td>
 <td style="text-align:right;">
-2023
+1935
 </td>
 <td style="text-align:right;">
-0.4046
+0.3870
 </td>
 </tr>
 <tr>
@@ -557,10 +558,10 @@ Treatment_A 1L
 Treatment_B 1L
 </td>
 <td style="text-align:right;">
-1140
+1251
 </td>
 <td style="text-align:right;">
-0.2280
+0.2502
 </td>
 </tr>
 <tr>
@@ -571,10 +572,10 @@ Treatment_B 1L
 No Tx 1L
 </td>
 <td style="text-align:right;">
-1014
+1016
 </td>
 <td style="text-align:right;">
-0.2028
+0.2032
 </td>
 </tr>
 <tr>
@@ -585,10 +586,10 @@ No Tx 1L
 Treatment_C 1L
 </td>
 <td style="text-align:right;">
-417
+423
 </td>
 <td style="text-align:right;">
-0.0834
+0.0846
 </td>
 </tr>
 <tr>
@@ -599,10 +600,10 @@ Treatment_C 1L
 Treatment_D 1L
 </td>
 <td style="text-align:right;">
-406
+375
 </td>
 <td style="text-align:right;">
-0.0812
+0.0750
 </td>
 </tr>
 </tbody>

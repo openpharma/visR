@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">visR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1.9004</span>
       </span>
     </div>
 
@@ -112,65 +112,65 @@
 <div id="global-document-setup" class="section level2">
 <h2 class="hasAnchor">
 <a href="#global-document-setup" class="anchor"></a>Global Document Setup</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># Constants</span></a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">DATASET &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"NCCTG Lung Cancer Dataset (from survival package "</span>, </a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">                  <span class="kw"><a href="https://rdrr.io/r/utils/packageDescription.html">packageVersion</a></span>(<span class="st">"survival"</span>), <span class="st">")"</span>)</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co"># Globql formatting options</span></a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/base/options.html">options</a></span>(<span class="dt">digits =</span> <span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co"># Global ggplot settings</span></a>
-<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="kw">theme_set</span>(<span class="kw">theme_classic</span>())</a>
-<a class="sourceLine" id="cb1-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co"># Global table settings </span></a>
-<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="kw"><a href="https://rdrr.io/r/base/options.html">options</a></span>(<span class="dt">DT.options =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">pageLength =</span> <span class="dv">10</span>, </a>
-<a class="sourceLine" id="cb1-13" data-line-number="13">                          <span class="dt">language =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">search =</span> <span class="st">'Filter:'</span>), </a>
-<a class="sourceLine" id="cb1-14" data-line-number="14">                          <span class="dt">scrollX =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="co"># Constants</span></a>
+<a class="sourceLine" id="cb1-2" title="2">DATASET &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"NCCTG Lung Cancer Dataset (from survival package "</span>, </a>
+<a class="sourceLine" id="cb1-3" title="3">                  <span class="kw"><a href="https://rdrr.io/r/utils/packageDescription.html">packageVersion</a></span>(<span class="st">"survival"</span>), <span class="st">")"</span>)</a>
+<a class="sourceLine" id="cb1-4" title="4"></a>
+<a class="sourceLine" id="cb1-5" title="5"><span class="co"># Globql formatting options</span></a>
+<a class="sourceLine" id="cb1-6" title="6"><span class="kw"><a href="https://rdrr.io/r/base/options.html">options</a></span>(<span class="dt">digits =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb1-7" title="7"></a>
+<a class="sourceLine" id="cb1-8" title="8"><span class="co"># Global ggplot settings</span></a>
+<a class="sourceLine" id="cb1-9" title="9"><span class="kw">theme_set</span>(<span class="kw">theme_classic</span>())</a>
+<a class="sourceLine" id="cb1-10" title="10"></a>
+<a class="sourceLine" id="cb1-11" title="11"><span class="co"># Global table settings </span></a>
+<a class="sourceLine" id="cb1-12" title="12"><span class="kw"><a href="https://rdrr.io/r/base/options.html">options</a></span>(<span class="dt">DT.options =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">pageLength =</span> <span class="dv">10</span>, </a>
+<a class="sourceLine" id="cb1-13" title="13">                          <span class="dt">language =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">search =</span> <span class="st">'Filter:'</span>), </a>
+<a class="sourceLine" id="cb1-14" title="14">                          <span class="dt">scrollX =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
 </div>
 <div id="data-preparation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#data-preparation" class="anchor"></a>Data preparation</h2>
 <p>The variable names are changed to align with CDISC ADaM controlled terminology.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(lung)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3">lung_cohort &lt;-<span class="st"> </span>lung <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span>(<span class="dt">ECOG =</span> ph.ecog,</a>
-<a class="sourceLine" id="cb2-5" data-line-number="5">                  <span class="dt">Karnofsky =</span> ph.karno,</a>
-<a class="sourceLine" id="cb2-6" data-line-number="6">                  <span class="dt">SITEID =</span> inst,</a>
-<a class="sourceLine" id="cb2-7" data-line-number="7">                  <span class="dt">CNSR =</span> status,</a>
-<a class="sourceLine" id="cb2-8" data-line-number="8">                  <span class="dt">AVAL =</span> time,</a>
-<a class="sourceLine" id="cb2-9" data-line-number="9">                  <span class="dt">WEIGHT =</span> wt.loss</a>
-<a class="sourceLine" id="cb2-10" data-line-number="10">                 ) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">USUBJID =</span> <span class="kw"><a href="https://rdrr.io/r/base/sprintf.html">sprintf</a></span>(<span class="st">"Pat%03d"</span>, <span class="kw">row_number</span>()),</a>
-<a class="sourceLine" id="cb2-12" data-line-number="12">                  <span class="dt">SEX =</span> <span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="kw">if_else</span>(sex <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, <span class="st">"male"</span>, <span class="st">"female"</span>)),</a>
-<a class="sourceLine" id="cb2-13" data-line-number="13">                  <span class="dt">CNSR =</span> <span class="kw">if_else</span>(CNSR <span class="op">==</span><span class="st"> </span><span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">0</span>),</a>
-<a class="sourceLine" id="cb2-14" data-line-number="14">                  <span class="dt">SUBGR1 =</span> <span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="kw">case_when</span>(ECOG <span class="op">==</span><span class="st"> </span><span class="dv">0</span> <span class="op">~</span><span class="st"> "0 asymptomatic"</span>,</a>
-<a class="sourceLine" id="cb2-15" data-line-number="15">                                            ECOG <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">~</span><span class="st"> "1 ambulatory"</span>,</a>
-<a class="sourceLine" id="cb2-16" data-line-number="16">                                            ECOG <span class="op">==</span><span class="st"> </span><span class="dv">2</span> <span class="op">~</span><span class="st"> "2 in bed less than 50% of day"</span>,</a>
-<a class="sourceLine" id="cb2-17" data-line-number="17">                                            ECOG <span class="op">==</span><span class="st"> </span><span class="dv">3</span> <span class="op">~</span><span class="st"> "3 in bed more than 50% of day"</span>,</a>
-<a class="sourceLine" id="cb2-18" data-line-number="18">                                            ECOG <span class="op">==</span><span class="st"> </span><span class="dv">4</span> <span class="op">~</span><span class="st"> "4 bedbound"</span>,</a>
-<a class="sourceLine" id="cb2-19" data-line-number="19">                                            ECOG <span class="op">==</span><span class="st"> </span><span class="dv">5</span> <span class="op">~</span><span class="st"> "5 dead"</span>)</a>
-<a class="sourceLine" id="cb2-20" data-line-number="20">                                 ),</a>
-<a class="sourceLine" id="cb2-21" data-line-number="21">                  <span class="dt">AGEGR1 =</span> <span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="kw">case_when</span>(age <span class="op">&lt;</span><span class="st"> </span><span class="dv">30</span> <span class="op">~</span><span class="st"> "&lt; 30y"</span>,</a>
-<a class="sourceLine" id="cb2-22" data-line-number="22">                                            age <span class="op">&gt;=</span><span class="st"> </span><span class="dv">30</span> <span class="op">&amp;</span><span class="st"> </span>age <span class="op">&lt;=</span><span class="st"> </span><span class="dv">50</span> <span class="op">~</span><span class="st"> "30-50y"</span>,</a>
-<a class="sourceLine" id="cb2-23" data-line-number="23">                                            age <span class="op">&gt;</span><span class="st"> </span><span class="dv">50</span> <span class="op">&amp;</span><span class="st"> </span>age <span class="op">&lt;=</span><span class="st"> </span><span class="dv">70</span> <span class="op">~</span><span class="st"> "51-70y"</span>,</a>
-<a class="sourceLine" id="cb2-24" data-line-number="24">                                            age <span class="op">&gt;</span><span class="st"> </span><span class="dv">70</span> <span class="op">~</span><span class="st"> "&gt; 70y"</span>),</a>
-<a class="sourceLine" id="cb2-25" data-line-number="25">                                  <span class="dt">levels=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"&lt; 30y"</span>, <span class="st">"30-50y"</span>, <span class="st">"51-70y"</span>, <span class="st">"&gt; 70y"</span>)</a>
-<a class="sourceLine" id="cb2-26" data-line-number="26">                                 )</a>
-<a class="sourceLine" id="cb2-27" data-line-number="27">                 ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-28" data-line-number="28"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(USUBJID, SITEID, SEX, AGEGR1, WEIGHT, SUBGR1, AVAL, CNSR)</a>
-<a class="sourceLine" id="cb2-29" data-line-number="29">  </a>
-<a class="sourceLine" id="cb2-30" data-line-number="30">lung_cohort <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb2-31" data-line-number="31"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="dv">10</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb2-32" data-line-number="32"><span class="st">  </span><span class="kw"><a href="../reference/vr_render_table.html">vr_render_table</a></span>(<span class="dt">title =</span> <span class="st">"First 10 observations of `lung_cohort`."</span>,</a>
-<a class="sourceLine" id="cb2-33" data-line-number="33">                  <span class="dt">caption =</span> <span class="st">""</span>,</a>
-<a class="sourceLine" id="cb2-34" data-line-number="34">                  <span class="dt">datasource =</span> DATASET, </a>
-<a class="sourceLine" id="cb2-35" data-line-number="35">                  <span class="dt">engine =</span> <span class="st">"gt"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(lung)</a>
+<a class="sourceLine" id="cb2-2" title="2"></a>
+<a class="sourceLine" id="cb2-3" title="3">lung_cohort &lt;-<span class="st"> </span>lung <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">rename</a></span>(<span class="dt">ECOG =</span> ph.ecog,</a>
+<a class="sourceLine" id="cb2-5" title="5">                  <span class="dt">Karnofsky =</span> ph.karno,</a>
+<a class="sourceLine" id="cb2-6" title="6">                  <span class="dt">SITEID =</span> inst,</a>
+<a class="sourceLine" id="cb2-7" title="7">                  <span class="dt">CNSR =</span> status,</a>
+<a class="sourceLine" id="cb2-8" title="8">                  <span class="dt">AVAL =</span> time,</a>
+<a class="sourceLine" id="cb2-9" title="9">                  <span class="dt">WEIGHT =</span> wt.loss</a>
+<a class="sourceLine" id="cb2-10" title="10">                 ) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb2-11" title="11"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">USUBJID =</span> <span class="kw"><a href="https://rdrr.io/r/base/sprintf.html">sprintf</a></span>(<span class="st">"Pat%03d"</span>, <span class="kw">row_number</span>()),</a>
+<a class="sourceLine" id="cb2-12" title="12">                  <span class="dt">SEX =</span> <span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="kw">if_else</span>(sex <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, <span class="st">"male"</span>, <span class="st">"female"</span>)),</a>
+<a class="sourceLine" id="cb2-13" title="13">                  <span class="dt">CNSR =</span> <span class="kw">if_else</span>(CNSR <span class="op">==</span><span class="st"> </span><span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">0</span>),</a>
+<a class="sourceLine" id="cb2-14" title="14">                  <span class="dt">SUBGR1 =</span> <span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="kw">case_when</span>(ECOG <span class="op">==</span><span class="st"> </span><span class="dv">0</span> <span class="op">~</span><span class="st"> "0 asymptomatic"</span>,</a>
+<a class="sourceLine" id="cb2-15" title="15">                                            ECOG <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">~</span><span class="st"> "1 ambulatory"</span>,</a>
+<a class="sourceLine" id="cb2-16" title="16">                                            ECOG <span class="op">==</span><span class="st"> </span><span class="dv">2</span> <span class="op">~</span><span class="st"> "2 in bed less than 50% of day"</span>,</a>
+<a class="sourceLine" id="cb2-17" title="17">                                            ECOG <span class="op">==</span><span class="st"> </span><span class="dv">3</span> <span class="op">~</span><span class="st"> "3 in bed more than 50% of day"</span>,</a>
+<a class="sourceLine" id="cb2-18" title="18">                                            ECOG <span class="op">==</span><span class="st"> </span><span class="dv">4</span> <span class="op">~</span><span class="st"> "4 bedbound"</span>,</a>
+<a class="sourceLine" id="cb2-19" title="19">                                            ECOG <span class="op">==</span><span class="st"> </span><span class="dv">5</span> <span class="op">~</span><span class="st"> "5 dead"</span>)</a>
+<a class="sourceLine" id="cb2-20" title="20">                                 ),</a>
+<a class="sourceLine" id="cb2-21" title="21">                  <span class="dt">AGEGR1 =</span> <span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="kw">case_when</span>(age <span class="op">&lt;</span><span class="st"> </span><span class="dv">30</span> <span class="op">~</span><span class="st"> "&lt; 30y"</span>,</a>
+<a class="sourceLine" id="cb2-22" title="22">                                            age <span class="op">&gt;=</span><span class="st"> </span><span class="dv">30</span> <span class="op">&amp;</span><span class="st"> </span>age <span class="op">&lt;=</span><span class="st"> </span><span class="dv">50</span> <span class="op">~</span><span class="st"> "30-50y"</span>,</a>
+<a class="sourceLine" id="cb2-23" title="23">                                            age <span class="op">&gt;</span><span class="st"> </span><span class="dv">50</span> <span class="op">&amp;</span><span class="st"> </span>age <span class="op">&lt;=</span><span class="st"> </span><span class="dv">70</span> <span class="op">~</span><span class="st"> "51-70y"</span>,</a>
+<a class="sourceLine" id="cb2-24" title="24">                                            age <span class="op">&gt;</span><span class="st"> </span><span class="dv">70</span> <span class="op">~</span><span class="st"> "&gt; 70y"</span>),</a>
+<a class="sourceLine" id="cb2-25" title="25">                                  <span class="dt">levels=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"&lt; 30y"</span>, <span class="st">"30-50y"</span>, <span class="st">"51-70y"</span>, <span class="st">"&gt; 70y"</span>)</a>
+<a class="sourceLine" id="cb2-26" title="26">                                 )</a>
+<a class="sourceLine" id="cb2-27" title="27">                 ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-28" title="28"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(USUBJID, SITEID, SEX, AGEGR1, WEIGHT, SUBGR1, AVAL, CNSR)</a>
+<a class="sourceLine" id="cb2-29" title="29">  </a>
+<a class="sourceLine" id="cb2-30" title="30">lung_cohort <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb2-31" title="31"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="dv">10</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb2-32" title="32"><span class="st">  </span><span class="kw"><a href="../reference/vr_render_table.html">vr_render_table</a></span>(<span class="dt">title =</span> <span class="st">"First 10 observations of `lung_cohort`."</span>,</a>
+<a class="sourceLine" id="cb2-33" title="33">                  <span class="dt">caption =</span> <span class="st">""</span>,</a>
+<a class="sourceLine" id="cb2-34" title="34">                  <span class="dt">datasource =</span> DATASET, </a>
+<a class="sourceLine" id="cb2-35" title="35">                  <span class="dt">engine =</span> <span class="st">"gt"</span>)</a></code></pre></div>
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#ykldvhguqr .gt_table {
+#btonchnhrl .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -193,7 +193,7 @@
   border-left-color: #D3D3D3;
 }
 
-#ykldvhguqr .gt_heading {
+#btonchnhrl .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -205,7 +205,7 @@
   border-right-color: #D3D3D3;
 }
 
-#ykldvhguqr .gt_title {
+#btonchnhrl .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -215,7 +215,7 @@
   border-bottom-width: 0;
 }
 
-#ykldvhguqr .gt_subtitle {
+#btonchnhrl .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -225,13 +225,13 @@
   border-top-width: 0;
 }
 
-#ykldvhguqr .gt_bottom_border {
+#btonchnhrl .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ykldvhguqr .gt_col_headings {
+#btonchnhrl .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -246,7 +246,7 @@
   border-right-color: #D3D3D3;
 }
 
-#ykldvhguqr .gt_col_heading {
+#btonchnhrl .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -266,7 +266,7 @@
   overflow-x: hidden;
 }
 
-#ykldvhguqr .gt_column_spanner_outer {
+#btonchnhrl .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -278,15 +278,15 @@
   padding-right: 4px;
 }
 
-#ykldvhguqr .gt_column_spanner_outer:first-child {
+#btonchnhrl .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ykldvhguqr .gt_column_spanner_outer:last-child {
+#btonchnhrl .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ykldvhguqr .gt_column_spanner {
+#btonchnhrl .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -298,7 +298,7 @@
   width: 100%;
 }
 
-#ykldvhguqr .gt_group_heading {
+#btonchnhrl .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -320,7 +320,7 @@
   vertical-align: middle;
 }
 
-#ykldvhguqr .gt_empty_group_heading {
+#btonchnhrl .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -335,19 +335,19 @@
   vertical-align: middle;
 }
 
-#ykldvhguqr .gt_striped {
+#btonchnhrl .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ykldvhguqr .gt_from_md > :first-child {
+#btonchnhrl .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ykldvhguqr .gt_from_md > :last-child {
+#btonchnhrl .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ykldvhguqr .gt_row {
+#btonchnhrl .gt_row {
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 5px;
@@ -366,7 +366,7 @@
   overflow-x: hidden;
 }
 
-#ykldvhguqr .gt_stub {
+#btonchnhrl .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -378,7 +378,7 @@
   padding-left: 12px;
 }
 
-#ykldvhguqr .gt_summary_row {
+#btonchnhrl .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -388,7 +388,7 @@
   padding-right: 5px;
 }
 
-#ykldvhguqr .gt_first_summary_row {
+#btonchnhrl .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -398,7 +398,7 @@
   border-top-color: #D3D3D3;
 }
 
-#ykldvhguqr .gt_grand_summary_row {
+#btonchnhrl .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -408,7 +408,7 @@
   padding-right: 5px;
 }
 
-#ykldvhguqr .gt_first_grand_summary_row {
+#btonchnhrl .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -418,7 +418,7 @@
   border-top-color: #D3D3D3;
 }
 
-#ykldvhguqr .gt_table_body {
+#btonchnhrl .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -427,7 +427,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#ykldvhguqr .gt_footnotes {
+#btonchnhrl .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -441,13 +441,13 @@
   border-right-color: #D3D3D3;
 }
 
-#ykldvhguqr .gt_footnote {
+#btonchnhrl .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#ykldvhguqr .gt_sourcenotes {
+#btonchnhrl .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -461,46 +461,46 @@
   border-right-color: #D3D3D3;
 }
 
-#ykldvhguqr .gt_sourcenote {
+#btonchnhrl .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#ykldvhguqr .gt_left {
+#btonchnhrl .gt_left {
   text-align: left;
 }
 
-#ykldvhguqr .gt_center {
+#btonchnhrl .gt_center {
   text-align: center;
 }
 
-#ykldvhguqr .gt_right {
+#btonchnhrl .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ykldvhguqr .gt_font_normal {
+#btonchnhrl .gt_font_normal {
   font-weight: normal;
 }
 
-#ykldvhguqr .gt_font_bold {
+#btonchnhrl .gt_font_bold {
   font-weight: bold;
 }
 
-#ykldvhguqr .gt_font_italic {
+#btonchnhrl .gt_font_italic {
   font-style: italic;
 }
 
-#ykldvhguqr .gt_super {
+#btonchnhrl .gt_super {
   font-size: 65%;
 }
 
-#ykldvhguqr .gt_footnote_marks {
+#btonchnhrl .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="ykldvhguqr" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="table gt_table">
+<div id="btonchnhrl" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="table gt_table">
 <thead class="gt_header">
 <tr>
 <th colspan="8" class="gt_heading gt_title gt_font_normal" style>First 10 observations of `lung_cohort`.</th>
@@ -622,7 +622,7 @@
     </tr>
 </tbody>
 <tfoot class="gt_sourcenotes"><tr>
-<td class="gt_sourcenote" colspan="8">Data Source: NCCTG Lung Cancer Dataset (from survival package 3.1.11)</td>
+<td class="gt_sourcenote" colspan="8">Data Source: NCCTG Lung Cancer Dataset (from survival package 3.2.3)</td>
     </tr></tfoot>
 </table></div>
 </div>
@@ -630,30 +630,30 @@
 <h2 class="hasAnchor">
 <a href="#attrition-table" class="anchor"></a>Attrition Table</h2>
 <p>For this exercise we will only include patients with (1) ECOG available (2) non-missing weight-loss data (3) non missing censoring information and (4) positive follow-up time in our analysis.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">cohort_attrition &lt;-<span class="st"> </span><span class="kw"><a href="../reference/vr_attrition_table.html">vr_attrition_table</a></span>(</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3">  <span class="dt">data =</span> lung_cohort,</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4">  <span class="dt">criteria_descriptions =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"1. ECOG available"</span>, </a>
-<a class="sourceLine" id="cb3-5" data-line-number="5">                            <span class="st">"2. Weight loss data available"</span>, </a>
-<a class="sourceLine" id="cb3-6" data-line-number="6">                            <span class="st">"3. Non-missing censoring status"</span>,</a>
-<a class="sourceLine" id="cb3-7" data-line-number="7">                            <span class="st">"4. Positive follow up time"</span>),</a>
-<a class="sourceLine" id="cb3-8" data-line-number="8">  <span class="dt">criteria_conditions   =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"!is.na(SUBGR1)"</span>,</a>
-<a class="sourceLine" id="cb3-9" data-line-number="9">                            <span class="st">"!is.na(WEIGHT)"</span>,</a>
-<a class="sourceLine" id="cb3-10" data-line-number="10">                            <span class="st">"!is.na(CNSR)"</span>,</a>
-<a class="sourceLine" id="cb3-11" data-line-number="11">                            <span class="st">"AVAL &gt;= 0"</span>),</a>
-<a class="sourceLine" id="cb3-12" data-line-number="12">  <span class="dt">subject_column_name   =</span> <span class="st">'USUBJID'</span>)</a>
-<a class="sourceLine" id="cb3-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb3-14" data-line-number="14"> </a>
-<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="kw"><a href="../reference/vr_render_table.html">vr_render_table</a></span>(<span class="dt">data =</span> cohort_attrition, </a>
-<a class="sourceLine" id="cb3-16" data-line-number="16">                <span class="dt">title =</span> <span class="st">"Attrition Table"</span>, </a>
-<a class="sourceLine" id="cb3-17" data-line-number="17">                <span class="dt">caption =</span> <span class="st">"Summary of samples fulfilling inclusion/exclusion criteria"</span>, </a>
-<a class="sourceLine" id="cb3-18" data-line-number="18">                <span class="dt">datasource =</span> DATASET, </a>
-<a class="sourceLine" id="cb3-19" data-line-number="19">                <span class="dt">engine =</span> <span class="st">"gt"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"></a>
+<a class="sourceLine" id="cb3-2" title="2">cohort_attrition &lt;-<span class="st"> </span><span class="kw"><a href="../reference/vr_attrition_table.html">vr_attrition_table</a></span>(</a>
+<a class="sourceLine" id="cb3-3" title="3">  <span class="dt">data =</span> lung_cohort,</a>
+<a class="sourceLine" id="cb3-4" title="4">  <span class="dt">criteria_descriptions =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"1. ECOG available"</span>, </a>
+<a class="sourceLine" id="cb3-5" title="5">                            <span class="st">"2. Weight loss data available"</span>, </a>
+<a class="sourceLine" id="cb3-6" title="6">                            <span class="st">"3. Non-missing censoring status"</span>,</a>
+<a class="sourceLine" id="cb3-7" title="7">                            <span class="st">"4. Positive follow up time"</span>),</a>
+<a class="sourceLine" id="cb3-8" title="8">  <span class="dt">criteria_conditions   =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"!is.na(SUBGR1)"</span>,</a>
+<a class="sourceLine" id="cb3-9" title="9">                            <span class="st">"!is.na(WEIGHT)"</span>,</a>
+<a class="sourceLine" id="cb3-10" title="10">                            <span class="st">"!is.na(CNSR)"</span>,</a>
+<a class="sourceLine" id="cb3-11" title="11">                            <span class="st">"AVAL &gt;= 0"</span>),</a>
+<a class="sourceLine" id="cb3-12" title="12">  <span class="dt">subject_column_name   =</span> <span class="st">'USUBJID'</span>)</a>
+<a class="sourceLine" id="cb3-13" title="13"></a>
+<a class="sourceLine" id="cb3-14" title="14"> </a>
+<a class="sourceLine" id="cb3-15" title="15"><span class="kw"><a href="../reference/vr_render_table.html">vr_render_table</a></span>(<span class="dt">data =</span> cohort_attrition, </a>
+<a class="sourceLine" id="cb3-16" title="16">                <span class="dt">title =</span> <span class="st">"Attrition Table"</span>, </a>
+<a class="sourceLine" id="cb3-17" title="17">                <span class="dt">caption =</span> <span class="st">"Summary of samples fulfilling inclusion/exclusion criteria"</span>, </a>
+<a class="sourceLine" id="cb3-18" title="18">                <span class="dt">datasource =</span> DATASET, </a>
+<a class="sourceLine" id="cb3-19" title="19">                <span class="dt">engine =</span> <span class="st">"gt"</span>)</a></code></pre></div>
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#hvmgzdyvbl .gt_table {
+#wbxsyfqbsu .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -676,7 +676,7 @@
   border-left-color: #D3D3D3;
 }
 
-#hvmgzdyvbl .gt_heading {
+#wbxsyfqbsu .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -688,7 +688,7 @@
   border-right-color: #D3D3D3;
 }
 
-#hvmgzdyvbl .gt_title {
+#wbxsyfqbsu .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -698,7 +698,7 @@
   border-bottom-width: 0;
 }
 
-#hvmgzdyvbl .gt_subtitle {
+#wbxsyfqbsu .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -708,13 +708,13 @@
   border-top-width: 0;
 }
 
-#hvmgzdyvbl .gt_bottom_border {
+#wbxsyfqbsu .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#hvmgzdyvbl .gt_col_headings {
+#wbxsyfqbsu .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -729,7 +729,7 @@
   border-right-color: #D3D3D3;
 }
 
-#hvmgzdyvbl .gt_col_heading {
+#wbxsyfqbsu .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -749,7 +749,7 @@
   overflow-x: hidden;
 }
 
-#hvmgzdyvbl .gt_column_spanner_outer {
+#wbxsyfqbsu .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -761,15 +761,15 @@
   padding-right: 4px;
 }
 
-#hvmgzdyvbl .gt_column_spanner_outer:first-child {
+#wbxsyfqbsu .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#hvmgzdyvbl .gt_column_spanner_outer:last-child {
+#wbxsyfqbsu .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#hvmgzdyvbl .gt_column_spanner {
+#wbxsyfqbsu .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -781,7 +781,7 @@
   width: 100%;
 }
 
-#hvmgzdyvbl .gt_group_heading {
+#wbxsyfqbsu .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -803,7 +803,7 @@
   vertical-align: middle;
 }
 
-#hvmgzdyvbl .gt_empty_group_heading {
+#wbxsyfqbsu .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -818,19 +818,19 @@
   vertical-align: middle;
 }
 
-#hvmgzdyvbl .gt_striped {
+#wbxsyfqbsu .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#hvmgzdyvbl .gt_from_md > :first-child {
+#wbxsyfqbsu .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#hvmgzdyvbl .gt_from_md > :last-child {
+#wbxsyfqbsu .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#hvmgzdyvbl .gt_row {
+#wbxsyfqbsu .gt_row {
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 5px;
@@ -849,7 +849,7 @@
   overflow-x: hidden;
 }
 
-#hvmgzdyvbl .gt_stub {
+#wbxsyfqbsu .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -861,7 +861,7 @@
   padding-left: 12px;
 }
 
-#hvmgzdyvbl .gt_summary_row {
+#wbxsyfqbsu .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -871,7 +871,7 @@
   padding-right: 5px;
 }
 
-#hvmgzdyvbl .gt_first_summary_row {
+#wbxsyfqbsu .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -881,7 +881,7 @@
   border-top-color: #D3D3D3;
 }
 
-#hvmgzdyvbl .gt_grand_summary_row {
+#wbxsyfqbsu .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -891,7 +891,7 @@
   padding-right: 5px;
 }
 
-#hvmgzdyvbl .gt_first_grand_summary_row {
+#wbxsyfqbsu .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -901,7 +901,7 @@
   border-top-color: #D3D3D3;
 }
 
-#hvmgzdyvbl .gt_table_body {
+#wbxsyfqbsu .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -910,7 +910,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#hvmgzdyvbl .gt_footnotes {
+#wbxsyfqbsu .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -924,13 +924,13 @@
   border-right-color: #D3D3D3;
 }
 
-#hvmgzdyvbl .gt_footnote {
+#wbxsyfqbsu .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#hvmgzdyvbl .gt_sourcenotes {
+#wbxsyfqbsu .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -944,46 +944,46 @@
   border-right-color: #D3D3D3;
 }
 
-#hvmgzdyvbl .gt_sourcenote {
+#wbxsyfqbsu .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#hvmgzdyvbl .gt_left {
+#wbxsyfqbsu .gt_left {
   text-align: left;
 }
 
-#hvmgzdyvbl .gt_center {
+#wbxsyfqbsu .gt_center {
   text-align: center;
 }
 
-#hvmgzdyvbl .gt_right {
+#wbxsyfqbsu .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#hvmgzdyvbl .gt_font_normal {
+#wbxsyfqbsu .gt_font_normal {
   font-weight: normal;
 }
 
-#hvmgzdyvbl .gt_font_bold {
+#wbxsyfqbsu .gt_font_bold {
   font-weight: bold;
 }
 
-#hvmgzdyvbl .gt_font_italic {
+#wbxsyfqbsu .gt_font_italic {
   font-style: italic;
 }
 
-#hvmgzdyvbl .gt_super {
+#wbxsyfqbsu .gt_super {
   font-size: 65%;
 }
 
-#hvmgzdyvbl .gt_footnote_marks {
+#wbxsyfqbsu .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="hvmgzdyvbl" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="table gt_table">
+<div id="wbxsyfqbsu" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="table gt_table">
 <thead class="gt_header">
 <tr>
 <th colspan="6" class="gt_heading gt_title gt_font_normal" style>Attrition Table</th>
@@ -1043,7 +1043,7 @@
     </tr>
 </tbody>
 <tfoot class="gt_sourcenotes"><tr>
-<td class="gt_sourcenote" colspan="6">Data Source: NCCTG Lung Cancer Dataset (from survival package 3.1.11)</td>
+<td class="gt_sourcenote" colspan="6">Data Source: NCCTG Lung Cancer Dataset (from survival package 3.2.3)</td>
     </tr></tfoot>
 </table></div>
 </div>
@@ -1051,23 +1051,24 @@
 <h2 class="hasAnchor">
 <a href="#attrition-diagram" class="anchor"></a>Attrition Diagram</h2>
 <p>Under construction.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">complement_descriptions &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="st">"Having exclusion criterion: non ECOG"</span>,</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="st">"Having exclusion criterion: missing weight loss "</span>, </a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="st">"Having exclusion criterion: missing censoring status"</span>, </a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="st">"Having exclusion criterion: negative follow up time"</span>)</a>
-<a class="sourceLine" id="cb4-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb4-7" data-line-number="7">attrition_chart_fn &lt;-<span class="st"> "../docs/articles/Example_analysis_files/figure-html/attrition_diagram.svg"</span></a>
-<a class="sourceLine" id="cb4-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb4-9" data-line-number="9">attrition_flow &lt;-<span class="st"> </span><span class="kw"><a href="../reference/vr_attrition.html">vr_attrition</a></span>(</a>
-<a class="sourceLine" id="cb4-10" data-line-number="10">  <span class="dt">N_array =</span> cohort_attrition<span class="op">$</span><span class="st">`</span><span class="dt">Remaining N</span><span class="st">`</span>,</a>
-<a class="sourceLine" id="cb4-11" data-line-number="11">  <span class="dt">descriptions =</span> cohort_attrition<span class="op">$</span>Criteria,</a>
-<a class="sourceLine" id="cb4-12" data-line-number="12">  <span class="dt">complement_descriptions =</span> complement_descriptions,</a>
-<a class="sourceLine" id="cb4-13" data-line-number="13">  <span class="dt">display =</span> F,</a>
-<a class="sourceLine" id="cb4-14" data-line-number="14">  <span class="dt">output_path =</span> attrition_chart_fn)</a></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">  knitr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/knitr/man/include_graphics.html">include_graphics</a></span>(attrition_chart_fn)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">complement_descriptions &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(</a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="st">"Having exclusion criterion: non ECOG"</span>,</a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="st">"Having exclusion criterion: missing weight loss "</span>, </a>
+<a class="sourceLine" id="cb4-4" title="4"><span class="st">"Having exclusion criterion: missing censoring status"</span>, </a>
+<a class="sourceLine" id="cb4-5" title="5"><span class="st">"Having exclusion criterion: negative follow up time"</span>)</a>
+<a class="sourceLine" id="cb4-6" title="6"></a>
+<a class="sourceLine" id="cb4-7" title="7">attrition_chart_fn &lt;-<span class="st"> "../docs/articles/Example_analysis_files/figure-html/attrition_diagram.svg"</span></a>
+<a class="sourceLine" id="cb4-8" title="8"></a>
+<a class="sourceLine" id="cb4-9" title="9">attrition_flow &lt;-<span class="st"> </span><span class="kw"><a href="../reference/vr_attrition.html">vr_attrition</a></span>(</a>
+<a class="sourceLine" id="cb4-10" title="10">  <span class="dt">N_array =</span> cohort_attrition<span class="op">$</span><span class="st">`</span><span class="dt">Remaining N</span><span class="st">`</span>,</a>
+<a class="sourceLine" id="cb4-11" title="11">  <span class="dt">descriptions =</span> cohort_attrition<span class="op">$</span>Criteria,</a>
+<a class="sourceLine" id="cb4-12" title="12">  <span class="dt">complement_descriptions =</span> complement_descriptions,</a>
+<a class="sourceLine" id="cb4-13" title="13">  <span class="dt">display =</span> F,</a>
+<a class="sourceLine" id="cb4-14" title="14">  <span class="dt">output_path =</span> attrition_chart_fn)</a></code></pre></div>
 <div class="figure">
-<img src="../docs/articles/Example_analysis_files/figure-html/attrition_diagram.svg" alt="Attrition Diagram of Lung cohort. Data Source: NCCTG Lung Cancer Dataset (from survival package 3.1.11)"><p class="caption">Attrition Diagram of Lung cohort. Data Source: NCCTG Lung Cancer Dataset (from survival package 3.1.11)</p>
+<img src="Example_analysis_files/figure-html/attrition_diagram.svg" alt="Attrition Diagram of Lung cohort. Data Source: NCCTG Lung Cancer Dataset (from survival package 3.2.3)"><p class="caption">
+Attrition Diagram of Lung cohort. Data Source: NCCTG Lung Cancer Dataset (from survival package 3.2.3)
+</p>
 </div>
 <!-- ```{r attritionFig} -->
 <!-- # complement_descriptions <- c( -->
@@ -1093,26 +1094,26 @@
 <h2 class="hasAnchor">
 <a href="#cohort-overview" class="anchor"></a>Cohort Overview</h2>
 <p>To describe the population <code>vr_table_one</code> can be used.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co"># some modifications to the table for nice printing of categories</span></a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">lung_cohort_tab1 &lt;-<span class="st"> </span>lung_cohort <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">CNSR =</span> <span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="kw">case_when</span>(CNSR <span class="op">==</span><span class="st"> </span><span class="dv">0</span> <span class="op">~</span><span class="st"> "Alive/Censored"</span>,</a>
-<a class="sourceLine" id="cb6-4" data-line-number="4">                                        CNSR <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">~</span><span class="st"> "Dead"</span>,</a>
-<a class="sourceLine" id="cb6-5" data-line-number="5">                                        <span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(CNSR) <span class="op">~</span><span class="st"> "Missing"</span></a>
-<a class="sourceLine" id="cb6-6" data-line-number="6">                                        )</a>
-<a class="sourceLine" id="cb6-7" data-line-number="7">                              )</a>
-<a class="sourceLine" id="cb6-8" data-line-number="8">                ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(AVAL) <span class="op">&amp;</span><span class="st"> </span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(AGEGR1) <span class="op">&amp;</span><span class="st"> </span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(SUBGR1)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>SITEID)</a>
-<a class="sourceLine" id="cb6-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co"># visR table1 convenience function</span></a>
-<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="kw"><a href="../reference/vr_table_one.html">vr_table_one</a></span>(lung_cohort_tab1, <span class="dt">title =</span> <span class="st">"Overview over Lung Cancer patients"</span>,</a>
-<a class="sourceLine" id="cb6-14" data-line-number="14">             <span class="dt">caption =</span> <span class="st">"Baseline characteristics of study cohort stratified by treatment type"</span>,</a>
-<a class="sourceLine" id="cb6-15" data-line-number="15">             <span class="dt">datasource =</span> DATASET, <span class="dt">groupCols =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"SEX"</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="co"># some modifications to the table for nice printing of categories</span></a>
+<a class="sourceLine" id="cb5-2" title="2">lung_cohort_tab1 &lt;-<span class="st"> </span>lung_cohort <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">CNSR =</span> <span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="kw">case_when</span>(CNSR <span class="op">==</span><span class="st"> </span><span class="dv">0</span> <span class="op">~</span><span class="st"> "Alive/Censored"</span>,</a>
+<a class="sourceLine" id="cb5-4" title="4">                                        CNSR <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">~</span><span class="st"> "Dead"</span>,</a>
+<a class="sourceLine" id="cb5-5" title="5">                                        <span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(CNSR) <span class="op">~</span><span class="st"> "Missing"</span></a>
+<a class="sourceLine" id="cb5-6" title="6">                                        )</a>
+<a class="sourceLine" id="cb5-7" title="7">                              )</a>
+<a class="sourceLine" id="cb5-8" title="8">                ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-9" title="9"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(AVAL) <span class="op">&amp;</span><span class="st"> </span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(AGEGR1) <span class="op">&amp;</span><span class="st"> </span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(SUBGR1)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-10" title="10"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>SITEID)</a>
+<a class="sourceLine" id="cb5-11" title="11"></a>
+<a class="sourceLine" id="cb5-12" title="12"><span class="co"># visR table1 convenience function</span></a>
+<a class="sourceLine" id="cb5-13" title="13"><span class="kw"><a href="../reference/vr_table_one.html">vr_table_one</a></span>(lung_cohort_tab1, <span class="dt">title =</span> <span class="st">"Overview over Lung Cancer patients"</span>,</a>
+<a class="sourceLine" id="cb5-14" title="14">             <span class="dt">caption =</span> <span class="st">"Baseline characteristics of study cohort stratified by treatment type"</span>,</a>
+<a class="sourceLine" id="cb5-15" title="15">             <span class="dt">datasource =</span> DATASET, <span class="dt">groupCols =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"SEX"</span>))</a></code></pre></div>
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#gfcqjlcfrr .gt_table {
+#elicnpjped .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1135,7 +1136,7 @@
   border-left-color: #D3D3D3;
 }
 
-#gfcqjlcfrr .gt_heading {
+#elicnpjped .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1147,7 +1148,7 @@
   border-right-color: #D3D3D3;
 }
 
-#gfcqjlcfrr .gt_title {
+#elicnpjped .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1157,7 +1158,7 @@
   border-bottom-width: 0;
 }
 
-#gfcqjlcfrr .gt_subtitle {
+#elicnpjped .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1167,13 +1168,13 @@
   border-top-width: 0;
 }
 
-#gfcqjlcfrr .gt_bottom_border {
+#elicnpjped .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#gfcqjlcfrr .gt_col_headings {
+#elicnpjped .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1188,7 +1189,7 @@
   border-right-color: #D3D3D3;
 }
 
-#gfcqjlcfrr .gt_col_heading {
+#elicnpjped .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1208,7 +1209,7 @@
   overflow-x: hidden;
 }
 
-#gfcqjlcfrr .gt_column_spanner_outer {
+#elicnpjped .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1220,15 +1221,15 @@
   padding-right: 4px;
 }
 
-#gfcqjlcfrr .gt_column_spanner_outer:first-child {
+#elicnpjped .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#gfcqjlcfrr .gt_column_spanner_outer:last-child {
+#elicnpjped .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#gfcqjlcfrr .gt_column_spanner {
+#elicnpjped .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1240,7 +1241,7 @@
   width: 100%;
 }
 
-#gfcqjlcfrr .gt_group_heading {
+#elicnpjped .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1262,7 +1263,7 @@
   vertical-align: middle;
 }
 
-#gfcqjlcfrr .gt_empty_group_heading {
+#elicnpjped .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1277,19 +1278,19 @@
   vertical-align: middle;
 }
 
-#gfcqjlcfrr .gt_striped {
+#elicnpjped .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#gfcqjlcfrr .gt_from_md > :first-child {
+#elicnpjped .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#gfcqjlcfrr .gt_from_md > :last-child {
+#elicnpjped .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#gfcqjlcfrr .gt_row {
+#elicnpjped .gt_row {
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 5px;
@@ -1308,7 +1309,7 @@
   overflow-x: hidden;
 }
 
-#gfcqjlcfrr .gt_stub {
+#elicnpjped .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1320,7 +1321,7 @@
   padding-left: 12px;
 }
 
-#gfcqjlcfrr .gt_summary_row {
+#elicnpjped .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1330,7 +1331,7 @@
   padding-right: 5px;
 }
 
-#gfcqjlcfrr .gt_first_summary_row {
+#elicnpjped .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1340,7 +1341,7 @@
   border-top-color: #D3D3D3;
 }
 
-#gfcqjlcfrr .gt_grand_summary_row {
+#elicnpjped .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1350,7 +1351,7 @@
   padding-right: 5px;
 }
 
-#gfcqjlcfrr .gt_first_grand_summary_row {
+#elicnpjped .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1360,7 +1361,7 @@
   border-top-color: #D3D3D3;
 }
 
-#gfcqjlcfrr .gt_table_body {
+#elicnpjped .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1369,7 +1370,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#gfcqjlcfrr .gt_footnotes {
+#elicnpjped .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1383,13 +1384,13 @@
   border-right-color: #D3D3D3;
 }
 
-#gfcqjlcfrr .gt_footnote {
+#elicnpjped .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#gfcqjlcfrr .gt_sourcenotes {
+#elicnpjped .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1403,46 +1404,46 @@
   border-right-color: #D3D3D3;
 }
 
-#gfcqjlcfrr .gt_sourcenote {
+#elicnpjped .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#gfcqjlcfrr .gt_left {
+#elicnpjped .gt_left {
   text-align: left;
 }
 
-#gfcqjlcfrr .gt_center {
+#elicnpjped .gt_center {
   text-align: center;
 }
 
-#gfcqjlcfrr .gt_right {
+#elicnpjped .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#gfcqjlcfrr .gt_font_normal {
+#elicnpjped .gt_font_normal {
   font-weight: normal;
 }
 
-#gfcqjlcfrr .gt_font_bold {
+#elicnpjped .gt_font_bold {
   font-weight: bold;
 }
 
-#gfcqjlcfrr .gt_font_italic {
+#elicnpjped .gt_font_italic {
   font-style: italic;
 }
 
-#gfcqjlcfrr .gt_super {
+#elicnpjped .gt_super {
   font-size: 65%;
 }
 
-#gfcqjlcfrr .gt_footnote_marks {
+#elicnpjped .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="gfcqjlcfrr" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="table gt_table">
+<div id="elicnpjped" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="table gt_table">
 <thead class="gt_header">
 <tr>
 <th colspan="4" class="gt_heading gt_title gt_font_normal" style>Overview over Lung Cancer patients</th>
@@ -1601,7 +1602,7 @@
     </tr>
 </tbody>
 <tfoot class="gt_sourcenotes"><tr>
-<td class="gt_sourcenote" colspan="4">Data Source: NCCTG Lung Cancer Dataset (from survival package 3.1.11)</td>
+<td class="gt_sourcenote" colspan="4">Data Source: NCCTG Lung Cancer Dataset (from survival package 3.2.3)</td>
     </tr></tfoot>
 </table></div>
 </div>
@@ -1612,41 +1613,41 @@
 <h3 class="hasAnchor">
 <a href="#cohort-selection" class="anchor"></a>Cohort Selection</h3>
 <p>Select cohort for the time-to-event analysis.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">lung_cohort &lt;-<span class="st"> </span>lung_cohort <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(SUBGR1),</a>
-<a class="sourceLine" id="cb7-3" data-line-number="3">                <span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(WEIGHT),</a>
-<a class="sourceLine" id="cb7-4" data-line-number="4">                <span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(CNSR),</a>
-<a class="sourceLine" id="cb7-5" data-line-number="5">                 AVAL <span class="op">&gt;=</span><span class="st"> </span><span class="dv">0</span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6">                )</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">lung_cohort &lt;-<span class="st"> </span>lung_cohort <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(SUBGR1),</a>
+<a class="sourceLine" id="cb6-3" title="3">                <span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(WEIGHT),</a>
+<a class="sourceLine" id="cb6-4" title="4">                <span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(CNSR),</a>
+<a class="sourceLine" id="cb6-5" title="5">                 AVAL <span class="op">&gt;=</span><span class="st"> </span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb6-6" title="6">                )</a></code></pre></div>
 </div>
 <div id="kaplan-meier-estimation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#kaplan-meier-estimation" class="anchor"></a>Kaplan Meier estimation</h3>
 <p>The function looks for variables AVAL, CNSR in the data to construct the survival formula <code>survival::survfit.formula(data = data, formula = Surv(AVAL, 1-CNSR) ~ strata), ...))</code>. This wrapper function is compatible with <code><a href="../reference/pipe.html">%&gt;%</a></code> and purrr::map functions without losing traceability of the dataset name.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">lung_cohort <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/vr_KM_est.html">vr_KM_est</a></span>(<span class="dt">strata =</span> <span class="st">"SEX"</span>, <span class="dt">conf.int =</span> <span class="fl">0.90</span>)</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt; Call: survfit(formula = Surv(AVAL, 1 - CNSR) ~ SEX, data = lung_cohort, </span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt;     conf.int = 0.9)</span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt;              n events median 0.9LCL 0.9UCL</span></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; SEX=female  86     37    529    382    740</span></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; SEX=male   127     25    840    806     NA</span></a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">lung_cohort <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="st">  </span><span class="kw"><a href="../reference/vr_KM_est.html">vr_KM_est</a></span>(<span class="dt">strata =</span> <span class="st">"SEX"</span>, <span class="dt">conf.int =</span> <span class="fl">0.90</span>)</a>
+<a class="sourceLine" id="cb7-3" title="3"><span class="co">#&gt; Call: survfit(formula = Surv(AVAL, 1 - CNSR) ~ SEX, data = lung_cohort, </span></a>
+<a class="sourceLine" id="cb7-4" title="4"><span class="co">#&gt;     conf.int = 0.9)</span></a>
+<a class="sourceLine" id="cb7-5" title="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb7-6" title="6"><span class="co">#&gt;              n events median 0.9LCL 0.9UCL</span></a>
+<a class="sourceLine" id="cb7-7" title="7"><span class="co">#&gt; SEX=female  86     37    529    382    740</span></a>
+<a class="sourceLine" id="cb7-8" title="8"><span class="co">#&gt; SEX=male   127     25    840    806     NA</span></a></code></pre></div>
 </div>
 <div id="kaplan-meier-curve" class="section level3">
 <h3 class="hasAnchor">
 <a href="#kaplan-meier-curve" class="anchor"></a>Kaplan-Meier Curve</h3>
 <p>The Kaplan Meier plot is build using the pipe framework.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">lung_cohort <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/vr_KM_est.html">vr_KM_est</a></span>(<span class="dt">strata =</span> <span class="st">"SEX"</span>, <span class="dt">conf.int =</span> <span class="fl">0.90</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="../reference/vr_plot.html">vr_plot</a></span>(<span class="dt">legend_position =</span> <span class="st">"right"</span>, <span class="dt">x_unit =</span> <span class="st">"Days"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="../reference/add_CI.html">add_CI</a></span>(<span class="dt">alpha =</span> <span class="fl">0.2</span>, <span class="dt">style =</span> <span class="st">"ribbon"</span>, <span class="dt">linetype =</span> <span class="dv">3</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="../reference/add_CNSR.html">add_CNSR</a></span>(<span class="dt">shape =</span> <span class="dv">3</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="st">  </span><span class="kw"><a href="../reference/add_risktable.html">add_risktable</a></span>(<span class="dt">min_at_risk =</span> <span class="dv">0</span>,</a>
-<a class="sourceLine" id="cb9-8" data-line-number="8">                <span class="dt">display=</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"n.risk"</span>, <span class="st">"n.event"</span>, <span class="st">"n.censor"</span>),</a>
-<a class="sourceLine" id="cb9-9" data-line-number="9">                <span class="dt">title =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"At risk"</span>, <span class="st">"Event"</span>, <span class="st">"Censor"</span>),</a>
-<a class="sourceLine" id="cb9-10" data-line-number="10">                <span class="dt">collapse =</span> F</a>
-<a class="sourceLine" id="cb9-11" data-line-number="11">               )</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"></a>
+<a class="sourceLine" id="cb8-2" title="2">lung_cohort <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="st">  </span><span class="kw"><a href="../reference/vr_KM_est.html">vr_KM_est</a></span>(<span class="dt">strata =</span> <span class="st">"SEX"</span>, <span class="dt">conf.int =</span> <span class="fl">0.90</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-4" title="4"><span class="st">  </span><span class="kw"><a href="../reference/vr_plot.html">vr_plot</a></span>(<span class="dt">legend_position =</span> <span class="st">"right"</span>, <span class="dt">x_unit =</span> <span class="st">"Days"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-5" title="5"><span class="st">  </span><span class="kw"><a href="../reference/add_CI.html">add_CI</a></span>(<span class="dt">alpha =</span> <span class="fl">0.2</span>, <span class="dt">style =</span> <span class="st">"ribbon"</span>, <span class="dt">linetype =</span> <span class="dv">3</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-6" title="6"><span class="st">  </span><span class="kw"><a href="../reference/add_CNSR.html">add_CNSR</a></span>(<span class="dt">shape =</span> <span class="dv">3</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-7" title="7"><span class="st">  </span><span class="kw"><a href="../reference/add_risktable.html">add_risktable</a></span>(<span class="dt">min_at_risk =</span> <span class="dv">0</span>,</a>
+<a class="sourceLine" id="cb8-8" title="8">                <span class="dt">statlist=</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"n.risk"</span>, <span class="st">"n.event"</span>, <span class="st">"n.censor"</span>),</a>
+<a class="sourceLine" id="cb8-9" title="9">                <span class="dt">label =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"At risk"</span>, <span class="st">"Event"</span>, <span class="st">"Censor"</span>),</a>
+<a class="sourceLine" id="cb8-10" title="10">                <span class="dt">collapse =</span> F</a>
+<a class="sourceLine" id="cb8-11" title="11">               )</a></code></pre></div>
 <div class="figure">
 <img src="Example_analysis_files/figure-html/unnamed-chunk-5-1.png" alt="Comparison of survival in male and female lung cancer patients" width="700"><p class="caption">
 Comparison of survival in male and female lung cancer patients
@@ -1656,15 +1657,15 @@ Comparison of survival in male and female lung cancer patients
 <div id="summary-of-kaplan-meier-curve" class="section level3">
 <h3 class="hasAnchor">
 <a href="#summary-of-kaplan-meier-curve" class="anchor"></a>Summary of Kaplan Meier Curve</h3>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">lung_cohort <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/vr_KM_est.html">vr_KM_est</a></span>(<span class="dt">strata =</span> <span class="st">"SEX"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/get_summary.html">get_summary</a></span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="../reference/vr_render_table.html">vr_render_table</a></span>(<span class="st">"Overall Survival"</span>, <span class="st">"Median survival times in days for each strata"</span>, DATASET)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">lung_cohort <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-2" title="2"><span class="st">  </span><span class="kw"><a href="../reference/vr_KM_est.html">vr_KM_est</a></span>(<span class="dt">strata =</span> <span class="st">"SEX"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-3" title="3"><span class="st">  </span><span class="kw"><a href="../reference/get_summary.html">get_summary</a></span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-4" title="4"><span class="st">  </span><span class="kw"><a href="../reference/vr_render_table.html">vr_render_table</a></span>(<span class="st">"Overall Survival"</span>, <span class="st">"Median survival times in days for each strata"</span>, DATASET)</a></code></pre></div>
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#lqczxrphcw .gt_table {
+#olryzdhzjd .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1687,7 +1688,7 @@ Comparison of survival in male and female lung cancer patients
   border-left-color: #D3D3D3;
 }
 
-#lqczxrphcw .gt_heading {
+#olryzdhzjd .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1699,7 +1700,7 @@ Comparison of survival in male and female lung cancer patients
   border-right-color: #D3D3D3;
 }
 
-#lqczxrphcw .gt_title {
+#olryzdhzjd .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1709,7 +1710,7 @@ Comparison of survival in male and female lung cancer patients
   border-bottom-width: 0;
 }
 
-#lqczxrphcw .gt_subtitle {
+#olryzdhzjd .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1719,13 +1720,13 @@ Comparison of survival in male and female lung cancer patients
   border-top-width: 0;
 }
 
-#lqczxrphcw .gt_bottom_border {
+#olryzdhzjd .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#lqczxrphcw .gt_col_headings {
+#olryzdhzjd .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1740,7 +1741,7 @@ Comparison of survival in male and female lung cancer patients
   border-right-color: #D3D3D3;
 }
 
-#lqczxrphcw .gt_col_heading {
+#olryzdhzjd .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1760,7 +1761,7 @@ Comparison of survival in male and female lung cancer patients
   overflow-x: hidden;
 }
 
-#lqczxrphcw .gt_column_spanner_outer {
+#olryzdhzjd .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1772,15 +1773,15 @@ Comparison of survival in male and female lung cancer patients
   padding-right: 4px;
 }
 
-#lqczxrphcw .gt_column_spanner_outer:first-child {
+#olryzdhzjd .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#lqczxrphcw .gt_column_spanner_outer:last-child {
+#olryzdhzjd .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#lqczxrphcw .gt_column_spanner {
+#olryzdhzjd .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1792,7 +1793,7 @@ Comparison of survival in male and female lung cancer patients
   width: 100%;
 }
 
-#lqczxrphcw .gt_group_heading {
+#olryzdhzjd .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1814,7 +1815,7 @@ Comparison of survival in male and female lung cancer patients
   vertical-align: middle;
 }
 
-#lqczxrphcw .gt_empty_group_heading {
+#olryzdhzjd .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1829,19 +1830,19 @@ Comparison of survival in male and female lung cancer patients
   vertical-align: middle;
 }
 
-#lqczxrphcw .gt_striped {
+#olryzdhzjd .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#lqczxrphcw .gt_from_md > :first-child {
+#olryzdhzjd .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#lqczxrphcw .gt_from_md > :last-child {
+#olryzdhzjd .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#lqczxrphcw .gt_row {
+#olryzdhzjd .gt_row {
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 5px;
@@ -1860,7 +1861,7 @@ Comparison of survival in male and female lung cancer patients
   overflow-x: hidden;
 }
 
-#lqczxrphcw .gt_stub {
+#olryzdhzjd .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1872,7 +1873,7 @@ Comparison of survival in male and female lung cancer patients
   padding-left: 12px;
 }
 
-#lqczxrphcw .gt_summary_row {
+#olryzdhzjd .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1882,7 +1883,7 @@ Comparison of survival in male and female lung cancer patients
   padding-right: 5px;
 }
 
-#lqczxrphcw .gt_first_summary_row {
+#olryzdhzjd .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1892,7 +1893,7 @@ Comparison of survival in male and female lung cancer patients
   border-top-color: #D3D3D3;
 }
 
-#lqczxrphcw .gt_grand_summary_row {
+#olryzdhzjd .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1902,7 +1903,7 @@ Comparison of survival in male and female lung cancer patients
   padding-right: 5px;
 }
 
-#lqczxrphcw .gt_first_grand_summary_row {
+#olryzdhzjd .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1912,7 +1913,7 @@ Comparison of survival in male and female lung cancer patients
   border-top-color: #D3D3D3;
 }
 
-#lqczxrphcw .gt_table_body {
+#olryzdhzjd .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1921,7 +1922,7 @@ Comparison of survival in male and female lung cancer patients
   border-bottom-color: #D3D3D3;
 }
 
-#lqczxrphcw .gt_footnotes {
+#olryzdhzjd .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1935,13 +1936,13 @@ Comparison of survival in male and female lung cancer patients
   border-right-color: #D3D3D3;
 }
 
-#lqczxrphcw .gt_footnote {
+#olryzdhzjd .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#lqczxrphcw .gt_sourcenotes {
+#olryzdhzjd .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1955,46 +1956,46 @@ Comparison of survival in male and female lung cancer patients
   border-right-color: #D3D3D3;
 }
 
-#lqczxrphcw .gt_sourcenote {
+#olryzdhzjd .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#lqczxrphcw .gt_left {
+#olryzdhzjd .gt_left {
   text-align: left;
 }
 
-#lqczxrphcw .gt_center {
+#olryzdhzjd .gt_center {
   text-align: center;
 }
 
-#lqczxrphcw .gt_right {
+#olryzdhzjd .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#lqczxrphcw .gt_font_normal {
+#olryzdhzjd .gt_font_normal {
   font-weight: normal;
 }
 
-#lqczxrphcw .gt_font_bold {
+#olryzdhzjd .gt_font_bold {
   font-weight: bold;
 }
 
-#lqczxrphcw .gt_font_italic {
+#olryzdhzjd .gt_font_italic {
   font-style: italic;
 }
 
-#lqczxrphcw .gt_super {
+#olryzdhzjd .gt_super {
   font-size: 65%;
 }
 
-#lqczxrphcw .gt_footnote_marks {
+#olryzdhzjd .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="lqczxrphcw" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="table gt_table">
+<div id="olryzdhzjd" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="table gt_table">
 <thead class="gt_header">
 <tr>
 <th colspan="7" class="gt_heading gt_title gt_font_normal" style>Overall Survival</th>
@@ -2033,19 +2034,19 @@ Comparison of survival in male and female lung cancer patients
     </tr>
 </tbody>
 <tfoot class="gt_sourcenotes"><tr>
-<td class="gt_sourcenote" colspan="7">Data Source: NCCTG Lung Cancer Dataset (from survival package 3.1.11)</td>
+<td class="gt_sourcenote" colspan="7">Data Source: NCCTG Lung Cancer Dataset (from survival package 3.2.3)</td>
     </tr></tfoot>
 </table></div>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb11-2" data-line-number="2">lung_cohort <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/vr_KM_est.html">vr_KM_est</a></span>(<span class="dt">strata =</span> <span class="st">"SEX"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="../reference/get_pvalue.html">get_pvalue</a></span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="../reference/vr_render_table.html">vr_render_table</a></span>(<span class="st">"Equality between Strata"</span>, <span class="st">"Summary table with test of equality over strata"</span>, DATASET)</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"></a>
+<a class="sourceLine" id="cb10-2" title="2">lung_cohort <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-3" title="3"><span class="st">  </span><span class="kw"><a href="../reference/vr_KM_est.html">vr_KM_est</a></span>(<span class="dt">strata =</span> <span class="st">"SEX"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-4" title="4"><span class="st">  </span><span class="kw"><a href="../reference/get_pvalue.html">get_pvalue</a></span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-5" title="5"><span class="st">  </span><span class="kw"><a href="../reference/vr_render_table.html">vr_render_table</a></span>(<span class="st">"Equality between Strata"</span>, <span class="st">"Summary table with test of equality over strata"</span>, DATASET)</a></code></pre></div>
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#skunbpwzgd .gt_table {
+#zqnntazimh .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2068,7 +2069,7 @@ Comparison of survival in male and female lung cancer patients
   border-left-color: #D3D3D3;
 }
 
-#skunbpwzgd .gt_heading {
+#zqnntazimh .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2080,7 +2081,7 @@ Comparison of survival in male and female lung cancer patients
   border-right-color: #D3D3D3;
 }
 
-#skunbpwzgd .gt_title {
+#zqnntazimh .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2090,7 +2091,7 @@ Comparison of survival in male and female lung cancer patients
   border-bottom-width: 0;
 }
 
-#skunbpwzgd .gt_subtitle {
+#zqnntazimh .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2100,13 +2101,13 @@ Comparison of survival in male and female lung cancer patients
   border-top-width: 0;
 }
 
-#skunbpwzgd .gt_bottom_border {
+#zqnntazimh .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#skunbpwzgd .gt_col_headings {
+#zqnntazimh .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2121,7 +2122,7 @@ Comparison of survival in male and female lung cancer patients
   border-right-color: #D3D3D3;
 }
 
-#skunbpwzgd .gt_col_heading {
+#zqnntazimh .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2141,7 +2142,7 @@ Comparison of survival in male and female lung cancer patients
   overflow-x: hidden;
 }
 
-#skunbpwzgd .gt_column_spanner_outer {
+#zqnntazimh .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2153,15 +2154,15 @@ Comparison of survival in male and female lung cancer patients
   padding-right: 4px;
 }
 
-#skunbpwzgd .gt_column_spanner_outer:first-child {
+#zqnntazimh .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#skunbpwzgd .gt_column_spanner_outer:last-child {
+#zqnntazimh .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#skunbpwzgd .gt_column_spanner {
+#zqnntazimh .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2173,7 +2174,7 @@ Comparison of survival in male and female lung cancer patients
   width: 100%;
 }
 
-#skunbpwzgd .gt_group_heading {
+#zqnntazimh .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2195,7 +2196,7 @@ Comparison of survival in male and female lung cancer patients
   vertical-align: middle;
 }
 
-#skunbpwzgd .gt_empty_group_heading {
+#zqnntazimh .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2210,19 +2211,19 @@ Comparison of survival in male and female lung cancer patients
   vertical-align: middle;
 }
 
-#skunbpwzgd .gt_striped {
+#zqnntazimh .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#skunbpwzgd .gt_from_md > :first-child {
+#zqnntazimh .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#skunbpwzgd .gt_from_md > :last-child {
+#zqnntazimh .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#skunbpwzgd .gt_row {
+#zqnntazimh .gt_row {
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 5px;
@@ -2241,7 +2242,7 @@ Comparison of survival in male and female lung cancer patients
   overflow-x: hidden;
 }
 
-#skunbpwzgd .gt_stub {
+#zqnntazimh .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2253,7 +2254,7 @@ Comparison of survival in male and female lung cancer patients
   padding-left: 12px;
 }
 
-#skunbpwzgd .gt_summary_row {
+#zqnntazimh .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2263,7 +2264,7 @@ Comparison of survival in male and female lung cancer patients
   padding-right: 5px;
 }
 
-#skunbpwzgd .gt_first_summary_row {
+#zqnntazimh .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2273,7 +2274,7 @@ Comparison of survival in male and female lung cancer patients
   border-top-color: #D3D3D3;
 }
 
-#skunbpwzgd .gt_grand_summary_row {
+#zqnntazimh .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2283,7 +2284,7 @@ Comparison of survival in male and female lung cancer patients
   padding-right: 5px;
 }
 
-#skunbpwzgd .gt_first_grand_summary_row {
+#zqnntazimh .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2293,7 +2294,7 @@ Comparison of survival in male and female lung cancer patients
   border-top-color: #D3D3D3;
 }
 
-#skunbpwzgd .gt_table_body {
+#zqnntazimh .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2302,7 +2303,7 @@ Comparison of survival in male and female lung cancer patients
   border-bottom-color: #D3D3D3;
 }
 
-#skunbpwzgd .gt_footnotes {
+#zqnntazimh .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2316,13 +2317,13 @@ Comparison of survival in male and female lung cancer patients
   border-right-color: #D3D3D3;
 }
 
-#skunbpwzgd .gt_footnote {
+#zqnntazimh .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#skunbpwzgd .gt_sourcenotes {
+#zqnntazimh .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2336,46 +2337,46 @@ Comparison of survival in male and female lung cancer patients
   border-right-color: #D3D3D3;
 }
 
-#skunbpwzgd .gt_sourcenote {
+#zqnntazimh .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#skunbpwzgd .gt_left {
+#zqnntazimh .gt_left {
   text-align: left;
 }
 
-#skunbpwzgd .gt_center {
+#zqnntazimh .gt_center {
   text-align: center;
 }
 
-#skunbpwzgd .gt_right {
+#zqnntazimh .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#skunbpwzgd .gt_font_normal {
+#zqnntazimh .gt_font_normal {
   font-weight: normal;
 }
 
-#skunbpwzgd .gt_font_bold {
+#zqnntazimh .gt_font_bold {
   font-weight: bold;
 }
 
-#skunbpwzgd .gt_font_italic {
+#zqnntazimh .gt_font_italic {
   font-style: italic;
 }
 
-#skunbpwzgd .gt_super {
+#zqnntazimh .gt_super {
   font-size: 65%;
 }
 
-#skunbpwzgd .gt_footnote_marks {
+#zqnntazimh .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="skunbpwzgd" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="table gt_table">
+<div id="zqnntazimh" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="table gt_table">
 <thead class="gt_header">
 <tr>
 <th colspan="4" class="gt_heading gt_title gt_font_normal" style>Equality between Strata</th>
@@ -2411,7 +2412,7 @@ Comparison of survival in male and female lung cancer patients
     </tr>
 </tbody>
 <tfoot class="gt_sourcenotes"><tr>
-<td class="gt_sourcenote" colspan="4">Data Source: NCCTG Lung Cancer Dataset (from survival package 3.1.11)</td>
+<td class="gt_sourcenote" colspan="4">Data Source: NCCTG Lung Cancer Dataset (from survival package 3.2.3)</td>
     </tr></tfoot>
 </table></div>
 </div>

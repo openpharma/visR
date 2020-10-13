@@ -15,10 +15,9 @@ vr_tidy_rbest(x, prob = 0.95)
 td tidied tibble
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
-}
-\details{
 This is an experimental function that may be developed over time.
+
+\Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
 }
 \examples{
 \donttest{

@@ -1,8 +1,12 @@
 #' Generate cohort attrition table
-#'
-#' @description This function calculates the subjects counts excluded and included
+#' 
+#' @description 
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
+#' This is an experimental function that may be developed over time. 
+#' 
+#' This function calculates the subjects counts excluded and included
 #' for each step of the cohort selection process.
-#'
+#' 
 #' @param data r table. It is used as the input data to count the subjects
 #' that meets the criteria of interest
 #' @param criteria_descriptions character vector. It contains the descriptions

@@ -4,7 +4,7 @@
     <loc>https://openpharma.github.io/visR//index.html</loc>
   </url>
   <url>
-    <loc>https://openpharma.github.io/visR//reference/AlignPlots.html</loc>
+    <loc>https://openpharma.github.io/visR//reference/add_annotation.html</loc>
   </url>
   <url>
     <loc>https://openpharma.github.io/visR//reference/add_CI.html</loc>
@@ -13,13 +13,13 @@
     <loc>https://openpharma.github.io/visR//reference/add_CNSR.html</loc>
   </url>
   <url>
-    <loc>https://openpharma.github.io/visR//reference/add_annotation.html</loc>
-  </url>
-  <url>
     <loc>https://openpharma.github.io/visR//reference/add_risktable.html</loc>
   </url>
   <url>
     <loc>https://openpharma.github.io/visR//reference/adtte.html</loc>
+  </url>
+  <url>
+    <loc>https://openpharma.github.io/visR//reference/AlignPlots.html</loc>
   </url>
   <url>
     <loc>https://openpharma.github.io/visR//reference/brca_cohort.html</loc>
@@ -52,9 +52,6 @@
     <loc>https://openpharma.github.io/visR//reference/tidyme.html</loc>
   </url>
   <url>
-    <loc>https://openpharma.github.io/visR//reference/vr_KM_est.html</loc>
-  </url>
-  <url>
     <loc>https://openpharma.github.io/visR//reference/vr_alluvial_plot.html</loc>
   </url>
   <url>
@@ -70,6 +67,9 @@
     <loc>https://openpharma.github.io/visR//reference/vr_create_tableone.html</loc>
   </url>
   <url>
+    <loc>https://openpharma.github.io/visR//reference/vr_KM_est.html</loc>
+  </url>
+  <url>
     <loc>https://openpharma.github.io/visR//reference/vr_plot.html</loc>
   </url>
   <url>
@@ -82,9 +82,6 @@
     <loc>https://openpharma.github.io/visR//reference/vr_render_tableone.html</loc>
   </url>
   <url>
-    <loc>https://openpharma.github.io/visR//reference/vr_summarize.html</loc>
-  </url>
-  <url>
     <loc>https://openpharma.github.io/visR//reference/vr_summarize.default.html</loc>
   </url>
   <url>
@@ -94,7 +91,7 @@
     <loc>https://openpharma.github.io/visR//reference/vr_summarize.numeric.html</loc>
   </url>
   <url>
-    <loc>https://openpharma.github.io/visR//reference/vr_summarize_tab1.html</loc>
+    <loc>https://openpharma.github.io/visR//reference/vr_summarize.html</loc>
   </url>
   <url>
     <loc>https://openpharma.github.io/visR//reference/vr_summarize_tab1.default.html</loc>
@@ -104,6 +101,9 @@
   </url>
   <url>
     <loc>https://openpharma.github.io/visR//reference/vr_summarize_tab1.numeric.html</loc>
+  </url>
+  <url>
+    <loc>https://openpharma.github.io/visR//reference/vr_summarize_tab1.html</loc>
   </url>
   <url>
     <loc>https://openpharma.github.io/visR//reference/vr_table_caption.html</loc>
