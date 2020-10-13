@@ -53,19 +53,34 @@ You can read more about the philosophy and architecture in the repo wiki
 Install the development version from [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
 devtools::install_github("openpharma/visR")
 ```
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+This is a basic example to demostrate how to plot time to event analyses. 
 
-TODO: add an example. 
 
 ```{r example}
-## library(visR)
-## basic example code
+library(visR)
+library(survival)
+library(dplyr)
+library(tidyr) 
+library(ggplot2)
+
+adtte %>%
+  vr_KM_est(strata = "SEX", conf.int = 0.90) %>%
+  vr_plot(legend_position = "right", x_unit = "Days") %>%
+  add_CI(alpha = 0.2,
+         style = "ribbon",
+         linetype = 3) %>%
+  add_CNSR(shape = 3, size = 2) %>%
+  add_risktable(
+    min_at_risk = 0,
+    statlist = c("n.risk", "n.event", "n.censor"),
+    label = c("At risk", "Event", "Censor"),
+    collapse = F
+  )
 ```
 
 Please note that the 'visR' project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
