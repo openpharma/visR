@@ -17,12 +17,13 @@
 #'
 #' @examples
 #' \donttest{
-#' library(RBesT)
-#' example(crohn)
-#' vr_tidy_rbest(map_crohn)
+#' # Commenting out to not depend on RBest - issue with cran availability
+#' # library(RBesT)
+#' # example(crohn)
+#' # vr_tidy_rbest(map_crohn)
 #'
-#' map_crohn %>%
-#' vr_tidy_rbest()
+#' # map_crohn %>%
+#' # vr_tidy_rbest()
 #' }
 #'
 vr_tidy_rbest <- function(x, prob = 0.95){
