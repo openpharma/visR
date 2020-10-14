@@ -76,7 +76,7 @@ adtte %>%
          linetype = 3) %>%
   add_CNSR(shape = 3, size = 1) %>%
   add_risktable(
-    min_at_risk = 0,
+    min_at_risk = 3,
     statlist = c("n.risk", "n.event", "n.censor"),
     label = c("At risk", "Event", "Censor"),
     collapse = F
