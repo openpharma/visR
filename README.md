@@ -53,8 +53,11 @@ devtools::install_github("openpharma/visR")
 
 ## Example
 
-This is a basic example to demonstrate how to plot using the api a time
-to event analysis.
+This is a basic example to demonstrate how the API can be used to add
+layers to a visualisation. In this example a time to event analysis. The
+example calculates stratified Kaplan-Meier by treatment and then plots.
+Additional functions can be used to add uncertainty intervals, censoring
+information and a risk table.
 
 ``` r
 library(visR)
@@ -66,8 +69,7 @@ library(ggplot2)
 adtte %>%
   vr_KM_est(strata = "TRTP", conf.int = 0.90) %>%
   vr_plot(legend_position = "right", x_unit = "Days") %>%
-  add_CI(alpha = 0.2,
-         style = "ribbon",
+  add_CI(style = "ribbon",
          linetype = 3) %>%
   add_CNSR(shape = 3, size = 1) %>%
   add_risktable(
