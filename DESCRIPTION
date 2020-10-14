@@ -2,7 +2,7 @@ Package: visR
 Type: Package
 Title: A package to wrap functionality for plots, tables and diagrams adhering to graphical principles
 Description: The goal of visR is to enable fit-for-purpose, reusable clinical and medcial research focused visualizations and tables with sensible defaults and based on sound graphical principles.
-Version: 1.0.0
+Version: 0.1.1.9004
 Date: 2020-05-14
 LazyData: true
 Authors@R: as.person(c(
@@ -30,6 +30,7 @@ Suggests:
     survminer,
     forcats,
     glue,
+    here,
     stringr
 RoxygenNote: 7.1.1
 Encoding: UTF-8
@@ -58,7 +59,6 @@ Imports:
     easyalluvial (>= 0.2.2),
     cowplot,
     gtable,
-    here,
     gridExtra,
     plotly,
     reshape2,

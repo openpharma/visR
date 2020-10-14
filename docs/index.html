@@ -95,7 +95,7 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#visr-" class="anchor"></a>visR <img src="reference/figures/logo.png" align="right" height="131.5">
 </h1></div>
-<p>The goal of visR is to enable fit-for-purpose, reusable clinical and medical research focused visualizations and tables with sensible defaults and based on sound graphical principles.</p>
+<p>The goal of visR is to enable fit-for-purpose, reusable clinical and medical research focused visualizations and tables with sensible defaults and based on sound <a href="https://graphicsprinciples.github.io/">graphical principles</a>.</p>
 <p><a href="https://openpharma.github.io/visR/">Package documentation</a></p>
 <div id="motivation" class="section level2">
 <h2 class="hasAnchor">
@@ -107,8 +107,13 @@
 <li>effective visual communication by making it easy to <strong>implement best practices</strong>
 </li>
 </ul>
-<p>We are not judging on what visualisation you chose for your research question, but want facilitate to make you do your work as you need it!</p>
-<p>You can read more about the philosophy and architecture in the repo wiki</p>
+<p>We are not judging on what visualisation you chose for your research question, but want facilitate and support good practice.</p>
+<p>You can read more about the philosophy and architecture in the <a href="https://github.com/openpharma/visR/wiki">repo wiki</a>.</p>
+</div>
+<div id="lifecycle-and-status" class="section level2">
+<h2 class="hasAnchor">
+<a href="#lifecycle-and-status" class="anchor"></a>Lifecycle and status</h2>
+<p>The package is still experimental and under active development with a current focus on developing a stable API.</p>
 <!-- badges: start -->
 <table class="table">
 <colgroup>
@@ -138,18 +143,18 @@
 </tr>
 </tbody>
 </table>
-<!-- badges: end --><p>.</p>
+<!-- badges: end -->
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>Install the development version from <a href="https://github.com/">GitHub</a> with:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">devtools<span class="op">::</span><span class="kw"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"openpharma/visR"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">"openpharma/visR"</span>)</a></code></pre></div>
 </div>
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
-<p>This is a basic example to demostrate how to plot time to event analyses.</p>
+<p>This is a basic example to demonstrate how the API can be used to add layers to a visualisation. In this example a time to event analysis. The example calculates stratified Kaplan-Meier by treatment and then plots. Additional functions can be used to add uncertainty intervals, censoring information and a risk table.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(visR)</a>
 <a class="sourceLine" id="cb2-2" title="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(survival)</a>
 <a class="sourceLine" id="cb2-3" title="3"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr)</a>
@@ -157,19 +162,22 @@
 <a class="sourceLine" id="cb2-5" title="5"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggplot2)</a>
 <a class="sourceLine" id="cb2-6" title="6"></a>
 <a class="sourceLine" id="cb2-7" title="7">adtte <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-8" title="8"><span class="st">  </span><span class="kw"><a href="reference/vr_KM_est.html">vr_KM_est</a></span>(<span class="dt">strata =</span> <span class="st">"SEX"</span>, <span class="dt">conf.int =</span> <span class="fl">0.90</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-8" title="8"><span class="st">  </span><span class="kw"><a href="reference/vr_KM_est.html">vr_KM_est</a></span>(<span class="dt">strata =</span> <span class="st">"TRTP"</span>, <span class="dt">conf.int =</span> <span class="fl">0.90</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb2-9" title="9"><span class="st">  </span><span class="kw"><a href="reference/vr_plot.html">vr_plot</a></span>(<span class="dt">legend_position =</span> <span class="st">"right"</span>, <span class="dt">x_unit =</span> <span class="st">"Days"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-10" title="10"><span class="st">  </span><span class="kw"><a href="reference/add_CI.html">add_CI</a></span>(<span class="dt">alpha =</span> <span class="fl">0.2</span>,</a>
-<a class="sourceLine" id="cb2-11" title="11">         <span class="dt">style =</span> <span class="st">"ribbon"</span>,</a>
-<a class="sourceLine" id="cb2-12" title="12">         <span class="dt">linetype =</span> <span class="dv">3</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-13" title="13"><span class="st">  </span><span class="kw"><a href="reference/add_CNSR.html">add_CNSR</a></span>(<span class="dt">shape =</span> <span class="dv">3</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-14" title="14"><span class="st">  </span><span class="kw"><a href="reference/add_risktable.html">add_risktable</a></span>(</a>
-<a class="sourceLine" id="cb2-15" title="15">    <span class="dt">min_at_risk =</span> <span class="dv">0</span>,</a>
-<a class="sourceLine" id="cb2-16" title="16">    <span class="dt">statlist =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"n.risk"</span>, <span class="st">"n.event"</span>, <span class="st">"n.censor"</span>),</a>
-<a class="sourceLine" id="cb2-17" title="17">    <span class="dt">label =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"At risk"</span>, <span class="st">"Event"</span>, <span class="st">"Censor"</span>),</a>
-<a class="sourceLine" id="cb2-18" title="18">    <span class="dt">collapse =</span> F</a>
-<a class="sourceLine" id="cb2-19" title="19">  )</a></code></pre></div>
+<a class="sourceLine" id="cb2-10" title="10"><span class="st">  </span><span class="kw"><a href="reference/add_CI.html">add_CI</a></span>(<span class="dt">style =</span> <span class="st">"ribbon"</span>,</a>
+<a class="sourceLine" id="cb2-11" title="11">         <span class="dt">linetype =</span> <span class="dv">3</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-12" title="12"><span class="st">  </span><span class="kw"><a href="reference/add_CNSR.html">add_CNSR</a></span>(<span class="dt">shape =</span> <span class="dv">3</span>, <span class="dt">size =</span> <span class="dv">1</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-13" title="13"><span class="st">  </span><span class="kw"><a href="reference/add_risktable.html">add_risktable</a></span>(</a>
+<a class="sourceLine" id="cb2-14" title="14">    <span class="dt">min_at_risk =</span> <span class="dv">3</span>,</a>
+<a class="sourceLine" id="cb2-15" title="15">    <span class="dt">statlist =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"n.risk"</span>, <span class="st">"n.event"</span>, <span class="st">"n.censor"</span>),</a>
+<a class="sourceLine" id="cb2-16" title="16">    <span class="dt">label =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"At risk"</span>, <span class="st">"Event"</span>, <span class="st">"Censor"</span>),</a>
+<a class="sourceLine" id="cb2-17" title="17">    <span class="dt">collapse =</span> F</a>
+<a class="sourceLine" id="cb2-18" title="18">  )</a></code></pre></div>
 <p><img src="reference/figures/README-example-1.png" width="100%"></p>
+</div>
+<div id="contribution" class="section level2">
+<h2 class="hasAnchor">
+<a href="#contribution" class="anchor"></a>Contribution</h2>
 <p>Please note that the ‘visR’ project is released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
 <div id="code-contributors" class="section level2">
