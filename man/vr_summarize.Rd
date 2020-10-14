@@ -2,13 +2,13 @@
 % Please edit documentation in R/vr_utils.R
 \name{vr_summarize}
 \alias{vr_summarize}
-\title{Method summarise}
+\title{Calculate summary statistics for a vector}
 \usage{
 vr_summarize(x)
 }
 \arguments{
-\item{x}{placeholder}
+\item{x}{an object}
 }
 \description{
-Method summarise
+Calculates several summary statistics for a vector depending on the vector class
 }

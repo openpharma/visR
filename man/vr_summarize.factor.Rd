@@ -7,7 +7,7 @@
 \method{vr_summarize}{factor}(x)
 }
 \arguments{
-\item{x}{placeholder}
+\item{x}{an object of class "factor"}
 }
 \description{
 Create variable summary for factors

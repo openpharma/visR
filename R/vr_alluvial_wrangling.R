@@ -87,7 +87,7 @@ vr_alluvial_wrangling <- function(
   linenames_summary_long <-
     data_with_no_tx %>%
     dplyr::group_by(linenumber, linename) %>%
-    dplyr:: summarise(patient_count = n()) %>%
+    dplyr:: summarise(patient_count = dplyr::n()) %>%
     dplyr::arrange(linenumber, desc(patient_count)) %>%
     dplyr::mutate(freq = patient_count / sum(patient_count))
 
@@ -97,7 +97,7 @@ vr_alluvial_wrangling <- function(
   linenames_summary <-
     alluvial_plot_data %>%
     dplyr::group_by(linenumber, linename) %>%
-    dplyr:: summarise(patient_count = n()) %>%
+    dplyr:: summarise(patient_count = dplyr::n()) %>%
     dplyr::arrange(linenumber, desc(patient_count)) %>%
     dplyr::mutate(freq = patient_count / sum(patient_count))
 
@@ -151,7 +151,7 @@ vr_mostcommon_linenames <- function(data, n_common){
   mostcommon <- data %>%
     dplyr::group_by(linename, linenumber) %>%
     dplyr::summarise(
-      n = n()
+      n = dplyr::n()
     ) %>%
     dplyr::ungroup() %>%
     dplyr::group_by(linenumber) %>%

@@ -7,7 +7,7 @@
 \method{vr_summarize}{numeric}(x)
 }
 \arguments{
-\item{x}{placeholder}
+\item{x}{an object of class "numeric"}
 }
 \description{
 Create variable summary for numeric variables

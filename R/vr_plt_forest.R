@@ -1,24 +1,31 @@
 #' Render a simple forest plot given a tibble
-#'
+#' This is an experimental function that may be developed over time. 
+#' 
+#' @description
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
+
 #' @param td tidied tibble
 #'
 #' @return ggplot object
 #' @export
 #'
 #' @examples
-#' library(RBesT)
-#' library(dplyr)
-#' library(ggplot2)
+#' \donttest{
+#' # Commenting out to not depend on RBest - issue with cran availability
+#' # library(RBesT)
+#' # library(dplyr)
+#' # library(ggplot2)
 #'
-#' example(crohn)
-#' vr_tidy_rbest(map_crohn)
-#' map_crohn %>% vr_tidy_rbest() %>% filter(model == "meta") %>%
-#' vr_plt_forest()
+#' # example(crohn)
+#' # vr_tidy_rbest(map_crohn)
+#' # map_crohn %>% vr_tidy_rbest() %>% filter(model == "meta") %>%
+#' # vr_plt_forest()
 #'
-#' map_crohn %>% vr_tidy_rbest() %>% filter(model == "stratified") %>%
-#' vr_plt_forest()
+#' # map_crohn %>% vr_tidy_rbest() %>% filter(model == "stratified") %>%
+#' # vr_plt_forest()
 #'
-#' map_crohn %>% vr_tidy_rbest() %>% vr_plt_forest() + facet_wrap(~ model)
+#' # map_crohn %>% vr_tidy_rbest() %>% vr_plt_forest() + facet_wrap(~ model)
+#' }
 #'
 vr_plt_forest <- function(td){
   gg <-

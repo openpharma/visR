@@ -28,11 +28,11 @@ The counts and percentages of the remaining and excluded subjects
 for each step of the cohort selection in a table format.
 }
 \description{
-This function calculates the subjects counts for each step of
-the cohort selection.
+\Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
+This is an experimental function that may be developed over time.
 
-By using the description tag you'll notice that I
-can have multiple paragraphs in the description section
+This function calculates the subjects counts excluded and included
+for each step of the cohort selection process.
 }
 \details{
 The vector criteria_descriptions must have the same length with

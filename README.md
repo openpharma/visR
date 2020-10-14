@@ -5,7 +5,8 @@
 
 The goal of visR is to enable fit-for-purpose, reusable clinical and
 medical research focused visualizations and tables with sensible
-defaults and based on sound graphical principles.
+defaults and based on sound [graphical
+principles](https://graphicsprinciples.github.io/).
 
 [Package documentation](https://openpharma.github.io/visR/)
 
@@ -21,10 +22,15 @@ on
     practices**
 
 We are not judging on what visualisation you chose for your research
-question, but want facilitate to make you do your work as you need it\!
+question, but want facilitate and support good practice.
 
-You can read more about the philosophy and architecture in the repo
-wiki
+You can read more about the philosophy and architecture in the [repo
+wiki](https://github.com/openpharma/visR/wiki).
+
+## Lifecycle and status
+
+The package is still experimental and under active development with a
+current focus on developing a stable API.
 
 <!-- badges: start -->
 
@@ -37,27 +43,46 @@ wiki
 
 <!-- badges: end -->
 
-.
-
 ## Installation
 
 Install the development version from [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
 devtools::install_github("openpharma/visR")
 ```
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
-
-TODO: add an example.
+This is a basic example to demonstrate how the API can be used to add
+layers to a visualisation. In this example a time to event analysis. The
+example calculates stratified Kaplan-Meier by treatment and then plots.
+Additional functions can be used to add uncertainty intervals, censoring
+information and a risk table.
 
 ``` r
-## library(visR)
-## basic example code
+library(visR)
+library(survival)
+library(dplyr)
+library(tidyr) 
+library(ggplot2)
+
+adtte %>%
+  vr_KM_est(strata = "TRTP", conf.int = 0.90) %>%
+  vr_plot(legend_position = "right", x_unit = "Days") %>%
+  add_CI(style = "ribbon",
+         linetype = 3) %>%
+  add_CNSR(shape = 3, size = 1) %>%
+  add_risktable(
+    min_at_risk = 3,
+    statlist = c("n.risk", "n.event", "n.censor"),
+    label = c("At risk", "Event", "Censor"),
+    collapse = F
+  )
 ```
+
+<img src="man/figures/README-example-1.png" width="100%" />
+
+## Contribution
 
 Please note that the ‘visR’ project is released with a [Contributor Code
 of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you
