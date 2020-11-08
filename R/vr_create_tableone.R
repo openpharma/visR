@@ -9,7 +9,7 @@
 #' * Default: number of unique values and number of missing values
 #'
 #' @param data The dataset to summarize as dataframe or tibble
-#' @param groupCols Stratifying/Grouping variable name(s) as character vector. If NULL, only overall results are returned
+#' @param group_cols Stratifying/Grouping variable name(s) as character vector. If NULL, only overall results are returned
 #' @param overall If TRUE, the summary statistics for the overall dataset are also calculated 
 #' @param summary_function A function defining summary statistics for numeric and categorical values
 #' 
@@ -33,38 +33,38 @@
 #'          ecog.ps = factor(ecog.ps)) %>% 
 #'   select(age, age_group, everything()) %>% 
 #'   vr_create_tableone()
-vr_create_tableone <- function(data, groupCols = NULL, overall=TRUE, summary_function = vr_summarize_tab1){
+vr_create_tableone <- function(data, group_cols = NULL, overall=TRUE, summary_function = vr_summarize_tab1){
   
   summary_FUN <- match.fun(summary_function)
   
-  if(overall & !is.null(groupCols)){
-    overall_table1 <- vr_create_tableone(data, groupCols = NULL, overall = FALSE, summary_function = summary_function)
+  if(overall & !is.null(group_cols)){
+    overall_table1 <- vr_create_tableone(data, group_cols = NULL, overall = FALSE, summary_function = summary_function)
     combine_dfs <- TRUE
   }
   else{
     combine_dfs = FALSE
   }
   
-  if(is.null(groupCols)){
+  if(is.null(group_cols)){
     data <- data %>% 
       dplyr::mutate(all = "Overall")
-    groupCols <- c("all")
+    group_cols <- c("all")
   }
   
   data <- data %>% 
-    dplyr::group_by(!!!dplyr::syms(groupCols))
+    dplyr::group_by(!!!dplyr::syms(group_cols))
   
   data_ns <- data %>% 
     dplyr::summarise(summary = dplyr::n()) %>% 
-    tidyr::pivot_wider(names_from = tidyselect::any_of(groupCols), values_from = "summary") %>%
+    tidyr::pivot_wider(names_from = tidyselect::any_of(group_cols), values_from = "summary") %>%
     dplyr::mutate(variable = "Sample", summary_id = "N")
   
   data_summary <- data %>% 
     dplyr::summarise_all(summary_FUN) %>% 
     dplyr::ungroup() %>% 
-    tidyr::pivot_longer(cols = setdiff(names(.), groupCols), names_to = "variable", values_to = "summary") %>% 
+    tidyr::pivot_longer(cols = setdiff(names(.), group_cols), names_to = "variable", values_to = "summary") %>% 
     tidyr::unnest_longer(summary) %>% 
-    tidyr::pivot_wider(names_from = tidyselect::any_of(groupCols), values_from = "summary")
+    tidyr::pivot_wider(names_from = tidyselect::any_of(group_cols), values_from = "summary")
   
   data_table1 <- rbind(data_ns, data_summary) %>% 
     dplyr::rename(statistic = summary_id) %>% 
