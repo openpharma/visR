@@ -16,7 +16,7 @@
 #' survfit_object <- vr_KM_est(data = adtte, strata = "TRTP")
 #' get_pvalue(survfit_object)
 #'  
-#' @return A tibble with summary measures for the Test of Equality Across Strata
+#' @return A data.frame with summary measures for the requested `method`
 #'  
 #' @rdname get_pvalue
 #' 
@@ -53,16 +53,16 @@ get_pvalue <- function(x, ...){
   UseMethod("get_pvalue")
 }
 
-#' @description S3 method for extracting information regarding null hypothesis testing for differences among groups.
-#'     No default method is available at the moment.
-#'     
-#' @seealso \code{\link[survival]{survdiff}} \code{\link[survMisc]{comp}}
+#' @seealso \code{\link[survival]{survdiff}} \cr
+#'          \code{\link[survMisc]{comp}}
 #' 
 #' @param survfit_object An object of class \code{survfit}
 #' 
-#' @param method Method for evaluating the difference between survival curves. "Equality" uses \code{\link[survival]{survdiff}} and 
-#'   tests the null hypothesis of no difference among strata.\cr
-#'   "Trend" uses \code{\link[survMisc]{comp}} and tests the null hypothesis of a linear trend across strata.\cr
+#' @param method Method for evaluating the difference between survival curves. "Equality" uses survival::\code{\link[survival]{survdiff}} and 
+#'   tests the null hypothesis of no difference among strata, based on the G-rho family of tests. The weight, defined by `rho`,
+#'   can be user-defined.\cr
+#'   "Trend" uses survMisc::\code{\link[survMisc]{comp}} and tests the null hypothesis of a linear trend across strata using weighted
+#'   "Log-Rank" tests.\cr
 #'    Default is "Equality".
 #' 
 #' @param ptype Character vector containing the type of test desired for calculation of the p-value.

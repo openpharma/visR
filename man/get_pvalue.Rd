@@ -3,16 +3,19 @@
 \name{get_pvalue}
 \alias{get_pvalue}
 \alias{get_pvalue.survfit}
-\title{Summarize the test for equality across strata from a survival object using S3 method}
+\title{Summarize p-values from null hypothesis}
 \usage{
 get_pvalue(x, ...)
 
 \method{get_pvalue}{survfit}(
   survfit_object,
-  ptype = "All",
-  rho = NULL,
-  statlist = c("test", "Chisq", "df", "p"),
-  ...
+  method = c("Equality"),
+  ptype = c("Log-Rank", "Wilcoxon"),
+  statlist = c("Test", "p-value"),
+  p = 1,
+  q = 1,
+  scores = NULL,
+  rho = NULL
 )
 }
 \arguments{
@@ -22,37 +25,59 @@ get_pvalue(x, ...)
 
 \item{survfit_object}{An object of class \code{survfit}}
 
-\item{ptype}{Character vector containing the type of p-value desired. Current options are "Log-Rank" "Wilcoxon" "Tarone-Ware" "Custom" "All".
-"Custom" allows the user to specify the weights on the Kaplan-Meier estimates using the argument \code{rho}.
-The default is "All" displaying all types possible. When \code{rho} is specified in context of "All", also a custom p-value is displayed.}
+\item{method}{Method for evaluating the difference between survival curves. "Equality" uses survival::\code{\link[survival]{survdiff}} and
+tests the null hypothesis of no difference among strata, based on the G-rho family of tests. The weight, defined by \code{rho},
+can be user-defined.\cr
+"Trend" uses survMisc::\code{\link[survMisc]{comp}} and tests the null hypothesis of a linear trend across strata using weighted
+"Log-Rank" tests.\cr
+Default is "Equality".}
+
+\item{ptype}{Character vector containing the type of test desired for calculation of the p-value.
+Current options are:
+\itemize{
+\item{
+\code{method} = "Equality" allows for "Log-Rank" (rho = 0) "Peto-Peto Gehan-Wilcoxon" (rho = 1) "Tarone-Ware" (rho = 1.5) "Custom"
+(rho = user defined).
+}
+\item{
+\code{method} = "Trend" allows for "Log-Rank" (weight = 1) "Gehan and Breslow" (weight = n) "Tharone-Ware" (weight = sqrt(N))
+"Peto-Peto" (weight = S1) "Andersen" (weight = S2) "Fleming-Harrington" (p=1 q=1 which can be changed by the user).
+}
+}}
+
+\item{statlist}{Character vector containing the desired information to be displayed. The order of the arguments determines the order in which
+they are displayed in the final result. Default is the test name ("test") and the p-value ("p-value"). In additional to the default,
+"Chisq" and "df" can be requested for \code{method} = "Equality". For \code{method} = "Trend", also "Weights" and "Scores" are available.}
+
+\item{p}{\eqn{p} for Fleming-Harrington test}
+
+\item{q}{\eqn{q} for Fleming-Harrington test}
+
+\item{scores}{scores for tests for trend}
 
 \item{rho}{
 a scalar parameter that controls the type of test.
 }
-
-\item{statlist}{Character vector containing the desired information to be displayed. The order of the arguments determines the order in which
-they are displayed in the final result. Default is the test name ("test"), Chisquare test statistic ("Chisq"), degrees of freedom ("df") and
-p-value ("p").}
 }
 \value{
-A tibble with summary measures for the Test of Equality Across Strata
+A data.frame with summary measures for the requested \code{method}
 }
 \description{
-S3 method for extracting information regarding equality across strata.
+S3 method for extracting information regarding null hypothesis testing.
 No default method is available at the moment.
 }
 \examples{
+library(visR)
 library(survival)
-library(dplyr)
-library(tidyr)
-library(ggplot2)
+library(survMisc)
 
 survfit_object <- vr_KM_est(data = adtte, strata = "TRTP")
 get_pvalue(survfit_object)
  
 }
 \seealso{
-\code{\link[survival]{survdiff}}
+\code{\link[survival]{survdiff}} \cr
+\code{\link[survMisc]{comp}}
 }
 \author{
 Steven Haesendonckx
