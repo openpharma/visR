@@ -73,8 +73,11 @@ vr_attrition_table <- function(
 
    for (each_cond in criteria_map$criteria_conditions) {
 
-      final_cond          <- ifelse(is.null(final_cond), each_cond,
-                                    paste(final_cond, each_cond, sep=" & "))
+      final_cond          <- ifelse(is.null(final_cond), 
+                                    each_cond,
+                                    paste(final_cond, paste0(paste0("(", each_cond), ")"), sep=" & "))
+                                       
+      print(final_cond)
       person_count_temp   <- data %>%
          dplyr::filter(eval(parse(text=final_cond))) %>%
          dplyr::select(!!subject_column_name) %>% n_distinct
