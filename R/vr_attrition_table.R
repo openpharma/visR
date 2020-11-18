@@ -77,7 +77,6 @@ vr_attrition_table <- function(
                                     each_cond,
                                     paste(final_cond, paste0(paste0("(", each_cond), ")"), sep=" & "))
                                        
-      print(final_cond)
       person_count_temp   <- data %>%
          dplyr::filter(eval(parse(text=final_cond))) %>%
          dplyr::select(!!subject_column_name) %>% n_distinct
