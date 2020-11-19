@@ -108,10 +108,20 @@ jobs:
         shell: Rscript {0}
         
       - name: Commit and push docs files
-        if: runner.os == 'Linux'
+        if: |
+          runner.os == 'Linux' 
         run: |
+          cd ..  
+          rm target_dir -rf
+          git clone https://${{github.actor}}:${{secrets.API_TOKEN_GITHUB}}@github.com/openpharma/visR-docs.git target_dir
+          cd ./target_dir
+          git checkout copied-docs 2>/dev/null || git checkout -b copied-docs
+          git pull
+          cd ..
+          cp visR/docs target_dir -r
+          cd ./target_dir
+          git add docs
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add docs
-          git commit -m 'Re-build website' || echo "No changes to commit"
-          git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git HEAD:${{ github.ref }} || echo "No changes to commit"
+          git commit -m "Publish docs to this repo after build in main repo"
+          git push https://${{github.actor}}:${{secrets.API_TOKEN_GITHUB}}@github.com/openpharma/visR-docs.git copied-docs

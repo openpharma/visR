@@ -46,6 +46,7 @@ Imports:
     patchwork,
     tibble,
     DOT,
+    rstantools,
     tidyr,
     dplyr,
     ggpubr,
