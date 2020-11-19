@@ -11,7 +11,7 @@ jobs:
   CI_CD:
     runs-on: ${{ matrix.config.os }}
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
-    
+
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
 
     strategy:
@@ -24,7 +24,7 @@ jobs:
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       RSPM: ${{ matrix.config.rspm }}
-      
+
     steps:
       - uses: actions/checkout@v2
 
@@ -59,7 +59,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          remotes::install_cran(c("rstantools", "RBesT", "rcmdcheck"))
+          remotes::install_cran(c("cmdcheck"))
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
 
@@ -79,11 +79,11 @@ jobs:
       - name: Install rmarkdown
         if: runner.os == 'Linux'
         run: Rscript -e 'install.packages("rmarkdown")'
-        
+
       - name: Render README
         if: runner.os == 'Linux'
         run: Rscript -e 'rmarkdown::render("README.Rmd")'
-        
+
       - name: Commit and push README
         if: runner.os == 'Linux'
         run: |
@@ -106,12 +106,12 @@ jobs:
         if: runner.os == 'Linux'
         run: pkgdown::build_site()
         shell: Rscript {0}
-        
+
       - name: Commit and push docs files
         if: |
-          runner.os == 'Linux' 
+          runner.os == 'Linux'
         run: |
-          cd ..  
+          cd ..
           rm target_dir -rf
           git clone https://${{github.actor}}:${{secrets.API_TOKEN_GITHUB}}@github.com/openpharma/visR-docs.git target_dir
           cd ./target_dir
