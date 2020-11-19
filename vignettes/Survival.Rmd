@@ -122,7 +122,7 @@ vr_render_table(data = cohort_attrition,
 
 Under construction.
 
-```{r eval=TRUE, echo=TRUE}
+```{r eval=FALSE, echo=TRUE}
 complement_descriptions <- c(
 "Having exclusion criterion: non ECOG",
 "Having exclusion criterion: missing weight loss ", 
@@ -139,9 +139,9 @@ attrition_flow <- vr_attrition(
   output_path = attrition_chart_fn)
 ```
 
-<div class="figure">
-<img src="Example_analysis_files/figure-html/attrition_diagram.svg" alt="Attrition Diagram of Lung cohort. Data Source: NCCTG Lung Cancer Dataset (from survival package 3.2.3)"><p class="caption">Attrition Diagram of Lung cohort. Data Source: NCCTG Lung Cancer Dataset (from survival package 3.2.3)</p>
-</div>
+<!-- <div class="figure"> -->
+<!-- <img src="Example_analysis_files/figure-html/attrition_diagram.svg" alt="Attrition Diagram of Lung cohort. Data Source: NCCTG Lung Cancer Dataset (from survival package 3.2.3)"><p class="caption">Attrition Diagram of Lung cohort. Data Source: NCCTG Lung Cancer Dataset (from survival package 3.2.3)</p> -->
+<!-- </div> -->
 
 <!-- ```{r attritionFig} -->
 <!-- # complement_descriptions <- c( -->
@@ -168,7 +168,9 @@ attrition_flow <- vr_attrition(
 <!-- ``` -->
 
 ## Cohort Overview
+
 To describe the population `vr_table_one` can be used.
+
 ```{r table1}
 # some modifications to the table for nice printing of categories
 lung_cohort_tab1 <- lung_cohort %>%
@@ -188,7 +190,9 @@ vr_table_one(lung_cohort_tab1, title = "Overview over Lung Cancer patients",
 ```
 
 ## Kaplan-Meier analysis
+
 ### Cohort Selection
+
 Select cohort for the time-to-event analysis.
 
 ```{r}
