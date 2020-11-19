@@ -3,3 +3,12 @@
 ^\.Rproj\.user$
 ^example*$
 ^visR\.Rproj$
+^_pkgdown\.yml$
+^CODE_OF_CONDUCT\.md$
+^docs$
+^logo\.png$
+^Makefile$
+^notebooks$
+^pkgdown$
+^README\.Rmd$
+^visR_architecture\.png$
