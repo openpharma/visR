@@ -96,7 +96,7 @@ vr_alluvial_plot(dataset)
 
 Except discussed already parameters there are other important parameters. Here are all of them:
 
-```{r}
+```r
 #' @param n_common Number of most common lines of therapy presented in alluvial plot, Default: 2 
 #' @param title plot title, Default: NULL
 #' @param interactive, interactive plot, Default: FALSE
