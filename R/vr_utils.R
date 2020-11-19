@@ -1,11 +1,14 @@
-#' Method summarise
-#' @param x placeholder
+#' Calculate summary statistics for a vector
+#'
+#' Calculates several summary statistics for a vector depending on the vector class
+#'
+#' @param x an object
 #' @export
 vr_summarize <- function(x) UseMethod("vr_summarize")
 
 #' Create variable summary for factors
 #'
-#' @param x placeholder
+#' @param x an object of class "factor"
 #'
 #' @export
 vr_summarize.factor <- function(x){
@@ -22,7 +25,7 @@ vr_summarize.factor <- function(x){
 
 #' Create variable summary for numeric variables
 #'
-#' @param x placeholder
+#' @param x an object of class "numeric"
 #'
 #' @export
 vr_summarize.numeric <- function(x){
@@ -40,7 +43,7 @@ vr_summarize.numeric <- function(x){
 
 #' Create variable summary for all other variable types
 #'
-#' @param x placeholder
+#' @param x an object of any other class
 #'
 #' @export
 vr_summarize.default <- function(x){
@@ -51,14 +54,19 @@ vr_summarize.default <- function(x){
   list(dat)
 }
 
-#' Create variable summary for table1
-#' @param x placeholder
+#' Create abbreviated variable summary for table1
+#'
+#' This function creates summaries combines multiple summary measures in a single formatted string.
+#'
+#' @param x a vector to be summarized
 #' @export
 vr_summarize_tab1 <- function(x) UseMethod("vr_summarize_tab1")
 
 #' Create variable summary for factors
 #'
-#' @param x placeholder
+#' Calculates N and % of occurence for each factor value
+#'
+#' @param x an object of class "factor"
 #'
 #' @export
 vr_summarize_tab1.factor <- function(x){
@@ -76,23 +84,27 @@ vr_summarize_tab1.factor <- function(x){
 
 #' Create variable summary for numeric variables
 #'
-#' @param x placeholder
+#' Calculates mean (standard deviation), median (IQR), min-max range and N/% missing elements
+#' for a numeric vector.
+#'
+#' @param x an object of class "numeric"
 #'
 #' @export
 vr_summarize_tab1.numeric <- function(x){
   dat <- list(
     `Mean (SD)` = paste0(format(mean(x, na.rm = TRUE), digits = 3), " (", format(sd(x, na.rm = TRUE), digits = 3), ")"),
-    `Median (IQR)` = paste0(format(median(x, na.rm = TRUE)), " (", format(quantile(x, probs=0.25, na.rm = TRUE)),
-                            "-", format(quantile(x, probs=0.75, na.rm = TRUE)), ")"),
-    `Min-max` = paste0(format(min(x, na.rm = TRUE)), "-", format(max(x, na.rm = TRUE))),
-    Missing = paste0(format(sum(is.na(x))), " (", format(100 * sum(is.na(x))/dplyr::n(), trim=TRUE), "%)")
+    `Median (IQR)` = paste0(format(median(x, na.rm = TRUE), digits = 3), " (", format(quantile(x, probs=0.25, na.rm = TRUE), digits = 3),
+                            "-", format(quantile(x, probs=0.75, na.rm = TRUE), digits = 3), ")"),
+    `Min-max` = paste0(format(min(x, na.rm = TRUE), digits = 3), "-", format(max(x, na.rm = TRUE), digits = 3)),
+    Missing = paste0(format(sum(is.na(x)), digits = 3), 
+                     " (", format(100 * sum(is.na(x))/dplyr::n(), trim=TRUE, digits = 3), "%)")
   )
   list(dat)
 }
 
 #' Create variable summary for all other variable types
 #'
-#' @param x placeholder
+#' @param x an object of any other class
 #'
 #' @export
 vr_summarize_tab1.default <- function(x){
@@ -131,30 +143,41 @@ vr_table_caption <-function(caption,
 #' @param button What does the download button say
 #'
 #' @export
-vr_table_download <- function(
-  df, filename=NULL, format="csv", button="Download data"){
-
-  if(!format %in% c("txt", "tsv", "csv", "xlsx")){
+vr_table_download <- function(df,
+                              filename = NULL,
+                              format = "csv",
+                              button = "Download data") {
+  if (!format %in% c("txt", "tsv", "csv", "xlsx")) {
     stop("Output file format has to be either txt, tsv, csv or xlsx.")
   }
 
-  if(is.null(knitr::opts_knit$get("fig.path"))){
+  if (is.null(knitr::opts_knit$get("fig.path"))) {
     fp <- tempdir()
   }
   else{
     fp <- knitr::opts_knit$get("fig.path")
   }
 
-  if(is.null(filename)){
-    filename <- tempfile(pattern = paste("data-"), tmpdir = getwd(), fileext = paste0(".", format))
+  if (is.null(filename)) {
+    filename <-
+      tempfile(
+        pattern = paste("data-"),
+        tmpdir = getwd(),
+        fileext = paste0(".", format)
+      )
   }
 
-  if(format %in% c("csv", "tsv", "txt")){
-    delim <- switch(format, "csv" = ",", "tsv" = "\t", "txt" = " ")
+  if (format %in% c("csv", "tsv", "txt")) {
+    delim <- switch(format,
+                    "csv" = ",",
+                    "tsv" = "\t",
+                    "txt" = " ")
     write.table(df, file = filename, sep = delim)
   }
   else{
-    xlsx::write.xlsx(df, file=filename)
+    ## TODO: Check if we need the xlsx dependency
+    #xlsx::write.xlsx(df, file=filename)
+    openxlsx::write.xlsx(df, file = filename)
   }
 
   # String result ready to be placed in rmarkdown

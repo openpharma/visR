@@ -6,7 +6,7 @@
 \usage{
 vr_create_tableone(
   data,
-  groupCols = NULL,
+  group_cols = NULL,
   overall = TRUE,
   summary_function = vr_summarize_tab1
 )
@@ -14,7 +14,7 @@ vr_create_tableone(
 \arguments{
 \item{data}{The dataset to summarize as dataframe or tibble}
 
-\item{groupCols}{Stratifying/Grouping variable name(s) as character vector. If NULL, only overall results are returned}
+\item{group_cols}{Stratifying/Grouping variable name(s) as character vector. If NULL, only overall results are returned}
 
 \item{overall}{If TRUE, the summary statistics for the overall dataset are also calculated}
 

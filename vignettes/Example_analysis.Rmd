@@ -1,9 +1,8 @@
 ---
-title: "Example Time To Event (Survival) Analysis using visR"
-author: Charlotta Fruechtenicht
+title: "Survival Analysis with visR"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Example_analysis}
+  %\VignetteIndexEntry{Survival Analysis with visR}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -15,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Time to Event Analysis using visR
+## Introduction
 
 This short tutorial illustrates a typical use case in clinical development - the analysis of time to a certain event (e.g., death) in different populations. Typically, data obtained in randomized clinical trials (RCT) can be used to estimate the overall survival of patients in one group (e.g., treated with drug X) vs another group (e.g., treated with drug Y) and thus determine if there is a difference between these treatments.
 
@@ -23,13 +22,14 @@ For a more thorough introduction to Survival Analysis, we recommend the followin
 
 In this example, we will work with patient data from NCCTG Lung Cancer dataset that is part of the `survival` package.
 
-```{r imports, echo=FALSE, warning=FALSE}
+```{r imports, echo=FALSE, warning=FALSE, message=FALSE}
 library(dplyr)
 library(ggplot2)
 library(survival)
 library(visR)
 ```
-# Global Document Setup
+
+## Global Document Setup
 ```{r globalSetup}
 # Constants
 DATASET <- paste0("NCCTG Lung Cancer Dataset (from survival package ", 
@@ -49,50 +49,63 @@ options(DT.options = list(pageLength = 10,
 ```
 
 
+## Data preparation
+The variable names are changed to align with CDISC ADaM controlled terminology.
 
 ```{r initialCohort}
 data(lung)
 
 lung_cohort <- lung %>% 
-  rename(ECOG = ph.ecog,
-         Karnofsky = ph.karno,
-         institution = inst
-         ) %>% 
-  mutate(patid = paste0("Pat", row_number()),
-         institution = factor(institution),
-         sex = factor(if_else(sex == 1, "male", "female")),
-         ECOG = factor(case_when(ECOG == 0 ~ "0 asymptomatic",
-                          ECOG == 1 ~ "1 ambulatory",
-                          ECOG == 2 ~ "2 in bed less than 50% of day",
-                          ECOG == 3 ~ "3 in bed more than 50% of day",
-                          ECOG == 4 ~ "4 bedbound",
-                          ECOG == 5 ~ "5 dead")),
-         dx_age_group = factor(case_when(age < 30 ~ "< 30y",
-                                         age >= 30 & age <= 50 ~ "30-50y",
-                                         age > 50 & age <= 70 ~ "51-70y",
-                                         age > 70 ~ "> 70y"),
-                               levels=c("< 30y", "30-50y", "51-70y", "> 70y")),
-    status = if_else(status == 1, 0, 1)) %>% 
-    select(-meal.cal, -pat.karno)
+    dplyr::rename(ECOG = ph.ecog,
+                  Karnofsky = ph.karno,
+                  SITEID = inst,
+                  CNSR = status,
+                  AVAL = time,
+                  WEIGHT = wt.loss
+                 ) %>% 
+    dplyr::mutate(USUBJID = sprintf("Pat%03d", row_number()),
+                  SEX = factor(if_else(sex == 1, "male", "female")),
+                  CNSR = if_else(CNSR == 2, 1, 0),
+                  SUBGR1 = factor(case_when(ECOG == 0 ~ "0 asymptomatic",
+                                            ECOG == 1 ~ "1 ambulatory",
+                                            ECOG == 2 ~ "2 in bed less than 50% of day",
+                                            ECOG == 3 ~ "3 in bed more than 50% of day",
+                                            ECOG == 4 ~ "4 bedbound",
+                                            ECOG == 5 ~ "5 dead")
+                                 ),
+                  AGEGR1 = factor(case_when(age < 30 ~ "< 30y",
+                                            age >= 30 & age <= 50 ~ "30-50y",
+                                            age > 50 & age <= 70 ~ "51-70y",
+                                            age > 70 ~ "> 70y"),
+                                  levels=c("< 30y", "30-50y", "51-70y", "> 70y")
+                                 )
+                 ) %>%
+    dplyr::select(USUBJID, SITEID, SEX, AGEGR1, WEIGHT, SUBGR1, AVAL, CNSR)
+  
+lung_cohort %>% 
+  head(10) %>% 
+  vr_render_table(title = "First 10 observations of `lung_cohort`.",
+                  caption = "",
+                  datasource = DATASET, 
+                  engine = "gt")
 ```
 
-# Cohort Selection
-For this exercise we will only include patients with (1) ECOG available (2) and non-missing weight-loss data in our analysis
-
 ## Attrition Table
+For this exercise we will only include patients with (1) ECOG available (2) non-missing weight-loss data (3) non missing censoring information and (4) positive follow-up time in our analysis. 
+
 ```{r attritionTable}
 
 cohort_attrition <- vr_attrition_table(
   data = lung_cohort,
   criteria_descriptions = c("1. ECOG available", 
                             "2. Weight loss data available", 
-                            "3. Non-missing vital status",
+                            "3. Non-missing censoring status",
                             "4. Positive follow up time"),
-  criteria_conditions   = c("!is.na(ECOG)",
-                            "!is.na(wt.loss)",
-                            "!is.na(status)",
-                            "time >= 0"),
-  subject_column_name   = 'patid')
+  criteria_conditions   = c("!is.na(SUBGR1)",
+                            "!is.na(WEIGHT)",
+                            "!is.na(CNSR)",
+                            "AVAL >= 0"),
+  subject_column_name   = 'USUBJID')
 
  
 vr_render_table(data = cohort_attrition, 
@@ -104,82 +117,122 @@ vr_render_table(data = cohort_attrition,
 ```
 
 
+
 ## Attrition Diagram
-```{r attritionFig}
-complement_descriptions <- c(                                                   
-    "Having exclusion criterion: non ECOG",                                            
-    "Having exclusion criterion: missing weight loss ",
-    "Having exclusion criterion: missing vital status",
-    "Having exclusion criterion: negative follow up time"
-)
 
-# Create attrition flowchart
+Under construction.
 
-#attrition_chart_fn <- "../docs/articles/Example_analysis_files/figure-html/attrition_diagram.svg"
+```{r eval=TRUE, echo=TRUE}
+complement_descriptions <- c(
+"Having exclusion criterion: non ECOG",
+"Having exclusion criterion: missing weight loss ", 
+"Having exclusion criterion: missing censoring status", 
+"Having exclusion criterion: negative follow up time")
 
-#appears to be broken
-# attrition_flow <- vr_attrition(
-#   N_array = cohort_attrition$`Remaining N`,
-#   descriptions = cohort_attrition$Criteria, 
-#   complement_descriptions = complement_descriptions,
-#   output_path = file.path(tempdir(), "attrition_diagram.svg"))
+attrition_chart_fn <- "../docs/articles/Example_analysis_files/figure-html/attrition_diagram.svg"
+
+attrition_flow <- vr_attrition(
+  N_array = cohort_attrition$`Remaining N`,
+  descriptions = cohort_attrition$Criteria,
+  complement_descriptions = complement_descriptions,
+  display = F,
+  output_path = attrition_chart_fn)
 ```
 
-```{r attritionFigShow, fig.cap=paste("Attrition Diagram of BRCA cohort. Data Source: ", DATASET), results='asis'}
-#knitr::include_graphics(attrition_chart_fn)
-```
+<div class="figure">
+<img src="Example_analysis_files/figure-html/attrition_diagram.svg" alt="Attrition Diagram of Lung cohort. Data Source: NCCTG Lung Cancer Dataset (from survival package 3.2.3)"><p class="caption">Attrition Diagram of Lung cohort. Data Source: NCCTG Lung Cancer Dataset (from survival package 3.2.3)</p>
+</div>
 
+<!-- ```{r attritionFig} -->
+<!-- # complement_descriptions <- c( -->
+<!-- #     "Having exclusion criterion: non ECOG", -->
+<!-- #     "Having exclusion criterion: missing weight loss ", -->
+<!-- #     "Having exclusion criterion: missing censoring status", -->
+<!-- #     "Having exclusion criterion: negative follow up time" -->
+<!-- # ) -->
 
-Currently, the attrition code does not modify the actual dataset. We thus need to further implement the filtering to produce the analysis dataset
-```{r}
-lung_cohort <- lung_cohort %>% 
-  filter(!is.na(ECOG),
-         !is.na(wt.loss),
-         !is.na(status),
-         time >= 0)
-```
+<!-- # Create attrition flowchart -->
 
+<!-- #attrition_chart_fn <- "../docs/articles/Example_analysis_files/figure-html/attrition_diagram.svg" -->
 
-# Cohort Overview
-Prior to starting any survival analysis, we want to further inspect our cohort and see if the there are systematic differences between the chemotherapy and hormone therapy arms.
+<!-- #appears to be broken -->
+<!-- # attrition_flow <- vr_attrition( -->
+<!-- #   N_array = cohort_attrition$`Remaining N`, -->
+<!-- #   descriptions = cohort_attrition$Criteria, -->
+<!-- #   complement_descriptions = complement_descriptions, -->
+<!-- #   output_path = file.path(tempdir(), "attrition_diagram.svg")) -->
+<!-- ``` -->
+
+<!-- ```{r attritionFigShow, fig.cap=paste("Attrition Diagram of BRCA cohort. Data Source: ", DATASET), results='asis'} -->
+<!-- #knitr::include_graphics(attrition_chart_fn) -->
+<!-- ``` -->
+
+## Cohort Overview
+To describe the population `vr_table_one` can be used.
 ```{r table1}
 # some modifications to the table for nice printing of categories
-lung_cohort_tab1 <- lung_cohort %>% 
-  mutate(status = factor(case_when(status == 0 ~ "Alive/Censored",
-                                   status == 1 ~ "Dead",
-                                   is.na(status) ~ "Missing"))) %>% 
-  filter(!is.na(time) & !is.na(age) & !is.na(Karnofsky)) %>% 
-  select(-institution)
+lung_cohort_tab1 <- lung_cohort %>%
+  dplyr::mutate(CNSR = factor(case_when(CNSR == 0 ~ "Alive/Censored",
+                                        CNSR == 1 ~ "Dead",
+                                        is.na(CNSR) ~ "Missing"
+                                        )
+                              )
+                ) %>%
+  dplyr::filter(!is.na(AVAL) & !is.na(AGEGR1) & !is.na(SUBGR1)) %>%
+  select(-SITEID)
 
 # visR table1 convenience function
 vr_table_one(lung_cohort_tab1, title = "Overview over Lung Cancer patients",
-             caption = "Baseline characteristics of study cohort stratified by treatment type", 
-             datasource = DATASET, groupCols = c("sex"))
+             caption = "Baseline characteristics of study cohort stratified by treatment type",
+             datasource = DATASET, group_cols = c("SEX"))
 ```
 
-# Overall Survival
+## Kaplan-Meier analysis
+### Cohort Selection
+Select cohort for the time-to-event analysis.
 
-## Kaplan-Meier Curve
-```{r fig.cap="Comparison of survival in male and female lung cancer patients", fig.height=6, fig.width=8, warning=FALSE}
-surv_eq <- "survival::Surv(time, status) ~ sex"
-
-vr_kaplan_meier(
-    lung_cohort,
-    equation = surv_eq,
-    data_source = DATASET, 
-    time_unit = "days",
-    title = "Comparison of survival in male and female lung cancer patients"
-)
-```
-
-## Summary of Kaplan Meier Curve
 ```{r}
-km_summary <- vr_kaplan_meier_summary(
-    lung_cohort, equation = surv_eq)
+lung_cohort <- lung_cohort %>%
+  dplyr::filter(!is.na(SUBGR1),
+                !is.na(WEIGHT),
+                !is.na(CNSR),
+                 AVAL >= 0
+                )
+```
+### Kaplan Meier estimation
+The function looks for variables AVAL, CNSR in the data to construct the survival formula `survival::survfit.formula(data = data, formula = Surv(AVAL, 1-CNSR) ~ strata), ...))`. This wrapper function is compatible with `%>%` and purrr::map functions without losing traceability of the dataset name.
 
-km_summary[[1]] %>% 
+```{r}
+lung_cohort %>%
+  vr_KM_est(strata = "SEX", conf.int = 0.90)
+```
+
+### Kaplan-Meier Curve
+The Kaplan Meier plot is build using the pipe framework.
+```{r fig.cap="Comparison of survival in male and female lung cancer patients", warning=FALSE, error = FALSE}
+
+lung_cohort %>%
+  vr_KM_est(strata = "SEX", conf.int = 0.90) %>%
+  vr_plot(legend_position = "right", x_unit = "Days") %>%
+  add_CI(alpha = 0.2, style = "ribbon", linetype = 3) %>%
+  add_CNSR(shape = 3, size = 2) %>%
+  add_risktable(min_at_risk = 0,
+                statlist= c("n.risk", "n.event", "n.censor"),
+                label = c("At risk", "Event", "Censor"),
+                collapse = F
+               )
+
+```
+
+### Summary of Kaplan Meier Curve
+```{r}
+lung_cohort %>%
+  vr_KM_est(strata = "SEX") %>%
+  get_summary() %>%
   vr_render_table("Overall Survival", "Median survival times in days for each strata", DATASET)
 
-km_summary[[2]] %>% 
+lung_cohort %>%
+  vr_KM_est(strata = "SEX") %>%
+  get_pvalue() %>%
   vr_render_table("Equality between Strata", "Summary table with test of equality over strata", DATASET)
 ```

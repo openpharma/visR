@@ -9,7 +9,7 @@ vr_table_one(
   title,
   datasource,
   caption = "",
-  groupCols = NULL,
+  group_cols = NULL,
   summary_function = vr_summarize_tab1,
   ...
 )
@@ -23,7 +23,7 @@ vr_table_one(
 
 \item{caption}{Table caption to include in the rendered table}
 
-\item{groupCols}{Character vector with column names to use for
+\item{group_cols}{Character vector with column names to use for
 stratification in the summary table. Default: NULL}
 
 \item{summary_function}{A function to summarize variables of different types.

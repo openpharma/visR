@@ -2,13 +2,13 @@
 % Please edit documentation in R/vr_utils.R
 \name{vr_summarize_tab1}
 \alias{vr_summarize_tab1}
-\title{Create variable summary for table1}
+\title{Create abbreviated variable summary for table1}
 \usage{
 vr_summarize_tab1(x)
 }
 \arguments{
-\item{x}{placeholder}
+\item{x}{a vector to be summarized}
 }
 \description{
-Create variable summary for table1
+This function creates summaries combines multiple summary measures in a single formatted string.
 }

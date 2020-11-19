@@ -1,11 +1,12 @@
 #' Generate cohort attrition table
-#'
-#' @description This function calculates the subjects counts for each step of
-#' the cohort selection.
-#'
-#' By using the description tag you'll notice that I
-#' can have multiple paragraphs in the description section
-#'
+#' 
+#' @description 
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
+#' This is an experimental function that may be developed over time. 
+#' 
+#' This function calculates the subjects counts excluded and included
+#' for each step of the cohort selection process.
+#' 
 #' @param data r table. It is used as the input data to count the subjects
 #' that meets the criteria of interest
 #' @param criteria_descriptions character vector. It contains the descriptions
@@ -72,31 +73,36 @@ vr_attrition_table <- function(
 
    for (each_cond in criteria_map$criteria_conditions) {
 
-   final_cond          <- ifelse(is.null(final_cond), each_cond, paste(final_cond, each_cond, sep=" & "))
-   person_count_temp   <- data %>%
-      dplyr::filter(eval(parse(text=final_cond))) %>%
-      dplyr::select(!!subject_column_name) %>% n_distinct
-   person_count_master <- c(person_count_master, person_count_temp)
+      final_cond          <- ifelse(is.null(final_cond), 
+                                    each_cond,
+                                    paste(final_cond, paste0(paste0("(", each_cond), ")"), sep=" & "))
+                                       
+      person_count_temp   <- data %>%
+         dplyr::filter(eval(parse(text=final_cond))) %>%
+         dplyr::select(!!subject_column_name) %>% n_distinct
+      person_count_master <- c(person_count_master, person_count_temp)
 
    }
 
-   if (length(person_count_master)>0) {
+   if (length(person_count_master) > 0) {
 
     count_master_table <- dplyr::tibble("Remaining N"=person_count_master)
-    criterion_0 <- dplyr::tibble(criteria_conditions='none', criteria_descriptions='Total cohort size', `Remaining N`=select(data, !!subject_column_name) %>% n_distinct)
+    criterion_0 <- dplyr::tibble(criteria_conditions='none',
+                                 criteria_descriptions='Total cohort size',
+                                 `Remaining N`=dplyr::select(data, !!subject_column_name) %>% n_distinct)
 
     # generate attrition table
     attrition_table <-
-    criterion_0 %>%
-      dplyr::bind_rows(cbind(criteria_map, count_master_table)) %>%
-      dplyr::mutate(`Remaining %`= 100*`Remaining N`/max(`Remaining N`),
-           `Excluded N` = lag(`Remaining N`, n=1L, default=max(`Remaining N`))-`Remaining N`,
-           `Excluded %` = 100*`Excluded N`/ max(`Remaining N`)) %>%
-       # rename columns
-       dplyr::rename(Condition = criteria_conditions,
-                     Criteria = criteria_descriptions) %>%
-      # fix formatting
-      dplyr::select(Criteria, Condition, dplyr::everything())
+       criterion_0 %>%
+         dplyr::bind_rows(cbind(criteria_map, count_master_table)) %>%
+         dplyr::mutate(`Remaining %`= 100*`Remaining N`/max(`Remaining N`),
+              `Excluded N` = dplyr::lag(`Remaining N`, n=1L, default=max(`Remaining N`))-`Remaining N`,
+              `Excluded %` = 100*`Excluded N`/ max(`Remaining N`)) %>%
+         # rename columns
+         dplyr::rename(Condition = criteria_conditions,
+                        Criteria = criteria_descriptions) %>%
+         # fix formatting
+         dplyr::select(Criteria, Condition, dplyr::everything())
       # dplyr::mutate_at(vars(matches(' N')), list(~format(., big.mark=','))) %>%
       # dplyr::mutate_at(vars(matches(' %')), list(~round(., 2)))
     return(attrition_table)

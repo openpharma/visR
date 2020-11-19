@@ -2,7 +2,8 @@
 % Please edit documentation in R/vr_plt_forest.R
 \name{vr_plt_forest}
 \alias{vr_plt_forest}
-\title{Render a simple forest plot given a tibble}
+\title{Render a simple forest plot given a tibble
+This is an experimental function that may be developed over time.}
 \usage{
 vr_plt_forest(td)
 }
@@ -13,21 +14,24 @@ vr_plt_forest(td)
 ggplot object
 }
 \description{
-Render a simple forest plot given a tibble
+\Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
 }
 \examples{
-library(RBesT)
-library(dplyr)
-library(ggplot2)
+\donttest{
+# Commenting out to not depend on RBest - issue with cran availability
+# library(RBesT)
+# library(dplyr)
+# library(ggplot2)
 
-example(crohn)
-vr_tidy_rbest(map_crohn)
-map_crohn \%>\% vr_tidy_rbest() \%>\% filter(model == "meta") \%>\%
-vr_plt_forest()
+# example(crohn)
+# vr_tidy_rbest(map_crohn)
+# map_crohn \%>\% vr_tidy_rbest() \%>\% filter(model == "meta") \%>\%
+# vr_plt_forest()
 
-map_crohn \%>\% vr_tidy_rbest() \%>\% filter(model == "stratified") \%>\%
-vr_plt_forest()
+# map_crohn \%>\% vr_tidy_rbest() \%>\% filter(model == "stratified") \%>\%
+# vr_plt_forest()
 
-map_crohn \%>\% vr_tidy_rbest() \%>\% vr_plt_forest() + facet_wrap(~ model)
+# map_crohn \%>\% vr_tidy_rbest() \%>\% vr_plt_forest() + facet_wrap(~ model)
+}
 
 }

@@ -15,14 +15,19 @@ vr_tidy_rbest(x, prob = 0.95)
 td tidied tibble
 }
 \description{
-Returns a tidied RBesT gMAP object
+This is an experimental function that may be developed over time.
+
+\Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
 }
 \examples{
-library(RBesT)
-example(crohn)
-vr_tidy_rbest(map_crohn)
+\donttest{
+# Commenting out to not depend on RBest - issue with cran availability
+# library(RBesT)
+# example(crohn)
+# vr_tidy_rbest(map_crohn)
 
-map_crohn \%>\%
-vr_tidy_rbest()
+# map_crohn \%>\%
+# vr_tidy_rbest()
+}
 
 }
