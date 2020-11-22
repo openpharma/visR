@@ -10,7 +10,7 @@ get_pvalue(x, ...)
 \method{get_pvalue}{survfit}(
   survfit_object,
   method = c("Equality"),
-  ptype = c("Log-Rank", "Wilcoxon"),
+  ptype = NULL,
   statlist = c("Test", "p-value"),
   p = 1,
   q = 1,
@@ -19,29 +19,26 @@ get_pvalue(x, ...)
 )
 }
 \arguments{
-\item{x}{S3 object}
-
-\item{...}{other arguments passed on to the method}
-
 \item{survfit_object}{An object of class \code{survfit}}
 
 \item{method}{Method for evaluating the difference between survival curves. "Equality" uses survival::\code{\link[survival]{survdiff}} and
-tests the null hypothesis of no difference among strata, based on the G-rho family of tests. The weight, defined by \code{rho},
-can be user-defined.\cr
+tests the null hypothesis of no difference among strata. The method is based on the G-rho family of tests. The weight, defined by \code{rho},
+can be user-defined.\cr\cr
 "Trend" uses survMisc::\code{\link[survMisc]{comp}} and tests the null hypothesis of a linear trend across strata using weighted
-"Log-Rank" tests.\cr
+"Log-Rank" tests.\cr\cr
 Default is "Equality".}
 
 \item{ptype}{Character vector containing the type of test desired for calculation of the p-value.
 Current options are:
 \itemize{
 \item{
-\code{method} = "Equality" allows for "Log-Rank" (rho = 0) "Peto-Peto Gehan-Wilcoxon" (rho = 1) "Tarone-Ware" (rho = 1.5) "Custom"
-(rho = user defined).
+\code{method} = "Equality" allows for "Log-Rank" (rho = 0), "Peto-Peto Gehan-Wilcoxon" (rho = 1), "Tarone-Ware" (rho = 1.5) and "Custom"
+(rho = user-defined).
 }
 \item{
-\code{method} = "Trend" allows for "Log-Rank" (weight = 1) "Gehan and Breslow" (weight = n) "Tharone-Ware" (weight = sqrt(N))
-"Peto-Peto" (weight = S1) "Andersen" (weight = S2) "Fleming-Harrington" (p=1 q=1 which can be changed by the user).
+\code{method} = "Trend" allows for "Log-Rank" (weight = 1), "Gehan and Breslow" (weight = n), "Tharone-Ware" (weight = sqrt(N)),
+"Peto-Peto" (weight = S1), "Andersen" (weight = S2) and "Fleming-Harrington" (p=1 q=1 which can be changed by the user).\cr
+The scores for the linear trend can be defined via the \code{scores} argument.
 }
 }}
 
@@ -49,22 +46,19 @@ Current options are:
 they are displayed in the final result. Default is the test name ("test") and the p-value ("p-value"). In additional to the default,
 "Chisq" and "df" can be requested for \code{method} = "Equality". For \code{method} = "Trend", also "Weights" and "Scores" are available.}
 
-\item{p}{\eqn{p} for Fleming-Harrington test}
+\item{p}{numeric, used for Fleming-Harrington test in \code{method} = "Trend"}
 
-\item{q}{\eqn{q} for Fleming-Harrington test}
+\item{q}{numeric, used for Fleming-Harrington test in \code{method} = "Trend"}
 
-\item{scores}{scores for tests for trend}
+\item{scores}{numeric vector, used in \code{method} = "Trend"}
 
-\item{rho}{
-a scalar parameter that controls the type of test.
-}
+\item{rho}{numeric, used in \code{method} = "Equality"}
 }
 \value{
 A data.frame with summary measures for the requested \code{method}
 }
 \description{
 S3 method for extracting information regarding null hypothesis testing.
-No default method is available at the moment.
 }
 \examples{
 library(visR)
@@ -73,6 +67,7 @@ library(survMisc)
 
 survfit_object <- vr_KM_est(data = adtte, strata = "TRTP")
 get_pvalue(survfit_object)
+get_pvalue(survfit_object, method="Trend")
  
 }
 \seealso{

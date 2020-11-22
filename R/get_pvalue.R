@@ -1,12 +1,8 @@
 #' @title Summarize p-values from null hypothesis
 #'
 #' @description S3 method for extracting information regarding null hypothesis testing.
-#'     No default method is available at the moment.
 #'     
 #' @author Steven Haesendonckx
-#' 
-#' @param x S3 object
-#' @param ... other arguments passed on to the method
 #' 
 #' @examples
 #' library(visR)
@@ -15,39 +11,13 @@
 #' 
 #' survfit_object <- vr_KM_est(data = adtte, strata = "TRTP")
 #' get_pvalue(survfit_object)
+#' get_pvalue(survfit_object, method="Trend")
 #'  
 #' @return A data.frame with summary measures for the requested `method`
 #'  
 #' @rdname get_pvalue
 #' 
 #' @export
-
-
-# T1. The function accepts only a survival object
-# T1.1 An error when an object of a different type is used
-# T1.2 The function accepts a survival object
-# 
-# T2. The function excecutes the test the null hypothesis of no equality across strata or a linear trend test across strata
-# T2.1 An error when another method is requested eg method = "blah"
-# T2.2 No error when method = "Equality"
-# T2.3 No error when method = "Trend"
-# 
-# T3. The function tests the null hypothesis of no difference across strata when the requested ptype is: method = "Equality"
-# T3.1 An error When the number of strata < 2
-# T3.2 An error when `ptype` is out of scope
-# T3.3 An error when `ptype` is NULL
-# T3.4 An error when the requested `ptype` is "Custom" and `rho` is not specified
-# T3.5 An error when the requested `statlist` is not part of the default
-# T3.6 An error when the requested `statlist` is NULL
-# 
-# T4. The function tests the null hypothesis of a linear trend across strata when the requested ptype is: method = "Trend"
-# T4.1 An error When the number of strata < 3
-# T4.2 An error when `ptype` is out of scope
-# T4.3 An error when `ptype` is NULL
-# T4.4 An error when the number of strata in the survfit_object does not match the length of the scores vector
-# T4.5 An error when the requested `statlist` is not part of the default
-# T4.6 An error when the requested `statlist` is NULL
-
 
 get_pvalue <- function(x, ...){
   UseMethod("get_pvalue")
@@ -59,22 +29,23 @@ get_pvalue <- function(x, ...){
 #' @param survfit_object An object of class \code{survfit}
 #' 
 #' @param method Method for evaluating the difference between survival curves. "Equality" uses survival::\code{\link[survival]{survdiff}} and 
-#'   tests the null hypothesis of no difference among strata, based on the G-rho family of tests. The weight, defined by `rho`,
-#'   can be user-defined.\cr
+#'   tests the null hypothesis of no difference among strata. The method is based on the G-rho family of tests. The weight, defined by `rho`,
+#'   can be user-defined.\cr\cr
 #'   "Trend" uses survMisc::\code{\link[survMisc]{comp}} and tests the null hypothesis of a linear trend across strata using weighted
-#'   "Log-Rank" tests.\cr
+#'   "Log-Rank" tests.\cr\cr
 #'    Default is "Equality".
 #' 
 #' @param ptype Character vector containing the type of test desired for calculation of the p-value.
 #'   Current options are:
 #'     \itemize{
 #'       \item{
-#'         `method` = "Equality" allows for "Log-Rank" (rho = 0) "Peto-Peto Gehan-Wilcoxon" (rho = 1) "Tarone-Ware" (rho = 1.5) "Custom"
-#'         (rho = user defined).
+#'         `method` = "Equality" allows for "Log-Rank" (rho = 0), "Peto-Peto Gehan-Wilcoxon" (rho = 1), "Tarone-Ware" (rho = 1.5) and "Custom"
+#'         (rho = user-defined).
 #'       }
 #'       \item{
-#'         `method` = "Trend" allows for "Log-Rank" (weight = 1) "Gehan and Breslow" (weight = n) "Tharone-Ware" (weight = sqrt(N))
-#'          "Peto-Peto" (weight = S1) "Andersen" (weight = S2) "Fleming-Harrington" (p=1 q=1 which can be changed by the user).
+#'         `method` = "Trend" allows for "Log-Rank" (weight = 1), "Gehan and Breslow" (weight = n), "Tharone-Ware" (weight = sqrt(N)),
+#'          "Peto-Peto" (weight = S1), "Andersen" (weight = S2) and "Fleming-Harrington" (p=1 q=1 which can be changed by the user).\cr
+#'          The scores for the linear trend can be defined via the `scores` argument.
 #'       }
 #'   }
 #'   
@@ -82,9 +53,10 @@ get_pvalue <- function(x, ...){
 #'    they are displayed in the final result. Default is the test name ("test") and the p-value ("p-value"). In additional to the default,
 #'    "Chisq" and "df" can be requested for `method` = "Equality". For `method` = "Trend", also "Weights" and "Scores" are available.
 #'    
-#'     
-#' @inheritParams survival::survdiff
-#' @inheritParams survMisc::comp
+#' @param p numeric, used for Fleming-Harrington test in `method` = "Trend" 
+#' @param q numeric, used for Fleming-Harrington test in `method` = "Trend" 
+#' @param scores numeric vector, used in `method` = "Trend" 
+#' @param rho numeric, used in `method` = "Equality" 
 #' 
 #' @rdname get_pvalue
 #' @method get_pvalue survfit
@@ -92,14 +64,13 @@ get_pvalue <- function(x, ...){
 
 get_pvalue.survfit <- function(survfit_object,
                                method = c("Equality"),
-                               ptype = c("Log-Rank", "Wilcoxon"),
+                               ptype = NULL,
                                statlist = c("Test", "p-value"),
                                p = 1,
                                q = 1,
                                scores = NULL,
                                rho = NULL
                               ) {
-
 
 # User Input Validation ---------------------------------------------------
 
@@ -115,16 +86,13 @@ get_pvalue.survfit <- function(survfit_object,
   if (!is.null(scores) & length(names(survfit_object[["strata"]])) != length(scores))
     stop("Error in get_pvalue: Test of Trend requires equal length of strata and scores.")
   
-  if (length(names(survfit_object[["strata"]])) < 3 & !is.null(scores))
+  if (length(names(survfit_object[["strata"]])) < 3 & method == "Trend")
     stop("Error in get_pvalue: Main effect has less than 3 levels. Test of Trend can't be performed.")
   
-  if (is.null(ptype))
-    stop("Error in get_pvalue: Specify a valid ptype.")
-  
-  if (is.null(method) | !base::any(method) %in% c("Equality", "Trend"))
+  if (!method %in% c("Equality", "Trend"))
     stop("Error in get_pvalue: Specify a valid method")
   
-  if (!is.null(method) | length(method) > 1)
+  if (length(method) > 1)
     stop("Error in get_pvalue: Only one method can be requested.")
   
 # Custom function for pvalue formatting -----------------------------------
@@ -148,12 +116,13 @@ get_pvalue.survfit <- function(survfit_object,
 
 # Summary List for Trend --------------------------------------------------
 
-  if ("Trend" %in% method & length(survfit_object)[["n"]] > 2){
+  if ("Trend" %in% method & length(survfit_object[["n"]]) > 2){
     
     ## Statlist
     dstatlist <- c("Test", "Scores", "Weights", "p-value")
     
     if (is.null(statlist)) statlist <- dstatlist
+    if (is.null(ptype)) ptype <- wt_test
 
     ## Additional user input validation
     if (!base::any(c(wt_test) %in% ptype))
@@ -170,7 +139,7 @@ get_pvalue.survfit <- function(survfit_object,
       tenfit <- capture.output(
         comp(
           ten(
-               survfit_object
+                survfit_object
                ,p=p
                ,q=q
                ,scores=scores
@@ -195,20 +164,35 @@ get_pvalue.survfit <- function(survfit_object,
       colnames(tft) <- c("Test", "Scores", "Weights", "Q", "var", "z", "p-value")
 
     ## Final Selection and formatting
-      final_trend <- tft[which(tft[,"Test"] %in% ptype), statlist[which(stalist %in% colnames(tft))]]
-      if ("p-value" %in% statlist) final_trend[["p-value"]] <- .pvalformat(final_trend[["p-value"]])
+      final<- tft[which(tft[,"Test"] %in% ptype), statlist[which(statlist %in% colnames(tft))]]
+      if ("p-value" %in% statlist) final[["p-value"]] <- sapply(final[["p-value"]], .pvalformat)
   }
-
 
 
 # Summary List for Equality across strata  ------------------------------------------
 
-  if ("Equality" %in% method & length(survfit_object)[["n"]] > 1){
+  if ("Equality" %in% method & length(survfit_object[["n"]]) > 1){
 
     ## Statlist
       dstatlist <- c("Test", "df", "Chisq", "p-value")
-    
       if (is.null(statlist)) statlist <- dstatlist
+      
+    ## Rho and ptype
+      dptype <- NULL
+      
+      if (!is.null(rho)){
+        dptype <- base::switch(
+          as.character(rho),
+          `0` = "Log-Rank",
+          `1` = "Peto-Peto Gehan-Wilcoxon",
+          `1.5` = "Tarone-Ware",
+          "Custom"
+        )
+      }
+
+      ptype <- unique(c(ptype, dptype))
+      
+      if (is.null(ptype)) ptype <- base::setdiff(rho_test, "Custom")
 
     ## Additional user input validation
       if (!base::any(c(rho_test) %in% ptype))
