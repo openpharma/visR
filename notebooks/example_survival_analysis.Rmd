@@ -120,7 +120,7 @@ brca_cohort_tab1 <- brca_cohort %>%
 # tab1_groups <- visR::vr_create_tableone(brca_cohort_tab1, group_cols = c("therapy"), summary_function = visR::vr_summarize)
 
 # render table
-# tab1_groups %>% vr_render_tableone(title = "Overview over BRCA patients",
+# tab1_groups %>% vr_render_table(title = "Overview over BRCA patients",
                                    # caption = "Baseline characteristics of study cohort stratified by treatment type", 
                                    # datasource = DATASET, engine = "dt")
 ```
