@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   Alluvial: Alluvial.html
   Example_analysis: Example_analysis.html
-last_built: 2020-11-25T16:36Z
+last_built: 2020-11-25T16:42Z
 urls:
   reference: https://openpharma.github.io/visR//reference
   article: https://openpharma.github.io/visR//articles
