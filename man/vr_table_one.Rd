@@ -29,7 +29,7 @@ stratification in the summary table. Default: NULL}
 \item{summary_function}{A function to summarize variables of different types.
 Pre-implemented functions are vr_summarize and vr_summarize_tab1}
 
-\item{...}{Pass options to vr_render_tableone}
+\item{...}{Pass options to vr_render_table}
 }
 \description{
 Create and render a summary table for a dataset

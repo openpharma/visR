@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create a <code>ggplot</code> directly from an object through an S3 method — vr_plot • visR</title>
+<title>Create a ggplot directly from an object through an S3 method — vr_plot • visR</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -17,23 +17,27 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -42,11 +46,10 @@
 
 
 
-<meta property="og:title" content="Create a <code>ggplot</code> directly from an object through an S3 method — vr_plot" />
+<meta property="og:title" content="Create a ggplot directly from an object through an S3 method — vr_plot" />
 <meta property="og:description" content="S3 method for creating plots directly from objects using ggplot2, similar to base plot function.
 The default method is base::plot." />
 <meta property="og:image" content="https://openpharma.github.io/visR/logo.png" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -64,7 +67,7 @@ The default method is base::plot." />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -114,7 +117,7 @@ The default method is base::plot." />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/openpharma/visR">
+  <a href="https://github.com/openpharma/visR/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -142,22 +145,22 @@ The default method is base::plot." />
 The default method is base::plot.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>vr_plot</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>vr_plot</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for default</span>
-<span class='fu'>vr_plot</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+<span class='fu'>vr_plot</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for survfit</span>
-<span class='fu'>vr_plot</span>(
-  <span class='kw'>survfit_object</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>y_label</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>x_label</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>x_units</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>x_ticks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>y_ticks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"surv"</span>,
-  <span class='kw'>legend_position</span> <span class='kw'>=</span> <span class='st'>"right"</span>
-)</pre>
+<span class='fu'>vr_plot</span><span class='op'>(</span>
+  survfit_object <span class='op'>=</span> <span class='cn'>NULL</span>,
+  y_label <span class='op'>=</span> <span class='cn'>NULL</span>,
+  x_label <span class='op'>=</span> <span class='cn'>NULL</span>,
+  x_units <span class='op'>=</span> <span class='cn'>NULL</span>,
+  x_ticks <span class='op'>=</span> <span class='cn'>NULL</span>,
+  y_ticks <span class='op'>=</span> <span class='cn'>NULL</span>,
+  fun <span class='op'>=</span> <span class='st'>"surv"</span>,
+  legend_position <span class='op'>=</span> <span class='st'>"right"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -220,33 +223,32 @@ Default is "right".</p></td>
     <p>Object of class <code>ggplot</code>  <code>ggsurvplot</code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/ggplot2/man/ggplot.html'>ggplot</a></code></p></div>
+    <div class='dont-index'><p><code><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Steven Haesendonckx</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>survival</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>tidyr</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/therneau/survival'>survival</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyr.tidyverse.org'>tidyr</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span>
 
-<span class='no'>survfit_object</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='vr_KM_est.html'>vr_KM_est</a></span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>adtte</span>, <span class='kw'>strata</span> <span class='kw'>=</span> <span class='st'>"TRTP"</span>)
+<span class='va'>survfit_object</span> <span class='op'>&lt;-</span> <span class='fu'><a href='vr_KM_est.html'>vr_KM_est</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>adtte</span>, strata <span class='op'>=</span> <span class='st'>"TRTP"</span><span class='op'>)</span>
 
 <span class='co'>## Plot survival probability</span>
-<span class='fu'>vr_plot</span>(<span class='kw'>survfit_object</span> <span class='kw'>=</span> <span class='no'>survfit_object</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"surv"</span>)</div><div class='img'><img src='vr_plot-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>vr_plot</span>(<span class='no'>survfit_object</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"pct"</span>)</div><div class='img'><img src='vr_plot-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>vr_plot</span><span class='op'>(</span>survfit_object <span class='op'>=</span> <span class='va'>survfit_object</span>, fun <span class='op'>=</span> <span class='st'>"surv"</span><span class='op'>)</span>
+</div><div class='img'><img src='vr_plot-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>vr_plot</span><span class='op'>(</span><span class='va'>survfit_object</span>, fun <span class='op'>=</span> <span class='st'>"pct"</span><span class='op'>)</span>
+</div><div class='img'><img src='vr_plot-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>## Plot cumulative hazard</span>
-<span class='fu'>vr_plot</span>(<span class='no'>survfit_object</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"cloglog"</span>)</div><div class='img'><img src='vr_plot-3.png' alt='' width='700' height='433' /></div><div class='input'> 
+<span class='fu'>vr_plot</span><span class='op'>(</span><span class='va'>survfit_object</span>, fun <span class='op'>=</span> <span class='st'>"cloglog"</span><span class='op'>)</span>
+</div><div class='img'><img src='vr_plot-3.png' alt='' width='700' height='433' /></div><div class='input'> 
 </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    <p>Steven Haesendonckx</p>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -257,7 +259,7 @@ Default is "right".</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

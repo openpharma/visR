@@ -34,6 +34,7 @@ using kable, gt and DT as engine to create the output table}
 \description{
 Render a previously created dataframe or tibble to html,
 rtf or latex
-
-Create formatted table
+}
+\author{
+Charlotta Fruechtenicht, Rebecca Albrecht
 }

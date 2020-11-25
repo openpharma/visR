@@ -17,23 +17,27 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -56,7 +60,6 @@ A two-sided pointwise 0.95 confidence interval is estimated using a log transfor
 
 " />
 <meta property="og:image" content="https://openpharma.github.io/visR/logo.png" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -74,7 +77,7 @@ A two-sided pointwise 0.95 confidence interval is estimated using a log transfor
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -124,7 +127,7 @@ A two-sided pointwise 0.95 confidence interval is estimated using a log transfor
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/openpharma/visR">
+  <a href="https://github.com/openpharma/visR/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -162,7 +165,7 @@ The MLE (H.hat(t) = -log(S.hat(t))) can't be requested.</p></li>
 
     </div>
 
-    <pre class="usage"><span class='fu'>vr_KM_est</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>strata</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>vr_KM_est</span><span class='op'>(</span>data <span class='op'>=</span> <span class='cn'>NULL</span>, strata <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -192,26 +195,32 @@ Use <code><a href='https://rdrr.io/pkg/survival/man/survfit.formula.html'>?survi
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/survival/man/survfit.formula.html'>survfit.formula</a> <a href='https://rdrr.io/pkg/survival/man/survival-internal.html'>survfitCI</a></code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Steven Haesendonckx</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>survival</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>tidyr</span>)
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/therneau/survival'>survival</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyr.tidyverse.org'>tidyr</a></span><span class='op'>)</span>
 
 <span class='co'>## No stratification</span>
-<span class='fu'>vr_KM_est</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>adtte</span>)</div><div class='output co'>#&gt; Call: survfit(formula = Surv(AVAL, 1 - CNSR) ~ 1, data = adtte)
+<span class='fu'>vr_KM_est</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>adtte</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Call: survfit(formula = Surv(AVAL, 1 - CNSR) ~ 1, data = adtte)
 #&gt; 
 #&gt;       n  events  median 0.95LCL 0.95UCL 
 #&gt;     254     152      51      44      70 </div><div class='input'>
 <span class='co'>## Stratified Kaplan-Meier analysis by `TRTP`</span>
-<span class='fu'>vr_KM_est</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>adtte</span>, <span class='kw'>strata</span> <span class='kw'>=</span> <span class='st'>"TRTP"</span>)</div><div class='output co'>#&gt; Call: survfit(formula = Surv(AVAL, 1 - CNSR) ~ TRTP, data = adtte)
+<span class='fu'>vr_KM_est</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>adtte</span>, strata <span class='op'>=</span> <span class='st'>"TRTP"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Call: survfit(formula = Surv(AVAL, 1 - CNSR) ~ TRTP, data = adtte)
 #&gt; 
 #&gt;                            n events median 0.95LCL 0.95UCL
 #&gt; TRTP=Placebo              86     29     NA      NA      NA
 #&gt; TRTP=Xanomeline High Dose 84     61     36      25      47
 #&gt; TRTP=Xanomeline Low Dose  84     62     33      28      51</div><div class='input'>
 <span class='co'>## Stratified Kaplan-Meier analysis by `TRTP` and `SEX` </span>
-<span class='fu'>vr_KM_est</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>adtte</span>, <span class='kw'>strata</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"TRTP"</span>, <span class='st'>"SEX"</span>))</div><div class='output co'>#&gt; Call: survfit(formula = Surv(AVAL, 1 - CNSR) ~ TRTP + SEX, data = adtte)
+<span class='fu'>vr_KM_est</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>adtte</span>, strata <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"TRTP"</span>, <span class='st'>"SEX"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Call: survfit(formula = Surv(AVAL, 1 - CNSR) ~ TRTP + SEX, data = adtte)
 #&gt; 
 #&gt;                                   n events median 0.95LCL 0.95UCL
 #&gt; TRTP=Placebo, SEX=F              53     19     NA      90      NA
@@ -221,36 +230,31 @@ Use <code><a href='https://rdrr.io/pkg/survival/man/survfit.formula.html'>?survi
 #&gt; TRTP=Xanomeline Low Dose, SEX=F  50     34     43      29     100
 #&gt; TRTP=Xanomeline Low Dose, SEX=M  34     28     27      21      51</div><div class='input'>
 <span class='co'>## Stratification with one level</span>
-<span class='fu'>vr_KM_est</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>adtte</span>, <span class='kw'>strata</span> <span class='kw'>=</span> <span class='st'>"PARAMCD"</span>)</div><div class='output co'>#&gt; Call: survfit(formula = Surv(AVAL, 1 - CNSR) ~ PARAMCD, data = adtte)
+<span class='fu'>vr_KM_est</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>adtte</span>, strata <span class='op'>=</span> <span class='st'>"PARAMCD"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Call: survfit(formula = Surv(AVAL, 1 - CNSR) ~ PARAMCD, data = adtte)
 #&gt; 
 #&gt;       n  events  median 0.95LCL 0.95UCL 
 #&gt;     254     152      51      44      70 </div><div class='input'>
 <span class='co'>## Analysis on subset of adtte</span>
-<span class='fu'>vr_KM_est</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>adtte</span>[<span class='no'>adtte</span>$<span class='no'>SEX</span> <span class='kw'>==</span> <span class='st'>"F"</span>, ])</div><div class='output co'>#&gt; Call: survfit(formula = Surv(AVAL, 1 - CNSR) ~ 1, data = adtte[adtte$SEX == 
+<span class='fu'>vr_KM_est</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>adtte</span><span class='op'>[</span><span class='va'>adtte</span><span class='op'>$</span><span class='va'>SEX</span> <span class='op'>==</span> <span class='st'>"F"</span>, <span class='op'>]</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Call: survfit(formula = Surv(AVAL, 1 - CNSR) ~ 1, data = adtte[adtte$SEX == 
 #&gt;     "F", ])
 #&gt; 
 #&gt;       n  events  median 0.95LCL 0.95UCL 
 #&gt;     143      80      64      47      96 </div><div class='input'>
 <span class='co'>## Modify the default analysis by using the ellipsis</span>
 <span class='co'>#vr_KM_est(data = adtte, strata = NULL, type = "kaplan-meier", conf.int = F, timefix = TRUE)</span>
-<span class='fu'>vr_KM_est</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>adtte</span>, <span class='kw'>strata</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"kaplan-meier"</span>, <span class='kw'>conf.int</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>timefix</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Call: survfit(formula = Surv(AVAL, 1 - CNSR) ~ 1, data = adtte, timefix = TRUE, 
+<span class='fu'>vr_KM_est</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>adtte</span>, strata <span class='op'>=</span> <span class='cn'>NULL</span>, type <span class='op'>=</span> <span class='st'>"kaplan-meier"</span>, conf.int <span class='op'>=</span> <span class='cn'>FALSE</span>, timefix <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Call: survfit(formula = Surv(AVAL, 1 - CNSR) ~ 1, data = adtte, timefix = TRUE, 
 #&gt;     type = "kaplan-meier", conf.int = FALSE)
 #&gt; 
 #&gt;      n events median 
 #&gt;    254    152     51 </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#references">References</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    <p>Steven Haesendonckx</p>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -261,7 +265,7 @@ Use <code><a href='https://rdrr.io/pkg/survival/man/survfit.formula.html'>?survi
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

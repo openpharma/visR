@@ -17,23 +17,27 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -46,7 +50,6 @@
 <meta property="og:description" content="S3 method for extracting information regarding Hazard Ratios.
 No default method is available at the moment." />
 <meta property="og:image" content="https://openpharma.github.io/visR/logo.png" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -64,7 +67,7 @@ No default method is available at the moment." />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -114,7 +117,7 @@ No default method is available at the moment." />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/openpharma/visR">
+  <a href="https://github.com/openpharma/visR/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -142,10 +145,10 @@ No default method is available at the moment." />
 No default method is available at the moment.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_COX_HR</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>get_COX_HR</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for survfit</span>
-<span class='fu'>get_COX_HR</span>(<span class='kw'>survfit_object</span> <span class='kw'>=</span> <span class='no'>survfit_object</span>, <span class='kw'>update_formula</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>get_COX_HR</span><span class='op'>(</span>survfit_object <span class='op'>=</span> <span class='va'>survfit_object</span>, update_formula <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -174,55 +177,56 @@ No default method is available at the moment.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/survival/man/coxph.html'>coxph</a></code> <code><a href='https://rdrr.io/r/stats/update.formula.html'>update.formula</a></code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Steven Haesendonckx</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>survival</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>tidyr</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>broom</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: package 'broom' was built under R version 3.6.3</span></div><div class='input'>
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/therneau/survival'>survival</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyr.tidyverse.org'>tidyr</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://broom.tidymodels.org/'>broom</a></span><span class='op'>)</span>
+
 <span class='co'>## treatment effect</span>
-<span class='no'>survfit_object_trt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='vr_KM_est.html'>vr_KM_est</a></span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>adtte</span>, <span class='kw'>strata</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"TRTP"</span>))
-<span class='fu'>get_COX_HR</span>(<span class='no'>survfit_object_trt</span>)</div><div class='output co'>#&gt; tidyme S3 default method (broom::tidy) used.</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 2 x 7</span><span>
-#&gt;   term                  estimate std.error statistic  p.value conf.low conf.high
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> TRTPXanomeline High ~     1.61     0.233      6.92 4.45</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-12</span><span>    1.16       2.07
-#&gt; </span><span style='color: #555555;'>2</span><span> TRTPXanomeline Low D~     1.42     0.230      6.20 5.71</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-10</span><span>    0.973      1.87</div><div class='input'>
+<span class='va'>survfit_object_trt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='vr_KM_est.html'>vr_KM_est</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>adtte</span>, strata <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"TRTP"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>get_COX_HR</span><span class='op'>(</span><span class='va'>survfit_object_trt</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; tidyme S3 default method (broom::tidy) used.</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 2 x 5</span><span>
+#&gt;   term                     estimate std.error statistic  p.value
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> TRTPXanomeline High Dose     1.61     0.233      6.92 4.45</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-12</span><span>
+#&gt; </span><span style='color: #555555;'>2</span><span> TRTPXanomeline Low Dose      1.42     0.230      6.20 5.71</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-10</span><span></div><div class='input'>
 <span class='co'>## treatment and gender effect</span>
-<span class='no'>survfit_object_trt_sex</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='vr_KM_est.html'>vr_KM_est</a></span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>adtte</span>, <span class='kw'>strata</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"TRTP"</span>, <span class='st'>"SEX"</span>))
-<span class='fu'>get_COX_HR</span>(<span class='no'>survfit_object_trt_sex</span>)</div><div class='output co'>#&gt; tidyme S3 default method (broom::tidy) used.</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 7</span><span>
-#&gt;   term                  estimate std.error statistic  p.value conf.low conf.high
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> TRTPXanomeline High ~    1.62      0.234      6.91 4.96</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-12</span><span>   1.16       2.07 
-#&gt; </span><span style='color: #555555;'>2</span><span> TRTPXanomeline Low D~    1.48      0.232      6.37 1.92</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-10</span><span>   1.02       1.93 
-#&gt; </span><span style='color: #555555;'>3</span><span> SEXM                     0.375     0.165      2.27 2.34</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 2</span><span>   0.050</span><span style='text-decoration: underline;'>8</span><span>     0.698</div><div class='input'>
+<span class='va'>survfit_object_trt_sex</span> <span class='op'>&lt;-</span> <span class='fu'><a href='vr_KM_est.html'>vr_KM_est</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>adtte</span>, strata <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"TRTP"</span>, <span class='st'>"SEX"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>get_COX_HR</span><span class='op'>(</span><span class='va'>survfit_object_trt_sex</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; tidyme S3 default method (broom::tidy) used.</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 5</span><span>
+#&gt;   term                     estimate std.error statistic  p.value
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> TRTPXanomeline High Dose    1.62      0.234      6.91 4.96</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-12</span><span>
+#&gt; </span><span style='color: #555555;'>2</span><span> TRTPXanomeline Low Dose     1.48      0.232      6.37 1.92</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-10</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span> SEXM                        0.375     0.165      2.27 2.34</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 2</span><span></div><div class='input'>
 <span class='co'>## update formula of KM estimates by treatment to include "SEX" for HR estimation</span>
-<span class='fu'>get_COX_HR</span>(<span class='no'>survfit_object_trt</span>, <span class='kw'>update_formula</span> <span class='kw'>=</span> <span class='st'>". ~ . + SEX"</span>)</div><div class='output co'>#&gt; tidyme S3 default method (broom::tidy) used.</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 7</span><span>
-#&gt;   term                  estimate std.error statistic  p.value conf.low conf.high
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> TRTPXanomeline High ~    1.62      0.234      6.91 4.96</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-12</span><span>   1.16       2.07 
-#&gt; </span><span style='color: #555555;'>2</span><span> TRTPXanomeline Low D~    1.48      0.232      6.37 1.92</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-10</span><span>   1.02       1.93 
-#&gt; </span><span style='color: #555555;'>3</span><span> SEXM                     0.375     0.165      2.27 2.34</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 2</span><span>   0.050</span><span style='text-decoration: underline;'>8</span><span>     0.698</div><div class='input'>
+<span class='fu'>get_COX_HR</span><span class='op'>(</span><span class='va'>survfit_object_trt</span>, update_formula <span class='op'>=</span> <span class='st'>". ~ . + SEX"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; tidyme S3 default method (broom::tidy) used.</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 5</span><span>
+#&gt;   term                     estimate std.error statistic  p.value
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> TRTPXanomeline High Dose    1.62      0.234      6.91 4.96</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-12</span><span>
+#&gt; </span><span style='color: #555555;'>2</span><span> TRTPXanomeline Low Dose     1.48      0.232      6.37 1.92</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-10</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span> SEXM                        0.375     0.165      2.27 2.34</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 2</span><span></div><div class='input'>
 <span class='co'>## update formula of KM estimates by treatment to include "AGE" for</span>
 <span class='co'>## HR estimation with ties considered via the efron method</span>
-<span class='fu'>get_COX_HR</span>(<span class='no'>survfit_object_trt</span>, <span class='kw'>update_formula</span> <span class='kw'>=</span> <span class='st'>". ~ . + strata(AGE)"</span>, <span class='kw'>ties</span> <span class='kw'>=</span> <span class='st'>"efron"</span>)</div><div class='output co'>#&gt; tidyme S3 default method (broom::tidy) used.</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 7</span><span>
-#&gt;   term                 estimate std.error statistic   p.value conf.low conf.high
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> TRTPXanomeline High~     1.43     0.269      5.30   1.13</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-7</span><span>    0.901      1.96
-#&gt; </span><span style='color: #555555;'>2</span><span> TRTPXanomeline Low ~     1.15     0.265      4.35   1.38</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-5</span><span>    0.633      1.67</div><div class='input'>
+<span class='fu'>get_COX_HR</span><span class='op'>(</span><span class='va'>survfit_object_trt</span>, update_formula <span class='op'>=</span> <span class='st'>". ~ . + strata(AGE)"</span>, ties <span class='op'>=</span> <span class='st'>"efron"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; tidyme S3 default method (broom::tidy) used.</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 5</span><span>
+#&gt;   term                     estimate std.error statistic     p.value
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> TRTPXanomeline High Dose     1.43     0.269      5.30 0.000</span><span style='text-decoration: underline;'>000</span><span>113
+#&gt; </span><span style='color: #555555;'>2</span><span> TRTPXanomeline Low Dose      1.15     0.265      4.35 0.000</span><span style='text-decoration: underline;'>013</span><span>8  </div><div class='input'>
 </div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    <p>Steven Haesendonckx</p>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -233,7 +237,7 @@ No default method is available at the moment.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
