@@ -74,6 +74,8 @@ vr_create_tableone <- function(data, group_cols = NULL, overall=TRUE, summary_fu
     data_table1 <- data_table1 %>% dplyr::left_join(overall_table1, by=c("variable", "statistic"))
   }
   
+  class(data_table1) <- c("tableone", class(data_table1))
+  
   return(data_table1)
 }
 

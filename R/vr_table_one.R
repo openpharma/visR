@@ -12,7 +12,7 @@
 #' stratification in the summary table. Default: NULL
 #' @param summary_function A function to summarize variables of different types.
 #' Pre-implemented functions are vr_summarize and vr_summarize_tab1
-#' @param ... Pass options to vr_render_tableone
+#' @param ... Pass options to vr_render_table
 #'
 #' @export
 
@@ -29,6 +29,6 @@ vr_table_one <- function(
     # engine = "gt"
 ) {
     tab1_rendered <- vr_create_tableone(data, group_cols = group_cols, summary_function = summary_function) %>%
-        vr_render_tableone(title = title, caption = caption, datasource = datasource, ...)
+        vr_render_table(title = title, caption = caption, datasource = datasource, ...)
     return(tab1_rendered)
 }
