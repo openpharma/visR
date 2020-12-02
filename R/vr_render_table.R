@@ -117,7 +117,34 @@ vr_render_table.default <- function(
   return(table_out)
 }
 
-
+#' @rdname vr_render_table
+#' @method vr_render_table default
+#' @export
+vr_render_table.vr_risktable <- function(
+  data,
+  title,
+  caption,
+  datasource,
+  output_format="html",
+  engine="gt",
+  download_format = c('copy', 'csv', 'excel')){
+  
+  strata <- colnames(data)[3:ncol(data)]
+  y_lables <- unique(data$y_values)
+  coln <- colnames(data)[1:2]
+  complete_tab <- c()
+  for (s in strata){
+    tab <- 
+      data[c(coln, s)] %>%
+      tidyr::pivot_wider(names_from = "time", values_from=s)
+    tab$variable <- s
+    tab$statistic <- "N"
+    complete_tab <- rbind(complete_tab, tab)
+  }
+  colnames(complete_tab) <- c("Stats",colnames(tab)[2:ncol(tab)])
+  class(complete_tab) <- c("vr_tableone", class(complete_tab))
+  vr_render_table(complete_tab, "", "", "")
+}
 
 
 ### Functions for datatable
