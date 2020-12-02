@@ -16,7 +16,21 @@
 #' @param download_format How can users download it
 #'
 #' @export
-vr_render_table <- function(
+#' 
+vr_render_table <- function(data,
+                            title,
+                            caption,
+                            datasource,
+                            output_format="html",
+                            engine="gt",
+                            download_format = c('copy', 'csv', 'excel')){
+  UseMethod("vr_render_table")
+}
+
+#' @rdname vr_render_table
+#' @method vr_render_table default
+#' @export
+vr_render_table.default <- function(
   data,
   title,
   caption,
@@ -103,12 +117,15 @@ vr_render_table <- function(
   return(table_out)
 }
 
+
+
+
 ### Functions for datatable
 render_datatable <- function(data, joined_caption, download_format, source_cap){
   UseMethod("render_datatable")
 }
 
-render_datatable.tableone <- function(data, joined_caption, download_format, source_cap){
+render_datatable.vr_tableone <- function(data, joined_caption, download_format, source_cap){
   if(is.null(download_format)){
     table_out <- data %>% 
       DT::datatable(caption = joined_caption,
@@ -170,7 +187,7 @@ render_gt <- function(data, title, caption, datasource){
 create_gt <- function(data, numcols){
   UseMethod("create_gt")
 }
-create_gt.tableone <- function(data, numcols){
+create_gt.vr_tableone <- function(data, numcols){
   gt <- gt::gt(data, groupname_col = "variable",
          rowname_col = "statistic")%>%
          # no decimal points for sample count
