@@ -30,7 +30,7 @@
 #'   
 #' @export
 
-vr_risktable <- function(survfit_object
+vr_create_risktable <- function(survfit_object
                                 ,min_at_risk = 0
                                 ,break_times = NULL
                                 ,statlist = c("n.risk")
@@ -40,10 +40,10 @@ vr_risktable <- function(survfit_object
                                 ,fun = "surv"){
   
   tidy_object <- vr_tidy_suvfit(survfit_object, fun)
-  risktable <- vr_create_risktable(tidy_object,min_at_risk,break_times,statlist,label,group,collapse)
+  risktable <- vr_process_risktable(tidy_object,min_at_risk,break_times,statlist,label,group,collapse)
 }
 
-vr_create_risktable <- function(tidy_object
+vr_process_risktable <- function(tidy_object
                                 ,min_at_risk = 0
                                 ,break_times = NULL
                                 ,statlist = c("n.risk")
@@ -51,7 +51,7 @@ vr_create_risktable <- function(tidy_object
                                 ,group = "strata"
                                 ,collapse = FALSE){
   
-  times <- vr_get_breaks(break_times, min_at_risk)
+  times <- vr_get_breaks(tidy_object, break_times, min_at_risk)
   
   survfit_summary <- summary(survfit_object, times = times, extend = TRUE)
   
@@ -189,7 +189,7 @@ vr_tidy_suvfit <- function(survfit_object, fun){
   return(tidy_object)
 }
 
-vr_get_breaks <- function(break_times = NULL, min_at_risk){
+vr_get_breaks <- function(tidy_object,break_times = NULL, min_at_risk){
   #### Pull out max time to consider ####
   max_time <-
     tidy_object %>%
