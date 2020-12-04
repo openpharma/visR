@@ -130,6 +130,10 @@ vr_render_table.vr_risktable <- function(
   download_format = c('copy', 'csv', 'excel')){
   
   strata <- colnames(data)[3:ncol(data)]
+  if (!is.null(attributes(data)$title) & length(attributes(data)$title) == length(strata)){
+    data <- data %>% rename_at(vars(strata), ~ attributes(data)$title)
+    strata <- colnames(data)[3:ncol(data)]  
+  }
   y_lables <- unique(data$y_values)
   coln <- colnames(data)[1:2]
   complete_tab <- c()
@@ -138,12 +142,18 @@ vr_render_table.vr_risktable <- function(
       data[c(coln, s)] %>%
       tidyr::pivot_wider(names_from = "time", values_from=s)
     tab$variable <- s
-    tab$statistic <- "N"
     complete_tab <- rbind(complete_tab, tab)
   }
-  colnames(complete_tab) <- c("Stats",colnames(tab)[2:ncol(tab)])
+  colnames(complete_tab) <- c("statistic",colnames(tab)[2:ncol(tab)])
   class(complete_tab) <- c("vr_tableone", class(complete_tab))
-  vr_render_table(complete_tab, "", "", "")
+  complete_tab <- complete_tab %>% select(variable, statistic, everything())
+  vr_render_table(complete_tab,title,
+                  caption,
+                  datasource,
+                  output_format,
+                  engine,
+                  download_format)
+  
 }
 
 
