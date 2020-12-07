@@ -7,7 +7,6 @@
 #'
 #' @param data The dataframe or tibble to visualise
 #' @param title Table title to include in the rendered table
-#' @param caption Table caption to include in the rendered table
 #' @param datasource String specifying the datasource underlying the data set
 #' @param output_format If TRUE, the summary statistics for the overall dataset
 #' are also calculated
@@ -19,7 +18,6 @@
 #' 
 vr_render_table <- function(data,
                             title,
-                            caption,
                             datasource,
                             output_format="html",
                             engine="gt",
@@ -33,7 +31,6 @@ vr_render_table <- function(data,
 vr_render_table.default <- function(
   data,
   title,
-  caption,
   datasource,
   output_format="html",
   engine="gt",
@@ -43,12 +40,6 @@ vr_render_table.default <- function(
   # TODO: do we need features to further specify styling of the table?
   
   check_rendering_input(output_format, engine)
-  
-  # create composite title/caption for those engines that do not support both
-  joined_caption <- title
-  if(caption != ""){
-    joined_caption <- paste(title, "-", caption)
-  }
 
 
   #--------------------
@@ -57,7 +48,7 @@ vr_render_table.default <- function(
     if(tolower(output_format) %in% c("html", "latex")){
       table_out <- data %>%
         knitr::kable(format = output_format,
-                     caption = joined_caption,
+                     caption = title,
                      digits = 2,
                      booktabs = T) %>%
         kableExtra::collapse_rows(valign="top") %>%
@@ -66,7 +57,7 @@ vr_render_table.default <- function(
     }
     else{
       warning(paste("Supported output format of the kable engine are html and latex and not", output_format, " - falling back to html"))
-      vr_render_table(data=data, title=title, caption=caption, datasource=datasource,
+      vr_render_table(data=data, title=title, datasource=datasource,
                          output_format="html", engine=engine, download_format=download_format)
     }
   }
@@ -78,7 +69,7 @@ vr_render_table.default <- function(
       warning(paste("Supported output format of the gt engine are html and latex and not", output_format, " - falling back to html"))
     }
 
-    table_out <- render_gt(data, title, caption, datasource)
+    table_out <- render_gt(data, title, datasource)
 
     if(output_format == "latex"){
       # note: after this step, the table is not a gt object anymore and thus cannot be further styled
@@ -110,7 +101,7 @@ vr_render_table.default <- function(
     )
 
     # may need some adjustment to also allow creation of DT in loops
-    table_out <- render_datatable(data, joined_caption, download_format, source_cap)
+    table_out <- render_datatable(data, title, download_format, source_cap)
   }
 
   #--------------------
@@ -123,7 +114,6 @@ vr_render_table.default <- function(
 vr_render_table.vr_risktable <- function(
   data,
   title,
-  caption,
   datasource,
   output_format="html",
   engine="gt",
@@ -148,7 +138,6 @@ vr_render_table.vr_risktable <- function(
   class(complete_tab) <- c("vr_tableone", class(complete_tab))
   complete_tab <- complete_tab %>% select(variable, statistic, everything())
   vr_render_table(complete_tab,title,
-                  caption,
                   datasource,
                   output_format,
                   engine,
@@ -158,14 +147,14 @@ vr_render_table.vr_risktable <- function(
 
 
 ### Functions for datatable
-render_datatable <- function(data, joined_caption, download_format, source_cap){
+render_datatable <- function(data, title, download_format, source_cap){
   UseMethod("render_datatable")
 }
 
-render_datatable.vr_tableone <- function(data, joined_caption, download_format, source_cap){
+render_datatable.vr_tableone <- function(data, title, download_format, source_cap){
   if(is.null(download_format)){
     table_out <- data %>% 
-      DT::datatable(caption = joined_caption,
+      DT::datatable(caption = title,
                     filter = "none",
                     # container = sketch,
                     options = list(paging=FALSE, 
@@ -174,7 +163,7 @@ render_datatable.vr_tableone <- function(data, joined_caption, download_format, 
                                    drawCallback = DT::JS(source_cap)))
   } else {
     table_out <- data %>% 
-      DT::datatable(caption = joined_caption,
+      DT::datatable(caption = title,
                     filter = "none",
                     # container = sketch,
                     extensions = 'Buttons',
@@ -188,15 +177,15 @@ render_datatable.vr_tableone <- function(data, joined_caption, download_format, 
   return(table_out)
 }
 
-render_datatable.data.frame <- function(data, joined_caption, download_format, source_cap){
+render_datatable.data.frame <- function(data, title, download_format, source_cap){
   if(is.null(download_format)){
     table_out <- data %>%
-      DT::datatable(caption = joined_caption,
+      DT::datatable(caption = title,
                     options = list(
                     drawCallback = DT::JS(source_cap)))
   } else {
     table_out <- data %>%
-      DT::datatable(caption = joined_caption,
+      DT::datatable(caption = title,
                     extensions = 'Buttons',
                     options = list(drawCallback = DT::JS(source_cap),
                                    dom = 'Bfrtip',
@@ -207,7 +196,7 @@ render_datatable.data.frame <- function(data, joined_caption, download_format, s
 
 
 ### Functions for gt rendering
-render_gt <- function(data, title, caption, datasource){
+render_gt <- function(data, title, datasource){
   # identify numeric columns for special formatting later
   numcols <- data %>% dplyr::select_if(is.numeric) %>% names()
   # create gt table
@@ -216,7 +205,7 @@ render_gt <- function(data, title, caption, datasource){
     gt::fmt_number(
       columns = numcols,
       decimals = 2
-    )%>% add_metadata_gt(title, caption, datasource)
+    )%>% add_metadata_gt(title, datasource)
   return(table_out)
 }
 
@@ -240,20 +229,9 @@ create_gt.data.frame <- function(data, numcols){
 }
 
 # add metadata to gt
-add_metadata_gt <- function(gt, title, caption, datasource){
-  # add caption as subtitle if one is provided
-  if(caption != ""){
-    table_out <- table_out %>%
-      gt::tab_header(
-        title = title,
-        subtitle = caption
-      )
-  } else {
-    table_out <- gt %>% 
-      gt::tab_header(
-        title = title
-      )
-  }
+add_metadata_gt <- function(gt, title, datasource){
+  table_out <- gt %>% gt::tab_header(title = title)
+  
   table_out <- table_out %>%
     # add metadata
     gt::tab_source_note(source_note = paste("Data Source:", datasource)) %>%

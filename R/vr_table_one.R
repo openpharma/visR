@@ -20,7 +20,6 @@ vr_table_one <- function(
     data,
     title,
     datasource,
-    caption = "",
     # abbreviations = "",
     # variable_definitions = "",
     strata = NULL,
@@ -29,6 +28,6 @@ vr_table_one <- function(
     # engine = "gt"
 ) {
     tab1_rendered <- vr_create_tableone(data, strata = strata, summary_function = summary_function) %>%
-        vr_render_table(title = title, caption = caption, datasource = datasource, ...)
+        vr_render_table(title = title, datasource = datasource, ...)
     return(tab1_rendered)
 }

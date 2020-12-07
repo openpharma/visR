@@ -85,7 +85,6 @@ lung_cohort <- lung %>%
 lung_cohort %>% 
   head(10) %>% 
   vr_render_table(title = "First 10 observations of `lung_cohort`.",
-                  caption = "",
                   datasource = DATASET, 
                   engine = "gt")
 ```
@@ -109,8 +108,7 @@ cohort_attrition <- vr_attrition_table(
 
  
 vr_render_table(data = cohort_attrition, 
-                title = "Attrition Table", 
-                caption = "Summary of samples fulfilling inclusion/exclusion criteria", 
+                title = "Attrition Table",
                 datasource = DATASET, 
                 engine = "gt")
 
@@ -229,10 +227,10 @@ lung_cohort %>%
 lung_cohort %>%
   vr_KM_est(strata = "SEX") %>%
   get_summary() %>%
-  vr_render_table("Overall Survival", "Median survival times in days for each strata", DATASET)
+  vr_render_table("Overall Survival - Median survival times in days for each strata", DATASET)
 
 lung_cohort %>%
   vr_KM_est(strata = "SEX") %>%
   get_pvalue() %>%
-  vr_render_table("Equality between Strata", "Summary table with test of equality over strata", DATASET)
+  vr_render_table("Equality between Strata - Summary table with test of equality over strata", DATASET)
 ```
