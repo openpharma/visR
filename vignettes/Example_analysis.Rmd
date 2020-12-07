@@ -184,7 +184,7 @@ lung_cohort_tab1 <- lung_cohort %>%
 # visR table1 convenience function
 vr_table_one(lung_cohort_tab1, title = "Overview over Lung Cancer patients",
              caption = "Baseline characteristics of study cohort stratified by treatment type",
-             datasource = DATASET, group_cols = c("SEX"))
+             datasource = DATASET, strata = c("SEX"))
 ```
 
 ## Kaplan-Meier analysis
