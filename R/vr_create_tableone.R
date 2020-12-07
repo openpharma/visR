@@ -54,7 +54,7 @@ vr_create_tableone.default <- function(data, strata = NULL, overall=TRUE, summar
   
   if(is.null(strata)){
     data <- data %>% 
-      dplyr::mutate(all = "Overall")
+      dplyr::mutate(all = "Total")
     strata <- c("all")
   }
   
@@ -78,7 +78,7 @@ vr_create_tableone.default <- function(data, strata = NULL, overall=TRUE, summar
     dplyr::select(variable, statistic, everything())
   
   if(overall & combine_dfs){
-    data_table1 <- data_table1 %>% dplyr::left_join(overall_table1, by=c("variable", "statistic"))
+    data_table1 <- overall_table1 %>% dplyr::left_join(data_table1, by=c("variable", "statistic"))
   }
   
   class(data_table1) <- c("vr_tableone", class(data_table1))
