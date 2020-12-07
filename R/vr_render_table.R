@@ -3,7 +3,6 @@
 #' @description Render a previously created dataframe or tibble to html,
 #' rtf or latex
 #'
-#' @author Charlotta Fruechtenicht, Rebecca Albrecht
 #'
 #' @param data The dataframe or tibble to visualise
 #' @param title Table title to include in the rendered table
