@@ -25,9 +25,31 @@ vr_render_table <- function(data,
 }
 
 #' @rdname vr_render_table
-#' @method vr_render_table default
+#' @method vr_render_table vr_tableone
 #' @export
-vr_render_table.default <- function(
+vr_render_table.vr_tableone <- function(
+  data,
+  title,
+  datasource,
+  output_format="html",
+  engine="gt",
+  download_format = c('copy', 'csv', 'excel')){
+  sample <- data[data$variable == "Sample", ]
+  sample <- sample[3:length(sample)]
+  sample_names = colnames(sample)
+  new_sample_names <- sapply(1:length(sample), function(i){
+    vec = c(sample_names[i], " (N=", sample[i], ")")
+    paste(vec, collapse = "") 
+  })
+  colnames(data) <- c(colnames(data)[1:2], new_sample_names)
+  data <- data[data$variable != "Sample", ]
+  vr_render_table.data.frame(data, title, datasource, output_format, engine, download_format)
+}
+
+#' @rdname vr_render_table
+#' @method vr_render_table data.frame
+#' @export
+vr_render_table.data.frame <- function(
   data,
   title,
   datasource,
