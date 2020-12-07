@@ -29,8 +29,22 @@
 #'    }
 #'   
 #' @export
-
 vr_create_risktable <- function(survfit_object
+                                ,min_at_risk = 0
+                                ,break_times = NULL
+                                ,statlist = c("n.risk")
+                                ,label = "At risk"
+                                ,group = "strata"
+                                ,collapse = FALSE
+                                ,fun = "surv"){
+  
+  UseMethod("vr_create_risktable")
+}
+
+#' @rdname vr_create_risktable
+#' @method vr_create_risktable default
+#' @export
+vr_create_risktable.default <- function(survfit_object
                                 ,min_at_risk = 0
                                 ,break_times = NULL
                                 ,statlist = c("n.risk")

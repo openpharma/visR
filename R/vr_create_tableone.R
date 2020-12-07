@@ -34,6 +34,13 @@
 #'   select(age, age_group, everything()) %>% 
 #'   vr_create_tableone()
 vr_create_tableone <- function(data, strata = NULL, overall=TRUE, summary_function = vr_summarize_tab1){
+  UseMethod("vr_create_tableone")
+}
+
+#' @rdname vr_create_tableone
+#' @method vr_create_tableone default
+#' @export
+vr_create_tableone.default <- function(data, strata = NULL, overall=TRUE, summary_function = vr_summarize_tab1){
   
   summary_FUN <- match.fun(summary_function)
   
