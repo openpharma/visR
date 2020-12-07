@@ -97,7 +97,7 @@ vr_plot.survfit <- function(
     stop("Error in vr_plot: No Y label defined. No default is available when `fun` is a function.")
   }  
   
-  tidy_object <- vr_tidy_suvfit(survfit_object, fun)
+  tidy_object <- vr_prepare_suvfit(survfit_object, fun)
     
   #### Obtain alternatives for X-axis ####
   

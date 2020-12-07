@@ -39,8 +39,8 @@ vr_create_risktable <- function(survfit_object
                                 ,collapse = FALSE
                                 ,fun = "surv"){
   
-  tidy_object <- vr_tidy_suvfit(survfit_object, fun)
-  risktable <- vr_process_risktable(tidy_object,min_at_risk,break_times,statlist,label,group,collapse)
+  tidy_object <- vr_prepare_suvfit(survfit_object, fun)
+  risktable <- vr_process_risktable(tidy_object, min_at_risk, break_times, statlist, label, group, collapse)
 }
 
 vr_process_risktable <- function(tidy_object
@@ -128,7 +128,7 @@ vr_process_risktable <- function(tidy_object
   return(final)
 }
 
-vr_tidy_suvfit <- function(survfit_object, fun){
+vr_prepare_suvfit <- function(survfit_object, fun){
   #### FUN ####
   
   if (is.character(fun)){
