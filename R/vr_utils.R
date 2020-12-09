@@ -6,6 +6,7 @@
 #' @export
 vr_summarize <- function(x) UseMethod("vr_summarize")
 
+
 #' Create variable summary for factors
 #'
 #' @param x an object of class "factor"
@@ -21,6 +22,15 @@ vr_summarize.factor <- function(x){
     tidyr::pivot_wider(names_from = value, values_from = c("N", "%"), names_sep=" ") %>%
     as.list()
   list(dat)
+}
+
+#' Create variable summary for numeric variables
+#'
+#' @param x an object of class "integer"
+#'
+#' @export
+vr_summarize.integer <- function(x){
+  vr_summarize.numeric(x)
 }
 
 #' Create variable summary for numeric variables
@@ -100,6 +110,18 @@ vr_summarize_tab1.numeric <- function(x){
                      " (", format(100 * sum(is.na(x))/dplyr::n(), trim=TRUE, digits = 3), "%)")
   )
   list(dat)
+}
+
+#' Create variable summary for integer variables
+#'
+#' Calculates mean (standard deviation), median (IQR), min-max range and N/% missing elements
+#' for a integer vector.
+#'
+#' @param x an object of class "integer"
+#'
+#' @export
+vr_summarize_tab1.integer <- function(x){
+  vr_summarize_tab1.numeric(x)
 }
 
 #' Create variable summary for all other variable types
