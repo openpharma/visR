@@ -38,15 +38,18 @@ vr_render_table.vr_tableone <- function(
   engine="gt",
   download_format = c('copy', 'csv', 'excel')){
   
-  sample <- data[data$variable == "Sample", ]
-  sample <- sample[3:length(sample)]
-  sample_names = colnames(sample)
-  new_sample_names <- sapply(1:length(sample), function(i){
-    vec = c(sample_names[i], " (N=", sample[i], ")")
-    paste(vec, collapse = "") 
-  })
-  colnames(data) <- c(colnames(data)[1:2], new_sample_names)
-  data <- data[data$variable != "Sample", ]
+  if(!("vr_risktable" %in% class(data))){
+    sample <- data[data$variable == "Sample", ]
+    sample <- sample[3:length(sample)]
+    sample_names = colnames(sample)
+    new_sample_names <- sapply(1:length(sample), function(i){
+      vec = c(sample_names[i], " (N=", sample[i], ")")
+      paste(vec, collapse = "") 
+    })
+    colnames(data) <- c(colnames(data)[1:2], new_sample_names)
+    data <- data[data$variable != "Sample", ]
+  }
+  
   vr_render_table.data.frame(data=data, title=title, datasource=datasource, footnote=footnote, output_format=output_format, engine=engine, download_format=download_format)
 }
 
@@ -79,9 +82,12 @@ vr_render_table.vr_risktable <- function(
   }
   colnames(complete_tab) <- c("statistic",colnames(tab)[2:ncol(tab)])
   class(complete_tab) <- c("vr_tableone", class(complete_tab))
+  class(complete_tab) <- c("vr_risktable", class(complete_tab))
   complete_tab <- complete_tab %>% select(variable, statistic, everything())
-  vr_render_table(complete_tab,title,
+  vr_render_table.vr_tableone(complete_tab,
+                  title,
                   datasource,
+                  footnote,
                   output_format,
                   engine,
                   download_format)
