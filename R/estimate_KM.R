@@ -35,74 +35,86 @@
 #' library(tidyr)
 #' 
 #' ## No stratification
-#' vr_KM_est(data = adtte)
+#' estimate_KM(data = adtte)
 #' 
 #' ## Stratified Kaplan-Meier analysis by `TRTP`
-#' vr_KM_est(data = adtte, strata = "TRTP")
+#' estimate_KM(data = adtte, strata = "TRTP")
 #' 
 #' ## Stratified Kaplan-Meier analysis by `TRTP` and `SEX` 
-#' vr_KM_est(data = adtte, strata = c("TRTP", "SEX"))
+#' estimate_KM(data = adtte, strata = c("TRTP", "SEX"))
 #' 
 #' ## Stratification with one level
-#' vr_KM_est(data = adtte, strata = "PARAMCD")
+#' estimate_KM(data = adtte, strata = "PARAMCD")
 #' 
 #' ## Analysis on subset of adtte
-#' vr_KM_est(data = adtte[adtte$SEX == "F", ])
+#' estimate_KM(data = adtte[adtte$SEX == "F", ])
 #' 
 #' ## Modify the default analysis by using the ellipsis
-#' #vr_KM_est(data = adtte, strata = NULL, type = "kaplan-meier", conf.int = F, timefix = TRUE)
-#' vr_KM_est(data = adtte, strata = NULL, type = "kaplan-meier", conf.int = FALSE, timefix = TRUE)
+#' estimate_KM(data = adtte, strata = NULL, type = "kaplan-meier", conf.int = F, timefix = TRUE)
+#' estimate_KM(data = adtte, strata = NULL, type = "kaplan-meier", conf.int = FALSE, timefix = TRUE)
 
-vr_KM_est <- function(
+estimate_KM <- function(
    data = NULL
   ,strata = NULL
   ,...
 ){
+
+# Capture input to validate user input for data argument -----------------
   
-  #### Capture input + identify ... for updating $call ####
+ ## Get actual data name as symbol
+ ### Magrittre pipe returns "." which inactivates recalls to survfit in downstream functions
+ ### map passes .x as Call$data
+ ### df: catch expressions that represent base R subsets
+  
   Call <- as.list(match.call())
   dots <- list(...)
   dfExpr <- Call[["data"]]
-
-  #### Get actual data name as symbol ####
-    ## Magrittre pipe returns "." which inactivates recalls to survfit in downstream functions
-    ## map passes .x as Call$data
-    ## df: catch expressions that represent base R subsets
+  
+ ## Validate `data` and capture data name
+ 
+  if (is.null(data)) stop(paste0("Error in ", Call[1], ": data can't be NULL."))   
 
   if (base::length(base::deparse(Call[["data"]])) == 1 && base::deparse(Call[["data"]]) %in% c(".", ".x")){
     Call[["data"]] <- as.symbol(the_lhs())
     df <- as.character(Call[["data"]])
   } else {
-    df <- as.character(sub("\\[.*$", "", deparse(dfExpr))[1])
+     df <- as.character(sub("\\[.*$", "", deparse(dfExpr))[1])
   } 
 
-  #### Validate input ####
+  if (!(inherits(data, "data.frame") | inherits(data, "tibble") | inherits(data, "data.table"))) stop(paste0("Error in ", Call[1], ": data should be of `class` dataframe, tibble or data.table."))   
+
+  data <- as.data.frame(data)
+
+# Validate columns --------------------------------------------------------
+
   reqcols <- c(strata, "CNSR", "AVAL")
   
   if (! base::exists(df)){
-    stop(paste0("Data ", df, " not found."))
+    stop(paste0("Error in ", Call[1], ": Data ", df, " not found."))
   }
   
   if (! all(reqcols %in% colnames(data))){
-    stop(paste0("Following columns are missing from `data`: ", paste(setdiff(reqcols, colnames(data)), collapse = " "), "."))
+    stop(paste0("Error in ", Call[1], ": Following columns are missing from `data`: ", paste(setdiff(reqcols, colnames(data)), collapse = " "), "."))
   }
   
   if (! is.numeric(data[["AVAL"]])){
-    stop("Analysis variable, AVAL, is not numeric.")
+    stop("Error in ", Call[1], ": Analysis variable, AVAL, is not numeric.")
   }
   
   if (! is.numeric(data[["CNSR"]])){
-    stop("Censor variable, CNSR, is not numeric.")
+    stop("Error in ", Call[1], ": Censor variable, CNSR, is not numeric.")
   }
   
-  #### Ensure strata is present ####
+# Ensure the presence of at least one strata -----------------------------
+  
   if (is.null(strata)){
     main <- "1"
   } else {
     main <- paste(strata, collapse = " + ")
   }
   
-  #### Ensure to have data frame and remove missing aval, strata ####
+# Remove NA from the analysis --------------------------------------------
+  
   data <- as.data.frame(data)%>%
     tidyr::drop_na(AVAL, CNSR)
   
@@ -110,9 +122,10 @@ vr_KM_est <- function(
     data <- data%>%
       tidyr::drop_na(any_of({{strata}}))
   }
-
-  #### Calculate survival and add starting point (time 0) to the survfit object ####
-    ## Reverse censoring: see ADaM guidelines versus R survival KM analysis
+  
+# Calculate survival and add time = 0 to survfit object -------------------
+  
+ ## Reverse censoring: see ADaM guidelines versus R survival KM analysis
   
   formula <- stats::as.formula(glue::glue("Surv(AVAL, 1-CNSR) ~ {main}"))
   
@@ -124,7 +137,9 @@ vr_KM_est <- function(
     survfit_object, start.time = 0
   )
   
-  #### Update call statement with original information and dots, similar as update.default method ####
+
+# Update Call with original info and dots, similar as update.default ------
+
   survfit_object$call[["formula"]] <- formula
   survfit_object$call[["data"]] <- Call$data
   if (length(dots) > 0){
@@ -134,6 +149,8 @@ vr_KM_est <- function(
       survfit_object$call[[names(dots)[i]]] <- unlist(dots[i], use.names = F)
     }
   }
+  
+# Add additional metadata -------------------------------------------------
   
   if ("PARAM" %in% colnames(data) && length(setdiff(c("PARAMCD", "PARAM"), strata)) == 2){
     # we expect only one unique value => catch mistakes
@@ -145,7 +162,8 @@ vr_KM_est <- function(
     survfit_object[["PARAMCD"]] <- paste(unique(data[["PARAMCD"]]), collapse = ", ")
   } 
   
-  #### No strata: Create an artificial one for compatibility with downstream processing ####
+# Artificial strata for easy downstream processing when strata=NULL ------
+  
   if (is.null(survfit_object$strata)){
     survfit_object$strata <- as.vector(length(survfit_object$time))
     
@@ -157,7 +175,8 @@ vr_KM_est <- function(
       attr(survfit_object$strata, "names") <- as.character(data[1, main])
     }
   }
-  
-  #### Return ####
+
+# Return ------------------------------------------------------------------
+
   return(survfit_object)
 }

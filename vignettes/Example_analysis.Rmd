@@ -204,7 +204,7 @@ The function looks for variables AVAL, CNSR in the data to construct the surviva
 
 ```{r}
 lung_cohort %>%
-  vr_KM_est(strata = "SEX", conf.int = 0.90)
+  estimate_KM(strata = "SEX", conf.int = 0.90)
 ```
 
 ### Kaplan-Meier Curve
@@ -212,7 +212,7 @@ The Kaplan Meier plot is build using the pipe framework.
 ```{r fig.cap="Comparison of survival in male and female lung cancer patients", warning=FALSE, error = FALSE}
 
 lung_cohort %>%
-  vr_KM_est(strata = "SEX", conf.int = 0.90) %>%
+  estimate_KM(strata = "SEX", conf.int = 0.90) %>%
   vr_plot(legend_position = "right", x_unit = "Days") %>%
   add_CI(alpha = 0.2, style = "ribbon", linetype = 3) %>%
   add_CNSR(shape = 3, size = 2) %>%
@@ -227,12 +227,12 @@ lung_cohort %>%
 ### Summary of Kaplan Meier Curve
 ```{r}
 lung_cohort %>%
-  vr_KM_est(strata = "SEX") %>%
+  estimate_KM(strata = "SEX") %>%
   get_summary() %>%
   vr_render_table("Overall Survival", "Median survival times in days for each strata", DATASET)
 
 lung_cohort %>%
-  vr_KM_est(strata = "SEX") %>%
+  estimate_KM(strata = "SEX") %>%
   get_pvalue() %>%
   vr_render_table("Equality between Strata", "Summary table with test of equality over strata", DATASET)
 ```
