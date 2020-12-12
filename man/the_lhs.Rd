@@ -2,7 +2,7 @@
 % Please edit documentation in R/utilities.R
 \name{the_lhs}
 \alias{the_lhs}
-\title{Find the "lhs" symbol in the pipeline}
+\title{Find the "lhs" in the pipeline}
 \usage{
 the_lhs()
 }
@@ -10,7 +10,7 @@ the_lhs()
 Left-hand sided symbol as string in the magrittr pipe.
 }
 \description{
-This function finds the left-hand sided symbol in a magrittr pipe.
+This function finds the left-hand sided symbol in a magrittr pipe and returns it as a character.
 }
 \examples{
 library(magrittr)

@@ -75,8 +75,8 @@ estimate_KM <- function(
   if (is.null(data)) stop(paste0("Error in ", Call[1], ": data can't be NULL."))   
 
   if (base::length(base::deparse(Call[["data"]])) == 1 && base::deparse(Call[["data"]]) %in% c(".", ".x")){
-    Call[["data"]] <- as.symbol(the_lhs())
-    df <- as.character(Call[["data"]])
+    df <- the_lhs()
+    Call[["data"]] <- as.symbol(df)
   } else {
      df <- as.character(sub("\\[.*$", "", deparse(dfExpr))[1])
   } 

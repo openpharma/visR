@@ -1,6 +1,6 @@
-#' @title Find the "lhs" symbol in the pipeline
+#' @title Find the "lhs" in the pipeline
 #'  
-#' @description This function finds the left-hand sided symbol in a magrittr pipe.
+#' @description This function finds the left-hand sided symbol in a magrittr pipe and returns it as a character.
 #'
 #' @author Steven Haesendonckx
 #' 
@@ -25,8 +25,10 @@ the_lhs <- function() {
     vapply(parents, identical, logical(1), y = environment(`%>%`))
 
   if (any(is_magrittr_env)) {
-    deparse(get("lhs", sys.frames()[[max(which(is_magrittr_env))]]))
+    left <- deparse(get("lhs", sys.frames()[[max(which(is_magrittr_env))]]))
   }
+  
+  return(as.character(gsub(" %.*$", "", left)))
 }
 
 #' @title Align multiple ggplot graphs, taking into account the legend
@@ -42,7 +44,7 @@ the_lhs <- function() {
 #' @references \url{https://stackoverflow.com/questions/26159495/align-multiple-ggplot-graphs-with-and-without-legends}
 #' 
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' library(ggplot2)
 #' library(gtable)
 #' library(cowplot)
@@ -51,21 +53,14 @@ the_lhs <- function() {
 #' p1 <- ggplot(adtte, aes(x = as.numeric(AGE), fill = "Age")) +
 #'   geom_histogram(bins = 15)
 #' p2 <- ggplot(adtte, aes(x = as.numeric(AGE))) +
-#'   geom_histogram(bins = 15)
+#'  geom_histogram(bins = 15)
 #'     
 #' ## default alignment does not take into account legend size
-#' cowplot::plot_grid(plotlist = list(p1,p2),
-#'   align = "none",
-#'   nrow = 2
-#' )
+#' cowplot::plot_grid(plotlist = list(p1,p2), align = "none", nrow=2)
 #' 
 #' ## Alignplots takes into account legend width
-#' cowplot::plot_grid(plotlist = AlignPlots(pltlist = list(p1, p2)), 
-#'    align = "none",
-#'    nrow = 2
-#'  )
+#' cowplot::plot_grid(plotlist = AlignPlots(pltlist = list(p1, p2)), align = "none", nrow=2)
 #' }
-#' @export
 
 AlignPlots <- function(pltlist = NULL) {
   .LegendWidth <- function(x)
