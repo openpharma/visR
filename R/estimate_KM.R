@@ -72,7 +72,7 @@ estimate_KM <- function(
   
  ## Validate `data` and capture data name
  
-  if (is.null(data)) stop(paste0("Error in ", Call[1], ": data can't be NULL."))   
+  if (is.null(data)) stop(paste0("Data can't be NULL."))   
 
   if (base::length(base::deparse(Call[["data"]])) == 1 && base::deparse(Call[["data"]]) %in% c(".", ".x")){
     df <- the_lhs()
@@ -81,7 +81,7 @@ estimate_KM <- function(
      df <- as.character(sub("\\[.*$", "", deparse(dfExpr))[1])
   } 
 
-  if (!(inherits(data, "data.frame") | inherits(data, "tibble") | inherits(data, "data.table"))) stop(paste0("Error in ", Call[1], ": data should be of `class` dataframe, tibble or data.table."))   
+  if (!(inherits(data, "data.frame") | inherits(data, "tibble") | inherits(data, "data.table"))) stop(paste0("Data can be of `class` dataframe or tibble or data.table."))   
 
   data <- as.data.frame(data)
 
@@ -90,19 +90,19 @@ estimate_KM <- function(
   reqcols <- c(strata, "CNSR", "AVAL")
   
   if (! base::exists(df)){
-    stop(paste0("Error in ", Call[1], ": Data ", df, " not found."))
+    stop(paste0("Data ", df, " not found."))
   }
   
   if (! all(reqcols %in% colnames(data))){
-    stop(paste0("Error in ", Call[1], ": Following columns are missing from `data`: ", paste(setdiff(reqcols, colnames(data)), collapse = " "), "."))
+    stop(paste0("Following columns are missing from `data`: ", paste(setdiff(reqcols, colnames(data)), collapse = " "), "."))
   }
   
   if (! is.numeric(data[["AVAL"]])){
-    stop("Error in ", Call[1], ": Analysis variable, AVAL, is not numeric.")
+    stop("Analysis variable, AVAL, is not numeric.")
   }
   
   if (! is.numeric(data[["CNSR"]])){
-    stop("Error in ", Call[1], ": Censor variable, CNSR, is not numeric.")
+    stop("Censor variable, CNSR, is not numeric.")
   }
   
 # Ensure the presence of at least one strata -----------------------------

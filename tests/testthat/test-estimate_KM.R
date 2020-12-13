@@ -1,15 +1,61 @@
-§###########################################################
-###  User requirements 
-############################################################
+#' @title Specifications estimate_KM
+#' @section Last updated by:
+#' Steven Haesendonckx
+#' @section Last update date:
+#' 13-DEC-2020
 
-# T1. The function accepts a dataframe, tibble or data.table
-# T1.1 No error when `data` is a dataframe
-# T1.2 No error when `data` is a tibble
-# T1.3 No error when `data` is a data.table
-# T1.4 An error when `data` is a random object
-# T1.5 An error when `data` is NULL
+# Specifications ----------------------------------------------------------
 
-# estimate_KM(data = NULL)
+#' T1. The function accepts a dataframe or tibble
+#' T1.1 No error when `data` is a data.frame
+#' T1.2 No error when `data` is a tibble
+#' T1.3 No error when `data` is a data.table
+#' T1.4 An error when `data` is a random object
+#' T1.5 An error when `data` is NULL
+
+
+library(dplyr)
+library(survival)
+library(visR)
+
+context("estimate_KM - T1. The function accepts a `data.frame` `tibble` or `data.table`")
+
+testthat::test_that("T1.1. No error when `data` is of class `data.frame`",{
+
+  data <- adtte
+  testthat::expect_error(visR::estimate_KM(data = data), NA)
+
+})
+
+
+testthat::test_that("T1.2. No error when `data` is of class `tibble`",{
+
+  data <- dplyr::as_tibble(adtte)
+  testthat::expect_error(visR::estimate_KM(data = data), NA)
+
+})
+
+testthat::test_that("T1.3. No error when `data` is of class `data.table`",{
+
+  if (require(data.table)){
+    data <- data.table::as.data.table(adtte)
+    testthat::expect_error(visR::estimate_KM(data = data), NA)
+  }
+  
+})
+
+testthat::test_that("T1.4. An error when `data` is of class `list`",{
+
+  data <- base::as.list(adtte)
+  testthat::expect_error(visR::estimate_KM(data = data))
+  
+})
+
+testthat::test_that("An error when `data` is NULL",{
+
+  testthat::expect_error(visR::estimate_KM(data = NULL))
+  
+})
 
 
 # T2. The function relies on the presence of two numeric variables, AVAL and CNSR, to be present in `data`
