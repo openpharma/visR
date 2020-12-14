@@ -7,40 +7,14 @@
 \usage{
 add_risktable(gg, ...)
 
-\method{add_risktable}{ggsurvfit}(
-  gg,
-  min_at_risk = 0,
-  time_ticks = NULL,
-  statlist = c("n.risk"),
-  label = NULL,
-  group = "strata",
-  collapse = FALSE
-)
+\method{add_risktable}{ggsurvfit}(gg, risktable)
 }
 \arguments{
 \item{gg}{visR plot of class \code{ggsurvfit}}
 
 \item{...}{other arguments passed on to the method}
 
-\item{min_at_risk}{\code{numeric} The cutoff for number of subjects to display. Default is 0.}
-
-\item{time_ticks}{Numeric vector with the points along the x-axis at which the summary data needs to be provided.}
-
-\item{statlist}{Character vector indicating which summary data to present. Current choices are "n.risk" "n.event" "n.censor".}
-
-\item{label}{Character vector with labels for the statlist. Default matches "n.risk" with "At risk", "n.event" with "Events" and "n.censor"
-with "Censored".}
-
-\item{group}{String indicating the grouping variable for the risk tables. Current options are:
-\itemize{
-\item{"strata": groups the risk tables per stratum. The \code{label} specifies the lables used within each risk table. This is the default}
-\item{"statlist": groups the risk tables per statlist. The \code{label} specifies the title for each risk tabel. The strata levels
-are used for labeling within each risk table.}
-} "strata" to group the risk tables
-per strata, and "statlist" to group the risk tables}
-
-\item{collapse}{Boolean, indicates whether to present the data overall, rather than per strata.
-Default is FALSE.}
+\item{risktable}{A risktable created with method 'get_risktable'}
 }
 \value{
 Object of class \code{ggplot} with added risk table.
@@ -93,7 +67,4 @@ adtte \%>\%
 }
 \seealso{
 \code{\link[cowplot]{plot_grid}}
-}
-\author{
-Steven Haesendonckx
 }

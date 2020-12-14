@@ -157,7 +157,7 @@ Default: number of unique values and number of missing values
 
     <pre class="usage"><span class='fu'>vr_create_tableone</span><span class='op'>(</span>
   <span class='va'>data</span>,
-  group_cols <span class='op'>=</span> <span class='cn'>NULL</span>,
+  strata <span class='op'>=</span> <span class='cn'>NULL</span>,
   overall <span class='op'>=</span> <span class='cn'>TRUE</span>,
   summary_function <span class='op'>=</span> <span class='va'>vr_summarize_tab1</span>
 <span class='op'>)</span></pre>
@@ -170,7 +170,7 @@ Default: number of unique values and number of missing values
       <td><p>The dataset to summarize as dataframe or tibble</p></td>
     </tr>
     <tr>
-      <th>group_cols</th>
+      <th>strata</th>
       <td><p>Stratifying/Grouping variable name(s) as character vector. If NULL, only overall results are returned</p></td>
     </tr>
     <tr>

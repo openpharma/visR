@@ -34,7 +34,13 @@
     <loc>https://openpharma.github.io/visR//reference/get_quantile.html</loc>
   </url>
   <url>
+    <loc>https://openpharma.github.io/visR//reference/get_risktable.html</loc>
+  </url>
+  <url>
     <loc>https://openpharma.github.io/visR//reference/get_summary.html</loc>
+  </url>
+  <url>
+    <loc>https://openpharma.github.io/visR//reference/get_tableone.html</loc>
   </url>
   <url>
     <loc>https://openpharma.github.io/visR//reference/legendopts.html</loc>
@@ -43,7 +49,52 @@
     <loc>https://openpharma.github.io/visR//reference/pipe.html</loc>
   </url>
   <url>
+    <loc>https://openpharma.github.io/visR//reference/plot.html</loc>
+  </url>
+  <url>
+    <loc>https://openpharma.github.io/visR//reference/render.html</loc>
+  </url>
+  <url>
     <loc>https://openpharma.github.io/visR//reference/style_visR.html</loc>
+  </url>
+  <url>
+    <loc>https://openpharma.github.io/visR//reference/summarize.default.html</loc>
+  </url>
+  <url>
+    <loc>https://openpharma.github.io/visR//reference/summarize.factor.html</loc>
+  </url>
+  <url>
+    <loc>https://openpharma.github.io/visR//reference/summarize.integer.html</loc>
+  </url>
+  <url>
+    <loc>https://openpharma.github.io/visR//reference/summarize.numeric.html</loc>
+  </url>
+  <url>
+    <loc>https://openpharma.github.io/visR//reference/summarize.html</loc>
+  </url>
+  <url>
+    <loc>https://openpharma.github.io/visR//reference/summarize_tab1.default.html</loc>
+  </url>
+  <url>
+    <loc>https://openpharma.github.io/visR//reference/summarize_tab1.factor.html</loc>
+  </url>
+  <url>
+    <loc>https://openpharma.github.io/visR//reference/summarize_tab1.integer.html</loc>
+  </url>
+  <url>
+    <loc>https://openpharma.github.io/visR//reference/summarize_tab1.numeric.html</loc>
+  </url>
+  <url>
+    <loc>https://openpharma.github.io/visR//reference/summarize_tab1.html</loc>
+  </url>
+  <url>
+    <loc>https://openpharma.github.io/visR//reference/tableone.html</loc>
+  </url>
+  <url>
+    <loc>https://openpharma.github.io/visR//reference/table_caption.html</loc>
+  </url>
+  <url>
+    <loc>https://openpharma.github.io/visR//reference/table_download.html</loc>
   </url>
   <url>
     <loc>https://openpharma.github.io/visR//reference/the_lhs.html</loc>
@@ -64,52 +115,10 @@
     <loc>https://openpharma.github.io/visR//reference/vr_attrition_table.html</loc>
   </url>
   <url>
-    <loc>https://openpharma.github.io/visR//reference/vr_create_tableone.html</loc>
-  </url>
-  <url>
     <loc>https://openpharma.github.io/visR//reference/vr_KM_est.html</loc>
   </url>
   <url>
-    <loc>https://openpharma.github.io/visR//reference/vr_plot.html</loc>
-  </url>
-  <url>
     <loc>https://openpharma.github.io/visR//reference/vr_plt_forest.html</loc>
-  </url>
-  <url>
-    <loc>https://openpharma.github.io/visR//reference/vr_render_table.html</loc>
-  </url>
-  <url>
-    <loc>https://openpharma.github.io/visR//reference/vr_summarize.default.html</loc>
-  </url>
-  <url>
-    <loc>https://openpharma.github.io/visR//reference/vr_summarize.factor.html</loc>
-  </url>
-  <url>
-    <loc>https://openpharma.github.io/visR//reference/vr_summarize.numeric.html</loc>
-  </url>
-  <url>
-    <loc>https://openpharma.github.io/visR//reference/vr_summarize.html</loc>
-  </url>
-  <url>
-    <loc>https://openpharma.github.io/visR//reference/vr_summarize_tab1.default.html</loc>
-  </url>
-  <url>
-    <loc>https://openpharma.github.io/visR//reference/vr_summarize_tab1.factor.html</loc>
-  </url>
-  <url>
-    <loc>https://openpharma.github.io/visR//reference/vr_summarize_tab1.numeric.html</loc>
-  </url>
-  <url>
-    <loc>https://openpharma.github.io/visR//reference/vr_summarize_tab1.html</loc>
-  </url>
-  <url>
-    <loc>https://openpharma.github.io/visR//reference/vr_table_caption.html</loc>
-  </url>
-  <url>
-    <loc>https://openpharma.github.io/visR//reference/vr_table_download.html</loc>
-  </url>
-  <url>
-    <loc>https://openpharma.github.io/visR//reference/vr_table_one.html</loc>
   </url>
   <url>
     <loc>https://openpharma.github.io/visR//reference/vr_tidy_rbest.html</loc>
