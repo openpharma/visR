@@ -83,6 +83,7 @@ add_risktable <- function(gg, ...){
 
 add_risktable.ggsurvfit <- function(
    gg
+  ,risktable
   ,min_at_risk = 0
   ,time_ticks = NULL
   ,statlist = c("n.risk")
@@ -138,7 +139,7 @@ add_risktable.ggsurvfit <- function(
   
   times <- vr_get_breaks(tidy_object, time_ticks, min_at_risk)
 
-  final <- vr_process_risktable(tidy_object,min_at_risk,time_ticks,statlist,label,group,collapse)
+  final <- risktable
   
   statlist <- attributes(final)$statlist
   title <- attributes(final)$title
