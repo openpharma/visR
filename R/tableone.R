@@ -16,7 +16,7 @@
 #'
 #' @export
 
-table_one <- function(
+tableone <- function(
     data,
     title,
     datasource,
