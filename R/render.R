@@ -16,20 +16,20 @@
 #'
 #' @export
 #' 
-render_table <- function(data,
+render <- function(data,
                             title,
                             datasource,
                             footnote = "",
                             output_format="html",
                             engine="gt",
                             download_format = c('copy', 'csv', 'excel')){
-  UseMethod("render_table")
+  UseMethod("render")
 }
 
-#' @rdname render_table
-#' @method render_table tableone
+#' @rdname render
+#' @method render tableone
 #' @export
-render_table.tableone <- function(
+render.tableone <- function(
   data,
   title,
   datasource,
@@ -50,13 +50,13 @@ render_table.tableone <- function(
     data <- data[data$variable != "Sample", ]
   }
   
-  render_table.data.frame(data=data, title=title, datasource=datasource, footnote=footnote, output_format=output_format, engine=engine, download_format=download_format)
+  render.data.frame(data=data, title=title, datasource=datasource, footnote=footnote, output_format=output_format, engine=engine, download_format=download_format)
 }
 
-#' @rdname render_table
-#' @method render_table risktable
+#' @rdname render
+#' @method render risktable
 #' @export
-render_table.risktable <- function(
+render.risktable <- function(
   data,
   title,
   datasource,
@@ -84,7 +84,7 @@ render_table.risktable <- function(
   class(complete_tab) <- c("tableone", class(complete_tab))
   class(complete_tab) <- c("risktable", class(complete_tab))
   complete_tab <- complete_tab %>% select(variable, statistic, everything())
-  render_table.tableone(complete_tab,
+  render.tableone(complete_tab,
                   title,
                   datasource,
                   footnote,
@@ -96,10 +96,10 @@ render_table.risktable <- function(
 
 
 
-#' @rdname render_table
-#' @method render_table data.frame
+#' @rdname render
+#' @method render data.frame
 #' @export
-render_table.data.frame <- function(
+render.data.frame <- function(
   data,
   title,
   datasource,
@@ -132,7 +132,7 @@ render_table.data.frame <- function(
     }
     else{
       warning(paste("Supported output format of the kable engine are html and latex and not", output_format, " - falling back to html"))
-      render_table(data=data, title=title, datasource=datasource,
+      render(data=data, title=title, datasource=datasource,
                          output_format="html", engine=engine, download_format=download_format)
     }
   }
