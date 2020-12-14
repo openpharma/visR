@@ -29,7 +29,7 @@
 #'    }
 #'   
 #' @export
-vr_create_risktable <- function(survfit_object
+get_risktable <- function(survfit_object
                                 ,min_at_risk = 0
                                 ,break_times = NULL
                                 ,statlist = c("n.risk")
@@ -38,13 +38,13 @@ vr_create_risktable <- function(survfit_object
                                 ,collapse = FALSE
                                 ,fun = "surv"){
   
-  UseMethod("vr_create_risktable")
+  UseMethod("get_risktable")
 }
 
-#' @rdname vr_create_risktable
-#' @method vr_create_risktable default
+#' @rdname get_risktable
+#' @method get_risktable default
 #' @export
-vr_create_risktable.default <- function(survfit_object
+get_risktable.default <- function(survfit_object
                                 ,min_at_risk = 0
                                 ,break_times = NULL
                                 ,statlist = c("n.risk")
@@ -53,11 +53,11 @@ vr_create_risktable.default <- function(survfit_object
                                 ,collapse = FALSE
                                 ,fun = "surv"){
   
-  tidy_object <- vr_prepare_suvfit(survfit_object, fun)
-  risktable <- vr_process_risktable(tidy_object, min_at_risk, break_times, statlist, label, group, collapse)
+  tidy_object <- prepare_suvfit(survfit_object, fun)
+  risktable <- process_risktable(tidy_object, min_at_risk, break_times, statlist, label, group, collapse)
 }
 
-vr_process_risktable <- function(tidy_object
+process_risktable <- function(tidy_object
                                 ,min_at_risk = 0
                                 ,break_times = NULL
                                 ,statlist = c("n.risk")
@@ -65,7 +65,7 @@ vr_process_risktable <- function(tidy_object
                                 ,group = "strata"
                                 ,collapse = FALSE){
   
-  times <- vr_get_breaks(tidy_object, break_times, min_at_risk)
+  times <- get_breaks(tidy_object, break_times, min_at_risk)
   
   survfit_summary <- summary(survfit_object, times = times, extend = TRUE)
   
@@ -138,11 +138,11 @@ vr_process_risktable <- function(tidy_object
     attr(final, 'title') <- "Overall"
     attr(final, 'statlist') <- "Overall"
   }
-  class(final) <- c("vr_risktable", class(final))
+  class(final) <- c("risktable", class(final))
   return(final)
 }
 
-vr_prepare_suvfit <- function(survfit_object, fun){
+prepare_suvfit <- function(survfit_object, fun){
   #### FUN ####
   
   if (is.character(fun)){
@@ -160,7 +160,7 @@ vr_prepare_suvfit <- function(survfit_object, fun){
   } else if (is.function(fun)) {
     fun
   } else {
-    stop("Error in vr_plot: fun should be a character or a function.")
+    stop("Error in plot: fun should be a character or a function.")
   }
   
   ### Extended tidy of survfit class + transformation ####
@@ -203,7 +203,7 @@ vr_prepare_suvfit <- function(survfit_object, fun){
   return(tidy_object)
 }
 
-vr_get_breaks <- function(tidy_object,break_times = NULL, min_at_risk){
+get_breaks <- function(tidy_object,break_times = NULL, min_at_risk){
   #### Pull out max time to consider ####
   max_time <-
     tidy_object %>%
