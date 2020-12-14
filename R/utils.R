@@ -4,7 +4,7 @@
 #'
 #' @param x an object
 #' @export
-vr_summarize <- function(x) UseMethod("vr_summarize")
+summarize <- function(x) UseMethod("summarize")
 
 
 #' Create variable summary for factors
@@ -12,7 +12,7 @@ vr_summarize <- function(x) UseMethod("vr_summarize")
 #' @param x an object of class "factor"
 #'
 #' @export
-vr_summarize.factor <- function(x){
+summarize.factor <- function(x){
   x1 <- forcats::fct_explicit_na(x, na_level = "Missing")
 
   dat <- tibble::enframe(x1) %>%
@@ -29,8 +29,8 @@ vr_summarize.factor <- function(x){
 #' @param x an object of class "integer"
 #'
 #' @export
-vr_summarize.integer <- function(x){
-  vr_summarize.numeric(x)
+summarize.integer <- function(x){
+  summarize.numeric(x)
 }
 
 #' Create variable summary for numeric variables
@@ -38,7 +38,7 @@ vr_summarize.integer <- function(x){
 #' @param x an object of class "numeric"
 #'
 #' @export
-vr_summarize.numeric <- function(x){
+summarize.numeric <- function(x){
   dat <- list(
     mean = mean(x, na.rm = TRUE),
     min = min(x, na.rm = TRUE),
@@ -56,7 +56,7 @@ vr_summarize.numeric <- function(x){
 #' @param x an object of any other class
 #'
 #' @export
-vr_summarize.default <- function(x){
+summarize.default <- function(x){
   dat <- list(
     unique_values = length(unique(x)),
     nmiss = sum(is.na(x))
@@ -70,7 +70,7 @@ vr_summarize.default <- function(x){
 #'
 #' @param x a vector to be summarized
 #' @export
-vr_summarize_tab1 <- function(x) UseMethod("vr_summarize_tab1")
+summarize_tab1 <- function(x) UseMethod("summarize_tab1")
 
 #' Create variable summary for factors
 #'
@@ -79,7 +79,7 @@ vr_summarize_tab1 <- function(x) UseMethod("vr_summarize_tab1")
 #' @param x an object of class "factor"
 #'
 #' @export
-vr_summarize_tab1.factor <- function(x){
+summarize_tab1.factor <- function(x){
   x1 <- forcats::fct_explicit_na(x, na_level = "Missing")
 
   dat <- tibble::enframe(x1) %>%
@@ -100,7 +100,7 @@ vr_summarize_tab1.factor <- function(x){
 #' @param x an object of class "numeric"
 #'
 #' @export
-vr_summarize_tab1.numeric <- function(x){
+summarize_tab1.numeric <- function(x){
   dat <- list(
     `Mean (SD)` = paste0(format(mean(x, na.rm = TRUE), digits = 3), " (", format(sd(x, na.rm = TRUE), digits = 3), ")"),
     `Median (IQR)` = paste0(format(median(x, na.rm = TRUE), digits = 3), " (", format(quantile(x, probs=0.25, na.rm = TRUE), digits = 3),
@@ -120,8 +120,8 @@ vr_summarize_tab1.numeric <- function(x){
 #' @param x an object of class "integer"
 #'
 #' @export
-vr_summarize_tab1.integer <- function(x){
-  vr_summarize_tab1.numeric(x)
+summarize_tab1.integer <- function(x){
+  summarize_tab1.numeric(x)
 }
 
 #' Create variable summary for all other variable types
@@ -129,7 +129,7 @@ vr_summarize_tab1.integer <- function(x){
 #' @param x an object of any other class
 #'
 #' @export
-vr_summarize_tab1.default <- function(x){
+summarize_tab1.default <- function(x){
   dat <- list(
     `Unique values` = format(length(unique(x))),
     `Missing (%)` = paste0(format(sum(is.na(x))), " (", format(100 * sum(is.na(x))/dplyr::n(), trim=TRUE), "%)")
@@ -144,7 +144,7 @@ vr_summarize_tab1.default <- function(x){
 #' @param width Width
 #'
 #' @export
-vr_table_caption <-function(caption,
+table_caption <-function(caption,
          label = knitr::opts_current$get("label"),
          width = knitr::opts_current$get("out.width")) {
   asis_output(paste(
@@ -165,7 +165,7 @@ vr_table_caption <-function(caption,
 #' @param button What does the download button say
 #'
 #' @export
-vr_table_download <- function(df,
+table_download <- function(df,
                               filename = NULL,
                               format = "csv",
                               button = "Download data") {
