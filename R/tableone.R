@@ -6,7 +6,6 @@
 #'
 #' @param data The dataframe or tibble to visualise
 #' @param title Table title to include in the rendered table
-#' @param caption Table caption to include in the rendered table
 #' @param datasource String specifying the datasource underlying the data set
 #' @param strata Character vector with column names to use for
 #' stratification in the summary table. Default: NULL

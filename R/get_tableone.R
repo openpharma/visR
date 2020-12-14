@@ -1,8 +1,18 @@
+#' @title #' Create Summary Table (also known as 'tableone')
+#'
+#' @description S3 method for creating summary tables (tableone).
+#'     
+#' 
+#' @param x object to be passed on to the method
+#' @param ... other arguments passed on to the method
+#'  
+#' @rdname get_tableone
+#' 
+#' @export
+get_tableone <- function(x){
+  UseMethod("get_tableone")
+}
 
-#' Create Summary Table (also known as Table 1)
-#' 
-#' @description Create a summary table of descriptive statistics from a dataframe or tibble. 
-#' 
 #' By default the following summary stats are calculated:
 #' * Numeric variables: mean, min, 25th-percentile, median, 75th-percentile, maximum, standard deviation
 #' * Factor variables: proportion of each factor level in the overall dataset
@@ -18,8 +28,6 @@
 #' @note All columns in the table will be summarized. If only some columns shall be used, please select only those
 #' variables prior to creating the summary table by using dplyr::select()
 #' 
-#' @export
-#' 
 #' @examples
 #' library(survival)
 #' library(dplyr)
@@ -33,9 +41,6 @@
 #'          ecog.ps = factor(ecog.ps)) %>% 
 #'   select(age, age_group, everything()) %>% 
 #'   get_tableone()
-get_tableone <- function(data, strata = NULL, overall=TRUE, summary_function = summarize_tab1){
-  UseMethod("get_tableone")
-}
 
 #' @rdname get_tableone
 #' @method get_tableone default

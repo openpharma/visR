@@ -3,8 +3,6 @@
 #' @description S3 method for adding risk tables to visR plots.
 #'     No default method is available at the moment.
 #'
-#' @author Steven Haesendonckx
-#'
 #' @seealso \code{\link[cowplot]{plot_grid}}
 #'
 #' @param gg visR object

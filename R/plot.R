@@ -2,8 +2,6 @@
 #'
 #' @description S3 method for creating plots directly from objects using `ggplot2`, similar to base plot function.
 #'     The default method is base::plot.
-#'     
-#' @author Steven Haesendonckx
 #' 
 #' @seealso \code{\link[ggplot2]{ggplot}}
 #' 

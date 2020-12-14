@@ -3,7 +3,15 @@
 #' @description Render a previously created dataframe to html,
 #' rtf or latex
 #'
-#'
+#' @param x object to be passed on to the method
+#' @param ... other arguments passed on to the method
+#' @rdname render
+#' 
+#' @export
+render <- function(x){
+  UseMethod("render")
+}
+
 #' @param data The dataframe or tibble to visualise
 #' @param title Table title to include in the rendered table
 #' @param datasource String specifying the datasource underlying the data set
@@ -16,16 +24,6 @@
 #'
 #' @export
 #' 
-render <- function(data,
-                            title,
-                            datasource,
-                            footnote = "",
-                            output_format="html",
-                            engine="gt",
-                            download_format = c('copy', 'csv', 'excel')){
-  UseMethod("render")
-}
-
 #' @rdname render
 #' @method render tableone
 #' @export
@@ -53,6 +51,16 @@ render.tableone <- function(
   render.data.frame(data=data, title=title, datasource=datasource, footnote=footnote, output_format=output_format, engine=engine, download_format=download_format)
 }
 
+#' @param data The dataframe or tibble to visualise
+#' @param title Table title to include in the rendered table
+#' @param datasource String specifying the datasource underlying the data set
+#' @param footnote String specifying additional information to be displayed in the table note alongside the data source and specifications of statistical tests.
+#' @param output_format If TRUE, the summary statistics for the overall dataset
+#' are also calculated
+#' @param engine If html is selected as output format, one can chose between
+#' using kable, gt and DT as engine to create the output table
+#' @param download_format How can users download it
+#'
 #' @rdname render
 #' @method render risktable
 #' @export
@@ -95,7 +103,15 @@ render.risktable <- function(
 }
 
 
-
+#' @param data The dataframe or tibble to visualise
+#' @param title Table title to include in the rendered table
+#' @param datasource String specifying the datasource underlying the data set
+#' @param footnote String specifying additional information to be displayed in the table note alongside the data source and specifications of statistical tests.
+#' @param output_format If TRUE, the summary statistics for the overall dataset
+#' are also calculated
+#' @param engine If html is selected as output format, one can chose between
+#' using kable, gt and DT as engine to create the output table
+#' @param download_format How can users download it
 #' @rdname render
 #' @method render data.frame
 #' @export
