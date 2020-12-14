@@ -10,26 +10,26 @@
 #' @param x object to be passed on to the method
 #' @param ... other arguments passed on to the method
 #'  
-#' @rdname vr_plot
+#' @rdname plot
 #' 
 #' @export
 
-vr_plot <- function(x, ...){
-  UseMethod("vr_plot")
+plot <- function(x, ...){
+  UseMethod("plot")
 } 
 
-#' @rdname vr_plot
-#' @method vr_plot default
+#' @rdname plot
+#' @method plot default
 #' @export
 
-vr_plot.default <- function(x, ...){
+plot.default <- function(x, ...){
   base::plot(x)
 }
 
 #' @param survfit_object Object of class `survfit`
 #' @param y_label \code{character} Label for the y-axis. When not specified, the default will do a proposal, depending on the `fun` argument.
 #' @param x_label \code{character} Label for the x-asis. When not specified, the algorithm will look for "PARAM" information inside the list structure of the `survfit` object.
-#'   Note that this information is automatically added when using visR::vr_KM_est and when the input data has the variable "PARAM". If no "PARAM" information is available
+#'   Note that this information is automatically added when using visR::KM_est and when the input data has the variable "PARAM". If no "PARAM" information is available
 #'   "time" is used as label.
 #' @param x_units Unit to be added to the x_label (x_label (x_unit)). Default is NULL.
 #' @param x_ticks Ticks for the x-axis. When not specified, the default will do a proposal. 
@@ -44,22 +44,22 @@ vr_plot.default <- function(x, ...){
 #' library(tidyr)
 #' library(ggplot2)
 #' 
-#' survfit_object <- vr_KM_est(data = adtte, strata = "TRTP")
+#' survfit_object <- KM_est(data = adtte, strata = "TRTP")
 #'
 #' ## Plot survival probability
-#' vr_plot(survfit_object = survfit_object, fun = "surv")
-#' vr_plot(survfit_object, fun = "pct")
+#' plot(survfit_object = survfit_object, fun = "surv")
+#' plot(survfit_object, fun = "pct")
 #' 
 #' ## Plot cumulative hazard
-#' vr_plot(survfit_object, fun = "cloglog")
+#' plot(survfit_object, fun = "cloglog")
 #'  
 #' @return Object of class \code{ggplot}  \code{ggsurvplot}.
 #'  
-#' @rdname vr_plot
-#' @method vr_plot survfit
+#' @rdname plot
+#' @method plot survfit
 #' @export
 #
-vr_plot.survfit <- function(
+plot.survfit <- function(
   survfit_object = NULL
  ,y_label = NULL
  ,x_label = NULL
@@ -94,10 +94,10 @@ vr_plot.survfit <- function(
       stop("Unrecognized fun argument")
     )
   } else if (is.null(y_label) & is.function(fun)) {
-    stop("Error in vr_plot: No Y label defined. No default is available when `fun` is a function.")
+    stop("Error in plot: No Y label defined. No default is available when `fun` is a function.")
   }  
   
-  tidy_object <- vr_prepare_suvfit(survfit_object, fun)
+  tidy_object <- prepare_suvfit(survfit_object, fun)
     
   #### Obtain alternatives for X-axis ####
   
@@ -123,7 +123,7 @@ vr_plot.survfit <- function(
       stop("Unrecognized fun argument")
     )
   } else if (is.null(y_label) & is.function(fun)) {
-    stop("Error in vr_plot: No Y label defined. No default is available when `fun` is a function.")
+    stop("Error in plot: No Y label defined. No default is available when `fun` is a function.")
   }  
 
   #### Plotit ####
