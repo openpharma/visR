@@ -11,23 +11,23 @@
 #' @param strata Character vector with column names to use for
 #' stratification in the summary table. Default: NULL
 #' @param summary_function A function to summarize variables of different types.
-#' Pre-implemented functions are vr_summarize and vr_summarize_tab1
-#' @param ... Pass options to vr_render_table
+#' Pre-implemented functions are summarize and summarize_tab1
+#' @param ... Pass options to render_table
 #'
 #' @export
 
-vr_table_one <- function(
+table_one <- function(
     data,
     title,
     datasource,
     # abbreviations = "",
     # variable_definitions = "",
     strata = NULL,
-    summary_function = vr_summarize_tab1,
+    summary_function = summarize_tab1,
     ...
     # engine = "gt"
 ) {
-    tab1_rendered <- vr_create_tableone(data, strata = strata, summary_function = summary_function) %>%
-        vr_render_table(title = title, datasource = datasource, ...)
+    tab1_rendered <- get_tableone(data, strata = strata, summary_function = summary_function) %>%
+        render_table(title = title, datasource = datasource, ...)
     return(tab1_rendered)
 }

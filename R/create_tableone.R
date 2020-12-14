@@ -13,7 +13,7 @@
 #' @param overall If TRUE, the summary statistics for the overall dataset are also calculated 
 #' @param summary_function A function defining summary statistics for numeric and categorical values
 #' 
-#' @details It is possible to provide your own summary function. Please have a loot at vr_summary for inspiration.
+#' @details It is possible to provide your own summary function. Please have a loot at summary for inspiration.
 #' 
 #' @note All columns in the table will be summarized. If only some columns shall be used, please select only those
 #' variables prior to creating the summary table by using dplyr::select()
@@ -32,20 +32,20 @@
 #'          rx = factor(rx),
 #'          ecog.ps = factor(ecog.ps)) %>% 
 #'   select(age, age_group, everything()) %>% 
-#'   vr_create_tableone()
-vr_create_tableone <- function(data, strata = NULL, overall=TRUE, summary_function = vr_summarize_tab1){
-  UseMethod("vr_create_tableone")
+#'   get_tableone()
+get_tableone <- function(data, strata = NULL, overall=TRUE, summary_function = summarize_tab1){
+  UseMethod("get_tableone")
 }
 
-#' @rdname vr_create_tableone
-#' @method vr_create_tableone default
+#' @rdname get_tableone
+#' @method get_tableone default
 #' @export
-vr_create_tableone.default <- function(data, strata = NULL, overall=TRUE, summary_function = vr_summarize_tab1){
+get_tableone.default <- function(data, strata = NULL, overall=TRUE, summary_function = summarize_tab1){
   
   summary_FUN <- match.fun(summary_function)
   
   if(overall & !is.null(strata)){
-    overall_table1 <- vr_create_tableone(data, strata = NULL, overall = FALSE, summary_function = summary_function)
+    overall_table1 <- get_tableone(data, strata = NULL, overall = FALSE, summary_function = summary_function)
     combine_dfs <- TRUE
   }
   else{
@@ -81,7 +81,7 @@ vr_create_tableone.default <- function(data, strata = NULL, overall=TRUE, summar
     data_table1 <- overall_table1 %>% dplyr::left_join(data_table1, by=c("variable", "statistic"))
   }
   
-  class(data_table1) <- c("vr_tableone", class(data_table1))
+  class(data_table1) <- c("tableone", class(data_table1))
   
   return(data_table1)
 }
