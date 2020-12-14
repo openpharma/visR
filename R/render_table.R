@@ -16,20 +16,20 @@
 #'
 #' @export
 #' 
-vr_render_table <- function(data,
+render_table <- function(data,
                             title,
                             datasource,
                             footnote = "",
                             output_format="html",
                             engine="gt",
                             download_format = c('copy', 'csv', 'excel')){
-  UseMethod("vr_render_table")
+  UseMethod("render_table")
 }
 
-#' @rdname vr_render_table
-#' @method vr_render_table vr_tableone
+#' @rdname render_table
+#' @method render_table tableone
 #' @export
-vr_render_table.vr_tableone <- function(
+render_table.tableone <- function(
   data,
   title,
   datasource,
@@ -38,7 +38,7 @@ vr_render_table.vr_tableone <- function(
   engine="gt",
   download_format = c('copy', 'csv', 'excel')){
   
-  if(!("vr_risktable" %in% class(data))){
+  if(!("risktable" %in% class(data))){
     sample <- data[data$variable == "Sample", ]
     sample <- sample[3:length(sample)]
     sample_names = colnames(sample)
@@ -50,13 +50,13 @@ vr_render_table.vr_tableone <- function(
     data <- data[data$variable != "Sample", ]
   }
   
-  vr_render_table.data.frame(data=data, title=title, datasource=datasource, footnote=footnote, output_format=output_format, engine=engine, download_format=download_format)
+  render_table.data.frame(data=data, title=title, datasource=datasource, footnote=footnote, output_format=output_format, engine=engine, download_format=download_format)
 }
 
-#' @rdname vr_render_table
-#' @method vr_render_table vr_risktable
+#' @rdname render_table
+#' @method render_table risktable
 #' @export
-vr_render_table.vr_risktable <- function(
+render_table.risktable <- function(
   data,
   title,
   datasource,
@@ -81,10 +81,10 @@ vr_render_table.vr_risktable <- function(
     complete_tab <- rbind(complete_tab, tab)
   }
   colnames(complete_tab) <- c("statistic",colnames(tab)[2:ncol(tab)])
-  class(complete_tab) <- c("vr_tableone", class(complete_tab))
-  class(complete_tab) <- c("vr_risktable", class(complete_tab))
+  class(complete_tab) <- c("tableone", class(complete_tab))
+  class(complete_tab) <- c("risktable", class(complete_tab))
   complete_tab <- complete_tab %>% select(variable, statistic, everything())
-  vr_render_table.vr_tableone(complete_tab,
+  render_table.tableone(complete_tab,
                   title,
                   datasource,
                   footnote,
@@ -96,10 +96,10 @@ vr_render_table.vr_risktable <- function(
 
 
 
-#' @rdname vr_render_table
-#' @method vr_render_table data.frame
+#' @rdname render_table
+#' @method render_table data.frame
 #' @export
-vr_render_table.data.frame <- function(
+render_table.data.frame <- function(
   data,
   title,
   datasource,
@@ -132,7 +132,7 @@ vr_render_table.data.frame <- function(
     }
     else{
       warning(paste("Supported output format of the kable engine are html and latex and not", output_format, " - falling back to html"))
-      vr_render_table(data=data, title=title, datasource=datasource,
+      render_table(data=data, title=title, datasource=datasource,
                          output_format="html", engine=engine, download_format=download_format)
     }
   }
@@ -193,7 +193,7 @@ render_datatable <- function(data, title, download_format, source_cap){
   UseMethod("render_datatable")
 }
 
-render_datatable.vr_tableone <- function(data, title, download_format, source_cap){
+render_datatable.tableone <- function(data, title, download_format, source_cap){
   if(is.null(download_format)){
     table_out <- data %>% 
       DT::datatable(caption = title,
@@ -243,7 +243,7 @@ render_gt <- function(data, title, datasource, footnote){
   numcols <- data %>% dplyr::select_if(is.numeric) %>% names()
   # create gt table
   table_out <- data %>%
-    create_gt(numcols) %>%
+    get_gt(numcols) %>%
     gt::fmt_number(
       columns = numcols,
       decimals = 2
@@ -252,10 +252,10 @@ render_gt <- function(data, title, datasource, footnote){
 }
 
 # Create initial gt object
-create_gt <- function(data, numcols){
-  UseMethod("create_gt")
+get_gt <- function(data, numcols){
+  UseMethod("get_gt")
 }
-create_gt.vr_tableone <- function(data, numcols){
+get_gt.tableone <- function(data, numcols){
   gt <- gt::gt(data, groupname_col = "variable",
          rowname_col = "statistic")%>%
          # no decimal points for sample count
@@ -265,7 +265,7 @@ create_gt.vr_tableone <- function(data, numcols){
            decimals = 0)
   return(gt)
 }
-create_gt.data.frame <- function(data, numcols){
+get_gt.data.frame <- function(data, numcols){
   gt <- gt::gt(data)
   return(gt)
 }
