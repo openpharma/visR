@@ -97,7 +97,61 @@ plot.survfit <- function(
     stop("Error in plot: No Y label defined. No default is available when `fun` is a function.")
   }  
   
-  tidy_object <- prepare_suvfit(survfit_object, fun)
+  if (is.character(fun)){
+    .transfun <- base::switch(
+      fun,
+      surv = function(y) y,
+      log = function(y) log(y),
+      event = function(y) 1 - y,
+      cloglog = function(y) log(-log(y)),
+      pct = function(y) y * 100,
+      logpct = function(y) log(y *100),
+      cumhaz = function(y) -log(y), ## survfit object contains an estimate for Cumhaz and SE based on Nelson-Aalen with or without correction for ties
+      stop("Unrecognized fun argument")
+    )
+  } else if (is.function(fun)) {
+    fun
+  } else {
+    stop("Error in plot: fun should be a character or a function.")
+  }
+  
+  ### Extended tidy of survfit class + transformation ####
+  
+  correctme <- NULL
+  tidy_object <- tidyme.survfit(survfit_object)
+  if ("surv" %in% colnames(tidy_object)) {
+    tidy_object[["est"]] <- .transfun(tidy_object[["surv"]])
+    correctme <- c(correctme,"est")
+  }
+  if (base::all(c("upper", "lower") %in% colnames(tidy_object))) {
+    tidy_object[["est.upper"]] <- .transfun(tidy_object[["upper"]])
+    tidy_object[["est.lower"]] <- .transfun(tidy_object[["lower"]])
+    correctme <- c(correctme,"est.lower", "est.upper")
+  } 
+  
+  #### Adjust -Inf to minimal value ####
+  
+  tidy_object[ , correctme] <- sapply(tidy_object[ , correctme],
+                                      FUN = function(x) {
+                                        x[which(x == -Inf)] <- min(x[which(x != -Inf)], na.rm = TRUE)
+                                        return(x)
+                                      } 
+  )
+  
+  ymin = min(sapply(tidy_object[ , correctme], function(x) min(x[which(x != -Inf)], na.rm = TRUE)), na.rm = TRUE)
+  ymax = max(sapply(tidy_object[ , correctme], function(x) max(x[which(x != -Inf)], na.rm = TRUE)), na.rm = TRUE)
+  
+  if (fun == "cloglog") {
+    
+    if (nrow(tidy_object[tidy_object$est == "-Inf",]) > 0) {
+      
+      warning("NAs introduced by y-axis transformation.\n")
+      
+    } 
+    
+    tidy_object = tidy_object[tidy_object$est != "-Inf",]
+    
+  }
     
   #### Obtain alternatives for X-axis ####
   

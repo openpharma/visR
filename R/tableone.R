@@ -28,6 +28,6 @@ tableone <- function(
     # engine = "gt"
 ) {
     tab1_rendered <- get_tableone(data, strata = strata, summary_function = summary_function) %>%
-        render_table(title = title, datasource = datasource, ...)
+        render(title = title, datasource = datasource, ...)
     return(tab1_rendered)
 }

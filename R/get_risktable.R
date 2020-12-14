@@ -53,17 +53,39 @@ get_risktable.default <- function(survfit_object
                                 ,collapse = FALSE
                                 ,fun = "surv"){
   
-  tidy_object <- prepare_suvfit(survfit_object, fun)
-  risktable <- process_risktable(tidy_object, min_at_risk, break_times, statlist, label, group, collapse)
-}
-
-process_risktable <- function(tidy_object
-                                ,min_at_risk = 0
-                                ,break_times = NULL
-                                ,statlist = c("n.risk")
-                                ,label = "At risk"
-                                ,group = "strata"
-                                ,collapse = FALSE){
+  #### User input validation ####
+  
+  if (min_at_risk < 0 && min_at_risk %% 1 == 0)
+    stop("min_at_risk needs to be a positive integer.")
+  
+  if (length(label) < length(statlist)) {
+    vlookup <- data.frame( statlist = c("n.risk", "n.censor", "n.event")
+                           ,label = c("At risk", "Censored", "Events")
+                           ,check.names = FALSE
+                           ,stringsAsFactors = FALSE
+    )
+    
+    label <- c(label, rep(NA, length(statlist)-length(label)))
+    have <- data.frame( cbind(label, statlist)
+                        ,check.names = FALSE
+                        ,stringsAsFactors = FALSE
+    )               
+    
+    label <- vlookup %>%
+      dplyr::arrange(statlist) %>%
+      dplyr::right_join(have, by = "statlist") %>%
+      dplyr::mutate(label = coalesce(label.y, label.x)) %>% 
+      dplyr::select(-label.x, -label.y) %>%
+      dplyr::pull(label)
+  }
+  
+  
+  if (length(label) > length(statlist))
+    label <- label[1:length(statlist)]
+  
+  statlist <- unique(statlist)
+  
+  tidy_object <- tidyme.survfit(survfit_object)
   
   times <- get_breaks(tidy_object, break_times, min_at_risk)
   
@@ -138,72 +160,12 @@ process_risktable <- function(tidy_object
     attr(final, 'title') <- "Overall"
     attr(final, 'statlist') <- "Overall"
   }
+  attr(final, 'min_at_risk') <- min_at_risk
   class(final) <- c("risktable", class(final))
   return(final)
 }
 
-prepare_suvfit <- function(survfit_object, fun){
-  #### FUN ####
-  
-  if (is.character(fun)){
-    .transfun <- base::switch(
-      fun,
-      surv = function(y) y,
-      log = function(y) log(y),
-      event = function(y) 1 - y,
-      cloglog = function(y) log(-log(y)),
-      pct = function(y) y * 100,
-      logpct = function(y) log(y *100),
-      cumhaz = function(y) -log(y), ## survfit object contains an estimate for Cumhaz and SE based on Nelson-Aalen with or without correction for ties
-      stop("Unrecognized fun argument")
-    )
-  } else if (is.function(fun)) {
-    fun
-  } else {
-    stop("Error in plot: fun should be a character or a function.")
-  }
-  
-  ### Extended tidy of survfit class + transformation ####
-  
-  correctme <- NULL
-  tidy_object <- tidyme.survfit(survfit_object)
-  if ("surv" %in% colnames(tidy_object)) {
-    tidy_object[["est"]] <- .transfun(tidy_object[["surv"]])
-    correctme <- c(correctme,"est")
-  }
-  if (base::all(c("upper", "lower") %in% colnames(tidy_object))) {
-    tidy_object[["est.upper"]] <- .transfun(tidy_object[["upper"]])
-    tidy_object[["est.lower"]] <- .transfun(tidy_object[["lower"]])
-    correctme <- c(correctme,"est.lower", "est.upper")
-  } 
-  
-  #### Adjust -Inf to minimal value ####
-  
-  tidy_object[ , correctme] <- sapply(tidy_object[ , correctme],
-                                      FUN = function(x) {
-                                        x[which(x == -Inf)] <- min(x[which(x != -Inf)], na.rm = TRUE)
-                                        return(x)
-                                      } 
-  )
-  
-  ymin = min(sapply(tidy_object[ , correctme], function(x) min(x[which(x != -Inf)], na.rm = TRUE)), na.rm = TRUE)
-  ymax = max(sapply(tidy_object[ , correctme], function(x) max(x[which(x != -Inf)], na.rm = TRUE)), na.rm = TRUE)
-  
-  if (fun == "cloglog") {
-    
-    if (nrow(tidy_object[tidy_object$est == "-Inf",]) > 0) {
-      
-      warning("NAs introduced by y-axis transformation.\n")
-      
-    } 
-    
-    tidy_object = tidy_object[tidy_object$est != "-Inf",]
-    
-  }
-  return(tidy_object)
-}
-
-get_breaks <- function(tidy_object,break_times = NULL, min_at_risk){
+get_breaks <- function(tidy_object, break_times = NULL, min_at_risk){
   #### Pull out max time to consider ####
   max_time <-
     tidy_object %>%
@@ -215,7 +177,6 @@ get_breaks <- function(tidy_object,break_times = NULL, min_at_risk){
     dplyr::pull(min_time)
   
   #### Time_ticks ####
-  
   if (is.null(break_times)) {
     times <- seq(from = 0, to = max_time+1, by=round(max_time/10))
     warning("No break points defined. Default to 10 breaks. Use argument break_times to define custom break points")
@@ -226,8 +187,6 @@ get_breaks <- function(tidy_object,break_times = NULL, min_at_risk){
   }
   
   #### Time_ticks ####
-  
   times <- times[times <= max_time]
-  
-  times
+  return(times)
 }

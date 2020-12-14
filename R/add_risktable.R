@@ -62,20 +62,7 @@ add_risktable <- function(gg, ...){
 }
 
 #' @param gg visR plot of class `ggsurvfit`
-#' @param min_at_risk \code{numeric} The cutoff for number of subjects to display. Default is 0.
-#' @param time_ticks Numeric vector with the points along the x-axis at which the summary data needs to be provided.
-#' @param statlist Character vector indicating which summary data to present. Current choices are "n.risk" "n.event" "n.censor".
-#' @param label Character vector with labels for the statlist. Default matches "n.risk" with "At risk", "n.event" with "Events" and "n.censor"
-#'   with "Censored".
-#' @param group String indicating the grouping variable for the risk tables. Current options are:
-#'   \itemize{
-#'     \item{"strata": groups the risk tables per stratum. The `label` specifies the lables used within each risk table. This is the default}
-#'      \item{"statlist": groups the risk tables per statlist. The `label` specifies the title for each risk tabel. The strata levels
-#'        are used for labeling within each risk table.}
-#'   } "strata" to group the risk tables
-#'   per strata, and "statlist" to group the risk tables 
-#' @param collapse Boolean, indicates whether to present the data overall, rather than per strata.
-#'   Default is FALSE.
+#' @param risktable A risktable created with method 'get_risktable'
 #'
 #' @rdname add_risktable
 #' @method add_risktable ggsurvfit
@@ -84,12 +71,6 @@ add_risktable <- function(gg, ...){
 add_risktable.ggsurvfit <- function(
    gg
   ,risktable
-  ,min_at_risk = 0
-  ,time_ticks = NULL
-  ,statlist = c("n.risk")
-  ,label  = NULL
-  ,group = "strata"
-  ,collapse = FALSE
 ){
 
   #### User input validation ####
@@ -98,51 +79,19 @@ add_risktable.ggsurvfit <- function(
     tidy_object <- gg$data
     survfit_object <- eval(gg$data$call[[1]])
     ggbld <- ggplot2::ggplot_build(gg)
-    if (is.null(time_ticks)) time_ticks <- as.numeric(ggbld$layout$panel_params[[1]]$x$get_labels())
+    time_ticks <- as.numeric(ggbld$layout$panel_params[[1]]$x$get_labels())
   } else {
     stop("Error in add_risktable: gg is not of class `ggsurvfit`.")
   }
-  if (!base::any(statlist %in% c("n.risk", "n.censor", "n.event")))
-    stop("Error in add_risktable: statlist argument not valid.")
-  if (!base::is.logical(collapse))
-    stop("Error in add_risktable: collapse is expected to be boolean.")
-
-  if (min_at_risk < 0 && min_at_risk %% 1 == 0)
-    stop("min_at_risk needs to be a positive integer.")
-
-  if (length(label) < length(statlist)) {
-    vlookup <- data.frame( statlist = c("n.risk", "n.censor", "n.event")
-                          ,label = c("At risk", "Censored", "Events")
-                          ,check.names = FALSE
-                          ,stringsAsFactors = FALSE
-                          )
-    
-    label <- c(label, rep(NA, length(statlist)-length(label)))
-    have <- data.frame( cbind(label, statlist)
-                       ,check.names = FALSE
-                       ,stringsAsFactors = FALSE
-                      )               
-
-    label <- vlookup %>%
-      dplyr::arrange(statlist) %>%
-      dplyr::right_join(have, by = "statlist") %>%
-      dplyr::mutate(label = coalesce(label.y, label.x)) %>% 
-      dplyr::select(-label.x, -label.y) %>%
-      dplyr::pull(label)
-  }
   
-
-  if (length(label) > length(statlist))
-    label <- label[1:length(statlist)]
-
-  statlist <- unique(statlist)
   
-  times <- vr_get_breaks(tidy_object, time_ticks, min_at_risk)
 
   final <- risktable
-  
+  min_at_risk <- attributes(final)$min_at_risk
+  times <- get_breaks(tidy_object, time_ticks, min_at_risk)
   statlist <- attributes(final)$statlist
   title <- attributes(final)$title
+  
   
   #### Plot all requested tables below => use list approach with map function ####
 
