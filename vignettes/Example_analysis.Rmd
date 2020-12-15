@@ -227,13 +227,13 @@ gg %>%
 
 ### Summary of Kaplan Meier Curve
 ```{r}
-lung_cohort %>%
-  vr_KM_est(strata = "SEX") %>%
-  get_summary() %>%
-  render("Overall Survival - Median survival times in days for each strata", DATASET)
+#lung_cohort %>%
+#  vr_KM_est(strata = "SEX") %>%
+#  get_summary() %>%
+#  render("Overall Survival - Median survival times in days for each #strata", DATASET)
 
-lung_cohort %>%
-  vr_KM_est(strata = "SEX") %>%
-  get_pvalue() %>%
-  render("Equality between Strata - Summary table with test of equality over strata", DATASET)
+#lung_cohort %>%
+#  vr_KM_est(strata = "SEX") %>%
+#  get_pvalue() %>%
+#  render("Equality between Strata - Summary table with test of equality #over strata", DATASET)
 ```

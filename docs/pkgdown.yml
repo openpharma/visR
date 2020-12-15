@@ -2,9 +2,8 @@ pandoc: 2.7.3
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
-  Alluvial: Alluvial.html
   Example_analysis: Example_analysis.html
-last_built: 2020-12-14T16:21Z
+last_built: 2020-12-15T11:50Z
 urls:
   reference: https://openpharma.github.io/visR//reference
   article: https://openpharma.github.io/visR//articles

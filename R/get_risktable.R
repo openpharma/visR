@@ -2,16 +2,6 @@
 #' 
 #' @description Create a risktable from a survival object. 
 #' 
-#' @param x object to be passed on to the method
-#' @param ... other arguments passed on to the method
-#' @rdname get_risktable
-#' 
-#' @export
-get_risktable <- function(x){
-  UseMethod("get_risktable")
-}
-
-
 #' @param survfit_object a survival object
 #' @param min_at_risk \code{numeric} The cutoff for number of subjects to display. Default is 0.
 #' @param break_times Single numeric or numeric vector indicating breaks.
@@ -37,6 +27,21 @@ get_risktable <- function(x){
 #'      \item{"logpct": log survival curve, expressed as percentage. The default y label will state "log(Survival probability".}
 #'      \item{"cumhaz": MLE estimate of the cumulative hazard f(y) = -log(y). The default y label will state "cumulative hazard".}
 #'    }
+#'    
+#' @rdname get_risktable
+#' 
+#' @export
+get_risktable <- function(survfit_object
+                          ,min_at_risk = 0
+                          ,break_times = NULL
+                          ,statlist = c("n.risk")
+                          ,label = "At risk"
+                          ,group = "strata"
+                          ,collapse = FALSE
+                          ,fun = "surv"){
+  UseMethod("get_risktable")
+}
+
 #' @rdname get_risktable
 #' @method get_risktable default
 #' @export

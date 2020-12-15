@@ -5,8 +5,8 @@
 #'
 #' @seealso \code{\link[cowplot]{plot_grid}}
 #'
-#' @param gg visR object
-#' @param ... other arguments passed on to the method
+#' @param gg visR plot of class `ggsurvfit`
+#' @param risktable A risktable created with method 'get_risktable'
 #'
 #' @examples
 #' \donttest{
@@ -55,13 +55,10 @@
 #'
 #' @export
 
-add_risktable <- function(gg, ...){
+add_risktable <- function(gg, risktable){
   UseMethod("add_risktable")
 }
 
-#' @param gg visR plot of class `ggsurvfit`
-#' @param risktable A risktable created with method 'get_risktable'
-#'
 #' @rdname add_risktable
 #' @method add_risktable ggsurvfit
 #' @export

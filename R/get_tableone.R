@@ -3,16 +3,6 @@
 #' @description S3 method for creating summary tables (tableone).
 #'     
 #' 
-#' @param x object to be passed on to the method
-#' @param ... other arguments passed on to the method
-#'  
-#' @rdname get_tableone
-#' 
-#' @export
-get_tableone <- function(x){
-  UseMethod("get_tableone")
-}
-
 #' By default the following summary stats are calculated:
 #' * Numeric variables: mean, min, 25th-percentile, median, 75th-percentile, maximum, standard deviation
 #' * Factor variables: proportion of each factor level in the overall dataset
@@ -41,6 +31,13 @@ get_tableone <- function(x){
 #'          ecog.ps = factor(ecog.ps)) %>% 
 #'   select(age, age_group, everything()) %>% 
 #'   get_tableone()
+#'     
+#' @rdname get_tableone
+#' 
+#' @export
+get_tableone <- function(data, strata = NULL, overall=TRUE, summary_function = summarize_tab1){
+  UseMethod("get_tableone")
+}
 
 #' @rdname get_tableone
 #' @method get_tableone default

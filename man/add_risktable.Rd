@@ -5,14 +5,12 @@
 \alias{add_risktable.ggsurvfit}
 \title{Add risk tables to visR plots through an S3 method}
 \usage{
-add_risktable(gg, ...)
+add_risktable(gg, risktable)
 
 \method{add_risktable}{ggsurvfit}(gg, risktable)
 }
 \arguments{
 \item{gg}{visR plot of class \code{ggsurvfit}}
-
-\item{...}{other arguments passed on to the method}
 
 \item{risktable}{A risktable created with method 'get_risktable'}
 }

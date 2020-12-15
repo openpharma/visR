@@ -3,15 +3,6 @@
 #' @description Render a previously created dataframe to html,
 #' rtf or latex
 #'
-#' @param x object to be passed on to the method
-#' @param ... other arguments passed on to the method
-#' @rdname render
-#' 
-#' @export
-render <- function(x){
-  UseMethod("render")
-}
-
 #' @param data The dataframe or tibble to visualise
 #' @param title Table title to include in the rendered table
 #' @param datasource String specifying the datasource underlying the data set
@@ -22,8 +13,21 @@ render <- function(x){
 #' using kable, gt and DT as engine to create the output table
 #' @param download_format How can users download it
 #'
-#' @export
+#' @rdname render
 #' 
+#' @export
+render <- function(data,
+                   title,
+                   datasource,
+                   footnote = "",
+                   output_format="html",
+                   engine="gt",
+                   download_format = c('copy', 'csv', 'excel')){
+  UseMethod("render")
+}
+
+
+ 
 #' @rdname render
 #' @method render tableone
 #' @export
