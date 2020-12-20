@@ -10,6 +10,7 @@ library(testthat)
 library(visR)
 library(dplyr)
 library(survival)
+if (require("data.table")) library(data.table)
 
 #' T1. The function accepts a dataframe or tibble
 #' T1.1 No error when `data` is a data.frame
@@ -26,7 +27,7 @@ library(survival)
 #' T3.1 An error when the columns, specifying the strata are not available in `data`
 #' T3.2 No error when strata is NULL
 #' T3.3 When no strata are specified, an artificial strata is created 'Overall'
-#' 
+#' T4. The function removes all rows with NA values inside any of the strata
 #' 
 
 
@@ -136,19 +137,26 @@ testthat::test_that("T3.3 When no strata are specified, an artificial strata is 
 })
 
 # Requirement T4 ----------------------------------------------------------
+context("estimate_KM - T4. The function removes all rows with NA values inside any of the strata, CNSR or AVAL")
 
+testthat::test_that("T4.1 The function removes all rows with NA values inside any of the strata, CNSR or AVAL",{
+  
+  data <- adtte
+  data[1:10,"SEX"] <- NA
+  data[11:20, "AVAL"] <- NA
+  data[21:30, "CNSR"] <- NA
+  
+  ## Keep NA
+  survobj <- visR::estimate_KM(data = data, strata = "SEX")
+  
+  ## Drop NA
+  data <- tidyr::drop_na(data, AVAL, CNSR, SEX)
+  survobjNA   <- visR::estimate_KM(data = data, strata = "SEX")
+  
+  testthat::expect_equal(survobjNA, survobj)
+ 
+})
 
-
-
-# T4. The function removes all rows with NA values inside any of the strata
-
-# data1 <- adtte
-# data2 <- data1
-# data2[1:5, "AVAL"] <- NA
-# 
-# 
-# estimate_KM(data = data1)
-# estimate_KM(data = data2)
 
 # T5. The function does not alter the calculation of survival::survfit
 
