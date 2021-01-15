@@ -61,8 +61,7 @@ add_risktable <- function(gg
                           ,statlist = c("n.risk")
                           ,label = "At risk"
                           ,group = "strata"
-                          ,collapse = FALSE
-                          ,fun = "surv"){
+                          ,collapse = FALSE){
   UseMethod("add_risktable")
 }
 
@@ -78,7 +77,6 @@ add_risktable.ggsurvfit <- function(
    ,label = "At risk"
    ,group = "strata"
    ,collapse = FALSE
-   ,fun = "surv"
 ){
 
 
@@ -88,8 +86,7 @@ add_risktable.ggsurvfit <- function(
                          ,statlist
                          ,label
                          ,group
-                         ,collapse
-                         ,fun)
+                         ,collapse)
   
   time_ticks <- attributes(final)$time_ticks
   times <- as.numeric(unique(final$time))

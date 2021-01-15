@@ -17,17 +17,6 @@
 #'   per strata, and "statlist" to group the risk tables 
 #' @param collapse Boolean, indicates whether to present the data overall, rather than per strata.
 #'   Default is FALSE.
-#' @param fun Arbitrary function defining a transformation of the survival curve. This argument will also influence the y_ticks and y_label if not specified. 
-#'    \itemize{
-#'      \item{"surv": survival curve on the probability scale. The default y label will state "Survival probability".}
-#'      \item{"log": log survival curve. The default y label will state "log(Survival probability)".}
-#'      \item{"event": empirical CDF f(y) = 1-y. The default y label will state "Failure probability".}
-#'      \item{"cloglog": complimentary log-log survival f(y) = log(-log(y)). The default y label will state "log(-log(Survival probability))".}
-#'      \item{"pct": survival curve, expressed as percentage. The default y label will state "Survival probability".}
-#'      \item{"logpct": log survival curve, expressed as percentage. The default y label will state "log(Survival probability".}
-#'      \item{"cumhaz": MLE estimate of the cumulative hazard f(y) = -log(y). The default y label will state "cumulative hazard".}
-#'    }
-#'    
 #' @rdname get_risktable
 #' 
 #' @export
@@ -37,8 +26,7 @@ get_risktable <- function(survfit_object
                           ,statlist = c("n.risk")
                           ,label = "At risk"
                           ,group = "strata"
-                          ,collapse = FALSE
-                          ,fun = "surv"){
+                          ,collapse = FALSE){
   UseMethod("get_risktable")
 }
 
@@ -51,8 +39,7 @@ get_risktable.ggsurvfit <- function(gg
                                     ,statlist = c("n.risk")
                                     ,label = "At risk"
                                     ,group = "strata"
-                                    ,collapse = FALSE
-                                    ,fun = "surv"){
+                                    ,collapse = FALSE){
   #if (inherits(gg, "ggsurvfit")){
     tidy_object <- gg$data
     survfit_object <- eval(gg$data$call[[1]])
@@ -67,8 +54,7 @@ get_risktable.ggsurvfit <- function(gg
                 ,statlist
                 ,label
                 ,group
-                ,collapse
-                ,fun)
+                ,collapse)
   
   
   
@@ -83,8 +69,7 @@ get_risktable.survfit <- function(survfit_object
                                 ,statlist = c("n.risk")
                                 ,label = "At risk"
                                 ,group = "strata"
-                                ,collapse = FALSE
-                                ,fun = "surv"){
+                                ,collapse = FALSE){
   
   #### User input validation ####
   
