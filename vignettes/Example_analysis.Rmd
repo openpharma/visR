@@ -210,18 +210,16 @@ The Kaplan Meier plot is build using the pipe framework.
 survfit_object <- lung_cohort %>%
   vr_KM_est(strata = "SEX", conf.int = 0.90) 
 
-risktable <- survfit_object %>% get_risktable(min_at_risk = 0,
-                statlist= c("n.risk", "n.event", "n.censor"),
-                label = c("At risk", "Event", "Censor"),
-                break_times = 10,
-                collapse = F)
 gg <-
   plot(survfit_object) %>%
   add_CI(style = "ribbon", linetype = 2) %>%
-  add_CNSR(shape = 3, size = 2)
-
-gg %>%
-  add_risktable(risktable)
+  add_CNSR(shape = 3, size = 2) %>%
+  add_risktable(min_at_risk = 10,
+                statlist= c("n.risk", "n.event", "n.censor"),
+                label = c("At risk", "Event", "Censor"),
+                breaks = NULL,
+                group="strata",
+                collapse = F)
 
 ```
 

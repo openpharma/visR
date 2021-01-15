@@ -142,10 +142,26 @@ No default method is available at the moment." />
 No default method is available at the moment.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>add_risktable</span><span class='op'>(</span><span class='va'>gg</span>, <span class='va'>risktable</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>add_risktable</span><span class='op'>(</span>
+  <span class='va'>gg</span>,
+  min_at_risk <span class='op'>=</span> <span class='fl'>0</span>,
+  breaks <span class='op'>=</span> <span class='cn'>NULL</span>,
+  statlist <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"n.risk"</span><span class='op'>)</span>,
+  label <span class='op'>=</span> <span class='st'>"At risk"</span>,
+  group <span class='op'>=</span> <span class='st'>"strata"</span>,
+  collapse <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span>
 
 <span class='co'># S3 method for ggsurvfit</span>
-<span class='fu'>add_risktable</span><span class='op'>(</span><span class='va'>gg</span>, <span class='va'>risktable</span><span class='op'>)</span></pre>
+<span class='fu'>add_risktable</span><span class='op'>(</span>
+  <span class='va'>gg</span>,
+  min_at_risk <span class='op'>=</span> <span class='fl'>0</span>,
+  breaks <span class='op'>=</span> <span class='cn'>NULL</span>,
+  statlist <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"n.risk"</span><span class='op'>)</span>,
+  label <span class='op'>=</span> <span class='st'>"At risk"</span>,
+  group <span class='op'>=</span> <span class='st'>"strata"</span>,
+  collapse <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -185,7 +201,7 @@ No default method is available at the moment.</p>
                 ,statlist <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"n.risk"</span>, <span class='st'>"n.censor"</span><span class='op'>)</span>
                 ,group <span class='op'>=</span> <span class='st'>"statlist"</span>
                 <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in add_risktable(., min_at_risk = 3, label = c("Subjects at Risk",     "Censored"), statlist = c("n.risk", "n.censor"), group = "statlist"): unbenutzte Argumente (min_at_risk = 3, label = c("Subjects at Risk", "Censored"), statlist = c("n.risk", "n.censor"), group = "statlist")</span></div><div class='input'>                
+</div><div class='output co'>#&gt; <span class='error'>Error in vr_plot(.): konnte Funktion "vr_plot" nicht finden</span></div><div class='input'>                
 <span class='co'>## Display 2 risk tables, 1 per stratum</span>
 <span class='va'>adtte</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='vr_KM_est.html'>vr_KM_est</a></span><span class='op'>(</span>strata <span class='op'>=</span> <span class='st'>"TRTP"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
@@ -195,7 +211,7 @@ No default method is available at the moment.</p>
                 ,statlist <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"n.risk"</span>, <span class='st'>"n.censor"</span><span class='op'>)</span>
                 ,group <span class='op'>=</span> <span class='st'>"strata"</span>
                 <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in add_risktable(., min_at_risk = 3, label = c("Subjects at Risk",     "Censored"), statlist = c("n.risk", "n.censor"), group = "strata"): unbenutzte Argumente (min_at_risk = 3, label = c("Subjects at Risk", "Censored"), statlist = c("n.risk", "n.censor"), group = "strata")</span></div><div class='input'>
+</div><div class='output co'>#&gt; <span class='error'>Error in vr_plot(.): konnte Funktion "vr_plot" nicht finden</span></div><div class='input'>
 <span class='co'>## Display overall risk table</span>
 <span class='va'>adtte</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='vr_KM_est.html'>vr_KM_est</a></span><span class='op'>(</span>strata <span class='op'>=</span> <span class='st'>"TRTP"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
@@ -205,7 +221,7 @@ No default method is available at the moment.</p>
                 ,statlist <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"n.risk"</span>, <span class='st'>"n.censor"</span><span class='op'>)</span>
                 ,collapse <span class='op'>=</span> <span class='cn'>TRUE</span>
                 <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in add_risktable(., min_at_risk = 3, label = c("Subjects at Risk",     "Censored"), statlist = c("n.risk", "n.censor"), collapse = TRUE): unbenutzte Argumente (min_at_risk = 3, label = c("Subjects at Risk", "Censored"), statlist = c("n.risk", "n.censor"), collapse = TRUE)</span></div><div class='input'>
+</div><div class='output co'>#&gt; <span class='error'>Error in vr_plot(.): konnte Funktion "vr_plot" nicht finden</span></div><div class='input'>
 <span class='co'># }</span>
 
 </div></pre>

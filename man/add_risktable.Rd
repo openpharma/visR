@@ -5,9 +5,25 @@
 \alias{add_risktable.ggsurvfit}
 \title{Add risk tables to visR plots through an S3 method}
 \usage{
-add_risktable(gg, risktable)
+add_risktable(
+  gg,
+  min_at_risk = 0,
+  breaks = NULL,
+  statlist = c("n.risk"),
+  label = "At risk",
+  group = "strata",
+  collapse = FALSE
+)
 
-\method{add_risktable}{ggsurvfit}(gg, risktable)
+\method{add_risktable}{ggsurvfit}(
+  gg,
+  min_at_risk = 0,
+  breaks = NULL,
+  statlist = c("n.risk"),
+  label = "At risk",
+  group = "strata",
+  collapse = FALSE
+)
 }
 \arguments{
 \item{gg}{visR plot of class \code{ggsurvfit}}
