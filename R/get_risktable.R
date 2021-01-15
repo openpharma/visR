@@ -43,9 +43,41 @@ get_risktable <- function(survfit_object
 }
 
 #' @rdname get_risktable
+#' @method get_risktable ggsurvfit
+#' @export
+get_risktable.ggsurvfit <- function(gg
+                                    ,min_at_risk = 0
+                                    ,break_times = NULL
+                                    ,statlist = c("n.risk")
+                                    ,label = "At risk"
+                                    ,group = "strata"
+                                    ,collapse = FALSE
+                                    ,fun = "surv"){
+  #if (inherits(gg, "ggsurvfit")){
+    tidy_object <- gg$data
+    survfit_object <- eval(gg$data$call[[1]])
+    ggbld <- ggplot2::ggplot_build(gg)
+    if (is.null(break_times)) break_times <- as.numeric(ggbld$layout$panel_params[[1]]$x$get_labels())
+  #} else {
+  #  stop("Error in add_risktable: gg is not of class `ggsurvfit`.")
+  #}
+  get_risktable(survfit_object
+                ,min_at_risk
+                ,break_times
+                ,statlist
+                ,label
+                ,group
+                ,collapse
+                ,fun)
+  
+  
+  
+}
+
+#' @rdname get_risktable
 #' @method get_risktable default
 #' @export
-get_risktable.default <- function(survfit_object
+get_risktable.survfit <- function(survfit_object
                                 ,min_at_risk = 0
                                 ,break_times = NULL
                                 ,statlist = c("n.risk")
@@ -55,6 +87,11 @@ get_risktable.default <- function(survfit_object
                                 ,fun = "surv"){
   
   #### User input validation ####
+  
+  if (!base::any(statlist %in% c("n.risk", "n.censor", "n.event")))
+    stop("Error in get_risktable: statlist argument not valid.")
+  if (!base::is.logical(collapse))
+    stop("Error in get_risktable: collapse is expected to be boolean.")
   
   if (min_at_risk < 0 && min_at_risk %% 1 == 0)
     stop("min_at_risk needs to be a positive integer.")
@@ -112,6 +149,7 @@ get_risktable.default <- function(survfit_object
   
   final <- per_statlist
   final <-  final %>% select(time, y_values, statlist)
+  attr(final, 'time_ticks') <- break_times
   attr(final, "title") <- label
   attr(final, "statlist") <- statlist
   
@@ -130,6 +168,7 @@ get_risktable.default <- function(survfit_object
     per_strata[["y_values"]] <- factor(per_strata[["y_values"]], levels = statlist, labels = label) 
     title <- unique(per_statlist[["y_values"]]) #Was: levels(per_statlist[["y_values"]]) but did not work
     final <- per_strata
+    attr(final, 'time_ticks') <- break_times
     attr(final, "title") <- title
     attr(final, "statlist") <- title
   }
@@ -158,11 +197,10 @@ get_risktable.default <- function(survfit_object
       dplyr::arrange(y_values, time)
      
     final <- collapsed
+    attr(final, 'time_ticks') <- break_times
     attr(final, 'title') <- "Overall"
     attr(final, 'statlist') <- "Overall"
   }
-  attr(final, 'min_at_risk') <- min_at_risk
-  class(final) <- c("risktable", class(final))
   return(final)
 }
 

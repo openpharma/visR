@@ -55,7 +55,14 @@
 #'
 #' @export
 
-add_risktable <- function(gg, risktable){
+add_risktable <- function(gg
+                          ,min_at_risk = 0
+                          ,break_times = NULL
+                          ,statlist = c("n.risk")
+                          ,label = "At risk"
+                          ,group = "strata"
+                          ,collapse = FALSE
+                          ,fun = "surv"){
   UseMethod("add_risktable")
 }
 
@@ -65,25 +72,27 @@ add_risktable <- function(gg, risktable){
 
 add_risktable.ggsurvfit <- function(
    gg
-  ,risktable
+   ,min_at_risk = 0
+   ,break_times = NULL
+   ,statlist = c("n.risk")
+   ,label = "At risk"
+   ,group = "strata"
+   ,collapse = FALSE
+   ,fun = "surv"
 ){
 
-  #### User input validation ####
 
-  if (inherits(gg, "ggsurvfit")){
-    tidy_object <- gg$data
-    survfit_object <- eval(gg$data$call[[1]])
-    ggbld <- ggplot2::ggplot_build(gg)
-    time_ticks <- as.numeric(ggbld$layout$panel_params[[1]]$x$get_labels())
-  } else {
-    stop("Error in add_risktable: gg is not of class `ggsurvfit`.")
-  }
+  final <- get_risktable(gg
+                         ,min_at_risk
+                         ,break_times
+                         ,statlist
+                         ,label
+                         ,group
+                         ,collapse
+                         ,fun)
   
-  
-
-  final <- risktable
-  min_at_risk <- attributes(final)$min_at_risk
-  times <- get_breaks(tidy_object, time_ticks, min_at_risk)
+  time_ticks <- attributes(final)$time_ticks
+  times <- as.numeric(unique(final$time))
   statlist <- attributes(final)$statlist
   title <- attributes(final)$title
   
@@ -141,6 +150,6 @@ add_risktable.ggsurvfit <- function(
                            nrow = length(ggA),
                            rel_heights = c(1-(8/50 * (length(ggA)-1)), rep(8/50, length(ggA)-1))
                           )
-
+  class(ggB) <- c(class(ggB), "ggsurvfit")
   return(ggB)
 }
