@@ -57,7 +57,7 @@
 
 add_risktable <- function(gg
                           ,min_at_risk = 0
-                          ,break_times = NULL
+                          ,breaks = NULL
                           ,statlist = c("n.risk")
                           ,label = "At risk"
                           ,group = "strata"
@@ -72,7 +72,7 @@ add_risktable <- function(gg
 add_risktable.ggsurvfit <- function(
    gg
    ,min_at_risk = 0
-   ,break_times = NULL
+   ,breaks = NULL
    ,statlist = c("n.risk")
    ,label = "At risk"
    ,group = "strata"
@@ -82,7 +82,7 @@ add_risktable.ggsurvfit <- function(
 
   final <- get_risktable(gg
                          ,min_at_risk
-                         ,break_times
+                         ,breaks
                          ,statlist
                          ,label
                          ,group

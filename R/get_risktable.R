@@ -4,7 +4,7 @@
 #' 
 #' @param survfit_object a survival object
 #' @param min_at_risk \code{numeric} The cutoff for number of subjects to display. Default is 0.
-#' @param break_times Single numeric or numeric vector indicating breaks.
+#' @param breaks Single numeric or numeric vector indicating breaks.
 #' @param statlist Character vector indicating which summary data to present. Current choices are "n.risk" "n.event" "n.censor".
 #' @param label Character vector with labels for the statlist. Default matches "n.risk" with "At risk", "n.event" with "Events" and "n.censor"
 #'   with "Censored".
@@ -22,7 +22,7 @@
 #' @export
 get_risktable <- function(survfit_object
                           ,min_at_risk = 0
-                          ,break_times = NULL
+                          ,breaks = NULL
                           ,statlist = c("n.risk")
                           ,label = "At risk"
                           ,group = "strata"
@@ -35,7 +35,7 @@ get_risktable <- function(survfit_object
 #' @export
 get_risktable.ggsurvfit <- function(gg
                                     ,min_at_risk = 0
-                                    ,break_times = NULL
+                                    ,breaks = NULL
                                     ,statlist = c("n.risk")
                                     ,label = "At risk"
                                     ,group = "strata"
@@ -44,13 +44,13 @@ get_risktable.ggsurvfit <- function(gg
     tidy_object <- gg$data
     survfit_object <- eval(gg$data$call[[1]])
     ggbld <- ggplot2::ggplot_build(gg)
-    if (is.null(break_times)) break_times <- as.numeric(ggbld$layout$panel_params[[1]]$x$get_labels())
+    if (is.null(breaks)) breaks <- as.numeric(ggbld$layout$panel_params[[1]]$x$get_labels())
   #} else {
   #  stop("Error in add_risktable: gg is not of class `ggsurvfit`.")
   #}
   get_risktable(survfit_object
                 ,min_at_risk
-                ,break_times
+                ,breaks
                 ,statlist
                 ,label
                 ,group
@@ -65,7 +65,7 @@ get_risktable.ggsurvfit <- function(gg
 #' @export
 get_risktable.survfit <- function(survfit_object
                                 ,min_at_risk = 0
-                                ,break_times = NULL
+                                ,breaks = NULL
                                 ,statlist = c("n.risk")
                                 ,label = "At risk"
                                 ,group = "strata"
@@ -110,7 +110,7 @@ get_risktable.survfit <- function(survfit_object
   
   tidy_object <- tidyme.survfit(survfit_object)
   
-  times <- get_breaks(tidy_object, break_times, min_at_risk)
+  times <- get_breaks(tidy_object, breaks, min_at_risk)
   
   survfit_summary <- summary(survfit_object, times = times, extend = TRUE)
   
@@ -134,7 +134,7 @@ get_risktable.survfit <- function(survfit_object
   
   final <- per_statlist
   final <-  final %>% select(time, y_values, statlist)
-  attr(final, 'time_ticks') <- break_times
+  attr(final, 'time_ticks') <- breaks
   attr(final, "title") <- label
   attr(final, "statlist") <- statlist
   
@@ -153,7 +153,7 @@ get_risktable.survfit <- function(survfit_object
     per_strata[["y_values"]] <- factor(per_strata[["y_values"]], levels = statlist, labels = label) 
     title <- unique(per_statlist[["y_values"]]) #Was: levels(per_statlist[["y_values"]]) but did not work
     final <- per_strata
-    attr(final, 'time_ticks') <- break_times
+    attr(final, 'time_ticks') <- breaks
     attr(final, "title") <- title
     attr(final, "statlist") <- title
   }
@@ -182,14 +182,14 @@ get_risktable.survfit <- function(survfit_object
       dplyr::arrange(y_values, time)
      
     final <- collapsed
-    attr(final, 'time_ticks') <- break_times
+    attr(final, 'time_ticks') <- breaks
     attr(final, 'title') <- "Overall"
     attr(final, 'statlist') <- "Overall"
   }
   return(final)
 }
 
-get_breaks <- function(tidy_object, break_times = NULL, min_at_risk){
+get_breaks <- function(tidy_object, breaks = NULL, min_at_risk){
   #### Pull out max time to consider ####
   max_time <-
     tidy_object %>%
@@ -201,13 +201,13 @@ get_breaks <- function(tidy_object, break_times = NULL, min_at_risk){
     dplyr::pull(min_time)
   
   #### Time_ticks ####
-  if (is.null(break_times)) {
+  if (is.null(breaks)) {
     times <- seq(from = 0, to = max_time+1, by=round(max_time/10))
-    warning("No break points defined. Default to 10 breaks. Use argument break_times to define custom break points")
-  } else if (length(break_times) == 1) {
-    times <- seq(from = 0, to = max_time+1, by=break_times)
+    warning("No break points defined. Default to 10 breaks. Use argument breaks to define custom break points")
+  } else if (length(breaks) == 1) {
+    times <- seq(from = 0, to = max_time+1, by=breaks)
   } else {
-    times = break_times
+    times = breaks
   }
   
   #### Time_ticks ####
