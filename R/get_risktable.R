@@ -61,7 +61,7 @@ get_risktable.ggsurvfit <- function(gg
 }
 
 #' @rdname get_risktable
-#' @method get_risktable default
+#' @method get_risktable survfit
 #' @export
 get_risktable.survfit <- function(survfit_object
                                 ,min_at_risk = 0
