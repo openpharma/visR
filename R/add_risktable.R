@@ -6,7 +6,20 @@
 #' @seealso \code{\link[cowplot]{plot_grid}}
 #'
 #' @param gg visR plot of class `ggsurvfit`
-#' @param risktable A risktable created with method 'get_risktable'
+#' @param min_at_risk \code{numeric} The cutoff for number of subjects to display. Default is 0.
+#' @param breaks Single numeric or numeric vector indicating breaks. If a vector, breaks are used as specified. If a numeric, it is interpreted as the number of breaks. If added to a ggplot object this argument will override default breaks taken from the plot.
+#' @param statlist Character vector indicating which summary data to present. Current choices are "n.risk" "n.event" "n.censor".
+#' @param label Character vector with labels for the statlist. Default matches "n.risk" with "At risk", "n.event" with "Events" and "n.censor"
+#'   with "Censored".
+#' @param group String indicating the grouping variable for the risk tables. Current options are:
+#'   \itemize{
+#'     \item{"strata": groups the risk tables per stratum. The `label` specifies the lables used within each risk table. This is the default}
+#'      \item{"statlist": groups the risk tables per statlist. The `label` specifies the title for each risk tabel. The strata levels
+#'        are used for labeling within each risk table.}
+#'   } "strata" to group the risk tables
+#'   per strata, and "statlist" to group the risk tables 
+#' @param collapse Boolean, indicates whether to present the data overall, rather than per strata.
+#'   Default is FALSE.
 #'
 #' @examples
 #' \donttest{
