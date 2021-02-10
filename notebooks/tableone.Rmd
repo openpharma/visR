@@ -42,7 +42,7 @@ tab1_overall %>% vr_render_tableone("Overview over ovarian dataset")
 # Table with summary statistics stratified by age groups
 ```{r}
 # create table
-tab1_groups <- vr_create_tableone(ovarian_pts, groupCols = c("age_group"))
+tab1_groups <- vr_create_tableone(ovarian_pts, group_cols = c("age_group"))
 
 # render table
 tab1_groups %>% vr_render_tableone(caption = "Ovarian patients")

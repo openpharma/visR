@@ -7,11 +7,8 @@
 \method{vr_summarize_tab1}{factor}(x)
 }
 \arguments{
-\item{x}{}
-}
-\value{
-
+\item{x}{an object of class "factor"}
 }
 \description{
-Create variable summary for factors
+Calculates N and \% of occurence for each factor value
 }

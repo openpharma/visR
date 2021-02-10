@@ -44,7 +44,7 @@ vr_alluvial_plot(
 
 \item{col_vector_flow}{HEX color values for flows, Default: easyalluvial::palette_filter( greys = F)}
 
-\item{col_vector_value}{HEX color values  for y levels/values, Default:RColorBrewer::brewer.pal(9, 'Blues')\link{c(3,6,4,7,5,8)}}
+\item{col_vector_value}{HEX color values  for y levels/values,.}
 
 \item{linenames_labels_size, }{Default: 2.5}
 }
@@ -59,27 +59,27 @@ Create alluvial plot.
 dataset <- NULL
 
 for(PatientID in 1:5000){
-  
+
   max_line <- sample(0:5, 1, prob = c(0.2, 0.4, 0.2, 0.15, 0.04, 0.01))
-  
-  if(max_line == 1){ 
-    
-    min_line <- sample(c(0, 1), 1, prob = c(0.3, 0.7)) 
-    
+
+  if(max_line == 1){
+
+    min_line <- sample(c(0, 1), 1, prob = c(0.3, 0.7))
+
   } else{ min_line <- 0 }
-  
+
   for(LineNumber in min_line:max_line){
-    
+
     LineName <- sample(c('Treatment_A', 'Treatment_B', 'Treatment_C'), 1, prob = c(0.5, 0.3, 0.2))
-    
+
     patient_data_line <- data.frame(PatientID = PatientID,
                                     LineName = LineName,
                                     LineNumber = LineNumber)
-    
+
     dataset <- rbind(patient_data_line , dataset)
-    
+
   }
-  
+
 }
 
 vr_alluvial_plot(dataset)

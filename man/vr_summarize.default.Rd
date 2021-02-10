@@ -7,10 +7,7 @@
 \method{vr_summarize}{default}(x)
 }
 \arguments{
-\item{x}{}
-}
-\value{
-
+\item{x}{an object of any other class}
 }
 \description{
 Create variable summary for all other variable types
