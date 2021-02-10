@@ -23,7 +23,7 @@ In this example, we will work with patient data from The Cancer Genome Atlas and
 # BiocManager::install(c("RTCGA", "RTCGA.clinical"))
 ```
 ```{r installvisR, eval=FALSE, include=FALSE}
-# devtools::install_github("https://github.com/openpharma/visR.git", ref="sankey")
+# devtools::install_github("https://github.com/openpharma/visR.git", ref="develop")
 ```
 
 
