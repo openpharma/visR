@@ -82,5 +82,5 @@ tidyme.survfit <- function(x, ...) {
   }
   
   
-  return(as_tibble(retme))
+  return(retme)
 }

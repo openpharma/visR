@@ -5,14 +5,22 @@
 \alias{add_risktable.ggsurvfit}
 \title{Add risk tables to visR plots through an S3 method}
 \usage{
-add_risktable(gg, ...)
+add_risktable(
+  gg,
+  min_at_risk = 0,
+  breaks = NULL,
+  statlist = c("n.risk"),
+  label = "At risk",
+  group = "strata",
+  collapse = FALSE
+)
 
 \method{add_risktable}{ggsurvfit}(
   gg,
   min_at_risk = 0,
-  time_ticks = NULL,
+  breaks = NULL,
   statlist = c("n.risk"),
-  label = NULL,
+  label = "At risk",
   group = "strata",
   collapse = FALSE
 )
@@ -20,11 +28,9 @@ add_risktable(gg, ...)
 \arguments{
 \item{gg}{visR plot of class \code{ggsurvfit}}
 
-\item{...}{other arguments passed on to the method}
-
 \item{min_at_risk}{\code{numeric} The cutoff for number of subjects to display. Default is 0.}
 
-\item{time_ticks}{Numeric vector with the points along the x-axis at which the summary data needs to be provided.}
+\item{breaks}{Single numeric or numeric vector indicating breaks. If a vector, breaks are used as specified. If a numeric, it is interpreted as the number of breaks. If added to a ggplot object this argument will override default breaks taken from the plot.}
 
 \item{statlist}{Character vector indicating which summary data to present. Current choices are "n.risk" "n.event" "n.censor".}
 
@@ -93,7 +99,4 @@ adtte \%>\%
 }
 \seealso{
 \code{\link[cowplot]{plot_grid}}
-}
-\author{
-Steven Haesendonckx
 }

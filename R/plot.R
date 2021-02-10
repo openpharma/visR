@@ -2,27 +2,25 @@
 #'
 #' @description S3 method for creating plots directly from objects using `ggplot2`, similar to base plot function.
 #'     The default method is base::plot.
-#'     
-#' @author Steven Haesendonckx
 #' 
 #' @seealso \code{\link[ggplot2]{ggplot}}
 #' 
 #' @param x object to be passed on to the method
 #' @param ... other arguments passed on to the method
 #'  
-#' @rdname vr_plot
+#' @rdname plot
 #' 
 #' @export
 
-vr_plot <- function(x, ...){
-  UseMethod("vr_plot")
+plot <- function(x, ...){
+  UseMethod("plot")
 } 
 
-#' @rdname vr_plot
-#' @method vr_plot default
+#' @rdname plot
+#' @method plot default
 #' @export
 
-vr_plot.default <- function(x, ...){
+plot.default <- function(x, ...){
   base::plot(x)
 }
 
@@ -34,16 +32,6 @@ vr_plot.default <- function(x, ...){
 #' @param x_units Unit to be added to the x_label (x_label (x_unit)). Default is NULL.
 #' @param x_ticks Ticks for the x-axis. When not specified, the default will do a proposal. 
 #' @param y_ticks Ticks for the y-axis. When not specified, the default will do a proposal based on the `fun` argument.
-#' @param fun Arbitrary function defining a transformation of the survival curve. This argument will also influence the y_ticks and y_label if not specified. 
-#'    \itemize{
-#'      \item{"surv": survival curve on the probability scale. The default y label will state "Survival probability".}
-#'      \item{"log": log survival curve. The default y label will state "log(Survival probability)".}
-#'      \item{"event": empirical CDF f(y) = 1-y. The default y label will state "Failure probability".}
-#'      \item{"cloglog": complimentary log-log survival f(y) = log(-log(y)). The default y label will state "log(-log(Survival probability))".}
-#'      \item{"pct": survival curve, expressed as percentage. The default y label will state "Survival probability".}
-#'      \item{"logpct": log survival curve, expressed as percentage. The default y label will state "log(Survival probability".}
-#'      \item{"cumhaz": MLE estimate of the cumulative hazard f(y) = -log(y). The default y label will state "cumulative hazard".}
-#'    }
 #' @param legend_position Specifies the legend position in the plot. Character values allowed are "top" "left" "bottom" "right". Numeric coordinates are also allowed.
 #'   Default is "right".
 #' 
@@ -54,22 +42,22 @@ vr_plot.default <- function(x, ...){
 #' library(tidyr)
 #' library(ggplot2)
 #' 
-#' survfit_object <- vr_KM_est(data = adtte, strata = "TRTP")
+#' survfit_object <- KM_est(data = adtte, strata = "TRTP")
 #'
 #' ## Plot survival probability
-#' vr_plot(survfit_object = survfit_object, fun = "surv")
-#' vr_plot(survfit_object, fun = "pct")
+#' plot(survfit_object = survfit_object, fun = "surv")
+#' plot(survfit_object, fun = "pct")
 #' 
 #' ## Plot cumulative hazard
-#' vr_plot(survfit_object, fun = "cloglog")
+#' plot(survfit_object, fun = "cloglog")
 #'  
 #' @return Object of class \code{ggplot}  \code{ggsurvplot}.
 #'  
-#' @rdname vr_plot
-#' @method vr_plot survfit
+#' @rdname plot
+#' @method plot survfit
 #' @export
 #
-vr_plot.survfit <- function(
+plot.survfit <- function(
   survfit_object = NULL
  ,y_label = NULL
  ,x_label = NULL
@@ -88,26 +76,6 @@ vr_plot.survfit <- function(
   } else if (is.numeric(legend_position) && length(legend_position) != 2) {
     stop("Invalid legend position coordinates given.")
   }
-  
-  #### FUN ####
-  
-  if (is.character(fun)){
-    .transfun <- base::switch(
-      fun,
-      surv = function(y) y,
-      log = function(y) log(y),
-      event = function(y) 1 - y,
-      cloglog = function(y) log(-log(y)),
-      pct = function(y) y * 100,
-      logpct = function(y) log(y *100),
-      cumhaz = function(y) -log(y), ## survfit object contains an estimate for Cumhaz and SE based on Nelson-Aalen with or without correction for ties
-      stop("Unrecognized fun argument")
-    )
-  } else if (is.function(fun)) {
-     fun
-  } else {
-    stop("Error in vr_plot: fun should be a character or a function.")
-  }
 
   #### Y-label ####
   
@@ -124,9 +92,27 @@ vr_plot.survfit <- function(
       stop("Unrecognized fun argument")
     )
   } else if (is.null(y_label) & is.function(fun)) {
-    stop("Error in vr_plot: No Y label defined. No default is available when `fun` is a function.")
+    stop("Error in plot: No Y label defined. No default is available when `fun` is a function.")
   }  
-
+  
+  if (is.character(fun)){
+    .transfun <- base::switch(
+      fun,
+      surv = function(y) y,
+      log = function(y) log(y),
+      event = function(y) 1 - y,
+      cloglog = function(y) log(-log(y)),
+      pct = function(y) y * 100,
+      logpct = function(y) log(y *100),
+      cumhaz = function(y) -log(y), ## survfit object contains an estimate for Cumhaz and SE based on Nelson-Aalen with or without correction for ties
+      stop("Unrecognized fun argument")
+    )
+  } else if (is.function(fun)) {
+    fun
+  } else {
+    stop("Error in plot: fun should be a character or a function.")
+  }
+  
   ### Extended tidy of survfit class + transformation ####
   
   correctme <- NULL
@@ -140,29 +126,29 @@ vr_plot.survfit <- function(
     tidy_object[["est.lower"]] <- .transfun(tidy_object[["lower"]])
     correctme <- c(correctme,"est.lower", "est.upper")
   } 
-
+  
   #### Adjust -Inf to minimal value ####
   
   tidy_object[ , correctme] <- sapply(tidy_object[ , correctme],
                                       FUN = function(x) {
-                                              x[which(x == -Inf)] <- min(x[which(x != -Inf)], na.rm = TRUE)
-                                              return(x)
-                                            } 
+                                        x[which(x == -Inf)] <- min(x[which(x != -Inf)], na.rm = TRUE)
+                                        return(x)
+                                      } 
   )
   
   ymin = min(sapply(tidy_object[ , correctme], function(x) min(x[which(x != -Inf)], na.rm = TRUE)), na.rm = TRUE)
   ymax = max(sapply(tidy_object[ , correctme], function(x) max(x[which(x != -Inf)], na.rm = TRUE)), na.rm = TRUE)
-
+  
   if (fun == "cloglog") {
+    
+    if (nrow(tidy_object[tidy_object$est == "-Inf",]) > 0) {
       
-      if (nrow(tidy_object[tidy_object$est == "-Inf",]) > 0) {
-          
-          warning("NAs introduced by y-axis transformation.\n")
-          
-      } 
+      warning("NAs introduced by y-axis transformation.\n")
       
-      tidy_object = tidy_object[tidy_object$est != "-Inf",]
-      
+    } 
+    
+    tidy_object = tidy_object[tidy_object$est != "-Inf",]
+    
   }
     
   #### Obtain alternatives for X-axis ####
@@ -189,7 +175,7 @@ vr_plot.survfit <- function(
       stop("Unrecognized fun argument")
     )
   } else if (is.null(y_label) & is.function(fun)) {
-    stop("Error in vr_plot: No Y label defined. No default is available when `fun` is a function.")
+    stop("Error in plot: No Y label defined. No default is available when `fun` is a function.")
   }  
 
   #### Plotit ####

@@ -87,7 +87,7 @@ get_quantile.survfit <- function(survfit_object = survfit_object,
     dplyr::group_by(strata, variable) %>%
     dplyr::filter(!is.na(value)) %>%
     dplyr::filter(value == min(value)) %>%
-    summarize(
+    dplyr::summarize(
       tmax = max(time),
       tmin = min(time),
       vmin = min(value),

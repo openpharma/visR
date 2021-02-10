@@ -84,8 +84,7 @@ lung_cohort <- lung %>%
   
 lung_cohort %>% 
   head(10) %>% 
-  vr_render_table(title = "First 10 observations of `lung_cohort`.",
-                  caption = "",
+  render(title = "First 10 observations of `lung_cohort`.",
                   datasource = DATASET, 
                   engine = "gt")
 ```
@@ -108,9 +107,8 @@ cohort_attrition <- vr_attrition_table(
   subject_column_name   = 'USUBJID')
 
  
-vr_render_table(data = cohort_attrition, 
-                title = "Attrition Table", 
-                caption = "Summary of samples fulfilling inclusion/exclusion criteria", 
+render(data = cohort_attrition, 
+                title = "Attrition Table",
                 datasource = DATASET, 
                 engine = "gt")
 
@@ -168,7 +166,7 @@ attrition_flow <- vr_attrition(
 <!-- ``` -->
 
 ## Cohort Overview
-To describe the population `vr_table_one` can be used.
+To describe the population `tableone` can be used.
 ```{r table1}
 # some modifications to the table for nice printing of categories
 lung_cohort_tab1 <- lung_cohort %>%
@@ -182,9 +180,8 @@ lung_cohort_tab1 <- lung_cohort %>%
   select(-SITEID)
 
 # visR table1 convenience function
-vr_table_one(lung_cohort_tab1, title = "Overview over Lung Cancer patients",
-             caption = "Baseline characteristics of study cohort stratified by treatment type",
-             datasource = DATASET, group_cols = c("SEX"))
+tableone(lung_cohort_tab1, title = "Overview over Lung Cancer patients",
+             datasource = DATASET, strata = c("SEX"))
 ```
 
 ## Kaplan-Meier analysis
@@ -210,29 +207,31 @@ lung_cohort %>%
 ### Kaplan-Meier Curve
 The Kaplan Meier plot is build using the pipe framework.
 ```{r fig.cap="Comparison of survival in male and female lung cancer patients", warning=FALSE, error = FALSE}
+survfit_object <- lung_cohort %>%
+  vr_KM_est(strata = "SEX", conf.int = 0.90) 
 
-lung_cohort %>%
-  vr_KM_est(strata = "SEX", conf.int = 0.90) %>%
-  vr_plot(legend_position = "right", x_unit = "Days") %>%
-  add_CI(alpha = 0.2, style = "ribbon", linetype = 3) %>%
+gg <-
+  plot(survfit_object) %>%
+  add_CI(style = "ribbon", linetype = 2) %>%
   add_CNSR(shape = 3, size = 2) %>%
-  add_risktable(min_at_risk = 0,
+  add_risktable(min_at_risk = 10,
                 statlist= c("n.risk", "n.event", "n.censor"),
                 label = c("At risk", "Event", "Censor"),
-                collapse = F
-               )
+                breaks = NULL,
+                group="strata",
+                collapse = F)
 
 ```
 
 ### Summary of Kaplan Meier Curve
 ```{r}
-lung_cohort %>%
-  vr_KM_est(strata = "SEX") %>%
-  get_summary() %>%
-  vr_render_table("Overall Survival", "Median survival times in days for each strata", DATASET)
+#lung_cohort %>%
+#  vr_KM_est(strata = "SEX") %>%
+#  get_summary() %>%
+#  render("Overall Survival - Median survival times in days for each #strata", DATASET)
 
-lung_cohort %>%
-  vr_KM_est(strata = "SEX") %>%
-  get_pvalue() %>%
-  vr_render_table("Equality between Strata", "Summary table with test of equality over strata", DATASET)
+#lung_cohort %>%
+#  vr_KM_est(strata = "SEX") %>%
+#  get_pvalue() %>%
+#  render("Equality between Strata - Summary table with test of equality #over strata", DATASET)
 ```
