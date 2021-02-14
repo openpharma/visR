@@ -50,6 +50,7 @@ add_CI.ggsurvfit <- function(gg, alpha = 0.1, style = "ribbon", linetype = 2, ..
   }
 
   if (style == "ribbon"){
+    warning("Argument linetype not used for style ribbon")
     gg <- gg +
       geom_ribbon(aes(ymin = est.lower, ymax = est.upper, fill = strata), alpha = alpha, na.rm = TRUE)
   }

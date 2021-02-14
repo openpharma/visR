@@ -48,7 +48,8 @@ get_summary.survfit <- function(survfit_object,
     stop("Error in get_summary: x is not of class `survfit`.")
   if (is.null(statlist) |
       !base::all(statlist %in% c("strata", "records", "events", "median", "LCL", "UCL", "CI")))
-    stop("Error in get_summary: Specify valid `statlist` arguments.")
+    stop("Error in get_summary: Specify valid `statlist` arguments. Valid `statistic` arguments are:
+    `strata`, `records`, `events`, `median`, `LCL`, `UCL` and `CI` ")
   
   #### Adjust or Remove UCL/LCL in statlist based on conf.int was estimated in survfit object ####
   
@@ -66,11 +67,14 @@ get_summary.survfit <- function(survfit_object,
       paste0(survfit_object[["conf.int"]], statlist[grepl("CI", statlist, fixed = TRUE)])
     statlist[grepl("CI", statlist, fixed = TRUE)] <- CI_Varname
   } else if (!"conf.int" %in% names(survfit_object) |
-             survfit_object[["conf.type"]] == "none") {
+             survfit_object[["conf.type"]] == "none" ) {
     statlist <- statlist[-which(grepl("CL", statlist, fixed = TRUE))]
     statlist <-
       statlist[-which(grepl("CI", statlist, fixed = TRUE))]
+    
     warning("get_summary_fit: No conf.int estimated in survfit_object.")
+  } else if (!base::any(statlist %in% c( "LCL", "UCL", "CI"))) {
+    CI_Varname <- "conf.in"
   }
   
   #### Summary list: define strata and CI string to make next steps easier to read ####
@@ -82,7 +86,7 @@ get_summary.survfit <- function(survfit_object,
   
   .CIpaste <- function(df) {
     if (base::any(grepl("CI", statlist, fixed = TRUE))) {
-      paste0("(", apply(df[, CI, drop = FALSE] , 1 , paste , collapse = ";"), ")")
+      paste0("(", apply(select(df, matches(CI)) , 1 , paste , collapse = ";"), ")")
     } else {
       NULL
     }
