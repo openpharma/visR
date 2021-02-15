@@ -8,9 +8,7 @@
 
 library(testthat)
 library(visR)
-library(dplyr)
 library(survival)
-if (require("data.table")) library(data.table)
 
 #' T1. The function accepts a dataframe or tibble
 #' T1.1 No error when `data` is a data.frame
@@ -280,8 +278,8 @@ testthat::test_that("T6.2 The function add PARAM/PARAMCD when available",{
   Unique_Nms_visR <- base::setdiff(names(survobj_visR), names(survobj_survival))
   list_visR <- lapply(survobj_visR, "[")[Unique_Nms_visR]
 
-  testthat::expect_equal(list_visR[[1]], "TTDE")
-  testthat::expect_equal(list_visR[[2]], "Time to First Dermatologic Event")
+  testthat::expect_equal(list_visR[[2]], "TTDE")
+  testthat::expect_equal(list_visR[[1]], "Time to First Dermatologic Event")
 })
 
 # Requirement T7 ----------------------------------------------------------
