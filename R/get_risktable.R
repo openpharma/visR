@@ -42,7 +42,10 @@ get_risktable.ggsurvfit <- function(gg
                                     ,collapse = FALSE){
   #if (inherits(gg, "ggsurvfit")){
     tidy_object <- gg$data
-    survfit_object <- eval(gg$data$call[[1]])
+    call = as.character(gg$data$call[[1]])
+    text=eval(expr=paste0("survival::", call[1], "(formula = ", call[2], ", data = ", call[3], ")"))
+    #print(eval(parse(text=text)))
+    survfit_object <- eval(parse(text=text))
     ggbld <- ggplot2::ggplot_build(gg)
     if (is.null(breaks)) breaks <- as.numeric(ggbld$layout$panel_params[[1]]$x$get_labels())
   #} else {
@@ -108,7 +111,7 @@ get_risktable.survfit <- function(survfit_object
   
   statlist <- unique(statlist)
   
-  tidy_object <- tidyme.survfit(survfit_object)
+  tidy_object <- tidyme(survfit_object)
   
   times <- get_breaks(tidy_object, breaks, min_at_risk)
   
@@ -124,7 +127,7 @@ get_risktable.survfit <- function(survfit_object
   ) %>%
     ## correct calculation of n.censor
     dplyr::mutate(n.censor = dplyr::lag(n.risk) - (n.risk + n.event)) %>%
-    dplyr::mutate(n.censor = case_when(
+    dplyr::mutate(n.censor = dplyr::case_when(
       n.censor >= 0 ~ n.censor,
       TRUE ~ 0
     )
@@ -133,7 +136,7 @@ get_risktable.survfit <- function(survfit_object
     dplyr::rename(y_values = strata)
   
   final <- per_statlist
-  final <-  final %>% select(time, y_values, statlist)
+  final <-  final %>% dplyr::select(time, y_values, statlist)
   attr(final, 'time_ticks') <- breaks
   attr(final, "title") <- label
   attr(final, "statlist") <- statlist
