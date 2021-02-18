@@ -66,7 +66,7 @@ AlignPlots <- function(pltlist = NULL) {
   .LegendWidth <- function(x)
     x$grobs[[8]]$grobs[[1]]$widths[[4]]
   
-  plots.grobs <- lapply(pltlist, ggplotGrob)
+  plots.grobs <- lapply(pltlist, ggplot2::ggplotGrob)
   max.widths <-
     do.call(grid::unit.pmax, lapply(plots.grobs, "[[", "widths"))
   legends.widths <- lapply(plots.grobs, .LegendWidth)

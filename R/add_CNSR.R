@@ -43,7 +43,7 @@ add_CNSR.ggsurvfit <- function(gg, shape = 3, size = 2, ...){
   }
 
   gg <- gg +
-    geom_point(data = base::subset(gg$data, n.censor >= 1), aes(x = time, y = est, color = strata),
+    ggplot2::geom_point(data = base::subset(gg$data, n.censor >= 1), ggplot2::aes(x = time, y = est, color = strata),
                shape = shape, size = size)
 
   return(gg)

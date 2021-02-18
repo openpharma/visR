@@ -116,7 +116,7 @@ plot.survfit <- function(
   ### Extended tidy of survfit class + transformation ####
   
   correctme <- NULL
-  tidy_object <- tidyme.survfit(survfit_object)
+  tidy_object <- tidyme(survfit_object)
   if ("surv" %in% colnames(tidy_object)) {
     tidy_object[["est"]] <- .transfun(tidy_object[["surv"]])
     correctme <- c(correctme,"est")
@@ -182,8 +182,8 @@ plot.survfit <- function(
   
   yscaleFUN <- function(x) sprintf("%.2f", x)
   
-  gg <- ggplot2::ggplot(tidy_object, aes(x = time, group = strata)) +
-    ggplot2::geom_step(aes(y = est, col = strata)) + 
+  gg <- ggplot2::ggplot(tidy_object, ggplot2::aes(x = time, group = strata)) +
+    ggplot2::geom_step(ggplot2::aes(y = est, col = strata)) + 
     ggsci::scale_color_nejm() + 
     ggsci::scale_fill_nejm() + 
     ggplot2::scale_x_continuous(name = paste0("\n", x_label),
@@ -195,7 +195,7 @@ plot.survfit <- function(
                                 limits = c(min(y_ticks), max(y_ticks))) +
     ggplot2::theme_bw() +
     ggplot2::theme(legend.position = legend_position) +
-    ggplot2::guides(color=guide_legend(override.aes=list(fill=NA))) +
+    ggplot2::guides(color=ggplot2::guide_legend(override.aes=list(fill=NA))) +
     NULL
   
   class(gg) <- append(class(gg), "ggsurvfit")

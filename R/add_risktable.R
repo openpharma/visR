@@ -110,8 +110,8 @@ add_risktable.ggsurvfit <- function(
   #### Plot all requested tables below => use list approach with map function ####
 
   tbls <-  base::Map(function(statlist, title = NA) {
-    ggrisk <- ggplot2::ggplot(final, aes(x = time,
-                                         y = stats::reorder(y_values, desc(y_values)),
+    ggrisk <- ggplot2::ggplot(final, ggplot2::aes(x = time,
+                                         y = stats::reorder(y_values, dplyr::desc(y_values)),
                                              label = format(get(statlist), nsmall = 0) # = value columns
                                          )
                               ) +
@@ -119,18 +119,18 @@ add_risktable.ggsurvfit <- function(
       ggplot2::theme_bw() +
       ggplot2::scale_x_continuous(breaks = times,
                                   limits = c(min(time_ticks), max(time_ticks))) +
-      ggplot2::theme(axis.title.x = element_text(size = 8,
+      ggplot2::theme(axis.title.x = ggplot2::element_text(size = 8,
                                                  vjust = 1,
                                                  hjust = 1),
-                     panel.grid.major = element_blank(),
-                     panel.grid.minor = element_blank(),
-                     panel.border = element_blank(),
-                     axis.line = element_blank(),
-                     axis.text.x = element_blank(),
-                     axis.ticks = element_blank(),
-                     axis.text.y = element_text(size=8, colour = "black", face = "plain"),
-                     plot.margin = unit(c(1,0,0,0), "lines"),
-                     plot.title = element_text(hjust = 0, vjust = 0)
+                     panel.grid.major = ggplot2::element_blank(),
+                     panel.grid.minor = ggplot2::element_blank(),
+                     panel.border = ggplot2::element_blank(),
+                     axis.line = ggplot2::element_blank(),
+                     axis.text.x = ggplot2::element_blank(),
+                     axis.ticks = ggplot2::element_blank(),
+                     axis.text.y = ggplot2::element_text(size=8, colour = "black", face = "plain"),
+                     plot.margin = ggplot2::unit(c(1,0,0,0), "lines"),
+                     plot.title = ggplot2::element_text(hjust = 0, vjust = 0)
                     ) +
       ggplot2::xlab(NULL) +
       ggplot2::ylab(NULL)
@@ -138,7 +138,7 @@ add_risktable.ggsurvfit <- function(
       if (!is.na(title) && !is.null(title)){
         ggrisk <- ggrisk +
           ggplot2::ggtitle(title) +
-          theme(plot.title = element_text(size = 10))
+          ggplot2::theme(plot.title = ggplot2::element_text(size = 10))
       }
 
       return(ggrisk)
@@ -147,12 +147,10 @@ add_risktable.ggsurvfit <- function(
     title = as.list(title)
   )
 
-
   #### Make plots same width ####
   ggA <- list(gg) %>%
     append(tbls) %>%
     AlignPlots()
-
 
   #### cowplot allows to align according to an axis (+left) and change the heigth ####
   ggB <- cowplot::plot_grid(plotlist = ggA,
