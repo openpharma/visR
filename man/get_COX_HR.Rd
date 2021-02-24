@@ -33,11 +33,11 @@ library(ggplot2)
 library(broom)
 
 ## treatment effect
-survfit_object_trt <- vr_KM_est(data = adtte, strata = c("TRTP"))
+survfit_object_trt <- estimate_KM(data = adtte, strata = c("TRTP"))
 get_COX_HR(survfit_object_trt)
 
 ## treatment and gender effect
-survfit_object_trt_sex <- vr_KM_est(data = adtte, strata = c("TRTP", "SEX"))
+survfit_object_trt_sex <- estimate_KM(data = adtte, strata = c("TRTP", "SEX"))
 get_COX_HR(survfit_object_trt_sex)
 
 ## update formula of KM estimates by treatment to include "SEX" for HR estimation

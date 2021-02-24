@@ -32,7 +32,7 @@
 #'
 #' ## Display 2 risk tables, 1 per statlist
 #' adtte %>%
-#'   vr_KM_est(strata = "TRTP") %>%
+#'   estimate_KM(strata = "TRTP") %>%
 #'   vr_plot() %>%
 #'   add_risktable( min_at_risk = 3
 #'                 ,label = c("Subjects at Risk", "Censored")
@@ -42,7 +42,7 @@
 #'                 
 #' ## Display 2 risk tables, 1 per stratum
 #' adtte %>%
-#'   vr_KM_est(strata = "TRTP") %>%
+#'   estimate_KM(strata = "TRTP") %>%
 #'   vr_plot() %>%
 #'   add_risktable( min_at_risk = 3
 #'                 ,label = c("Subjects at Risk", "Censored")
@@ -52,7 +52,7 @@
 #'
 #' ## Display overall risk table
 #' adtte %>%
-#'   vr_KM_est(strata = "TRTP") %>%
+#'   estimate_KM(strata = "TRTP") %>%
 #'   vr_plot() %>%
 #'   add_risktable( min_at_risk = 3
 #'                 ,label = c("Subjects at Risk", "Censored")

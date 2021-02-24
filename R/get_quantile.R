@@ -17,7 +17,7 @@
 #' library(dplyr)
 #' library(tidyr)
 #' 
-#' survfit_object_trt <- vr_KM_est(data = adtte, strata = c("TRTP"))
+#' survfit_object_trt <- estimate_KM(data = adtte, strata = c("TRTP"))
 #' get_quantile(survfit_object_trt)
 #' quantile(survfit_object_trt)
 #' }

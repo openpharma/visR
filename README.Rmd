@@ -68,7 +68,7 @@ library(tidyr)
 library(ggplot2)
 
 adtte %>%
-  vr_KM_est(strata = "TRTP", conf.int = 0.90) %>%
+  estimate_KM(strata = "TRTP", conf.int = 0.90) %>%
   vr_plot(legend_position = "right", x_unit = "Days") %>%
   add_CI(style = "ribbon",
          linetype = 3) %>%
