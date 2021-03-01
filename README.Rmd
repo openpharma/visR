@@ -45,6 +45,7 @@ The package is still experimental and under active development with a current fo
 | ![R CMD Check master](https://github.com/openpharma/visR/workflows/R-CMD-check-master/badge.svg?branch=master) | Master |
 | [![R build status last active branch (exclude dev and master)](https://github.com/openpharma/visR/workflows/R-CMD-check/badge.svg)](https://github.com/openpharma/visR/actions) | R build status last active branch (exclude dev and master) |
 
+[![Codecov test coverage](https://codecov.io/gh/openpharma/visR/branch/master/graph/badge.svg)](https://codecov.io/gh/openpharma/visR?branch=master)
 <!-- badges: end -->
 
 
