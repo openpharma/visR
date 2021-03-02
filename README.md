@@ -34,11 +34,13 @@ current focus on developing a stable API.
 
 <!-- badges: start -->
 
-| Badge                                                                                                                                                | Description                                                    |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)      | Development stage                                              |
-| [![Codecov test coverage](https://codecov.io/gh/openpharma/visR/branch/master/graph/badge.svg)](https://codecov.io/gh/openpharma/visR?branch=master) | Unit testing coverage                                          |
-| [![R-CMD-check](https://github.com/openpharma/visR/workflows/check-standard/badge.svg)](https://github.com/openpharma/visR/actions)                  | R-CMD-Check status for dev and master (will split post sprint) |
+| Badge                                                                                                                                                                                         | Description                                                                  |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)                                               | Development stage                                                            |
+| [![Codecov test coverage](https://codecov.io/gh/openpharma/visR/branch/master/graph/badge.svg)](https://codecov.io/gh/openpharma/visR?branch=master)                                          | Unit testing coverage                                                        |
+| [![R-CMD-check](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml/badge.svg?branch=develop)](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml) | `develop` branch                                                             |
+| [![R-CMD-check](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml/badge.svg?branch=master)](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml)  | `master` branch                                                              |
+| [![pkgdown](https://github.com/openpharma/visR/actions/workflows/makedocs.yml/badge.svg)](https://github.com/openpharma/visR/actions/workflows/makedocs.yml)                                  | Documentation building to [Github pages](https://openpharma.github.io/visR/) |
 
 <!-- badges: end -->
 
