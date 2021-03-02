@@ -116,19 +116,20 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span> 
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span>
 
-<span class="va">adtte</span> <span class="op">%&gt;%</span>
-  <span class="fu">vr_KM_est</span><span class="op">(</span>strata <span class="op">=</span> <span class="st">"TRTP"</span>, conf.int <span class="op">=</span> <span class="fl">0.90</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">vr_plot</span><span class="op">(</span>legend_position <span class="op">=</span> <span class="st">"right"</span>, x_unit <span class="op">=</span> <span class="st">"Days"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/add_CI.html">add_CI</a></span><span class="op">(</span>style <span class="op">=</span> <span class="st">"ribbon"</span>,
-         linetype <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/add_CNSR.html">add_CNSR</a></span><span class="op">(</span>shape <span class="op">=</span> <span class="fl">3</span>, size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/add_risktable.html">add_risktable</a></span><span class="op">(</span>
-    min_at_risk <span class="op">=</span> <span class="fl">3</span>,
-    statlist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"n.risk"</span>, <span class="st">"n.event"</span>, <span class="st">"n.censor"</span><span class="op">)</span>,
-    label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"At risk"</span>, <span class="st">"Event"</span>, <span class="st">"Censor"</span><span class="op">)</span>,
-    collapse <span class="op">=</span> <span class="cn">F</span>
-  <span class="op">)</span></code></pre></div>
-<p><img src="reference/figures/README-example-1.png" width="100%"></p>
+<span class="co"># Need to add working example!</span>
+
+<span class="co"># adtte %&gt;%</span>
+<span class="co">#   vr_KM_est(strata = "TRTP", conf.int = 0.90) %&gt;%</span>
+<span class="co">#   vr_plot(legend_position = "right", x_unit = "Days") %&gt;%</span>
+<span class="co">#   add_CI(style = "ribbon",</span>
+<span class="co">#          linetype = 3) %&gt;%</span>
+<span class="co">#   add_CNSR(shape = 3, size = 1) %&gt;%</span>
+<span class="co">#   add_risktable(</span>
+<span class="co">#     min_at_risk = 3,</span>
+<span class="co">#     statlist = c("n.risk", "n.event", "n.censor"),</span>
+<span class="co">#     label = c("At risk", "Event", "Censor"),</span>
+<span class="co">#     collapse = F</span>
+<span class="co">#   )</span></code></pre></div>
 </div>
 <div id="contribution" class="section level2">
 <h2 class="hasAnchor">
@@ -140,6 +141,41 @@
 <a href="#code-contributors" class="anchor"></a>Code contributors</h2>
 <p><a href="https://github.com/openpharma/visR/graphs/contributors" class="external-link"> <img src="https://contributors-img.web.app/image?repo=openpharma/visR"></a></p>
 <p><img src="reference/figures/README-unnamed-chunk-2-1.png" width="100%"></p>
+</div>
+<div id="code-coverage" class="section level2">
+<h2 class="hasAnchor">
+<a href="#code-coverage" class="anchor"></a>Code coverage</h2>
+<p>Last time readme built.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">covr</span><span class="fu">::</span><span class="fu"><a href="http://covr.r-lib.org/reference/package_coverage.html" class="external-link">package_coverage</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; visR Coverage: 3.97%</span>
+<span class="co">#&gt; R/add_annotation.R: 0.00%</span>
+<span class="co">#&gt; R/add_CI.R: 0.00%</span>
+<span class="co">#&gt; R/add_CNSR.R: 0.00%</span>
+<span class="co">#&gt; R/add_risktable.R: 0.00%</span>
+<span class="co">#&gt; R/get_COX_HR.R: 0.00%</span>
+<span class="co">#&gt; R/get_pvalue.R: 0.00%</span>
+<span class="co">#&gt; R/get_quantile.R: 0.00%</span>
+<span class="co">#&gt; R/get_risktable.R: 0.00%</span>
+<span class="co">#&gt; R/get_summary.R: 0.00%</span>
+<span class="co">#&gt; R/get_tableone.R: 0.00%</span>
+<span class="co">#&gt; R/plot.R: 0.00%</span>
+<span class="co">#&gt; R/render.R: 0.00%</span>
+<span class="co">#&gt; R/style_visR.R: 0.00%</span>
+<span class="co">#&gt; R/tableone.R: 0.00%</span>
+<span class="co">#&gt; R/tidyme.R: 0.00%</span>
+<span class="co">#&gt; R/utils.R: 0.00%</span>
+<span class="co">#&gt; R/vr_alluvial_plot.R: 0.00%</span>
+<span class="co">#&gt; R/vr_alluvial_wrangling.R: 0.00%</span>
+<span class="co">#&gt; R/vr_attrition_table.R: 0.00%</span>
+<span class="co">#&gt; R/vr_attrition.R: 0.00%</span>
+<span class="co">#&gt; R/vr_cross_tab.R: 0.00%</span>
+<span class="co">#&gt; R/vr_plotly.R: 0.00%</span>
+<span class="co">#&gt; R/vr_plt_forest.R: 0.00%</span>
+<span class="co">#&gt; R/vr_stacked_barchart.R: 0.00%</span>
+<span class="co">#&gt; R/vr_tidy_rbest.R: 0.00%</span>
+<span class="co">#&gt; R/utilities.R: 8.82%</span>
+<span class="co">#&gt; R/estimate_KM.R: 96.08%</span></code></pre></div>
 </div>
 </div>
   </div>
@@ -191,7 +227,8 @@
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://www.tidyverse.org/lifecycle/#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
-<li><a href="https://github.com/openpharma/visR/actions" class="external-link"><img src="https://github.com/openpharma/visR/workflows/R-CMD-check/badge.svg" alt="R build status last active branch (exclude dev and master)"></a></li>
+<li><a href="https://codecov.io/gh/openpharma/visR?branch=master" class="external-link"><img src="https://codecov.io/gh/openpharma/visR/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://github.com/openpharma/visR/actions" class="external-link"><img src="https://github.com/openpharma/visR/workflows/check-standard/badge.svg" alt="R-CMD-check"></a></li>
 </ul>
 </div>
 
