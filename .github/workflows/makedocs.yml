@@ -36,7 +36,10 @@ jobs:
         run: R CMD INSTALL .
 
       - name: Deploy package
+        env:
+          GH_API_TOKEN_README: ${{ secrets.GH_API_TOKEN_README }}
         run: |
+          Rscript -e 'Sys.setenv(GITHUB_PAT = Sys.getenv("GH_API_TOKEN_README")'
           Rscript -e 'rmarkdown::render("README.rmd")'
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"

@@ -159,7 +159,7 @@ commits %>%
 
 ## Function activity
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message = FALSE}
 lines <- local_repo %>%
   unnest_log() %>%
   set_changed_file_to_latest_name() %>%
