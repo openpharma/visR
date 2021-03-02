@@ -41,7 +41,7 @@ The package is still experimental and under active development with a current fo
 | Badge | Description
 |----------------------|-------------------|
 | [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)     | Development stage |
-| [![Codecov test coverage](https://codecov.io/gh/openpharma/visR/branch/master/graph/badge.svg)](https://codecov.io/gh/openpharma/visR?branch=master) | Unit testing coverage |
+| [![Codecov test coverage](https://codecov.io/gh/openpharma/visR/branch/develop/graph/badge.svg)](https://codecov.io/gh/openpharma/visR?branch=develop) | Unit testing coverage - currently points at `develop` |
 | [![R-CMD-check](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml/badge.svg?branch=develop)](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml) | `develop` branch |
 | [![R-CMD-check](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml/badge.svg?branch=master)](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml) | `master` branch |
 | [![pkgdown](https://github.com/openpharma/visR/actions/workflows/makedocs.yml/badge.svg)](https://github.com/openpharma/visR/actions/workflows/makedocs.yml) | Documentation building to [Github pages](https://openpharma.github.io/visR/) |
