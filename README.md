@@ -34,12 +34,11 @@ current focus on developing a stable API.
 
 <!-- badges: start -->
 
-| Badge                                                                                                                                                                           | Description                                                |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)                                 |                                                            |
-| ![R CMD Check develop](https://github.com/openpharma/visR/workflows/R-CMD-check-master/badge.svg?branch=develop)                                                                | Develop                                                    |
-| ![R CMD Check master](https://github.com/openpharma/visR/workflows/R-CMD-check-master/badge.svg?branch=master)                                                                  | Master                                                     |
-| [![R build status last active branch (exclude dev and master)](https://github.com/openpharma/visR/workflows/R-CMD-check/badge.svg)](https://github.com/openpharma/visR/actions) | R build status last active branch (exclude dev and master) |
+| Badge                                                                                                                                                | Description                                                    |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)      | Development stage                                              |
+| [![Codecov test coverage](https://codecov.io/gh/openpharma/visR/branch/master/graph/badge.svg)](https://codecov.io/gh/openpharma/visR?branch=master) | Unit testing coverage                                          |
+| [![R-CMD-check](https://github.com/openpharma/visR/workflows/check-standard/badge.svg)](https://github.com/openpharma/visR/actions)                  | R-CMD-Check status for dev and master (will split post sprint) |
 
 <!-- badges: end -->
 
@@ -66,21 +65,21 @@ library(dplyr)
 library(tidyr) 
 library(ggplot2)
 
-adtte %>%
-  vr_KM_est(strata = "TRTP", conf.int = 0.90) %>%
-  vr_plot(legend_position = "right", x_unit = "Days") %>%
-  add_CI(style = "ribbon",
-         linetype = 3) %>%
-  add_CNSR(shape = 3, size = 1) %>%
-  add_risktable(
-    min_at_risk = 3,
-    statlist = c("n.risk", "n.event", "n.censor"),
-    label = c("At risk", "Event", "Censor"),
-    collapse = F
-  )
-```
+# Need to add working example!
 
-<img src="man/figures/README-example-1.png" width="100%" />
+# adtte %>%
+#   vr_KM_est(strata = "TRTP", conf.int = 0.90) %>%
+#   vr_plot(legend_position = "right", x_unit = "Days") %>%
+#   add_CI(style = "ribbon",
+#          linetype = 3) %>%
+#   add_CNSR(shape = 3, size = 1) %>%
+#   add_risktable(
+#     min_at_risk = 3,
+#     statlist = c("n.risk", "n.event", "n.censor"),
+#     label = c("At risk", "Event", "Censor"),
+#     collapse = F
+#   )
+```
 
 ## Contribution
 
@@ -95,3 +94,39 @@ agree to abide by its terms.
 </a>
 
 <img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
+
+## Code coverage
+
+Last time readme built.
+
+``` r
+covr::package_coverage()
+#> visR Coverage: 3.97%
+#> R/add_annotation.R: 0.00%
+#> R/add_CI.R: 0.00%
+#> R/add_CNSR.R: 0.00%
+#> R/add_risktable.R: 0.00%
+#> R/get_COX_HR.R: 0.00%
+#> R/get_pvalue.R: 0.00%
+#> R/get_quantile.R: 0.00%
+#> R/get_risktable.R: 0.00%
+#> R/get_summary.R: 0.00%
+#> R/get_tableone.R: 0.00%
+#> R/plot.R: 0.00%
+#> R/render.R: 0.00%
+#> R/style_visR.R: 0.00%
+#> R/tableone.R: 0.00%
+#> R/tidyme.R: 0.00%
+#> R/utils.R: 0.00%
+#> R/vr_alluvial_plot.R: 0.00%
+#> R/vr_alluvial_wrangling.R: 0.00%
+#> R/vr_attrition_table.R: 0.00%
+#> R/vr_attrition.R: 0.00%
+#> R/vr_cross_tab.R: 0.00%
+#> R/vr_plotly.R: 0.00%
+#> R/vr_plt_forest.R: 0.00%
+#> R/vr_stacked_barchart.R: 0.00%
+#> R/vr_tidy_rbest.R: 0.00%
+#> R/utilities.R: 8.82%
+#> R/estimate_KM.R: 96.08%
+```
