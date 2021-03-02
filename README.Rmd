@@ -40,12 +40,9 @@ The package is still experimental and under active development with a current fo
 
 | Badge | Description
 |----------------------|-------------------|
-| [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)     |  |
-| ![R CMD Check develop](https://github.com/openpharma/visR/workflows/R-CMD-check-master/badge.svg?branch=develop)    | Develop |
-| ![R CMD Check master](https://github.com/openpharma/visR/workflows/R-CMD-check-master/badge.svg?branch=master) | Master |
-| [![R build status last active branch (exclude dev and master)](https://github.com/openpharma/visR/workflows/R-CMD-check/badge.svg)](https://github.com/openpharma/visR/actions) | R build status last active branch (exclude dev and master) |
-
-[![Codecov test coverage](https://codecov.io/gh/openpharma/visR/branch/master/graph/badge.svg)](https://codecov.io/gh/openpharma/visR?branch=master)
+| [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)     | Development stage |
+| [![Codecov test coverage](https://codecov.io/gh/openpharma/visR/branch/master/graph/badge.svg)](https://codecov.io/gh/openpharma/visR?branch=master) | Unit testing coverage |
+| [![R-CMD-check](https://github.com/openpharma/visR/workflows/check-standard/badge.svg)](https://github.com/openpharma/visR/actions) | R-CMD-Check status for dev and master (will split post sprint) |
 <!-- badges: end -->
 
 
@@ -68,18 +65,20 @@ library(dplyr)
 library(tidyr) 
 library(ggplot2)
 
-adtte %>%
-  vr_KM_est(strata = "TRTP", conf.int = 0.90) %>%
-  vr_plot(legend_position = "right", x_unit = "Days") %>%
-  add_CI(style = "ribbon",
-         linetype = 3) %>%
-  add_CNSR(shape = 3, size = 1) %>%
-  add_risktable(
-    min_at_risk = 3,
-    statlist = c("n.risk", "n.event", "n.censor"),
-    label = c("At risk", "Event", "Censor"),
-    collapse = F
-  )
+# Need to add working example!
+
+# adtte %>%
+#   vr_KM_est(strata = "TRTP", conf.int = 0.90) %>%
+#   vr_plot(legend_position = "right", x_unit = "Days") %>%
+#   add_CI(style = "ribbon",
+#          linetype = 3) %>%
+#   add_CNSR(shape = 3, size = 1) %>%
+#   add_risktable(
+#     min_at_risk = 3,
+#     statlist = c("n.risk", "n.event", "n.censor"),
+#     label = c("At risk", "Event", "Censor"),
+#     collapse = F
+#   )
 ```
 
 
@@ -96,7 +95,7 @@ Please note that the 'visR' project is released with a [Contributor Code of Cond
 ```{r, echo=FALSE, warning=FALSE, message = FALSE}
 library(dplyr)
 library(ggplot2)
-remotes::install_github("lorenzwalthert/gitsum")
+#remotes::install_github("lorenzwalthert/gitsum")
 activity <- gitsum::parse_log_detailed()
 
 # last 10 commits
@@ -126,4 +125,12 @@ activity %>%
     title = "Commit activity in openpharma/visR",
     subtitle = "Colour = author (names hidden)"
   ) + theme(legend.position = "none")
+```
+
+## Code coverage 
+
+Last time readme built.
+
+```{r}
+covr::package_coverage()
 ```
