@@ -28,7 +28,6 @@ jobs:
           install.packages("remotes")
           remotes::install_deps(dependencies = TRUE)
           remotes::install_dev("pkgdown")
-          remotes::install_github("openpharma/GithubMetrics")
           remotes::install_github("lorenzwalthert/gitsum")
         shell: Rscript {0}
 
@@ -36,8 +35,6 @@ jobs:
         run: R CMD INSTALL .
 
       - name: Deploy package
-        env:
-          GH_API_TOKEN_README: ${{ secrets.GH_API_TOKEN_README }}
         run: |
           Rscript -e 'rmarkdown::render("README.rmd")'
           git config --local user.email "actions@github.com"

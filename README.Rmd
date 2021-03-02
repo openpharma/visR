@@ -88,8 +88,6 @@ library(ggplot2)
 
 Please note that the 'visR' project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
 
-### Code contributors
-
 ```{r, echo=FALSE, warning=FALSE, message = FALSE}
 library(dplyr)
 library(glue)
@@ -99,43 +97,43 @@ library(gitsum) #remotes::install_github("lorenzwalthert/gitsum)
 
 local_repo <- parse_log_detailed()
 
-commits <- gh_commits_get(
-  full_names = "openpharma/visR",
-  days_back = 365*10,
-  .token = Sys.getenv("GH_API_TOKEN_README")
-  ) %>%
-  mutate(date = as.Date(datetime)) %>%
-  filter(!author %in% c(".gitconfig missing email","actions-user"))
-
-left_join(
-  commits %>%
-    group_by(author) %>%
-    summarise(commits_all = n()),
-  commits %>%
-    filter(date > Sys.Date() - 28*6) %>%
-    group_by(author) %>%
-    summarise(commits_6months = n())
-  ) %>%
-  arrange(-commits_6months) %>%
-  left_join(
-    gh_user_get(unique(commits$author),
-    .token = Sys.getenv("GH_API_TOKEN_README")
-    ),
-    by = c("author"="username")
-  ) %>%
-  mutate(
-    blog = case_when(
-      blog == "" ~ "",
-      TRUE ~ as.character(glue('<a href="{blog}">link</a>'))
-      ),
-    author = case_when(
-      !is.na(name) ~ paste0(name,"(",author,")"),
-      TRUE ~ author
-    ),
-    author = glue('<img src="{avatar}" alt="" height="30"> {author}')
-    ) %>%
-  select(author,commits_all,commits_6months,company,location,blog) %>%
-  knitr::kable()
+# commits <- gh_commits_get(
+#   full_names = "openpharma/visR",
+#   days_back = 365*10,
+#   .token = Sys.getenv("GH_API_TOKEN_README")
+#   ) %>%
+#   mutate(date = as.Date(datetime)) %>%
+#   filter(!author %in% c(".gitconfig missing email","actions-user"))
+# 
+# left_join(
+#   commits %>%
+#     group_by(author) %>%
+#     summarise(commits_all = n()),
+#   commits %>%
+#     filter(date > Sys.Date() - 28*6) %>%
+#     group_by(author) %>%
+#     summarise(commits_6months = n())
+#   ) %>%
+#   arrange(-commits_6months) %>%
+#   left_join(
+#     gh_user_get(unique(commits$author),
+#     .token = Sys.getenv("GH_API_TOKEN_README")
+#     ),
+#     by = c("author"="username")
+#   ) %>%
+#   mutate(
+#     blog = case_when(
+#       blog == "" ~ "",
+#       TRUE ~ as.character(glue('<a href="{blog}">link</a>'))
+#       ),
+#     author = case_when(
+#       !is.na(name) ~ paste0(name,"(",author,")"),
+#       TRUE ~ author
+#     ),
+#     author = glue('<img src="{avatar}" alt="" height="30"> {author}')
+#     ) %>%
+#   select(author,commits_all,commits_6months,company,location,blog) %>%
+#   knitr::kable()
 ```
 
 
@@ -144,17 +142,17 @@ left_join(
 ```{r, echo=FALSE, warning=FALSE, message = FALSE}
 
 # plot
-commits %>%
+local_repo %>%
   group_by(
     Month = lubridate::floor_date(date, "month"),
-    author
+    author_name
     ) %>%
   summarise(
     Commits = n()
   ) %>%
   ggplot() +
   geom_col(
-    aes(x = Month, y = Commits, fill = author)
+    aes(x = Month, y = Commits, fill = author_name)
   ) +
   theme_minimal() +
   labs(
@@ -162,8 +160,6 @@ commits %>%
     subtitle = "Colour = author (names hidden)"
   ) + theme(legend.position = "none")
 ```
-
-## Function activity
 
 ```{r, echo=FALSE, warning=FALSE, message = FALSE}
 lines <- local_repo %>%
