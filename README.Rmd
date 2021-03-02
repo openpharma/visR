@@ -99,7 +99,11 @@ library(gitsum) #remotes::install_github("lorenzwalthert/gitsum)
 
 local_repo <- parse_log_detailed()
 
-commits <- gh_commits_get(full_names = "openpharma/visR",days_back = 365*10) %>%
+commits <- gh_commits_get(
+  full_names = "openpharma/visR",
+  days_back = 365*10,
+  .token = Sys.getenv("GH_API_TOKEN_README")
+  ) %>%
   mutate(date = as.Date(datetime)) %>%
   filter(!author %in% c(".gitconfig missing email","actions-user"))
 
@@ -114,7 +118,9 @@ left_join(
   ) %>%
   arrange(-commits_6months) %>%
   left_join(
-    gh_user_get(unique(commits$author)),
+    gh_user_get(unique(commits$author),
+    .token = Sys.getenv("GH_API_TOKEN_README")
+    ),
     by = c("author"="username")
   ) %>%
   mutate(
