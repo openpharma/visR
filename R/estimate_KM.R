@@ -1,7 +1,6 @@
-#' @title Wrapper for Kaplan Meier analysis for an ADaM Basic Data Structure (BDS) for Time-to-Event analysis
+#' @title Wrapper for Kaplan Meier Time-to-Event analysis
 #'  
-#' @description This function is a wrapper around \code{survival::survfit.formula} to perform a Kaplan-Meier analysis,
-#'    by default using ADaM Basic Data Structure (BDS) for Time-to-Event analysis and assuming right-censored data.
+#' @description This function is a wrapper around \code{survival::survfit.formula} to perform a Kaplan-Meier analysis, assuming right-censored data.
 #'    The function expects that the data has been filtered on the PARAM/PARAMCD of interest.
 #'    Alternatively, PARAM/PARAMCD can be used in the \code{strata} argument. \cr
 #'    The result is an object of class \code{survfit} which can be used in downstream functions and methods that rely on the \code{survfit} class.
@@ -17,7 +16,7 @@
 #' 
 #' @seealso \code{\link[survival]{survfit.formula} \link[survival]{survfitCI}}
 #' 
-#' @param data The name of the ADaM Basic Data Structure (BDS) for Time-to-Event analysis eg ADTTE. Rows in which AVAL or CNSR contain NA, are removed during analysis. 
+#' @param data Data frame for Time-to-Event analysis. Rows in which AVAL or CNSR contain NA, are removed during analysis. 
 #' @param strata Character vector, representing the strata for Time-to-Event analysis eg TRT01P. When NULL, an overall analysis is performed.
 #'   Default is NULL.
 #' @param AVAL Analysis value for Time-to-Event analysis. Ueses "AVAL" by default.
