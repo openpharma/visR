@@ -2,7 +2,8 @@
 output: github_document
 ---
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
+<!-- README.md is generated from README.Rmd as part of the CICD process. -->
+<!-- Please edit README.Rmd - but you do not need to build it! -->
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -40,11 +41,11 @@ The package is still experimental and under active development with a current fo
 
 | Badge | Description
 |----------------------|-------------------|
-| [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)     |  |
-| ![R CMD Check develop](https://github.com/openpharma/visR/workflows/R-CMD-check-master/badge.svg?branch=develop)    | Develop |
-| ![R CMD Check master](https://github.com/openpharma/visR/workflows/R-CMD-check-master/badge.svg?branch=master) | Master |
-| [![R build status last active branch (exclude dev and master)](https://github.com/openpharma/visR/workflows/R-CMD-check/badge.svg)](https://github.com/openpharma/visR/actions) | R build status last active branch (exclude dev and master) |
-
+| [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)     | Development stage |
+| [![Codecov test coverage](https://codecov.io/gh/openpharma/visR/branch/develop/graph/badge.svg)](https://codecov.io/gh/openpharma/visR?branch=develop) | Unit testing coverage - currently points at `develop` |
+| [![R-CMD-check](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml/badge.svg?branch=develop)](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml) | `develop` branch |
+| [![R-CMD-check](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml/badge.svg?branch=master)](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml) | `master` branch |
+| [![pkgdown](https://github.com/openpharma/visR/actions/workflows/makedocs.yml/badge.svg)](https://github.com/openpharma/visR/actions/workflows/makedocs.yml) | Documentation building to [Github pages](https://openpharma.github.io/visR/) |
 <!-- badges: end -->
 
 
@@ -86,43 +87,102 @@ adtte %>%
 
 Please note that the 'visR' project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
 
-## Code contributors
-
-<a href="https://github.com/openpharma/visR/graphs/contributors">
-  <img src="https://contributors-img.web.app/image?repo=openpharma/visR" />
-</a>
-
 ```{r, echo=FALSE, warning=FALSE, message = FALSE}
 library(dplyr)
+library(glue)
 library(ggplot2)
-remotes::install_github("lorenzwalthert/gitsum")
-activity <- gitsum::parse_log_detailed()
+#library(GithubMetrics) #remotes::install_github("openpharma/GithubMetrics")
+library(gitsum) #remotes::install_github("lorenzwalthert/gitsum)
 
-# last 10 commits
-# activity %>%
-#   select(date, short_message, author_name) %>%
-#   arrange(desc(date)) %>%
-#   dplyr::filter(author_name != "GitHub Action") %>%
-#   slice(1:10) %>%
-#   knitr::kable(caption = "last 10 commits")
+local_repo <- parse_log_detailed()
+
+# commits <- gh_commits_get(
+#   full_names = "openpharma/visR",
+#   days_back = 365*10,
+#   .token = Sys.getenv("GH_API_TOKEN_README")
+#   ) %>%
+#   mutate(date = as.Date(datetime)) %>%
+#   filter(!author %in% c(".gitconfig missing email","actions-user"))
+# 
+# left_join(
+#   commits %>%
+#     group_by(author) %>%
+#     summarise(commits_all = n()),
+#   commits %>%
+#     filter(date > Sys.Date() - 28*6) %>%
+#     group_by(author) %>%
+#     summarise(commits_6months = n())
+#   ) %>%
+#   arrange(-commits_6months) %>%
+#   left_join(
+#     gh_user_get(unique(commits$author),
+#     .token = Sys.getenv("GH_API_TOKEN_README")
+#     ),
+#     by = c("author"="username")
+#   ) %>%
+#   mutate(
+#     blog = case_when(
+#       blog == "" ~ "",
+#       TRUE ~ as.character(glue('<a href="{blog}">link</a>'))
+#       ),
+#     author = case_when(
+#       !is.na(name) ~ paste0(name,"(",author,")"),
+#       TRUE ~ author
+#     ),
+#     author = glue('<img src="{avatar}" alt="" height="30"> {author}')
+#     ) %>%
+#   select(author,commits_all,commits_6months,company,location,blog) %>%
+#   knitr::kable()
+```
+
+
+```{r, echo=FALSE, warning=FALSE, message = FALSE}
 
 # plot
-activity %>%
-  dplyr::filter(author_name != "GitHub Action") %>%
+local_repo %>%
   group_by(
     Month = lubridate::floor_date(date, "month"),
-    author_email
+    author_name
     ) %>%
   summarise(
     Commits = n()
   ) %>%
   ggplot() +
   geom_col(
-    aes(x = Month, y = Commits, fill = author_email)
+    aes(x = Month, y = Commits, fill = author_name)
   ) +
   theme_minimal() +
   labs(
     title = "Commit activity in openpharma/visR",
     subtitle = "Colour = author (names hidden)"
   ) + theme(legend.position = "none")
+```
+
+```{r, echo=FALSE, warning=FALSE, message = FALSE}
+lines <- local_repo %>%
+  unnest_log() %>%
+  set_changed_file_to_latest_name() %>%
+  add_line_history()
+
+r_files <- grep("^R/", lines$changed_file, value = TRUE)
+
+glimpse(r_files)
+
+# to_plot <- lines %>%
+#   filter(changed_file %in% r_files) %>%
+#   add_n_times_changed_file() %>%
+#   filter(n_times_changed_file >= 10)
+# ggplot(to_plot, aes(x = date, y = current_lines)) + 
+#   geom_step() + 
+#   scale_y_continuous(name = "Number of Lines", limits = c(0, NA)) + 
+#   facet_wrap(~changed_file, scales = "free_y", ncol = 4) +
+#   ggthemes::theme_hc()
+```
+
+## Code coverage 
+
+Last time readme built.
+
+```{r}
+covr::package_coverage()
 ```
