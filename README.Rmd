@@ -92,7 +92,7 @@ Please note that the 'visR' project is released with a [Contributor Code of Cond
 library(dplyr)
 library(glue)
 library(ggplot2)
-library(GithubMetrics) #remotes::install_github("openpharma/GithubMetrics")
+#library(GithubMetrics) #remotes::install_github("openpharma/GithubMetrics")
 library(gitsum) #remotes::install_github("lorenzwalthert/gitsum)
 
 local_repo <- parse_log_detailed()
