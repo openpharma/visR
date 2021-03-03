@@ -103,6 +103,8 @@ get_risktable.survfit <- function(survfit_object
       dplyr::mutate(label = dplyr::coalesce(label.y, label.x)) %>% 
       dplyr::select(-label.x, -label.y) %>%
       dplyr::pull(label)
+  
+    statlist <- statlist[order(statlist)]  
   }
   
   
