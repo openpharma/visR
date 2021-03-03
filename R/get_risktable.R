@@ -37,7 +37,7 @@ get_risktable.ggsurvfit <- function(gg
                                     ,min_at_risk = 0
                                     ,breaks = NULL
                                     ,statlist = c("n.risk")
-                                    ,label = "At risk"
+                                    ,label = NULL
                                     ,group = "strata"
                                     ,collapse = FALSE){
   #if (inherits(gg, "ggsurvfit")){
@@ -70,7 +70,7 @@ get_risktable.survfit <- function(survfit_object
                                 ,min_at_risk = 0
                                 ,breaks = NULL
                                 ,statlist = c("n.risk")
-                                ,label = "At risk"
+                                ,label = NULL
                                 ,group = "strata"
                                 ,collapse = FALSE){
   
