@@ -1,7 +1,7 @@
 #' @title Wrapper for Kaplan Meier Time-to-Event analysis
 #'  
 #' @description This function is a wrapper around \code{survival::survfit.formula} to perform a Kaplan-Meier analysis, assuming right-censored data.
-#'    The function expects that the data has been filtered on the PARAM/PARAMCD of interest.
+#'    The function expects that the data has been filtered on the parameter (PARAM/PARAMCD) of interest.
 #'    Alternatively, PARAM/PARAMCD can be used in the \code{strata} argument. \cr
 #'    The result is an object of class \code{survfit} which can be used in downstream functions and methods that rely on the \code{survfit} class.
 #'    By default:
@@ -16,11 +16,11 @@
 #' 
 #' @seealso \code{\link[survival]{survfit.formula} \link[survival]{survfitCI}}
 #' 
-#' @param data Data frame for Time-to-Event analysis. Rows in which AVAL or CNSR contain NA, are removed during analysis. 
-#' @param strata Character vector, representing the strata for Time-to-Event analysis eg TRT01P. When NULL, an overall analysis is performed.
+#' @param data Data.frame for Time-to-Event analysis. Rows in which the analysis variable (AVAL) or the sensor variable (CNSR) contain NA, are removed during analysis. 
+#' @param strata Character vector, representing the strata for Time-to-Event analysis. When NULL, an overall analysis is performed.
 #'   Default is NULL.
-#' @param AVAL Analysis value for Time-to-Event analysis. Ueses "AVAL" by default.
-#' @param CNSR Censor for Time-to-Event analysis. Uses "CNSR" by default.
+#' @param AVAL Analysis value for Time-to-Event analysis. Default is "AVAL".
+#' @param CNSR Censor for Time-to-Event analysis. Default is "CNSR".
 #' @param ... additional arguments passed on to the ellipsis of the call \code{survival::survfit.formula(data = data, formula = Surv(AVAL, 1-CNSR) ~ strata), ...)} .
 #' Use \code{?survival::survfit.formula} and \code{?survival::survfitCI} for more information.    
 #'
