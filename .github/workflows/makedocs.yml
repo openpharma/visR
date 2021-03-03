@@ -29,6 +29,7 @@ jobs:
           remotes::install_deps(dependencies = TRUE)
           remotes::install_dev("pkgdown")
           remotes::install_github("lorenzwalthert/gitsum")
+          install.packages("ggthemes")
         shell: Rscript {0}
 
       - name: Install package
