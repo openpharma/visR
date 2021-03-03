@@ -100,7 +100,7 @@ get_risktable.survfit <- function(survfit_object
     label <- vlookup %>%
       dplyr::arrange(statlist) %>%
       dplyr::right_join(have, by = "statlist") %>%
-      dplyr::mutate(label = coalesce(label.y, label.x)) %>% 
+      dplyr::mutate(label = dplyr::coalesce(label.y, label.x)) %>% 
       dplyr::select(-label.x, -label.y) %>%
       dplyr::pull(label)
   }
