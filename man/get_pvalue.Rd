@@ -47,7 +47,7 @@ library(dplyr)
 library(tidyr)
 library(ggplot2)
 
-survfit_object <- vr_KM_est(data = adtte, strata = "TRTP")
+survfit_object <- estimate_KM(data = adtte, strata = "TRTP")
 get_pvalue(survfit_object)
  
 }
