@@ -1,7 +1,7 @@
 #' @title Wrapper for Kaplan Meier analysis for an ADaM Basic Data Structure (BDS) for Time-to-Event analysis
 #'  
 #' @description This function is a wrapper around \code{survival::survfit.formula} to perform a Kaplan-Meier analysis,
-#'    based on the expected ADaM Basic Data Structure (BDS) for Time-to-Event analysis and assuming right-censored data.
+#'    by default using ADaM Basic Data Structure (BDS) for Time-to-Event analysis and assuming right-censored data.
 #'    The function expects that the data has been filtered on the PARAM/PARAMCD of interest.
 #'    Alternatively, PARAM/PARAMCD can be used in the \code{strata} argument. \cr
 #'    The result is an object of class \code{survfit} which can be used in downstream functions and methods that rely on the \code{survfit} class.
@@ -20,6 +20,8 @@
 #' @param data The name of the ADaM Basic Data Structure (BDS) for Time-to-Event analysis eg ADTTE. Rows in which AVAL or CNSR contain NA, are removed during analysis. 
 #' @param strata Character vector, representing the strata for Time-to-Event analysis eg TRT01P. When NULL, an overall analysis is performed.
 #'   Default is NULL.
+#' @param AVAL analysis value for Time-to-Event analysis. Ueses "AVAL" by default.
+#' @param CNSR censor for Time-to-Event analysis. Uses "CNSR" by default.
 #' @param ... additional arguments passed on to the ellipsis of the call \code{survival::survfit.formula(data = data, formula = Surv(AVAL, 1-CNSR) ~ strata), ...)} .
 #' Use \code{?survival::survfit.formula} and \code{?survival::survfitCI} for more information.    
 #'
@@ -56,6 +58,8 @@
 estimate_KM <- function(
    data = NULL
   ,strata = NULL
+  ,CNSR = "CNSR"
+  ,AVAL = "AVAL"
   ,...
 ){
 
@@ -65,13 +69,14 @@ estimate_KM <- function(
  ### Magrittre pipe returns "." which inactivates recalls to survfit in downstream functions
  ### map passes .x as Call$data
  ### df: catch expressions that represent base R subsets
-  
   Call <- as.list(match.call())
   dots <- list(...)
   dfExpr <- Call[["data"]]
   
  ## Validate `data` and capture data name
  
+  reqcols <- c(strata, CNSR, AVAL)
+  
   if (is.null(data)) stop(paste0("Data can't be NULL."))   
 
   if (base::length(base::deparse(Call[["data"]])) == 1 && base::deparse(Call[["data"]]) %in% c(".", ".x")){
@@ -87,8 +92,6 @@ estimate_KM <- function(
 
 # Validate columns --------------------------------------------------------
 
-  reqcols <- c(strata, "CNSR", "AVAL")
-  
   if (! base::exists(df)){
     stop(paste0("Data ", df, " not found."))
   }
@@ -98,11 +101,11 @@ estimate_KM <- function(
   }
   
   if (! is.numeric(data[["AVAL"]])){
-    stop("Analysis variable, AVAL, is not numeric.")
+    stop("Analysis variable (AVAL) is not numeric.")
   }
   
-  if (! is.numeric(data[["CNSR"]])){
-    stop("Censor variable, CNSR, is not numeric.")
+  if (! is.numeric(data[[CNSR]])){
+    stop("Censor variable (CNSR) is not numeric.")
   }
   
 # Ensure the presence of at least one strata -----------------------------
@@ -127,7 +130,7 @@ estimate_KM <- function(
   
  ## Reverse censoring: see ADaM guidelines versus R survival KM analysis
   
-  formula <- stats::as.formula(glue::glue("survival::Surv(AVAL, 1-CNSR) ~ {main}"))
+  formula <- stats::as.formula(glue::glue(paste0("survival::Surv(", AVAL, ", 1-", CNSR, ") ~ {main}")))
   
   survfit_object <- survival::survfit(
     formula, data = data, ...
