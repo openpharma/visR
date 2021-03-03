@@ -2,7 +2,8 @@
 output: github_document
 ---
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
+<!-- README.md is generated from README.Rmd as part of the CICD process. -->
+<!-- Please edit README.Rmd - but you do not need to build it! -->
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
