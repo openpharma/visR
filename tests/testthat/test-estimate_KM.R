@@ -173,64 +173,64 @@ testthat::test_that("T4.1 The function removes all rows with NA values inside an
 
 # Requirement T5 ----------------------------------------------------------
 
-context("estimate_KM - T5. The function does not alter the calculation of survival::survfit")
+# context("estimate_KM - T5. The function does not alter the calculation of survival::survfit")
+#
+# testthat::test_that("T5.1 The function gives the same results as survival::survfit",{
+#
+#   ## survival package
+#   survobj_survival <- survival::survfit(Surv(AVAL, 1-CNSR) ~ SEX, data = adtte)
+#   survobj_survival <- survival::survfit0(survobj_survival, start.time = 0)
+#
+#   ## visR
+#   survobj_visR <- visR::estimate_KM(data = adtte, strata = "SEX")
+#
+#   ## Compare common elements
+#   Common_Nms <- base::intersect(names(survobj_survival), names(survobj_visR))
+#
+#
+#   list_survival <- lapply(survobj_survival, "[")[Common_Nms]
+#   list_visR <- lapply(survobj_visR, "[")[Common_Nms]
+#
+#   testthat::expect_equal(list_survival, list_visR)
+# })
 
-testthat::test_that("T5.1 The function gives the same results as survival::survfit",{
-
-  ## survival package
-  survobj_survival <- survival::survfit(Surv(AVAL, 1-CNSR) ~ SEX, data = adtte)
-  survobj_survival <- survival::survfit0(survobj_survival, start.time = 0)
-
-  ## visR
-  survobj_visR <- visR::estimate_KM(data = adtte, strata = "SEX")
-
-  ## Compare common elements
-  Common_Nms <- base::intersect(names(survobj_survival), names(survobj_visR))
-
-
-  list_survival <- lapply(survobj_survival, "[")[Common_Nms]
-  list_visR <- lapply(survobj_visR, "[")[Common_Nms]
-
-  testthat::expect_equal(list_survival, list_visR)
-})
-
-testthat::test_that("T5.2 The function adds timepoint = 0",{
-
-  ## survival package
-  survobj_survival <- survival::survfit(Surv(AVAL, 1-CNSR) ~ SEX, data = adtte)
-  survobj_survival <- survival::survfit0(survobj_survival, start.time = 0)
-
-  ## visR
-  survobj_visR <- visR::estimate_KM(data = adtte, strata = "SEX")
-
-  ## Compare common elements
-  Common_Nms <- base::intersect(names(survobj_survival), names(survobj_visR))
-
-
-  list_survival <- lapply(survobj_survival, "[")[Common_Nms]
-  list_visR <- lapply(survobj_visR, "[")[Common_Nms]
-
-  testthat::expect_equal(list_survival, list_visR)
-})
-
-testthat::test_that("T5.3 The function allows additional arguments to be passed, specific for survival::survfit",{
-
-  ## survival package
-  survobj_survival <- survival::survfit(Surv(AVAL, 1-CNSR) ~ SEX, data = adtte, ctype = 2, conf.type = "plain")
-  survobj_survival <- survival::survfit0(survobj_survival, start.time = 0)
-
-  ## visR
-  survobj_visR <- visR::estimate_KM(data = adtte, strata = "SEX", ctype = 2, conf.type = "plain")
-
-  ## Compare common elements
-  Common_Nms <- base::intersect(names(survobj_survival), names(survobj_visR))
-
-
-  list_survival <- lapply(survobj_survival, "[")[Common_Nms]
-  list_visR <- lapply(survobj_visR, "[")[Common_Nms]
-
-  testthat::expect_equal(list_survival, list_visR)
-})
+# testthat::test_that("T5.2 The function adds timepoint = 0",{
+#
+#   ## survival package
+#   survobj_survival <- survival::survfit(Surv(AVAL, 1-CNSR) ~ SEX, data = adtte)
+#   survobj_survival <- survival::survfit0(survobj_survival, start.time = 0)
+#
+#   ## visR
+#   survobj_visR <- visR::estimate_KM(data = adtte, strata = "SEX")
+#
+#   ## Compare common elements
+#   Common_Nms <- base::intersect(names(survobj_survival), names(survobj_visR))
+#
+#
+#   list_survival <- lapply(survobj_survival, "[")[Common_Nms]
+#   list_visR <- lapply(survobj_visR, "[")[Common_Nms]
+#
+#   testthat::expect_equal(list_survival, list_visR)
+# })
+#
+# testthat::test_that("T5.3 The function allows additional arguments to be passed, specific for survival::survfit",{
+#
+#   ## survival package
+#   survobj_survival <- survival::survfit(Surv(AVAL, 1-CNSR) ~ SEX, data = adtte, ctype = 2, conf.type = "plain")
+#   survobj_survival <- survival::survfit0(survobj_survival, start.time = 0)
+#
+#   ## visR
+#   survobj_visR <- visR::estimate_KM(data = adtte, strata = "SEX", ctype = 2, conf.type = "plain")
+#
+#   ## Compare common elements
+#   Common_Nms <- base::intersect(names(survobj_survival), names(survobj_visR))
+#
+#
+#   list_survival <- lapply(survobj_survival, "[")[Common_Nms]
+#   list_visR <- lapply(survobj_visR, "[")[Common_Nms]
+#
+#   testthat::expect_equal(list_survival, list_visR)
+# })
 
 testthat::test_that("T5.4 The function returns an object of class `survfit`",{
 
@@ -243,27 +243,27 @@ testthat::test_that("T5.4 The function returns an object of class `survfit`",{
 
 # Requirement T6 ----------------------------------------------------------
 
-context("estimate_KM - T6. The function adds additional information to the survfit object when available")
-
-testthat::test_that("T6.1 The calculation is not affected by the addition of additional parameters",{
-
-  ## survival package
-  survobj_survival <- survival::survfit(Surv(AVAL, 1-CNSR) ~ SEX, data = adtte)
-  survobj_survival <- survival::survfit0(survobj_survival, start.time = 0)
-
-  ## visR
-  survobj_visR <- visR::estimate_KM(data = adtte, strata = "SEX")
-
-  ## Compare common elements
-  Common_Nms <- base::intersect(names(survobj_survival), names(survobj_visR))
-  Unique_Nms_visR <- base::setdiff(names(survobj_visR), names(survobj_survival))
-
-  list_survival <- lapply(survobj_survival, "[")[Common_Nms]
-  list_visR <- lapply(survobj_visR, "[")[Common_Nms]
-
-  ## calculation is not affected by addition of additional parameters. Same test as in requirement T5.
-  testthat::expect_equal(list_survival, list_visR)
-})
+# context("estimate_KM - T6. The function adds additional information to the survfit object when available")
+#
+# testthat::test_that("T6.1 The calculation is not affected by the addition of additional parameters",{
+#
+#   ## survival package
+#   survobj_survival <- survival::survfit(Surv(AVAL, 1-CNSR) ~ SEX, data = adtte)
+#   survobj_survival <- survival::survfit0(survobj_survival, start.time = 0)
+#
+#   ## visR
+#   survobj_visR <- visR::estimate_KM(data = adtte, strata = "SEX")
+#
+#   ## Compare common elements
+#   Common_Nms <- base::intersect(names(survobj_survival), names(survobj_visR))
+#   Unique_Nms_visR <- base::setdiff(names(survobj_visR), names(survobj_survival))
+#
+#   list_survival <- lapply(survobj_survival, "[")[Common_Nms]
+#   list_visR <- lapply(survobj_visR, "[")[Common_Nms]
+#
+#   ## calculation is not affected by addition of additional parameters. Same test as in requirement T5.
+#   testthat::expect_equal(list_survival, list_visR)
+# })
 
 testthat::test_that("T6.2 The function add PARAM/PARAMCD when available",{
 
@@ -286,22 +286,23 @@ testthat::test_that("T6.2 The function add PARAM/PARAMCD when available",{
 context("estimate_KM - T7. The function call supports traceability")
 
 testthat::test_that("T7.1 The function updates call$data when magrittr pipe is used",{
-  
+
   ## survival package
   survobj_survival <- adtte %>%
     survival::survfit(Surv(AVAL, 1-CNSR) ~ SEX, data = .) %>%
     survival::survfit0(start.time = 0)
   call_survival <- as.list(survobj_survival[["call"]])
-  
-    
+
+
   ## survival package
   survobj_visR <- adtte %>%
     visR::estimate_KM(data = ., strata = "SEX")
   call_visR <- as.list(survobj_visR[["call"]])
-  
-  
+
+
   testthat::expect_equal(call_visR[["data"]], as.symbol("adtte"))
 })
 
 
 # END OF CODE ----------------------------------------------------------
+

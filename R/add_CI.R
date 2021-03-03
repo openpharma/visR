@@ -52,12 +52,12 @@ add_CI.ggsurvfit <- function(gg, alpha = 0.1, style = "ribbon", linetype = 2, ..
   if (style == "ribbon"){
     warning("Argument linetype not used for style ribbon")
     gg <- gg +
-      geom_ribbon(aes(ymin = est.lower, ymax = est.upper, fill = strata), alpha = alpha, na.rm = TRUE)
+      ggplot2::geom_ribbon(ggplot2::aes(ymin = est.lower, ymax = est.upper, fill = strata), alpha = alpha, na.rm = TRUE)
   }
 
   if (style == "step"){
     gg <- gg +
-      geom_ribbon(aes(ymin = est.lower, ymax = est.upper, fill = NA, colour = strata),
+      ggplot2::geom_ribbon(ggplot2::aes(ymin = est.lower, ymax = est.upper, fill = NA, colour = strata),
                   alpha = alpha, outline.type = "both", linetype = linetype, show.legend = FALSE,
                   na.rm = TRUE)
   }
