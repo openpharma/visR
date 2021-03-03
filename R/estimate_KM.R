@@ -20,8 +20,8 @@
 #' @param data The name of the ADaM Basic Data Structure (BDS) for Time-to-Event analysis eg ADTTE. Rows in which AVAL or CNSR contain NA, are removed during analysis. 
 #' @param strata Character vector, representing the strata for Time-to-Event analysis eg TRT01P. When NULL, an overall analysis is performed.
 #'   Default is NULL.
-#' @param AVAL analysis value for Time-to-Event analysis. Ueses "AVAL" by default.
-#' @param CNSR censor for Time-to-Event analysis. Uses "CNSR" by default.
+#' @param AVAL Analysis value for Time-to-Event analysis. Ueses "AVAL" by default.
+#' @param CNSR Censor for Time-to-Event analysis. Uses "CNSR" by default.
 #' @param ... additional arguments passed on to the ellipsis of the call \code{survival::survfit.formula(data = data, formula = Surv(AVAL, 1-CNSR) ~ strata), ...)} .
 #' Use \code{?survival::survfit.formula} and \code{?survival::survfitCI} for more information.    
 #'
