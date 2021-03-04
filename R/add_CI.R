@@ -65,8 +65,9 @@ add_CI.ggsurvfit <- function(gg,
     
     if (linetype == "2a") {
       
-      # Hack to differentiate thea specified linetype = 2 from the default one
-      # so that the ribbon style doesn't automatically cause a warning.
+      # Hack to differentiate a situation in which a user specifies linetype = 2
+      # from the default usage of linetype = 2 so that the ribbon style doesn't 
+      # automatically cause a warning.
       linetype <- 2
       
     }
