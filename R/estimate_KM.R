@@ -73,8 +73,6 @@ estimate_KM <- function(
   dfExpr <- Call[["data"]]
   
  ## Validate `data` and capture data name
- 
-  reqcols <- c(strata, CNSR, AVAL)
   
   if (is.null(data)) stop(paste0("Data can't be NULL."))   
 
@@ -91,6 +89,8 @@ estimate_KM <- function(
 
 # Validate columns --------------------------------------------------------
 
+  reqcols <- c(strata, CNSR, AVAL)
+  
   if (! base::exists(df)){
     stop(paste0("Data ", df, " not found."))
   }
