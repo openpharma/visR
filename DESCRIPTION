@@ -25,6 +25,7 @@ Depends:
 Suggests:
     covr,
     testthat (>= 2.1.0),
+    vdiffr,
     knitr,
     rmarkdown,
     survminer,
