@@ -70,7 +70,7 @@ get_pvalue.survfit <- function(survfit_object,
   
   Call <- as.list(survfit_object$call)
   NewCall <-
-    append(as.list(as.symbol("survdiff")), Call[names(Call) %in% names(formals(survival::survdiff))])
+    append(as.list(parse(text = "survival::survdiff")), Call[names(Call) %in% names(formals(survival::survdiff))])
   
   if ("All" %in% ptype) {
     ptype = c("Log-Rank", "Wilcoxon", "Tarone-Ware")
@@ -80,7 +80,6 @@ get_pvalue.survfit <- function(survfit_object,
   }
   
   ## Summary list
-  
   survdifflist <- list(
     `Log-Rank`    = rlang::expr(eval(as.call(
       append(NewCall, list(rho = 0))
