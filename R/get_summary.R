@@ -86,7 +86,7 @@ get_summary.survfit <- function(survfit_object,
   
   .CIpaste <- function(df) {
     if (base::any(grepl("CI", statlist, fixed = TRUE))) {
-      paste0("(", apply(select(df, matches(CI)) , 1 , paste , collapse = ";"), ")")
+      paste0("(", apply(dplyr::select(df, matches(CI)) , 1 , paste , collapse = ";"), ")")
     } else {
       NULL
     }
