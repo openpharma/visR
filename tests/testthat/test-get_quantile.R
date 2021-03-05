@@ -18,6 +18,29 @@ library(survival)
 #' T2.  The function properly calculates the quantiles
 #' T2.1 No error when comparing output to the equivalent of the survival package
 
+reformat_survival_quantiles_to_tibble <- function(data) {
+  
+  survival_quantiles_format <- data.frame()
+  
+  for (q in names(data)) {
+    
+    tmp <- data[q][[1]]
+    tmp <- cbind(tmp, quantity = rep(q, nrow(tmp)))
+    tmp <- cbind(tmp, strata = rownames(tmp))
+    survival_quantiles_format <- rbind(survival_quantiles_format, tmp)
+    
+  }
+  survival_quantiles_format <- tibble::as_tibble(survival_quantiles_format) %>%
+    dplyr::relocate("strata", "quantity") %>%
+    dplyr::arrange(strata, quantity) %>%
+    dplyr::mutate_at(3, as.double) %>%
+    dplyr::mutate_at(4, as.double) %>%
+    dplyr::mutate_at(5, as.double)
+  
+  return(survival_quantiles_format)
+  
+}
+
 # Requirement T1 ---------------------------------------------------------------
 
 context("plot - T1. The function accepts a survival object")
@@ -72,8 +95,9 @@ context("plot - T2. The function properly calculates the quantiles")
 
 testthat::test_that("T2.1 No error when comparing output to the equivalent of the survival package",{
   
-  # Modify `lung` dataset to be ADAM compatible
-  
+  #-----------------------------------------------------------------------------
+  # Test `lung` data from survival ---------------------------------------------
+
   adam_lung <- lung %>% 
     dplyr::rename(AVAL = time, CNSR = status, SEX = sex) %>%
     dplyr::mutate(CNSR = dplyr::case_when(CNSR == 2 ~ 0,  # didn't reach end
@@ -84,31 +108,81 @@ testthat::test_that("T2.1 No error when comparing output to the equivalent of th
   visR_quantiles <- visR::get_quantile(survfit_object = visR_survfit_object)
   
   # Generate equivalent data using the survival package
-  survival_survfit_object <- survival::survfit(survival::Surv(AVAL, 1 - CNSR) ~ SEX, data=adam_lung)
+  survival_survfit_object <- survival::survfit(survival::Surv(AVAL, 1 - CNSR) ~ SEX, 
+                                               data = adam_lung)
   survival_quantiles <- quantile(survival_survfit_object)
   
   # Reformat quantile data to have the same format and sorting
-  survival_quantiles_format <- data.frame()
-  
-  for (q in names(survival_quantiles)) {
-    
-    tmp <- survival_quantiles[q][[1]]
-    tmp <- cbind(tmp, quantity = rep(q, nrow(tmp)))
-    tmp <- cbind(tmp, strata = rownames(tmp))
-    survival_quantiles_format <- rbind(survival_quantiles_format, tmp)
-    
-  }
-  survival_quantiles_format <- tibble::as.tibble(survival_quantiles_format) %>%
-    dplyr::relocate("strata", "quantity") %>%
-    dplyr::arrange(strata, quantity) %>%
-    dplyr::mutate_at(3, as.double) %>%
-    dplyr::mutate_at(4, as.double) %>%
-    dplyr::mutate_at(5, as.double)
-
+  survival_quantiles <- reformat_survival_quantiles_to_tibble(survival_quantiles)
   visR_quantiles <- visR_quantiles %>% dplyr::arrange(strata, quantity)
   
   testthat::expect_equal(visR_survfit_object$call, survival_survfit_object$call)
-  testthat::expect_equal(survival_quantiles_format, visR_quantiles)
+  testthat::expect_equal(survival_quantiles, visR_quantiles)
+  
+  #-----------------------------------------------------------------------------
+  # Test `cancer` data from survival -------------------------------------------
+  
+  adam_cancer <- cancer %>% 
+    dplyr::rename(AVAL = time, CNSR = status, SEX = sex) %>%
+    dplyr::mutate(CNSR = dplyr::case_when(CNSR == 2 ~ 0,  # didn't reach end
+                                          CNSR == 1 ~ 1))
+  
+  visR_survfit_object <- adam_cancer %>% visR::estimate_KM(strata = "SEX") 
+  
+  visR_quantiles <- visR::get_quantile(survfit_object = visR_survfit_object)
+  
+  # Generate equivalent data using the survival package
+  survival_survfit_object <- survival::survfit(survival::Surv(AVAL, 1 - CNSR) ~ SEX, 
+                                               data = adam_cancer)
+  survival_quantiles <- quantile(survival_survfit_object)
+  
+  # Reformat quantile data to have the same format and sorting
+  survival_quantiles <- reformat_survival_quantiles_to_tibble(survival_quantiles)
+  visR_quantiles <- visR_quantiles %>% dplyr::arrange(strata, quantity)
+  
+  testthat::expect_equal(visR_survfit_object$call, survival_survfit_object$call)
+  testthat::expect_equal(survival_quantiles, visR_quantiles)
+  
+  #-----------------------------------------------------------------------------
+  # Test `kidney` data from survival -------------------------------------------
+  
+  adam_kidney <- kidney %>% 
+    dplyr::rename(AVAL = time, CNSR = status, SEX = sex) 
+  
+  visR_survfit_object <- adam_kidney %>% visR::estimate_KM(strata = "SEX") 
+  
+  visR_quantiles <- visR::get_quantile(survfit_object = visR_survfit_object)
+  
+  # Generate equivalent data using the survival package
+  survival_survfit_object <- survival::survfit(survival::Surv(AVAL, 1 - CNSR) ~ SEX, 
+                                               data = adam_kidney)
+  survival_quantiles <- quantile(survival_survfit_object)
+  
+  # Reformat quantile data to have the same format and sorting
+  survival_quantiles <- reformat_survival_quantiles_to_tibble(survival_quantiles)
+  visR_quantiles <- visR_quantiles %>% dplyr::arrange(strata, quantity)
+  
+  testthat::expect_equal(visR_survfit_object$call, survival_survfit_object$call)
+  testthat::expect_equal(survival_quantiles, visR_quantiles)
+  
+  #-----------------------------------------------------------------------------
+  # Test `adtte` data from visR ------------------------------------------------
+  
+  visR_survfit_object <- adtte %>% visR::estimate_KM(strata = "SEX") 
+  
+  visR_quantiles <- visR::get_quantile(survfit_object = visR_survfit_object)
+  
+  # Generate equivalent data using the survival package
+  survival_survfit_object <- survival::survfit(survival::Surv(AVAL, 1 - CNSR) ~ SEX, 
+                                               data = adtte)
+  survival_quantiles <- quantile(survival_survfit_object)
+  
+  # Reformat quantile data to have the same format and sorting
+  survival_quantiles <- reformat_survival_quantiles_to_tibble(survival_quantiles)
+  visR_quantiles <- visR_quantiles %>% dplyr::arrange(strata, quantity)
+  
+  testthat::expect_equal(visR_survfit_object$call, survival_survfit_object$call)
+  testthat::expect_equal(survival_quantiles, visR_quantiles)
   
 })
 
