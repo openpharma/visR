@@ -18,12 +18,12 @@ library(survival)
 #' T1.5 An error when `data` is NULL
 #' T1.6 An error when `data` does not exist in the global environment
 #' T2. The function relies on the presence of two numeric variables, AVAL and CNSR, to be present in `data`
-#' T2.1 An error when colname specified as AVAL is not present in `data`
-#' T2.2 An error when colname specified as AVAL is not numeric
-#' T2.3 An error when AVAL is not called AVAL is not numeric
-#' T2.4 An error when colname specified as CNSR is not present in `data`
-#' T2.5 An error when colname specified as CNSR is not numeric
-#' T2.6 An error when CNSR is not called CNSR is not numeric
+#' T2.1 An error when colname specified as analysis value is not present in `data`
+#' T2.2 An error when colname specified as analysis value is not numeric
+#' T2.3 An error when `AVAL` is not the actual column used as analysis value and this column is not numeric
+#' T2.4 An error when colname specified as censor value is not present in `data`
+#' T2.5 An error when colname specified as censor value is not numeric
+#' T2.6 An error when `CNSR` is not the actual column used as censor value and this column is not numeric
 #' T3. The user can specify strata
 #' T3.1 An error when the columns, specifying the strata are not available in `data`
 #' T3.2 No error when strata is NULL
