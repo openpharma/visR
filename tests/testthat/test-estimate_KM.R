@@ -20,8 +20,10 @@ library(survival)
 #' T2. The function relies on the presence of two numeric variables, AVAL and CNSR, to be present in `data`
 #' T2.1 An error when colname specified as AVAL is not present in `data`
 #' T2.2 An error when colname specified as AVAL is not numeric
-#' T2.3 An error when colname specified as CNSR is not present in `data`
-#' T2.4 An error when colname specified as CNSR is not numeric
+#' T2.3 An error when AVAL is not called AVAL is not numeric
+#' T2.4 An error when colname specified as CNSR is not present in `data`
+#' T2.5 An error when colname specified as CNSR is not numeric
+#' T2.6 An error when CNSR is not called CNSR is not numeric
 #' T3. The user can specify strata
 #' T3.1 An error when the columns, specifying the strata are not available in `data`
 #' T3.2 No error when strata is NULL
@@ -109,7 +111,22 @@ testthat::test_that("T2.2 An error when AVAL is not numeric",{
 
 })
 
-testthat::test_that("T2.3 An error when `data` does not contain the variable CNSR",{
+testthat::test_that("T2.3 An error when AVAL is not called AVAL is not numeric",{
+  
+  adtte$AVAL2 <- adtte$AVAL
+  
+  AVAL <- "AVAL2"
+  
+  data <- adtte
+  data[[AVAL]] <- as.character(data[[AVAL]])
+  
+  data <- dplyr::select(data, -AVAL)
+  
+  testthat::expect_error(visR::estimate_KM(data = data), AVAL = AVAL)
+  
+})
+
+testthat::test_that("T2.4 An error when `data` does not contain the variable CNSR",{
 
   CNSR <- "CNSR"
   
@@ -119,7 +136,7 @@ testthat::test_that("T2.3 An error when `data` does not contain the variable CNS
 
 })
 
-testthat::test_that("T2.4 An error when CNSR is not numeric",{
+testthat::test_that("T2.5 An error when CNSR is not numeric",{
 
   CNSR <- "CNSR"
   
@@ -128,6 +145,21 @@ testthat::test_that("T2.4 An error when CNSR is not numeric",{
 
   testthat::expect_error(visR::estimate_KM(data = data))
 
+})
+
+testthat::test_that("T2.6 An error when CNSR is not called CNSR is not numeric",{
+  
+  adtte$CNSR2 <- adtte$CNSR
+  
+  CNSR <- "CNSR2"
+  
+  data <- adtte
+  data[[CNSR]] <- as.character(data[[CNSR]])
+  
+  data <- dplyr::select(data, -CNSR)
+  
+  testthat::expect_error(visR::estimate_KM(data = data), CNSR = CNSR)
+  
 })
 
 # Requirement T3 ----------------------------------------------------------
