@@ -4,7 +4,7 @@
 #' @section Last update date:
 #' 04-MAR-2021
 
-# Specifications ----------------------------------------------------------
+# Specifications ---------------------------------------------------------------
 
 library(testthat)
 library(visR)
@@ -27,8 +27,6 @@ map_numbers_to_new_range <- function(numbers, lower, upper) {
   
 }
 
-source("/shared_data/google-drive/Projekte/visR_bugfix_add_CI/R/add_CI.R")
-
 #' T1.  The output plots after adding confidence intervals don't differ from the reviewed plots 
 #' T1.1 No error when the default parameters are used
 #' T1.2 No error when `alpha` is specified
@@ -36,7 +34,7 @@ source("/shared_data/google-drive/Projekte/visR_bugfix_add_CI/R/add_CI.R")
 #' T1.4 No error when `linetype` is specified
 #' T2.  The output plots with different amount of strata don't differ from the reviewed plots 
 #' T2.1 No error when only 1 strata is present
-#' T2.2 No error when 2-8 strata are present
+#' T2.2 No error when 2 or more strata are present
 
 
 # Requirement T1 ---------------------------------------------------------------
@@ -125,11 +123,13 @@ testthat::test_that("T2.1 No error when only 1 strata is present",{
 
 testthat::test_that("T2.2 No error when 2 or more strata are present",{
   
-  # The used color palette is NEJM from ggsci which only supplies 8 colours
+  # The used color palette is NEJM from ggsci. While its generator has a the
+  # option to supply parameters, there are only 8 colours (2021-03-04)
   # https://nanx.me/ggsci/reference/pal_nejm.html
   # https://github.com/openpharma/visR/blob/2087cafbd355382402f1ce28977bfaf1e1c4e254/R/plot.R#L187
   distinct_colors_in_palette <- length(ggsci::pal_nejm()(8))
   
+  # Dynamically test all n_strata our color palette allows
   for (n_strata in 2:distinct_colors_in_palette) {
     
     adtte %>% 
@@ -142,4 +142,5 @@ testthat::test_that("T2.2 No error when 2 or more strata are present",{
   }
   
 })
-# END OF CODE ----------------------------------------------------------
+
+# END OF CODE ------------------------------------------------------------------
