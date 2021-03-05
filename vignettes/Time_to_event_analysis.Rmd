@@ -1,0 +1,156 @@
+---
+title: "Survival Analysis with visR"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Survival Analysis with visR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Introduction
+
+This short tutorial illustrates a typical use case in clinical development - the analysis of time to a certain event (e.g., death) in different populations. Typically, data obtained in randomized clinical trials (RCT) can be used to estimate the overall survival of patients in one group (e.g., treated with drug X) vs another group (e.g., treated with drug Y) and thus determine if there is a difference between these treatments.
+
+For a more thorough introduction to Survival Analysis, we recommend the following tutorial: https://bioconnector.github.io/workshops/r-survival.html
+
+In this example, we will work with patient data from NCCTG Lung Cancer dataset that is part of the `survival` package. Another vignette presents an example using a data set following the CDISC ADaM standard. 
+
+```{r imports, echo=FALSE, warning=FALSE, message=FALSE}
+#library(dplyr)
+#library(ggplot2)
+#library(survival)
+library(visR)
+```
+
+## Global Document Setup
+```{r globalSetup}
+# Constants
+DATASET <- paste0("NCCTG Lung Cancer Dataset (from survival package ", 
+                  packageVersion("survival"), ")")
+
+# Globql formatting options
+options(digits = 3)
+
+# Global ggplot settings
+# theme_set(theme_classic())
+
+# Global table settings 
+options(DT.options = list(pageLength = 10, 
+                          language = list(search = 'Filter:'), 
+                          scrollX = TRUE))
+
+lung_cohort <- survival::lung
+#data(lung_cohort)
+
+
+```
+
+
+## Attrition Table
+Here we will only include patients with (1) ECOG available (2) non-missing weight-loss data (3) non missing censoring information and (4) positive follow-up time in our analysis. 
+
+#### Creating and rendering tables
+
+Visualizing tables, like the tableone or risktables, in visR is a two-step process. First, a data.frame (mostly a tibble) is created by a `get_XXX()` function (e.g. `get_tableone()`) and the resulting data.frame can still be adjusted. Secondly, the created table can be displayed calling by calling the function `render()`.
+
+are first created and then rendered to be displayed. The 
+
+## Cohort Overview (Tableone)
+Populations are usually displayed as a so-called tableone. Function `get_tableone` creates a tibble that includes populations summaries. 
+
+```{r table1_get_default}
+tab1 <- get_tableone(lung_cohort)
+
+tab1
+```
+
+Function `render` nicely displays the tableone.
+
+```{r table1_render_default}
+
+render(tab1, title = "Overview over Lung Cancer patients",
+             datasource = DATASET)
+```
+
+visR includes a wrapper function to create and display a `tableone`
+
+```{r table1_wrapper_default}
+
+tableone(lung_cohort, title = "Overview over Lung Cancer patients", datasource = DATASET)
+```
+
+Creating and visualizing a tableone with default settings is very simple and can be done with one line of code. However, there are ways to change the creation of the tableone as well as how it is displayed. 
+
+# In both the getter and the wrapper functions, a stratifier can be defined and the column displaying total infomation can be removed.
+
+```{r table1_get_options}
+
+tab1 <- get_tableone(lung_cohort, strata = "sex", overall = F)
+
+# Doesn't work because not all changes merged I think
+#tableone(lung_cohort, title = "Overview over Lung Cancer patients", datasource = DATASET, strata = "sex", overall = F)
+
+```
+
+# visR's `render` supports three different rendering engines to be as flexible as possible. By default, `render` uses `gt`. Additional egines are `datatable` (`dt`) to include easy downloading options...
+
+```{r table1_render_options_dt}
+
+tableone(lung_cohort, strata = "sex", 
+         title = "Overview over Lung Cancer patients", datasource = DATASET, 
+         engine = "datatable")
+
+```
+
+...and `kable` for flexible displaying in various formats (`html` by default, `latex` supported). Output formats themseves can also be defined. 
+ 
+```{r table1_render_options_kable}
+
+tableone(lung_cohort, strata = "sex", 
+         title = "Overview over Lung Cancer patients", datasource = DATASET, 
+         engine = "kable", output_format="html")
+
+```
+
+### Survival estimation
+visR provides a wrapper function to estimate a Kaplan-Meier curve and several functions to visualize the results. This wrapper function is compatible with `%>%` and purrr::map functions without losing traceability of the dataset name.
+
+```{r km_est}
+# For the survival estimate, the censor must be 0 or 1
+lung_cohort$status <- lung_cohort$status - 1
+
+lung_suvival_object <- lung_cohort %>% estimate_KM(strata = "sex", CNSR = "status", AVAL = "time")
+```
+
+### Survival visualization
+There are two frequently used ways to estimate time-to-event data: As a risk table and as a Kaplan-Meier curve. In principle, visR allows to either visualize a risk table and a Kaplan-Meier curve separately, or both together in one plot.
+
+Creating and visualizing a risk table separately works in the exact same way as for the table one (above): First, `get_risktable()` creates a tibble with risk information that can still be adapated. Secondly, the risk table can be `rendered` to be displayed.
+
+```{r km_tab}
+rt <- get_risktable(lung_suvival_object)
+render(rt, title = "Overview over survival rates of Lung Cancer patients", datasource = DATASET)
+```
+
+Alternatively, the survival data can be plotted as a Kaplan-Meier curve. In visR, a plot is in most cases a ggplot object and adapting the plot follows the general principle of defining a base plot and then adding visual contents step-by-step.
+
+```{r km_plot}
+gg <- plot(lung_suvival_object)
+gg <- gg %>% add_CI()
+gg
+```
+
+The risk table can also be calculated directly from the Kaplan-Meier plot and is then added to it.
+
+```{r km_add}
+gg %>% add_risktable()
+```
+
+
