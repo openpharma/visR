@@ -6,21 +6,8 @@
 #' @seealso \code{\link[cowplot]{plot_grid}}
 #'
 #' @param gg visR plot of class `ggsurvfit`
-#' @param min_at_risk \code{numeric} The cutoff for number of subjects to display. Default is 0.
-#' @param breaks Single numeric or numeric vector indicating breaks. If a vector, breaks are used as specified. If a numeric, it is interpreted as the number of breaks. If added to a ggplot object this argument will override default breaks taken from the plot.
-#' @param statlist Character vector indicating which summary data to present. Current choices are "n.risk" "n.event" "n.censor".
-#' @param label Character vector with labels for the statlist. Default matches "n.risk" with "At risk", "n.event" with "Events" and "n.censor"
-#'   with "Censored".
-#' @param group String indicating the grouping variable for the risk tables. Current options are:
-#'   \itemize{
-#'     \item{"strata": groups the risk tables per stratum. The `label` specifies the lables used within each risk table. This is the default}
-#'      \item{"statlist": groups the risk tables per statlist. The `label` specifies the title for each risk tabel. The strata levels
-#'        are used for labeling within each risk table.}
-#'   } "strata" to group the risk tables
-#'   per strata, and "statlist" to group the risk tables 
-#' @param collapse Boolean, indicates whether to present the data overall, rather than per strata.
-#'   Default is FALSE.
-#'
+#' @inheritParams get_risktable
+#' 
 #' @examples
 #' \donttest{
 #' library(survival)
@@ -33,7 +20,7 @@
 #' ## Display 2 risk tables, 1 per statlist
 #' adtte %>%
 #'   estimate_KM(strata = "TRTP") %>%
-#'   vr_plot() %>%
+#'   visR::plot() %>%
 #'   add_risktable( min_at_risk = 3
 #'                 ,label = c("Subjects at Risk", "Censored")
 #'                 ,statlist = c("n.risk", "n.censor")
@@ -43,7 +30,7 @@
 #' ## Display 2 risk tables, 1 per stratum
 #' adtte %>%
 #'   estimate_KM(strata = "TRTP") %>%
-#'   vr_plot() %>%
+#'   visR::plot() %>%
 #'   add_risktable( min_at_risk = 3
 #'                 ,label = c("Subjects at Risk", "Censored")
 #'                 ,statlist = c("n.risk", "n.censor")
@@ -53,7 +40,7 @@
 #' ## Display overall risk table
 #' adtte %>%
 #'   estimate_KM(strata = "TRTP") %>%
-#'   vr_plot() %>%
+#'   visR::plot() %>%
 #'   add_risktable( min_at_risk = 3
 #'                 ,label = c("Subjects at Risk", "Censored")
 #'                 ,statlist = c("n.risk", "n.censor")
@@ -68,7 +55,7 @@
 #'
 #' @export
 
-add_risktable <- function(gg
+add_risktable <- function( gg
                           ,min_at_risk = 0
                           ,breaks = NULL
                           ,statlist = c("n.risk")
@@ -83,7 +70,7 @@ add_risktable <- function(gg
 #' @export
 
 add_risktable.ggsurvfit <- function(
-   gg
+    gg
    ,min_at_risk = 0
    ,breaks = NULL
    ,statlist = c("n.risk")
@@ -93,21 +80,39 @@ add_risktable.ggsurvfit <- function(
 ){
 
 
-  final <- get_risktable(gg
-                         ,min_at_risk
-                         ,breaks
-                         ,statlist
-                         ,label
-                         ,group
-                         ,collapse)
+# Obtain the relevant table -----------------------------------------------
   
-  time_ticks <- attributes(final)$time_ticks
+  tidy_object <- gg$data
+  
+  call <- as.character(gg$data$call[[1]])
+  
+  survfit_object <- eval(gg$data$call[[1]])
+  
+#text <- eval(expr=paste0("survival::", call[1], "(formula = ", call[2], ", data = ", call[3], ")"))
+#survfit_object <- eval(parse(text=text))
+  
+  ggbld <- ggplot2::ggplot_build(gg)
+  
+  if (is.null(breaks)) breaks <- as.numeric(ggbld$layout$panel_params[[1]]$x$get_labels())
+
+  final <- get_risktable( 
+              survfit_object
+             ,min_at_risk
+             ,breaks
+             ,statlist
+             ,label
+             ,group
+             ,collapse)
+  
+
+  #time_ticks <- attributes(final)$time_ticks
   times <- as.numeric(unique(final$time))
   statlist <- attributes(final)$statlist
   title <- attributes(final)$title
   
-  
-  #### Plot all requested tables below => use list approach with map function ####
+
+# Plot requested tables below using list approach with map function -------
+
 
   tbls <-  base::Map(function(statlist, title = NA) {
     ggrisk <- ggplot2::ggplot(final, ggplot2::aes(x = time,
@@ -147,17 +152,23 @@ add_risktable.ggsurvfit <- function(
     title = as.list(title)
   )
 
-  #### Make plots same width ####
+
+# Align plot and table by adjusting width ---------------------------------
+
   ggA <- list(gg) %>%
     append(tbls) %>%
     AlignPlots()
 
-  #### cowplot allows to align according to an axis (+left) and change the heigth ####
+# Create plot and add class -----------------------------------------------
+
+  ## cowplot allows to align according to an axis (+left) and change the heigth
   ggB <- cowplot::plot_grid(plotlist = ggA,
                            align = "none",
                            nrow = length(ggA),
                            rel_heights = c(1-(8/50 * (length(ggA)-1)), rep(8/50, length(ggA)-1))
                           )
+  
   class(ggB) <- c(class(ggB), "ggsurvfit")
+  
   return(ggB)
 }

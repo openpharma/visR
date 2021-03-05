@@ -1,8 +1,8 @@
-#' Create Risk Table
+#' @title Obtain risk tables for tables and plots
 #' 
-#' @description Create a risktable from a survival object. 
+#' @description Create a risktable from a survival object to display in tables or plots
 #' 
-#' @param survfit_object a survival object
+#' @param survfit_object an object of class `survfit`
 #' @param min_at_risk \code{numeric} The cutoff for number of subjects to display. Default is 0.
 #' @param breaks Single numeric or numeric vector indicating breaks.
 #' @param statlist Character vector indicating which summary data to present. Current choices are "n.risk" "n.event" "n.censor".
@@ -17,65 +17,41 @@
 #'   per strata, and "statlist" to group the risk tables 
 #' @param collapse Boolean, indicates whether to present the data overall, rather than per strata.
 #'   Default is FALSE.
+#'   
 #' @rdname get_risktable
 #' 
 #' @export
-get_risktable <- function(survfit_object
-                          ,min_at_risk = 0
-                          ,breaks = NULL
-                          ,statlist = c("n.risk")
-                          ,label = "At risk"
-                          ,group = "strata"
-                          ,collapse = FALSE){
+
+get_risktable <- function(
+    survfit_object
+   ,min_at_risk = 0
+   ,breaks = NULL
+   ,statlist = c("n.risk")
+   ,label = "At risk"
+   ,group = "strata"
+   ,collapse = FALSE
+){
   UseMethod("get_risktable")
 }
 
-#' @rdname get_risktable
-#' @method get_risktable ggsurvfit
-#' @export
-get_risktable.ggsurvfit <- function(gg
-                                    ,min_at_risk = 0
-                                    ,breaks = NULL
-                                    ,statlist = c("n.risk")
-                                    ,label = NULL
-                                    ,group = "strata"
-                                    ,collapse = FALSE){
-  #if (inherits(gg, "ggsurvfit")){
-    tidy_object <- gg$data
-    call = as.character(gg$data$call[[1]])
-    text=eval(expr=paste0("survival::", call[1], "(formula = ", call[2], ", data = ", call[3], ")"))
-    #print(eval(parse(text=text)))
-    survfit_object <- eval(parse(text=text))
-    ggbld <- ggplot2::ggplot_build(gg)
-    if (is.null(breaks)) breaks <- as.numeric(ggbld$layout$panel_params[[1]]$x$get_labels())
-  #} else {
-  #  stop("Error in add_risktable: gg is not of class `ggsurvfit`.")
-  #}
-  get_risktable(survfit_object
-                ,min_at_risk
-                ,breaks
-                ,statlist
-                ,label
-                ,group
-                ,collapse)
-  
-  
-  
-}
 
 #' @rdname get_risktable
 #' @method get_risktable survfit
 #' @export
-get_risktable.survfit <- function(survfit_object
-                                ,min_at_risk = 0
-                                ,breaks = NULL
-                                ,statlist = c("n.risk")
-                                ,label = NULL
-                                ,group = "strata"
-                                ,collapse = FALSE){
-  
-  #### User input validation ####
-  
+
+get_risktable.survfit <- function(
+    survfit_object
+   ,min_at_risk = 0
+   ,breaks = NULL
+   ,statlist = c("n.risk")
+   ,label = NULL
+   ,group = "strata"
+   ,collapse = FALSE
+){
+
+
+# User input validation ---------------------------------------------------
+
   if (!base::any(statlist %in% c("n.risk", "n.censor", "n.event")))
     stop("Error in get_risktable: statlist argument not valid.")
   if (!base::is.logical(collapse))
@@ -86,16 +62,14 @@ get_risktable.survfit <- function(survfit_object
   
   if (length(label) < length(statlist)) {
     vlookup <- data.frame( statlist = c("n.risk", "n.censor", "n.event")
-                           ,label = c("At risk", "Censored", "Events")
-                           ,check.names = FALSE
-                           ,stringsAsFactors = FALSE
-    )
+                          ,label = c("At risk", "Censored", "Events")
+                          ,check.names = FALSE
+                          ,stringsAsFactors = FALSE)
     
     label <- c(label, rep(NA, length(statlist)-length(label)))
     have <- data.frame( cbind(label, statlist)
-                        ,check.names = FALSE
-                        ,stringsAsFactors = FALSE
-    )               
+                       ,check.names = FALSE
+                       ,stringsAsFactors = FALSE)               
     
     label <- vlookup %>%
       dplyr::arrange(statlist) %>%
@@ -115,7 +89,31 @@ get_risktable.survfit <- function(survfit_object
   
   tidy_object <- tidyme(survfit_object)
   
-  times <- get_breaks(tidy_object, breaks, min_at_risk)
+  #times <- get_breaks(tidy_object, breaks, min_at_risk)
+  
+    #### Pull out max time to consider ####
+
+  max_time <-
+    tidy_object %>%
+    dplyr::filter(n.risk >= min_at_risk) %>%
+    dplyr::group_by(strata) %>%
+    dplyr::summarize(max_time = max(time)) %>%
+    dplyr::ungroup() %>%
+    dplyr::summarize(min_time = min(max_time)) %>%
+    dplyr::pull(min_time)
+
+
+  #### Time_ticks ####
+
+  times <- breaks[breaks <= max_time]
+  
+  #### Summary ####
+  
+  survfit_summary <- summary(survfit_object, times = times, extend = TRUE)
+  
+  
+  
+  
   
   survfit_summary <- summary(survfit_object, times = times, extend = TRUE)
   
