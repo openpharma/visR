@@ -89,9 +89,8 @@ get_risktable.survfit <- function(
   
   tidy_object <- tidyme(survfit_object)
   
-  #times <- get_breaks(tidy_object, breaks, min_at_risk)
-  
-    #### Pull out max time to consider ####
+
+# Pull out the max time to consider ---------------------------------------
 
   max_time <-
     tidy_object %>%
@@ -101,23 +100,30 @@ get_risktable.survfit <- function(
     dplyr::ungroup() %>%
     dplyr::summarize(min_time = min(max_time)) %>%
     dplyr::pull(min_time)
-
-
-  #### Time_ticks ####
-
-  times <- breaks[breaks <= max_time]
   
-  #### Summary ####
+# Generate time ticks ----------------------------------------------------
   
+  if (is.null(breaks)) {
+     times <- pretty(survfit_object$time, 10)
+   
+  #   times <- seq(from = 0, to = max_time+1, by=round(max_time/10))
+  #   warning("No break points defined. Default to 10 breaks. Use argument breaks to define custom break points")
+  # } else if (length(breaks) == 1) {
+  #   times <- seq(from = 0, to = max_time+1, by=breaks)
+  # } else {
+  #   times = breaks
+  }
+  
+  times <- times[times <= max_time]
+
+
+# Summary -----------------------------------------------------------------
+
   survfit_summary <- summary(survfit_object, times = times, extend = TRUE)
-  
-  
-  
-  
-  
-  survfit_summary <- summary(survfit_object, times = times, extend = TRUE)
-  
-  #### Risk table per statlist: labels of risk table are strata, titles are specifified through `label` ####
+
+# Risk table per statlist -------------------------------------------------
+
+  ## labels of risk table are strata, titles are specifified through `label
   
   per_statlist <- data.frame(
     time = survfit_summary$time,
@@ -135,14 +141,15 @@ get_risktable.survfit <- function(
     dplyr::arrange(strata, time)%>%
     dplyr::rename(y_values = strata)
   
-  final <- per_statlist
-  final <-  final %>% dplyr::select(time, y_values, statlist)
-  attr(final, 'time_ticks') <- breaks
+  final <-  per_statlist %>%
+    dplyr::select(time, y_values, statlist)
+  
+  attr(final, 'time_ticks') <- times
   attr(final, "title") <- label
   attr(final, "statlist") <- statlist
-  
-  #### Organize the risk tables per strata => reorganize the data ####
-  
+
+# Organize the risk tables per strata => reorganize the data --------------
+
   if (group == "strata" & collapse == FALSE){
     per_strata <- per_statlist %>%
       dplyr::arrange(time) %>%
@@ -155,14 +162,15 @@ get_risktable.survfit <- function(
     
     per_strata[["y_values"]] <- factor(per_strata[["y_values"]], levels = statlist, labels = label) 
     title <- unique(per_statlist[["y_values"]]) #Was: levels(per_statlist[["y_values"]]) but did not work
+    
     final <- per_strata
-    attr(final, 'time_ticks') <- breaks
+    attr(final, 'time_ticks') <- times
     attr(final, "title") <- title
     attr(final, "statlist") <- title
   }
-  
-  #### Collapse: start from the group == "statlist" logic ####
-  
+
+# Collapse: start from the group == "statlist" logic ------------------------
+
   if (collapse == TRUE) {
     collapsed <- per_statlist %>%
       dplyr::arrange(time) %>%
@@ -185,35 +193,12 @@ get_risktable.survfit <- function(
       dplyr::arrange(y_values, time)
      
     final <- collapsed
-    attr(final, 'time_ticks') <- breaks
+    
+    attr(final, 'time_ticks') <- times
     attr(final, 'title') <- "Overall"
     attr(final, 'statlist') <- "Overall"
   }
+  
   return(final)
 }
 
-get_breaks <- function(tidy_object, breaks = NULL, min_at_risk){
-  #### Pull out max time to consider ####
-  max_time <-
-    tidy_object %>%
-    dplyr::filter(n.risk >= min_at_risk) %>%
-    dplyr::group_by(strata) %>%
-    dplyr::summarize(max_time = max(time)) %>%
-    dplyr::ungroup() %>%
-    dplyr::summarize(min_time = min(max_time)) %>%
-    dplyr::pull(min_time)
-  
-  #### Time_ticks ####
-  if (is.null(breaks)) {
-    times <- seq(from = 0, to = max_time+1, by=round(max_time/10))
-    warning("No break points defined. Default to 10 breaks. Use argument breaks to define custom break points")
-  } else if (length(breaks) == 1) {
-    times <- seq(from = 0, to = max_time+1, by=breaks)
-  } else {
-    times = breaks
-  }
-  
-  #### Time_ticks ####
-  times <- times[times <= max_time]
-  return(times)
-}

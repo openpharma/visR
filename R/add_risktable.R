@@ -105,7 +105,7 @@ add_risktable.ggsurvfit <- function(
              ,collapse)
   
 
-  #time_ticks <- attributes(final)$time_ticks
+  time_ticks <- attributes(final)$time_ticks
   times <- as.numeric(unique(final$time))
   statlist <- attributes(final)$statlist
   title <- attributes(final)$title
