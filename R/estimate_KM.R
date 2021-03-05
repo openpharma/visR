@@ -99,7 +99,7 @@ estimate_KM <- function(
     stop(paste0("Following columns are missing from `data`: ", paste(setdiff(reqcols, colnames(data)), collapse = " "), "."))
   }
   
-  if (! is.numeric(data[["AVAL"]])){
+  if (! is.numeric(data[[AVAL]])){
     stop("Analysis variable (AVAL) is not numeric.")
   }
   
