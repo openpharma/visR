@@ -124,10 +124,8 @@ testthat::test_that("T2.4 An error when the colname specified through `CNSR` is 
 
 testthat::test_that("T2.5 An error when the colname specified through `CNSR` is not numeric",{
 
-  CNSR <- "CNSR"
-  
   data <- adtte
-  data[[CNSR]] <- as.character(data[[CNSR]])
+  data[["CNSR"]] <- as.character(data[["CNSR"]])
 
   testthat::expect_error(visR::estimate_KM(data = data))
 
