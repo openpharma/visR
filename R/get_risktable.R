@@ -49,7 +49,6 @@ get_risktable.survfit <- function(
    ,collapse = FALSE
 ){
 
-
 # User input validation ---------------------------------------------------
 
   if (!base::any(statlist %in% c("n.risk", "n.censor", "n.event")))
@@ -78,7 +77,6 @@ get_risktable.survfit <- function(
       dplyr::select(-label.x, -label.y) %>%
       dplyr::pull(label)
   
-    statlist <- statlist[order(statlist)]  
   }
   
   
@@ -105,13 +103,8 @@ get_risktable.survfit <- function(
   
   if (is.null(breaks)) {
      times <- pretty(survfit_object$time, 10)
-   
-  #   times <- seq(from = 0, to = max_time+1, by=round(max_time/10))
-  #   warning("No break points defined. Default to 10 breaks. Use argument breaks to define custom break points")
-  # } else if (length(breaks) == 1) {
-  #   times <- seq(from = 0, to = max_time+1, by=breaks)
-  # } else {
-  #   times = breaks
+  } else {
+    times <- breaks
   }
   
   times <- times[times <= max_time]
@@ -141,9 +134,8 @@ get_risktable.survfit <- function(
     dplyr::arrange(strata, time)%>%
     dplyr::rename(y_values = strata)
   
-  final <-  per_statlist %>%
-    dplyr::select(time, y_values, statlist)
-  
+  final <-  per_statlist 
+
   attr(final, 'time_ticks') <- times
   attr(final, "title") <- label
   attr(final, "statlist") <- statlist
@@ -161,7 +153,7 @@ get_risktable.survfit <- function(
       dplyr::filter(y_values %in% statlist)
     
     per_strata[["y_values"]] <- factor(per_strata[["y_values"]], levels = statlist, labels = label) 
-    title <- unique(per_statlist[["y_values"]]) #Was: levels(per_statlist[["y_values"]]) but did not work
+    title <- levels(per_statlist[["y_values"]]) 
     
     final <- per_strata
     attr(final, 'time_ticks') <- times

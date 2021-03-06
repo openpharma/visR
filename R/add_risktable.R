@@ -16,6 +16,7 @@
 #' library(ggplot2)
 #' library(cowplot)
 #' library(gtable)
+#' library(visR)
 #'
 #' ## Display 2 risk tables, 1 per statlist
 #' adtte %>%
@@ -79,7 +80,6 @@ add_risktable.ggsurvfit <- function(
    ,collapse = FALSE
 ){
 
-
 # Obtain the relevant table -----------------------------------------------
   
   tidy_object <- gg$data
@@ -103,13 +103,15 @@ add_risktable.ggsurvfit <- function(
              ,label
              ,group
              ,collapse)
-  
 
   time_ticks <- attributes(final)$time_ticks
   times <- as.numeric(unique(final$time))
   statlist <- attributes(final)$statlist
   title <- attributes(final)$title
   
+  attr(final, "time_ticks") <- NULL
+  attr(final, "statlist") <- NULL
+  attr(final, "title") <- NULL
 
 # Plot requested tables below using list approach with map function -------
 
@@ -152,20 +154,19 @@ add_risktable.ggsurvfit <- function(
     title = as.list(title)
   )
 
-
 # Align plot and table by adjusting width ---------------------------------
 
   ggA <- list(gg) %>%
-    append(tbls) %>%
+    base::append(tbls) %>%
     AlignPlots()
 
 # Create plot and add class -----------------------------------------------
 
   ## cowplot allows to align according to an axis (+left) and change the heigth
   ggB <- cowplot::plot_grid(plotlist = ggA,
-                           align = "none",
-                           nrow = length(ggA),
-                           rel_heights = c(1-(8/50 * (length(ggA)-1)), rep(8/50, length(ggA)-1))
+                            align = "none",
+                            nrow = length(ggA),
+                            rel_heights = c(1-(8/50 * (length(ggA)-1)), rep(8/50, length(ggA)-1))
                           )
   
   class(ggB) <- c(class(ggB), "ggsurvfit")
