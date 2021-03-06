@@ -2,22 +2,11 @@
 % Please edit documentation in R/get_risktable.R
 \name{get_risktable}
 \alias{get_risktable}
-\alias{get_risktable.ggsurvfit}
 \alias{get_risktable.survfit}
-\title{Create Risk Table}
+\title{Obtain risk tables for tables and plots}
 \usage{
 get_risktable(
   survfit_object,
-  min_at_risk = 0,
-  breaks = NULL,
-  statlist = c("n.risk"),
-  label = "At risk",
-  group = "strata",
-  collapse = FALSE
-)
-
-\method{get_risktable}{ggsurvfit}(
-  gg,
   min_at_risk = 0,
   breaks = NULL,
   statlist = c("n.risk"),
@@ -31,13 +20,13 @@ get_risktable(
   min_at_risk = 0,
   breaks = NULL,
   statlist = c("n.risk"),
-  label = "At risk",
+  label = NULL,
   group = "strata",
   collapse = FALSE
 )
 }
 \arguments{
-\item{survfit_object}{a survival object}
+\item{survfit_object}{an object of class \code{survfit}}
 
 \item{min_at_risk}{\code{numeric} The cutoff for number of subjects to display. Default is 0.}
 
@@ -60,5 +49,5 @@ per strata, and "statlist" to group the risk tables}
 Default is FALSE.}
 }
 \description{
-Create a risktable from a survival object.
+Create a risktable from a survival object to display in tables or plots
 }
