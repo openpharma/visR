@@ -183,8 +183,8 @@ plot.survfit <- function(
   
   gg <- ggplot2::ggplot(tidy_object, ggplot2::aes(x = time, group = strata)) +
     ggplot2::geom_step(ggplot2::aes(y = est, col = strata)) + 
-    ggsci::scale_color_nejm() + 
-    ggsci::scale_fill_nejm() + 
+    # ggsci::scale_color_nejm() + 
+    # ggsci::scale_fill_nejm() + 
     ggplot2::scale_x_continuous(name = paste0("\n", x_label),
                                 breaks = x_ticks,
                                 limits = c(min(x_ticks), max(x_ticks))) +
@@ -192,7 +192,7 @@ plot.survfit <- function(
                                 breaks = y_ticks,
                                 labels = yscaleFUN,
                                 limits = c(min(y_ticks), max(y_ticks))) +
-    ggplot2::theme_bw() +
+    # ggplot2::theme_bw() +
     ggplot2::theme(legend.position = legend_position) +
     ggplot2::guides(color=ggplot2::guide_legend(override.aes=list(fill=NA))) +
     NULL
