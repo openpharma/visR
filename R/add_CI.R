@@ -40,7 +40,7 @@ add_CI <- function(gg, ...){
 add_CI.ggsurvfit <- function(gg, 
                              alpha = 0.1, 
                              style = "ribbon", 
-                             linetype = "2a", ...){
+                             linetype, ...){
   
   if (! base::all(c("est.lower", "est.upper") %in% colnames(gg$data))) {
     warning("Confidence limits were not part of original estimation.")
@@ -63,11 +63,9 @@ add_CI.ggsurvfit <- function(gg,
   
   if (style == "step"){
     
-    if (linetype == "2a") {
+    if (missing(linetype)) {
       
-      # Hack to differentiate a situation in which a user specifies linetype = 2
-      # from the default usage of linetype = 2 so that the ribbon style doesn't 
-      # automatically cause a warning.
+      # Set a default linetype of solid (2) if the user didn't specify any
       linetype <- 2
       
     }
