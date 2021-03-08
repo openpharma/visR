@@ -53,6 +53,13 @@ add_CI.ggsurvfit <- function(gg,
   }
   
   if (style == "ribbon"){
+    
+    if (!missing(linetype)) {
+      
+      warning("Argument linetype not used for style ribbon")
+      
+    }
+    
     gg <- gg +
       ggplot2::geom_ribbon(ggplot2::aes(ymin = est.lower, 
                                         ymax = est.upper, 
