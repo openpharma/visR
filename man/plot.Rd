@@ -31,7 +31,7 @@ plot(x, ...)
 \item{y_label}{\code{character} Label for the y-axis. When not specified, the default will do a proposal, depending on the \code{fun} argument.}
 
 \item{x_label}{\code{character} Label for the x-asis. When not specified, the algorithm will look for "PARAM" information inside the list structure of the \code{survfit} object.
-Note that this information is automatically added when using visR::vr_KM_est and when the input data has the variable "PARAM". If no "PARAM" information is available
+Note that this information is automatically added when using visR::estimate_KM and when the input data has the variable "PARAM". If no "PARAM" information is available
 "time" is used as label.}
 
 \item{x_units}{Unit to be added to the x_label (x_label (x_unit)). Default is NULL.}

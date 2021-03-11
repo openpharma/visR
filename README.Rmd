@@ -68,20 +68,18 @@ library(dplyr)
 library(tidyr) 
 library(ggplot2)
 
-# Need to add working example!
-
-# adtte %>%
-#   vr_KM_est(strata = "TRTP", conf.int = 0.90) %>%
-#   vr_plot(legend_position = "right", x_unit = "Days") %>%
-#   add_CI(style = "ribbon",
-#          linetype = 3) %>%
-#   add_CNSR(shape = 3, size = 1) %>%
-#   add_risktable(
-#     min_at_risk = 3,
-#     statlist = c("n.risk", "n.event", "n.censor"),
-#     label = c("At risk", "Event", "Censor"),
-#     collapse = F
-#   )
+adtte %>%
+  estimate_KM(strata = "TRTP", conf.int = 0.90) %>%
+  vr_plot(legend_position = "right", x_unit = "Days") %>%
+  add_CI(style = "ribbon",
+         linetype = 3) %>%
+  add_CNSR(shape = 3, size = 1) %>%
+  add_risktable(
+    min_at_risk = 3,
+    statlist = c("n.risk", "n.event", "n.censor"),
+    label = c("At risk", "Event", "Censor"),
+    collapse = F
+  )
 ```
 
 

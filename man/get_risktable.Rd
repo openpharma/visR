@@ -21,7 +21,7 @@ get_risktable(
   min_at_risk = 0,
   breaks = NULL,
   statlist = c("n.risk"),
-  label = "At risk",
+  label = NULL,
   group = "strata",
   collapse = FALSE
 )
@@ -31,7 +31,7 @@ get_risktable(
   min_at_risk = 0,
   breaks = NULL,
   statlist = c("n.risk"),
-  label = "At risk",
+  label = NULL,
   group = "strata",
   collapse = FALSE
 )

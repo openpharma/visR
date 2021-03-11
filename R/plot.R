@@ -27,7 +27,7 @@ plot.default <- function(x, ...){
 #' @param survfit_object Object of class `survfit`
 #' @param y_label \code{character} Label for the y-axis. When not specified, the default will do a proposal, depending on the `fun` argument.
 #' @param x_label \code{character} Label for the x-asis. When not specified, the algorithm will look for "PARAM" information inside the list structure of the `survfit` object.
-#'   Note that this information is automatically added when using visR::vr_KM_est and when the input data has the variable "PARAM". If no "PARAM" information is available
+#'   Note that this information is automatically added when using visR::estimate_KM and when the input data has the variable "PARAM". If no "PARAM" information is available
 #'   "time" is used as label.
 #' @param x_units Unit to be added to the x_label (x_label (x_unit)). Default is NULL.
 #' @param x_ticks Ticks for the x-axis. When not specified, the default will do a proposal. 
@@ -42,7 +42,7 @@ plot.default <- function(x, ...){
 #' library(tidyr)
 #' library(ggplot2)
 #' 
-#' survfit_object <- KM_est(data = adtte, strata = "TRTP")
+#' survfit_object <- estimate_KM(data = adtte, strata = "TRTP")
 #'
 #' ## Plot survival probability
 #' plot(survfit_object = survfit_object, fun = "surv")
@@ -68,17 +68,18 @@ plot.survfit <- function(
  ,legend_position = "right"
  ){
   
-  #### Input validation ####
-  
+
+# Minimal input validation  ----------------------------------------------------
+
   if (!inherits(survfit_object, "survfit")) stop("survfit object is not of class `survfit`")
   if (is.character(legend_position) && ! legend_position %in% c("top", "bottom", "right", "left", "none")){
     stop("Invalid legend position given.")
   } else if (is.numeric(legend_position) && length(legend_position) != 2) {
     stop("Invalid legend position coordinates given.")
   }
-
-  #### Y-label ####
   
+# Y-label ----------------------------------------------------------------------
+
   if (is.null(y_label) & is.character(fun)){
     y_label <- base::switch(
       fun,
@@ -92,7 +93,7 @@ plot.survfit <- function(
       stop("Unrecognized fun argument")
     )
   } else if (is.null(y_label) & is.function(fun)) {
-    stop("Error in plot: No Y label defined. No default is available when `fun` is a function.")
+    stop("Error in plot: No Y label defined. No default label is available when `fun` is a function.")
   }  
   
   if (is.character(fun)){
@@ -104,19 +105,22 @@ plot.survfit <- function(
       cloglog = function(y) log(-log(y)),
       pct = function(y) y * 100,
       logpct = function(y) log(y *100),
-      cumhaz = function(y) -log(y), ## survfit object contains an estimate for Cumhaz and SE based on Nelson-Aalen with or without correction for ties
+      # survfit object contains an estimate for Cumhaz and SE based on Nelson-Aalen with or without correction for ties
+      # However, no CI is calculated automatically. For plotting, the MLE estimator is used for convenience.
+      cumhaz = function(y) -log(y), 
       stop("Unrecognized fun argument")
     )
   } else if (is.function(fun)) {
     fun
   } else {
-    stop("Error in plot: fun should be a character or a function.")
+    stop("Error in plot: fun should be a character or a user-defined function.")
   }
-  
-  ### Extended tidy of survfit class + transformation ####
+
+# Extended tidy of survfit class + transformation + remove NA after transfo ----
   
   correctme <- NULL
   tidy_object <- tidyme(survfit_object)
+  
   if ("surv" %in% colnames(tidy_object)) {
     tidy_object[["est"]] <- .transfun(tidy_object[["surv"]])
     correctme <- c(correctme,"est")
@@ -127,7 +131,7 @@ plot.survfit <- function(
     correctme <- c(correctme,"est.lower", "est.upper")
   } 
   
-  #### Adjust -Inf to minimal value ####
+# Adjust -Inf to minimal value -------------------------------------------------
   
   tidy_object[ , correctme] <- sapply(tidy_object[ , correctme],
                                       FUN = function(x) {
@@ -140,27 +144,22 @@ plot.survfit <- function(
   ymax = max(sapply(tidy_object[ , correctme], function(x) max(x[which(x != -Inf)], na.rm = TRUE)), na.rm = TRUE)
   
   if (fun == "cloglog") {
-    
     if (nrow(tidy_object[tidy_object$est == "-Inf",]) > 0) {
-      
       warning("NAs introduced by y-axis transformation.\n")
-      
     } 
-    
     tidy_object = tidy_object[tidy_object$est != "-Inf",]
-    
   }
-    
-  #### Obtain alternatives for X-axis ####
-  
+
+# Obtain X-asis label ----------------------------------------------------------
+
   if (is.null(x_label)){
     if ("PARAM" %in% names(survfit_object)) x_label = survfit_object[["PARAM"]]
     if (! "PARAM" %in% names(survfit_object)) x_label = "time"
     if (!is.null(x_units)) x_label = paste0(x_label, " (", x_units, ")")
   }
   if (is.null(x_ticks)) x_ticks = pretty(survfit_object$time, 10)
-  
-  #### Obtain alternatives for Y-axis ####
+
+# Obtain Y-asis label ----------------------------------------------------------
   
   if (is.null(y_ticks) & is.character(fun)){
     y_ticks <- base::switch(
@@ -178,7 +177,7 @@ plot.survfit <- function(
     stop("Error in plot: No Y label defined. No default is available when `fun` is a function.")
   }  
 
-  #### Plotit ####
+# Plotit -----------------------------------------------------
   
   yscaleFUN <- function(x) sprintf("%.2f", x)
   

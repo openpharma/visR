@@ -18,10 +18,10 @@ library(survival)
 #' T1.5 An error when `data` is NULL
 #' T1.6 An error when `data` does not exist in the global environment
 #' T2. The function relies on the presence of two numeric variables, AVAL and CNSR, to be present in `data`
-#' T2.1 An error when AVAL is not present in `data`
-#' T2.2 An error when AVAL is not numeric
-#' T2.3 An error when CNSR is not present in `data`
-#' T2.4 An error when CNSR is not numeric
+#' T2.1 An error when colname specified as AVAL is not present in `data`
+#' T2.2 An error when colname specified as AVAL is not numeric
+#' T2.3 An error when colname specified as CNSR is not present in `data`
+#' T2.4 An error when colname specified as CNSR is not numeric
 #' T3. The user can specify strata
 #' T3.1 An error when the columns, specifying the strata are not available in `data`
 #' T3.2 No error when strata is NULL
@@ -89,8 +89,10 @@ testthat::test_that("T1.6 An error when `data` does not exist in the global envi
 context("estimate_KM - T2. The function relies on the presence of two numeric variables, AVAL and CNSR, to be present in `data`")
 
 testthat::test_that("T2.1 An error when `data` does not contain the variable AVAL",{
-
-  data <- adtte[,-which(colnames(adtte) == "AVAL")]
+  
+  AVAL <- "AVAL"
+  
+  data <- adtte[,-which(colnames(adtte) == AVAL)]
 
   testthat::expect_error(visR::estimate_KM(data = data))
 
@@ -98,8 +100,10 @@ testthat::test_that("T2.1 An error when `data` does not contain the variable AVA
 
 testthat::test_that("T2.2 An error when AVAL is not numeric",{
 
+  AVAL <- "AVAL"
+  
   data <- adtte
-  data[["AVAL"]] <- as.character(data[["AVAL"]])
+  data[[AVAL]] <- as.character(data[[AVAL]])
 
   testthat::expect_error(visR::estimate_KM(data = data))
 
@@ -107,7 +111,9 @@ testthat::test_that("T2.2 An error when AVAL is not numeric",{
 
 testthat::test_that("T2.3 An error when `data` does not contain the variable CNSR",{
 
-  data <- adtte[,-which(colnames(adtte) == "CNSR")]
+  CNSR <- "CNSR"
+  
+  data <- adtte[,-which(colnames(adtte) == CNSR)]
 
   testthat::expect_error(visR::estimate_KM(data = data))
 
@@ -115,8 +121,10 @@ testthat::test_that("T2.3 An error when `data` does not contain the variable CNS
 
 testthat::test_that("T2.4 An error when CNSR is not numeric",{
 
+  CNSR <- "CNSR"
+  
   data <- adtte
-  data[["CNSR"]] <- as.character(data[["CNSR"]])
+  data[[CNSR]] <- as.character(data[[CNSR]])
 
   testthat::expect_error(visR::estimate_KM(data = data))
 

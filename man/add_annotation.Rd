@@ -48,7 +48,7 @@ library(tidyr)
 library(ggplot2)
 
 ## Estimate survival
-surv_object <- vr_KM_est(data = adtte, strata = "TRTP")
+surv_object <- estimate_KM(data = adtte, strata = "TRTP")
 
 ## p value for "Equality across strata"
 lbl <- get_pvalue(surv_object, statlist = c("test", "p"), type = "All")

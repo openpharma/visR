@@ -37,7 +37,7 @@ get_risktable.ggsurvfit <- function(gg
                                     ,min_at_risk = 0
                                     ,breaks = NULL
                                     ,statlist = c("n.risk")
-                                    ,label = "At risk"
+                                    ,label = NULL
                                     ,group = "strata"
                                     ,collapse = FALSE){
   #if (inherits(gg, "ggsurvfit")){
@@ -70,7 +70,7 @@ get_risktable.survfit <- function(survfit_object
                                 ,min_at_risk = 0
                                 ,breaks = NULL
                                 ,statlist = c("n.risk")
-                                ,label = "At risk"
+                                ,label = NULL
                                 ,group = "strata"
                                 ,collapse = FALSE){
   
@@ -100,9 +100,11 @@ get_risktable.survfit <- function(survfit_object
     label <- vlookup %>%
       dplyr::arrange(statlist) %>%
       dplyr::right_join(have, by = "statlist") %>%
-      dplyr::mutate(label = coalesce(label.y, label.x)) %>% 
+      dplyr::mutate(label = dplyr::coalesce(label.y, label.x)) %>% 
       dplyr::select(-label.x, -label.y) %>%
       dplyr::pull(label)
+  
+    statlist <- statlist[order(statlist)]  
   }
   
   
