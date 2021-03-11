@@ -55,8 +55,6 @@ No default method is available at the moment." />
 
 
 
-
-
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -68,15 +66,9 @@ No default method is available at the moment." />
 
 
 
-  
-
-  
-
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -97,6 +89,12 @@ No default method is available at the moment." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fas fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
@@ -195,12 +193,40 @@ No default method is available at the moment.</p>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyr.tidyverse.org'>tidyr</a></span><span class='op'>)</span>
 
-<span class='va'>survfit_object_trt</span> <span class='op'>&lt;-</span> <span class='fu'>vr_KM_est</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>adtte</span>, strata <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"TRTP"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in vr_KM_est(data = adtte, strata = c("TRTP")): could not find function "vr_KM_est"</span></div><div class='input'><span class='fu'>get_quantile</span><span class='op'>(</span><span class='va'>survfit_object_trt</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in get_quantile(survfit_object_trt): object 'survfit_object_trt' not found</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span><span class='op'>(</span><span class='va'>survfit_object_trt</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in quantile(survfit_object_trt): object 'survfit_object_trt' not found</span></div><div class='input'><span class='co'># }</span>
+<span class='va'>survfit_object_trt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='estimate_KM.html'>estimate_KM</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>adtte</span>, strata <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"TRTP"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>get_quantile</span><span class='op'>(</span><span class='va'>survfit_object_trt</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 9 x 5</span><span>
+#&gt;   strata                    quantity  `25`  `50`  `75`
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> TRTP=Placebo              lower       35    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> TRTP=Placebo              quantile    70    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> TRTP=Placebo              upper      177    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> TRTP=Xanomeline High Dose lower        5    25    50
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span> TRTP=Xanomeline High Dose quantile    14    36    58
+#&gt; </span><span style='color: #BCBCBC;'>6</span><span> TRTP=Xanomeline High Dose upper       22    47    94
+#&gt; </span><span style='color: #BCBCBC;'>7</span><span> TRTP=Xanomeline Low Dose  lower       15    28    57
+#&gt; </span><span style='color: #BCBCBC;'>8</span><span> TRTP=Xanomeline Low Dose  quantile    19    33    80
+#&gt; </span><span style='color: #BCBCBC;'>9</span><span> TRTP=Xanomeline Low Dose  upper       27    51   126</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span><span class='op'>(</span><span class='va'>survfit_object_trt</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; $quantile
+#&gt;                           25 50 75
+#&gt; TRTP=Placebo              70 NA NA
+#&gt; TRTP=Xanomeline High Dose 14 36 58
+#&gt; TRTP=Xanomeline Low Dose  19 33 80
+#&gt; 
+#&gt; $lower
+#&gt;                           25 50 75
+#&gt; TRTP=Placebo              35 NA NA
+#&gt; TRTP=Xanomeline High Dose  5 25 50
+#&gt; TRTP=Xanomeline Low Dose  15 28 57
+#&gt; 
+#&gt; $upper
+#&gt;                            25 50  75
+#&gt; TRTP=Placebo              177 NA  NA
+#&gt; TRTP=Xanomeline High Dose  22 47  94
+#&gt; TRTP=Xanomeline Low Dose   27 51 126
+#&gt; </div><div class='input'><span class='co'># }</span>
 
-</div></pre>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -212,11 +238,11 @@ No default method is available at the moment.</p>
 
       <footer>
       <div class="copyright">
-  <p><p>Developed by Diego Saldana, Charlotta Fruechtenicht, Mark Baillie, Marc Vandemeulebroecke, Thanos Siadimas, Pawel Kawski, Steven Haesendonckx, Pelagia Alexandra Papadopoulou, Tim Treis.</p></p>
+  <p>Developed by Diego Saldana, Charlotta Fruechtenicht, Mark Baillie, Marc Vandemeulebroecke, Thanos Siadimas, Pawel Kawski, Steven Haesendonckx, Pelagia Alexandra Papadopoulou, Tim Treis.</p>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -224,8 +250,6 @@ No default method is available at the moment.</p>
 
   
 
-
-  
 
   </body>
 </html>

@@ -54,8 +54,6 @@ Calculate summary statistics and present them in a formatted table" />
 
 
 
-
-
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -67,15 +65,9 @@ Calculate summary statistics and present them in a formatted table" />
 
 
 
-  
-
-  
-
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -96,6 +88,12 @@ Calculate summary statistics and present them in a formatted table" />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fas fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
@@ -137,6 +135,7 @@ Calculate summary statistics and present them in a formatted table" />
   <span class='va'>title</span>,
   <span class='va'>datasource</span>,
   strata <span class='op'>=</span> <span class='cn'>NULL</span>,
+  overall <span class='op'>=</span> <span class='cn'>T</span>,
   summary_function <span class='op'>=</span> <span class='va'>summarize_tab1</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
@@ -162,8 +161,12 @@ Calculate summary statistics and present them in a formatted table" />
 stratification in the summary table. Default: NULL</p></td>
     </tr>
     <tr>
+      <th>overall</th>
+      <td><p>If TRUE, the summary statistics for the overall dataset are also calculated</p></td>
+    </tr>
+    <tr>
       <th>summary_function</th>
-      <td><p>A function to summarize variables of different types.
+      <td><p>A function defining summary statistics for numeric and categorical values
 Pre-implemented functions are summarize and summarize_tab1</p></td>
     </tr>
     <tr>
@@ -184,11 +187,11 @@ Pre-implemented functions are summarize and summarize_tab1</p></td>
 
       <footer>
       <div class="copyright">
-  <p><p>Developed by Diego Saldana, Charlotta Fruechtenicht, Mark Baillie, Marc Vandemeulebroecke, Thanos Siadimas, Pawel Kawski, Steven Haesendonckx, Pelagia Alexandra Papadopoulou, Tim Treis.</p></p>
+  <p>Developed by Diego Saldana, Charlotta Fruechtenicht, Mark Baillie, Marc Vandemeulebroecke, Thanos Siadimas, Pawel Kawski, Steven Haesendonckx, Pelagia Alexandra Papadopoulou, Tim Treis.</p>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -196,8 +199,6 @@ Pre-implemented functions are summarize and summarize_tab1</p></td>
 
   
 
-
-  
 
   </body>
 </html>

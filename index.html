@@ -26,8 +26,6 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -46,6 +44,12 @@
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
+<li>
+  <a href="index.html">
+    <span class="fas fa-home fa-lg"></span>
+     
+  </a>
+</li>
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
@@ -76,7 +80,7 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#visr-" class="anchor"></a>visR <img src="reference/figures/logo.png" align="right" height="131.5">
 </h1></div>
-<p>The goal of visR is to enable fit-for-purpose, reusable clinical and medical research focused visualizations and tables with sensible defaults and based on sound <a href="https://graphicsprinciples.github.io/" class="external-link">graphical principles</a>.</p>
+<p>The goal of visR is to enable fit-for-purpose, reusable clinical and medical research focused visualizations and tables with sensible defaults and based on sound <a href="https://graphicsprinciples.github.io/">graphical principles</a>.</p>
 <p><a href="https://openpharma.github.io/visR/">Package documentation</a></p>
 <div id="motivation" class="section level2">
 <h2 class="hasAnchor">
@@ -89,7 +93,7 @@
 </li>
 </ul>
 <p>We are not judging on what visualisation you chose for your research question, but want facilitate and support good practice.</p>
-<p>You can read more about the philosophy and architecture in the <a href="https://github.com/openpharma/visR/wiki" class="external-link">repo wiki</a>.</p>
+<p>You can read more about the philosophy and architecture in the <a href="https://github.com/openpharma/visR/wiki">repo wiki</a>.</p>
 </div>
 <div id="lifecycle-and-status" class="section level2">
 <h2 class="hasAnchor">
@@ -101,25 +105,24 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>Install the development version from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<p>Install the development version from <a href="https://github.com/">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"openpharma/visR"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"openpharma/visR"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
 <p>This is a basic example to demonstrate how the API can be used to add layers to a visualisation. In this example a time to event analysis. The example calculates stratified Kaplan-Meier by treatment and then plots. Additional functions can be used to add uncertainty intervals, censoring information and a risk table.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/openpharma/visR" class="external-link">visR</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/therneau/survival" class="external-link">survival</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span> 
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/openpharma/visR">visR</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/therneau/survival">survival</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org">tidyr</a></span><span class="op">)</span> 
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 
-<span class="co"># Need to add working example!</span>
-
+<span class="co"># BELOW NO LONGER WORKS</span>
 <span class="co"># adtte %&gt;%</span>
-<span class="co">#   vr_KM_est(strata = "TRTP", conf.int = 0.90) %&gt;%</span>
+<span class="co">#   estimate_KM(strata = "TRTP", conf.int = 0.90) %&gt;%</span>
 <span class="co">#   vr_plot(legend_position = "right", x_unit = "Days") %&gt;%</span>
 <span class="co">#   add_CI(style = "ribbon",</span>
 <span class="co">#          linetype = 3) %&gt;%</span>
@@ -136,17 +139,56 @@
 <a href="#contribution" class="anchor"></a>Contribution</h2>
 <p>Please note that the ‘visR’ project is released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 <p><img src="reference/figures/README-unnamed-chunk-3-1.png" width="100%"></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co">#&gt; The following name changes were identified (0 in total):</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="co">#&gt; ●</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="co">#&gt;  chr [1:30] "R/add_CI.R" "R/add_CNSR.R" "R/add_annotation.R" ...</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co">#&gt; The following name changes were identified (40 in total):</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="co">#&gt; ● R/{pvr_cross_tab.R =&gt; vr_cross_tab.R}</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="co">#&gt; ● R/{pvr_attrition.R =&gt; vr_plt_attrition.R}</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="co">#&gt; ● R/{pvr_stacked_barchart.R =&gt; vr_stacked_barchart.R}</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="co">#&gt; ● R/{vr_plt_attrition.R =&gt; vr_attrition.R}</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="co">#&gt; ● R/{vr_kaplan_meier.R =&gt; vr_est_kaplan_meier.R}</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="co">#&gt; ● man/{pvr_attrition.Rd =&gt; vr_attrition.Rd}</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="co">#&gt; ● R/{vr_plot_forest.R =&gt; vr_plt_forest.R}</span></span>
+<span id="cb3-9"><a href="#cb3-9"></a><span class="co">#&gt; ● man/{vr_plot_forest.Rd =&gt; vr_plt_forest.Rd}</span></span>
+<span id="cb3-10"><a href="#cb3-10"></a><span class="co">#&gt; ● R/{vr_KM_risktable.R =&gt; add_KM_risktable.R}</span></span>
+<span id="cb3-11"><a href="#cb3-11"></a><span class="co">#&gt; ● R/{add_KM_CI.R =&gt; add_CI.R}</span></span>
+<span id="cb3-12"><a href="#cb3-12"></a><span class="co">#&gt; ● R/{add_KM_risktable.R =&gt; add_risktable.R}</span></span>
+<span id="cb3-13"><a href="#cb3-13"></a><span class="co">#&gt; ● R/{vr_KM_plot.R =&gt; vr_plot.R}</span></span>
+<span id="cb3-14"><a href="#cb3-14"></a><span class="co">#&gt; ● {R =&gt; examples}/example.R</span></span>
+<span id="cb3-15"><a href="#cb3-15"></a><span class="co">#&gt; ● {R =&gt; examples}/example_api.R</span></span>
+<span id="cb3-16"><a href="#cb3-16"></a><span class="co">#&gt; ● {R =&gt; examples}/example_vignette_recreation.R</span></span>
+<span id="cb3-17"><a href="#cb3-17"></a><span class="co">#&gt; ● R/{add_COX_HR.R =&gt; get_COX_HR.R}</span></span>
+<span id="cb3-18"><a href="#cb3-18"></a><span class="co">#&gt; ● examples/CDISC SDTM ADaM Pilot Project m5toc.pdf =&gt; CDISC SDTM ADaM Pilot Project m5toc.pdf</span></span>
+<span id="cb3-19"><a href="#cb3-19"></a><span class="co">#&gt; ● .github/workflows/{r_cmd_check-MasterDevelop.yml =&gt; R-CMD-check.yml}</span></span>
+<span id="cb3-20"><a href="#cb3-20"></a><span class="co">#&gt; ● .github/workflows/{CI_CD.yaml =&gt; CI-CD.yaml}</span></span>
+<span id="cb3-21"><a href="#cb3-21"></a><span class="co">#&gt; ● docs/articles/Example_analysis_files/figure-html/{unnamed-chunk-4-1.png =&gt; unnamed-chunk-5-1.png}</span></span>
+<span id="cb3-22"><a href="#cb3-22"></a><span class="co">#&gt; ● R/{vr_KM_est.R =&gt; estimate_KM.R}</span></span>
+<span id="cb3-23"><a href="#cb3-23"></a><span class="co">#&gt; ● man/{vr_KM_est.Rd =&gt; estimate_KM.Rd}</span></span>
+<span id="cb3-24"><a href="#cb3-24"></a><span class="co">#&gt; ● R/{vr_create_risktable.R =&gt; get_risktable.R}</span></span>
+<span id="cb3-25"><a href="#cb3-25"></a><span class="co">#&gt; ● R/{vr_render_table.R =&gt; render_table.R}</span></span>
+<span id="cb3-26"><a href="#cb3-26"></a><span class="co">#&gt; ● R/{render_table.R =&gt; render.R}</span></span>
+<span id="cb3-27"><a href="#cb3-27"></a><span class="co">#&gt; ● R/{vr_plot.R =&gt; plot.R}</span></span>
+<span id="cb3-28"><a href="#cb3-28"></a><span class="co">#&gt; ● R/{vr_utils.R =&gt; utils.R}</span></span>
+<span id="cb3-29"><a href="#cb3-29"></a><span class="co">#&gt; ● R/{vr_create_tableone.R =&gt; create_tableone.R}</span></span>
+<span id="cb3-30"><a href="#cb3-30"></a><span class="co">#&gt; ● R/{vr_table_one.R =&gt; table_one.R}</span></span>
+<span id="cb3-31"><a href="#cb3-31"></a><span class="co">#&gt; ● R/{create_tableone.R =&gt; get_tableone.R}</span></span>
+<span id="cb3-32"><a href="#cb3-32"></a><span class="co">#&gt; ● R/{table_one.R =&gt; tableone.R}</span></span>
+<span id="cb3-33"><a href="#cb3-33"></a><span class="co">#&gt; ● vignettes/{Example_analysis.Rmd =&gt; Example_analysis2.Rmd}</span></span>
+<span id="cb3-34"><a href="#cb3-34"></a><span class="co">#&gt; ● vignettes/{Example_analysis2.Rmd =&gt; Example_analysis.Rmd}</span></span>
+<span id="cb3-35"><a href="#cb3-35"></a><span class="co">#&gt; ● .github/workflows/{docs =&gt; makedocs.yml}</span></span>
+<span id="cb3-36"><a href="#cb3-36"></a><span class="co">#&gt; ● R/{utilities.R =&gt; utils_plot.R}</span></span>
+<span id="cb3-37"><a href="#cb3-37"></a><span class="co">#&gt; ● R/{utils.R =&gt; utils_table.R}</span></span>
+<span id="cb3-38"><a href="#cb3-38"></a><span class="co">#&gt; ● R/{utilities.R =&gt; utils_plot.R}</span></span>
+<span id="cb3-39"><a href="#cb3-39"></a><span class="co">#&gt; ● R/{utils.R =&gt; utils_table.R}</span></span>
+<span id="cb3-40"><a href="#cb3-40"></a><span class="co">#&gt; ● R/{utilities.R =&gt; utils_plot.R}</span></span>
+<span id="cb3-41"><a href="#cb3-41"></a><span class="co">#&gt; ● R/{utils.R =&gt; utils_table.R}</span></span>
+<span id="cb3-42"><a href="#cb3-42"></a><span class="co">#&gt;  chr [1:498] "R/vr_attrition.R" "R/vr_attrition.R" "R/vr_attrition.R" "R/vr_attrition.R" ...</span></span></code></pre></div>
 </div>
 <div id="code-coverage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#code-coverage" class="anchor"></a>Code coverage</h2>
 <p>Last time readme built.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">covr</span><span class="fu">::</span><span class="fu"><a href="http://covr.r-lib.org/reference/package_coverage.html" class="external-link">package_coverage</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; visR Coverage: 3.97%</span>
+<code class="sourceCode R"><span class="fu">covr</span><span class="fu">::</span><span class="fu"><a href="http://covr.r-lib.org/reference/package_coverage.html">package_coverage</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; visR Coverage: 27.07%</span>
 <span class="co">#&gt; R/add_annotation.R: 0.00%</span>
 <span class="co">#&gt; R/add_CI.R: 0.00%</span>
 <span class="co">#&gt; R/add_CNSR.R: 0.00%</span>
@@ -154,33 +196,27 @@
 <span class="co">#&gt; R/get_COX_HR.R: 0.00%</span>
 <span class="co">#&gt; R/get_pvalue.R: 0.00%</span>
 <span class="co">#&gt; R/get_quantile.R: 0.00%</span>
-<span class="co">#&gt; R/get_risktable.R: 0.00%</span>
 <span class="co">#&gt; R/get_summary.R: 0.00%</span>
-<span class="co">#&gt; R/get_tableone.R: 0.00%</span>
-<span class="co">#&gt; R/plot.R: 0.00%</span>
 <span class="co">#&gt; R/render.R: 0.00%</span>
 <span class="co">#&gt; R/style_visR.R: 0.00%</span>
 <span class="co">#&gt; R/tableone.R: 0.00%</span>
-<span class="co">#&gt; R/tidyme.R: 0.00%</span>
-<span class="co">#&gt; R/utils.R: 0.00%</span>
-<span class="co">#&gt; R/vr_alluvial_plot.R: 0.00%</span>
-<span class="co">#&gt; R/vr_alluvial_wrangling.R: 0.00%</span>
+<span class="co">#&gt; R/utils_plot.R: 0.00%</span>
 <span class="co">#&gt; R/vr_attrition_table.R: 0.00%</span>
 <span class="co">#&gt; R/vr_attrition.R: 0.00%</span>
-<span class="co">#&gt; R/vr_cross_tab.R: 0.00%</span>
-<span class="co">#&gt; R/vr_plotly.R: 0.00%</span>
-<span class="co">#&gt; R/vr_plt_forest.R: 0.00%</span>
-<span class="co">#&gt; R/vr_stacked_barchart.R: 0.00%</span>
-<span class="co">#&gt; R/vr_tidy_rbest.R: 0.00%</span>
-<span class="co">#&gt; R/utilities.R: 8.82%</span>
-<span class="co">#&gt; R/estimate_KM.R: 96.08%</span></code></pre></div>
+<span class="co">#&gt; R/utils_table.R: 30.77%</span>
+<span class="co">#&gt; R/get_risktable.R: 64.41%</span>
+<span class="co">#&gt; R/plot.R: 84.04%</span>
+<span class="co">#&gt; R/tidyme.R: 91.67%</span>
+<span class="co">#&gt; R/estimate_KM.R: 96.08%</span>
+<span class="co">#&gt; R/get_tableone.R: 100.00%</span>
+<span class="co">#&gt; R/utils_pipe.R: 100.00%</span></code></pre></div>
 </div>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2 data-toc-skip>Links</h2>
+<h2>Links</h2>
 <ul class="list-unstyled">
 <li>Browse source code at <br><a href="https://github.com/openpharma/visR/">https://​github.com/​openpharma/​visR/​</a>
 </li>
@@ -188,26 +224,23 @@
 </li>
 </ul>
 </div>
-
 <div class="license">
-<h2 data-toc-skip>License</h2>
+<h2>License</h2>
 <ul class="list-unstyled">
 <li>
 <a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a>
 </li>
 </ul>
 </div>
-
 <div class="community">
-<h2 data-toc-skip>Community</h2>
+<h2>Community</h2>
 <ul class="list-unstyled">
 <li><a href="CONTRIBUTING.html">Contributing guide</a></li>
 <li><a href="CODE_OF_CONDUCT.html">Code of conduct</a></li>
 </ul>
 </div>
-
 <div class="developers">
-<h2 data-toc-skip>Developers</h2>
+<h2>Developers</h2>
 <ul class="list-unstyled">
 <li>Diego Saldana <br><small class="roles"> Author </small>  </li>
 <li>Charlotta Fruechtenicht <br><small class="roles"> Author </small>  </li>
@@ -221,29 +254,26 @@
 </ul>
 </div>
 
-<div class="dev-status">
-<h2 data-toc-skip>Dev status</h2>
+  <div class="dev-status">
+<h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.tidyverse.org/lifecycle/#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
-<li><a href="https://codecov.io/gh/openpharma/visR?branch=develop" class="external-link"><img src="https://codecov.io/gh/openpharma/visR/branch/develop/graph/badge.svg" alt="Codecov test coverage"></a></li>
-<li><a href="https://github.com/openpharma/visR/actions/workflows/check-standard.yaml" class="external-link"><img src="https://github.com/openpharma/visR/actions/workflows/check-standard.yaml/badge.svg?branch=develop" alt="R-CMD-check"></a></li>
-<li><a href="https://github.com/openpharma/visR/actions/workflows/check-standard.yaml" class="external-link"><img src="https://github.com/openpharma/visR/actions/workflows/check-standard.yaml/badge.svg?branch=master" alt="R-CMD-check"></a></li>
-<li><a href="https://github.com/openpharma/visR/actions/workflows/makedocs.yml" class="external-link"><img src="https://github.com/openpharma/visR/actions/workflows/makedocs.yml/badge.svg" alt="pkgdown"></a></li>
+<li><a href="https://www.tidyverse.org/lifecycle/#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
+<li><a href="https://codecov.io/gh/openpharma/visR?branch=develop"><img src="https://codecov.io/gh/openpharma/visR/branch/develop/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://github.com/openpharma/visR/actions/workflows/check-standard.yaml"><img src="https://github.com/openpharma/visR/actions/workflows/check-standard.yaml/badge.svg?branch=develop" alt="R-CMD-check"></a></li>
+<li><a href="https://github.com/openpharma/visR/actions/workflows/check-standard.yaml"><img src="https://github.com/openpharma/visR/actions/workflows/check-standard.yaml/badge.svg?branch=master" alt="R-CMD-check"></a></li>
+<li><a href="https://github.com/openpharma/visR/actions/workflows/makedocs.yml"><img src="https://github.com/openpharma/visR/actions/workflows/makedocs.yml/badge.svg" alt="pkgdown"></a></li>
 </ul>
 </div>
-
-  </div>
+</div>
 </div>
 
 
       <footer><div class="copyright">
-  <p></p>
-<p>Developed by Diego Saldana, Charlotta Fruechtenicht, Mark Baillie, Marc Vandemeulebroecke, Thanos Siadimas, Pawel Kawski, Steven Haesendonckx, Pelagia Alexandra Papadopoulou, Tim Treis.</p>
+  <p>Developed by Diego Saldana, Charlotta Fruechtenicht, Mark Baillie, Marc Vandemeulebroecke, Thanos Siadimas, Pawel Kawski, Steven Haesendonckx, Pelagia Alexandra Papadopoulou, Tim Treis.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -251,8 +281,6 @@
 
   
 
-
-  
 
   </body>
 </html>

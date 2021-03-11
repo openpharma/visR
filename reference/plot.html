@@ -54,8 +54,6 @@ The default method is base::plot." />
 
 
 
-
-
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -67,15 +65,9 @@ The default method is base::plot." />
 
 
 
-  
-
-  
-
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -96,6 +88,12 @@ The default method is base::plot." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fas fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
@@ -171,7 +169,7 @@ The default method is base::plot.</p>
     <tr>
       <th>x_label</th>
       <td><p><code>character</code> Label for the x-asis. When not specified, the algorithm will look for "PARAM" information inside the list structure of the <code>survfit</code> object.
-Note that this information is automatically added when using visR::vr_KM_est and when the input data has the variable "PARAM". If no "PARAM" information is available
+Note that this information is automatically added when using visR::estimate_KM and when the input data has the variable "PARAM". If no "PARAM" information is available
 "time" is used as label.</p></td>
     </tr>
     <tr>
@@ -206,15 +204,15 @@ Default is "right".</p></td>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyr.tidyverse.org'>tidyr</a></span><span class='op'>)</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span>
 
-<span class='va'>survfit_object</span> <span class='op'>&lt;-</span> <span class='fu'>KM_est</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>adtte</span>, strata <span class='op'>=</span> <span class='st'>"TRTP"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in KM_est(data = adtte, strata = "TRTP"): could not find function "KM_est"</span></div><div class='input'>
+<span class='va'>survfit_object</span> <span class='op'>&lt;-</span> <span class='fu'><a href='estimate_KM.html'>estimate_KM</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>adtte</span>, strata <span class='op'>=</span> <span class='st'>"TRTP"</span><span class='op'>)</span>
+
 <span class='co'>## Plot survival probability</span>
 <span class='fu'>plot</span><span class='op'>(</span>survfit_object <span class='op'>=</span> <span class='va'>survfit_object</span>, fun <span class='op'>=</span> <span class='st'>"surv"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in plot(survfit_object = survfit_object, fun = "surv"): object 'survfit_object' not found</span></div><div class='input'><span class='fu'>plot</span><span class='op'>(</span><span class='va'>survfit_object</span>, fun <span class='op'>=</span> <span class='st'>"pct"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in plot(survfit_object, fun = "pct"): object 'survfit_object' not found</span></div><div class='input'>
+</div><div class='img'><img src='plot-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plot</span><span class='op'>(</span><span class='va'>survfit_object</span>, fun <span class='op'>=</span> <span class='st'>"pct"</span><span class='op'>)</span>
+</div><div class='img'><img src='plot-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>## Plot cumulative hazard</span>
 <span class='fu'>plot</span><span class='op'>(</span><span class='va'>survfit_object</span>, fun <span class='op'>=</span> <span class='st'>"cloglog"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in plot(survfit_object, fun = "cloglog"): object 'survfit_object' not found</span></div><div class='input'> 
+</div><div class='img'><img src='plot-3.png' alt='' width='700' height='433' /></div><div class='input'> 
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -227,11 +225,11 @@ Default is "right".</p></td>
 
       <footer>
       <div class="copyright">
-  <p><p>Developed by Diego Saldana, Charlotta Fruechtenicht, Mark Baillie, Marc Vandemeulebroecke, Thanos Siadimas, Pawel Kawski, Steven Haesendonckx, Pelagia Alexandra Papadopoulou, Tim Treis.</p></p>
+  <p>Developed by Diego Saldana, Charlotta Fruechtenicht, Mark Baillie, Marc Vandemeulebroecke, Thanos Siadimas, Pawel Kawski, Steven Haesendonckx, Pelagia Alexandra Papadopoulou, Tim Treis.</p>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -239,8 +237,6 @@ Default is "right".</p></td>
 
   
 
-
-  
 
   </body>
 </html>

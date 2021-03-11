@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Wrapper for Kaplan Meier analysis for an ADaM Basic Data Structure (BDS) for Time-to-Event analysis — estimate_KM • visR</title>
+<title>Wrapper for Kaplan Meier Time-to-Event analysis — estimate_KM • visR</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,10 +46,9 @@
 
 
 
-<meta property="og:title" content="Wrapper for Kaplan Meier analysis for an ADaM Basic Data Structure (BDS) for Time-to-Event analysis — estimate_KM" />
-<meta property="og:description" content="This function is a wrapper around survival::survfit.formula to perform a Kaplan-Meier analysis,
-based on the expected ADaM Basic Data Structure (BDS) for Time-to-Event analysis and assuming right-censored data.
-The function expects that the data has been filtered on the PARAM/PARAMCD of interest.
+<meta property="og:title" content="Wrapper for Kaplan Meier Time-to-Event analysis — estimate_KM" />
+<meta property="og:description" content="This function is a wrapper around survival::survfit.formula to perform a Kaplan-Meier analysis, assuming right-censored data.
+The function expects that the data has been filtered on the parameter (PARAM/PARAMCD) of interest.
 Alternatively, PARAM/PARAMCD can be used in the strata argument. 
 The result is an object of class survfit which can be used in downstream functions and methods that rely on the survfit class.
 By default:
@@ -60,8 +59,6 @@ A two-sided pointwise 0.95 confidence interval is estimated using a log transfor
 
 " />
 <meta property="og:image" content="https://openpharma.github.io/visR/logo.png" />
-
-
 
 
 
@@ -77,15 +74,9 @@ A two-sided pointwise 0.95 confidence interval is estimated using a log transfor
 
 
 
-  
-
-  
-
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -106,6 +97,12 @@ A two-sided pointwise 0.95 confidence interval is estimated using a log transfor
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fas fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
@@ -132,15 +129,14 @@ A two-sided pointwise 0.95 confidence interval is estimated using a log transfor
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Wrapper for Kaplan Meier analysis for an ADaM Basic Data Structure (BDS) for Time-to-Event analysis</h1>
+    <h1>Wrapper for Kaplan Meier Time-to-Event analysis</h1>
     <small class="dont-index">Source: <a href='https://github.com/openpharma/visR/blob/master/R/estimate_KM.R'><code>R/estimate_KM.R</code></a></small>
     <div class="hidden name"><code>estimate_KM.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function is a wrapper around <code><a href='https://rdrr.io/pkg/survival/man/survfit.formula.html'>survival::survfit.formula</a></code> to perform a Kaplan-Meier analysis,
-based on the expected ADaM Basic Data Structure (BDS) for Time-to-Event analysis and assuming right-censored data.
-The function expects that the data has been filtered on the PARAM/PARAMCD of interest.
+    <p>This function is a wrapper around <code><a href='https://rdrr.io/pkg/survival/man/survfit.formula.html'>survival::survfit.formula</a></code> to perform a Kaplan-Meier analysis, assuming right-censored data.
+The function expects that the data has been filtered on the parameter (PARAM/PARAMCD) of interest.
 Alternatively, PARAM/PARAMCD can be used in the <code>strata</code> argument. <br />
 The result is an object of class <code>survfit</code> which can be used in downstream functions and methods that rely on the <code>survfit</code> class.
 By default:</p><ul>
@@ -152,19 +148,28 @@ The MLE (H.hat(t) = -log(S.hat(t))) can't be requested.</p></li>
 
     </div>
 
-    <pre class="usage"><span class='fu'>estimate_KM</span><span class='op'>(</span>data <span class='op'>=</span> <span class='cn'>NULL</span>, strata <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>estimate_KM</span><span class='op'>(</span>data <span class='op'>=</span> <span class='cn'>NULL</span>, strata <span class='op'>=</span> <span class='cn'>NULL</span>, CNSR <span class='op'>=</span> <span class='st'>"CNSR"</span>, AVAL <span class='op'>=</span> <span class='st'>"AVAL"</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>The name of the ADaM Basic Data Structure (BDS) for Time-to-Event analysis eg ADTTE. Rows in which AVAL or CNSR contain NA, are removed during analysis.</p></td>
+      <td><p>The name of the dataset for Time-to-Event analysis based on the Analysis Data Model (ADaM) principles. The dataset is expected to have
+one record per subject per analysis parameter. Rows in which the analysis variable (AVAL) or the sensor variable (CNSR) contain NA, are removed during analysis.</p></td>
     </tr>
     <tr>
       <th>strata</th>
-      <td><p>Character vector, representing the strata for Time-to-Event analysis eg TRT01P. When NULL, an overall analysis is performed.
+      <td><p>Character vector, representing the strata for Time-to-Event analysis. When NULL, an overall analysis is performed.
 Default is NULL.</p></td>
+    </tr>
+    <tr>
+      <th>CNSR</th>
+      <td><p>Censor for Time-to-Event analysis. Default is "CNSR", as per CDISC ADaM guiding principles.</p></td>
+    </tr>
+    <tr>
+      <th>AVAL</th>
+      <td><p>Analysis value for Time-to-Event analysis. Default is "AVAL", as per CDISC ADaM guiding principles.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -253,11 +258,11 @@ Use <code><a href='https://rdrr.io/pkg/survival/man/survfit.formula.html'>?survi
 
       <footer>
       <div class="copyright">
-  <p><p>Developed by Diego Saldana, Charlotta Fruechtenicht, Mark Baillie, Marc Vandemeulebroecke, Thanos Siadimas, Pawel Kawski, Steven Haesendonckx, Pelagia Alexandra Papadopoulou, Tim Treis.</p></p>
+  <p>Developed by Diego Saldana, Charlotta Fruechtenicht, Mark Baillie, Marc Vandemeulebroecke, Thanos Siadimas, Pawel Kawski, Steven Haesendonckx, Pelagia Alexandra Papadopoulou, Tim Treis.</p>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -265,8 +270,6 @@ Use <code><a href='https://rdrr.io/pkg/survival/man/survfit.formula.html'>?survi
 
   
 
-
-  
 
   </body>
 </html>

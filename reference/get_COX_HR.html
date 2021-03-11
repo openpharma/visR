@@ -54,8 +54,6 @@ No default method is available at the moment." />
 
 
 
-
-
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -67,15 +65,9 @@ No default method is available at the moment." />
 
 
 
-  
-
-  
-
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -96,6 +88,12 @@ No default method is available at the moment." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fas fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
@@ -176,21 +174,39 @@ No default method is available at the moment.</p>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://broom.tidymodels.org/'>broom</a></span><span class='op'>)</span>
 
 <span class='co'>## treatment effect</span>
-<span class='va'>survfit_object_trt</span> <span class='op'>&lt;-</span> <span class='fu'>vr_KM_est</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>adtte</span>, strata <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"TRTP"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in vr_KM_est(data = adtte, strata = c("TRTP")): could not find function "vr_KM_est"</span></div><div class='input'><span class='fu'>get_COX_HR</span><span class='op'>(</span><span class='va'>survfit_object_trt</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in get_COX_HR(survfit_object_trt): object 'survfit_object_trt' not found</span></div><div class='input'>
+<span class='va'>survfit_object_trt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='estimate_KM.html'>estimate_KM</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>adtte</span>, strata <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"TRTP"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>get_COX_HR</span><span class='op'>(</span><span class='va'>survfit_object_trt</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; tidyme S3 default method (broom::tidy) used.</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 2 x 5</span><span>
+#&gt;   term                     estimate std.error statistic  p.value
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> TRTPXanomeline High Dose     1.61     0.233      6.92 4.45</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-12</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> TRTPXanomeline Low Dose      1.42     0.230      6.20 5.71</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-10</span><span></div><div class='input'>
 <span class='co'>## treatment and gender effect</span>
-<span class='va'>survfit_object_trt_sex</span> <span class='op'>&lt;-</span> <span class='fu'>vr_KM_est</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>adtte</span>, strata <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"TRTP"</span>, <span class='st'>"SEX"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in vr_KM_est(data = adtte, strata = c("TRTP", "SEX")): could not find function "vr_KM_est"</span></div><div class='input'><span class='fu'>get_COX_HR</span><span class='op'>(</span><span class='va'>survfit_object_trt_sex</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in get_COX_HR(survfit_object_trt_sex): object 'survfit_object_trt_sex' not found</span></div><div class='input'>
+<span class='va'>survfit_object_trt_sex</span> <span class='op'>&lt;-</span> <span class='fu'><a href='estimate_KM.html'>estimate_KM</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>adtte</span>, strata <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"TRTP"</span>, <span class='st'>"SEX"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>get_COX_HR</span><span class='op'>(</span><span class='va'>survfit_object_trt_sex</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; tidyme S3 default method (broom::tidy) used.</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 5</span><span>
+#&gt;   term                     estimate std.error statistic  p.value
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> TRTPXanomeline High Dose    1.62      0.234      6.91 4.96</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-12</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> TRTPXanomeline Low Dose     1.48      0.232      6.37 1.92</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-10</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> SEXM                        0.375     0.165      2.27 2.34</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 2</span><span></div><div class='input'>
 <span class='co'>## update formula of KM estimates by treatment to include "SEX" for HR estimation</span>
 <span class='fu'>get_COX_HR</span><span class='op'>(</span><span class='va'>survfit_object_trt</span>, update_formula <span class='op'>=</span> <span class='st'>". ~ . + SEX"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in get_COX_HR(survfit_object_trt, update_formula = ". ~ . + SEX"): object 'survfit_object_trt' not found</span></div><div class='input'>
+</div><div class='output co'>#&gt; tidyme S3 default method (broom::tidy) used.</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 5</span><span>
+#&gt;   term                     estimate std.error statistic  p.value
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> TRTPXanomeline High Dose    1.62      0.234      6.91 4.96</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-12</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> TRTPXanomeline Low Dose     1.48      0.232      6.37 1.92</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-10</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> SEXM                        0.375     0.165      2.27 2.34</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 2</span><span></div><div class='input'>
 <span class='co'>## update formula of KM estimates by treatment to include "AGE" for</span>
 <span class='co'>## HR estimation with ties considered via the efron method</span>
 <span class='fu'>get_COX_HR</span><span class='op'>(</span><span class='va'>survfit_object_trt</span>, update_formula <span class='op'>=</span> <span class='st'>". ~ . + strata(AGE)"</span>, ties <span class='op'>=</span> <span class='st'>"efron"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in get_COX_HR(survfit_object_trt, update_formula = ". ~ . + strata(AGE)",     ties = "efron"): object 'survfit_object_trt' not found</span></div><div class='input'>
-</div></pre>
+</div><div class='output co'>#&gt; tidyme S3 default method (broom::tidy) used.</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 2 x 5</span><span>
+#&gt;   term                     estimate std.error statistic     p.value
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> TRTPXanomeline High Dose     1.43     0.269      5.30 0.000</span><span style='text-decoration: underline;'>000</span><span>113
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> TRTPXanomeline Low Dose      1.15     0.265      4.35 0.000</span><span style='text-decoration: underline;'>013</span><span>8  </div><div class='input'>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -202,11 +218,11 @@ No default method is available at the moment.</p>
 
       <footer>
       <div class="copyright">
-  <p><p>Developed by Diego Saldana, Charlotta Fruechtenicht, Mark Baillie, Marc Vandemeulebroecke, Thanos Siadimas, Pawel Kawski, Steven Haesendonckx, Pelagia Alexandra Papadopoulou, Tim Treis.</p></p>
+  <p>Developed by Diego Saldana, Charlotta Fruechtenicht, Mark Baillie, Marc Vandemeulebroecke, Thanos Siadimas, Pawel Kawski, Steven Haesendonckx, Pelagia Alexandra Papadopoulou, Tim Treis.</p>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -214,8 +230,6 @@ No default method is available at the moment.</p>
 
   
 
-
-  
 
   </body>
 </html>

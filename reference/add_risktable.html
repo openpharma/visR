@@ -54,8 +54,6 @@ No default method is available at the moment." />
 
 
 
-
-
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -67,15 +65,9 @@ No default method is available at the moment." />
 
 
 
-  
-
-  
-
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -96,6 +88,12 @@ No default method is available at the moment." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fas fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
@@ -211,7 +209,7 @@ Default is FALSE.</p></td>
 
 <span class='co'>## Display 2 risk tables, 1 per statlist</span>
 <span class='va'>adtte</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>vr_KM_est</span><span class='op'>(</span>strata <span class='op'>=</span> <span class='st'>"TRTP"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='estimate_KM.html'>estimate_KM</a></span><span class='op'>(</span>strata <span class='op'>=</span> <span class='st'>"TRTP"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>vr_plot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>add_risktable</span><span class='op'>(</span> min_at_risk <span class='op'>=</span> <span class='fl'>3</span>
                 ,label <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Subjects at Risk"</span>, <span class='st'>"Censored"</span><span class='op'>)</span>
@@ -221,7 +219,7 @@ Default is FALSE.</p></td>
 </div><div class='output co'>#&gt; <span class='error'>Error in vr_plot(.): could not find function "vr_plot"</span></div><div class='input'>                
 <span class='co'>## Display 2 risk tables, 1 per stratum</span>
 <span class='va'>adtte</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>vr_KM_est</span><span class='op'>(</span>strata <span class='op'>=</span> <span class='st'>"TRTP"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='estimate_KM.html'>estimate_KM</a></span><span class='op'>(</span>strata <span class='op'>=</span> <span class='st'>"TRTP"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>vr_plot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>add_risktable</span><span class='op'>(</span> min_at_risk <span class='op'>=</span> <span class='fl'>3</span>
                 ,label <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Subjects at Risk"</span>, <span class='st'>"Censored"</span><span class='op'>)</span>
@@ -231,7 +229,7 @@ Default is FALSE.</p></td>
 </div><div class='output co'>#&gt; <span class='error'>Error in vr_plot(.): could not find function "vr_plot"</span></div><div class='input'>
 <span class='co'>## Display overall risk table</span>
 <span class='va'>adtte</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>vr_KM_est</span><span class='op'>(</span>strata <span class='op'>=</span> <span class='st'>"TRTP"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='estimate_KM.html'>estimate_KM</a></span><span class='op'>(</span>strata <span class='op'>=</span> <span class='st'>"TRTP"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>vr_plot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>add_risktable</span><span class='op'>(</span> min_at_risk <span class='op'>=</span> <span class='fl'>3</span>
                 ,label <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Subjects at Risk"</span>, <span class='st'>"Censored"</span><span class='op'>)</span>
@@ -253,11 +251,11 @@ Default is FALSE.</p></td>
 
       <footer>
       <div class="copyright">
-  <p><p>Developed by Diego Saldana, Charlotta Fruechtenicht, Mark Baillie, Marc Vandemeulebroecke, Thanos Siadimas, Pawel Kawski, Steven Haesendonckx, Pelagia Alexandra Papadopoulou, Tim Treis.</p></p>
+  <p>Developed by Diego Saldana, Charlotta Fruechtenicht, Mark Baillie, Marc Vandemeulebroecke, Thanos Siadimas, Pawel Kawski, Steven Haesendonckx, Pelagia Alexandra Papadopoulou, Tim Treis.</p>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -265,8 +263,6 @@ Default is FALSE.</p></td>
 
   
 
-
-  
 
   </body>
 </html>
