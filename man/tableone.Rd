@@ -9,6 +9,7 @@ tableone(
   title,
   datasource,
   strata = NULL,
+  overall = T,
   summary_function = summarize_tab1,
   ...
 )
@@ -23,7 +24,9 @@ tableone(
 \item{strata}{Character vector with column names to use for
 stratification in the summary table. Default: NULL}
 
-\item{summary_function}{A function to summarize variables of different types.
+\item{overall}{If TRUE, the summary statistics for the overall dataset are also calculated}
+
+\item{summary_function}{A function defining summary statistics for numeric and categorical values
 Pre-implemented functions are summarize and summarize_tab1}
 
 \item{...}{Pass options to render_table}
