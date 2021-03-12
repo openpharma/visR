@@ -25,11 +25,12 @@ jobs:
 
       - name: Install dependencies
         run: |
+          install.packages("devtools")
           install.packages("remotes")
-          remotes::install_deps(dependencies = TRUE)
           install.packages("pkgdown")
           remotes::install_github("lorenzwalthert/gitsum")
           install.packages("ggthemes")
+          remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
 
       - name: Install package
