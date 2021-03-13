@@ -11,11 +11,6 @@
 #' @examples
 #' \donttest{
 #' library(survival)
-#' library(dplyr)
-#' library(tidyr)
-#' library(ggplot2)
-#' library(cowplot)
-#' library(gtable)
 #' library(visR)
 #'
 #' ## Display 2 risk tables, 1 per statlist
