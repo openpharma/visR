@@ -16,13 +16,14 @@
 #' 
 #' @seealso \code{\link[survival]{survfit.formula} \link[survival]{survfitCI}}
 #' 
-#' @param data Data.frame for Time-to-Event analysis. Rows in which the analysis variable (AVAL) or the sensor variable (CNSR) contain NA, are removed during analysis. 
+#' @param data The name of the dataset for Time-to-Event analysis based on the Analysis Data Model (ADaM) principles. The dataset is expected to have
+#'    one record per subject per analysis parameter. Rows in which the analysis variable (AVAL) or the sensor variable (CNSR) contain NA, are removed during analysis. 
 #' @param strata Character vector, representing the strata for Time-to-Event analysis. When NULL, an overall analysis is performed.
-#'   Default is NULL.
-#' @param AVAL Analysis value for Time-to-Event analysis. Default is "AVAL".
-#' @param CNSR Censor for Time-to-Event analysis. Default is "CNSR".
+#'    Default is NULL.
+#' @param AVAL Analysis value for Time-to-Event analysis. Default is "AVAL", as per CDISC ADaM guiding principles.
+#' @param CNSR Censor for Time-to-Event analysis. Default is "CNSR", as per CDISC ADaM guiding principles.
 #' @param ... additional arguments passed on to the ellipsis of the call \code{survival::survfit.formula(data = data, formula = Surv(AVAL, 1-CNSR) ~ strata), ...)} .
-#' Use \code{?survival::survfit.formula} and \code{?survival::survfitCI} for more information.    
+#'    Use \code{?survival::survfit.formula} and \code{?survival::survfitCI} for more information.    
 #'
 #' @return survfit object, extended by elements PARAM/PARAMCD, ready for downstream processing in estimation or visualization functions and methods.
 #' 
