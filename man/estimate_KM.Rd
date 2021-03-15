@@ -7,14 +7,15 @@
 estimate_KM(data = NULL, strata = NULL, CNSR = "CNSR", AVAL = "AVAL", ...)
 }
 \arguments{
-\item{data}{Data.frame for Time-to-Event analysis. Rows in which the analysis variable (AVAL) or the sensor variable (CNSR) contain NA, are removed during analysis.}
+\item{data}{The name of the dataset for Time-to-Event analysis based on the Analysis Data Model (ADaM) principles. The dataset is expected to have
+one record per subject per analysis parameter. Rows in which the analysis variable (AVAL) or the sensor variable (CNSR) contain NA, are removed during analysis.}
 
 \item{strata}{Character vector, representing the strata for Time-to-Event analysis. When NULL, an overall analysis is performed.
 Default is NULL.}
 
-\item{CNSR}{Censor for Time-to-Event analysis. Default is "CNSR".}
+\item{CNSR}{Censor for Time-to-Event analysis. Default is "CNSR", as per CDISC ADaM guiding principles.}
 
-\item{AVAL}{Analysis value for Time-to-Event analysis. Default is "AVAL".}
+\item{AVAL}{Analysis value for Time-to-Event analysis. Default is "AVAL", as per CDISC ADaM guiding principles.}
 
 \item{...}{additional arguments passed on to the ellipsis of the call \code{survival::survfit.formula(data = data, formula = Surv(AVAL, 1-CNSR) ~ strata), ...)} .
 Use \code{?survival::survfit.formula} and \code{?survival::survfitCI} for more information.}

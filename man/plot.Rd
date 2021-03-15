@@ -56,7 +56,7 @@ library(dplyr)
 library(tidyr)
 library(ggplot2)
 
-survfit_object <- KM_est(data = adtte, strata = "TRTP")
+survfit_object <- estimate_KM(data = adtte, strata = "TRTP")
 
 ## Plot survival probability
 plot(survfit_object = survfit_object, fun = "surv")
