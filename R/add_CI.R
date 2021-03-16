@@ -37,31 +37,58 @@ add_CI <- function(gg, ...){
 #' @method add_CI ggsurvfit
 #' @export
 
-add_CI.ggsurvfit <- function(gg, alpha = 0.1, style = "ribbon", linetype = 2, ...){
-
+add_CI.ggsurvfit <- function(gg, 
+                             alpha = 0.1, 
+                             style = "ribbon", 
+                             linetype, ...){
+  
   if (! base::all(c("est.lower", "est.upper") %in% colnames(gg$data))) {
     warning("Confidence limits were not part of original estimation.")
     return(NULL)
   }
-
+  
   if (! base::any(c("ribbon", "step") %in% style)) {
     warning("Invalid `step` argument.")
     return(NULL)
   }
-
+  
   if (style == "ribbon"){
-    warning("Argument linetype not used for style ribbon")
+    
+    if (!missing(linetype)) {
+      
+      warning("Argument linetype not used for style ribbon")
+      
+    }
+    
     gg <- gg +
-      ggplot2::geom_ribbon(ggplot2::aes(ymin = est.lower, ymax = est.upper, fill = strata), alpha = alpha, na.rm = TRUE)
+      ggplot2::geom_ribbon(ggplot2::aes(ymin = est.lower, 
+                                        ymax = est.upper, 
+                                        fill = strata), 
+                           alpha = alpha, 
+                           na.rm = TRUE)
   }
-
+  
   if (style == "step"){
+    
+    if (missing(linetype)) {
+      
+      # Set a default linetype of solid (2) if the user didn't specify any
+      linetype <- 2
+      
+    }
+    
     gg <- gg +
-      ggplot2::geom_ribbon(ggplot2::aes(ymin = est.lower, ymax = est.upper, fill = NA, colour = strata),
-                  alpha = alpha, outline.type = "both", linetype = linetype, show.legend = FALSE,
-                  na.rm = TRUE)
+      ggplot2::geom_ribbon(ggplot2::aes(ymin = est.lower, 
+                                        ymax = est.upper, 
+                                        fill = NA, 
+                                        colour = strata),
+                           alpha = alpha, 
+                           outline.type = "both",
+                           linetype = linetype, 
+                           show.legend = FALSE,
+                           na.rm = TRUE)
   }
-
+  
   return(gg)
 }
 

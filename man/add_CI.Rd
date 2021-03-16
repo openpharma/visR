@@ -7,7 +7,7 @@
 \usage{
 add_CI(gg, ...)
 
-\method{add_CI}{ggsurvfit}(gg, alpha = 0.1, style = "ribbon", linetype = 2, ...)
+\method{add_CI}{ggsurvfit}(gg, alpha = 0.1, style = "ribbon", linetype, ...)
 }
 \arguments{
 \item{gg}{A ggplot created with visR}

@@ -32,9 +32,7 @@
 #' @export
 #'
 #' @examples
-#' library(survival)
-#' library(dplyr)
-#' library(tidyr)
+#' library(visR)
 #' 
 #' ## No stratification
 #' estimate_KM(data = adtte)
@@ -100,7 +98,7 @@ estimate_KM <- function(
     stop(paste0("Following columns are missing from `data`: ", paste(setdiff(reqcols, colnames(data)), collapse = " "), "."))
   }
   
-  if (! is.numeric(data[["AVAL"]])){
+  if (! is.numeric(data[[AVAL]])){
     stop("Analysis variable (AVAL) is not numeric.")
   }
   
@@ -142,7 +140,8 @@ estimate_KM <- function(
   
 
 # Update Call with original info and dots, similar as update.default ------
-
+  
+  #survfit_object$call[[1]] <- base::as.symbol("survival::survfit")
   survfit_object$call[["formula"]] <- formula
   survfit_object$call[["data"]] <- Call$data
   if (length(dots) > 0){
