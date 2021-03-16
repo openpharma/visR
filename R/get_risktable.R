@@ -1,7 +1,7 @@
 #' @title Obtain risk tables for tables and plots
-#' 
+#'
 #' @description Create a risktable from a survival object to display in tables or plots
-#' 
+#'
 #' @param survfit_object an object of class `survfit`
 #' @param min_at_risk \code{numeric} The cutoff for number of subjects to display. Default is 0.
 #' @param breaks Single numeric or numeric vector indicating breaks.
@@ -14,12 +14,12 @@
 #'      \item{"statlist": groups the risk tables per statlist. The `label` specifies the title for each risk tabel. The strata levels
 #'        are used for labeling within each risk table.}
 #'   } "strata" to group the risk tables
-#'   per strata, and "statlist" to group the risk tables 
+#'   per strata, and "statlist" to group the risk tables
 #' @param collapse Boolean, indicates whether to present the data overall, rather than per strata.
 #'   Default is FALSE.
-#'   
+#'
 #' @rdname get_risktable
-#' 
+#'
 #' @export
 
 get_risktable <- function(
@@ -55,38 +55,38 @@ get_risktable.survfit <- function(
     stop("Error in get_risktable: statlist argument not valid.")
   if (!base::is.logical(collapse))
     stop("Error in get_risktable: collapse is expected to be boolean.")
-  
+
   if (min_at_risk < 0 && min_at_risk %% 1 == 0)
     stop("min_at_risk needs to be a positive integer.")
-  
-  if (length(label) < length(statlist)) {
+
+  if (length(label) <= length(statlist)) {
     vlookup <- data.frame( statlist = c("n.risk", "n.censor", "n.event")
                           ,label = c("At risk", "Censored", "Events")
                           ,check.names = FALSE
                           ,stringsAsFactors = FALSE)
-    
+
     label <- c(label, rep(NA, length(statlist)-length(label)))
     have <- data.frame( cbind(label, statlist)
                        ,check.names = FALSE
-                       ,stringsAsFactors = FALSE)               
-    
+                       ,stringsAsFactors = FALSE)
+
     label <- vlookup %>%
       dplyr::arrange(statlist) %>%
       dplyr::right_join(have, by = "statlist") %>%
-      dplyr::mutate(label = dplyr::coalesce(label.y, label.x)) %>% 
+      dplyr::mutate(label = dplyr::coalesce(label.y, label.x)) %>%
       dplyr::select(-label.x, -label.y) %>%
       dplyr::pull(label)
-  
+
   }
-  
-  
+
+
   if (length(label) > length(statlist))
     label <- label[1:length(statlist)]
-  
+
   statlist <- unique(statlist)
-  
+
   tidy_object <- tidyme(survfit_object)
-  
+
 
 # Pull out the max time to consider ---------------------------------------
 
@@ -98,15 +98,15 @@ get_risktable.survfit <- function(
     dplyr::ungroup() %>%
     dplyr::summarize(min_time = min(max_time)) %>%
     dplyr::pull(min_time)
-  
+
 # Generate time ticks ----------------------------------------------------
-  
+
   if (is.null(breaks)) {
      times <- pretty(survfit_object$time, 10)
   } else {
     times <- breaks
   }
-  
+
   times <- times[times <= max_time]
 
 
@@ -117,7 +117,7 @@ get_risktable.survfit <- function(
 # Risk table per statlist -------------------------------------------------
 
   ## labels of risk table are strata, titles are specifified through `label
-  
+
   per_statlist <- data.frame(
     time = survfit_summary$time,
     n.risk = survfit_summary$n.risk,
@@ -133,8 +133,8 @@ get_risktable.survfit <- function(
     ) %>%
     dplyr::arrange(strata, time)%>%
     dplyr::rename(y_values = strata)
-  
-  final <-  per_statlist 
+
+  final <-  per_statlist
 
   attr(final, 'time_ticks') <- times
   attr(final, "title") <- label
@@ -151,10 +151,10 @@ get_risktable.survfit <- function(
       tidyr::pivot_wider(names_from = "y_values", values_from = values) %>%
       dplyr::rename(y_values = statlist) %>%
       dplyr::filter(y_values %in% statlist)
-    
-    per_strata[["y_values"]] <- factor(per_strata[["y_values"]], levels = statlist, labels = label) 
-    title <- levels(per_statlist[["y_values"]]) 
-    
+
+    per_strata[["y_values"]] <- factor(per_strata[["y_values"]], levels = statlist, labels = label)
+    title <- levels(per_statlist[["y_values"]])
+
     final <- per_strata
     attr(final, 'time_ticks') <- times
     attr(final, "title") <- title
@@ -179,18 +179,18 @@ get_risktable.survfit <- function(
                            ,names_to = "y_values"
                            ,values_to = "Overall") %>%
       dplyr::filter(y_values %in% statlist)
-    
+
     collapsed[["y_values"]] <- factor(collapsed[["y_values"]], levels = statlist, labels = label)
     collapsed <- collapsed %>%
       dplyr::arrange(y_values, time)
-     
+
     final <- collapsed
-    
+
     attr(final, 'time_ticks') <- times
     attr(final, 'title') <- "Overall"
     attr(final, 'statlist') <- "Overall"
   }
-  
+
   return(final)
 }
 
