@@ -132,7 +132,8 @@ get_risktable.survfit <- function(
     )
     ) %>%
     dplyr::arrange(strata, time)%>%
-    dplyr::rename(y_values = strata)
+    dplyr::rename(y_values = strata)%>%
+    as.data.frame()
 
   final <-  per_statlist
 
@@ -150,7 +151,8 @@ get_risktable.survfit <- function(
                            ,values_to = "values") %>%
       tidyr::pivot_wider(names_from = "y_values", values_from = values) %>%
       dplyr::rename(y_values = statlist) %>%
-      dplyr::filter(y_values %in% statlist)
+      dplyr::filter(y_values %in% statlist)%>%
+      as.data.frame()
 
     per_strata[["y_values"]] <- factor(per_strata[["y_values"]], levels = statlist, labels = label)
     title <- levels(per_statlist[["y_values"]])
@@ -178,7 +180,8 @@ get_risktable.survfit <- function(
       tidyr::pivot_longer( cols = c("n.risk", "n.event", "n.censor")
                            ,names_to = "y_values"
                            ,values_to = "Overall") %>%
-      dplyr::filter(y_values %in% statlist)
+      dplyr::filter(y_values %in% statlist) %>%
+      as.data.frame()
 
     collapsed[["y_values"]] <- factor(collapsed[["y_values"]], levels = statlist, labels = label)
     collapsed <- collapsed %>%
