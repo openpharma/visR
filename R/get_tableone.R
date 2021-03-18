@@ -31,6 +31,32 @@
 #'          ecog.ps = factor(ecog.ps)) %>% 
 #'   select(age, age_group, everything()) %>% 
 #'   get_tableone()
+#'   
+#' #---- Examples using table one for ADaM data
+#' 
+#' ## display patients in an analysis set
+#' adtte %>% 
+#' filter(SAFFL == "Y") %>%
+#' select(TRTA) %>%
+#' get_tableone()
+#' 
+#' ## display overall summaries for demog
+#' adtte %>% 
+#' filter(SAFFL == "Y") %>%
+#' select(AGE, AGEGR1, SEX, RACE) %>%
+#' get_tableone()
+#' 
+#' ## By actual treatment 
+#' adtte %>% 
+#'   filter(SAFFL == "Y") %>%
+#'   select(AGE, AGEGR1, SEX, RACE, TRTA ) %>%
+#'   get_tableone(strata = "TRTA")
+#'   
+#' ## By actual treatment, without overall
+#' adtte %>% 
+#'   filter(SAFFL == "Y") %>%
+#'   select(AGE, AGEGR1, SEX, EVNTDESC, TRTA ) %>%
+#'   get_tableone(strata = "TRTA", overall = F)
 #'     
 #' @rdname get_tableone
 #' 
