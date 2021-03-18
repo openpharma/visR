@@ -122,7 +122,7 @@ get_risktable.survfit <- function(
     time = survfit_summary$time,
     n.risk = survfit_summary$n.risk,
     n.event = survfit_summary$n.event,
-    strata = base::sub('.*=', '', survfit_summary$strata)
+    strata = base::factor(base::sub('.*=', '', survfit_summary$strata), levels = base::sub('.*=', '', levels(survfit_summary$strata)))
   ) %>%
     ## correct calculation of n.censor
     dplyr::mutate(n.censor = dplyr::lag(n.risk) - (n.risk + n.event)) %>%
@@ -147,8 +147,8 @@ get_risktable.survfit <- function(
     per_strata <- per_statlist %>%
       dplyr::arrange(time) %>%
       tidyr::pivot_longer( cols = c("n.risk", "n.event", "n.censor")
-                           ,names_to = "statlist"
-                           ,values_to = "values") %>%
+                          ,names_to = "statlist"
+                          ,values_to = "values") %>%
       tidyr::pivot_wider(names_from = "y_values", values_from = values) %>%
       dplyr::rename(y_values = statlist) %>%
       dplyr::filter(y_values %in% statlist)%>%
