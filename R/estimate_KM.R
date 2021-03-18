@@ -52,6 +52,18 @@
 #' ## Modify the default analysis by using the ellipsis
 #' estimate_KM(data = adtte, strata = NULL, type = "kaplan-meier", conf.int = F, timefix = TRUE)
 #' estimate_KM(data = adtte, strata = NULL, type = "kaplan-meier", conf.int = FALSE, timefix = TRUE)
+#' 
+#' #--- Example working with non CDISC data
+#' head(veteran)
+#' 
+#' # convert time and censoring data to ADaM variables 
+#' veteran_adam <- veteran %>%
+#'  mutate(
+#'   AVAL = time, 
+#'   CNSR = if_else(status == 1, 0, 1) #convert censoring status to CDISC principles
+#'   )
+#' 
+#' estimate_KM(data = veteran_adam, strata = "trt")
 
 estimate_KM <- function(
    data = NULL
