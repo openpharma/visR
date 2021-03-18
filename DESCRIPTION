@@ -52,7 +52,6 @@ Imports:
     tidyr,
     dplyr,
     ggpubr,
-    ggsci,
     pammtools,
     kableExtra,
     assertthat,
