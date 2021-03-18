@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create Risk Table — get_risktable • visR</title>
+<title>Obtain risk tables for tables and plots — get_risktable • visR</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="Create Risk Table — get_risktable" />
-<meta property="og:description" content="Create a risktable from a survival object." />
+<meta property="og:title" content="Obtain risk tables for tables and plots — get_risktable" />
+<meta property="og:description" content="Create a risktable from a survival object to display in tables or plots" />
 <meta property="og:image" content="https://openpharma.github.io/visR/logo.png" />
 
 
@@ -119,13 +119,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create Risk Table</h1>
+    <h1>Obtain risk tables for tables and plots</h1>
     <small class="dont-index">Source: <a href='https://github.com/openpharma/visR/blob/master/R/get_risktable.R'><code>R/get_risktable.R</code></a></small>
     <div class="hidden name"><code>get_risktable.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Create a risktable from a survival object.</p>
+    <p>Create a risktable from a survival object to display in tables or plots</p>
     </div>
 
     <pre class="usage"><span class='fu'>get_risktable</span><span class='op'>(</span>
@@ -134,17 +134,6 @@
   breaks <span class='op'>=</span> <span class='cn'>NULL</span>,
   statlist <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"n.risk"</span><span class='op'>)</span>,
   label <span class='op'>=</span> <span class='st'>"At risk"</span>,
-  group <span class='op'>=</span> <span class='st'>"strata"</span>,
-  collapse <span class='op'>=</span> <span class='cn'>FALSE</span>
-<span class='op'>)</span>
-
-<span class='co'># S3 method for ggsurvfit</span>
-<span class='fu'>get_risktable</span><span class='op'>(</span>
-  <span class='va'>gg</span>,
-  min_at_risk <span class='op'>=</span> <span class='fl'>0</span>,
-  breaks <span class='op'>=</span> <span class='cn'>NULL</span>,
-  statlist <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"n.risk"</span><span class='op'>)</span>,
-  label <span class='op'>=</span> <span class='cn'>NULL</span>,
   group <span class='op'>=</span> <span class='st'>"strata"</span>,
   collapse <span class='op'>=</span> <span class='cn'>FALSE</span>
 <span class='op'>)</span>
@@ -165,7 +154,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>survfit_object</th>
-      <td><p>a survival object</p></td>
+      <td><p>an object of class <code>survfit</code></p></td>
     </tr>
     <tr>
       <th>min_at_risk</th>
