@@ -43,20 +43,23 @@ add_CI.ggsurvfit <- function(gg,
                              linetype, ...){
   
   if (! base::all(c("est.lower", "est.upper") %in% colnames(gg$data))) {
-    warning("Confidence limits were not part of original estimation.")
-    return(NULL)
+    
+    stop("Confidence limits were not part of original estimation.")
+  
   }
   
   if (! base::any(c("ribbon", "step") %in% style)) {
-    warning("Invalid `step` argument.")
-    return(NULL)
+    
+    warning("Invalid `style` argument. Setting `style` to `ribbon`.")
+    style <- "ribbon"
+    
   }
   
   if (style == "ribbon"){
     
     if (!missing(linetype)) {
       
-      warning("Argument linetype not used for style ribbon")
+      warning("Argument `linetype` not used for style ribbon.")
       
     }
     
