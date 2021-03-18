@@ -42,6 +42,19 @@ plot.default <- function(x, ...){
 #' library(tidyr)
 #' library(ggplot2)
 #' 
+#' # fit KM 
+#' km_fit <- survfit(Surv(AVAL, 1-CNSR) ~ TRTP, data=adtte)
+#' 
+#' # plot curves using base plot function
+#' base::plot(km_fit)
+#' 
+#' # plot same curves using visR plot function
+#' visR::plot(km_fit)
+#' 
+#' # Note: loading the visR package will override base plot
+#' plot(km_fit)
+#' 
+#' # estimate KM using visR wrapper
 #' survfit_object <- estimate_KM(data = adtte, strata = "TRTP")
 #'
 #' ## Plot survival probability
