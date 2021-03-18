@@ -196,8 +196,6 @@ plot.survfit <- function(
   
   gg <- ggplot2::ggplot(tidy_object, ggplot2::aes(x = time, group = strata)) +
     ggplot2::geom_step(ggplot2::aes(y = est, col = strata)) + 
-    ggsci::scale_color_nejm() + 
-    ggsci::scale_fill_nejm() + 
     ggplot2::scale_x_continuous(name = paste0("\n", x_label),
                                 breaks = x_ticks,
                                 limits = c(min(x_ticks), max(x_ticks))) +
