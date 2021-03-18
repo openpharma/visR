@@ -31,7 +31,7 @@ add_CI <- function(gg, ...){
 #' @param gg A ggplot created with visR
 #' @param alpha aesthetic of ggplot2 \code{\link[ggplot2]{geom_ribbon}}. Default is 0.1.
 #' @param style aesthetic of ggplot2 \code{\link[ggplot2]{geom_ribbon}}. Default is "ribbon".
-#' @param linetype aesthetic of ggplot2 \code{\link[ggplot2]{geom_ribbon}}. Default is 2.
+#' @param linetype aesthetic of ggplot2 \code{\link[ggplot2]{geom_ribbon}}.
 #'
 #' @rdname add_CI
 #' @method add_CI ggsurvfit
