@@ -94,8 +94,3 @@ add_CI.ggsurvfit <- function(gg,
   
   return(gg)
 }
-
-
-add_CI.tblKM <- function(gg){
-  stop("this object is not yet part of the scope")
-}
