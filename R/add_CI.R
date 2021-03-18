@@ -15,7 +15,7 @@
 #' library(ggplot2)
 #'
 #' survfit_object <- survival::survfit(data = adtte, Surv(AVAL, 1-CNSR) ~ TRTP)
-#' vr_plot(survfit_object) %>%
+#' visR::plot(survfit_object) %>%
 #'   add_CI(alpha = 0.1, style = "step", linetype = 3)
 #'
 #' @return Pointwise confidence interval overlayed on a visR ggplot
@@ -31,7 +31,7 @@ add_CI <- function(gg, ...){
 #' @param gg A ggplot created with visR
 #' @param alpha aesthetic of ggplot2 \code{\link[ggplot2]{geom_ribbon}}. Default is 0.1.
 #' @param style aesthetic of ggplot2 \code{\link[ggplot2]{geom_ribbon}}. Default is "ribbon".
-#' @param linetype aesthetic of ggplot2 \code{\link[ggplot2]{geom_ribbon}}. Default is 2.
+#' @param linetype aesthetic of ggplot2 \code{\link[ggplot2]{geom_ribbon}}.
 #'
 #' @rdname add_CI
 #' @method add_CI ggsurvfit
