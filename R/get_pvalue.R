@@ -18,7 +18,20 @@
 #' 
 #' survfit_object <- estimate_KM(data = adtte, strata = "TRTP")
 #' get_pvalue(survfit_object)
+#' get_pvalue(survfit_object, ptype = "All")
+#' 
+#' ## examples to obtain specific tests
+#' get_pvalue(survfit_object, ptype = "Log-Rank")
+#' get_pvalue(survfit_object, ptype = "Wilcoxon")
+#' get_pvalue(survfit_object, ptype = "Tarone-Ware")
+#' 
+#' # Custom example - obtain Harrington and Fleming test
+#' get_pvalue(survfit_object, ptype = "Custom", rho = 1)
 #'  
+#' # Get specific information and statistics 
+#' get_pvalue(survfit_object, ptype = "Log-Rank", statlist = c("test", "Chisq", "df", "p"))
+#' get_pvalue(survfit_object, ptype = "Wilcoxon", statlist = c("p"))
+#'
 #' @return A tibble with summary measures for the Test of Equality Across Strata
 #'  
 #' @rdname get_pvalue
