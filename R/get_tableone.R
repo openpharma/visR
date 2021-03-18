@@ -1,7 +1,8 @@
 #' @title #' Create Summary Table (also known as 'tableone')
 #'
-#' @description S3 method for creating summary tables (tableone).
-#'     
+#' @description S3 method for creating a table of summary statistics.
+#' 
+#' The summary statistics estimated are conditional on the variable type. 
 #' 
 #' By default the following summary stats are calculated:
 #' * Numeric variables: mean, min, 25th-percentile, median, 75th-percentile, maximum, standard deviation
@@ -31,7 +32,7 @@
 #'          ecog.ps = factor(ecog.ps)) %>% 
 #'   select(age, age_group, everything()) %>% 
 #'   get_tableone()
-#'   
+#'     
 #' #---- Examples using table one for ADaM data
 #' 
 #' ## display patients in an analysis set
@@ -61,6 +62,7 @@
 #' @rdname get_tableone
 #' 
 #' @export
+
 get_tableone <- function(data, strata = NULL, overall=TRUE, summary_function = summarize_tab1){
   UseMethod("get_tableone")
 }
