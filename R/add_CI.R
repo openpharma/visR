@@ -31,7 +31,7 @@ add_CI <- function(gg, ...){
 #' @param gg A ggplot created with visR
 #' @param alpha aesthetic of ggplot2 \code{\link[ggplot2]{geom_ribbon}}. Default is 0.1.
 #' @param style aesthetic of ggplot2 \code{\link[ggplot2]{geom_ribbon}}. Default is "ribbon".
-#' @param linetype aesthetic of ggplot2 \code{\link[ggplot2]{geom_ribbon}}. Default is 2.
+#' @param linetype aesthetic of ggplot2 \code{\link[ggplot2]{geom_ribbon}}.
 #'
 #' @rdname add_CI
 #' @method add_CI ggsurvfit
@@ -40,19 +40,26 @@ add_CI <- function(gg, ...){
 add_CI.ggsurvfit <- function(gg, 
                              alpha = 0.1, 
                              style = "ribbon", 
-                             linetype = "2a", ...){
-
+                             linetype, ...){
+  
   if (! base::all(c("est.lower", "est.upper") %in% colnames(gg$data))) {
     warning("Confidence limits were not part of original estimation.")
     return(NULL)
   }
-
+  
   if (! base::any(c("ribbon", "step") %in% style)) {
     warning("Invalid `step` argument.")
     return(NULL)
   }
   
   if (style == "ribbon"){
+    
+    if (!missing(linetype)) {
+      
+      warning("Argument linetype not used for style ribbon")
+      
+    }
+    
     gg <- gg +
       ggplot2::geom_ribbon(ggplot2::aes(ymin = est.lower, 
                                         ymax = est.upper, 
@@ -60,13 +67,12 @@ add_CI.ggsurvfit <- function(gg,
                            alpha = alpha, 
                            na.rm = TRUE)
   }
-
+  
   if (style == "step"){
     
-    if (linetype == "2a") {
+    if (missing(linetype)) {
       
-      # Hack to differentiate thea specified linetype = 2 from the default one
-      # so that the ribbon style doesn't automatically cause a warning.
+      # Set a default linetype of solid (2) if the user didn't specify any
       linetype <- 2
       
     }
@@ -82,7 +88,7 @@ add_CI.ggsurvfit <- function(gg,
                            show.legend = FALSE,
                            na.rm = TRUE)
   }
-
+  
   return(gg)
 }
 
