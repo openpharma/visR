@@ -35,11 +35,14 @@ map_numbers_to_new_range <- function(numbers, lower, upper) {
 #' T2.  The output plots with different amount of strata don't differ from the reviewed plots 
 #' T2.1 No error when only 1 strata is present
 #' T2.2 No error when 2 or more strata are present
+#' T3.  Warnings in case of missing data or arguments are thrown. 
+#' T3.1 Error when `est.lower` and `est.upper` are not present
+#' T3.2 Warning when no valid style was provided
 
 
 # Requirement T1 ---------------------------------------------------------------
 
-context("plot - T1. The output plots after adding confidence intervals doesn't differ from the reviewed plots")
+context("add_CI - T1. The output plots after adding confidence intervals doesn't differ from the reviewed plots")
 
 testthat::test_that("T1.1 No error when the default parameters are used",{
   
@@ -110,7 +113,7 @@ testthat::test_that("T1.3 No error when `linetype` is specified",{
 
 # Requirement T2 ---------------------------------------------------------------
 
-context("plot - T2. The output plots with different amount of strata don't differ from the reviewed plots")
+context("add_CI - T2. The output plots with different amount of strata don't differ from the reviewed plots")
 
 testthat::test_that("T2.1 No error when only 1 strata is present",{
   
@@ -140,6 +143,36 @@ testthat::test_that("T2.2 No error when 2 or more strata are present",{
       vdiffr::expect_doppelganger(title = paste0("add_CI_T2_2_", n_strata, "strata"))
     
   }
+  
+})
+
+# Requirement T3 ---------------------------------------------------------------
+
+context("add_CI - T3.  Warnings in case of missing data or weird arguments are thrown.")
+
+testthat::test_that("T3.1 Error when `est.lower` and `est.upper` are not present",{
+  
+  survfit_object <- adtte %>% visR::estimate_KM(strata = "SEX")
+  p <- survfit_object %>% visR::plot()
+  
+  are_present_before <- base::all(c("est.lower", "est.upper") %in% colnames(p$data))
+  testthat::expect_equal(are_present_before, TRUE)
+  testthat::expect_error(p %>% visR::add_CI(), NA)
+  
+  p$data = p$data %>% dplyr::select(-c(est.lower, est.upper))
+  are_present_after <- base::all(c("est.lower", "est.upper") %in% colnames(p$data))
+  testthat::expect_equal(are_present_after, FALSE)
+  testthat::expect_error(p %>% visR::add_CI())
+  
+})
+
+testthat::test_that("T3.2 Warning when no valid style was provided",{
+  
+  survfit_object <- adtte %>% visR::estimate_KM(strata = "SEX")
+  p <- survfit_object %>% visR::plot()
+  
+  warning_message <- "Invalid `style` argument. Setting `style` to `ribbon`."
+  testthat::expect_warning(p %>% visR::add_CI(style = "visR"), warning_message)
   
 })
 
