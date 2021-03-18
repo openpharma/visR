@@ -13,10 +13,22 @@
 #' library(dplyr)
 #' library(tidyr)
 #' library(ggplot2)
+#' library(visR)
 #'
 #' survfit_object <- survival::survfit(data = adtte, Surv(AVAL, 1-CNSR) ~ TRTP)
-#' visR::plot(survfit_object) %>%
-#'   add_CI(alpha = 0.1, style = "step", linetype = 3)
+#' 
+#' # plot KM curves
+#' p <- visR::plot(survfit_object)
+#' p
+#'
+#' # add censoring to plot
+#' p %>% add_CNSR()
+#' 
+#' # change censor symbol shape
+#' p %>% add_CNSR(shape = 1)
+#' 
+#' # change size and shape
+#' p %>% add_CNSR(size = 4, shape = 2)
 #'
 #' @return Censoring symbols overlayed on a visR ggplot
 #'
