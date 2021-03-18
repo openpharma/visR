@@ -25,7 +25,7 @@
 #' @param font_size The label font size as used in graphviz (dot).
 #' @export
 #'
-vr_attrition <- function(
+plot.attrition <- function(
     N_array,
     descriptions,
     complement_descriptions,

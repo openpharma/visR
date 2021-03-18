@@ -37,7 +37,7 @@
 #' # age=base::sample(x = 5:105, size=500, replace=T))
 #'
 #' # Run function
-#' #vr_attrition_table(
+#' #get_attrition(
 #' # data                  = cohort,
 #' # criteria_descriptions =
 #'   # c("1. lung cancer diagnosis", "2. Be 18 years of age or older."),
@@ -45,7 +45,7 @@
 #' # subject_column_name   = 'patient_id'
 #' #)
 #' @export
-vr_attrition_table <- function(
+get_attrition <- function(
   data,
   criteria_descriptions,
   criteria_conditions,
@@ -79,7 +79,7 @@ vr_attrition_table <- function(
                                        
       person_count_temp   <- data %>%
          dplyr::filter(eval(parse(text=final_cond))) %>%
-         dplyr::select(!!subject_column_name) %>% n_distinct
+         dplyr::select(!!subject_column_name) %>% dplyr::n_distinct()
       person_count_master <- c(person_count_master, person_count_temp)
 
    }
@@ -89,7 +89,7 @@ vr_attrition_table <- function(
     count_master_table <- dplyr::tibble("Remaining N"=person_count_master)
     criterion_0 <- dplyr::tibble(criteria_conditions='none',
                                  criteria_descriptions='Total cohort size',
-                                 `Remaining N`=dplyr::select(data, !!subject_column_name) %>% n_distinct)
+                                 `Remaining N`=dplyr::select(data, !!subject_column_name) %>% dplyr::n_distinct())
 
     # generate attrition table
     attrition_table <-
@@ -103,28 +103,9 @@ vr_attrition_table <- function(
                         Criteria = criteria_descriptions) %>%
          # fix formatting
          dplyr::select(Criteria, Condition, dplyr::everything())
-      # dplyr::mutate_at(vars(matches(' N')), list(~format(., big.mark=','))) %>%
-      # dplyr::mutate_at(vars(matches(' %')), list(~round(., 2)))
+    
+    class(attrition_table) <- c("attritiontable", class(attrition_table))
     return(attrition_table)
 
    }}
 }
-
-
-# cohort <-  dplyr::tibble(
-#   # create 500 patient ids
-#   patient_id=base::sample(x = 1:1000, size=500),
-#  # with 'lung' or 'breast' as cancer type
-#   cancer_type=base::sample(c('lung','breast'), 500, replace=T),
-#   # aged between 5 and 105 years old
-#   age=base::sample(x = 5:105, size=500, replace=T)
-# )
-
-# Run function
-
-# vr_attrition_table(
-# data                  = cohort,
-# criteria_descriptions = c("1. lung cancer diagnosis", "2. Be 18 years of age or older."),
-# criteria_conditions   = c("cancer_type=='lung'","age>=18"),
-# subject_column_name   = 'patient_id'
-# )
