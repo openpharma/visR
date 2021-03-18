@@ -15,9 +15,20 @@
 #' library(ggplot2)
 #'
 #' survfit_object <- adtte %>% visR::estimate_KM()
-#' visR::plot(survfit_object) %>%
-#'   add_CNSR(shape = 3, size = 2)
+#' 
+#' # plot KM curves
+#' p <- visR::plot(survfit_object)
+#' p
 #'
+#' # add censoring to plot
+#' p %>% visR::add_CNSR()
+#' 
+#' # change censor symbol shape
+#' p %>% visR::add_CNSR(shape = 1)
+#' 
+#' # change size and shape
+#' p %>% visR::add_CNSR(size = 4, shape = 2)
+#' 
 #' @return Censoring symbols overlayed on a visR ggplot
 #'
 #' @rdname add_CNSR
