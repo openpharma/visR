@@ -39,8 +39,8 @@ tidyme <- function(x, ...){
 #' @export
 
 tidyme.default <- function(x, ...){
-  #library(broom)
-  message("tidyme S3 default method (broom::tidy) used.")
+
+  base::message("tidyme S3 default method (broom::tidy) used.")
   return(broom::tidy(x))
 }
  

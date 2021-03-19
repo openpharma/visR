@@ -6,10 +6,10 @@
 
 # Specifications ---------------------------------------------------------------
 
-#' T1.  The function properly converts "messy output" into tidy tibbles
+#' T1.  The function reorganises "messy output" into tidy tibbles without changing values
 #' T1.1 The `visR::tidyme(stats::lm())` transformation doesn't change the values
 #' T1.2 The `visR::tidyme(survival::survfit())` transformation doesn't change the values
-#' T2.  Warnings and errors are thrown when neccecary
+#' T2.  No errors are thrown when proper input is provided and a message is thrown when a non-survfit object is transformed
 #' T2.1 No error when a `stats::lm()` model is transformed
 #' T2.2 No error when a `survival::survfit()` model is transformed
 #' T2.3 Message when a non-survfit object is transformed
