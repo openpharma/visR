@@ -50,8 +50,8 @@
 #' visR::estimate_KM(data = adtte[adtte$SEX == "F", ])
 #'
 #' ## Modify the default analysis by using the ellipsis
-#' estimate_KM(data = adtte, strata = NULL, type = "kaplan-meier", conf.int = F, timefix = TRUE)
-#' estimate_KM(data = adtte, strata = NULL, type = "kaplan-meier", conf.int = FALSE, timefix = TRUE)
+#' visR::estimate_KM(data = adtte, strata = NULL, type = "kaplan-meier", conf.int = F, timefix = TRUE)
+#' visR::estimate_KM(data = adtte, strata = NULL, type = "kaplan-meier", conf.int = FALSE, timefix = TRUE)
 #' 
 #' ## Example working with non CDISC data
 #' head(veteran)
@@ -63,7 +63,7 @@
 #'   CNSR = if_else(status == 1, 0, 1) #convert censoring status to CDISC principles
 #'   )
 #' 
-#' estimate_KM(data = veteran_adam, strata = "trt")
+#' visR::estimate_KM(data = veteran_adam, strata = "trt")
 
 estimate_KM <- function(
    data = NULL
