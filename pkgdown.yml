@@ -3,7 +3,7 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   Time_to_event_analysis: Time_to_event_analysis.html
-last_built: 2021-03-18T20:40Z
+last_built: 2021-03-19T08:46Z
 urls:
   reference: https://openpharma.github.io/visR//reference
   article: https://openpharma.github.io/visR//articles
