@@ -30,7 +30,7 @@ add_risktable(
 
 \item{min_at_risk}{\code{numeric} The cutoff for number of subjects to display. Default is 0.}
 
-\item{breaks}{Single numeric or numeric vector indicating breaks. If a vector, breaks are used as specified. If a numeric, it is interpreted as the number of breaks. If added to a ggplot object this argument will override default breaks taken from the plot.}
+\item{breaks}{Single numeric or numeric vector indicating breaks.}
 
 \item{statlist}{Character vector indicating which summary data to present. Current choices are "n.risk" "n.event" "n.censor".}
 
@@ -63,11 +63,12 @@ library(tidyr)
 library(ggplot2)
 library(cowplot)
 library(gtable)
+library(visR)
 
 ## Display 2 risk tables, 1 per statlist
 adtte \%>\%
   estimate_KM(strata = "TRTP") \%>\%
-  vr_plot() \%>\%
+  visR::plot() \%>\%
   add_risktable( min_at_risk = 3
                 ,label = c("Subjects at Risk", "Censored")
                 ,statlist = c("n.risk", "n.censor")
@@ -77,7 +78,7 @@ adtte \%>\%
 ## Display 2 risk tables, 1 per stratum
 adtte \%>\%
   estimate_KM(strata = "TRTP") \%>\%
-  vr_plot() \%>\%
+  visR::plot() \%>\%
   add_risktable( min_at_risk = 3
                 ,label = c("Subjects at Risk", "Censored")
                 ,statlist = c("n.risk", "n.censor")
@@ -87,7 +88,7 @@ adtte \%>\%
 ## Display overall risk table
 adtte \%>\%
   estimate_KM(strata = "TRTP") \%>\%
-  vr_plot() \%>\%
+  visR::plot() \%>\%
   add_risktable( min_at_risk = 3
                 ,label = c("Subjects at Risk", "Censored")
                 ,statlist = c("n.risk", "n.censor")
