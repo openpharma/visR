@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Add pointwise Confidence Interval to a an object created by visR through an S3 method — add_CI • visR</title>
+<title>Add confidence interval (CI) to visR object — add_CI • visR</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,11 @@
 
 
 
-<meta property="og:title" content="Add pointwise Confidence Interval to a an object created by visR through an S3 method — add_CI" />
-<meta property="og:description" content="S3 method for adding a pointwise confidence interval to a object created with visR.
+<meta property="og:title" content="Add confidence interval (CI) to visR object — add_CI" />
+<meta property="og:description" content="Method to add pointwise confidence intervals to a an object
+created by visR through an S3 method. The method is set up to use
+the pipe %&amp;gt;%. There are two options to display CI's, a &quot;ribbon&quot; or
+as &quot;step&quot; lines.
 No default method is available at the moment." />
 <meta property="og:image" content="https://openpharma.github.io/visR/logo.png" />
 
@@ -132,14 +135,17 @@ No default method is available at the moment." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Add pointwise Confidence Interval to a an object created by visR through an S3 method</h1>
+    <h1>Add confidence interval (CI) to visR object</h1>
     <small class="dont-index">Source: <a href='https://github.com/openpharma/visR/blob/master/R/add_CI.R'><code>R/add_CI.R</code></a></small>
     <div class="hidden name"><code>add_CI.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>S3 method for adding a pointwise confidence interval to a object created with visR.
-No default method is available at the moment.</p>
+    <p>Method to add pointwise confidence intervals to a an object
+created by visR through an S3 method. The method is set up to use
+the pipe <code>%&gt;%</code>. There are two options to display CI's, a "ribbon" or
+as "step" lines.</p>
+<p>No default method is available at the moment.</p>
     </div>
 
     <pre class="usage"><span class='fu'>add_CI</span><span class='op'>(</span><span class='va'>gg</span>, <span class='va'>...</span><span class='op'>)</span>
@@ -186,20 +192,20 @@ No default method is available at the moment.</p>
 <span class='co'># Estimate KM curves by treatment group </span>
 <span class='va'>survfit_object</span> <span class='op'>&lt;-</span> <span class='fu'>survival</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/survival/man/survfit.html'>survfit</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>adtte</span>, <span class='fu'><a href='https://rdrr.io/pkg/survival/man/Surv.html'>Surv</a></span><span class='op'>(</span><span class='va'>AVAL</span>, <span class='fl'>1</span><span class='op'>-</span><span class='va'>CNSR</span><span class='op'>)</span> <span class='op'>~</span> <span class='va'>TRTP</span><span class='op'>)</span>
 
-<span class='co'>## plot without confidence intervals</span>
+<span class='co'>## plot without confidence intervals (CI)</span>
 <span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'>visR</span><span class='fu'>::</span><span class='fu'><a href='plot.html'>plot</a></span><span class='op'>(</span><span class='va'>survfit_object</span><span class='op'>)</span> 
 <span class='va'>p</span>
 </div><div class='img'><img src='add_CI-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># plot with default settings</span>
+<span class='co'># add CI to plot with default settings</span>
 <span class='va'>p</span> <span class='op'>%&gt;%</span> <span class='fu'>add_CI</span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='img'><img src='add_CI-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># change transparency of ribbon  </span>
+<span class='co'># change transparency of CI ribbon  </span>
 <span class='va'>p</span> <span class='op'>%&gt;%</span> <span class='fu'>add_CI</span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fl'>0.9</span>, style <span class='op'>=</span> <span class='st'>"ribbon"</span><span class='op'>)</span>
 </div><div class='img'><img src='add_CI-3.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># plot interval as a step</span>
+<span class='co'># plot CI as a step line instead of ribbon</span>
 <span class='va'>p</span> <span class='op'>%&gt;%</span> <span class='fu'>add_CI</span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fl'>0.1</span>, style <span class='op'>=</span> <span class='st'>"step"</span><span class='op'>)</span>
 </div><div class='img'><img src='add_CI-4.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># change linetype </span>
+<span class='co'># change linetype of CI</span>
 <span class='va'>p</span> <span class='op'>%&gt;%</span> <span class='fu'>add_CI</span><span class='op'>(</span>style <span class='op'>=</span> <span class='st'>"step"</span>, linetype <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
 </div><div class='img'><img src='add_CI-5.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
