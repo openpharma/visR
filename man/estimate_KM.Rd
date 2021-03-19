@@ -2,15 +2,20 @@
 % Please edit documentation in R/estimate_KM.R
 \name{estimate_KM}
 \alias{estimate_KM}
-\title{Wrapper for Kaplan Meier analysis for an ADaM Basic Data Structure (BDS) for Time-to-Event analysis}
+\title{Wrapper for Kaplan Meier Time-to-Event analysis}
 \usage{
-estimate_KM(data = NULL, strata = NULL, ...)
+estimate_KM(data = NULL, strata = NULL, CNSR = "CNSR", AVAL = "AVAL", ...)
 }
 \arguments{
-\item{data}{The name of the ADaM Basic Data Structure (BDS) for Time-to-Event analysis eg ADTTE. Rows in which AVAL or CNSR contain NA, are removed during analysis.}
+\item{data}{The name of the dataset for Time-to-Event analysis based on the Analysis Data Model (ADaM) principles. The dataset is expected to have
+one record per subject per analysis parameter. Rows in which the analysis variable (AVAL) or the sensor variable (CNSR) contain NA, are removed during analysis.}
 
-\item{strata}{Character vector, representing the strata for Time-to-Event analysis eg TRT01P. When NULL, an overall analysis is performed.
+\item{strata}{Character vector, representing the strata for Time-to-Event analysis. When NULL, an overall analysis is performed.
 Default is NULL.}
+
+\item{CNSR}{Censor for Time-to-Event analysis. Default is "CNSR", as per CDISC ADaM guiding principles.}
+
+\item{AVAL}{Analysis value for Time-to-Event analysis. Default is "AVAL", as per CDISC ADaM guiding principles.}
 
 \item{...}{additional arguments passed on to the ellipsis of the call \code{survival::survfit.formula(data = data, formula = Surv(AVAL, 1-CNSR) ~ strata), ...)} .
 Use \code{?survival::survfit.formula} and \code{?survival::survfitCI} for more information.}
@@ -19,9 +24,8 @@ Use \code{?survival::survfit.formula} and \code{?survival::survfitCI} for more i
 survfit object, extended by elements PARAM/PARAMCD, ready for downstream processing in estimation or visualization functions and methods.
 }
 \description{
-This function is a wrapper around \code{survival::survfit.formula} to perform a Kaplan-Meier analysis,
-based on the expected ADaM Basic Data Structure (BDS) for Time-to-Event analysis and assuming right-censored data.
-The function expects that the data has been filtered on the PARAM/PARAMCD of interest.
+This function is a wrapper around \code{survival::survfit.formula} to perform a Kaplan-Meier analysis, assuming right-censored data.
+The function expects that the data has been filtered on the parameter (PARAM/PARAMCD) of interest.
 Alternatively, PARAM/PARAMCD can be used in the \code{strata} argument. \cr
 The result is an object of class \code{survfit} which can be used in downstream functions and methods that rely on the \code{survfit} class.
 By default:

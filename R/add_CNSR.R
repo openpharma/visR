@@ -13,12 +13,7 @@
 #' library(dplyr)
 #' library(tidyr)
 #' library(ggplot2)
-#'
-#' survfit_object <- adtte %>% visR::estimate_KM()
-#' 
-#' # plot KM curves
-#' p <- visR::plot(survfit_object)
-#' p
+#' library(visR)
 #'
 #' # add censoring to plot
 #' p %>% visR::add_CNSR()

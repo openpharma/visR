@@ -2,30 +2,29 @@
 #' @section Last updated by:
 #' Steven Haesendonckx
 #' @section Last update date:
-#' 15-FEB-2021
+#' 19-MAR-2021
 
 # Specifications ----------------------------------------------------------
 
-library(testthat)
-library(visR)
-library(survival)
-
-#' T1. The function accepts a dataframe or tibble
+#' T1. The function accepts a `data.frame` `tibble` or `data.table`
 #' T1.1 No error when `data` is a data.frame
 #' T1.2 No error when `data` is a tibble
 #' T1.3 No error when `data` is a data.table
 #' T1.4 An error when `data` is a random object
 #' T1.5 An error when `data` is NULL
-#' T1.6 An error when `data` does not exist in the global environment
-#' T2. The function relies on the presence of two numeric variables, AVAL and CNSR, to be present in `data`
-#' T2.1 An error when colname specified as AVAL is not present in `data`
-#' T2.2 An error when colname specified as AVAL is not numeric
-#' T2.3 An error when colname specified as CNSR is not present in `data`
-#' T2.4 An error when colname specified as CNSR is not numeric
+#' T2. The function relies on the presence of two numeric variables, specified through `AVAL` and `CNSR`, to be present in `data`
+#' T2.1 An error when colname specified through `AVAL` is not present in `data`
+#' T2.2 An error when colname specified through `AVAL` is not numeric
+#' T2.3 No error when the colname specified through `AVAL` is not the proposed default
+#' T2.4 An error when colname specified through `CNSR` is not present in `data`
+#' T2.5 An error when colname specified through `CNSR` is not numeric
+#' T2.6 No error when the colname specified through `CNSR` is not the proposed default
 #' T3. The user can specify strata
 #' T3.1 An error when the columns, specifying the strata are not available in `data`
 #' T3.2 No error when strata is NULL
 #' T3.3 When no strata are specified, an artificial strata is created 'Overall'
+#' T3.4 When only 1 stratum is specified, the stratum names are added to the `names` attribute
+#' T3.5 When more than 1 strata is specified, the stratum names are available in the `names` attribute
 #' T4. The function removes all rows with NA values inside any of the strata
 #' T5. The function does not alter the calculation of survival::survfit
 #' T5.1 The function gives the same results as survival::survfit
@@ -78,55 +77,62 @@ testthat::test_that("T1.5 An error when `data` is NULL",{
 
 })
 
-testthat::test_that("T1.6 An error when `data` does not exist in the global environment",{
-
-  testthat::expect_error(blah %>% visR::estimate_KM())
-
-})
-
 # Requirement T2 ----------------------------------------------------------
 
-context("estimate_KM - T2. The function relies on the presence of two numeric variables, AVAL and CNSR, to be present in `data`")
+context("estimate_KM - T2. The function relies on the presence of two numeric variables, specified through `AVAL` and `CNSR`, to be present in `data`")
 
-testthat::test_that("T2.1 An error when `data` does not contain the variable AVAL",{
-  
-  AVAL <- "AVAL"
-  
-  data <- adtte[,-which(colnames(adtte) == AVAL)]
+testthat::test_that("T2.1 An error when colname specified through `AVAL` is not present in `data`",{
+
+  data <- adtte[,-which(colnames(adtte) == "AVAL")]
 
   testthat::expect_error(visR::estimate_KM(data = data))
 
 })
 
-testthat::test_that("T2.2 An error when AVAL is not numeric",{
+testthat::test_that("T2.2 An error when colname specified through `AVAL` is not numeric",{
 
-  AVAL <- "AVAL"
-  
   data <- adtte
-  data[[AVAL]] <- as.character(data[[AVAL]])
+  data[["AVAL"]] <- as.character(data[["AVAL"]])
 
   testthat::expect_error(visR::estimate_KM(data = data))
 
 })
 
-testthat::test_that("T2.3 An error when `data` does not contain the variable CNSR",{
+testthat::test_that("T2.3 No error when the colname specified through `AVAL` is not the proposed default",{
 
-  CNSR <- "CNSR"
-  
-  data <- adtte[,-which(colnames(adtte) == CNSR)]
-
-  testthat::expect_error(visR::estimate_KM(data = data))
-
-})
-
-testthat::test_that("T2.4 An error when CNSR is not numeric",{
-
-  CNSR <- "CNSR"
-  
   data <- adtte
-  data[[CNSR]] <- as.character(data[[CNSR]])
+  data$AVAL2 <- data$AVAL
+  data <- data[,-which(colnames(adtte) == "AVAL")]
+
+  testthat::expect_error(visR::estimate_KM(data = data, AVAL="AVAL2"), NA)
+
+})
+
+testthat::test_that("T2.4 An error when the colname specified through `CNSR` is not present in `data`",{
+
+
+  data <- adtte[,-which(colnames(adtte) == "CNSR")]
 
   testthat::expect_error(visR::estimate_KM(data = data))
+
+})
+
+testthat::test_that("T2.5 An error when the colname specified through `CNSR` is not numeric",{
+
+  data <- adtte
+  data[["CNSR"]] <- as.character(data[["CNSR"]])
+
+  testthat::expect_error(visR::estimate_KM(data = data))
+
+})
+
+testthat::test_that("T2.6 No error when the colname specified through `CNSR` is not the proposed default",{
+
+  data <- adtte
+  data$CNSR2 <- data$CNSR
+  data <- dplyr::select(data, -CNSR)
+
+  testthat::expect_error(visR::estimate_KM(data = data, CNSR="CNSR2"), NA)
 
 })
 
@@ -157,6 +163,25 @@ testthat::test_that("T3.3 When no strata are specified, an artificial strata is 
 
 })
 
+testthat::test_that("T3.4 When only 1 stratum is specified, the stratum names are added to the `names` attribute'",{
+
+  data <- adtte
+  survobj <- visR::estimate_KM(data = data, strata = "STUDYID")
+
+  testthat::expect_equal(names(survobj[["strata"]]), "STUDYID=CDISCPILOT01")
+
+})
+
+testthat::test_that("T3.5 When more than 1 strata is specified, the stratum names are available in the `names` attribute",{
+
+  data <- adtte
+  survobj <- visR::estimate_KM(data = data, strata = "SEX")
+
+  testthat::expect_equal(names(survobj[["strata"]]), c("SEX=F", "SEX=M"))
+
+})
+
+
 # Requirement T4 ----------------------------------------------------------
 
 context("estimate_KM - T4. The function removes all rows with NA values inside any of the strata, CNSR or AVAL")
@@ -181,64 +206,64 @@ testthat::test_that("T4.1 The function removes all rows with NA values inside an
 
 # Requirement T5 ----------------------------------------------------------
 
-# context("estimate_KM - T5. The function does not alter the calculation of survival::survfit")
-#
-# testthat::test_that("T5.1 The function gives the same results as survival::survfit",{
-#
-#   ## survival package
-#   survobj_survival <- survival::survfit(Surv(AVAL, 1-CNSR) ~ SEX, data = adtte)
-#   survobj_survival <- survival::survfit0(survobj_survival, start.time = 0)
-#
-#   ## visR
-#   survobj_visR <- visR::estimate_KM(data = adtte, strata = "SEX")
-#
-#   ## Compare common elements
-#   Common_Nms <- base::intersect(names(survobj_survival), names(survobj_visR))
-#
-#
-#   list_survival <- lapply(survobj_survival, "[")[Common_Nms]
-#   list_visR <- lapply(survobj_visR, "[")[Common_Nms]
-#
-#   testthat::expect_equal(list_survival, list_visR)
-# })
+context("estimate_KM - T5. The function does not alter the calculation of survival::survfit")
 
-# testthat::test_that("T5.2 The function adds timepoint = 0",{
-#
-#   ## survival package
-#   survobj_survival <- survival::survfit(Surv(AVAL, 1-CNSR) ~ SEX, data = adtte)
-#   survobj_survival <- survival::survfit0(survobj_survival, start.time = 0)
-#
-#   ## visR
-#   survobj_visR <- visR::estimate_KM(data = adtte, strata = "SEX")
-#
-#   ## Compare common elements
-#   Common_Nms <- base::intersect(names(survobj_survival), names(survobj_visR))
-#
-#
-#   list_survival <- lapply(survobj_survival, "[")[Common_Nms]
-#   list_visR <- lapply(survobj_visR, "[")[Common_Nms]
-#
-#   testthat::expect_equal(list_survival, list_visR)
-# })
-#
-# testthat::test_that("T5.3 The function allows additional arguments to be passed, specific for survival::survfit",{
-#
-#   ## survival package
-#   survobj_survival <- survival::survfit(Surv(AVAL, 1-CNSR) ~ SEX, data = adtte, ctype = 2, conf.type = "plain")
-#   survobj_survival <- survival::survfit0(survobj_survival, start.time = 0)
-#
-#   ## visR
-#   survobj_visR <- visR::estimate_KM(data = adtte, strata = "SEX", ctype = 2, conf.type = "plain")
-#
-#   ## Compare common elements
-#   Common_Nms <- base::intersect(names(survobj_survival), names(survobj_visR))
-#
-#
-#   list_survival <- lapply(survobj_survival, "[")[Common_Nms]
-#   list_visR <- lapply(survobj_visR, "[")[Common_Nms]
-#
-#   testthat::expect_equal(list_survival, list_visR)
-# })
+testthat::test_that("T5.1 The function gives the same results as survival::survfit",{
+
+  ## survival package
+  survobj_survival <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX, data = adtte)
+  survobj_survival <- survival::survfit0(survobj_survival, start.time = 0)
+
+  ## visR
+  survobj_visR <- visR::estimate_KM(data = adtte, strata = "SEX")
+
+  ## Compare common elements
+  Common_Nms <- base::intersect(names(survobj_survival), names(survobj_visR))
+
+
+  list_survival <- lapply(survobj_survival, "[")[Common_Nms]
+  list_visR <- lapply(survobj_visR, "[")[Common_Nms]
+
+  testthat::expect_equal(list_survival, list_visR)
+})
+
+testthat::test_that("T5.2 The function adds timepoint = 0",{
+
+  ## survival package
+  survobj_survival <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX, data = adtte)
+  survobj_survival <- survival::survfit0(survobj_survival, start.time = 0)
+
+  ## visR
+  survobj_visR <- visR::estimate_KM(data = adtte, strata = "SEX")
+
+  ## Compare common elements
+  Common_Nms <- base::intersect(names(survobj_survival), names(survobj_visR))
+
+
+  list_survival <- lapply(survobj_survival, "[")[Common_Nms]
+  list_visR <- lapply(survobj_visR, "[")[Common_Nms]
+
+  testthat::expect_equal(list_survival, list_visR)
+})
+
+testthat::test_that("T5.3 The function allows additional arguments to be passed, specific for survival::survfit",{
+
+  ## survival package
+  survobj_survival <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX, data = adtte, ctype = 2, conf.type = "plain")
+  survobj_survival <- survival::survfit0(survobj_survival, start.time = 0)
+
+  ## visR
+  survobj_visR <- visR::estimate_KM(data = adtte, strata = "SEX", ctype = 2, conf.type = "plain")
+
+  ## Compare common elements
+  Common_Nms <- base::intersect(names(survobj_survival), names(survobj_visR))
+
+
+  list_survival <- lapply(survobj_survival, "[")[Common_Nms]
+  list_visR <- lapply(survobj_visR, "[")[Common_Nms]
+
+  testthat::expect_equal(list_survival, list_visR)
+})
 
 testthat::test_that("T5.4 The function returns an object of class `survfit`",{
 
@@ -251,32 +276,32 @@ testthat::test_that("T5.4 The function returns an object of class `survfit`",{
 
 # Requirement T6 ----------------------------------------------------------
 
-# context("estimate_KM - T6. The function adds additional information to the survfit object when available")
-#
-# testthat::test_that("T6.1 The calculation is not affected by the addition of additional parameters",{
-#
-#   ## survival package
-#   survobj_survival <- survival::survfit(Surv(AVAL, 1-CNSR) ~ SEX, data = adtte)
-#   survobj_survival <- survival::survfit0(survobj_survival, start.time = 0)
-#
-#   ## visR
-#   survobj_visR <- visR::estimate_KM(data = adtte, strata = "SEX")
-#
-#   ## Compare common elements
-#   Common_Nms <- base::intersect(names(survobj_survival), names(survobj_visR))
-#   Unique_Nms_visR <- base::setdiff(names(survobj_visR), names(survobj_survival))
-#
-#   list_survival <- lapply(survobj_survival, "[")[Common_Nms]
-#   list_visR <- lapply(survobj_visR, "[")[Common_Nms]
-#
-#   ## calculation is not affected by addition of additional parameters. Same test as in requirement T5.
-#   testthat::expect_equal(list_survival, list_visR)
-# })
+context("estimate_KM - T6. The function adds additional information to the survfit object when available")
+
+testthat::test_that("T6.1 The calculation is not affected by the addition of additional parameters",{
+
+  ## survival package
+  survobj_survival <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX, data = adtte)
+  survobj_survival <- survival::survfit0(survobj_survival, start.time = 0)
+
+  ## visR
+  survobj_visR <- visR::estimate_KM(data = adtte, strata = "SEX")
+
+  ## Compare common elements
+  Common_Nms <- base::intersect(names(survobj_survival), names(survobj_visR))
+  Unique_Nms_visR <- base::setdiff(names(survobj_visR), names(survobj_survival))
+
+  list_survival <- lapply(survobj_survival, "[")[Common_Nms]
+  list_visR <- lapply(survobj_visR, "[")[Common_Nms]
+
+  ## calculation is not affected by addition of additional parameters. Same test as in requirement T5.
+  testthat::expect_equal(list_survival, list_visR)
+})
 
 testthat::test_that("T6.2 The function add PARAM/PARAMCD when available",{
 
   ## survival package
-  survobj_survival <- survival::survfit(Surv(AVAL, 1-CNSR) ~ SEX, data = adtte)
+  survobj_survival <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX, data = adtte)
   survobj_survival <- survival::survfit0(survobj_survival, start.time = 0)
 
   ## visR
@@ -297,7 +322,7 @@ testthat::test_that("T7.1 The function updates call$data when magrittr pipe is u
 
   ## survival package
   survobj_survival <- adtte %>%
-    survival::survfit(Surv(AVAL, 1-CNSR) ~ SEX, data = .) %>%
+    survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX, data = .) %>%
     survival::survfit0(start.time = 0)
   call_survival <- as.list(survobj_survival[["call"]])
 
