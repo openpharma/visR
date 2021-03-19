@@ -43,20 +43,30 @@ add_CI.ggsurvfit <- function(gg,
                              linetype, ...){
   
   if (! base::all(c("est.lower", "est.upper") %in% colnames(gg$data))) {
-    warning("Confidence limits were not part of original estimation.")
-    return(NULL)
+    
+    stop("Confidence limits were not part of original estimation.")
+    
+  }
+  
+  if ((alpha > 1) | (alpha < 0)) {
+    
+    warning("Invalid `alpha` argument, must be between 0 and 1. Setting it to 0.1.")
+    alpha <- 0.1
+    
   }
   
   if (! base::any(c("ribbon", "step") %in% style)) {
-    warning("Invalid `step` argument.")
-    return(NULL)
+    
+    warning("Invalid `style` argument. Setting `style` to `ribbon`.")
+    style <- "ribbon"
+    
   }
   
   if (style == "ribbon"){
     
     if (!missing(linetype)) {
       
-      warning("Argument linetype not used for style ribbon")
+      warning("Argument `linetype` not used for style ribbon.")
       
     }
     
@@ -90,9 +100,4 @@ add_CI.ggsurvfit <- function(gg,
   }
   
   return(gg)
-}
-
-
-add_CI.tblKM <- function(gg){
-  stop("this object is not yet part of the scope")
 }
