@@ -43,10 +43,6 @@ add_CNSR <- function(gg, ...){
 #' @export
 
 add_CNSR.ggsurvfit <- function(gg, shape = 3, size = 2, ...){
-
-  if (!inherits(gg, "ggsurvfit")){
-    stop("Function can only be applied to an object of class `ggsurvfit`.")
-  }
   
   # <= also catches NULL
   if (length(size) <= 1)  {
