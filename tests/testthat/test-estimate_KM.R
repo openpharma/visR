@@ -23,6 +23,8 @@
 #' T3.1 An error when the columns, specifying the strata are not available in `data`
 #' T3.2 No error when strata is NULL
 #' T3.3 When no strata are specified, an artificial strata is created 'Overall'
+#' T3.4 When only 1 stratum is specified, the stratum names are added to the `names` attribute
+#' T3.5 When more than 1 strata is specified, the stratum names are available in the `names` attribute
 #' T4. The function removes all rows with NA values inside any of the strata
 #' T5. The function does not alter the calculation of survival::survfit
 #' T5.1 The function gives the same results as survival::survfit
@@ -160,6 +162,25 @@ testthat::test_that("T3.3 When no strata are specified, an artificial strata is 
   testthat::expect_equal(names(survobj[["strata"]]), "Overall")
 
 })
+
+testthat::test_that("T3.4 When only 1 stratum is specified, the stratum names are added to the `names` attribute'",{
+
+  data <- adtte
+  survobj <- visR::estimate_KM(data = data, strata = "STUDYID")
+
+  testthat::expect_equal(names(survobj[["strata"]]), "STUDYID=CDISCPILOT01")
+
+})
+
+testthat::test_that("T3.5 When more than 1 strata is specified, the stratum names are available in the `names` attribute",{
+
+  data <- adtte
+  survobj <- visR::estimate_KM(data = data, strata = "SEX")
+
+  testthat::expect_equal(names(survobj[["strata"]]), c("SEX=F", "SEX=M"))
+
+})
+
 
 # Requirement T4 ----------------------------------------------------------
 

@@ -168,6 +168,9 @@ estimate_KM <- function(
     if (main == "1"){
       # overall analysis
       attr(survfit_object$strata, "names") <- "Overall"
+    } else {
+      # ~ x with One level in variable present
+      attr(survfit_object$strata, "names") <- as.character(paste0(strata, "=", data[1, main]))
     }
   }
 
