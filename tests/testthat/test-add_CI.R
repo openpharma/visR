@@ -101,27 +101,19 @@ testthat::test_that("T2.1 No error when only 1 strata is present",{
   
 })
 
-#testthat::test_that("T2.2 No error when 2 or more strata are present",{
+testthat::test_that("T2.2 No error when 2 or more strata are present",{
   
-  # The used color palette is NEJM from ggsci. While its generator has a the
-  # option to supply parameters, there are only 8 colours (2021-03-04)
-  # https://nanx.me/ggsci/reference/pal_nejm.html
-  # https://github.com/openpharma/visR/blob/2087cafbd355382402f1ce28977bfaf1e1c4e254/R/plot.R#L187
- # distinct_colors_in_palette <- length(ggsci::pal_nejm()(8))
-  
-  # Dynamically test all n_strata our color palette allows
- # for (n_strata in 2:distinct_colors_in_palette) {
+  for (n_strata in c(5, 10, 20)) {
     
- #   adtte %>% 
-#      dplyr::mutate(TRTDUR = visR:::map_numbers_to_new_range(adtte$TRTDUR, 1, n_strata)) %>% 
-#      visR::estimate_KM(strata = "TRTDUR") %>%
-#      visR::plot() %>%
-#      visR::add_CI() %>%
-#      vdiffr::expect_doppelganger(title = paste0("add_CI_T2_2_", n_strata, "strata"))
-    
-#  }
+   adtte %>%       
+      dplyr::mutate(TRTDUR = visR:::map_numbers_to_new_range(adtte$TRTDUR, 1, n_strata)) %>%       
+      visR::estimate_KM(strata = "TRTDUR") %>%      
+      visR::plot() %>%
+      visR::add_CI() %>%
+      vdiffr::expect_doppelganger(title = paste0("add_CI_T2_2_", n_strata, "strata"))
+  }
   
-#})
+})
 
 # Requirement T3 ---------------------------------------------------------------
 
