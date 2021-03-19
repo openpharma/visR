@@ -9,14 +9,27 @@
 #' @param ... other arguments passed on to the method to modify \code{\link[ggplot2]{geom_ribbon}}
 #'
 #' @examples
-#' library(survival)
-#' library(dplyr)
-#' library(tidyr)
-#' library(ggplot2)
-#'
+#' 
+#' library(visR)
+#' 
+#' # Estimate KM curves by treatment group 
 #' survfit_object <- survival::survfit(data = adtte, Surv(AVAL, 1-CNSR) ~ TRTP)
-#' visR::plot(survfit_object) %>%
-#'   add_CI(alpha = 0.1, style = "step", linetype = 3)
+#' 
+#' ## plot without confidence intervals
+#' p <- visR::plot(survfit_object) 
+#' p
+#' 
+#' # plot with default settings
+#' p %>% add_CI()
+#' 
+#' # change transparency of ribbon  
+#' p %>% add_CI(alpha = 0.9, style = "ribbon")
+#' 
+#' # plot interval as a step
+#' p %>% add_CI(alpha = 0.1, style = "step")
+#' 
+#' # change linetype 
+#' p %>% add_CI(style = "step", linetype = 1)
 #'
 #' @return Pointwise confidence interval overlayed on a visR ggplot
 #'
@@ -30,7 +43,7 @@ add_CI <- function(gg, ...){
 
 #' @param gg A ggplot created with visR
 #' @param alpha aesthetic of ggplot2 \code{\link[ggplot2]{geom_ribbon}}. Default is 0.1.
-#' @param style aesthetic of ggplot2 \code{\link[ggplot2]{geom_ribbon}}. Default is "ribbon".
+#' @param style aesthetic of ggplot2 \code{\link[ggplot2]{geom_ribbon}}. Default is "ribbon". An alternative option is "step" that uses a line to display interval bounds.
 #' @param linetype aesthetic of ggplot2 \code{\link[ggplot2]{geom_ribbon}}.
 #'
 #' @rdname add_CI
