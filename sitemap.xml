@@ -25,6 +25,9 @@
     <loc>https://openpharma.github.io/visR//reference/brca_cohort.html</loc>
   </url>
   <url>
+    <loc>https://openpharma.github.io/visR//reference/check_traceback_stack_for_ggplot_aesthetics_warning.html</loc>
+  </url>
+  <url>
     <loc>https://openpharma.github.io/visR//reference/estimate_KM.html</loc>
   </url>
   <url>
@@ -47,6 +50,9 @@
   </url>
   <url>
     <loc>https://openpharma.github.io/visR//reference/legendopts.html</loc>
+  </url>
+  <url>
+    <loc>https://openpharma.github.io/visR//reference/map_numbers_to_new_range.html</loc>
   </url>
   <url>
     <loc>https://openpharma.github.io/visR//reference/pipe.html</loc>
