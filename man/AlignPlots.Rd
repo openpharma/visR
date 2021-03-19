@@ -16,17 +16,17 @@ List of \code{ggplot} with equal width.
 This function aligns multiple \code{ggplot} graphs by making them the same width by taking into account the legend width.
 }
 \examples{
-\donttest{
+\dontrun{
 library(ggplot2)
 library(gtable)
 library(cowplot)
-  
+
 ## create 2 graphs
 p1 <- ggplot(adtte, aes(x = as.numeric(AGE), fill = "Age")) +
   geom_histogram(bins = 15)
 p2 <- ggplot(adtte, aes(x = as.numeric(AGE))) +
  geom_histogram(bins = 15)
-    
+
 ## default alignment does not take into account legend size
 cowplot::plot_grid(plotlist = list(p1,p2), align = "none", nrow=2)
 

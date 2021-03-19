@@ -36,11 +36,11 @@
 #'
 #' @export
 
-get_pvalue.survfit <- function(survfit_object,
-                               ptype = "All",
-                               rho   = NULL,
-                               statlist = c("test", "Chisq", "df", "pvalue"),
-                               ...) {
+get_pvalue <- function(survfit_object,
+                       ptype = "All",
+                       rho   = NULL,
+                       statlist = c("test", "Chisq", "df", "pvalue"),
+                       ...) {
 
 # Input validation --------------------------------------------------------
 
