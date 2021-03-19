@@ -9,11 +9,15 @@
 #' @param ... other arguments passed on to the method to modify \code{\link[ggplot2]{geom_point}}
 #'
 #' @examples
-#' library(survival)
-#' library(dplyr)
-#' library(tidyr)
-#' library(ggplot2)
+#' 
 #' library(visR)
+#'
+#' # Estimate KM curves by treatment group 
+#' survfit_object <- survival::survfit(data = adtte, Surv(AVAL, 1-CNSR) ~ TRTP)
+#' 
+#' ## plot without confidence intervals
+#' p <- visR::plot(survfit_object) 
+#' p
 #'
 #' # add censoring to plot
 #' p %>% visR::add_CNSR()
