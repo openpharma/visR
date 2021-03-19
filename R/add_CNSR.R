@@ -15,21 +15,15 @@
 #' library(ggplot2)
 #' library(visR)
 #'
-#' survfit_object <- survival::survfit(data = adtte, Surv(AVAL, 1-CNSR) ~ TRTP)
-#' 
-#' # plot KM curves
-#' p <- visR::plot(survfit_object)
-#' p
-#'
 #' # add censoring to plot
-#' p %>% add_CNSR()
+#' p %>% visR::add_CNSR()
 #' 
 #' # change censor symbol shape
-#' p %>% add_CNSR(shape = 1)
+#' p %>% visR::add_CNSR(shape = 1)
 #' 
 #' # change size and shape
-#' p %>% add_CNSR(size = 4, shape = 2)
-#'
+#' p %>% visR::add_CNSR(size = 4, shape = 2)
+#' 
 #' @return Censoring symbols overlayed on a visR ggplot
 #'
 #' @rdname add_CNSR
@@ -49,14 +43,48 @@ add_CNSR <- function(gg, ...){
 #' @export
 
 add_CNSR.ggsurvfit <- function(gg, shape = 3, size = 2, ...){
-
-  if (!inherits(gg, "ggsurvfit")){
-    stop("Function can only be applied to an object of class `ggsurvfit`.")
+  
+  # <= also catches NULL
+  if (length(size) <= 1)  {
+    
+    if (!is.numeric(size)) {
+      
+      warning("Invalid `size` specified. Setting it to 2.")
+      size <- 2
+      
+    }
+    
+  } else { 
+  
+    # We let ggplot deal with this.
+    # https://github.com/openpharma/visR/wiki/Don't-do-this
+    
   }
-
+  
+  # <= also catches NULL
+  if (length(shape) <= 1) {
+    
+    if ((!is.numeric(shape)) && (!is.character(shape))) {
+      
+      warning("Invalid `shape` specified. Setting it to 3.")
+      shape <- 3
+      
+    }
+    
+  } else { 
+    
+    # We let ggplot deal with this.
+    # https://github.com/openpharma/visR/wiki/Don't-do-this
+    
+  }
+  
   gg <- gg +
-    ggplot2::geom_point(data = base::subset(gg$data, n.censor >= 1), ggplot2::aes(x = time, y = est, color = strata),
-               shape = shape, size = size)
+    ggplot2::geom_point(data = base::subset(gg$data, n.censor >= 1), 
+                        ggplot2::aes(x = time, 
+                                     y = est, 
+                                     color = strata),
+                        shape = shape, 
+                        size = size)
 
   return(gg)
 }
