@@ -2,17 +2,16 @@
 #' @section Last updated by:
 #' Steven Haesendonckx
 #' @section Last update date:
-#' 06-MAR-2021
+#' 19-MAR-2021
 
 # Specifications ----------------------------------------------------------
 
-#' T1. The function accepts a dataframe or tibble
+#' T1. The function accepts a `data.frame` `tibble` or `data.table`
 #' T1.1 No error when `data` is a data.frame
 #' T1.2 No error when `data` is a tibble
 #' T1.3 No error when `data` is a data.table
 #' T1.4 An error when `data` is a random object
 #' T1.5 An error when `data` is NULL
-#' T1.6 An error when `data` does not exist in the global environment
 #' T2. The function relies on the presence of two numeric variables, specified through `AVAL` and `CNSR`, to be present in `data`
 #' T2.1 An error when colname specified through `AVAL` is not present in `data`
 #' T2.2 An error when colname specified through `AVAL` is not numeric
@@ -76,18 +75,12 @@ testthat::test_that("T1.5 An error when `data` is NULL",{
 
 })
 
-testthat::test_that("T1.6 An error when `data` does not exist in the global environment",{
-
-  testthat::expect_error(blah %>% visR::estimate_KM())
-
-})
-
 # Requirement T2 ----------------------------------------------------------
 
 context("estimate_KM - T2. The function relies on the presence of two numeric variables, specified through `AVAL` and `CNSR`, to be present in `data`")
 
 testthat::test_that("T2.1 An error when colname specified through `AVAL` is not present in `data`",{
-  
+
   data <- adtte[,-which(colnames(adtte) == "AVAL")]
 
   testthat::expect_error(visR::estimate_KM(data = data))
@@ -104,13 +97,13 @@ testthat::test_that("T2.2 An error when colname specified through `AVAL` is not 
 })
 
 testthat::test_that("T2.3 No error when the colname specified through `AVAL` is not the proposed default",{
-  
+
   data <- adtte
   data$AVAL2 <- data$AVAL
   data <- data[,-which(colnames(adtte) == "AVAL")]
-  
+
   testthat::expect_error(visR::estimate_KM(data = data, AVAL="AVAL2"), NA)
-  
+
 })
 
 testthat::test_that("T2.4 An error when the colname specified through `CNSR` is not present in `data`",{
@@ -132,13 +125,13 @@ testthat::test_that("T2.5 An error when the colname specified through `CNSR` is 
 })
 
 testthat::test_that("T2.6 No error when the colname specified through `CNSR` is not the proposed default",{
-  
+
   data <- adtte
   data$CNSR2 <- data$CNSR
   data <- dplyr::select(data, -CNSR)
-  
+
   testthat::expect_error(visR::estimate_KM(data = data, CNSR="CNSR2"), NA)
-  
+
 })
 
 # Requirement T3 ----------------------------------------------------------
