@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 ## Introduction
 
-This short tutorial illustrates a typical use case in clinical development - the analysis of time to a certain event (e.g., death) in different groups. Typically, data obtained in randomized clinical trials (RCT) can be used to estimate the overall survival of patients in one group (e.g., treated with drug X) vs another group (e.g., treated with drug Y) and thus determine if there is a treatment difference.
+This tutorial illustrates a typical use case in clinical development - the analysis of time to a certain event (e.g., death) in different groups. Typically, data obtained in randomized clinical trials (RCT) can be used to estimate the overall survival of patients in one group (e.g., treated with drug X) vs another group (e.g., treated with drug Y) and thus determine if there is a treatment difference.
 
 For a more thorough introduction to Survival Analysis, we recommend the following [tutorial](https://bioconnector.github.io/workshops/r-survival.html).
 

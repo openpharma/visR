@@ -1,0 +1,80 @@
+---
+title: "Survival Analysis with visR"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Survival Analysis with visR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Introduction
+
+
+This very short tutorial illustrates how a standard time-to-event analysis can be done very efficiently when the data set adheres to the [CDISC ADaM standard](https://www.cdisc.org/standards/foundational/adam/adam-basic-data-structure-bds-time-event-tte-analyses-v1-0). A more detailed time-to-event analysis with a more braod overview of visR's funcitonality is presented in another vignette.
+
+
+```{r imports, echo=FALSE, warning=FALSE, message=FALSE}
+library(visR)
+```
+
+## Global Document Setup
+```{r globalSetup}
+# Constants
+DATASET <- paste0("Analysis data - time to event")
+
+# Global formatting options
+options(digits = 3)
+
+# Global ggplot settings
+# theme_set(theme_classic())
+
+# Global table settings 
+options(DT.options = list(pageLength = 10, 
+                          language = list(search = 'Filter:'), 
+                          scrollX = TRUE))
+
+# load data set adtte already adhering to the CDISC ADaM standard 
+data(adtte)
+
+```
+
+
+## Time-to-event analysis
+
+visR includes a wrapper function to easily display summary tables (e.g. `tableone`)
+
+```{r table1_get_default}
+# Display a summary table (e.g. tableone)
+tableone(adtte[,c("TRTP", "AGE")],
+         title = "Demographic summary" , datasource = DATASET)
+```
+
+A wrapper function to estimate a Kaplan-Meier curve that is compatible with `%>%` and purrr::map functions without losing traceability of the dataset name is included in visR. If a data set adhere to the CDISC ADaM standard, only a stratifier needs to be specified.
+
+```{r km_est}
+# Estimate a survival object
+survfit_object <-  estimate_KM(adtte, strata = "TRTP")
+survfit_object
+```
+
+Given a survival object visR includes several functions to easily to get additional information from the survival object (e.g. test statistics and p-values) and a general function to display a table (`render`).
+
+```{r km_tab_options_1}
+# Display test statistics associated with the survival estimate
+render(survfit_object  %>% get_pvalue(), title = "P-values", datasource = DATASET)
+
+```
+
+A survival object can be plotted using the visR function `plot`. Additional information like confidence intervals and a risktable can be added to the plot.
+
+```{r km_plot_1}
+# Create and display a Kaplan-Meier from the survival object and add a risktable
+plot(survfit_object) %>% add_CI() %>% add_risktable()
+```
