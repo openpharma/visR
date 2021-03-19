@@ -14,14 +14,16 @@ Authors@R: as.person(c(
     "Pawel Kawski <pawel.kawski@contractors.roche.com> [aut]",  
     "Steven Haesendonckx <shaesen2@its.jnj.com> [aut]",
     "Pelagia Alexandra Papadopoulou <PPapadop@its.jnj.com> [aut]",
-    "Tim Treis <tim.treis@outlook.de> [aut]"
+    "Tim Treis <tim.treis@outlook.de> [aut]",
+	"Rebecca Albrecht <rebecca.albrecht.dietsch@gmail.com> [aut]"
   ))
 Maintainer: Mark Baillie <bailliem@gmail.com>
 URL: https://github.com/openpharma/visR
 BugReports: https://github.com/openpharma/visR/issues
 License: MIT + file LICENSE
 Depends:
-    R (>= 3.0.0)
+    R (>= 3.0.0),
+	survival
 Suggests:
     covr,
     testthat (>= 2.1.0),
