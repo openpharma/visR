@@ -40,7 +40,7 @@ tidyme <- function(x, ...){
 
 tidyme.default <- function(x, ...){
   #library(broom)
-  base::writeLines("tidyme S3 default method (broom::tidy) used.")
+  message("tidyme S3 default method (broom::tidy) used.")
   return(broom::tidy(x))
 }
  
