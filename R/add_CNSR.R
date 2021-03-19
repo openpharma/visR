@@ -1,7 +1,10 @@
-#' @title Add censoring symbols to a visR ggplot through an S3 method
+#' @title Add censoring symbols to a visR object 
 #'
-#' @description S3 method for adding censoring symbols to visR ggplot.
-#'     No default method is available at the moment.
+#' @description Add censoring symbols to a visR ggplot through an S3 method. 
+#'   The S3 method is for adding censoring symbols to a visR ggplot.
+#'   The method is set up to use the pipe `%>%`. 
+#'   
+#'   No default method is available at the moment.
 #'
 #' @author Steven Haesendonckx
 #'
