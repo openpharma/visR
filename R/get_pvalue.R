@@ -28,7 +28,7 @@
 #' visR::get_pvalue(survfit_object, ptype = "Log-Rank", statlist = c("test", "Chisq", "df", "p"))
 #' visR::get_pvalue(survfit_object, ptype = "Wilcoxon", statlist = c("p"))
 #'
-#' @return A tibble with summary measures for the Test of Equality Across Strata
+#' @return A dataframe with summary measures for the Test of Equality Across Strata
 #'
 #' @rdname get_pvalue
 #'
@@ -61,22 +61,21 @@ get_pvalue.survfit <- function(survfit_object,
 # Input validation --------------------------------------------------------
 
   if (length(names(survfit_object[["strata"]])) <= 1)
-    stop("Error in get_pvalue: Main effect has only 1 level. Test of equality over strata can't be determined.")
+    stop("Main effect has only 1 level. Test of equality over strata can't be determined.")
   if (is.null(ptype))
-    stop("Error in get_pvalue: Specify a valid ptype.")
+    stop("Specify a valid ptype.")
   if (!base::any(c("Log-Rank", "Wilcoxon", "Tarone-Ware", "Custom", "All") %in% ptype))
-    stop("Error in get_pvalue: Specify a valid type")
+    stop("Specify a valid type")
   if ("Custom" %in% ptype & is.null(rho))
-    stop("Error in get_pvalue: ptype = `Custom`. Please, specify rho.")
+    stop("ptype = `Custom`. Please, specify rho.")
   if (is.null(statlist) |
       !base::all(statlist %in% c("test", "df", "Chisq", "p")))
-    stop("Error in get_pvalue: Specify valid `statlist` arguments.")
+    stop("Specify valid `statlist` arguments.")
 
-  ## Re-use Call from survival object
+# Re-use Call from survival object ----------------------------------------
 
   Call <- as.list(survfit_object$call)
-  NewCall <-
-    append(as.list(parse(text = "survival::survdiff")), Call[names(Call) %in% names(formals(survival::survdiff))])
+  NewCall <- append(as.list(parse(text = "survival::survdiff")), Call[names(Call) %in% names(formals(survival::survdiff))])
 
   if ("All" %in% ptype) {
     ptype = c("Log-Rank", "Wilcoxon", "Tarone-Ware")
@@ -158,7 +157,7 @@ get_pvalue.survfit <- function(survfit_object,
     stringsAsFactors = FALSE,
     row.names = NULL
   ) %>%
-    tibble::as_tibble()
+    as.data.frame()
 
   return(equality)
 }
