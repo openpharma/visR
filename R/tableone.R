@@ -14,6 +14,19 @@
 #' Pre-implemented functions are summarize and summarize_tab1
 #' @param ... Pass options to render_table
 #'
+#' @examples 
+#' 
+#'  ## Set meta-data for table including title and data source
+#'  t1_title <- "My table one title"
+#'  t1_ds <- "My table one data source"
+#'  
+#'  adtte %>% 
+#'    filter(SAFFL == "Y") %>%
+#'    select(AGE, AGEGR1, SEX, EVNTDESC, TRTA ) %>%   
+#'    tableone(strata = "TRTA", overall = F, title = t1_title, datasource = t1_ds)
+#'
+#' @rdname tableone
+#'
 #' @export
 
 tableone <- function(
