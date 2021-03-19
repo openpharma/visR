@@ -37,6 +37,19 @@
 #'     ymin = 0.80
 #'   )
 #' 
+#' ## Currently, care needs to be taken on the x-y values relative
+#' ## to the plot data area. Here we are plotting outside of the data area. 
+#' visR::plot(surv_object) %>%
+#'   visR::add_annotation(
+#'   label = "My simple comment",
+#'   base_family = "sans",
+#'   base_size = 15,
+#'   xmin = 210,
+#'   xmax = 380,
+#'   ymin = 1.0
+#'   )
+#' 
+#' 
 #' ## We may also want to annotate a KM plot with information
 #' ## from additional tests or estimates. This example we annotate
 #' ## with p-values contained in a tibble 
