@@ -23,9 +23,6 @@ For a more thorough introduction to Survival Analysis, we recommend the followin
 In this example, we will work with patient data from NCCTG Lung Cancer dataset that is part of the `survival` package. Another vignette presents an example using a data set following the CDISC ADaM standard. 
 
 ```{r imports, echo=FALSE, warning=FALSE, message=FALSE}
-#library(dplyr)
-#library(ggplot2)
-#library(survival)
 library(visR)
 ```
 
@@ -118,7 +115,6 @@ visR provides a wrapper function to estimate a Kaplan-Meier curve and several fu
 # For the survival estimate, the censor must be 0 or 1
 lung_cohort$status <- lung_cohort$status - 1
 
-library(survival)
 lung_suvival_object <- lung_cohort %>% estimate_KM(strata = "sex", CNSR = "status", AVAL = "time")
 lung_suvival_object
 ```
@@ -154,6 +150,8 @@ gg
 gg %>% add_CI() 
 gg %>% add_CI() %>% add_CNSR(shape = 3, size = 2)
 ```
+
+visR overwrites the base::plot() function an there is a warning to that when the package is loaded. However, it only overwirtes the base::plot() function for type survfit and wires calls for all other objects through to base::plot().
 
 visR incudes a wrapper function to create a risktable and then add it directly to a Kaplan-Meier plot.
 
