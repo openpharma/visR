@@ -18,6 +18,7 @@
 #' T3.1 Error when `est.lower` and `est.upper` are not present
 #' T3.2 Warning when no valid style was provided
 #' T3.3 Warning when `alpha` is not in [0, 1]
+#' T3.4 Warning when `style` is `ribbon` but a `linetype` was specified
 
 
 # Requirement T1 ---------------------------------------------------------------
@@ -154,6 +155,19 @@ testthat::test_that("T3.3 Warning when `alpha` is not in [0, 1]",{
   warning_message <- "Invalid `alpha` argument, must be between 0 and 1. Setting it to 0.1."
   testthat::expect_warning(p %>% visR::add_CI(alpha = 5), warning_message)
   testthat::expect_warning(p %>% visR::add_CI(alpha = -5), warning_message)
+  
+})
+
+testthat::test_that("T3.4 Warning when `style` is `ribbon` but a `linetype` was specified",{
+  
+  p <- adtte %>% 
+    visR::estimate_KM(strata = "SEX") %>% 
+    visR::plot()
+  
+  warning_message <- "Argument `linetype` not used for style ribbon."
+  testthat::expect_warning(p %>% visR::add_CI(style = "ribbon", 
+                                              linetype = 2), 
+                           warning_message)
   
 })
 
