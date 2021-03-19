@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Wrapper around ggplot2::annotation_custom for simplified annotation to ggplot2 plots — add_annotation • visR</title>
+<title>Add annotations to a visR object — add_annotation • visR</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,10 +46,11 @@
 
 
 
-<meta property="og:title" content="Wrapper around ggplot2::annotation_custom for simplified annotation to ggplot2 plots — add_annotation" />
-<meta property="og:description" content="This function accepts a string, dataframe, data.table, tibble or
-customized objects of class gtable and places them on the specified
-location on the ggplot. The layout is fixed: bold columnheaders and plain body.
+<meta property="og:title" content="Add annotations to a visR object — add_annotation" />
+<meta property="og:description" content="Wrapper around ggplot2::annotation_custom for simplified annotation to ggplot2 plots.
+This function accepts a string, dataframe, data.table, tibble or customized
+objects of class gtable and places them on the specified location on
+the ggplot. The layout is fixed: bold columnheaders and plain body.
 Only the font size and type can be chosen." />
 <meta property="og:image" content="https://openpharma.github.io/visR/logo.png" />
 
@@ -137,15 +138,16 @@ Only the font size and type can be chosen." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Wrapper around ggplot2::annotation_custom for simplified annotation to ggplot2 plots</h1>
+    <h1>Add annotations to a visR object</h1>
     <small class="dont-index">Source: <a href='https://github.com/openpharma/visR/blob/master/R/add_annotation.R'><code>R/add_annotation.R</code></a></small>
     <div class="hidden name"><code>add_annotation.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function accepts a string, dataframe, data.table, tibble or
-customized objects of class <code>gtable</code> and places them on the specified
-location on the <code>ggplot</code>. The layout is fixed: bold columnheaders and plain body.
+    <p>Wrapper around ggplot2::annotation_custom for simplified annotation to ggplot2 plots.
+This function accepts a string, dataframe, data.table, tibble or customized
+objects of class <code>gtable</code> and places them on the specified location on
+the <code>ggplot</code>. The layout is fixed: bold columnheaders and plain body.
 Only the font size and type can be chosen.</p>
     </div>
 
@@ -208,30 +210,65 @@ Only the font size and type can be chosen.</p>
     <p>Steven Haesendonckx</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/therneau/survival'>survival</a></span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘dplyr’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:visR’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    summarize</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyr.tidyverse.org'>tidyr</a></span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span>
+    <pre class="examples"><div class='input'>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/openpharma/visR'>visR</a></span><span class='op'>)</span>
 
 <span class='co'>## Estimate survival</span>
-<span class='va'>surv_object</span> <span class='op'>&lt;-</span> <span class='fu'><a href='estimate_KM.html'>estimate_KM</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>adtte</span>, strata <span class='op'>=</span> <span class='st'>"TRTP"</span><span class='op'>)</span>
+<span class='va'>surv_object</span> <span class='op'>&lt;-</span> <span class='fu'>visR</span><span class='fu'>::</span><span class='fu'><a href='estimate_KM.html'>estimate_KM</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>adtte</span>, strata <span class='op'>=</span> <span class='st'>"TRTP"</span><span class='op'>)</span>
 
-<span class='co'>## p value for "Equality across strata"</span>
-<span class='va'>lbl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_pvalue.html'>get_pvalue</a></span><span class='op'>(</span><span class='va'>surv_object</span>, statlist <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"test"</span>, <span class='st'>"p"</span><span class='op'>)</span>, type <span class='op'>=</span> <span class='st'>"All"</span><span class='op'>)</span>
-
-<span class='co'>## add results to survival plot</span>
+<span class='co'>## We want to annotate the survival KM plot with a simple string comment</span>
 <span class='fu'>visR</span><span class='fu'>::</span><span class='fu'><a href='plot.html'>plot</a></span><span class='op'>(</span><span class='va'>surv_object</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>add_annotation</span><span class='op'>(</span>label <span class='op'>=</span> <span class='va'>lbl</span>, base_family <span class='op'>=</span> <span class='st'>"sans"</span>,
-  base_size <span class='op'>=</span> <span class='fl'>9</span>, xmin <span class='op'>=</span> <span class='fl'>110</span>, xmax <span class='op'>=</span> <span class='fl'>180</span>, ymin <span class='op'>=</span> <span class='fl'>0.80</span><span class='op'>)</span>
+  <span class='fu'>visR</span><span class='fu'>::</span><span class='fu'>add_annotation</span><span class='op'>(</span>
+    label <span class='op'>=</span> <span class='st'>"My simple comment"</span>,
+    base_family <span class='op'>=</span> <span class='st'>"sans"</span>,
+    base_size <span class='op'>=</span> <span class='fl'>15</span>,
+    xmin <span class='op'>=</span> <span class='fl'>110</span>,
+    xmax <span class='op'>=</span> <span class='fl'>180</span>,
+    ymin <span class='op'>=</span> <span class='fl'>0.80</span>
+  <span class='op'>)</span>
 </div><div class='img'><img src='add_annotation-1.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+<span class='co'>## Currently, care needs to be taken on the x-y values relative</span>
+<span class='co'>## to the plot data area. Here we are plotting outside of the data area. </span>
+<span class='fu'>visR</span><span class='fu'>::</span><span class='fu'><a href='plot.html'>plot</a></span><span class='op'>(</span><span class='va'>surv_object</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>visR</span><span class='fu'>::</span><span class='fu'>add_annotation</span><span class='op'>(</span>
+  label <span class='op'>=</span> <span class='st'>"My simple comment"</span>,
+  base_family <span class='op'>=</span> <span class='st'>"sans"</span>,
+  base_size <span class='op'>=</span> <span class='fl'>15</span>,
+  xmin <span class='op'>=</span> <span class='fl'>210</span>,
+  xmax <span class='op'>=</span> <span class='fl'>380</span>,
+  ymin <span class='op'>=</span> <span class='fl'>1.0</span>
+  <span class='op'>)</span>
+</div><div class='img'><img src='add_annotation-2.png' alt='' width='700' height='433' /></div><div class='input'>
+
+<span class='co'>## We may also want to annotate a KM plot with information</span>
+<span class='co'>## from additional tests or estimates. This example we annotate</span>
+<span class='co'>## with p-values contained in a tibble </span>
+
+<span class='co'>## we calculate p-values for "Equality across strata"</span>
+<span class='va'>lbl</span> <span class='op'>&lt;-</span> <span class='fu'>visR</span><span class='fu'>::</span><span class='fu'><a href='get_pvalue.html'>get_pvalue</a></span><span class='op'>(</span><span class='va'>surv_object</span>,
+             statlist <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"test"</span>, <span class='st'>"p"</span><span class='op'>)</span>,
+             type <span class='op'>=</span> <span class='st'>"All"</span><span class='op'>)</span>
+
+<span class='co'>## display p-values</span>
+<span class='va'>lbl</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 2</span><span>
+#&gt;   `Equality across strata` `p-value`
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> Log-Rank                 &lt;0.001   
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> Wilcoxon                 &lt;0.001   
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> Tarone-Ware              &lt;0.001   </div><div class='input'>
+<span class='co'>## Now annotate survival KM plot with the p-values</span>
+<span class='fu'>visR</span><span class='fu'>::</span><span class='fu'><a href='plot.html'>plot</a></span><span class='op'>(</span><span class='va'>surv_object</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>visR</span><span class='fu'>::</span><span class='fu'>add_annotation</span><span class='op'>(</span>
+    label <span class='op'>=</span> <span class='va'>lbl</span>,
+    base_family <span class='op'>=</span> <span class='st'>"sans"</span>,
+    base_size <span class='op'>=</span> <span class='fl'>9</span>,
+    xmin <span class='op'>=</span> <span class='fl'>100</span>,
+    xmax <span class='op'>=</span> <span class='fl'>180</span>,
+    ymin <span class='op'>=</span> <span class='fl'>0.80</span>
+  <span class='op'>)</span>
+</div><div class='img'><img src='add_annotation-3.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
