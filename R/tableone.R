@@ -1,4 +1,4 @@
-#' Summary Table (Table One)
+#' Wrapper function to produce a summary table (i.e. Table One)
 #'
 #' @description Create and render a summary table for a dataset
 #'
@@ -16,14 +16,71 @@
 #'
 #' @examples 
 #' 
-#'  ## Set meta-data for table including title and data source
-#'  t1_title <- "My table one title"
-#'  t1_ds <- "My table one data source"
-#'  
-#'  adtte %>% 
+#' library(survival)
+#' library(dplyr)
+#' library(visR)
+#' 
+#' 
+#' # metadata for table
+#' t1_title <- "My table one title"
+#' t1_ds <- "My table one data source"
+#' t1_fn <- "My table one footnote"
+#' 
+#' 
+#' ## table by treatment - without overall and render with DT 
+#' adtte %>%
 #'    filter(SAFFL == "Y") %>%
-#'    select(AGE, AGEGR1, SEX, EVNTDESC, TRTA ) %>%   
-#'    tableone(strata = "TRTA", overall = F, title = t1_title, datasource = t1_ds)
+#'    select(AGE, AGEGR1, SEX, EVNTDESC, TRTA) %>%
+#'    tableone(
+#'       strata = "TRTA",
+#'       overall = F,
+#'       title = t1_title,
+#'       datasource = t1_ds,
+#'       footnote = t1_fn,
+#'       engine = "DT"
+#'    )
+#' 
+#' ## table by treatment - without overall and render with GT 
+#' adtte %>%
+#'    filter(SAFFL == "Y") %>%
+#'    select(AGE, AGEGR1, SEX, EVNTDESC, TRTA) %>%
+#'    tableone(
+#'       strata = "TRTA",
+#'       overall = F,
+#'       title = t1_title,
+#'       datasource = t1_ds,
+#'       footnote = t1_fn,
+#'       engine = "gt"
+#'    )
+#' 
+#' ## table by treatment - without overall and render with kable
+#' adtte %>%
+#'    filter(SAFFL == "Y") %>%
+#'    select(AGE, AGEGR1, SEX, EVNTDESC, TRTA) %>%
+#'    tableone(
+#'       strata = "TRTA",
+#'       overall = F,
+#'       title = t1_title,
+#'       datasource = t1_ds,
+#'       footnote = t1_fn,
+#'       engine = "kable"
+#'    )
+#' 
+#' ## table by treatment - without overall and render with kable as 
+#' ## a latex table format rather than html 
+#' adtte %>%
+#'    filter(SAFFL == "Y") %>%
+#'    select(AGE, AGEGR1, SEX, EVNTDESC, TRTA) %>%
+#'    tableone(
+#'       strata = "TRTA",
+#'       overall = F,
+#'       title = t1_title,
+#'       datasource = t1_ds,
+#'       footnote = t1_fn,
+#'       output_format = "latex",
+#'       engine = "kable"
+#'    )
+#' 
 #'
 #' @rdname tableone
 #'
