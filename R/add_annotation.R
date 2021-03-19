@@ -1,9 +1,10 @@
-#' @title Wrapper around ggplot2::annotation_custom for simplified annotation to ggplot2 plots
+#' @title Add annotations to a visR object
 #'
-#' @description This function accepts a string, dataframe, data.table, tibble or
-#'   customized objects of class \code{gtable} and places them on the specified
-#'   location on the \code{ggplot}. The layout is fixed: bold columnheaders and plain body.
-#'   Only the font size and type can be chosen. 
+#' @description Wrapper around ggplot2::annotation_custom for simplified annotation to ggplot2 plots.
+#' This function accepts a string, dataframe, data.table, tibble or customized 
+#' objects of class \code{gtable} and places them on the specified location on 
+#' the \code{ggplot}. The layout is fixed: bold columnheaders and plain body. 
+#' Only the font size and type can be chosen. 
 #'
 #' @author Steven Haesendonckx
 #'
@@ -19,14 +20,11 @@
 #' @param ymax y coordinates giving vertical location of raster in which to fit annotation.
 #'
 #' @examples
+#' 
 #' library(visR)
-#' library(survival)
-#' library(dplyr)
-#' library(tidyr)
-#' library(ggplot2)
 #' 
 #' ## Estimate survival
-#' surv_object <- estimate_KM(data = adtte, strata = "TRTP")
+#' surv_object <- visR::estimate_KM(data = adtte, strata = "TRTP")
 #' 
 #' ## We want to annotate the survival KM plot with a simple string comment
 #' visR::plot(surv_object) %>%
@@ -44,8 +42,7 @@
 #' ## with p-values contained in a tibble 
 #' 
 #' ## we calculate p-values for "Equality across strata"
-#' lbl <-
-#'   get_pvalue(surv_object,
+#' lbl <- visR::get_pvalue(surv_object,
 #'              statlist = c("test", "p"),
 #'              type = "All")
 #' 
@@ -58,7 +55,7 @@
 #'     label = lbl,
 #'     base_family = "sans",
 #'     base_size = 9,
-#'     xmin = 110,
+#'     xmin = 100,
 #'     xmax = 180,
 #'     ymin = 0.80
 #'   )
