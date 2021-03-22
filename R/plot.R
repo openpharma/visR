@@ -45,7 +45,7 @@ plot.default <- function(x, ...){
 #' km_fit <- survival::survfit(Surv(AVAL, 1-CNSR) ~ TRTP, data=adtte)
 #' 
 #' # plot curves using base plot function
-#' base::plot(km_fit)
+#' survival:::plot.survfit(km_fit)
 #' 
 #' # plot same curves using visR plot function
 #' visR::plot(km_fit)

@@ -2,7 +2,7 @@
 #' @section Last updated by:
 #' Steven Haesendonckx
 #' @section Last update date:
-#' 19-MAR-2021
+#' 22-MAR-2021
 
 # Specifications ----------------------------------------------------------
 
@@ -36,6 +36,7 @@
 #' T6.2 The function add PARAM/PARAMCD when available
 #' T7. The function call supports traceability
 #' T7.1 The function updates call$data when magrittr pipe is used
+#' T7.2 The function prefixes the function call with survival
 
 # Requirement T1 ----------------------------------------------------------
 
@@ -219,7 +220,7 @@ testthat::test_that("T5.1 The function gives the same results as survival::survf
 
   ## Compare common elements
   Common_Nms <- base::intersect(names(survobj_survival), names(survobj_visR))
-
+  Common_Nms <- Common_Nms[-which(Common_Nms == "call")]
 
   list_survival <- lapply(survobj_survival, "[")[Common_Nms]
   list_visR <- lapply(survobj_visR, "[")[Common_Nms]
@@ -238,6 +239,7 @@ testthat::test_that("T5.2 The function adds timepoint = 0",{
 
   ## Compare common elements
   Common_Nms <- base::intersect(names(survobj_survival), names(survobj_visR))
+  Common_Nms <- Common_Nms[-which(Common_Nms == "call")]
 
 
   list_survival <- lapply(survobj_survival, "[")[Common_Nms]
@@ -257,7 +259,7 @@ testthat::test_that("T5.3 The function allows additional arguments to be passed,
 
   ## Compare common elements
   Common_Nms <- base::intersect(names(survobj_survival), names(survobj_visR))
-
+  Common_Nms <- Common_Nms[-which(Common_Nms == "call")]
 
   list_survival <- lapply(survobj_survival, "[")[Common_Nms]
   list_visR <- lapply(survobj_visR, "[")[Common_Nms]
@@ -289,6 +291,8 @@ testthat::test_that("T6.1 The calculation is not affected by the addition of add
 
   ## Compare common elements
   Common_Nms <- base::intersect(names(survobj_survival), names(survobj_visR))
+  Common_Nms <- Common_Nms[-which(Common_Nms == "call")]
+
   Unique_Nms_visR <- base::setdiff(names(survobj_visR), names(survobj_survival))
 
   list_survival <- lapply(survobj_survival, "[")[Common_Nms]
@@ -335,6 +339,26 @@ testthat::test_that("T7.1 The function updates call$data when magrittr pipe is u
 
   testthat::expect_equal(call_visR[["data"]], as.symbol("adtte"))
 })
+
+testthat::test_that("T7.2 The function prefixes the function call with survival",{
+
+  ## survival package
+  survobj_survival <- adtte %>%
+    survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX, data = .) %>%
+    survival::survfit0(start.time = 0)
+  call_survival <- as.list(survobj_survival[["call"]])
+
+
+  ## survival package
+  survobj_visR <- adtte %>%
+    visR::estimate_KM(data = ., strata = "SEX")
+  call_visR <- as.list(survobj_visR[["call"]])
+
+
+  testthat::expect_equal(call_visR[[1]], quote(survival::survfit))
+})
+
+#' 
 
 
 # END OF CODE ----------------------------------------------------------

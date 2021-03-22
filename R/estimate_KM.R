@@ -149,7 +149,7 @@ estimate_KM <- function(
 
 # Update Call with original info and dots, similar as update.default ------
 
-  #survfit_object$call[[1]] <- base::as.symbol("survival::survfit")
+  survfit_object$call[[1]] <- quote(survival::survfit)
   survfit_object$call[["formula"]] <- formula
   survfit_object$call[["data"]] <- Call$data
   if (length(dots) > 0){
