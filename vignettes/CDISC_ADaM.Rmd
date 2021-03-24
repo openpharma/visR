@@ -1,8 +1,8 @@
 ---
-title: "Survival Analysis with visR"
+title: "Survival Analysis with visR using CDISC ADaM standard"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Survival Analysis with visR}
+  %\VignetteIndexEntry{Survival Analysis with visR using CDISC ADaM standard}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 ## Introduction
 
 
-This very short tutorial illustrates how a standard time-to-event analysis can be done very efficiently when the data set adheres to the [CDISC ADaM standard](https://www.cdisc.org/standards/foundational/adam/adam-basic-data-structure-bds-time-event-tte-analyses-v1-0). A more detailed time-to-event analysis with a more braod overview of visR's funcitonality is presented in another vignette.
+This very short tutorial illustrates how a standard time-to-event analysis can be done very efficiently when the data set adheres to the [CDISC ADaM standard](https://www.cdisc.org/standards/foundational/adam/adam-basic-data-structure-bds-time-event-tte-analyses-v1-0). A more detailed time-to-event analysis with a more braod overview of visR's functionality is presented in another vignette.
 
 
 ```{r imports, echo=FALSE, warning=FALSE, message=FALSE}
