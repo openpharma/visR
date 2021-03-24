@@ -188,7 +188,7 @@ gg %>% add_CI() %>% add_CNSR(shape = 3, size = 2)
 ```
 
 
-visR overwrites the base::plot() function an there is a warning to that when the package is loaded. However, it only overwrites the base::plot() function for type survfit and wires calls for all other objects through to base::plot().
+visR overwrites the base::plot() function and there is a warning to that when the package is loaded. However, it actually only overwrites the survival::plot() function for type survfit and wires calls for all other objects through to base::plot().
 
 visR includes a wrapper function to create a risktable and then add it directly to a Kaplan-Meier plot.
 
