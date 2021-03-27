@@ -6,13 +6,15 @@
 
 # Specifications ---------------------------------------------------------------
 
-#' T1.  The function reorganises "messy output" into tidy tibbles without changing values
-#' T1.1 The `visR::tidyme(stats::lm())` transformation doesn't change the values
-#' T1.2 The `visR::tidyme(survival::survfit())` transformation doesn't change the values
-#' T2.  No errors are thrown when proper input is provided and a message is thrown when a non-survfit object is transformed
-#' T2.1 No error when a `stats::lm()` model is transformed
-#' T2.2 No error when a `survival::survfit()` model is transformed
-#' T2.3 Message when a non-survfit object is transformed
+#' T1.  The function tidies up an associated object
+#' T1.1 The default method returns a tibble, tidies with broom
+#' T1.2 The default method does not affect the content of the object eg `visR::tidyme(stats::lm())`
+#' T1.3 The default method throws a warning and relies on broom::tidy
+#' T2 The S3 method, associated with a survival object, returns a tidied survival object
+#' T2.1 The S3 method, associated with a survival object, transforms the survival object into a data frame
+#' T2.2 The tidied dataframe has the same content as the original survival object
+#' T2.3 The tidied dataframe contains the call of the original function
+#' T2.4 The tidied dataframe contains ... what else??
 
 # Requirement T1 ---------------------------------------------------------------
 
