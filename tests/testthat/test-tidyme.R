@@ -60,6 +60,8 @@ testthat::test_that("T1.3 The default method throws a message and relies on broo
   
   testthat::expect_message(visR::tidyme(lm_object))
   
+  testthat::expect_true("broom" %in% (base::.packages()))
+  
 })
 
 # Requirement T2 ---------------------------------------------------------------
@@ -78,7 +80,7 @@ testthat::test_that("T2.1 The S3 method, associated with a survival object, tran
 
 testthat::test_that("T2.2 The tidied dataframe has the same content as the original survival object",{
   
-  surv_object <- survival::survfit(data = adtte, Surv(AVAL, 1-CNSR) ~ TRTP)
+  surv_object <- survival::survfit(data = adtte, survival::Surv(AVAL, 1-CNSR) ~ TRTP)
   
   # Shape fit into df
   surv_object_df <- base::with(surv_object, data.frame(time, 
@@ -113,13 +115,13 @@ testthat::test_that("T2.2 The tidied dataframe has the same content as the origi
   
   surv_object_df["n.strata"] <- n_strata_list
   
-  surv_object_df <- surv_object_df[with(surv_object_df, order(surv)),] 
+  surv_object_df <- surv_object_df[with(surv_object_df, base::order(surv)),] 
 
   surv_object_tidied <- visR::tidyme(surv_object)
   
   surv_object_tidied$call <- base::as.character(surv_object_tidied$call)
   surv_object_tidied <- surv_object_tidied %>% as.data.frame() 
-  surv_object_tidied <- surv_object_tidied[with(surv_object_tidied, order(surv)),] 
+  surv_object_tidied <- surv_object_tidied[with(surv_object_tidied, base::order(surv)),] 
   surv_object_tidied["strata"] <- as.factor(surv_object_tidied$strata)
   
   testthat::expect_equal(surv_object_df, surv_object_tidied)
