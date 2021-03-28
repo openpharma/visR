@@ -30,10 +30,16 @@ library(survival)
 library(dplyr)
 library(tidyr)
 library(ggplot2)
+library(visR)
 
-survfit_object <- survival::survfit(data = adtte, Surv(AVAL, 1-CNSR) ~ TRTP)
-visR::plot(survfit_object) \%>\%
-  add_CI(alpha = 0.1, style = "step", linetype = 3)
+# add censoring to plot
+p \%>\% visR::add_CNSR()
+
+# change censor symbol shape
+p \%>\% visR::add_CNSR(shape = 1)
+
+# change size and shape
+p \%>\% visR::add_CNSR(size = 4, shape = 2)
 
 }
 \author{

@@ -58,11 +58,6 @@ No default method is available at the moment.
 \examples{
 \donttest{
 library(survival)
-library(dplyr)
-library(tidyr)
-library(ggplot2)
-library(cowplot)
-library(gtable)
 library(visR)
 
 ## Display 2 risk tables, 1 per statlist
