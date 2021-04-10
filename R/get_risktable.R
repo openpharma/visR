@@ -1,40 +1,38 @@
 #' @title Obtain risk tables for tables and plots
 #'
-#' @description Create a risktable from a survival object to display in tables or plots
-#'
+#' @description Create a risk table from an object using an S3 method. Currently, no default method is defined.
+#' 
+#' @seealso \code{\link[survival]{summary}}
+#' 
+#' @param x object to be passed on to the method
+#' @param ... other arguments passed on to the method
+#'  
+#' @rdname get_risktable
+#' 
+#' @export
+
+get_risktable <- function(x, ...){
+  UseMethod("get_risktable")
+} 
+
 #' @param survfit_object an object of class `survfit`
 #' @param min_at_risk \code{numeric} The cutoff for number of subjects to display. Default is 0.
-#' @param breaks Single numeric or numeric vector indicating breaks.
+#' @param breaks Numeric vector indicating x axis ticks.
 #' @param statlist Character vector indicating which summary data to present. Current choices are "n.risk" "n.event" "n.censor".
 #' @param label Character vector with labels for the statlist. Default matches "n.risk" with "At risk", "n.event" with "Events" and "n.censor"
 #'   with "Censored".
 #' @param group String indicating the grouping variable for the risk tables. Current options are:
 #'   \itemize{
-#'     \item{"strata": groups the risk tables per stratum. The `label` specifies the lables used within each risk table. This is the default}
+#'     \item{"strata": groups the risk tables per stratum. The `label` specifies the label within each risk tabel. The strata levels
+#'        are used for the titles of the risk tables. This is the default}
 #'      \item{"statlist": groups the risk tables per statlist. The `label` specifies the title for each risk tabel. The strata levels
 #'        are used for labeling within each risk table.}
-#'   } "strata" to group the risk tables
-#'   per strata, and "statlist" to group the risk tables
-#' @param collapse Boolean, indicates whether to present the data overall, rather than per strata.
+#'   } 
+#' @param collapse Boolean, indicates whether to present the data overall.
 #'   Default is FALSE.
 #'
 #' @rdname get_risktable
 #'
-#' @export
-
-get_risktable <- function(
-    survfit_object
-   ,min_at_risk = 0
-   ,breaks = NULL
-   ,statlist = c("n.risk")
-   ,label = "At risk"
-   ,group = "strata"
-   ,collapse = FALSE
-){
-  UseMethod("get_risktable")
-}
-
-
 #' @rdname get_risktable
 #' @method get_risktable survfit
 #' @export
