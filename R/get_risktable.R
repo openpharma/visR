@@ -61,6 +61,10 @@ get_risktable.survfit <- function(
   if (min_at_risk < 0 | min_at_risk %% 1 != 0)
     stop("min_at_risk needs to be a positive integer.")
   
+  if (base::any(breaks < 0))
+    stop("Negative times are not valid.")
+  
+    
   if (min_at_risk > max(survfit_object$n.risk)){
     tidy_object <- tidyme(survfit_object)
 
@@ -76,8 +80,6 @@ get_risktable.survfit <- function(
   tidy_object <- tidyme(survfit_object)
   
   statlist <- unique(statlist)
-  
-  if (!is.null(breaks)) breaks <- order(breaks)
   
   if (length(label) <= length(statlist)) {
     vlookup <- data.frame( statlist = c("n.risk", "n.censor", "n.event")
@@ -123,7 +125,7 @@ get_risktable.survfit <- function(
     times <- breaks
   }
 
-  times <- times[times <= max_time]
+  times <- times[0 <= times && times <= max_time]
 
 
 # Summary -----------------------------------------------------------------

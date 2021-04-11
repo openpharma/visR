@@ -36,7 +36,7 @@
 #' T7.2 The calculations are grouped overall when collapse = TRUE
 #' T7.3 No error when there is only one strata available
 #' T8. The output dataset is a data.frame
-#' T8.1 which columns?
+#' T8.1 which columns? + addd attributes
 
 # Requirement T1 ----------------------------------------------------------
 
@@ -89,6 +89,27 @@ testthat::test_that("T2.4 No error when the minimum at risk is lower than the mi
   testthat::expect_error(visR::get_risktable(survfit_object, min_at_risk = 0), NA)
 
 })
+
+# Requirement T3 ----------------------------------------------------------
+
+context("get_risktable.survfit - T3. The function accepts an argument that specifies the time at which the risk set is calculated")
+
+testthat::test_that("T3.1 An error when the times specified are negative",{
+
+  survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
+  testthat::expect_error(visR::get_risktable(survfit_object, breaks = c(0,5,-20,9)))
+
+})
+
+testthat::test_that("T3.2 The function orders the times argument internally to avoid errors",{
+
+  survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
+  breaks <- c(0,9,5,10,8,3)
+  risktable <- visR::get_risktable(survfit_object, breaks = breaks)
+  testthat::expect_equal(unique(risktable[["time"]]), breaks[order(breaks)])
+})
+
+
 
 
 
