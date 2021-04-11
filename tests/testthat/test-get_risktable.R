@@ -9,32 +9,40 @@
 #' T1. The function accepts a `survfit` object
 #' T1.1 No error when a `survfit` object is passed to the function
 #' T1.2 An error when a non-`survfit` object is passed to the function
+#' T2. The function accepts an argument that specifies the minimum at risk
+#' T2.1 An error when the minimum at risk is negative
+#' T2.2 An error when the minimum at risk is not an integer
+#' T2.3 No error when the minimum at risk is larger than the maximum at risk in the data set
+#' T2.4 No error when the minimum at risk is lower than the minimum at risk in the data set
+#' T2.5 The minimum at risk is calculated as 0 when the minimum at risk specified is lower that the minimum at risk in the data set
+#' T3. The function accepts an argument that specifies the time at which the risk set is calculated
+#' T3.1 An error when the times specified are negative
+#' T3.2 The function orders the times argument internally to avoid errors
+#' T4. The function accepts a `statlist` to be displayed  for which labels can be specified
+#' T4.1 An error when the `statlist` is not a character vector
+#' T4.2 An error when the `statlist` contains non-allowed strings eg "blah"
+#' T4.3 An error when the `label` is not a character vector
+#' T5. The function matches the length of the `label` vector with that of the `statlist` vector
+#' T5.1 The function supplies defaults to increase the length of the `label` vector to same length as the `statlist` vector 
+#' T5.2 The supplied defaults for the `label` vector match the arguments specified in the `statlist`
+#' T5.3 The function limits the length of the `label` vector to the length of the `statlist` vector
+#' T6. The function groups the calculation by strata, by statlist or overall
+#' T6.1 An error when the `group` arguments does not contain `strata` or `statlist`
+#' T6.2 The calculations are grouped by strata when group = "strata"
+#' T6.3 The calculations are grouped by statlist when group = "statlist"
+#' T7. The function allows the calculations to be grouped overall 
+#' T7.1 An error when the argument collapse is not boolean
+#' T7.2 The calculations are grouped overall when collapse = TRUE
+
+
+
+   ,group = "strata"
+   ,collapse = FALSE
+){
+
+
 #' 
-#' T2. The function relies on the presence of two numeric variables, specified through `AVAL` and `CNSR`, to be present in `data`
-#' T2.1 An error when colname specified through `AVAL` is not present in `data`
-#' T2.2 An error when colname specified through `AVAL` is not numeric
-#' T2.3 No error when the colname specified through `AVAL` is not the proposed default
-#' T2.4 An error when colname specified through `CNSR` is not present in `data`
-#' T2.5 An error when colname specified through `CNSR` is not numeric
-#' T2.6 No error when the colname specified through `CNSR` is not the proposed default
-#' T3. The user can specify strata
-#' T3.1 An error when the columns, specifying the strata are not available in `data`
-#' T3.2 No error when strata is NULL
-#' T3.3 When no strata are specified, an artificial strata is created 'Overall'
-#' T3.4 When only 1 stratum is specified, the stratum names are added to the `names` attribute
-#' T3.5 When more than 1 strata is specified, the stratum names are available in the `names` attribute
-#' T4. The function removes all rows with NA values inside any of the strata
-#' T5. The function does not alter the calculation of survival::survfit
-#' T5.1 The function gives the same results as survival::survfit
-#' T5.2 The function adds timepoint = 0
-#' T5.3 The function allows additional arguments to be passed, specific for survival::survfit
-#' T5.4 The function returns an object of class `survfit`
-#' T6. The function adds additional information to the survfit object when available
-#' T6.1 The calculation is not affected by the addition of additional parameters
-#' T6.2 The function add PARAM/PARAMCD when available
-#' T7. The function call supports traceability
-#' T7.1 The function updates call$data when magrittr pipe is used
-#' T7.2 The function prefixes the function call with survival
+#' 
 
 
 
