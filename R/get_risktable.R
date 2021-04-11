@@ -16,9 +16,11 @@ get_risktable <- function(x, ...){
 } 
 
 #' @param survfit_object an object of class `survfit`
-#' @param min_at_risk \code{numeric} The cutoff for number of subjects to display. Default is 0.
-#' @param breaks Numeric vector indicating x axis ticks.
+#' @param min_at_risk \code{numeric} The cutoff for number of participants at risk to display. This minimum is applied across strata. 
+#'   Default is 0.
+#' @param breaks Numeric vector indicating the times at which the risk set, censored subjects, events are calculated.
 #' @param statlist Character vector indicating which summary data to present. Current choices are "n.risk" "n.event" "n.censor".
+#'   Default is "n.risk".
 #' @param label Character vector with labels for the statlist. Default matches "n.risk" with "At risk", "n.event" with "Events" and "n.censor"
 #'   with "Censored".
 #' @param group String indicating the grouping variable for the risk tables. Current options are:
@@ -28,6 +30,7 @@ get_risktable <- function(x, ...){
 #'      \item{"statlist": groups the risk tables per statlist. The `label` specifies the title for each risk tabel. The strata levels
 #'        are used for labeling within each risk table.}
 #'   } 
+#'   Default is "strata".
 #' @param collapse Boolean, indicates whether to present the data overall.
 #'   Default is FALSE.
 #'
@@ -50,13 +53,32 @@ get_risktable.survfit <- function(
 # User input validation ---------------------------------------------------
 
   if (!base::any(statlist %in% c("n.risk", "n.censor", "n.event")))
-    stop("Error in get_risktable: statlist argument not valid.")
+    stop("statlist argument not valid.")
+  
   if (!base::is.logical(collapse))
     stop("Error in get_risktable: collapse is expected to be boolean.")
 
-  if (min_at_risk < 0 && min_at_risk %% 1 == 0)
+  if (min_at_risk < 0 | min_at_risk %% 1 != 0)
     stop("min_at_risk needs to be a positive integer.")
+  
+  if (min_at_risk > max(survfit_object$n.risk)){
+    tidy_object <- tidyme(survfit_object)
 
+    max_at_risk <- tidy_object %>% 
+      dplyr::group_by(strata) %>%
+      dplyr::summarize(risk = max(n.risk))
+    
+    stop(paste0("min_at_risk larger than the risk available in any strata. Maximum at risk is ", max(max_at_risk[["risk"]]), " in stratum ", max_at_risk[which(max_at_risk["risk"] == max(max_at_risk[["risk"]])), "strata"] ,"."))
+  }
+  
+# Clean input ------------------------------------------------------------
+  
+  tidy_object <- tidyme(survfit_object)
+  
+  statlist <- unique(statlist)
+  
+  if (!is.null(breaks)) breaks <- order(breaks)
+  
   if (length(label) <= length(statlist)) {
     vlookup <- data.frame( statlist = c("n.risk", "n.censor", "n.event")
                           ,label = c("At risk", "Censored", "Events")
@@ -81,11 +103,7 @@ get_risktable.survfit <- function(
   if (length(label) > length(statlist))
     label <- label[1:length(statlist)]
 
-  statlist <- unique(statlist)
-
-  tidy_object <- tidyme(survfit_object)
-
-
+  
 # Pull out the max time to consider ---------------------------------------
 
   max_time <-
