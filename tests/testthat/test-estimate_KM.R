@@ -358,8 +358,5 @@ testthat::test_that("T7.2 The function prefixes the function call with survival"
   testthat::expect_equal(call_visR[[1]], quote(survival::survfit))
 })
 
-#' 
-
-
 # END OF CODE ----------------------------------------------------------
 

@@ -18,7 +18,7 @@ get_risktable <- function(x, ...){
 #' @param survfit_object an object of class `survfit`
 #' @param min_at_risk \code{numeric} The cutoff for number of participants at risk to display. This minimum is applied across strata. 
 #'   Default is 0.
-#' @param breaks Numeric vector indicating the times at which the risk set, censored subjects, events are calculated.
+#' @param times Numeric vector indicating the times at which the risk set, censored subjects, events are calculated.
 #' @param statlist Character vector indicating which summary data to present. Current choices are "n.risk" "n.event" "n.censor".
 #'   Default is "n.risk".
 #' @param label Character vector with labels for the statlist. Default matches "n.risk" with "At risk", "n.event" with "Events" and "n.censor"
@@ -43,7 +43,7 @@ get_risktable <- function(x, ...){
 get_risktable.survfit <- function(
     survfit_object
    ,min_at_risk = 0
-   ,breaks = NULL
+   ,times = NULL
    ,statlist = c("n.risk")
    ,label = NULL
    ,group = "strata"
@@ -52,8 +52,11 @@ get_risktable.survfit <- function(
 
 # User input validation ---------------------------------------------------
 
-  if (!base::any(statlist %in% c("n.risk", "n.censor", "n.event")))
+  if (!base::all(statlist %in% c("n.risk", "n.censor", "n.event")))
     stop("statlist argument not valid.")
+  
+  if (!base::all(is.character(label)) & !base::inherits(label, "factor"))
+    stop("label arguments should be of class `character` or `factor`.")
   
   if (!base::is.logical(collapse))
     stop("Error in get_risktable: collapse is expected to be boolean.")
@@ -61,7 +64,7 @@ get_risktable.survfit <- function(
   if (min_at_risk < 0 | min_at_risk %% 1 != 0)
     stop("min_at_risk needs to be a positive integer.")
   
-  if (base::any(breaks < 0))
+  if (base::any(times < 0))
     stop("Negative times are not valid.")
   
     
@@ -119,12 +122,10 @@ get_risktable.survfit <- function(
 
 # Generate time ticks ----------------------------------------------------
 
-  if (is.null(breaks)) {
-     times <- pretty(survfit_object$time, 10)
-  } else {
-    times <- breaks
+  if (is.null(times)) {
+     times <- base::pretty(survfit_object$time, 10)
   }
-
+  
   times <- times[0 <= times && times <= max_time]
 
 

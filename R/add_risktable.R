@@ -53,7 +53,7 @@
 
 add_risktable <- function( gg
                           ,min_at_risk = 0
-                          ,breaks = NULL
+                          ,times = NULL
                           ,statlist = c("n.risk")
                           ,label = "At risk"
                           ,group = "strata"
@@ -68,7 +68,7 @@ add_risktable <- function( gg
 add_risktable.ggsurvfit <- function(
     gg
    ,min_at_risk = 0
-   ,breaks = NULL
+   ,times = NULL
    ,statlist = c("n.risk")
    ,label = "At risk"
    ,group = "strata"
@@ -83,17 +83,14 @@ add_risktable.ggsurvfit <- function(
   
   survfit_object <- eval(gg$data$call[[1]])
   
-#text <- eval(expr=paste0("survival::", call[1], "(formula = ", call[2], ", data = ", call[3], ")"))
-#survfit_object <- eval(parse(text=text))
-  
   ggbld <- ggplot2::ggplot_build(gg)
   
-  if (is.null(breaks)) breaks <- as.numeric(ggbld$layout$panel_params[[1]]$x$get_labels())
+  if (is.null(times)) times <- as.numeric(ggbld$layout$panel_params[[1]]$x$get_labels())
 
   final <- get_risktable( 
               survfit_object
              ,min_at_risk
-             ,breaks
+             ,times
              ,statlist
              ,label
              ,group
@@ -119,7 +116,7 @@ add_risktable.ggsurvfit <- function(
                               ) +
       ggplot2::geom_text(size = 3.0, hjust=.5, vjust=.5, angle=0, show.legend = F) +
       ggplot2::theme_bw() +
-      ggplot2::scale_x_continuous(breaks = times,
+      ggplot2::scale_x_continuous(times = times,
                                   limits = c(min(time_ticks), max(time_ticks))) +
       ggplot2::theme(axis.title.x = ggplot2::element_text(size = 8,
                                                  vjust = 1,

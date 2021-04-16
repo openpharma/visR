@@ -18,11 +18,14 @@
 #' T3. The function accepts an argument that specifies the time at which the risk set is calculated
 #' T3.1 An error when the times specified are negative
 #' T3.2 The function orders the times argument internally to avoid errors
+#' T3.3 The function proposes 11 times which are equally spaced when no times are specified 
 #' T4. The function accepts a `statlist` to be displayed  for which labels can be specified
-#' T4.1 An error when the `statlist` is not a character vector
+#' T4.1 No error when the `statlist` contains allowed strings
 #' T4.2 An error when the `statlist` contains non-allowed strings eg "blah"
 #' T4.3 Duplicate entries are removed from `statlist`
-#' T4.4 An error when the `label` is not a character vector
+#' T4.4 An error when the `label` is not a character vector or a factor
+#' T4.5 No error when the `label` is a character vector
+#' T4.6 No error when the `label` is a factor
 #' T5. The function matches the length of the `label` vector with that of the `statlist` vector
 #' T5.1 The function supplies defaults to increase the length of the `label` vector to same length as the `statlist` vector 
 #' T5.2 The supplied defaults for the `label` vector match the arguments specified in the `statlist`
@@ -97,20 +100,89 @@ context("get_risktable.survfit - T3. The function accepts an argument that speci
 testthat::test_that("T3.1 An error when the times specified are negative",{
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
-  testthat::expect_error(visR::get_risktable(survfit_object, breaks = c(0,5,-20,9)))
+  testthat::expect_error(visR::get_risktable(survfit_object, times = c(0,5,-20,9)))
 
 })
 
 testthat::test_that("T3.2 The function orders the times argument internally to avoid errors",{
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
-  breaks <- c(0,9,5,10,8,3)
-  risktable <- visR::get_risktable(survfit_object, breaks = breaks)
-  testthat::expect_equal(unique(risktable[["time"]]), breaks[order(breaks)])
+  times <- c(0,9,5,10,8,3)
+  risktable <- visR::get_risktable(survfit_object, times = times)
+  testthat::expect_equal(unique(risktable[["time"]]), times[order(times)])
 })
 
+testthat::test_that("T3.3 The function proposes 11 times which are equally spaces when no times are specified",{
+
+  survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
+  risktable <- visR::get_risktable(survfit_object)
+  
+  testthat::expect_equal(length(risktable[["time"]]), 11)
+  testthat::expect_equal(risktable[["time"]], c(0,20,40,60,80,100))
+})
+
+# Requirement T4 ----------------------------------------------------------
+
+context("get_risktable.survfit - The function accepts a `statlist` to be displayed  for which labels can be specified")
+
+testthat::test_that("T4.1 No error when the `statlist` contains allowed strings",{
+
+  survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
+  testthat::expect_error(visR::get_risktable(survfit_object, statlist = "n.risk"))
+})
+
+testthat::test_that("T4.2 An error when the `statlist` contains non-allowed strings eg 'blah'",{
+
+  survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
+  testthat::expect_error(visR::get_risktable(survfit_object, statlist = c("blah","n.risk", -3)))
+})
+
+testthat::test_that("T4.3 Duplicate entries are removed from `statlist`",{
+
+  survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
+  risktable <- visR::get_risktable(survfit_object, statlist = c("n.risk","n.risk"))
+  testthat::expect_equal(length(risktable[which(risktable[["time"]] == 0), "y_values"]), 1)
+})
+
+testthat::test_that("T4.4 An error when the `label` is not a character vector or a factor",{
+
+  survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
+  testthat::expect_error(visR::get_risktable(survfit_object, label = 10))
+
+})
+
+testthat::test_that("T4.4 No error when the `label` is a character vector",{
+
+  survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
+  label = c("blah", "moreblah")
+  testthat::expect_error(visR::get_risktable(survfit_object, label = label), NA)
+
+})
+
+testthat::test_that("T4.5 No error when the `label` is a factor",{
+
+  survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
+  label = as.factor(c("blah", "moreblah"))
+  testthat::expect_error(visR::get_risktable(survfit_object, label = label), NA)
+
+})
+
+# Requirement T5 ----------------------------------------------------------
 
 
+#' T5.1 The function supplies defaults to increase the length of the `label` vector to same length as the `statlist` vector 
+#' T5.2 The supplied defaults for the `label` vector match the arguments specified in the `statlist`
+#' T5.3 The function limits the length of the `label` vector to the length of the `statlist` vector
+#' T6. The function groups the calculation by strata, by statlist or overall
+#' T6.1 An error when the `group` arguments does not contain `strata` or `statlist`
+#' T6.2 The calculations are grouped by strata when group = "strata"
+#' T6.3 The calculations are grouped by statlist when group = "statlist"
+#' T7. The function allows the calculations to be grouped overall 
+#' T7.1 An error when the argument collapse is not boolean
+#' T7.2 The calculations are grouped overall when collapse = TRUE
+#' T7.3 No error when there is only one strata available
+#' T8. The output dataset is a data.frame
+#' T8.1 which columns? + addd attributes
 
 
 # END OF CODE ----------------------------------------------------------
