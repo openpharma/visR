@@ -53,9 +53,9 @@ get_risktable.survfit <- function(
 # User input validation ---------------------------------------------------
 
   if (!base::all(statlist %in% c("n.risk", "n.censor", "n.event")))
-    stop("statlist argument not valid.")
+    stop("statlist argument not valid. Current options are n.risk, n.censor and n.event.")
   
-  if (!base::all(is.character(label)) & !base::inherits(label, "factor"))
+  if (!is.null(label) & !base::all(is.character(label)) & !base::inherits(label, "factor"))
     stop("label arguments should be of class `character` or `factor`.")
   
   if (!base::is.logical(collapse))
@@ -67,7 +67,9 @@ get_risktable.survfit <- function(
   if (base::any(times < 0))
     stop("Negative times are not valid.")
   
-    
+  if (length(group)>1 | !(base::all(group %in% c("statlist", "strata"))))
+    stop("group should equal statlist or strata.")
+  
   if (min_at_risk > max(survfit_object$n.risk)){
     tidy_object <- tidyme(survfit_object)
 
@@ -136,12 +138,12 @@ get_risktable.survfit <- function(
 # Risk table per statlist -------------------------------------------------
 
   ## labels of risk table are strata, titles are specifified through `label
-
+  
   per_statlist <- data.frame(
     time = survfit_summary$time,
+    strata = base::factor(base::sub('.*=', '', survfit_summary$strata), levels = base::sub('.*=', '', levels(survfit_summary$strata))),
     n.risk = survfit_summary$n.risk,
-    n.event = survfit_summary$n.event,
-    strata = base::factor(base::sub('.*=', '', survfit_summary$strata), levels = base::sub('.*=', '', levels(survfit_summary$strata)))
+    n.event = survfit_summary$n.event
   ) %>%
     ## correct calculation of n.censor
     dplyr::mutate(n.censor = dplyr::lag(n.risk) - (n.risk + n.event)) %>%
