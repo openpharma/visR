@@ -71,7 +71,6 @@ get_risktable.survfit <- function(
                        ,stringsAsFactors = FALSE)
 
     label <- vlookup %>%
-      dplyr::arrange(statlist) %>%
       dplyr::right_join(have, by = "statlist") %>%
       dplyr::mutate(label = dplyr::coalesce(label.y, label.x)) %>%
       dplyr::select(-label.x, -label.y) %>%
@@ -98,16 +97,19 @@ get_risktable.survfit <- function(
     dplyr::ungroup() %>%
     dplyr::summarize(min_time = min(max_time)) %>%
     dplyr::pull(min_time)
-
+  
 # Generate time ticks ----------------------------------------------------
 
   if (is.null(breaks)) {
-     times <- pretty(survfit_object$time, 10)
+    times <- pretty(survfit_object$time, 10)
   } else {
     times <- breaks
   }
 
-  times <- times[times <= max_time]
+  if (max_time %in% times)
+    times <- times[times <= max_time]
+  else #make sure the min at risk is shown eg when falls between 180 and 200
+    times <- times[c(which(times <= max_time), min(length(times), max(which(times <= max_time))+1))]
 
 
 # Summary -----------------------------------------------------------------
@@ -126,10 +128,11 @@ get_risktable.survfit <- function(
   ) %>%
     ## correct calculation of n.censor
     dplyr::mutate(n.censor = dplyr::lag(n.risk) - (n.risk + n.event)) %>%
-    dplyr::mutate(n.censor = dplyr::case_when(
-      n.censor >= 0 ~ n.censor,
-      TRUE ~ 0
-    )
+    dplyr::mutate(
+      n.censor = dplyr::case_when(
+        n.censor >= 0 ~ n.censor,
+        TRUE ~ 0
+      )
     ) %>%
     dplyr::arrange(strata, time)%>%
     dplyr::rename(y_values = strata)%>%
