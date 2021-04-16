@@ -123,14 +123,14 @@ get_risktable.survfit <- function(
   
 # Generate time ticks ----------------------------------------------------
 
-  if (is.null(breaks)) {
+  if (is.null(times)) {
     times <- pretty(survfit_object$time, 10)
   } 
 
   if (max_time %in% times)
-    times <- times[0 <= times && times <= max_time]
+    times <- times[0 <= times & times <= max_time]
   else #make sure the min at risk is shown eg when falls between 180 and 200
-    times <- times[c(which0 <= times && times <= max_time), min(length(times), max(which(0 <= times && times <= max_time))+1))]
+    times <- unique(times[c(which(0 <= times & times <= max_time), min(length(times), max(which(0 <= times & times <= max_time))+1))])
 
 # Summary -----------------------------------------------------------------
 

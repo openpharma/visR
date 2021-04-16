@@ -118,7 +118,7 @@ add_risktable.ggsurvfit <- function(
                             ) +
       ggplot2::geom_text(size = 3.0, hjust=.5, vjust=.5, angle=0, show.legend = F) +
       ggplot2::theme_bw() +
-      ggplot2::scale_x_continuous(times = times,
+      ggplot2::scale_x_continuous(breaks = times,
                                   limits = c(min(times), max(times))) +
 
       ggplot2::theme(axis.title.x = ggplot2::element_text(size = 8,
