@@ -109,15 +109,18 @@ add_risktable.ggsurvfit <- function(
 
 
   tbls <-  base::Map(function(statlist, title = NA) {
-    ggrisk <- ggplot2::ggplot(final, ggplot2::aes(x = time,
-                                         y = stats::reorder(y_values, dplyr::desc(y_values)),
-                                             label = format(get(statlist), nsmall = 0) # = value columns
-                                         )
-                              ) +
+    ggrisk <- ggplot2::ggplot(final,
+                              ggplot2::aes(
+                                 x = time,
+                                 y = stats::reorder(y_values, dplyr::desc(y_values)),
+                                 label = format(get(statlist), nsmall = 0) # = value columns
+                              )
+                            ) +
       ggplot2::geom_text(size = 3.0, hjust=.5, vjust=.5, angle=0, show.legend = F) +
       ggplot2::theme_bw() +
       ggplot2::scale_x_continuous(times = times,
-                                  limits = c(min(time_ticks), max(time_ticks))) +
+                                  limits = c(min(times), max(times))) +
+
       ggplot2::theme(axis.title.x = ggplot2::element_text(size = 8,
                                                  vjust = 1,
                                                  hjust = 1),
