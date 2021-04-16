@@ -11,11 +11,6 @@
 #' @param ... other arguments passed on to the method survival::coxph
 #'
 #' @examples
-#' library(survival)
-#' library(dplyr)
-#' library(tidyr)
-#' library(ggplot2)
-#' library(broom)
 #'
 #' ## treatment effect
 #' survfit_object_trt <- estimate_KM(data = adtte, strata = c("TRTP"))
@@ -55,25 +50,29 @@ get_COX_HR.survfit <- function(
   ...
 ){
 
+
+# User input validation ---------------------------------------------------
+
   if (!base::inherits(survfit_object, "survfit")){
-    stop("Error in add_COX_HR: Object gg not of class `ggsurvfit`.")}
+    stop("Object is not of class `ggsurvfit`.")}
 
-  #### Update ####
-
+# Update formula ----------------------------------------------------------
+  
   if (!is.null(update_formula)){
     updated_object <- update(survfit_object,  formula = eval(update_formula), evaluate = TRUE)
   }
   else updated_object <- survfit_object
-
-  #### Change call ####
-
+  
+# Change Call -------------------------------------------------------------
+  
   SurvCall <- as.list(updated_object$call)
   CoxArgs <- base::formals(survival::coxph)
   CoxCall <- append(as.symbol("coxph"), SurvCall[names(SurvCall) %in% names(CoxArgs)])
   CoxCall <- append(CoxCall, list(...))
 
+# Tidy output -------------------------------------------------------------
+  
   cox <- tidyme(eval(as.call(CoxCall)))
-
 
   return(cox)
 }
