@@ -2,9 +2,9 @@ pandoc: 2.7.3
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
-  CDISC ADaM: CDISC ADaM.html
+  CDISC_ADaM: CDISC_ADaM.html
   Time_to_event_analysis: Time_to_event_analysis.html
-last_built: 2021-03-19T15:27Z
+last_built: 2021-04-16T15:02Z
 urls:
   reference: https://openpharma.github.io/visR//reference
   article: https://openpharma.github.io/visR//articles

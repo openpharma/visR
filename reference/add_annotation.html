@@ -107,7 +107,7 @@ Only the font size and type can be chosen." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/CDISC ADaM.html">Survival Analysis with visR</a>
+      <a href="../articles/CDISC_ADaM.html">Survival Analysis with visR using CDISC ADaM standard</a>
     </li>
     <li>
       <a href="../articles/Time_to_event_analysis.html">Survival Analysis with visR</a>
@@ -248,15 +248,10 @@ Only the font size and type can be chosen.</p>
 <span class='va'>lbl</span> <span class='op'>&lt;-</span> <span class='fu'>visR</span><span class='fu'>::</span><span class='fu'><a href='get_pvalue.html'>get_pvalue</a></span><span class='op'>(</span><span class='va'>surv_object</span>,
              statlist <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"test"</span>, <span class='st'>"p"</span><span class='op'>)</span>,
              type <span class='op'>=</span> <span class='st'>"All"</span><span class='op'>)</span>
-
+</div><div class='output co'>#&gt; <span class='error'>Error in visR::get_pvalue(surv_object, statlist = c("test", "p"), type = "All"): Specify valid `statlist` arguments.</span></div><div class='input'>
 <span class='co'>## display p-values</span>
 <span class='va'>lbl</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 2</span><span>
-#&gt;   `Equality across strata` `p-value`
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> Log-Rank                 &lt;0.001   
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> Wilcoxon                 &lt;0.001   
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> Tarone-Ware              &lt;0.001   </div><div class='input'>
+</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'lbl' not found</span></div><div class='input'>
 <span class='co'>## Now annotate survival KM plot with the p-values</span>
 <span class='fu'>visR</span><span class='fu'>::</span><span class='fu'><a href='plot.html'>plot</a></span><span class='op'>(</span><span class='va'>surv_object</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>visR</span><span class='fu'>::</span><span class='fu'>add_annotation</span><span class='op'>(</span>
@@ -267,8 +262,8 @@ Only the font size and type can be chosen.</p>
     xmax <span class='op'>=</span> <span class='fl'>180</span>,
     ymin <span class='op'>=</span> <span class='fl'>0.80</span>
   <span class='op'>)</span>
-</div><div class='img'><img src='add_annotation-3.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></span></pre>
+</div><div class='output co'>#&gt; <span class='error'>Error in visR::add_annotation(., label = lbl, base_family = "sans", base_size = 9,     xmin = 100, xmax = 180, ymin = 0.8): object 'lbl' not found</span></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -113,7 +113,7 @@ A two-sided pointwise 0.95 confidence interval is estimated using a log transfor
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/CDISC ADaM.html">Survival Analysis with visR</a>
+      <a href="../articles/CDISC_ADaM.html">Survival Analysis with visR using CDISC ADaM standard</a>
     </li>
     <li>
       <a href="../articles/Time_to_event_analysis.html">Survival Analysis with visR</a>
@@ -211,13 +211,15 @@ Use <code><a href='https://rdrr.io/pkg/survival/man/survfit.formula.html'>?survi
 
 <span class='co'>## No stratification</span>
 <span class='fu'>visR</span><span class='fu'>::</span><span class='fu'>estimate_KM</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>adtte</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Call: survfit(formula = survival::Surv(AVAL, 1 - CNSR) ~ 1, data = adtte)
+</div><div class='output co'>#&gt; Call: survival::survfit(formula = survival::Surv(AVAL, 1 - CNSR) ~ 
+#&gt;     1, data = adtte)
 #&gt; 
 #&gt;       n  events  median 0.95LCL 0.95UCL 
 #&gt;     254     152      51      44      70 </div><div class='input'>
 <span class='co'>## Stratified Kaplan-Meier analysis by `TRTP`</span>
 <span class='fu'>visR</span><span class='fu'>::</span><span class='fu'>estimate_KM</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>adtte</span>, strata <span class='op'>=</span> <span class='st'>"TRTP"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Call: survfit(formula = survival::Surv(AVAL, 1 - CNSR) ~ TRTP, data = adtte)
+</div><div class='output co'>#&gt; Call: survival::survfit(formula = survival::Surv(AVAL, 1 - CNSR) ~ 
+#&gt;     TRTP, data = adtte)
 #&gt; 
 #&gt;                            n events median 0.95LCL 0.95UCL
 #&gt; TRTP=Placebo              86     29     NA      NA      NA
@@ -225,8 +227,8 @@ Use <code><a href='https://rdrr.io/pkg/survival/man/survfit.formula.html'>?survi
 #&gt; TRTP=Xanomeline Low Dose  84     62     33      28      51</div><div class='input'>
 <span class='co'>## Stratified Kaplan-Meier analysis by `TRTP` and `SEX`</span>
 <span class='fu'>visR</span><span class='fu'>::</span><span class='fu'>estimate_KM</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>adtte</span>, strata <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"TRTP"</span>, <span class='st'>"SEX"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Call: survfit(formula = survival::Surv(AVAL, 1 - CNSR) ~ TRTP + SEX, 
-#&gt;     data = adtte)
+</div><div class='output co'>#&gt; Call: survival::survfit(formula = survival::Surv(AVAL, 1 - CNSR) ~ 
+#&gt;     TRTP + SEX, data = adtte)
 #&gt; 
 #&gt;                                   n events median 0.95LCL 0.95UCL
 #&gt; TRTP=Placebo, SEX=F              53     19     NA      90      NA
@@ -237,26 +239,27 @@ Use <code><a href='https://rdrr.io/pkg/survival/man/survfit.formula.html'>?survi
 #&gt; TRTP=Xanomeline Low Dose, SEX=M  34     28     27      21      51</div><div class='input'>
 <span class='co'>## Stratification with one level</span>
 <span class='fu'>visR</span><span class='fu'>::</span><span class='fu'>estimate_KM</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>adtte</span>, strata <span class='op'>=</span> <span class='st'>"PARAMCD"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Call: survfit(formula = survival::Surv(AVAL, 1 - CNSR) ~ PARAMCD, data = adtte)
+</div><div class='output co'>#&gt; Call: survival::survfit(formula = survival::Surv(AVAL, 1 - CNSR) ~ 
+#&gt;     PARAMCD, data = adtte)
 #&gt; 
 #&gt;       n  events  median 0.95LCL 0.95UCL 
 #&gt;     254     152      51      44      70 </div><div class='input'>
 <span class='co'>## Analysis on subset of adtte</span>
 <span class='fu'>visR</span><span class='fu'>::</span><span class='fu'>estimate_KM</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>adtte</span><span class='op'>[</span><span class='va'>adtte</span><span class='op'>$</span><span class='va'>SEX</span> <span class='op'>==</span> <span class='st'>"F"</span>, <span class='op'>]</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Call: survfit(formula = survival::Surv(AVAL, 1 - CNSR) ~ 1, data = adtte[adtte$SEX == 
-#&gt;     "F", ])
+</div><div class='output co'>#&gt; Call: survival::survfit(formula = survival::Surv(AVAL, 1 - CNSR) ~ 
+#&gt;     1, data = adtte[adtte$SEX == "F", ])
 #&gt; 
 #&gt;       n  events  median 0.95LCL 0.95UCL 
 #&gt;     143      80      64      47      96 </div><div class='input'>
 <span class='co'>## Modify the default analysis by using the ellipsis</span>
 <span class='fu'>visR</span><span class='fu'>::</span><span class='fu'>estimate_KM</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>adtte</span>, strata <span class='op'>=</span> <span class='cn'>NULL</span>, type <span class='op'>=</span> <span class='st'>"kaplan-meier"</span>, conf.int <span class='op'>=</span> <span class='cn'>F</span>, timefix <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Call: survfit(formula = survival::Surv(AVAL, 1 - CNSR) ~ 1, data = adtte, 
-#&gt;     timefix = TRUE, type = "kaplan-meier", conf.int = FALSE)
+</div><div class='output co'>#&gt; Call: survival::survfit(formula = survival::Surv(AVAL, 1 - CNSR) ~ 
+#&gt;     1, data = adtte, timefix = TRUE, type = "kaplan-meier", conf.int = FALSE)
 #&gt; 
 #&gt;      n events median 
 #&gt;    254    152     51 </div><div class='input'><span class='fu'>visR</span><span class='fu'>::</span><span class='fu'>estimate_KM</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>adtte</span>, strata <span class='op'>=</span> <span class='cn'>NULL</span>, type <span class='op'>=</span> <span class='st'>"kaplan-meier"</span>, conf.int <span class='op'>=</span> <span class='cn'>FALSE</span>, timefix <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Call: survfit(formula = survival::Surv(AVAL, 1 - CNSR) ~ 1, data = adtte, 
-#&gt;     timefix = TRUE, type = "kaplan-meier", conf.int = FALSE)
+</div><div class='output co'>#&gt; Call: survival::survfit(formula = survival::Surv(AVAL, 1 - CNSR) ~ 
+#&gt;     1, data = adtte, timefix = TRUE, type = "kaplan-meier", conf.int = FALSE)
 #&gt; 
 #&gt;      n events median 
 #&gt;    254    152     51 </div><div class='input'>

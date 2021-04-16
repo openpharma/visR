@@ -47,8 +47,7 @@
 
 
 <meta property="og:title" content="Summarize the test for equality across strata from a survival object using S3 method — get_pvalue" />
-<meta property="og:description" content="S3 method for extracting information regarding equality across strata.
-No default method is available at the moment." />
+<meta property="og:description" content="Wrapper around survival::survdiff that tests the null hypothesis of equality across strata." />
 <meta property="og:image" content="https://openpharma.github.io/visR/logo.png" />
 
 
@@ -104,7 +103,7 @@ No default method is available at the moment." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/CDISC ADaM.html">Survival Analysis with visR</a>
+      <a href="../articles/CDISC_ADaM.html">Survival Analysis with visR using CDISC ADaM standard</a>
     </li>
     <li>
       <a href="../articles/Time_to_event_analysis.html">Survival Analysis with visR</a>
@@ -141,32 +140,20 @@ No default method is available at the moment." />
     </div>
 
     <div class="ref-description">
-    <p>S3 method for extracting information regarding equality across strata.
-No default method is available at the moment.</p>
+    <p>Wrapper around survival::survdiff that tests the null hypothesis of equality across strata.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_pvalue</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
-
-<span class='co'># S3 method for survfit</span>
-<span class='fu'>get_pvalue</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>get_pvalue</span><span class='op'>(</span>
   <span class='va'>survfit_object</span>,
   ptype <span class='op'>=</span> <span class='st'>"All"</span>,
   rho <span class='op'>=</span> <span class='cn'>NULL</span>,
-  statlist <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"test"</span>, <span class='st'>"Chisq"</span>, <span class='st'>"df"</span>, <span class='st'>"p"</span><span class='op'>)</span>,
+  statlist <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"test"</span>, <span class='st'>"Chisq"</span>, <span class='st'>"df"</span>, <span class='st'>"pvalue"</span><span class='op'>)</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>S3 object</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>other arguments passed on to the method</p></td>
-    </tr>
     <tr>
       <th>survfit_object</th>
       <td><p>An object of class <code>survfit</code></p></td>
@@ -185,71 +172,49 @@ The default is "All" displaying all types possible. When <code>rho</code> is spe
       <th>statlist</th>
       <td><p>Character vector containing the desired information to be displayed. The order of the arguments determines the order in which
 they are displayed in the final result. Default is the test name ("test"), Chisquare test statistic ("Chisq"), degrees of freedom ("df") and
-p-value ("p").</p></td>
+p-value ("pvalue").</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A tibble with summary measures for the Test of Equality Across Strata</p>
+    <p>A data frame with summary measures for the Test of Equality Across Strata</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/survival/man/survdiff.html'>survdiff</a></code></p></div>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
-
-    <p>Steven Haesendonckx</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/therneau/survival'>survival</a></span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyr.tidyverse.org'>tidyr</a></span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span>
-
-<span class='va'>survfit_object</span> <span class='op'>&lt;-</span> <span class='fu'><a href='estimate_KM.html'>estimate_KM</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>adtte</span>, strata <span class='op'>=</span> <span class='st'>"TRTP"</span><span class='op'>)</span>
-<span class='fu'>get_pvalue</span><span class='op'>(</span><span class='va'>survfit_object</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 4</span><span>
-#&gt;   `Equality across strata` Chisq    df `p-value`
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> Log-Rank                  60.3     2 &lt;0.001   
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> Wilcoxon                  48.0     2 &lt;0.001   
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> Tarone-Ware               41.9     2 &lt;0.001   </div><div class='input'><span class='fu'>get_pvalue</span><span class='op'>(</span><span class='va'>survfit_object</span>, ptype <span class='op'>=</span> <span class='st'>"All"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 4</span><span>
-#&gt;   `Equality across strata` Chisq    df `p-value`
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> Log-Rank                  60.3     2 &lt;0.001   
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> Wilcoxon                  48.0     2 &lt;0.001   
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> Tarone-Ware               41.9     2 &lt;0.001   </div><div class='input'>
+    <pre class="examples"><div class='input'>
+<span class='co'>## general examples</span>
+<span class='va'>survfit_object</span> <span class='op'>&lt;-</span> <span class='fu'>visR</span><span class='fu'>::</span><span class='fu'><a href='estimate_KM.html'>estimate_KM</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>adtte</span>, strata <span class='op'>=</span> <span class='st'>"TRTP"</span><span class='op'>)</span>
+<span class='fu'>visR</span><span class='fu'>::</span><span class='fu'>get_pvalue</span><span class='op'>(</span><span class='va'>survfit_object</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   Equality across strata    Chisq df p-value
+#&gt; 1               Log-Rank 60.26956  2  &lt;0.001
+#&gt; 2               Wilcoxon 48.02321  2  &lt;0.001
+#&gt; 3            Tarone-Ware 41.85046  2  &lt;0.001</div><div class='input'><span class='fu'>visR</span><span class='fu'>::</span><span class='fu'>get_pvalue</span><span class='op'>(</span><span class='va'>survfit_object</span>, ptype <span class='op'>=</span> <span class='st'>"All"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   Equality across strata    Chisq df p-value
+#&gt; 1               Log-Rank 60.26956  2  &lt;0.001
+#&gt; 2               Wilcoxon 48.02321  2  &lt;0.001
+#&gt; 3            Tarone-Ware 41.85046  2  &lt;0.001</div><div class='input'>
 <span class='co'>## examples to obtain specific tests</span>
-<span class='fu'>get_pvalue</span><span class='op'>(</span><span class='va'>survfit_object</span>, ptype <span class='op'>=</span> <span class='st'>"Log-Rank"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 4</span><span>
-#&gt;   `Equality across strata` Chisq    df `p-value`
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> Log-Rank                  60.3     2 &lt;0.001   </div><div class='input'><span class='fu'>get_pvalue</span><span class='op'>(</span><span class='va'>survfit_object</span>, ptype <span class='op'>=</span> <span class='st'>"Wilcoxon"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 4</span><span>
-#&gt;   `Equality across strata` Chisq    df `p-value`
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> Wilcoxon                  48.0     2 &lt;0.001   </div><div class='input'><span class='fu'>get_pvalue</span><span class='op'>(</span><span class='va'>survfit_object</span>, ptype <span class='op'>=</span> <span class='st'>"Tarone-Ware"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 4</span><span>
-#&gt;   `Equality across strata` Chisq    df `p-value`
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> Tarone-Ware               41.9     2 &lt;0.001   </div><div class='input'>
-<span class='co'># Custom example - obtain Harrington and Fleming test</span>
-<span class='fu'>get_pvalue</span><span class='op'>(</span><span class='va'>survfit_object</span>, ptype <span class='op'>=</span> <span class='st'>"Custom"</span>, rho <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 4</span><span>
-#&gt;   `Equality across strata`              Chisq    df `p-value`
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                                 </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> Harrington and Fleming test (rho = 1)  48.0     2 &lt;0.001   </div><div class='input'> 
-<span class='co'># Get specific information and statistics </span>
-<span class='fu'>get_pvalue</span><span class='op'>(</span><span class='va'>survfit_object</span>, ptype <span class='op'>=</span> <span class='st'>"Log-Rank"</span>, statlist <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"test"</span>, <span class='st'>"Chisq"</span>, <span class='st'>"df"</span>, <span class='st'>"p"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 4</span><span>
-#&gt;   `Equality across strata` Chisq    df `p-value`
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> Log-Rank                  60.3     2 &lt;0.001   </div><div class='input'><span class='fu'>get_pvalue</span><span class='op'>(</span><span class='va'>survfit_object</span>, ptype <span class='op'>=</span> <span class='st'>"Wilcoxon"</span>, statlist <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"p"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 1</span><span>
-#&gt;   `p-value`
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> &lt;0.001   </div><div class='input'>
-</div></span></pre>
+<span class='fu'>visR</span><span class='fu'>::</span><span class='fu'>get_pvalue</span><span class='op'>(</span><span class='va'>survfit_object</span>, ptype <span class='op'>=</span> <span class='st'>"Log-Rank"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   Equality across strata    Chisq df p-value
+#&gt; 1               Log-Rank 60.26956  2  &lt;0.001</div><div class='input'><span class='fu'>visR</span><span class='fu'>::</span><span class='fu'>get_pvalue</span><span class='op'>(</span><span class='va'>survfit_object</span>, ptype <span class='op'>=</span> <span class='st'>"Wilcoxon"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   Equality across strata    Chisq df p-value
+#&gt; 1               Wilcoxon 48.02321  2  &lt;0.001</div><div class='input'><span class='fu'>visR</span><span class='fu'>::</span><span class='fu'>get_pvalue</span><span class='op'>(</span><span class='va'>survfit_object</span>, ptype <span class='op'>=</span> <span class='st'>"Tarone-Ware"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   Equality across strata    Chisq df p-value
+#&gt; 1            Tarone-Ware 41.85046  2  &lt;0.001</div><div class='input'>
+<span class='co'>## Custom example - obtain Harrington and Fleming test</span>
+<span class='fu'>visR</span><span class='fu'>::</span><span class='fu'>get_pvalue</span><span class='op'>(</span><span class='va'>survfit_object</span>, ptype <span class='op'>=</span> <span class='st'>"Custom"</span>, rho <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                  Equality across strata    Chisq df p-value
+#&gt; 1 Harrington and Fleming test (rho = 1) 48.02321  2  &lt;0.001</div><div class='input'>
+<span class='co'>## Get specific information and statistics</span>
+<span class='fu'>visR</span><span class='fu'>::</span><span class='fu'>get_pvalue</span><span class='op'>(</span><span class='va'>survfit_object</span>, ptype <span class='op'>=</span> <span class='st'>"Log-Rank"</span>, statlist <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"test"</span>, <span class='st'>"Chisq"</span>, <span class='st'>"df"</span>, <span class='st'>"pvalue"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   Equality across strata    Chisq df p-value
+#&gt; 1               Log-Rank 60.26956  2  &lt;0.001</div><div class='input'><span class='fu'>visR</span><span class='fu'>::</span><span class='fu'>get_pvalue</span><span class='op'>(</span><span class='va'>survfit_object</span>, ptype <span class='op'>=</span> <span class='st'>"Wilcoxon"</span>, statlist <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"pvalue"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   p-value
+#&gt; 1  &lt;0.001</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
