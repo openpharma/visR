@@ -107,7 +107,7 @@ add_CI.ggsurvfit <- function(gg,
     gg <- gg +
       ggplot2::geom_ribbon(ggplot2::aes(ymin = est.lower, 
                                         ymax = est.upper, 
-                                        fill = NA, 
+                                        fill = "transparent", 
                                         colour = strata),
                            alpha = alpha, 
                            outline.type = "both",
