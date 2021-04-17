@@ -113,7 +113,5 @@ get_summary.survfit <- function(survfit_object,
   
   colnames(summary_survfit) <- statlist
   
-  ## output to tibble
-  
   return(summary_survfit)
 }
