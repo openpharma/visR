@@ -14,7 +14,7 @@
 #' @export
 
 plot <- function(x, ...){
-  UseMethod("plot")
+  UseMethod("plot", x)
 } 
 
 #' @rdname plot
@@ -22,7 +22,7 @@ plot <- function(x, ...){
 #' @export
 
 plot.default <- function(x, ...){
-  base::plot(x)
+  base::plot(x, ...)
 }
 
 #' @param survfit_object Object of class `survfit`

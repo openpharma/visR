@@ -3,10 +3,20 @@
 #' @description S3 method for adding risk tables to visR plots.
 #'     No default method is available at the moment.
 #'
-#' @seealso \code{\link[cowplot]{plot_grid}}
-#'
-#' @param gg visR plot of class `ggsurvfit`
+#' @param x visR plot of class `ggsurvfit`
+#' @param ... other arguments passed on to the method add_risktable
+#' 
+#' @rdname add_risktable
+#' 
+#' @export
+
+add_risktable <- function(x, ...){
+  UseMethod("add_risktable", x)
+}
+
 #' @inheritParams get_risktable
+#' 
+#' @seealso \code{\link[cowplot]{plot_grid}}
 #' 
 #' @examples
 #' \donttest{
@@ -48,21 +58,7 @@
 #' @return Object of class \code{ggplot} with added risk table.
 #'
 #' @rdname add_risktable
-#'
-#' @export
-
-add_risktable <- function( gg
-                          ,min_at_risk = 0
-                          ,breaks = NULL
-                          ,statlist = c("n.risk")
-                          ,label = "At risk"
-                          ,group = "strata"
-                          ,collapse = FALSE){
-  UseMethod("add_risktable")
-}
-
-#' @rdname add_risktable
-#' @method add_risktable ggsurvfit
+#' @method add_risktable.ggsurvfit
 #' @export
 
 add_risktable.ggsurvfit <- function(

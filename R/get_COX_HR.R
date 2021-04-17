@@ -3,15 +3,31 @@
 #' @description S3 method for extracting information regarding Hazard Ratios.
 #'     No default method is available at the moment.
 #'
-#' @author Steven Haesendonckx
-#'
 #' @seealso \code{\link[survival]{coxph}} \code{\link[stats]{update.formula}}
 #'
 #' @param x S3 object
 #' @param ... other arguments passed on to the method survival::coxph
+#' 
+#' @rdname get_COX_HR
+#' 
+#' @export
+
+get_COX_HR <- function(x, ...){
+  UseMethod("get_COX_HR", x)
+} 
+
+#' @rdname get_COX_HR
+#' @method get_COX_HR default
+#' @export
+
+get_COX_HR.default <- function(x, ...){
+  base::get_COX_HR(x, ...)
+}
+
+#' @param survfit_object An object of class \code{survfit}
+#' @param update_formula Template which specifies how to update the formula of the survfit_object \code{\link[stats]{update.formula}}
 #'
-#' @examples
-#'
+#' @examples 
 #' ## treatment effect
 #' survfit_object_trt <- estimate_KM(data = adtte, strata = c("TRTP"))
 #' get_COX_HR(survfit_object_trt)
@@ -27,18 +43,7 @@
 #' ## HR estimation with ties considered via the efron method
 #' get_COX_HR(survfit_object_trt, update_formula = ". ~ . + strata(AGE)", ties = "efron")
 #'
-#' @return A tibble with Hazard Ratios
-#'
-#' @rdname get_COX_HR
-#'
-#' @export
-
-get_COX_HR <- function(x, ...){
-  UseMethod("get_COX_HR")
-}
-
-#' @param survfit_object An object of class \code{survfit}
-#' @param update_formula Template which specifies how to update the formula of the survfit_object \code{\link[stats]{update.formula}}
+#' @return A tidied object of class \code{coxph} containing Hazard Ratios
 #'
 #' @rdname get_COX_HR
 #' @method get_COX_HR survfit
@@ -50,7 +55,6 @@ get_COX_HR.survfit <- function(
   ...
 ){
 
-
 # User input validation ---------------------------------------------------
 
   if (!base::inherits(survfit_object, "survfit")){
@@ -60,14 +64,13 @@ get_COX_HR.survfit <- function(
   
   if (!is.null(update_formula)){
     updated_object <- update(survfit_object,  formula = eval(update_formula), evaluate = TRUE)
-  }
-  else updated_object <- survfit_object
+  } else updated_object <- survfit_object
   
 # Change Call -------------------------------------------------------------
   
   SurvCall <- as.list(updated_object$call)
   CoxArgs <- base::formals(survival::coxph)
-  CoxCall <- append(as.symbol("coxph"), SurvCall[names(SurvCall) %in% names(CoxArgs)])
+  CoxCall <- append(quote(survival::coxph), SurvCall[names(SurvCall) %in% names(CoxArgs)])
   CoxCall <- append(CoxCall, list(...))
 
 # Tidy output -------------------------------------------------------------
@@ -77,7 +80,4 @@ get_COX_HR.survfit <- function(
   return(cox)
 }
 
-
-add_COX_HR.tblKM <- function(gg){
-  stop("this object is not yet part of the scope")
-}
+# END OF CODE -------------------------------------------------------------
