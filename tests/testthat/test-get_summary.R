@@ -1,3 +1,11 @@
+#' @title Specifications get_summary
+#' @section Last updated by:
+#' Rebecca Albrecht
+#' @section Last update date:
+#' 17-APR-2021
+
+# Specifications ----------------------------------------------------------
+
 #' T1. The function accepts a survival object
 #' T1.1 No error when `survfit_object` is a survfit object
 #' T1.2 An error when `survfit_object` is a data.frame
@@ -225,3 +233,5 @@ testthat::test_that("T2.12. Column name for confidence intervals changes for dif
   
 })
 
+
+# END ---------------------------------------------------------------------
