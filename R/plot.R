@@ -14,7 +14,7 @@
 #' @export
 
 plot <- function(x, ...){
-  UseMethod("plot")
+  UseMethod("plot", x)
 } 
 
 #' @rdname plot
@@ -22,7 +22,7 @@ plot <- function(x, ...){
 #' @export
 
 plot.default <- function(x, ...){
-  base::plot(x)
+  base::plot(x, ...)
 }
 
 #' @param survfit_object Object of class `survfit`
@@ -204,9 +204,9 @@ plot.survfit <- function(
                                 breaks = y_ticks,
                                 labels = yscaleFUN,
                                 limits = c(min(y_ticks), max(y_ticks))) +
-    ggplot2::theme_bw() +
+    # ggplot2::theme_bw() +
     ggplot2::theme(legend.position = legend_position) +
-    ggplot2::guides(color=ggplot2::guide_legend(override.aes=list(fill=NA))) +
+    # ggplot2::guides(color=ggplot2::guide_legend(override.aes=list(fill=NA))) +
     NULL
   
   class(gg) <- append(class(gg), "ggsurvfit")
