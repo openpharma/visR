@@ -1,4 +1,4 @@
-#' @title Specifications get_summary
+#' @title Specifications get_tableone
 #' @section Last updated by:
 #' Rebecca Albrecht
 #' @section Last update date:
