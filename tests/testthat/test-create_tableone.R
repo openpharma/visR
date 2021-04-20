@@ -1,3 +1,6 @@
+
+
+
 sex <- c("F", "F", "M", "M", "F", "M")
 strat <- factor(c("s1", "s2", "s1", "s2", "s1", "s1"))
 dose <- c(3,5,2,4,8.51145,7)
@@ -56,9 +59,7 @@ testfun_range <- function(x){
 
 
 
-test_that("Correct Variable labels", {
-  expect_equal(unique(t1$variable), c("Sample", "sex", "strat", "dose"))
-})
+
 
 test_that("summary numeric - overall", {
   x <- dose
@@ -66,7 +67,7 @@ test_that("summary numeric - overall", {
   expect_equal(testfun_mean(x), equalise_precision_in_string(as.character(values[1,])))
   expect_equal(testfun_median(x), equalise_precision_in_string(as.character(values[2,])))
   expect_equal(testfun_range(x), equalise_precision_in_string(as.character(values[3,])))
-  warning("Not implemented; missing values??")
+  
 })
 
 test_that("summary numeric - strata", {
@@ -82,7 +83,6 @@ test_that("summary numeric - strata", {
   expect_equal(testfun_median(x_2), equalise_precision_in_string(as.character(values_s2[2,])))
   expect_equal(testfun_range(x_2), equalise_precision_in_string(as.character(values_s2[3,])))
   
-  warning("Not implemented; missing values??")
 })
 
 test_that("summary factor", {
