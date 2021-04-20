@@ -25,6 +25,8 @@
 #' T4.1. An error when the `summary_function` is NULL
 #' T4.2. An error when the `summary_function` is a string
 #' T4.3. An error when the `summary_function` is a function not build for it
+#' T4.4. An error when the `summary_function` is `summarize`
+#' T4.5. No error when the `summary_function` is `summarize_tab1`
 
 
 # Requirement T1 ----------------------------------------------------------
@@ -142,6 +144,21 @@ testthat::test_that("T4.3. An error when the `summary_function` is a function no
   
   data <- adtte
   testthat::expect_error(visR::get_tableone(data = data, summary_function = sum))
+  
+})
+
+testthat::test_that("T4.4. An error when the `summary_function` is `summarize`",{
+  
+  data <- adtte
+  testthat::expect_error(visR::get_tableone(data = data, summary_function = summarize))
+  
+})
+
+
+testthat::test_that("T4.5. No error when the `summary_function` is `summarize_tab1`",{
+  
+  data <- adtte
+  testthat::expect_error(visR::get_tableone(data = data, summary_function = summarize_tab1), NA)
   
 })
 
