@@ -70,7 +70,7 @@ plot.default <- function(x, ...){
 #' @rdname plot
 #' @method plot survfit
 #' @export
-#
+
 plot.survfit <- function(
   survfit_object = NULL
  ,y_label = NULL
