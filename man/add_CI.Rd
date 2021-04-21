@@ -16,7 +16,7 @@ add_CI(gg, ...)
 
 \item{alpha}{aesthetic of ggplot2 \code{\link[ggplot2]{geom_ribbon}}. Default is 0.1.}
 
-\item{style}{aesthetic of ggplot2 \code{\link[ggplot2]{geom_ribbon}}. Default is "ribbon". An alternative option is "step" that uses a line to display interval bounds.}
+\item{style}{aesthetic of ggplot2 \code{\link[ggplot2]{geom_ribbon}}. Default is "ribbon".}
 
 \item{linetype}{aesthetic of ggplot2 \code{\link[ggplot2]{geom_ribbon}}.}
 }
@@ -32,23 +32,10 @@ library(survival)
 library(dplyr)
 library(tidyr)
 library(ggplot2)
-library(visR)
 
-## plot without confidence intervals
-p <- visR::plot(survfit_object) 
-p
-
-# plot with default settings
-p \%>\% add_CI()
-
-# change transparency of ribbon  
-p \%>\% add_CI(alpha = 0.9, style = "ribbon")
-
-# plot interval as a step
-p \%>\% add_CI(alpha = 0.1, style = "step")
-
-change linetype 
-p \%>\% add_CI(style = "step", linetype = 1)
+survfit_object <- survival::survfit(data = adtte, Surv(AVAL, 1-CNSR) ~ TRTP)
+visR::plot(survfit_object) \%>\%
+  add_CI(alpha = 0.1, style = "step", linetype = 3)
 
 }
 \author{

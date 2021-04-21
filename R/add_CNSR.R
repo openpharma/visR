@@ -1,7 +1,10 @@
-#' @title Add censoring symbols to a visR ggplot through an S3 method
+#' @title Add censoring symbols to a visR object 
 #'
-#' @description S3 method for adding censoring symbols to visR ggplot.
-#'     No default method is available at the moment.
+#' @description Add censoring symbols to a visR ggplot through an S3 method. 
+#'   The S3 method is for adding censoring symbols to a visR ggplot.
+#'   The method is set up to use the pipe `%>%`. 
+#'   
+#'   No default method is available at the moment.
 #'
 #' @author Steven Haesendonckx
 #'
@@ -9,11 +12,15 @@
 #' @param ... other arguments passed on to the method to modify \code{\link[ggplot2]{geom_point}}
 #'
 #' @examples
-#' library(survival)
-#' library(dplyr)
-#' library(tidyr)
-#' library(ggplot2)
+#' 
 #' library(visR)
+#'
+#' # Estimate KM curves by treatment group 
+#' survfit_object <- survival::survfit(data = adtte, Surv(AVAL, 1-CNSR) ~ TRTP)
+#' 
+#' ## plot without confidence intervals
+#' p <- visR::plot(survfit_object) 
+#' p
 #'
 #' # add censoring to plot
 #' p %>% visR::add_CNSR()

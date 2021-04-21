@@ -3,10 +3,20 @@
 #' @description S3 method for adding risk tables to visR plots.
 #'     No default method is available at the moment.
 #'
-#' @seealso \code{\link[cowplot]{plot_grid}}
-#'
-#' @param gg visR plot of class `ggsurvfit`
+#' @param x visR plot of class `ggsurvfit`
+#' @param ... other arguments passed on to the method add_risktable
+#' 
+#' @rdname add_risktable
+#' 
+#' @export
+
+add_risktable <- function(x, ...){
+  UseMethod("add_risktable", x)
+}
+
 #' @inheritParams get_risktable
+#' 
+#' @seealso \code{\link[cowplot]{plot_grid}}
 #' 
 #' @examples
 #' \donttest{
@@ -53,7 +63,7 @@
 
 add_risktable <- function( gg
                           ,min_at_risk = 0
-                          ,breaks = NULL
+                          ,times = NULL
                           ,statlist = c("n.risk")
                           ,label = "At risk"
                           ,group = "strata"
@@ -68,7 +78,7 @@ add_risktable <- function( gg
 add_risktable.ggsurvfit <- function(
     gg
    ,min_at_risk = 0
-   ,breaks = NULL
+   ,times = NULL
    ,statlist = c("n.risk")
    ,label = "At risk"
    ,group = "strata"
@@ -83,17 +93,14 @@ add_risktable.ggsurvfit <- function(
   
   survfit_object <- eval(gg$data$call[[1]])
   
-#text <- eval(expr=paste0("survival::", call[1], "(formula = ", call[2], ", data = ", call[3], ")"))
-#survfit_object <- eval(parse(text=text))
-  
   ggbld <- ggplot2::ggplot_build(gg)
   
-  if (is.null(breaks)) breaks <- as.numeric(ggbld$layout$panel_params[[1]]$x$get_labels())
+  if (is.null(times)) times <- as.numeric(ggbld$layout$panel_params[[1]]$x$get_labels())
 
   final <- get_risktable( 
               survfit_object
              ,min_at_risk
-             ,breaks
+             ,times
              ,statlist
              ,label
              ,group
@@ -112,15 +119,18 @@ add_risktable.ggsurvfit <- function(
 
 
   tbls <-  base::Map(function(statlist, title = NA) {
-    ggrisk <- ggplot2::ggplot(final, ggplot2::aes(x = time,
-                                         y = stats::reorder(y_values, dplyr::desc(y_values)),
-                                             label = format(get(statlist), nsmall = 0) # = value columns
-                                         )
-                              ) +
+    ggrisk <- ggplot2::ggplot(final,
+                              ggplot2::aes(
+                                 x = time,
+                                 y = stats::reorder(y_values, dplyr::desc(y_values)),
+                                 label = format(get(statlist), nsmall = 0) # = value columns
+                              )
+                            ) +
       ggplot2::geom_text(size = 3.0, hjust=.5, vjust=.5, angle=0, show.legend = F) +
       ggplot2::theme_bw() +
       ggplot2::scale_x_continuous(breaks = times,
-                                  limits = c(min(time_ticks), max(time_ticks))) +
+                                  limits = c(min(times), max(times))) +
+
       ggplot2::theme(axis.title.x = ggplot2::element_text(size = 8,
                                                  vjust = 1,
                                                  hjust = 1),

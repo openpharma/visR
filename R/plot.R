@@ -1,7 +1,8 @@
-#' @title Create a `ggplot` directly from an object through an S3 method
+#' @title Plot a visR object
 #'
-#' @description S3 method for creating plots directly from objects using `ggplot2`, similar to base plot function.
-#'     The default method is base::plot.
+#' @description Method to display a `ggplot` directly from an object through an S3 method. 
+#' S3 method for creating plots directly from objects using `ggplot2`, similar to base plot function.
+#' The default method is base::plot.
 #' 
 #' @seealso \code{\link[ggplot2]{ggplot}}
 #' 
@@ -13,7 +14,7 @@
 #' @export
 
 plot <- function(x, ...){
-  UseMethod("plot")
+  UseMethod("plot", x)
 } 
 
 #' @rdname plot
@@ -21,7 +22,7 @@ plot <- function(x, ...){
 #' @export
 
 plot.default <- function(x, ...){
-  base::plot(x)
+  base::plot(x, ...)
 }
 
 #' @param survfit_object Object of class `survfit`
@@ -38,25 +39,38 @@ plot.default <- function(x, ...){
 #' 
 #' @examples
 #' library(survival)
-#' library(dplyr)
-#' library(tidyr)
-#' library(ggplot2)
+#' library(visR)
 #' 
-#' survfit_object <- estimate_KM(data = adtte, strata = "TRTP")
+#' # fit KM 
+#' km_fit <- survival::survfit(Surv(AVAL, 1-CNSR) ~ TRTP, data=adtte)
+#' 
+#' # plot curves using base plot function
+#' survival:::plot.survfit(km_fit)
+#' 
+#' # plot same curves using visR plot function
+#' visR::plot(km_fit)
+#' 
+#' # Note: loading the visR package will override base plot
+#' # Here is an example of the behaviour when we are not explicit to reference base plot. 
+#' # Plotting the object will display a visR plot. 
+#' plot(km_fit)
+#' 
+#' # estimate KM using visR wrapper
+#' survfit_object <- visR::estimate_KM(data = adtte, strata = "TRTP")
 #'
 #' ## Plot survival probability
-#' plot(survfit_object = survfit_object, fun = "surv")
-#' plot(survfit_object, fun = "pct")
+#' visR::plot(survfit_object = survfit_object, fun = "surv")
+#' visR::plot(survfit_object, fun = "pct")
 #' 
 #' ## Plot cumulative hazard
-#' plot(survfit_object, fun = "cloglog")
+#' visR::plot(survfit_object, fun = "cloglog")
 #'  
 #' @return Object of class \code{ggplot}  \code{ggsurvplot}.
 #'  
 #' @rdname plot
 #' @method plot survfit
 #' @export
-#
+
 plot.survfit <- function(
   survfit_object = NULL
  ,y_label = NULL
@@ -183,8 +197,6 @@ plot.survfit <- function(
   
   gg <- ggplot2::ggplot(tidy_object, ggplot2::aes(x = time, group = strata)) +
     ggplot2::geom_step(ggplot2::aes(y = est, col = strata)) + 
-    ggsci::scale_color_nejm() + 
-    ggsci::scale_fill_nejm() + 
     ggplot2::scale_x_continuous(name = paste0("\n", x_label),
                                 breaks = x_ticks,
                                 limits = c(min(x_ticks), max(x_ticks))) +
@@ -192,9 +204,9 @@ plot.survfit <- function(
                                 breaks = y_ticks,
                                 labels = yscaleFUN,
                                 limits = c(min(y_ticks), max(y_ticks))) +
-    ggplot2::theme_bw() +
+    # ggplot2::theme_bw() +
     ggplot2::theme(legend.position = legend_position) +
-    ggplot2::guides(color=ggplot2::guide_legend(override.aes=list(fill=NA))) +
+    # ggplot2::guides(color=ggplot2::guide_legend(override.aes=list(fill=NA))) +
     NULL
   
   class(gg) <- append(class(gg), "ggsurvfit")

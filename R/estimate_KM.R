@@ -52,6 +52,18 @@
 #' ## Modify the default analysis by using the ellipsis
 #' visR::estimate_KM(data = adtte, strata = NULL, type = "kaplan-meier", conf.int = F, timefix = TRUE)
 #' visR::estimate_KM(data = adtte, strata = NULL, type = "kaplan-meier", conf.int = FALSE, timefix = TRUE)
+#' 
+#' ## Example working with non CDISC data
+#' head(veteran)
+#' 
+#' # convert time and censoring data to ADaM variables 
+#' veteran_adam <- veteran %>%
+#'  mutate(
+#'   AVAL = time, 
+#'   CNSR = if_else(status == 1, 0, 1) #convert censoring status to CDISC principles
+#'   )
+#' 
+#' visR::estimate_KM(data = veteran_adam, strata = "trt")
 
 estimate_KM <- function(
    data = NULL
@@ -137,7 +149,7 @@ estimate_KM <- function(
 
 # Update Call with original info and dots, similar as update.default ------
 
-  #survfit_object$call[[1]] <- base::as.symbol("survival::survfit")
+  survfit_object$call[[1]] <- quote(survival::survfit)
   survfit_object$call[["formula"]] <- formula
   survfit_object$call[["data"]] <- Call$data
   if (length(dots) > 0){

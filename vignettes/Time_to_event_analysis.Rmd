@@ -16,11 +16,11 @@ knitr::opts_chunk$set(
 
 ## Introduction
 
-This short tutorial illustrates a typical use case in clinical development - the analysis of time to a certain event (e.g., death) in different populations. Typically, data obtained in randomized clinical trials (RCT) can be used to estimate the overall survival of patients in one group (e.g., treated with drug X) vs another group (e.g., treated with drug Y) and thus determine if there is a difference between these treatments.
+This tutorial illustrates a typical use case in clinical development - the analysis of time to a certain event (e.g., death) in different groups. Typically, data obtained in randomized clinical trials (RCT) can be used to estimate the overall survival of patients in one group (e.g., treated with drug X) vs another group (e.g., treated with drug Y) and thus determine if there is a treatment difference.
 
-For a more thorough introduction to Survival Analysis, we recommend the following tutorial: https://bioconnector.github.io/workshops/r-survival.html
+For a more thorough introduction to Survival Analysis, we recommend the following [tutorial](https://bioconnector.github.io/workshops/r-survival.html).
 
-In this example, we will work with patient data from NCCTG Lung Cancer dataset that is part of the `survival` package. Another vignette presents an example using a data set following the CDISC ADaM standard. 
+In this example, we will work with patient data from NCCTG Lung Cancer dataset that is part of the `survival` package. Another vignette presents an example using a data set following the [CDISC ADaM standard](https://www.cdisc.org/standards/foundational/adam/adam-basic-data-structure-bds-time-event-tte-analyses-v1-0). 
 
 ```{r imports, echo=FALSE, warning=FALSE, message=FALSE}
 library(visR)
@@ -32,7 +32,7 @@ library(visR)
 DATASET <- paste0("NCCTG Lung Cancer Dataset (from survival package ", 
                   packageVersion("survival"), ")")
 
-# Globql formatting options
+# Global formatting options
 options(digits = 3)
 
 # Global ggplot settings
@@ -108,7 +108,7 @@ tableone(lung_cohort_tab1, strata = "Sex", overall = F,
          engine = "kable", output_format="html")
 ```
 
-Called with `html` as an output format, a html view is displayed; called with `latex` a string containing latex code is printed.
+Called with `html` as an output format, a `html` view is displayed; called with `latex` a string containing latex code is printed.
 
 ## Time-to-event analysis
 
@@ -164,12 +164,12 @@ render(lung_suvival_object  %>% get_quantile(), title = "Quantile Information", 
 
 ```{r km_tab_options_4}
 # Display a cox model estimate associated with the survival estimate
-render(lung_suvival_object  %>% get_COX_HR(), title = "COX estimate", datasource = DATASET)
+#render(lung_suvival_object  %>% get_COX_HR(), title = "COX estimate", datasource = DATASET)
 ```
 
 
 #### Plotting the Kaplan-Meier
-Alternatively, the survival data can be plotted as a Kaplan-Meier curve. In visR, a plot is in most cases a ggplot object and adapting the plot follows the general principle of creating a plot and then adding visual contents step-by-step. 
+Alternatively, the survival data can be plotted as a Kaplan-Meier curve. In `visR`, a plot is in most cases a ggplot object and adapting the plot follows the general principle of creating a plot and then adding visual contents step-by-step. 
 
 ```{r km_plot_1}
 # Create and display a Kaplan-Meier from the survival object
@@ -188,9 +188,9 @@ gg %>% add_CI() %>% add_CNSR(shape = 3, size = 2)
 ```
 
 
-visR overwrites the base::plot() function an there is a warning to that when the package is loaded. However, it only overwirtes the base::plot() function for type survfit and wires calls for all other objects through to base::plot().
+visR overwrites the base::plot() function and there is a warning to that when the package is loaded. However, it actually only overwrites the survival:::plot.survfit() function for type survfit and wires calls for all other objects through to base::plot().
 
-visR incudes a wrapper function to create a risktable and then add it directly to a Kaplan-Meier plot.
+visR includes a wrapper function to create a risktable and then add it directly to a Kaplan-Meier plot.
 
 ```{r km_add}
 # Add a confidence interval and the censor ticks and a risktable to the Kaplan-Meier and display the plot
