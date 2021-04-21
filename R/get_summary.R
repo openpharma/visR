@@ -38,9 +38,6 @@ get_summary.survfit <- function(survfit_object,
   
   statlist <- unique(statlist)
   
-  if (!inherits(survfit_object, "survfit"))
-    stop("x is not of class `survfit`.")
-  
   if (is.null(statlist) |
       !base::all(statlist %in% c("strata", "records", "events", "median", "LCL", "UCL", "CI")))
     stop("Error in get_summary: Specify valid `statlist` arguments. Valid `statistic` arguments are:
