@@ -1,23 +1,44 @@
 #' @title tidyme
 #' @section Last updated by:
-#' Tim Treis
+#' Steven Haesendonckx
 #' @section Last update date:
-#' 19-MAR-2021
+#' 21-APR-2021
 
 # Specifications ---------------------------------------------------------------
 
-#' T1. The function tidies up an associated object
-#' T1.1 The default method throws a message and relies on broom::tidy
-#' T1.2 The default method returns a tibble, tidied with broom
-#' T2. The S3 method, associated with a survival object, returns a tidied survival object
-#' T2.1 The S3 method, associated with a survival object, transforms the survival object into a data frame
-#' T2.2 The tidied dataframe has the same content as the original survival object
+#' T1. The function accepts an S3 object
+#' T1.1 No error when a `survfit` object is passed to the function
+#' T1.2 No error when a non-`survfit` S3 object is passed to the function
+#' T2. The function tidies up an associated object
+#' T2.1 The default method throws a message to indicate it relies on broom::tidy
+#' T3. The S3 method, associated with a `survfit` object, outputs an extended tidied dataframe
+#' T3.1 The S3 method, associated with a `survfit` object, returns a tibble
+#' T3.2 The S3 method, associated with a `survfit` object, has columns representing all list elements of the S3 object
+#' T3.3 The S3 method, associated with a `survfit` object, turns list elements that represent integer numbers into integers
 
 # Requirement T1 ---------------------------------------------------------------
 
-context("tidyme - T1. The function tidies up an associated object")
+context("tidyme - T1. The function accepts an S3 object")
 
-testthat::test_that("T1.1 The default method throws a message and relies on broom::tidy",{
+testthat::test_that("T1.1 No error when a `survfit` object is passed to the function",{
+  
+  survfit_object <- visR::estimate_KM(data = adtte, strata = "TRTA")
+  testthat::expect_error(visR::tidyme(survfit_object), NA)
+  
+})
+
+testthat::test_that("T1.2 No error when a non-`survfit` S3 object is passed to the function",{
+  
+  lm_object <- stats::lm(data = adtte, TRTDUR ~ AVAL)
+  testthat::expect_error(visR::tidyme(lm_object), NA)
+  
+})
+
+# Requirement T2 ---------------------------------------------------------------
+
+context("tidyme - T2. The function tidies up an associated object")
+
+testthat::test_that("T2.1 The default method throws a message to indicate it relies on broom::tidy",{
   
   lm_object <- stats::lm(data = adtte, TRTDUR ~ AVAL)
   
@@ -25,41 +46,29 @@ testthat::test_that("T1.1 The default method throws a message and relies on broo
   
 })
 
-testthat::test_that("T1.2 The default method returns a tibble, tidied with broom",{
+
+# Requirement T3 ---------------------------------------------------------------
+
+context("tidyme - T3. The S3 method, associated with a `survfit` object, outputs an extended tidied tibble")
+
+testthat::test_that("T3.1 The S3 method, associated with a `survfit` object, returns a tibble",{
   
-  lm_object <- stats::lm(data = adtte, TRTDUR ~ AVAL)
-  testthat::expect_s3_class(lm_object, "lm")
-  
-  lm_tidied <- suppressMessages(visR::tidyme(lm_object))
-  testthat::expect_s3_class(lm_tidied, "tbl")
-  
-  lm_broomed <- broom::tidy(lm_object)
-  testthat::expect_identical(lm_tidied, lm_broomed)
+  survfit_object <- visR::estimate_KM(data = adtte, strata = "TRTA")
+  survfit_object_tidy <- tidyme(survfit_object)
+  testthat::expect_true(inherits(survfit_object_tidy, c("data.frame", "tbl", "tbl_df")))
   
 })
 
-
-# Requirement T2 ---------------------------------------------------------------
-
-context("tidyme - T2. The S3 method, associated with a survival object, returns a tidied survival object")
-
-testthat::test_that("T2.1 The S3 method, associated with a survival object, transforms the survival object into a data frame",{
+testthat::test_that("T3.2 The S3 method, associated with a `survfit` object, has columns representing all list elements of the S3 object",{
   
-  surv_object <- survival::survfit(data = adtte, Surv(AVAL, 1-CNSR) ~ TRTP)
-  surv_object_tidied <- visR::tidyme(surv_object)
+  survfit_object <- visR::estimate_KM(data = adtte, strata = "TRTA")
+  survfit_object_tidy <- tidyme(survfit_object)
   
-  testthat::expect_s3_class(surv_object_tidied, "data.frame")
-  
-})
-
-testthat::test_that("T2.2 The tidied dataframe has the same content as the original survival object",{
-  
-  surv_object <- survival::survfit(data = adtte, survival::Surv(AVAL, 1-CNSR) ~ TRTP)
-  
-  surv_object_df <- base::with(surv_object, data.frame(time, 
-                                                       n.risk,
-                                                       n.event,
-                                                       n.censor,
+  surv_object_df <- base::with(survfit_object, data.frame(
+                                                       time = as.integer(time), 
+                                                       n.risk = as.integer(n.risk),
+                                                       n.event = as.integer(n.event),
+                                                       n.censor = as.integer(n.censor),
                                                        surv,
                                                        std.err,
                                                        cumhaz,
@@ -69,45 +78,38 @@ testthat::test_that("T2.2 The tidied dataframe has the same content as the origi
                                                        conf.int,
                                                        conf.type,
                                                        lower,
-                                                       upper))
+                                                       upper,
+                                                       stringsAsFactors = FALSE
+                                                       ))
   
-  surv_object_tidied <- visR::tidyme(surv_object)
-
-  surv_object_tidied_common <- surv_object_tidied[, base::intersect(colnames(surv_object_tidied), colnames(surv_object_df))] 
+  surv_object_df <- surv_object_df %>%
+    dplyr::mutate(call = rep(list(survfit_object[["call"]]), sum(survfit_object[["strata"]])))
+  surv_object_df["strata"] <- rep(names(survfit_object[["strata"]]), survfit_object[["strata"]])
+  surv_object_df["n.strata"] <- rep(survfit_object[["n"]], survfit_object[["strata"]])
+  surv_object_df["PARAM"] <- rep(survfit_object[["PARAM"]], sum(survfit_object[["strata"]]))
+  surv_object_df["PARAMCD"] <- rep(survfit_object[["PARAMCD"]], sum(survfit_object[["strata"]]))
   
-  testthat::expect_equal(surv_object_df, surv_object_tidied_common)
+  surv_object_df <- surv_object_df %>% dplyr::as_tibble()
+  
+  cn <- colnames(survfit_object_tidy)
+  
+  for (i in 1:length(cn)){
+    #print(cn[i])
+    testthat::expect_equal(surv_object_df[,cn[i]], survfit_object_tidy[,cn[i]])
+  }
   
 })
 
-
-# T3. adds more info compared to classifical tidy method 
-# T3.1 Adds call, ......
-
-#   surv_object_df["call"] <- capture.output(surv_object$call)
-#   surv_object_df["strata"] <- base::summary(surv_object, censored = T)$strata
-#   n_per_strata_table <- base::summary(surv_object, censored = T)$table %>%
-#     data.frame()
-#   n_per_strata <- n_per_strata_table$records
-#   n_per_strata <- setNames(as.list(n_per_strata), rownames(n_per_strata_table))
-#   
-#   n_strata_list <- c()
-#   
-#   for (strata in surv_object_df$strata) {
-#     
-#     n_strata_list <- c(n_strata_list, n_per_strata[[strata]])
-#     
-#   }
-#   
-#   surv_object_df["n.strata"] <- n_strata_list
-#   
-#   surv_object_df <- surv_object_df[with(surv_object_df, base::order(surv)),] 
-# 
-#   surv_object_tidied <- visR::tidyme(surv_object)
-#   
-#   surv_object_tidied$call <- base::as.character(surv_object_tidied$call)
-#   surv_object_tidied <- surv_object_tidied %>% as.data.frame() 
-#   surv_object_tidied <- surv_object_tidied[with(surv_object_tidied, base::order(surv)),] 
-#   surv_object_tidied["strata"] <- as.factor(surv_object_tidied$strata)
-#   
+testthat::test_that("T3.3 The S3 method, associated with a `survfit` object, turns list elements that represent integer numbers into integers",{
+  
+  survfit_object <- visR::estimate_KM(data = adtte, strata = "TRTA")
+  survfit_object_tidy <- tidyme(survfit_object)
+  
+  testthat::expect_true(inherits(survfit_object_tidy[["n.risk"]], "integer"))
+  testthat::expect_true(inherits(survfit_object_tidy[["n.censor"]], "integer"))
+  testthat::expect_true(inherits(survfit_object_tidy[["n.event"]], "integer"))
+  testthat::expect_true(inherits(survfit_object_tidy[["n.strata"]], "integer"))
+  
+})
 
 # END OF CODE ------------------------------------------------------------------
