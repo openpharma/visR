@@ -20,8 +20,6 @@ add_risktable <- function(x, ...){
 #' 
 #' @examples
 #' \donttest{
-#' library(survival)
-#' library(visR)
 #'
 #' ## Display 2 risk tables, 1 per statlist
 #' adtte %>%
@@ -175,6 +173,13 @@ add_risktable.ggsurvfit <- function(
                           )
   
   class(ggB) <- c(class(ggB), "ggsurvfit")
+
+# Add individual components -----------------------------------------------
+  
+  components <- append(list(gg), tbls)
+  names(components) = c("visR_plot", title)
+  ggB[["components"]] <- components
+  
   
   return(ggB)
 }
