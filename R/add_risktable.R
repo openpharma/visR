@@ -1,17 +1,21 @@
 #' @title Add risk tables to visR plots through an S3 method
 #'
-#' @description S3 method for adding risk tables to visR plots.
-#'     No default method is available at the moment.
+#' @description S3 method for adding risk tables to visR plots. The function has following workflow:
+#'     \itemize{The risktables are calculated using \code{\link[visR]{get_risktable}}
+#'       \item{The risktables are placed underneat visR plots using \code{\link[cowplot]}
+#'       \item{Both the initial visR plot as the individual risktables are stored as attribute `component`
+#'        in the final object to allow post-modification of the individual plots if desired}
+#'     }
 #'
-#' @param x visR plot of class `ggsurvfit`
+#' @param gg visR plot of class `ggsurvfit`
 #' @param ... other arguments passed on to the method add_risktable
 #' 
 #' @rdname add_risktable
 #' 
 #' @export
 
-add_risktable <- function(x, ...){
-  UseMethod("add_risktable", x)
+add_risktable <- function(gg, ...){
+  UseMethod("add_risktable", gg)
 }
 
 #' @inheritParams get_risktable
@@ -57,20 +61,6 @@ add_risktable <- function(x, ...){
 #'
 #' @rdname add_risktable
 #'
-#' @export
-
-add_risktable <- function( gg
-                          ,min_at_risk = 0
-                          ,times = NULL
-                          ,statlist = c("n.risk")
-                          ,label = "At risk"
-                          ,group = "strata"
-                          ,collapse = FALSE){
-  UseMethod("add_risktable")
-}
-
-#' @rdname add_risktable
-#' @method add_risktable ggsurvfit
 #' @export
 
 add_risktable.ggsurvfit <- function(
@@ -159,8 +149,10 @@ add_risktable.ggsurvfit <- function(
 
 # Align plot and table by adjusting width ---------------------------------
 
-  ggA <- list(gg) %>%
-    base::append(tbls) %>%
+  gglist <- list(gg) %>%
+    base::append(tbls)
+  
+  ggA <-  gglist %>%
     AlignPlots()
 
 # Create plot and add class -----------------------------------------------
