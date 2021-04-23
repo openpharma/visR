@@ -63,24 +63,18 @@ This is a basic example to demonstrate how the API can be used to add layers to 
 
 ```{r example, warning=FALSE, message = FALSE}
 library(visR)
-library(survival)
-library(dplyr)
-library(tidyr) 
-library(ggplot2)
 
-# BELOW NO LONGER WORKS
-# adtte %>%
-#   estimate_KM(strata = "TRTP", conf.int = 0.90) %>%
-#   vr_plot(legend_position = "right", x_unit = "Days") %>%
-#   add_CI(style = "ribbon",
-#          linetype = 3) %>%
-#   add_CNSR(shape = 3, size = 1) %>%
-#   add_risktable(
-#     min_at_risk = 3,
-#     statlist = c("n.risk", "n.event", "n.censor"),
-#     label = c("At risk", "Event", "Censor"),
-#     collapse = F
-#   )
+adtte %>%
+  estimate_KM(strata = "TRTP", conf.int = 0.90) %>%
+  visR::plot(legend_position = "right", x_unit = "Days") %>%
+  add_CI(style = "ribbon") %>%
+  add_CNSR(shape = 3, size = 1) %>%
+  add_risktable(
+    min_at_risk = 3,
+    statlist = c("n.risk", "n.event", "n.censor"),
+    label = c("At risk", "Event", "Censor"),
+    collapse = F
+  )
 ```
 
 
