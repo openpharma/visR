@@ -28,7 +28,7 @@ context("add_CI - T1. The output plots after adding confidence intervals doesn't
 testthat::test_that("T1.1 No error when the default parameters are used",{
   
   survfit_object <- adtte %>% visR::estimate_KM()
-  p <- visR::plot(survfit_object = survfit_object) %>%
+  p <- visR::plot(survfit_object) %>%
     visR::add_CI()
   vdiffr::expect_doppelganger("add_CI_T1_1", p)
   
@@ -56,11 +56,11 @@ testthat::test_that("T1.3 No error when `style` is `ribbon` or `step`",{
   
   survfit_object <- adtte %>% visR::estimate_KM(strata = "SEX")
   
-  p_ribbon <- visR::plot(survfit_object = survfit_object) %>%
+  p_ribbon <- visR::plot(survfit_object) %>%
     visR::add_CI(style="ribbon")
   vdiffr::expect_doppelganger("add_CI_T1_3_ribbon", p_ribbon)
   
-  p_step <- visR::plot(survfit_object = survfit_object) %>%
+  p_step <- visR::plot(survfit_object) %>%
     visR::add_CI(style="step")
   vdiffr::expect_doppelganger("add_CI_T1_3_step", p_step)
   
@@ -96,7 +96,7 @@ context("add_CI - T2. The output plots with different amount of strata don't dif
 testthat::test_that("T2.1 No error when only 1 strata is present",{
   
   survfit_object <- adtte %>% visR::estimate_KM()
-  p <- visR::plot(survfit_object = survfit_object) %>%
+  p <- visR::plot(survfit_object) %>%
     visR::add_CI(alpha = 0.5)
   vdiffr::expect_doppelganger("add_CI_T2_1", p)
   

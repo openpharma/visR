@@ -38,7 +38,7 @@
 #' @export
 
 add_CNSR <- function(gg, ...){
-  UseMethod("add_CNSR")
+  UseMethod("add_CNSR", gg)
 }
 
 #' @param gg A ggplot created with visR
