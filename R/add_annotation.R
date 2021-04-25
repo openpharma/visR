@@ -6,8 +6,6 @@
 #' the \code{ggplot}. The layout is fixed: bold columnheaders and plain body. 
 #' Only the font size and type can be chosen. 
 #'
-#' @author Steven Haesendonckx
-#'
 #' @seealso \code{\link[gridExtra]{tableGrob}} \code{\link[ggplot2]{annotation_custom}}
 #'
 #' @param gg Object of class \code{ggplot}.
@@ -88,7 +86,7 @@ add_annotation <- function(
   ymax = Inf
   ){
 
-  #### Validate user input ####
+# User input validation ---------------------------------------------------
 
   if (!base::inherits(gg, "ggplot")) stop("Error in add_annotation: gg is not of class `ggplot`")
   if (is.null(label)) stop("Error in add_annotation: label does not exist")
@@ -96,6 +94,8 @@ add_annotation <- function(
   if (!base::any(unlist(lapply(as.list(c(xmin, xmax, ymin, ymax, base_size)), is.numeric)))) stop("Error in add_annotation: One of the coordinates are not numeric.")
 
   #### If user has custom gtable, skip all the remaining steps ####
+
+# ggtable -----------------------------------------------------------------
 
   if (base::inherits(label, "gtable")) {
 
@@ -106,12 +106,12 @@ add_annotation <- function(
 
   } else {
 
-    #### Prepare label: turn into dataframe and avoid factors + add manual bolding to avoid parsing issues with `` in colnames ####
+    ### Prepare label: turn into dataframe and avoid factors + add manual bolding to avoid parsing issues with `` in colnames
 
     df <- data.frame(label, stringsAsFactors = FALSE, check.names = FALSE)
     colnames(df) <- as.vector(paste(paste0("bold(\"", colnames(df), "\")")))
 
-    #### Layout of gtable: access and modify options eg tt1$colhead ####
+    ### Layout of gtable: access and modify options eg tt1$colhead
 
     ## Use hjust and x to left justify the text
     core_alignment <- matrix(c(0, 1), ncol=max(ncol(df), 2), nrow=nrow(df), byrow=TRUE)[, 1:(1+as.numeric(ncol(df)>1)), drop = FALSE]
@@ -141,6 +141,7 @@ add_annotation <- function(
       )
     )
 
+    
     if (inherits(label, "character")) {
       dfGrob <- gridExtra::tableGrob(df, rows = NULL, theme = tt1, cols = NULL)
     } else {
