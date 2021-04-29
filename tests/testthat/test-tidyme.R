@@ -94,7 +94,6 @@ testthat::test_that("T3.2 The S3 method, associated with a `survfit` object, has
   cn <- colnames(survfit_object_tidy)
   
   for (i in 1:length(cn)){
-    #print(cn[i])
     testthat::expect_equal(surv_object_df[,cn[i]], survfit_object_tidy[,cn[i]])
   }
   
