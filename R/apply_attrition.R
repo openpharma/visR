@@ -9,6 +9,10 @@
 #' @export
 #'
 #' @examples
+#' adtte_filtered <- visR::apply_attrition(adtte,
+#'  criteria_conditions = c("TRTP=='Placebo'","AGE>=75",
+#'                          "RACE=='WHITE'", "SITEID==709"))
+#' 
 apply_attrition <- function(data, criteria_conditions){
     if(missing(data)){
         stop("Please provide input dataframe.")
