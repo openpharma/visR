@@ -133,7 +133,8 @@ legendopts <- function(legend_position = "right",
 #' @param wrap_width \code{integer} for the maximal character count per line
 #'
 #' @return The input dataframe extended by two columns containing the label and complement label
-#'
+#' 
+#' @keywords internal
 .get_labels <- function(data, description_column_name, value_column_name, complement_column_name="", wrap_width=50){
   plotting_data <- data %>% 
     dplyr::rowwise() %>% 
@@ -172,6 +173,8 @@ legendopts <- function(legend_position = "right",
 #'
 #' @return The input dataframe extended by several columns containing the label and complement label height and width
 #'
+#' @keywords internal
+#'
 .get_labelsizes <- function(data, label, complement_label){
   plotting_data <- data %>% 
     dplyr::mutate(labelwidth = graphics::strwidth({{label}}, units = "inch"),
@@ -194,6 +197,8 @@ legendopts <- function(legend_position = "right",
 #' @param field_height \code{float} The width of the boxes in the flow charts (in canvas coordinates) 
 #' 
 #' @return The input dataframe extended by columns containing x and y coordinates for included and excluded counts
+#' 
+#' @keywords internal
 #' 
 .get_coordinates <- function(data, box_width, box_height, field_height){
   
