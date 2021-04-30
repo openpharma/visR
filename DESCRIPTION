@@ -31,8 +31,7 @@ Suggests:
     forcats,
     glue,
     here,
-    stringr,
-    dplyr
+    stringr
 RoxygenNote: 7.1.1
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -46,7 +45,6 @@ Imports:
     ggplot2,
     patchwork,
     tibble,
-    DOT,
     tidyr,
     dplyr,
     ggpubr,
