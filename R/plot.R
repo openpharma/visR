@@ -201,3 +201,149 @@ plot.survfit <- function(
   
   return(gg)
 }
+
+
+#' @param x Object of class `attritiontable` with each row corresponding to an inclusion step in the cohort and minimally a description and a count column
+#' @param description_column_name \code{character} Name of the column containing the inclusion descriptions
+#' @param value_column_name \code{character} Name of the column containing the remaining sample counts
+#' @param complement_column_name \code{character} Optional: Name of the column containing the exclusion descriptions 
+#' @param box_width \code{character} The box width for each box in the flow chart
+#' @param font_size \code{character} The fontsize in pt  
+#' @param fill The color (string or hexcode) to use to fill the boxes in the flowchart  
+#' @param border The color (string or hexcode) to use for the borders of the boxes in the flowchart  
+#' 
+#' @examples
+#' attrition <- visR::get_attrition(adtte, 
+#'     criteria_descriptions = c("1. Not in Placebo Group",
+#'                               "2. Be 75 years of age or older.",
+#'                               "3. White", 
+#'                               "4. Female"),
+#'     criteria_conditions   = c("TRTP != 'Placebo'",
+#'                               "AGE >= 75",
+#'                               "RACE=='WHITE'",
+#'                               "SEX=='F'"),
+#'     subject_column_name   = "USUBJID")
+#' 
+#' # Draw a CONSORT attrition chart without specifying extra text for the complement
+#' attrition %>% 
+#'   plot("Criteria", "Remaining N")
+
+#'   
+#' # Adding more detailed complement descriptions to the "exclusion" part of the CONSORT diagram 
+#' # Step 1. Add new column to attrition dataframe
+#' attrition$Complement <- c("NA", "Placebo Group", "Younger than 75 years", "Non-White", "Male")
+#' 
+#' # Step 2. Define the name of the column in the call to the plotting function
+#' attrition %>% 
+#'   plot("Criteria", "Remaining N", "Complement")
+#'   
+#' # Styling the CONSORT flowchart
+#' # Change the fill and outline of the boxes in the flowchart
+#' attrition %>% 
+#'   plot("Criteria", "Remaining N", "Complement", fill = "lightblue", border="grey")
+#'   
+#' # Adjust the font size in the boxes
+#' attrition %>% 
+#'   plot("Criteria", "Remaining N", font_size = 10)
+#'   
+#' @return Object of class \code{ggplot}.
+#' 
+#' @rdname plot
+#' @method plot attrition
+#' @export
+#' 
+plot.attrition <- function(x, 
+                           description_column_name = "Criteria", 
+                           value_column_name = "Remaining N", 
+                           complement_column_name="", 
+                           box_width = 50, 
+                           font_size = 12,
+                           fill="white",
+                           border="black"){
+  
+  if(missing(description_column_name) | description_column_name == ""){
+    stop("Please provide a valid column name as string containing the inclusion descriptions")
+  }
+  if(!description_column_name %in% names(x)){
+    stop(paste0("Column", description_column_name, "cannot be found in the input data. ",
+                "Please provide the column name as string in the input ",
+                "data containing the inclusion descriptions"))
+  }
+  
+  
+  if(missing(value_column_name) | value_column_name == ""){
+    stop(paste("Please provide the column name  as string containing the remaining",
+               "sample size after applying inclusion criteria."))
+  }
+  if(!value_column_name %in% names(x)){
+    stop(paste0("Column", value_column_name, "cannot be found in the input data. ",
+                "Please provide the column name as string in the input data containing",
+                "the sample size after applying inclusion criteria"))
+  }
+  
+  # split up space into evenly sized chunks
+  field_height <- 100/nrow(x)
+  
+  # allow for some spacing between boxes by reducing the size of the chunk
+  box_height <- 0.75 * field_height
+  
+  # assign coordinates to each row in the attrition table
+  plotting_data <- x %>% 
+    .get_labels(description_column_name, value_column_name, complement_column_name, wrap_width = box_width) %>% 
+    .get_labelsizes(label, complement_label) %>% 
+    .get_coordinates(box_width, box_height, field_height)
+  
+  # draw plot
+  gg <- plotting_data %>% 
+    ggplot2::ggplot() +
+    # boxes
+    ggplot2::geom_tile(data=plotting_data, ggplot2::aes(x = x, 
+                                                        y = y, 
+                                                        width=box_width, 
+                                                        height=box_height), 
+                       color=border, fill=fill) +
+    # text in boxes
+    ggplot2::geom_text(data=plotting_data, ggplot2::aes(x = x, 
+                                                        y = y, 
+                                                        label = label),
+                       size = font_size / ggplot2::.pt) +
+    # down arrow
+    ggplot2::geom_segment(data=plotting_data, ggplot2::aes(x=x, 
+                                                           xend=x, 
+                                                           y=down_ystart, 
+                                                           yend=down_yend), 
+                          arrow = ggplot2::arrow(length = 0.5 * ggplot2::unit(font_size, "pt")), 
+                          size = .2,
+                          na.rm=TRUE) +
+    # side arrow
+    ggplot2::geom_segment(data=plotting_data, ggplot2::aes(x=side_xstart, 
+                                                           xend=side_xend, 
+                                                           y=side_y, 
+                                                           yend=side_y), 
+                          arrow = ggplot2::arrow(length = 0.5 * ggplot2::unit(font_size, "pt")), 
+                          size = .2,
+                          na.rm=TRUE) +
+    # complement box
+    ggplot2::geom_tile(data=plotting_data, ggplot2::aes(x = cx, 
+                                                        y = cy, 
+                                                        width=box_width,
+                                                        height=box_height), 
+                       color=border, fill=fill, 
+                       na.rm=TRUE) +
+    # text in complement box
+    ggplot2::geom_text(data=plotting_data, ggplot2::aes(x = cx,
+                                                        y = cy, 
+                                                        label = complement_label), 
+                       size = font_size / ggplot2::.pt,
+                       na.rm=TRUE) + 
+    # remove all plot elements
+    ggplot2::theme_void() +
+    ggplot2::theme(legend.position = "none")
+  
+  return(gg)
+  
+}
+
+
+
+
