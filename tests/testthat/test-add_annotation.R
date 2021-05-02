@@ -13,6 +13,8 @@
 #' T2. The function accepts a label of class `character`, `data.frame` or customized objects of class `gtable`
 #' T2.1 An error when a `ggplot` object is passed to the function in the absence of a label
 #' T2.2 No error when label is of class `character`
+#' T2.3 No error when label is of class `data.frame`
+#' T2.4 No error when label is of class `gtable`
 #' 
 #' T3. The annotation are representations of the actual label
 #' T3.1 The actual object passed to label is not affected by the transformation to an annotation
@@ -91,12 +93,16 @@ testthat::test_that("T2.3 No error when label is of class `data.frame`",{
 
 })
 
+testthat::test_that("T2.3 No error when label is of class `gtable`",{
 
+  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::plot()
+  
+  lbl <- gridExtra::tableGrob(adtte[1:5,])
 
-#' T2. 
-#' T2.1 No error when the label specified is of class `character`
-#' ... NULL ...
-#' 
+  testthat::expect_error(visR::add_annotation(visR_plot, label = lbl), NA)
+
+})
+
 
 # END OF CODE ----------------------------------------------------------
 
