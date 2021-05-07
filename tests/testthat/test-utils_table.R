@@ -122,9 +122,9 @@ context("utils_table - T4. Correct values for summarize_tab1.numeric")
 test_that("T4.1. Correct mean values for numeric values in summarize_tab1", {
   values <- 1:5
   summary <- visR::summarize_tab1(values)
-  num <- base::paste0(base::round(base::mean(x),2), 
+  num <- base::paste0(base::round(base::mean(values),2), 
                 " (", 
-                base::round(stats::sd(x),2), 
+                base::round(stats::sd(values),2), 
                 ")")
   testthat::expect_equal(summary[[1]]$`Mean (SD)`, num)
 })
@@ -132,11 +132,11 @@ test_that("T4.1. Correct mean values for numeric values in summarize_tab1", {
 test_that("T4.2. Correct median values for numeric values in summarize_tab1", {
   values <- 1:5
   summary <- visR::summarize_tab1(values)
-  num <- base::paste0(base::round(stats::median(x),2), 
+  num <- base::paste0(base::round(stats::median(values),2), 
                 " (", 
-                base::round(stats::quantile(x, probs=0.25, na.rm = TRUE),2), 
+                base::round(stats::quantile(values, probs=0.25, na.rm = TRUE),2), 
                 "-",
-                base::round(stats::quantile(x, probs=0.75, na.rm = TRUE),2), 
+                base::round(stats::quantile(values, probs=0.75, na.rm = TRUE),2), 
                 ")")
   testthat::expect_equal(summary[[1]]$`Median (IQR)`, num)
 })
@@ -144,9 +144,9 @@ test_that("T4.2. Correct median values for numeric values in summarize_tab1", {
 test_that("T4.3. Correct range values for numeric values in summarize_tab1", {
   values <- 1:5
   summary <- visR::summarize_tab1(values)
-  num <- base::paste0(base::round(base::min(x),2), 
+  num <- base::paste0(base::round(base::min(values),2), 
                 "-", 
-                base::round(base::max(x),2))
+                base::round(base::max(values),2))
   testthat::expect_equal(summary[[1]]$`Min-max`, num)
 })
 
