@@ -5,20 +5,12 @@
 \alias{add_risktable.ggsurvfit}
 \title{Add risk tables to visR plots through an S3 method}
 \usage{
-add_risktable(
-  gg,
-  min_at_risk = 0,
-  breaks = NULL,
-  statlist = c("n.risk"),
-  label = "At risk",
-  group = "strata",
-  collapse = FALSE
-)
+add_risktable(gg, ...)
 
 \method{add_risktable}{ggsurvfit}(
   gg,
   min_at_risk = 0,
-  breaks = NULL,
+  times = NULL,
   statlist = c("n.risk"),
   label = "At risk",
   group = "strata",
@@ -28,37 +20,39 @@ add_risktable(
 \arguments{
 \item{gg}{visR plot of class \code{ggsurvfit}}
 
-\item{min_at_risk}{\code{numeric} The cutoff for number of subjects to display. Default is 0.}
+\item{...}{other arguments passed on to the method add_risktable}
 
-\item{breaks}{Single numeric or numeric vector indicating breaks.}
+\item{min_at_risk}{\code{numeric} The cutoff for number of participants at risk to display. This minimum is applied across strata.
+Default is 0.}
 
-\item{statlist}{Character vector indicating which summary data to present. Current choices are "n.risk" "n.event" "n.censor".}
+\item{times}{Numeric vector indicating the times at which the risk set, censored subjects, events are calculated.}
+
+\item{statlist}{Character vector indicating which summary data to present. Current choices are "n.risk" "n.event" "n.censor".
+Default is "n.risk".}
 
 \item{label}{Character vector with labels for the statlist. Default matches "n.risk" with "At risk", "n.event" with "Events" and "n.censor"
 with "Censored".}
 
 \item{group}{String indicating the grouping variable for the risk tables. Current options are:
 \itemize{
-\item{"strata": groups the risk tables per stratum. The \code{label} specifies the lables used within each risk table. This is the default}
+\item{"strata": groups the risk tables per stratum. The \code{label} specifies the label within each risk tabel. The strata levels
+are used for the titles of the risk tables. This is the default}
 \item{"statlist": groups the risk tables per statlist. The \code{label} specifies the title for each risk tabel. The strata levels
 are used for labeling within each risk table.}
-} "strata" to group the risk tables
-per strata, and "statlist" to group the risk tables}
+}
+Default is "strata".}
 
-\item{collapse}{Boolean, indicates whether to present the data overall, rather than per strata.
+\item{collapse}{Boolean, indicates whether to present the data overall.
 Default is FALSE.}
 }
 \value{
 Object of class \code{ggplot} with added risk table.
 }
 \description{
-S3 method for adding risk tables to visR plots.
-No default method is available at the moment.
+
 }
 \examples{
 \donttest{
-library(survival)
-library(visR)
 
 ## Display 2 risk tables, 1 per statlist
 adtte \%>\%

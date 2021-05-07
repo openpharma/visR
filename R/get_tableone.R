@@ -26,11 +26,11 @@
 #' 
 #' # Example using the ovarian data set
 #' 
-#' ovarian %>%
+#' survival::ovarian %>%
 #'   dplyr::select(-fustat) %>%
 #'   dplyr::mutate(
 #'     age_group = factor(
-#'       case_when(
+#'       dplyr::case_when(
 #'         age <= 50 ~ "<= 50 years",
 #'         age <= 60 ~ "<= 60 years",
 #'         age <= 70 ~ "<= 70 years",
@@ -67,7 +67,7 @@
 #' adtte %>% 
 #'   dplyr::filter(SAFFL == "Y") %>%
 #'   dplyr::select(AGE, AGEGR1, SEX, EVNTDESC, TRTA ) %>%
-#'   visR::get_tableone(strata = "TRTA", overall = F)
+#'   visR::get_tableone(strata = "TRTA", overall = FALSE)
 #'     
 #' @rdname get_tableone
 #' 

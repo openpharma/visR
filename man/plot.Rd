@@ -4,7 +4,7 @@
 \alias{plot}
 \alias{plot.default}
 \alias{plot.survfit}
-\title{Create a \code{ggplot} directly from an object through an S3 method}
+\title{Plot a visR object}
 \usage{
 plot(x, ...)
 
@@ -47,23 +47,37 @@ Default is "right".}
 Object of class \code{ggplot}  \code{ggsurvplot}.
 }
 \description{
+Method to display a \code{ggplot} directly from an object through an S3 method.
 S3 method for creating plots directly from objects using \code{ggplot2}, similar to base plot function.
 The default method is base::plot.
 }
 \examples{
 library(survival)
-library(dplyr)
-library(tidyr)
-library(ggplot2)
+library(visR)
 
-survfit_object <- estimate_KM(data = adtte, strata = "TRTP")
+# fit KM 
+km_fit <- survival::survfit(Surv(AVAL, 1-CNSR) ~ TRTP, data=adtte)
+
+# plot curves using base plot function
+survival:::plot.survfit(km_fit)
+
+# plot same curves using visR plot function
+visR::plot(km_fit)
+
+# Note: loading the visR package will override base plot
+# Here is an example of the behaviour when we are not explicit to reference base plot. 
+# Plotting the object will display a visR plot. 
+plot(km_fit)
+
+# estimate KM using visR wrapper
+survfit_object <- visR::estimate_KM(data = adtte, strata = "TRTP")
 
 ## Plot survival probability
-plot(survfit_object = survfit_object, fun = "surv")
-plot(survfit_object, fun = "pct")
+visR::plot(survfit_object, fun = "surv")
+visR::plot(survfit_object, fun = "pct")
 
 ## Plot cumulative hazard
-plot(survfit_object, fun = "cloglog")
+visR::plot(survfit_object, fun = "cloglog")
  
 }
 \seealso{

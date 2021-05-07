@@ -35,7 +35,7 @@
 #'    dplyr::select(AGE, AGEGR1, SEX, EVNTDESC, TRTA) %>%
 #'    visR::tableone(
 #'       strata = "TRTA",
-#'       overall = F,
+#'       overall = FALSE,
 #'       title = t1_title,
 #'       datasource = t1_ds,
 #'       footnote = t1_fn,
@@ -48,7 +48,7 @@
 #'    dplyr::select(AGE, AGEGR1, SEX, EVNTDESC, TRTA) %>%
 #'    visR::tableone(
 #'       strata = "TRTA",
-#'       overall = F,
+#'       overall = FALSE,
 #'       title = t1_title,
 #'       datasource = t1_ds,
 #'       footnote = t1_fn,
@@ -61,7 +61,7 @@
 #'    dplyr::select(AGE, AGEGR1, SEX, EVNTDESC, TRTA) %>%
 #'    visR::tableone(
 #'       strata = "TRTA",
-#'       overall = F,
+#'       overall = FALSE,
 #'       title = t1_title,
 #'       datasource = t1_ds,
 #'       footnote = t1_fn,
@@ -75,7 +75,7 @@
 #'    dplyr::select(AGE, AGEGR1, SEX, EVNTDESC, TRTA) %>%
 #'    visR::tableone(
 #'       strata = "TRTA",
-#'       overall = F,
+#'       overall = FALSE,
 #'       title = t1_title,
 #'       datasource = t1_ds,
 #'       footnote = t1_fn,

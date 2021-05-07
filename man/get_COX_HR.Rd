@@ -7,7 +7,7 @@
 \usage{
 get_COX_HR(x, ...)
 
-\method{get_COX_HR}{survfit}(survfit_object = survfit_object, update_formula = NULL, ...)
+\method{get_COX_HR}{survfit}(survfit_object, update_formula = NULL, ...)
 }
 \arguments{
 \item{x}{S3 object}
@@ -19,38 +19,29 @@ get_COX_HR(x, ...)
 \item{update_formula}{Template which specifies how to update the formula of the survfit_object \code{\link[stats]{update.formula}}}
 }
 \value{
-A tibble with Hazard Ratios
+A tidied object of class \code{coxph} containing Hazard Ratios
 }
 \description{
-S3 method for extracting information regarding Hazard Ratios.
-No default method is available at the moment.
+S3 method for extracting information regarding Hazard Ratios. The function allows the survival object's
+formula to be updated. No default method is available at the moment.
 }
 \examples{
-library(survival)
-library(dplyr)
-library(tidyr)
-library(ggplot2)
-library(broom)
-
 ## treatment effect
-survfit_object_trt <- estimate_KM(data = adtte, strata = c("TRTP"))
-get_COX_HR(survfit_object_trt)
+survfit_object_trt <- visR::estimate_KM(data = adtte, strata = c("TRTP"))
+visR::get_COX_HR(survfit_object_trt)
 
 ## treatment and gender effect
-survfit_object_trt_sex <- estimate_KM(data = adtte, strata = c("TRTP", "SEX"))
-get_COX_HR(survfit_object_trt_sex)
+survfit_object_trt_sex <- visR::estimate_KM(data = adtte, strata = c("TRTP", "SEX"))
+visR::get_COX_HR(survfit_object_trt_sex)
 
 ## update formula of KM estimates by treatment to include "SEX" for HR estimation
-get_COX_HR(survfit_object_trt, update_formula = ". ~ . + SEX")
+visR::get_COX_HR(survfit_object_trt, update_formula = ". ~ . + SEX")
 
 ## update formula of KM estimates by treatment to include "AGE" for
 ## HR estimation with ties considered via the efron method
-get_COX_HR(survfit_object_trt, update_formula = ". ~ . + strata(AGE)", ties = "efron")
+visR::get_COX_HR(survfit_object_trt, update_formula = ". ~ . + survival::strata(AGE)", ties = "efron")
 
 }
 \seealso{
 \code{\link[survival]{coxph}} \code{\link[stats]{update.formula}}
-}
-\author{
-Steven Haesendonckx
 }
