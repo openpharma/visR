@@ -42,7 +42,7 @@
 #' @export
 
 add_CI <- function(gg, ...){
-  UseMethod("add_CI")
+  UseMethod("add_CI", gg)
 }
 
 #' @param gg A ggplot created with visR
