@@ -22,24 +22,17 @@ get_summary(x, ...)
 
 \item{statlist}{Character vector containing the desired information to be displayed. The order of the arguments determines the order in which
 they are displayed in the final result. Default is the strata ("strata"), number of subjects ("records"), number of events ("events"),
-the median survival time ("median"), the Confidence Interval ("CI"), the Lower Confidence Limit ("UCL") and the Upper Confidence Limit ("UCL").}
+the median survival time ("median"), the Confidence Interval ("CI"), the Lower Confidence Limit ("UCL") and the Upper Confidence Limit ("UCL").
+
+@examples
+
+survfit_object <- survival::survfit(data = adtte, Surv(AVAL, 1-CNSR) ~ TRTP)
+get_summary(survfit_object)}
 }
 \value{
-A tibble with summary measures for the Overall Survival Across Strata
+A data frame with summary measures from a \code{survfit} object
 }
 \description{
 S3 method for extracting descriptive statistics across strata.
 No default method is available at the moment.
-}
-\examples{
-library(survival) 
-library(dplyr)
-library(tidyr)
-
-survfit_object <- survival::survfit(data = adtte, Surv(AVAL, 1-CNSR) ~ TRTP)
-get_summary(survfit_object)
- 
-}
-\author{
-Pelagia Alexandra Papadopoulou
 }

@@ -22,19 +22,19 @@ get_COX_HR <- function(x, ...){
 #'
 #' @examples 
 #' ## treatment effect
-#' survfit_object_trt <- estimate_KM(data = adtte, strata = c("TRTP"))
-#' get_COX_HR(survfit_object_trt)
+#' survfit_object_trt <- visR::estimate_KM(data = adtte, strata = c("TRTP"))
+#' visR::get_COX_HR(survfit_object_trt)
 #'
 #' ## treatment and gender effect
-#' survfit_object_trt_sex <- estimate_KM(data = adtte, strata = c("TRTP", "SEX"))
-#' get_COX_HR(survfit_object_trt_sex)
+#' survfit_object_trt_sex <- visR::estimate_KM(data = adtte, strata = c("TRTP", "SEX"))
+#' visR::get_COX_HR(survfit_object_trt_sex)
 #'
 #' ## update formula of KM estimates by treatment to include "SEX" for HR estimation
-#' get_COX_HR(survfit_object_trt, update_formula = ". ~ . + SEX")
+#' visR::get_COX_HR(survfit_object_trt, update_formula = ". ~ . + SEX")
 #'
 #' ## update formula of KM estimates by treatment to include "AGE" for
 #' ## HR estimation with ties considered via the efron method
-#' get_COX_HR(survfit_object_trt, update_formula = ". ~ . + strata(AGE)", ties = "efron")
+#' visR::get_COX_HR(survfit_object_trt, update_formula = ". ~ . + survival::strata(AGE)", ties = "efron")
 #'
 #' @return A tidied object of class \code{coxph} containing Hazard Ratios
 #'

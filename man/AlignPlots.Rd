@@ -22,10 +22,10 @@ library(gtable)
 library(cowplot)
 
 ## create 2 graphs
-p1 <- ggplot(adtte, aes(x = as.numeric(AGE), fill = "Age")) +
-  geom_histogram(bins = 15)
-p2 <- ggplot(adtte, aes(x = as.numeric(AGE))) +
- geom_histogram(bins = 15)
+p1 <- ggplot2::ggplot(adtte, ggplot2::aes(x = as.numeric(AGE), fill = "Age")) +
+  ggplot2::geom_histogram(bins = 15)
+p2 <- ggplot2::ggplot(adtte, ggplot2::aes(x = as.numeric(AGE))) +
+ ggplot2::geom_histogram(bins = 15)
 
 ## default alignment does not take into account legend size
 cowplot::plot_grid(plotlist = list(p1,p2), align = "none", nrow=2)
