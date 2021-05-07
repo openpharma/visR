@@ -37,9 +37,7 @@ The MLE (H.hat(t) = -log(S.hat(t))) can't be requested.}
 }
 }
 \examples{
-library(survival)
-library(dplyr)
-library(tidyr)
+library(visR)
 
 ## No stratification
 estimate_KM(data = adtte)

@@ -1,12 +1,12 @@
 #' Generate cohort attrition table
-#' 
-#' @description 
+#'
+#' @description
 #' \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
-#' This is an experimental function that may be developed over time. 
-#' 
+#' This is an experimental function that may be developed over time.
+#'
 #' This function calculates the subjects counts excluded and included
 #' for each step of the cohort selection process.
-#' 
+#'
 #' @param data Dataframe. It is used as the input data to count the subjects
 #' that meets the criteria of interest
 #' @param criteria_descriptions \code{character} It contains the descriptions
@@ -18,18 +18,18 @@
 #' subjects.
 #' @param subject_column_name \code{character} The column name of the table that
 #' contains the subject id.
-#' 
+#'
 #' @usage get_attrition(data, criteria_descriptions, criteria_conditions,
 #' subject_column_name)
 #' @return The counts and percentages of the remaining and excluded subjects
 #' for each step of the cohort selection in a table format.
-#' 
+#'
 #' @details criteria_descriptions and criteria_conditions need to be of same length
 #'
 #' @examples
 #' visR::get_attrition(adtte,
-#'     criteria_descriptions = 
-#'        c("1. Placebo Group", "2. Be 75 years of age or older.", 
+#'     criteria_descriptions =
+#'        c("1. Placebo Group", "2. Be 75 years of age or older.",
 #'          "3. White", "4. Site 709"),
 #'     criteria_conditions   = c("TRTP=='Placebo'","AGE>=75",
 #'                               "RACE=='WHITE'", "SITEID==709"),
@@ -42,11 +42,11 @@ get_attrition <- function(
   subject_column_name){
 
    if ( class(subject_column_name) != "character" | length(subject_column_name) > 1) {
-      
+
       stop("The 'subject_column_name' argument has to be a string. Please correct the 'subject_column_name' and re-run the function")
-      
+
    }
-   
+
    if ( !subject_column_name %in% names(data) ) {
 
    stop("The 'subject_column_name' argument doesn't correspond to a column name. Please correct the 'subject_column_name' and re-run the function")
@@ -68,13 +68,17 @@ get_attrition <- function(
 
    for (each_cond in criteria_map$criteria_conditions) {
 
-      final_cond          <- ifelse(is.null(final_cond), 
+      final_cond          <- ifelse(is.null(final_cond),
                                     each_cond,
-                                    paste(final_cond, paste0(paste0("(", each_cond), ")"), sep=" & "))
-                                       
+                                    paste(paste0("(",final_cond, ")"),
+                                          paste0(paste0("(", each_cond), ")"),
+                                          sep=" & "))
+      print(final_cond)
       person_count_temp   <- data %>%
          dplyr::filter(eval(parse(text=final_cond))) %>%
          dplyr::select(!!subject_column_name) %>% dplyr::n_distinct()
+      print(person_count_temp)
+
       person_count_master <- c(person_count_master, person_count_temp)
 
    }
@@ -85,7 +89,7 @@ get_attrition <- function(
       criterion_0 <- dplyr::tibble(criteria_conditions='none',
                                    criteria_descriptions='Total cohort size',
                                    `Remaining N`=dplyr::select(data, !!subject_column_name) %>% dplyr::n_distinct())
-  
+
       # generate attrition table
       attrition_table <-
          criterion_0 %>%
@@ -98,7 +102,7 @@ get_attrition <- function(
                           Criteria = criteria_descriptions) %>%
            # fix formatting
            dplyr::select(Criteria, Condition, dplyr::everything())
-      
+
       class(attrition_table) <- c("attrition", class(attrition_table))
       return(attrition_table)
     }

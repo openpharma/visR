@@ -92,11 +92,11 @@ plot(survfit_object, fun = "pct")
 
 ## Plot cumulative hazard
 plot(survfit_object, fun = "cloglog")
- 
-attrition <- visR::get_attrition(adtte, 
+
+attrition <- visR::get_attrition(adtte,
     criteria_descriptions = c("1. Not in Placebo Group",
                               "2. Be 75 years of age or older.",
-                              "3. White", 
+                              "3. White",
                               "4. Female"),
     criteria_conditions   = c("TRTP != 'Placebo'",
                               "AGE >= 75",
@@ -105,26 +105,26 @@ attrition <- visR::get_attrition(adtte,
     subject_column_name   = "USUBJID")
 
 # Draw a CONSORT attrition chart without specifying extra text for the complement
-attrition \%>\% 
+attrition \%>\%
   plot("Criteria", "Remaining N")
-  
-# Adding more detailed complement descriptions to the "exclusion" part of the CONSORT diagram 
+
+# Adding more detailed complement descriptions to the "exclusion" part of the CONSORT diagram
 # Step 1. Add new column to attrition dataframe
 attrition$Complement <- c("NA", "Placebo Group", "Younger than 75 years", "Non-White", "Male")
 
 # Step 2. Define the name of the column in the call to the plotting function
-attrition \%>\% 
+attrition \%>\%
   plot("Criteria", "Remaining N", "Complement")
-  
+
 # Styling the CONSORT flowchart
 # Change the fill and outline of the boxes in the flowchart
-attrition \%>\% 
+attrition \%>\%
   plot("Criteria", "Remaining N", "Complement", fill = "lightblue", border="grey")
-  
+
 # Adjust the font size in the boxes
-attrition \%>\% 
+attrition \%>\%
   plot("Criteria", "Remaining N", font_size = 10)
-  
+
 }
 \seealso{
 \code{\link[ggplot2]{ggplot}}
