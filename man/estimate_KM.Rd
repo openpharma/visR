@@ -40,23 +40,23 @@ The MLE (H.hat(t) = -log(S.hat(t))) can't be requested.}
 library(visR)
 
 ## No stratification
-estimate_KM(data = adtte)
+visR::estimate_KM(data = adtte)
 
 ## Stratified Kaplan-Meier analysis by `TRTP`
-estimate_KM(data = adtte, strata = "TRTP")
+visR::estimate_KM(data = adtte, strata = "TRTP")
 
-## Stratified Kaplan-Meier analysis by `TRTP` and `SEX` 
-estimate_KM(data = adtte, strata = c("TRTP", "SEX"))
+## Stratified Kaplan-Meier analysis by `TRTP` and `SEX`
+visR::estimate_KM(data = adtte, strata = c("TRTP", "SEX"))
 
 ## Stratification with one level
-estimate_KM(data = adtte, strata = "PARAMCD")
+visR::estimate_KM(data = adtte, strata = "PARAMCD")
 
 ## Analysis on subset of adtte
-estimate_KM(data = adtte[adtte$SEX == "F", ])
+visR::estimate_KM(data = adtte[adtte$SEX == "F", ])
 
 ## Modify the default analysis by using the ellipsis
-estimate_KM(data = adtte, strata = NULL, type = "kaplan-meier", conf.int = F, timefix = TRUE)
-estimate_KM(data = adtte, strata = NULL, type = "kaplan-meier", conf.int = FALSE, timefix = TRUE)
+visR::estimate_KM(data = adtte, strata = NULL, type = "kaplan-meier", conf.int = F, timefix = TRUE)
+visR::estimate_KM(data = adtte, strata = NULL, type = "kaplan-meier", conf.int = FALSE, timefix = TRUE)
 }
 \references{
 \url{https://https://github.com/therneau/survival}

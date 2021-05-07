@@ -107,7 +107,7 @@ summarize_tab1.numeric <- function(x){
                             "-", format(quantile(x, probs=0.75, na.rm = TRUE), digits = 3), ")"),
     `Min-max` = paste0(format(min(x, na.rm = TRUE), digits = 3), "-", format(max(x, na.rm = TRUE), digits = 3)),
     Missing = paste0(format(sum(is.na(x)), digits = 3), 
-                     " (", format(100 * sum(is.na(x))/dplyr::n(), trim=TRUE, digits = 3), "%)")
+                     " (", format(100 * sum(is.na(x))/length(x), trim=TRUE, digits = 3), "%)")
   )
   list(dat)
 }
@@ -132,7 +132,7 @@ summarize_tab1.integer <- function(x){
 summarize_tab1.default <- function(x){
   dat <- list(
     `Unique values` = format(length(unique(x))),
-    `Missing (%)` = paste0(format(sum(is.na(x))), " (", format(100 * sum(is.na(x))/dplyr::n(), trim=TRUE), "%)")
+    `Missing (%)` = paste0(format(sum(is.na(x))), " (", format(100 * sum(is.na(x))/length(x), trim=TRUE), "%)")
   )
   list(dat)
 }

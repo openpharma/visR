@@ -1,9 +1,10 @@
-#' @title Wrapper around ggplot2::annotation_custom for simplified annotation to ggplot2 plots
+#' @title Add annotations to a visR object
 #'
-#' @description This function accepts a string, dataframe, data.table, tibble or
-#'   customized objects of class \code{gtable} and places them on the specified
-#'   location on the \code{ggplot}. The layout is fixed: bold columnheaders and plain body.
-#'   Only the font size and type can be chosen.
+#' @description Wrapper around ggplot2::annotation_custom for simplified annotation to ggplot2 plots.
+#' This function accepts a string, dataframe, data.table, tibble or customized 
+#' objects of class \code{gtable} and places them on the specified location on 
+#' the \code{ggplot}. The layout is fixed: bold columnheaders and plain body. 
+#' Only the font size and type can be chosen. 
 #'
 #' @author Steven Haesendonckx
 #'
@@ -19,21 +20,58 @@
 #' @param ymax y coordinates giving vertical location of raster in which to fit annotation.
 #'
 #' @examples
-#' library(survival)
-#' library(dplyr)
-#' library(tidyr)
-#' library(ggplot2)
-#'
+#' 
+#' library(visR)
+#' 
 #' ## Estimate survival
-#' surv_object <- estimate_KM(data = adtte, strata = "TRTP")
-#'
-#' ## p value for "Equality across strata"
-#' lbl <- get_pvalue(surv_object, statlist = c("test", "p"), type = "All")
-#'
-#' ## add results to survival plot
-#' vr_plot(surv_object) %>%
-#'   add_annotation(label = lbl, base_family = "sans",
-#'   base_size = 9, xmin = 110, xmax = 180, ymin = 0.80)
+#' surv_object <- visR::estimate_KM(data = adtte, strata = "TRTP")
+#' 
+#' ## We want to annotate the survival KM plot with a simple string comment
+#' visR::plot(surv_object) %>%
+#'   visR::add_annotation(
+#'     label = "My simple comment",
+#'     base_family = "sans",
+#'     base_size = 15,
+#'     xmin = 110,
+#'     xmax = 180,
+#'     ymin = 0.80
+#'   )
+#' 
+#' ## Currently, care needs to be taken on the x-y values relative
+#' ## to the plot data area. Here we are plotting outside of the data area. 
+#' visR::plot(surv_object) %>%
+#'   visR::add_annotation(
+#'   label = "My simple comment",
+#'   base_family = "sans",
+#'   base_size = 15,
+#'   xmin = 210,
+#'   xmax = 380,
+#'   ymin = 1.0
+#'   )
+#' 
+#' 
+#' ## We may also want to annotate a KM plot with information
+#' ## from additional tests or estimates. This example we annotate
+#' ## with p-values contained in a tibble 
+#' 
+#' ## we calculate p-values for "Equality across strata"
+#' lbl <- visR::get_pvalue(surv_object,
+#'              statlist = c("test", "p"),
+#'              type = "All")
+#' 
+#' ## display p-values
+#' lbl
+#' 
+#' ## Now annotate survival KM plot with the p-values
+#' visR::plot(surv_object) %>%
+#'   visR::add_annotation(
+#'     label = lbl,
+#'     base_family = "sans",
+#'     base_size = 9,
+#'     xmin = 100,
+#'     xmax = 180,
+#'     ymin = 0.80
+#'   )
 #'
 #' @return Object of class \code{ggplot} with added annotation with an object of class \code{gtable}.
 #'
