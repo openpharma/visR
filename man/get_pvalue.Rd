@@ -2,24 +2,17 @@
 % Please edit documentation in R/get_pvalue.R
 \name{get_pvalue}
 \alias{get_pvalue}
-\alias{get_pvalue.survfit}
 \title{Summarize the test for equality across strata from a survival object using S3 method}
 \usage{
-get_pvalue(x, ...)
-
-\method{get_pvalue}{survfit}(
+get_pvalue(
   survfit_object,
   ptype = "All",
   rho = NULL,
-  statlist = c("test", "Chisq", "df", "p"),
+  statlist = c("test", "Chisq", "df", "pvalue"),
   ...
 )
 }
 \arguments{
-\item{x}{S3 object}
-
-\item{...}{other arguments passed on to the method}
-
 \item{survfit_object}{An object of class \code{survfit}}
 
 \item{ptype}{Character vector containing the type of p-value desired. Current options are "Log-Rank" "Wilcoxon" "Tarone-Ware" "Custom" "All".
@@ -32,28 +25,34 @@ a scalar parameter that controls the type of test.
 
 \item{statlist}{Character vector containing the desired information to be displayed. The order of the arguments determines the order in which
 they are displayed in the final result. Default is the test name ("test"), Chisquare test statistic ("Chisq"), degrees of freedom ("df") and
-p-value ("p").}
+p-value ("pvalue").}
 }
 \value{
-A tibble with summary measures for the Test of Equality Across Strata
+A data frame with summary measures for the Test of Equality Across Strata
 }
 \description{
-S3 method for extracting information regarding equality across strata.
-No default method is available at the moment.
+Wrapper around survival::survdiff that tests the null hypothesis of equality across strata.
 }
 \examples{
-library(survival)
-library(dplyr)
-library(tidyr)
-library(ggplot2)
 
-survfit_object <- estimate_KM(data = adtte, strata = "TRTP")
-get_pvalue(survfit_object)
- 
+## general examples
+survfit_object <- visR::estimate_KM(data = adtte, strata = "TRTP")
+visR::get_pvalue(survfit_object)
+visR::get_pvalue(survfit_object, ptype = "All")
+
+## examples to obtain specific tests
+visR::get_pvalue(survfit_object, ptype = "Log-Rank")
+visR::get_pvalue(survfit_object, ptype = "Wilcoxon")
+visR::get_pvalue(survfit_object, ptype = "Tarone-Ware")
+
+## Custom example - obtain Harrington and Fleming test
+visR::get_pvalue(survfit_object, ptype = "Custom", rho = 1)
+
+## Get specific information and statistics
+visR::get_pvalue(survfit_object, ptype = "Log-Rank", statlist = c("test", "Chisq", "df", "pvalue"))
+visR::get_pvalue(survfit_object, ptype = "Wilcoxon", statlist = c("pvalue"))
+
 }
 \seealso{
 \code{\link[survival]{survdiff}}
-}
-\author{
-Steven Haesendonckx
 }

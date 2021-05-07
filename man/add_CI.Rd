@@ -18,7 +18,7 @@ add_CI(gg, ...)
 
 \item{style}{aesthetic of ggplot2 \code{\link[ggplot2]{geom_ribbon}}. Default is "ribbon".}
 
-\item{linetype}{aesthetic of ggplot2 \code{\link[ggplot2]{geom_ribbon}}. Default is 2.}
+\item{linetype}{aesthetic of ggplot2 \code{\link[ggplot2]{geom_ribbon}}.}
 }
 \value{
 Pointwise confidence interval overlayed on a visR ggplot
@@ -34,7 +34,7 @@ library(tidyr)
 library(ggplot2)
 
 survfit_object <- survival::survfit(data = adtte, Surv(AVAL, 1-CNSR) ~ TRTP)
-vr_plot(survfit_object) \%>\%
+visR::plot(survfit_object) \%>\%
   add_CI(alpha = 0.1, style = "step", linetype = 3)
 
 }
