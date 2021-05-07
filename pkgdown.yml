@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   CDISC_ADaM: CDISC_ADaM.html
   Time_to_event_analysis: Time_to_event_analysis.html
-last_built: 2021-05-07T13:56Z
+last_built: 2021-05-07T20:58Z
 urls:
   reference: https://openpharma.github.io/visR//reference
   article: https://openpharma.github.io/visR//articles
