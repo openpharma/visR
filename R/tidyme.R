@@ -9,7 +9,7 @@
 #' @param ... other arguments passed on to the method
 #' 
 #' @examples
-#' \donttest{
+#' 
 #' ## Extended tidying for a survfit object
 #' surv_object <- visR::estimate_KM(data = adtte, strata = "TRTA")
 #' tidied <- visR::tidyme(surv_object)
@@ -18,6 +18,7 @@
 #' data <- cars
 #' lm_object <- stats::lm(data = cars, speed ~ dist)
 #' lm_tidied <- visR::tidyme(lm_object)
+#' lm_tidied
 #' 
 #' @return Tibble containing all list elements of the S3 object as columns
 #' 
