@@ -133,33 +133,36 @@ legendopts <- function(legend_position = "right",
 #' @param wrap_width \code{integer} for the maximal character count per line
 #'
 #' @return The input dataframe extended by two columns containing the label and complement label
-#' 
+#'
 #' @keywords internal
 .get_labels <- function(data, description_column_name, value_column_name, complement_column_name="", wrap_width=50){
-  plotting_data <- data %>% 
-    dplyr::rowwise() %>% 
+
+  label <- complement_label <- NULL
+
+  plotting_data <- data %>%
+    dplyr::rowwise() %>%
     # below needs update to description_column_name instead of Criteria
-    dplyr::mutate(label = paste(strwrap(get(description_column_name), width = wrap_width), collapse = "\n")) %>% 
+    dplyr::mutate(label = paste(strwrap(get(description_column_name), width = wrap_width), collapse = "\n")) %>%
     # below needs update to value_column_name instead of `Remaining N`
     dplyr::mutate(label = sprintf("%s\nN = %d", label, get(value_column_name)))
-  
-  
+
+
   if(complement_column_name != ""){
-    plotting_data <- plotting_data %>% 
+    plotting_data <- plotting_data %>%
       # below needs update to complement_column_name instead of Complement
       dplyr::mutate(complement_label = paste(strwrap(get(complement_column_name), width = wrap_width), collapse = "\n")) %>%
       dplyr::ungroup() %>%
       # below needs update to value_column_name instead of `Remaining N`
-      dplyr::mutate(complement_label = sprintf("%s\nN = %d", 
-                                               complement_label, 
+      dplyr::mutate(complement_label = sprintf("%s\nN = %d",
+                                               complement_label,
                                                dplyr::lag(get(value_column_name)) - get(value_column_name)))
   }else{
-    plotting_data <- plotting_data %>% 
+    plotting_data <- plotting_data %>%
       dplyr::ungroup() %>%
-      dplyr::mutate(complement_label = sprintf("%s N = %d", "Excluded", 
+      dplyr::mutate(complement_label = sprintf("%s N = %d", "Excluded",
                                                dplyr::lag(get(value_column_name)) - get(value_column_name)))
   }
-  
+
   return(plotting_data)
 }
 
@@ -176,13 +179,15 @@ legendopts <- function(legend_position = "right",
 #' @keywords internal
 #'
 .get_labelsizes <- function(data, label, complement_label){
-  plotting_data <- data %>% 
+  labelheight <- labelwidth <- complementheight <- complementwidth <- maxwidth <- maxheight <- NULL
+
+  plotting_data <- data %>%
     dplyr::mutate(labelwidth = graphics::strwidth({{label}}, units = "inch"),
                   complementwidth = graphics::strwidth({{complement_label}}, units = "inch"),
                   maxwidth = max(labelwidth, complementwidth),
                   labelheight = graphics::strheight({{label}}, units = "inch"),
                   complementheight = graphics::strheight({{complement_label}}, units = "inch"),
-                  maxheight = max(labelheight, complementheight)) %>% 
+                  maxheight = max(labelheight, complementheight)) %>%
     dplyr::select(labelwidth, complementwidth, maxwidth, labelheight, complementheight, maxheight, dplyr::everything())
   return(plotting_data)
 }
@@ -192,38 +197,40 @@ legendopts <- function(legend_position = "right",
 #' @description This function creates lables with a maximal character length per line by combining content of two dataframe columns
 #'
 #' @param data A dataframe containing the attrition data
-#' @param box_width \code{integer} The width of the boxes in the flow charts (in canvas coordinates) 
-#' @param box_height \code{integer} The height of the boxes in the flow charts (in canvas coordinates) 
-#' @param field_height \code{float} The width of the boxes in the flow charts (in canvas coordinates) 
-#' 
+#' @param box_width \code{integer} The width of the boxes in the flow charts (in canvas coordinates)
+#' @param box_height \code{integer} The height of the boxes in the flow charts (in canvas coordinates)
+#' @param field_height \code{float} The width of the boxes in the flow charts (in canvas coordinates)
+#'
 #' @return The input dataframe extended by columns containing x and y coordinates for included and excluded counts
-#' 
+#'
 #' @keywords internal
-#' 
+#'
 .get_coordinates <- function(data, box_width, box_height, field_height){
-  
-  plotting_data <- data %>% 
-    dplyr::ungroup() %>% 
+
+  y <- ymin <- ymax <- down_ystart <- down_yend <- x <- side_xend <- side_y <- NULL
+
+  plotting_data <- data %>%
+    dplyr::ungroup() %>%
     dplyr::mutate(x = 50,
-                  y = 100 - dplyr::row_number() * field_height + box_height/2) %>% 
+                  y = 100 - dplyr::row_number() * field_height + box_height/2) %>%
     # coordinates of text box
     dplyr::mutate(
       box_width = box_width,
       box_height = box_height,
       ymin = y - (box_height/2),
-      ymax = y + (box_height/2)) %>% 
+      ymax = y + (box_height/2)) %>%
     # coordinates of down arrow
     dplyr::mutate(down_ystart = dplyr::lag(ymin),
-                  down_yend = ymax) %>% 
+                  down_yend = ymax) %>%
     # coordinates of side arrow
     dplyr::mutate(side_y = down_ystart - 0.5*(down_ystart-down_yend),
                   side_xstart = x,
-                  side_xend = x + (box_width/2) + 10) %>% 
+                  side_xend = x + (box_width/2) + 10) %>%
     # complement coordinates
     dplyr::mutate(cx = side_xend + (box_width/2) ,
                   cy = side_y)
-  
+
   return(plotting_data)
-  
+
 }
 
