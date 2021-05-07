@@ -31,22 +31,90 @@
 
 define_theme <- function(strata = NULL,
                          fontsizes = NULL,
-                         fontfamily = "Palatino",
+                         fontfamily = "Helvetica",
                          grid = FALSE,
                          bg = "transparent") {
   theme <- c()
   
-  if (!is.null(strata)) {
-    theme[["strata"]] = strata
+  if (!base::is.null(strata)) {
+    
+    if (base::is.list(strata)) {
+      
+      if (base::length(base::names(strata)) > 0) {
+        
+        theme[["strata"]] <- strata
+      
+      } else {
+        
+        base::warning("Invalid argument for `strata`. Please provide a named list as described in the documentation. Setting strata to `NULL`.")
+        theme[["strata"]] <- NULL
+        
+      }
+    }
+  } 
+  
+  if (!base::is.null(fontsizes)) {
+    
+    if (base::is.list(fontsizes)) {
+      
+      if (base::length(base::names(fontsizes)) > 0) {
+        
+        theme[["fontsizes"]] <- fontsizes
+        
+      } else {
+        
+        base::warning("Invalid argument for `fontsizes`. Please provide a named list for the individual plot elements as described in the documentation. Setting fontsizes to `NULL`.")
+        theme[["fontsizes"]] <- NULL
+        
+      }
+      
+    } else if (base::is.numeric(fontsizes)) {
+      
+      base::message("Setting all fontsizes to the provided numeric value. It is recommended to use a named list as described in the documentation.")
+      theme[["fontsizes"]] <- fontsizes
+      
+    } else {
+      
+      base::warning("Invalid argument for `fontsizes`. Please provide a named list as described in the documentation. Setting fontsizes to `NULL`.")
+      theme[["fontsizes"]] <- NULL
+      
+    }
+  } 
+  
+  if (!base::is.character(fontfamily)) {
+    
+    base::warning("Invalid argument for `fontfamily`. Please provide the name of a valid font family as a string. Setting to default `Helvetica`.")
+    theme[["fontfamily"]] <- "Helvetica"
+    
+  } else {
+    
+    theme[["fontfamily"]] <- fontfamily
+    
   }
   
-  if (!is.null(fontsizes)) {
-    theme[["fontsizes"]] = fontsizes
+  if (!base::is.logical(grid)) {
+    
+    base::warning("Invalid argument for `grid`. Please use a boolean to indicate whether you want a background grid. Setting to default `FALSE`.")
+    theme[["grid"]] <- FALSE
+    
+  } else {
+    
+    theme[["grid"]] <- grid
+    
   }
   
-  theme[["fontfamily"]] = fontfamily
-  theme[["grid"]] = grid
-  theme[["bg"]] = bg
+  if (!base::is.character(bg)) {
+    
+    base::warning("Invalid argument for `bg`. Please provide the name of a valid colour as a string. Setting to default `transparent`.")
+    theme[["bg"]] <- "transparent"
+    
+  } else {
+    
+    theme[["bg"]] <- bg
+    
+  }
+  
+  base::class(theme) <- base::append(base::class(theme), "visR_theme")
   
   return(theme)
   
@@ -89,10 +157,47 @@ define_theme <- function(strata = NULL,
 #' @export
 
 add_theme <- function(gg, visR_theme_dict = NULL) {
+  
+  # Manually define colour-blind friendly palette, taken from
+  # http://mkweb.bcgsc.ca/biovis2012/krzywinski-visualizing-biological-data.pdf
+  # skipping black
+  cols <- c(
+    grDevices::rgb(0,  73,  73, maxColorValue = 255),
+    grDevices::rgb(0, 146, 146, maxColorValue = 255),
+    grDevices::rgb(255, 109, 182, maxColorValue = 255),
+    grDevices::rgb(255, 182, 119, maxColorValue = 255),
+    grDevices::rgb(73,   0, 146, maxColorValue = 255),
+    grDevices::rgb(0, 109, 219, maxColorValue = 255),
+    grDevices::rgb(182, 109, 255, maxColorValue = 255),
+    grDevices::rgb(109, 182, 255, maxColorValue = 255),
+    grDevices::rgb(182, 219, 255, maxColorValue = 255),
+    grDevices::rgb(146,   0,   0, maxColorValue = 255),
+    grDevices::rgb(146,  73,   0, maxColorValue = 255),
+    grDevices::rgb(219, 209,   0, maxColorValue = 255),
+    grDevices::rgb(36, 255,  36, maxColorValue = 255),
+    grDevices::rgb(255, 255, 109, maxColorValue = 255)
+  )
+  
+  font_family = ggplot2::element_text(family = "Helvetica")
+  axis_title = ggplot2::element_text(size = 12)
+  axis_text = ggplot2::element_text(size = 10)
+  panel_grid_major = ggplot2::element_blank()
+  panel_grid_minor = ggplot2::element_blank()
+  panel_background = ggplot2::element_rect(fill = "transparent")
+  plot_background = ggplot2::element_rect(fill = "transparent")
+  
   if (!is.null(visR_theme_dict)) {
-    # manual colours -----------------------------------------------------------
+    
+    if (!("visR_theme" %in% base::class(visR_theme_dict))) {
+      
+      base::message("It is recommended to generate the theme object through `visR::define_theme`. Attempting to use the provided object anyway.")
+      
+    }
+    
+    
     
     if ("strata" %in% base::names(visR_theme_dict)) {
+      
       cols <- c()
       named_strata <- base::names(visR_theme_dict[["strata"]])
       
@@ -104,9 +209,11 @@ add_theme <- function(gg, visR_theme_dict = NULL) {
           cols[[name]] <- values[[v]]
         }
       }
-    }
+      
+      cols <- unlist(cols)
+      
+    } 
     
-    cols <- unlist(cols)
     
     # fonts and text -----------------------------------------------------------
     
@@ -120,7 +227,6 @@ add_theme <- function(gg, visR_theme_dict = NULL) {
         axis_text = ggplot2::element_text(size = visR_theme_dict[["fontsizes"]][["ticks"]])
         
       }
-      
     }
     
     if ("fontfamily" %in% base::names(visR_theme_dict)) {
@@ -138,7 +244,6 @@ add_theme <- function(gg, visR_theme_dict = NULL) {
         panel_grid_minor = ggplot2::element_blank()
         
       }
-      
     }
     
     # background ---------------------------------------------------------------
@@ -149,38 +254,7 @@ add_theme <- function(gg, visR_theme_dict = NULL) {
       plot_background = ggplot2::element_rect(fill = bg_colour)
     }
     
-    
-  } else {
-    # Manually define colour-blind friendly palette, taken from
-    # http://mkweb.bcgsc.ca/biovis2012/krzywinski-visualizing-biological-data.pdf
-    # skipping black
-    cols <- c(
-      grDevices::rgb(0,  73,  73, maxColorValue = 255),
-      grDevices::rgb(0, 146, 146, maxColorValue = 255),
-      grDevices::rgb(255, 109, 182, maxColorValue = 255),
-      grDevices::rgb(255, 182, 119, maxColorValue = 255),
-      grDevices::rgb(73,   0, 146, maxColorValue = 255),
-      grDevices::rgb(0, 109, 219, maxColorValue = 255),
-      grDevices::rgb(182, 109, 255, maxColorValue = 255),
-      grDevices::rgb(109, 182, 255, maxColorValue = 255),
-      grDevices::rgb(182, 219, 255, maxColorValue = 255),
-      grDevices::rgb(146,   0,   0, maxColorValue = 255),
-      grDevices::rgb(146,  73,   0, maxColorValue = 255),
-      grDevices::rgb(219, 209,   0, maxColorValue = 255),
-      grDevices::rgb(36, 255,  36, maxColorValue = 255),
-      grDevices::rgb(255, 255, 109, maxColorValue = 255)
-    )
-    
-    font_family = ggplot2::element_text(family = "Helvetica")
-    axis_title = ggplot2::element_text(size = 12)
-    axis_text = ggplot2::element_text(size = 10)
-    panel_grid_major = ggplot2::element_blank()
-    panel_grid_minor = ggplot2::element_blank()
-    panel_background = ggplot2::element_rect(fill = "transparent")
-    plot_background = ggplot2::element_rect(fill = "transparent")
-    
   }
-  
   
   # Reset background
   gg <- gg + ggplot2::theme_minimal()
