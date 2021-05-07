@@ -130,24 +130,19 @@
 <p>This is a basic example to demonstrate how the API can be used to add layers to a visualisation. In this example a time to event analysis. The example calculates stratified Kaplan-Meier by treatment and then plots. Additional functions can be used to add uncertainty intervals, censoring information and a risk table.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/openpharma/visR">visR</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/therneau/survival">survival</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org">tidyr</a></span><span class="op">)</span> 
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 
-<span class="co"># BELOW NO LONGER WORKS</span>
-<span class="co"># adtte %&gt;%</span>
-<span class="co">#   estimate_KM(strata = "TRTP", conf.int = 0.90) %&gt;%</span>
-<span class="co">#   vr_plot(legend_position = "right", x_unit = "Days") %&gt;%</span>
-<span class="co">#   add_CI(style = "ribbon",</span>
-<span class="co">#          linetype = 3) %&gt;%</span>
-<span class="co">#   add_CNSR(shape = 3, size = 1) %&gt;%</span>
-<span class="co">#   add_risktable(</span>
-<span class="co">#     min_at_risk = 3,</span>
-<span class="co">#     statlist = c("n.risk", "n.event", "n.censor"),</span>
-<span class="co">#     label = c("At risk", "Event", "Censor"),</span>
-<span class="co">#     collapse = F</span>
-<span class="co">#   )</span></code></pre></div>
+<span class="va">adtte</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="reference/estimate_KM.html">estimate_KM</a></span><span class="op">(</span>strata <span class="op">=</span> <span class="st">"TRTP"</span>, conf.int <span class="op">=</span> <span class="fl">0.90</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">visR</span><span class="fu">::</span><span class="fu"><a href="reference/plot.html">plot</a></span><span class="op">(</span>legend_position <span class="op">=</span> <span class="st">"right"</span>, x_unit <span class="op">=</span> <span class="st">"Days"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="reference/add_CI.html">add_CI</a></span><span class="op">(</span>style <span class="op">=</span> <span class="st">"ribbon"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="reference/add_CNSR.html">add_CNSR</a></span><span class="op">(</span>shape <span class="op">=</span> <span class="fl">3</span>, size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="reference/add_risktable.html">add_risktable</a></span><span class="op">(</span>
+    min_at_risk <span class="op">=</span> <span class="fl">3</span>,
+    statlist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"n.risk"</span>, <span class="st">"n.event"</span>, <span class="st">"n.censor"</span><span class="op">)</span>,
+    label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"At risk"</span>, <span class="st">"Event"</span>, <span class="st">"Censor"</span><span class="op">)</span>,
+    collapse <span class="op">=</span> <span class="cn">F</span>
+  <span class="op">)</span></code></pre></div>
+<p><img src="reference/figures/README-example-1.png" width="100%"></p>
 </div>
 <div id="contribution" class="section level2">
 <h2 class="hasAnchor">
@@ -155,8 +150,8 @@
 <p>Please note that the ‘visR’ project is released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 <p><img src="reference/figures/README-unnamed-chunk-3-1.png" width="100%"></p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co">#&gt; The following name changes were identified (0 in total):</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="co">#&gt; ●</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="co">#&gt;  chr [1:24] "R/add_CI.R" "R/add_CNSR.R" "R/add_annotation.R" ...</span></span></code></pre></div>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="co">#&gt; •</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="co">#&gt;  chr [1:26] "R/add_CI.R" "R/add_CNSR.R" "R/add_annotation.R" ...</span></span></code></pre></div>
 </div>
 <div id="code-coverage" class="section level2">
 <h2 class="hasAnchor">
@@ -164,29 +159,30 @@
 <p>Last time readme built.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">covr</span><span class="fu">::</span><span class="fu"><a href="http://covr.r-lib.org/reference/package_coverage.html">package_coverage</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; visR Coverage: 31.56%</span>
+<span class="co">#&gt; visR Coverage: 54.91%</span>
 <span class="co">#&gt; R/add_annotation.R: 0.00%</span>
-<span class="co">#&gt; R/add_risktable.R: 0.00%</span>
-<span class="co">#&gt; R/get_COX_HR.R: 0.00%</span>
+<span class="co">#&gt; R/add_theme.R: 0.00%</span>
 <span class="co">#&gt; R/get_quantile.R: 0.00%</span>
-<span class="co">#&gt; R/get_risktable.R: 0.00%</span>
-<span class="co">#&gt; R/get_summary.R: 0.00%</span>
 <span class="co">#&gt; R/render.R: 0.00%</span>
 <span class="co">#&gt; R/style_visR.R: 0.00%</span>
 <span class="co">#&gt; R/tableone.R: 0.00%</span>
-<span class="co">#&gt; R/utils_plot.R: 0.00%</span>
 <span class="co">#&gt; R/vr_attrition_table.R: 0.00%</span>
 <span class="co">#&gt; R/vr_attrition.R: 0.00%</span>
-<span class="co">#&gt; R/utils_table.R: 30.77%</span>
+<span class="co">#&gt; R/utils_plot.R: 30.65%</span>
 <span class="co">#&gt; R/utils_general.R: 33.33%</span>
-<span class="co">#&gt; R/plot.R: 82.61%</span>
-<span class="co">#&gt; R/tidyme.R: 91.67%</span>
-<span class="co">#&gt; R/get_pvalue.R: 98.46%</span>
+<span class="co">#&gt; R/utils_table.R: 64.10%</span>
+<span class="co">#&gt; R/plot.R: 82.22%</span>
+<span class="co">#&gt; R/get_summary.R: 97.73%</span>
 <span class="co">#&gt; R/add_CI.R: 100.00%</span>
 <span class="co">#&gt; R/add_CNSR.R: 100.00%</span>
+<span class="co">#&gt; R/add_risktable.R: 100.00%</span>
 <span class="co">#&gt; R/estimate_KM.R: 100.00%</span>
+<span class="co">#&gt; R/get_COX_HR.R: 100.00%</span>
+<span class="co">#&gt; R/get_pvalue.R: 100.00%</span>
+<span class="co">#&gt; R/get_risktable.R: 100.00%</span>
 <span class="co">#&gt; R/get_tableone.R: 100.00%</span>
 <span class="co">#&gt; R/testthat_helpers.R: 100.00%</span>
+<span class="co">#&gt; R/tidyme.R: 100.00%</span>
 <span class="co">#&gt; R/utils_pipe.R: 100.00%</span></code></pre></div>
 </div>
 </div>

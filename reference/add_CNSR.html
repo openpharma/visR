@@ -187,21 +187,21 @@ The method is set up to use the pipe <code>%&gt;%</code>.</p>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/openpharma/visR'>visR</a></span><span class='op'>)</span>
 
 <span class='co'># Estimate KM curves by treatment group </span>
-<span class='va'>survfit_object</span> <span class='op'>&lt;-</span> <span class='fu'>survival</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/survival/man/survfit.html'>survfit</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>adtte</span>, <span class='fu'><a href='https://rdrr.io/pkg/survival/man/Surv.html'>Surv</a></span><span class='op'>(</span><span class='va'>AVAL</span>, <span class='fl'>1</span><span class='op'>-</span><span class='va'>CNSR</span><span class='op'>)</span> <span class='op'>~</span> <span class='va'>TRTP</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in Surv(AVAL, 1 - CNSR): could not find function "Surv"</span></div><div class='input'>
+<span class='va'>survfit_object</span> <span class='op'>&lt;-</span> <span class='fu'>survival</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/survival/man/survfit.html'>survfit</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>adtte</span>, <span class='fu'>survival</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/survival/man/Surv.html'>Surv</a></span><span class='op'>(</span><span class='va'>AVAL</span>, <span class='fl'>1</span><span class='op'>-</span><span class='va'>CNSR</span><span class='op'>)</span> <span class='op'>~</span> <span class='va'>TRTP</span><span class='op'>)</span>
+
 <span class='co'>## plot without confidence intervals</span>
 <span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'>visR</span><span class='fu'>::</span><span class='fu'><a href='plot.html'>plot</a></span><span class='op'>(</span><span class='va'>survfit_object</span><span class='op'>)</span> 
-</div><div class='output co'>#&gt; <span class='error'>Error in visR::plot(survfit_object): object 'survfit_object' not found</span></div><div class='input'><span class='va'>p</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'p' not found</span></div><div class='input'>
+<span class='va'>p</span>
+</div><div class='img'><img src='add_CNSR-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># add censoring to plot</span>
 <span class='va'>p</span> <span class='op'>%&gt;%</span> <span class='fu'>visR</span><span class='fu'>::</span><span class='fu'>add_CNSR</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in visR::add_CNSR(.): object 'p' not found</span></div><div class='input'>
+</div><div class='img'><img src='add_CNSR-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># change censor symbol shape</span>
 <span class='va'>p</span> <span class='op'>%&gt;%</span> <span class='fu'>visR</span><span class='fu'>::</span><span class='fu'>add_CNSR</span><span class='op'>(</span>shape <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in visR::add_CNSR(., shape = 1): object 'p' not found</span></div><div class='input'>
+</div><div class='img'><img src='add_CNSR-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># change size and shape</span>
 <span class='va'>p</span> <span class='op'>%&gt;%</span> <span class='fu'>visR</span><span class='fu'>::</span><span class='fu'>add_CNSR</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>4</span>, shape <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in visR::add_CNSR(., size = 4, shape = 2): object 'p' not found</span></div><div class='input'>
+</div><div class='img'><img src='add_CNSR-4.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

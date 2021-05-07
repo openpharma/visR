@@ -19,6 +19,9 @@
     <loc>https://openpharma.github.io/visR//reference/add_risktable.html</loc>
   </url>
   <url>
+    <loc>https://openpharma.github.io/visR//reference/add_theme.html</loc>
+  </url>
+  <url>
     <loc>https://openpharma.github.io/visR//reference/adtte.html</loc>
   </url>
   <url>
@@ -26,6 +29,9 @@
   </url>
   <url>
     <loc>https://openpharma.github.io/visR//reference/check_traceback_stack_for_ggplot_aesthetics_warning.html</loc>
+  </url>
+  <url>
+    <loc>https://openpharma.github.io/visR//reference/define_theme.html</loc>
   </url>
   <url>
     <loc>https://openpharma.github.io/visR//reference/estimate_KM.html</loc>
@@ -110,6 +116,9 @@
   </url>
   <url>
     <loc>https://openpharma.github.io/visR//reference/tidyme.html</loc>
+  </url>
+  <url>
+    <loc>https://openpharma.github.io/visR//reference/visR.html</loc>
   </url>
   <url>
     <loc>https://openpharma.github.io/visR//reference/vr_attrition.html</loc>

@@ -47,8 +47,9 @@
 
 
 <meta property="og:title" content="Add risk tables to visR plots through an S3 method — add_risktable" />
-<meta property="og:description" content="S3 method for adding risk tables to visR plots.
-No default method is available at the moment." />
+<meta property="og:description" content="
+
+" />
 <meta property="og:image" content="https://openpharma.github.io/visR/logo.png" />
 
 
@@ -141,25 +142,18 @@ No default method is available at the moment." />
     </div>
 
     <div class="ref-description">
-    <p>S3 method for adding risk tables to visR plots.
-No default method is available at the moment.</p>
+    
+
+
     </div>
 
-    <pre class="usage"><span class='fu'>add_risktable</span><span class='op'>(</span>
-  <span class='va'>gg</span>,
-  min_at_risk <span class='op'>=</span> <span class='fl'>0</span>,
-  breaks <span class='op'>=</span> <span class='cn'>NULL</span>,
-  statlist <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"n.risk"</span><span class='op'>)</span>,
-  label <span class='op'>=</span> <span class='st'>"At risk"</span>,
-  group <span class='op'>=</span> <span class='st'>"strata"</span>,
-  collapse <span class='op'>=</span> <span class='cn'>FALSE</span>
-<span class='op'>)</span>
+    <pre class="usage"><span class='fu'>add_risktable</span><span class='op'>(</span><span class='va'>gg</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for ggsurvfit</span>
 <span class='fu'>add_risktable</span><span class='op'>(</span>
   <span class='va'>gg</span>,
   min_at_risk <span class='op'>=</span> <span class='fl'>0</span>,
-  breaks <span class='op'>=</span> <span class='cn'>NULL</span>,
+  times <span class='op'>=</span> <span class='cn'>NULL</span>,
   statlist <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"n.risk"</span><span class='op'>)</span>,
   label <span class='op'>=</span> <span class='st'>"At risk"</span>,
   group <span class='op'>=</span> <span class='st'>"strata"</span>,
@@ -174,16 +168,22 @@ No default method is available at the moment.</p>
       <td><p>visR plot of class <code>ggsurvfit</code></p></td>
     </tr>
     <tr>
-      <th>min_at_risk</th>
-      <td><p><code>numeric</code> The cutoff for number of subjects to display. Default is 0.</p></td>
+      <th>...</th>
+      <td><p>other arguments passed on to the method add_risktable</p></td>
     </tr>
     <tr>
-      <th>breaks</th>
-      <td><p>Single numeric or numeric vector indicating breaks.</p></td>
+      <th>min_at_risk</th>
+      <td><p><code>numeric</code> The cutoff for number of participants at risk to display. This minimum is applied across strata.
+Default is 0.</p></td>
+    </tr>
+    <tr>
+      <th>times</th>
+      <td><p>Numeric vector indicating the times at which the risk set, censored subjects, events are calculated.</p></td>
     </tr>
     <tr>
       <th>statlist</th>
-      <td><p>Character vector indicating which summary data to present. Current choices are "n.risk" "n.event" "n.censor".</p></td>
+      <td><p>Character vector indicating which summary data to present. Current choices are "n.risk" "n.event" "n.censor".
+Default is "n.risk".</p></td>
     </tr>
     <tr>
       <th>label</th>
@@ -193,15 +193,15 @@ with "Censored".</p></td>
     <tr>
       <th>group</th>
       <td><p>String indicating the grouping variable for the risk tables. Current options are:</p><ul>
-<li><p>"strata": groups the risk tables per stratum. The <code>label</code> specifies the lables used within each risk table. This is the default</p></li>
+<li><p>"strata": groups the risk tables per stratum. The <code>label</code> specifies the label within each risk tabel. The strata levels
+are used for the titles of the risk tables. This is the default</p></li>
 <li><p>"statlist": groups the risk tables per statlist. The <code>label</code> specifies the title for each risk tabel. The strata levels
 are used for labeling within each risk table.</p></li>
-</ul><p>"strata" to group the risk tables
-per strata, and "statlist" to group the risk tables</p></td>
+</ul><p>Default is "strata".</p></td>
     </tr>
     <tr>
       <th>collapse</th>
-      <td><p>Boolean, indicates whether to present the data overall, rather than per strata.
+      <td><p>Boolean, indicates whether to present the data overall.
 Default is FALSE.</p></td>
     </tr>
     </table>
@@ -215,8 +215,6 @@ Default is FALSE.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/therneau/survival'>survival</a></span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/openpharma/visR'>visR</a></span><span class='op'>)</span>
 
 <span class='co'>## Display 2 risk tables, 1 per statlist</span>
 <span class='va'>adtte</span> <span class='op'>%&gt;%</span>
