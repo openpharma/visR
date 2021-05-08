@@ -101,7 +101,14 @@ add_annotation <- function(
 
     gg <- gg +
       ggplot2::annotation_custom(label, xmin = xmin, ymin = ymin, xmax = xmax, ymax = ymax)
-
+    
+    
+    # Add individual components -----------------------------------------------
+    
+    components <- append(list(gg), label)
+    names(components) = c("visR_plot", "annotation")
+    gg[["components"]] <- components
+    
     return (gg)
 
   } else {
@@ -150,7 +157,14 @@ add_annotation <- function(
 
     gg <- gg +
       ggplot2::annotation_custom(dfGrob, xmin = xmin, ymin = ymin, xmax = xmax, ymax = ymax)
-
+    
+    # Add individual components -----------------------------------------------
+    
+    components <- append(list(gg), list(dfGrob$grob))
+    names(components) = c("visR_plot", "annotation")
+    gg[["components"]] <- components
+    
+    
     return(gg)
   }
 }
