@@ -103,6 +103,61 @@ testthat::test_that("T2.3 No error when label is of class `gtable`",{
 
 })
 
+# Requirement T3 ----------------------------------------------------------
+
+context("add_annotation - T3. The annotation are representations of the actual label")
+
+testthat::test_that("T3.1 An object of type `character` passed to label is not affected by the transformation to an annotation",{
+  
+  lbl <- "blah"
+  
+  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::plot() %>% 
+    visR::add_annotation(label = lbl)
+  
+  testthat::expect_equal(base::as.character(visR_plot$components$annotation[[1]]$label), lbl)
+  
+})
+
+
+testthat::test_that("T3.2 A `data.frame` passed to label is not affected by the transformation to an annotation",{
+  
+  lbl <- adtte[1:5,]
+  
+  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::plot() %>% 
+    visR::add_annotation(label = lbl)
+  
+  result <- base::unlist(base::lapply(visR_plot$components$annotation, function(x){
+    as.character(x$label)
+  }))
+  
+  unname(c(names(lbl), unlist(lbl)))
+  
+  
+  
+  testthat::expect_equal(visR_plot$components$annotation[[1]], lbl)
+  
+  
+})
+
+testthat::test_that("T3.3 A `gtable` passed to label is not affected by the transformation to an annotation",{
+  
+  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::plot()
+  
+  lbl <- gridExtra::tableGrob(adtte[1:5,])
+  
+  visR_plot <- visR_plot %>%  visR::add_annotation(label = lbl)
+  
+  t1 = visR_plot$components$annotation[[1]]
+  t2 = lbl$grobs[[1]]
+  
+  #t1==t2
+  
+  #t1$
+  testthat::expect_equal(t1, t2)
+  
+  
+})
+
 
 # END OF CODE ----------------------------------------------------------
 
