@@ -18,14 +18,18 @@
 #' T1.9 A warning when `fontsizes` is an unnamed `list`.
 #' T1.10 No warning when `fontsizes` is a named `list`.
 #' T1.11 A message when `fontsizes` is a numerical value.
-#' T1.12 No error when `fontfamily` is a string.
-#' T1.13 A warning when `fontfamily` is anything but a string.
-#' T1.14 No error when `grid` is a boolean.
-#' T1.15 A warning when `grid` is anything but a boolean
+#' T1.12 A warning when `fontsizes` is neither `NULL`, a `list` or a `numeric`.
+#' T1.13 No error when `fontfamily` is a string.
+#' T1.14 A warning when `fontfamily` is anything but a string.
+#' T1.15 No error when `grid` is a boolean.
+#' T1.16 A warning when `grid` is anything but a boolean.
+#' T1.17 No error when `bg` is a string.
+#' T1.18 A warning when `grid` is anything but a boolean.
 #' T2. The `add_theme` function applies the specified changes to a `ggplot` object.
 #' T2.1 No error when a `ggplot` plot is provided, but no theme.
-#' T2.2 No error when a `ggplot` plot and a `visR::define_theme` object are provided.
-#' T2.3 A message when a theme not generated through `visR::define_theme` is provided.
+#' T2.2 No error when a `ggplot` plot and a minimal `visR::define_theme` object are provided.
+#' T2.3 No error when a `ggplot` plot and a complex `visR::define_theme` object are provided.
+#' T2.4 A message when a theme not generated through `visR::define_theme` is provided.
 
 # Requirement T1 ---------------------------------------------------------------
 
@@ -99,13 +103,19 @@ testthat::test_that("T1.11 A message when `fontsizes` is a numerical value.",{
   
 })
 
-testthat::test_that("T1.12 No error when `fontfamily` is a string.",{
+testthat::test_that("T1.12 A warning when `fontsizes` is neither `NULL`, a `list` or a `numeric`.",{
+  
+  testthat::expect_warning(visR::define_theme(fontsizes = "visR"))
+  
+})
+
+testthat::test_that("T1.13 No error when `fontfamily` is a string.",{
   
   testthat::expect_error(visR::define_theme(fontfamily = "Times"), NA)
   
 })
 
-testthat::test_that("T1.13 A warning when `fontfamily` is anything but a string.",{
+testthat::test_that("T1.14 A warning when `fontfamily` is anything but a string.",{
   
   testthat::expect_warning(visR::define_theme(fontfamily = NULL))
   testthat::expect_warning(visR::define_theme(fontfamily = 12))
@@ -114,21 +124,33 @@ testthat::test_that("T1.13 A warning when `fontfamily` is anything but a string.
   
 })
 
-testthat::test_that("T1.14 No error when `bg` is a boolean",{
+testthat::test_that("T1.15 No error when `grid` is a boolean",{
   
-  testthat::expect_error(visR::define_theme(grid = T), NA)
-  testthat::expect_error(visR::define_theme(grid = F), NA)
   testthat::expect_error(visR::define_theme(grid = TRUE), NA)
   testthat::expect_error(visR::define_theme(grid = FALSE), NA)
   
 })
 
-testthat::test_that("T1.15 A warning when `bg` is anything but a boolean",{
+testthat::test_that("T1.16 A warning when `grid` is anything but a boolean",{
   
   testthat::expect_warning(visR::define_theme(grid = NULL))
   testthat::expect_warning(visR::define_theme(grid = 12))
   testthat::expect_warning(visR::define_theme(grid = "visR"))
   testthat::expect_warning(visR::define_theme(grid = c()))
+  
+})
+
+testthat::test_that("T1.17 No error when `bg` is a character.",{
+  
+  testthat::expect_error(visR::define_theme(bg = "blue"), NA)
+  
+})
+
+testthat::test_that("T1.18 A warning when `bg` is anything but a character.",{
+  
+  testthat::expect_warning(visR::define_theme(bg = NULL))
+  testthat::expect_warning(visR::define_theme(bg = 12))
+  testthat::expect_warning(visR::define_theme(bg = list()))
   
 })
 
@@ -146,7 +168,7 @@ testthat::test_that("T2.1 No error when a `ggplot` plot is provided, but no them
   
 })
 
-testthat::test_that("T2.2 No error when a `ggplot` plot and a `visR::define_theme` object are provided.",{
+testthat::test_that("T2.2 No error when a `ggplot` plot and a minimal `visR::define_theme` object are provided.",{
   
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
@@ -159,7 +181,29 @@ testthat::test_that("T2.2 No error when a `ggplot` plot and a `visR::define_them
   
 })
 
-testthat::test_that("T2.3 A message when a theme not generated through `visR::define_theme` is provided.",{
+testthat::test_that("T2.3 No error when a `ggplot` plot and a complex `visR::define_theme` object are provided.",{
+  
+  gg <- adtte %>%
+    visR::estimate_KM("SEX") %>%
+    visR::plot()
+  
+  theme <- visR::define_theme(strata = list("SEX" = list("F" = "red",
+                                                         "M" = "blue"),
+                                            "TRTA" = list("Placebo" = "cyan",
+                                                          "Xanomeline High Dose" = "purple",
+                                                          "Xanomeline Low Dose" = "brown")),
+                              fontsizes = list("axis" = 12,
+                                               "ticks" = 10),
+                              fontfamily = "Helvetica",
+                              grid = FALSE,
+                              bg = "transparent")
+  
+  testthat::expect_error(visR::add_theme(gg, theme), NA)
+  testthat::expect_error(gg %>% visR::add_theme(theme), NA)
+  
+})
+
+testthat::test_that("T2.4 A message when a theme not generated through `visR::define_theme` is provided.",{
   
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
