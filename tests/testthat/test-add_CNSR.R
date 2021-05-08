@@ -207,7 +207,7 @@ testthat::test_that("T2.6 A ggplot warning when a non-matching vector for `size`
     visR::plot()
   
   # Cause warning
-  p %>% visR::add_CNSR(size = c("We", "let", "ggplot", "test", "lists"))
+  p %>% visR::add_CNSR(size = list("We", "let", "ggplot", "test", "lists"))
   
   # Catch warning
   abortive_warning <- visR:::check_traceback_stack_for_ggplot_aesthetics_warning()
@@ -224,7 +224,7 @@ testthat::test_that("T2.7 A ggplot warning when a non-matching vector for `shape
     visR::plot()
   
   # Cause warning
-  p %>% visR::add_CNSR(shape = c("We", "let", "ggplot", "test", "lists"))
+  p %>% visR::add_CNSR(shape = list("We", "let", "ggplot", "test", "lists"))
   
   # Catch warning
   abortive_warning <- visR:::check_traceback_stack_for_ggplot_aesthetics_warning()
