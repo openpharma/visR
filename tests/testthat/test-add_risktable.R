@@ -26,7 +26,7 @@ context("add_risktable.survfit - T1. The function accepts a `ggsurvfit` object")
 
 testthat::test_that("T1.1 No error when a `ggsurvfit` object is passed to the function",{
 
-  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::plot()
+  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% plot()
   
   testthat::expect_error(visR::add_risktable(visR_plot), NA)
 
@@ -47,7 +47,7 @@ context("add_risktable.survfit - T2. The risktables are `ggplot` representations
 testthat::test_that("T2.1 The calculated values in the risktable are not affected by the transformation to a `ggplot`",{
 
   visR_risk <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::get_risktable()
-  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::plot() %>% visR::add_risktable()
+  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% plot() %>% visR::add_risktable()
   
   plot_risk <- visR_plot$components$Placebo$data
 
@@ -58,7 +58,7 @@ testthat::test_that("T2.1 The calculated values in the risktable are not affecte
 # testthat::test_that("T2.2 The risktables are placed below the visR plot, in alignment with the x-axis of a visR plot without legend",{
 # 
 #   visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>%
-#     visR::plot(legend_position = "none") %>%
+#     plot(legend_position = "none") %>%
 #     visR::add_risktable()
 #  
 #   vdiffr::expect_doppelganger(title = "add_risktable_T2_1", visR_plot) 
@@ -68,7 +68,7 @@ testthat::test_that("T2.1 The calculated values in the risktable are not affecte
 # testthat::test_that("T2.3 The risktables are placed below the visR plot, in alignment with the x-axis of a visR plot with legend",{
 # 
 #   visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>%
-#     visR::plot(legend_position = "right") %>%
+#     plot(legend_position = "right") %>%
 #     visR::add_risktable()
 #  
 #   vdiffr::expect_doppelganger(title = "add_risktable_T2_2", visR_plot) 
@@ -83,7 +83,7 @@ context("add_risktable.survfit - The output object is ggplot with additional cla
 testthat::test_that("T3.1 The output object has an additional attribute `components`",{
 
   visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% 
-    visR::plot() %>%
+    plot() %>%
     visR::add_risktable()
   
   testthat::expect_true("components" %in% names(visR_plot))
@@ -93,10 +93,10 @@ testthat::test_that("T3.1 The output object has an additional attribute `compone
 testthat::test_that("T3.2 The attribute components[['visR_plot']] contains the plot used as input",{
 
   visR_plot_base <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% 
-    visR::plot()
+    plot()
     
   visR_plot <- visR_plot_base %>%
-    visR::add_risktable()
+    add_risktable()
   
   testthat::expect_equal(visR_plot_base, visR_plot$components$visR_plot)
   
@@ -105,7 +105,7 @@ testthat::test_that("T3.2 The attribute components[['visR_plot']] contains the p
 testthat::test_that("T3.3 The attribute components contains the risktables, identified through the risktable titles",{
 
   visR_plot_base <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% 
-    visR::plot()
+    plot()
     
   visR_plot <- visR_plot_base %>%
     visR::add_risktable()
@@ -122,7 +122,7 @@ testthat::test_that("T3.3 The attribute components contains the risktables, iden
 testthat::test_that("T3.4 The output has class `ggsurvfit`",{
 
   visR_plot_base <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% 
-    visR::plot()
+    plot()
     
   visR_plot <- visR_plot_base %>%
     visR::add_risktable()

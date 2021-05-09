@@ -49,7 +49,11 @@ Default is FALSE.}
 Object of class \code{ggplot} with added risk table.
 }
 \description{
-
+S3 method for adding risk tables to visR plots. The function has following workflow:
+The risktables are calculated using \code{\link[visR]{get_risktable}}
+The risktables are placed underneat visR plots using \code{\link[cowplot]}
+Both the initial visR plot as the individual risktables are stored as attribute \code{component}
+in the final object to allow post-modification of the individual plots if desired
 }
 \examples{
 \donttest{
@@ -57,7 +61,7 @@ Object of class \code{ggplot} with added risk table.
 ## Display 2 risk tables, 1 per statlist
 adtte \%>\%
   estimate_KM(strata = "TRTP") \%>\%
-  visR::plot() \%>\%
+  plot() \%>\%
   add_risktable( min_at_risk = 3
                 ,label = c("Subjects at Risk", "Censored")
                 ,statlist = c("n.risk", "n.censor")
@@ -67,7 +71,7 @@ adtte \%>\%
 ## Display 2 risk tables, 1 per stratum
 adtte \%>\%
   estimate_KM(strata = "TRTP") \%>\%
-  visR::plot() \%>\%
+  plot() \%>\%
   add_risktable( min_at_risk = 3
                 ,label = c("Subjects at Risk", "Censored")
                 ,statlist = c("n.risk", "n.censor")
@@ -77,7 +81,7 @@ adtte \%>\%
 ## Display overall risk table
 adtte \%>\%
   estimate_KM(strata = "TRTP") \%>\%
-  visR::plot() \%>\%
+  plot() \%>\%
   add_risktable( min_at_risk = 3
                 ,label = c("Subjects at Risk", "Censored")
                 ,statlist = c("n.risk", "n.censor")

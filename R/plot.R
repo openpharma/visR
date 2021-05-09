@@ -1,31 +1,12 @@
-#' @title Plot a visR object
-#'
-#' @description Method to display a `ggplot` directly from an object through an S3 method. 
-#' S3 method for creating plots directly from objects using `ggplot2`, similar to base plot function.
-#' The default method is base::plot.
+#TODO: need to define new class for survfit i.e. survfit_visr
+#overriding plot.surfit in survival
+#https://www.rdocumentation.org/packages/survival/versions/3.2-11/topics/plot.survfit
+
+
+#' @title Plot a visR survfit object
 #' 
-#' @seealso \code{\link[ggplot2]{ggplot}}
-#' 
-#' @param x object to be passed on to the method
+#' @param x Object of class `survfit_visr`
 #' @param ... other arguments passed on to the method
-#'  
-#' @rdname plot
-#' 
-#' @export
-
-plot <- function(x, ...){
-  UseMethod("plot", x)
-} 
-
-#' @rdname plot
-#' @method plot default
-#' @export
-
-plot.default <- function(x, ...){
-  base::plot(x, ...)
-}
-
-#' @param survfit_object Object of class `survfit`
 #' @param y_label \code{character} Label for the y-axis. When not specified, the default will do a proposal, depending on the `fun` argument.
 #' @param x_label \code{character} Label for the x-asis. When not specified, the algorithm will look for "PARAM" information inside the list structure of the `survfit` object.
 #'   Note that this information is automatically added when using visR::estimate_KM and when the input data has the variable "PARAM". If no "PARAM" information is available
@@ -35,6 +16,7 @@ plot.default <- function(x, ...){
 #' @param y_ticks Ticks for the y-axis. When not specified, the default will do a proposal based on the `fun` argument.
 #' @param legend_position Specifies the legend position in the plot. Character values allowed are "top" "left" "bottom" "right". Numeric coordinates are also allowed.
 #'   Default is "right".
+#' @param fun TODO description
 #' 
 #' 
 #' @examples
@@ -48,44 +30,34 @@ plot.default <- function(x, ...){
 #' survival:::plot.survfit(km_fit)
 #' 
 #' # plot same curves using visR plot function
-#' visR::plot(km_fit)
-#' 
-#' # Note: loading the visR package will override base plot
-#' # Here is an example of the behaviour when we are not explicit to reference base plot. 
-#' # Plotting the object will display a visR plot. 
-#' plot(km_fit)
 #' 
 #' # estimate KM using visR wrapper
 #' survfit_object <- visR::estimate_KM(data = adtte, strata = "TRTP")
 #'
 #' ## Plot survival probability
-#' visR::plot(survfit_object, fun = "surv")
-#' visR::plot(survfit_object, fun = "pct")
+#' plot(survfit_object, fun = "surv")
+#' plot(survfit_object, fun = "pct")
 #' 
 #' ## Plot cumulative hazard
-#' visR::plot(survfit_object, fun = "cloglog")
+#' plot(survfit_object, fun = "cloglog")
 #'  
 #' @return Object of class \code{ggplot}  \code{ggsurvplot}.
-#'  
-#' @rdname plot
-#' @method plot survfit
-#' @export
+#' @exportS3Method graphics::plot
 
-plot.survfit <- function(
-  survfit_object = NULL
- ,y_label = NULL
- ,x_label = NULL
- ,x_units = NULL
- ,x_ticks = NULL
- ,y_ticks = NULL
- ,fun = "surv"
- ,legend_position = "right"
- ){
-  
-
+plot.survfit_visr <-
+  function(x = NULL,
+           ...,
+           y_label = NULL,
+           x_label = NULL,
+           x_units = NULL,
+           x_ticks = NULL,
+           y_ticks = NULL,
+           fun = "surv",
+           legend_position = "right") {
+    
 # Minimal input validation  ----------------------------------------------------
 
-  if (!inherits(survfit_object, "survfit")) stop("survfit object is not of class `survfit`")
+  if (!inherits(x, "survfit_visr")) stop("survfit object is not of class `survfit_visr`")
   if (is.character(legend_position) && ! legend_position %in% c("top", "bottom", "right", "left", "none")){
     stop("Invalid legend position given.")
   } else if (is.numeric(legend_position) && length(legend_position) != 2) {
@@ -119,7 +91,7 @@ plot.survfit <- function(
       cloglog = function(y) log(-log(y)),
       pct = function(y) y * 100,
       logpct = function(y) log(y *100),
-      # survfit object contains an estimate for Cumhaz and SE based on Nelson-Aalen with or without correction for ties
+      # survfit_visr object contains an estimate for Cumhaz and SE based on Nelson-Aalen with or without correction for ties
       # However, no CI is calculated automatically. For plotting, the MLE estimator is used for convenience.
       cumhaz = function(y) -log(y), 
       stop("Unrecognized fun argument")
@@ -130,10 +102,10 @@ plot.survfit <- function(
     stop("Error in plot: fun should be a character or a user-defined function.")
   }
 
-# Extended tidy of survfit class + transformation + remove NA after transfo ----
+# Extended tidy of survfit_visr class + transformation + remove NA after transfo ----
   
   correctme <- NULL
-  tidy_object <- tidyme(survfit_object)
+  tidy_object <- tidyme(x)
   
   if ("surv" %in% colnames(tidy_object)) {
     tidy_object[["est"]] <- .transfun(tidy_object[["surv"]])
@@ -167,11 +139,11 @@ plot.survfit <- function(
 # Obtain X-asis label ----------------------------------------------------------
 
   if (is.null(x_label)){
-    if ("PARAM" %in% names(survfit_object)) x_label = survfit_object[["PARAM"]]
-    if (! "PARAM" %in% names(survfit_object)) x_label = "time"
+    if ("PARAM" %in% names(x)) x_label = x[["PARAM"]]
+    if (! "PARAM" %in% names(x)) x_label = "time"
     if (!is.null(x_units)) x_label = paste0(x_label, " (", x_units, ")")
   }
-  if (is.null(x_ticks)) x_ticks = pretty(survfit_object$time, 10)
+  if (is.null(x_ticks)) x_ticks = pretty(x$time, 10)
 
 # Obtain Y-asis label ----------------------------------------------------------
   

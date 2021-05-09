@@ -1,3 +1,5 @@
+## TODO - inherit survfit class?
+
 #' @title Wrapper for Kaplan Meier Time-to-Event analysis
 #'
 #' @description This function is a wrapper around \code{survival::survfit.formula} to perform a Kaplan-Meier analysis, assuming right-censored data.
@@ -25,7 +27,7 @@
 #' @param ... additional arguments passed on to the ellipsis of the call \code{survival::survfit.formula(data = data, formula = Surv(AVAL, 1-CNSR) ~ strata), ...)} .
 #'    Use \code{?survival::survfit.formula} and \code{?survival::survfitCI} for more information.
 #'
-#' @return survfit object, extended by elements PARAM/PARAMCD, ready for downstream processing in estimation or visualization functions and methods.
+#' @return survfit_visr object, extended by elements PARAM/PARAMCD, ready for downstream processing in estimation or visualization functions and methods.
 #'
 #' @references \url{https://https://github.com/therneau/survival}
 #'
@@ -185,6 +187,8 @@ estimate_KM <- function(
   }
 
 # Return ------------------------------------------------------------------
-
+  
+  ## extend survfit class for visR
+  class(survfit_object) <- append("survfit_visr", class(survfit_object))
   return(survfit_object)
 }

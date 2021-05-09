@@ -21,7 +21,7 @@ Default is NULL.}
 Use \code{?survival::survfit.formula} and \code{?survival::survfitCI} for more information.}
 }
 \value{
-survfit object, extended by elements PARAM/PARAMCD, ready for downstream processing in estimation or visualization functions and methods.
+survfit_visr object, extended by elements PARAM/PARAMCD, ready for downstream processing in estimation or visualization functions and methods.
 }
 \description{
 This function is a wrapper around \code{survival::survfit.formula} to perform a Kaplan-Meier analysis, assuming right-censored data.

@@ -7,7 +7,7 @@
 define_theme(
   strata = NULL,
   fontsizes = NULL,
-  fontfamily = "Palatino",
+  fontfamily = "Helvetica",
   grid = FALSE,
   bg = "transparent"
 )

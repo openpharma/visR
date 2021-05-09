@@ -34,7 +34,8 @@ Suggests:
     glue,
     here,
     stringr,
-    dplyr
+    dplyr,
+    graphics
 RoxygenNote: 7.1.1
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

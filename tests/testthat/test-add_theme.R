@@ -140,7 +140,7 @@ testthat::test_that("T2.1 No error when a `ggplot` plot is provided, but no them
   
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
-    visR::plot()
+    plot()
   
   testthat::expect_error(visR::add_theme(gg), NA)
   
@@ -150,7 +150,7 @@ testthat::test_that("T2.2 No error when a `ggplot` plot and a `visR::define_them
   
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
-    visR::plot()
+    plot()
   
   theme <- visR::define_theme()
   
@@ -163,7 +163,7 @@ testthat::test_that("T2.3 A message when a theme not generated through `visR::de
   
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
-    visR::plot()
+    plot()
   
   theme <- list("fontfamily" = "Palatino")
   
