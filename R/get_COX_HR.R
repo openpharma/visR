@@ -17,8 +17,8 @@ get_COX_HR <- function(x, ...){
 } 
 
 
-#' @param survfit_object An object of class \code{survfit}
-#' @param update_formula Template which specifies how to update the formula of the survfit_object \code{\link[stats]{update.formula}}
+#' @param x An object of class \code{survfit_visr}
+#' @param update_formula Template which specifies how to update the formula of the survfit object \code{\link[stats]{update.formula}}
 #'
 #' @examples 
 #' ## treatment effect
@@ -43,7 +43,7 @@ get_COX_HR <- function(x, ...){
 #' @export
 
 get_COX_HR.survfit <- function(
-  survfit_object,
+  x,
   update_formula = NULL,
   ...
 ){
@@ -51,8 +51,8 @@ get_COX_HR.survfit <- function(
 # Update formula ----------------------------------------------------------
   
   if (!is.null(update_formula)){
-    updated_object <- stats::update(survfit_object,  formula = eval(update_formula), evaluate = TRUE)
-  } else updated_object <- survfit_object
+    updated_object <- stats::update(x,  formula = eval(update_formula), evaluate = TRUE)
+  } else updated_object <- x
   
 # Change Call -------------------------------------------------------------
   
