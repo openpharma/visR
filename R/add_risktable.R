@@ -2,7 +2,7 @@
 #'
 #' @description S3 method for adding risk tables to visR plots. The function has following workflow:
 #'     \itemize{The risktables are calculated using \code{\link[visR]{get_risktable}}
-#'       \item{The risktables are placed underneat visR plots using \code{\link[cowplot]}
+#'       \item{The risktables are placed underneat visR plots using \code{\link[cowplot]}}
 #'       \item{Both the initial visR plot as the individual risktables are stored as attribute `component`
 #'        in the final object to allow post-modification of the individual plots if desired}
 #'     }
