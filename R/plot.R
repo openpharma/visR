@@ -59,7 +59,7 @@ plot.default <- function(x, ...){
 #' survfit_object <- visR::estimate_KM(data = adtte, strata = "TRTP")
 #'
 #' ## Plot survival probability
-#' visR::plot(survfit_object = survfit_object, fun = "surv")
+#' visR::plot(survfit_object, fun = "surv")
 #' visR::plot(survfit_object, fun = "pct")
 #' 
 #' ## Plot cumulative hazard

@@ -51,39 +51,53 @@ add_CNSR <- function(gg, ...){
 
 add_CNSR.ggsurvfit <- function(gg, shape = 3, size = 2, ...){
   
-  # <= also catches NULL
-  if (length(size) <= 1)  {
+  if (!base::is.numeric(size)) {
     
-    if (!is.numeric(size)) {
+    if (base::is.list(size)) {
+      
+      # ggplot technically allows a list of the same length as the elements to
+      # be plotted. However, we don't sanity check this and let ggplot deal with 
+      # it: https://github.com/openpharma/visR/wiki/Don't-do-this
+      
+    } else {
       
       warning("Invalid `size` specified. Setting it to 2.")
       size <- 2
       
     }
     
-  } else { 
-  
-    # We let ggplot deal with this.
-    # https://github.com/openpharma/visR/wiki/Don't-do-this
-    
   }
   
-  # <= also catches NULL
-  if (length(shape) <= 1) {
+  if (!base::is.numeric(shape)) {
     
-    if ((!is.numeric(shape)) && (!is.character(shape))) {
+    if (base::is.list(shape)) {
+      
+      # ggplot technically allows a list of the same length as the elements to
+      # be plotted. However, we don't sanity check this and let ggplot deal with 
+      # it: https://github.com/openpharma/visR/wiki/Don't-do-this
+      
+    } else if (base::is.character(shape)) {
+      
+      if (base::nchar(shape) > 1) {
+        
+        warning("Invalid `shape` specified. If specifiyng a symbol, it must be a single character. Setting it to 3.")
+        shape <- 3
+        
+      }
+      
+    } else if ((base::is.na(shape)) || (base::is.null(shape))) {
       
       warning("Invalid `shape` specified. Setting it to 3.")
       shape <- 3
       
     }
     
-  } else { 
+  } else if ((shape < 0) | (shape > 25)) {
     
-    # We let ggplot deal with this.
-    # https://github.com/openpharma/visR/wiki/Don't-do-this
+    warning("Invalid `shape` specified. Values between [0-25] are supported. Setting it to 3.")
+    shape <- 3
     
-  }
+  } 
   
   gg <- gg +
     ggplot2::geom_point(data = base::subset(gg$data, n.censor >= 1), 

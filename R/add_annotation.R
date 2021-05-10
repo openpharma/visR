@@ -56,7 +56,7 @@
 #' 
 #' ## we calculate p-values for "Equality across strata"
 #' lbl <- visR::get_pvalue(surv_object,
-#'              statlist = c("test", "p"),
+#'              statlist = c("test", "pvalue"),
 #'              type = "All")
 #' 
 #' ## display p-values

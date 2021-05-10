@@ -6,18 +6,22 @@
 
 # Specifications ---------------------------------------------------------------
 
-#' T1.  The output plots after adding confidence intervals don't differ from the reviewed plots 
-#' T1.1 No error when censoring is plotted for one strata with default parameters
-#' T1.2 No error when censoring is plotted for more than one strata with default parameters
-#' T1.3 No error when a valid non-default `shape` is specified 
-#' T1.4 No error when a valid non-default `size` is specified
+#' T1.  The output plots after adding confidence intervals don't differ from the reviewed plots.
+#' T1.1 No error when censoring is plotted for one strata with default parameters.
+#' T1.2 No error when censoring is plotted for more than one strata with default parameters.
+#' T1.3 No error when `shape` is set to an empty string.
+#' T1.4 No error when `shape` is set to a numerical in [0-25].
+#' T1.5 No error when `shape` is set to an atomic string.
+#' T1.6 No error when `size` is set to a numerical.
 #' T2.  Warnings/errors in case of missing data or weird arguments are thrown. 
-#' T2.1 Error when object is not ggsurvfit
-#' T2.2 Warning when a character is provided as `size`
-#' T2.3 Warning when NULL is provided as `size`
-#' T2.4 Warning when NULL is provided as `shape`
-#' T2.5 A ggplot warning when a non-matching vector for `size` is specified
-#' T2.6 A ggplot warning when a non-matching vector for `shape` is specified
+#' T2.1 Error when object is not of class `ggsurvfit`.
+#' T2.2 Warning when a character is provided as `size`.
+#' T2.3 Warning when NULL or NA are provided as `size`.
+#' T2.4 Warning when NULL or NA are provided as `shape`.
+#' T2.5 Warning when a non-atomic string is provided as `shape`.
+#' T2.6 Warning when `shape` is set to a numerical outside of [0-25].
+#' T2.7 A ggplot warning when a non-matching vector for `size` is specified.
+#' T2.8 A ggplot warning when a non-matching vector for `shape` is specified.
 
 # Requirement T1 ---------------------------------------------------------------
 
@@ -27,93 +31,108 @@ testthat::test_that("T1.1 No error when censoring is plotted for one strata with
   
   p <- adtte %>% 
     visR::estimate_KM() %>%
-    visR::plot() %>%
-    visR::add_CNSR()
-  vdiffr::expect_doppelganger("add_CNSR_T1_1", p)
+    visR::plot()
+  
+  testthat::expect_error(p %>% visR::add_CNSR(), NA)
+  
+  testthat::skip_on_cran()
+  p %>%
+    visR::add_CNSR() %>%
+    vdiffr::expect_doppelganger(title = "add_CNSR_T1_1_one_strata")
   
 })
 
 testthat::test_that("T1.2 No error when censoring is plotted for more than one strata with default parameters",{
   
-  p_SEX <- adtte %>% 
-    visR::estimate_KM(strata = "SEX") %>%
-    visR::plot() %>%
-    visR::add_CNSR()
-  vdiffr::expect_doppelganger("add_CNSR_T1_2_SEX", p_SEX)
-  
-  p_TRTP <- adtte %>% 
+  p <- adtte %>% 
     visR::estimate_KM(strata = "TRTP") %>%
-    visR::plot() %>%
-    visR::add_CNSR()
-  vdiffr::expect_doppelganger("add_CNSR_T1_2_TRTP", p_TRTP)
+    visR::plot() 
+  
+  testthat::expect_error(p %>% visR::add_CNSR(), NA)
+  
+  testthat::skip_on_cran()
+  p %>%
+    visR::add_CNSR() %>%
+    vdiffr::expect_doppelganger(title = "add_CNSR_T1_2_TRTP")
   
 })
 
-testthat::test_that("T1.3 No error when a valid non-default `shape` is specified",{
+testthat::test_that("T1.3 No error when `shape` is set to an empty string.",{
   
-  p_shape_empty <- adtte %>% 
+  p <- adtte %>% 
     visR::estimate_KM(strata = "SEX") %>%
-    visR::plot() %>%
-    visR::add_CNSR(shape = "")
-  vdiffr::expect_doppelganger("add_CNSR_T1_3_shape_empty", p_shape_empty)  
+    visR::plot()
   
-  p_shape1 <- adtte %>% 
-    visR::estimate_KM(strata = "SEX") %>%
-    visR::plot() %>%
-    visR::add_CNSR(shape = 1)
-  vdiffr::expect_doppelganger("add_CNSR_T1_3_shape1", p_shape1)
+  testthat::expect_error(p %>% visR::add_CNSR(shape = ""), NA)
   
-  p_shape11 <- adtte %>% 
-    visR::estimate_KM(strata = "SEX") %>%
-    visR::plot() %>%
-    visR::add_CNSR(shape = 11)
-  vdiffr::expect_doppelganger("add_CNSR_T1_3_shape11", p_shape11)
-  
-  p_shape16 <- adtte %>% 
-    visR::estimate_KM(strata = "SEX") %>%
-    visR::plot() %>%
-    visR::add_CNSR(shape = 16)
-  vdiffr::expect_doppelganger("add_CNSR_T1_3_shape16", p_shape16)
-  
-  p_shape_custom <- adtte %>% 
-    visR::estimate_KM(strata = "SEX") %>%
-    visR::plot() %>%
-    visR::add_CNSR(shape = "?")
-  vdiffr::expect_doppelganger("add_CNSR_T1_3_shape_custom", p_shape_custom)
+  testthat::skip_on_cran()
+  p %>% 
+    visR::add_CNSR(shape = "") %>%
+    vdiffr::expect_doppelganger(title = "add_CNSR_T1_3_shape_empty_string")  
   
 })
 
-testthat::test_that("T1.4 No error when a valid non-default `size` is specified",{
+testthat::test_that("T1.4 No error when `shape` is set to a numerical in [0-25].",{
   
-  p_size0 <- adtte %>% 
+  p <- adtte %>% 
     visR::estimate_KM(strata = "SEX") %>%
-    visR::plot() %>%
-    visR::add_CNSR(size = 0)
-  vdiffr::expect_doppelganger("add_CNSR_T1_3_size0", p_size0)
+    visR::plot()
   
-  p_size1 <- adtte %>% 
-    visR::estimate_KM(strata = "SEX") %>%
-    visR::plot() %>%
-    visR::add_CNSR(size = 1)
-  vdiffr::expect_doppelganger("add_CNSR_T1_3_size1", p_size1)
+  testthat::expect_error(p %>% visR::add_CNSR(shape =  0), NA)
+  testthat::expect_error(p %>% visR::add_CNSR(shape =  5), NA)
+  testthat::expect_error(p %>% visR::add_CNSR(shape = 10), NA)
+  testthat::expect_error(p %>% visR::add_CNSR(shape = 15), NA)
+  testthat::expect_error(p %>% visR::add_CNSR(shape = 20), NA)
+  testthat::expect_error(p %>% visR::add_CNSR(shape = 25), NA)
   
-  p_size11 <- adtte %>% 
-    visR::estimate_KM(strata = "SEX") %>%
-    visR::plot() %>%
-    visR::add_CNSR(size = 11)
-  vdiffr::expect_doppelganger("add_CNSR_T1_3_size11", p_size11)
+  testthat::skip_on_cran()
+  p %>% 
+    visR::add_CNSR(shape = 15) %>%
+    vdiffr::expect_doppelganger(title = "add_CNSR_T1_4_shape_valid_numerical")  
   
-  p_size21 <- adtte %>% 
-    visR::estimate_KM(strata = "SEX") %>%
-    visR::plot() %>%
-    visR::add_CNSR(size = 21)
-  vdiffr::expect_doppelganger("add_CNSR_T1_3_size21", p_size21)
+})
+
+testthat::test_that("T1.5 No error when `shape` is set to an atomic string.",{
   
-  p_size10000 <- adtte %>% 
+  p <- adtte %>% 
     visR::estimate_KM(strata = "SEX") %>%
-    visR::plot() %>%
-    visR::add_CNSR(size = 10000)
-  vdiffr::expect_doppelganger("add_CNSR_T1_3_size10000", p_size10000)
+    visR::plot()
+  
+  testthat::expect_error(p %>% visR::add_CNSR(shape = "a"), NA)
+  testthat::expect_error(p %>% visR::add_CNSR(shape = "B"), NA)
+  testthat::expect_error(p %>% visR::add_CNSR(shape = "0"), NA)
+  testthat::expect_error(p %>% visR::add_CNSR(shape = "."), NA)
+  testthat::expect_error(p %>% visR::add_CNSR(shape = "µ"), NA)
+  
+  testthat::skip_on_cran()
+  p %>% 
+    visR::add_CNSR(shape = "µ") %>%
+    vdiffr::expect_doppelganger(title = "add_CNSR_T1_5_shape_atomic_string")  
+  
+})
+
+testthat::test_that("T1.6 No error when `size` is set to a numerical.",{
+  
+  p <- adtte %>% 
+    visR::estimate_KM(strata = "SEX") %>%
+    visR::plot() 
+  
+  testthat::expect_error(p %>% visR::add_CNSR(size = -500), NA)
+  testthat::expect_error(p %>% visR::add_CNSR(size =   -5), NA)
+  testthat::expect_error(p %>% visR::add_CNSR(size =    0), NA)
+  testthat::expect_error(p %>% visR::add_CNSR(size =    5), NA)
+  testthat::expect_error(p %>% visR::add_CNSR(size =  500), NA)
+  
+  testthat::skip_on_cran()
+  p %>% 
+    visR::add_CNSR(size = -5) %>%
+    vdiffr::expect_doppelganger(title = "add_CNSR_T1_7_size_negative_numerical")  
+  p %>% 
+    visR::add_CNSR(size = 0) %>%
+    vdiffr::expect_doppelganger(title = "add_CNSR_T1_7_size_zero")  
+  p %>% 
+    visR::add_CNSR(size = 5) %>%
+    vdiffr::expect_doppelganger(title = "add_CNSR_T1_7_size_positive_numerical")  
   
 })
 
@@ -122,14 +141,14 @@ testthat::test_that("T1.4 No error when a valid non-default `size` is specified"
 
 context("add_CNSR - T2. Warnings/errors in case of missing data or weird arguments are thrown.")
 
-testthat::test_that("T2.1 Error when object is not ggsurvfit",{
+testthat::test_that("T2.1 Error when object is not of class `ggsurvfit`.",{
   
   p <- adtte %>% 
     visR::estimate_KM() %>%
     visR::plot()
   
   p_without_ggsurvfit <- p
-  class(p_without_ggsurvfit) <- class(p)[class(p) != "ggsurvfit"]
+  base::class(p_without_ggsurvfit) <- base::class(p)[base::class(p) != "ggsurvfit"]
   
   testthat::expect_error(p %>% visR::add_CNSR(), NA)
   testthat::expect_error(p_without_ggsurvfit %>% visR::add_CNSR())
@@ -147,7 +166,7 @@ testthat::test_that("T2.2 Warning when a character is provided as `size`",{
   
 })
 
-testthat::test_that("T2.3 Warning when NULL is provided as `size`",{
+testthat::test_that("T2.3 Warning when NULL or NA are provided as `size`.",{
   
   p <- adtte %>% 
     visR::estimate_KM(strata = "SEX") %>%
@@ -155,10 +174,11 @@ testthat::test_that("T2.3 Warning when NULL is provided as `size`",{
   
   expected_warning = "Invalid `size` specified. Setting it to 2."
   testthat::expect_warning(p %>% visR::add_CNSR(size = NULL), expected_warning)
+  testthat::expect_warning(p %>% visR::add_CNSR(size = NA), expected_warning)
   
 })
 
-testthat::test_that("T2.4 Warning when NULL is provided as `shape`",{
+testthat::test_that("T2.4 Warning when NULL or NA are provided as `shape`.",{
   
   p <- adtte %>% 
     visR::estimate_KM(strata = "SEX") %>%
@@ -166,17 +186,40 @@ testthat::test_that("T2.4 Warning when NULL is provided as `shape`",{
   
   expected_warning = "Invalid `shape` specified. Setting it to 3."
   testthat::expect_warning(p %>% visR::add_CNSR(shape = NULL), expected_warning)
+  testthat::expect_warning(p %>% visR::add_CNSR(shape = NA), expected_warning)
   
 })
 
-testthat::test_that("T2.5 A ggplot warning when a non-matching vector for `size` is specified",{
+testthat::test_that("T2.5 Warning when a non-atomic string is provided as `shape`.",{
+  
+  p <- adtte %>% 
+    visR::estimate_KM(strata = "SEX") %>%
+    visR::plot()
+  
+  expected_warning = "Invalid `shape` specified. If specifiyng a symbol, it must be a single character. Setting it to 3."
+  testthat::expect_warning(p %>% visR::add_CNSR(shape = "visR"), expected_warning)
+  
+})
+
+testthat::test_that("T2.6 Warning when `shape` is set to a numerical outside of [0-25].",{
+  
+  p <- adtte %>% 
+    visR::estimate_KM(strata = "SEX") %>%
+    visR::plot()
+  
+  testthat::expect_warning(p %>% visR::add_CNSR(shape =  -1))
+  testthat::expect_warning(p %>% visR::add_CNSR(shape =  26))
+  
+})
+
+testthat::test_that("T2.7 A ggplot warning when a non-matching vector for `size` is specified",{
   
   p <- adtte %>% 
     visR::estimate_KM(strata = "SEX") %>%
     visR::plot()
   
   # Cause warning
-  p %>% visR::add_CNSR(size = c("We", "let", "ggplot", "test", "lists"))
+  p %>% visR::add_CNSR(size = list("We", "let", "ggplot", "test", "lists"))
   
   # Catch warning
   abortive_warning <- visR:::check_traceback_stack_for_ggplot_aesthetics_warning()
@@ -186,14 +229,14 @@ testthat::test_that("T2.5 A ggplot warning when a non-matching vector for `size`
   
 })
 
-testthat::test_that("T2.6 A ggplot warning when a non-matching vector for `shape` is specified",{
+testthat::test_that("T2.8 A ggplot warning when a non-matching vector for `shape` is specified",{
   
   p <- adtte %>% 
     visR::estimate_KM(strata = "SEX") %>%
     visR::plot()
   
   # Cause warning
-  p %>% visR::add_CNSR(shape = c("We", "let", "ggplot", "test", "lists"))
+  p %>% visR::add_CNSR(shape = list("We", "let", "ggplot", "test", "lists"))
   
   # Catch warning
   abortive_warning <- visR:::check_traceback_stack_for_ggplot_aesthetics_warning()

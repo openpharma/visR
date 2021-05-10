@@ -2,7 +2,7 @@
 % Please edit documentation in R/tableone.R
 \name{tableone}
 \alias{tableone}
-\title{Summary Table (Table One)}
+\title{Display a summary Table (i.e. table one)}
 \usage{
 tableone(
   data,
@@ -15,14 +15,14 @@ tableone(
 )
 }
 \arguments{
-\item{data}{The dataframe or tibble to visualise}
+\item{data}{The dataframe or tibble to visualize}
 
-\item{title}{Table title to include in the rendered table}
+\item{title}{Table title to include in the rendered table. Input is a text string.}
 
 \item{datasource}{String specifying the datasource underlying the data set}
 
 \item{strata}{Character vector with column names to use for
-stratification in the summary table. Default: NULL}
+stratification in the summary table. Default: NULL , which indicates no stratification.}
 
 \item{overall}{If TRUE, the summary statistics for the overall dataset are also calculated}
 
@@ -30,9 +30,81 @@ stratification in the summary table. Default: NULL}
 Pre-implemented functions are summarize and summarize_tab1}
 
 \item{...}{Pass options to render_table}
+
+\item{footnote}{Table footnote to include in the rendered table. Input is a text string.}
 }
 \description{
-Create and render a summary table for a dataset
+Wrapper function to produce a summary table (i.e. Table One).
+Create and render a summary table for a dataset.
+A typical example of a summary table are "table one", the first table in an applied medical research manuscript.
 
 Calculate summary statistics and present them in a formatted table
+}
+\examples{
+
+library(dplyr)
+library(visR)
+
+
+# metadata for table
+t1_title <- "My table one title"
+t1_ds <- "My table one data source"
+t1_fn <- "My table one footnote"
+
+
+## table by treatment - without overall and render with DT 
+adtte \%>\%
+   dplyr::filter(SAFFL == "Y") \%>\%
+   dplyr::select(AGE, AGEGR1, SEX, EVNTDESC, TRTA) \%>\%
+   visR::tableone(
+      strata = "TRTA",
+      overall = FALSE,
+      title = t1_title,
+      datasource = t1_ds,
+      footnote = t1_fn,
+      engine = "DT"
+   )
+
+## table by treatment - without overall and render with GT 
+adtte \%>\%
+   dplyr::filter(SAFFL == "Y") \%>\%
+   dplyr::select(AGE, AGEGR1, SEX, EVNTDESC, TRTA) \%>\%
+   visR::tableone(
+      strata = "TRTA",
+      overall = FALSE,
+      title = t1_title,
+      datasource = t1_ds,
+      footnote = t1_fn,
+      engine = "gt"
+   )
+
+## table by treatment - without overall and render with kable
+adtte \%>\%
+   dplyr::filter(SAFFL == "Y") \%>\%
+   dplyr::select(AGE, AGEGR1, SEX, EVNTDESC, TRTA) \%>\%
+   visR::tableone(
+      strata = "TRTA",
+      overall = FALSE,
+      title = t1_title,
+      datasource = t1_ds,
+      footnote = t1_fn,
+      engine = "kable"
+   )
+
+## table by treatment - without overall and render with kable as 
+## a latex table format rather than html 
+adtte \%>\%
+   dplyr::filter(SAFFL == "Y") \%>\%
+   dplyr::select(AGE, AGEGR1, SEX, EVNTDESC, TRTA) \%>\%
+   visR::tableone(
+      strata = "TRTA",
+      overall = FALSE,
+      title = t1_title,
+      datasource = t1_ds,
+      footnote = t1_fn,
+      output_format = "latex",
+      engine = "kable"
+   )
+
+
 }

@@ -5,20 +5,12 @@
 \alias{get_risktable.survfit}
 \title{Obtain risk tables for tables and plots}
 \usage{
-get_risktable(
-  survfit_object,
-  min_at_risk = 0,
-  breaks = NULL,
-  statlist = c("n.risk"),
-  label = "At risk",
-  group = "strata",
-  collapse = FALSE
-)
+get_risktable(x, ...)
 
 \method{get_risktable}{survfit}(
   survfit_object,
   min_at_risk = 0,
-  breaks = NULL,
+  times = NULL,
   statlist = c("n.risk"),
   label = NULL,
   group = "strata",
@@ -26,28 +18,38 @@ get_risktable(
 )
 }
 \arguments{
+\item{x}{object to be passed on to the method}
+
+\item{...}{other arguments passed on to the method}
+
 \item{survfit_object}{an object of class \code{survfit}}
 
-\item{min_at_risk}{\code{numeric} The cutoff for number of subjects to display. Default is 0.}
+\item{min_at_risk}{\code{numeric} The cutoff for number of participants at risk to display. This minimum is applied across strata.
+Default is 0.}
 
-\item{breaks}{Single numeric or numeric vector indicating breaks.}
+\item{times}{Numeric vector indicating the times at which the risk set, censored subjects, events are calculated.}
 
-\item{statlist}{Character vector indicating which summary data to present. Current choices are "n.risk" "n.event" "n.censor".}
+\item{statlist}{Character vector indicating which summary data to present. Current choices are "n.risk" "n.event" "n.censor".
+Default is "n.risk".}
 
 \item{label}{Character vector with labels for the statlist. Default matches "n.risk" with "At risk", "n.event" with "Events" and "n.censor"
 with "Censored".}
 
 \item{group}{String indicating the grouping variable for the risk tables. Current options are:
 \itemize{
-\item{"strata": groups the risk tables per stratum. The \code{label} specifies the lables used within each risk table. This is the default}
+\item{"strata": groups the risk tables per stratum. The \code{label} specifies the label within each risk tabel. The strata levels
+are used for the titles of the risk tables. This is the default}
 \item{"statlist": groups the risk tables per statlist. The \code{label} specifies the title for each risk tabel. The strata levels
 are used for labeling within each risk table.}
-} "strata" to group the risk tables
-per strata, and "statlist" to group the risk tables}
+}
+Default is "strata".}
 
-\item{collapse}{Boolean, indicates whether to present the data overall, rather than per strata.
+\item{collapse}{Boolean, indicates whether to present the data overall.
 Default is FALSE.}
 }
 \description{
-Create a risktable from a survival object to display in tables or plots
+Create a risk table from an object using an S3 method. Currently, no default method is defined.
+}
+\seealso{
+\code{\link[survival]{summary}}
 }
