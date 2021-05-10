@@ -5,11 +5,11 @@
 #' 25-APR-2021
 
 # Specifications ----------------------------------------------------------
-
 #' T1. The function adds annotations to an object of class `ggplot`
 #' T1.1 No error when a `ggplot` object is passed to the function in the presence of a label
 #' T1.2 An error when a non-`ggplot` object is passed to the function in the presence of a label
 #' T1.3 An error when NULL is passed to the function in the presence of a label
+#'
 #' T2. The function accepts a label of class `character`, `data.frame` or customized objects of class `gtable`
 #' T2.1 An error when a `ggplot` object is passed to the function in the absence of a label
 #' T2.2 No error when label is of class `character`
@@ -17,7 +17,9 @@
 #' T2.4 No error when label is of class `gtable`
 #' 
 #' T3. The annotation are representations of the actual label
-#' T3.1 The actual object passed to label is not affected by the transformation to an annotation
+#' T3.1 An object of type `character` passed to label is not affected by the transformation to an annotation
+#' T3.2 A `data.frame` passed to label is not affected by the transformation to an annotation
+#' T3.3 A `gtable` passed to label is not affected by the transformation to an annotation
 #' 
 #' T4. The annotation can be placed on the plot by specifying the coordinates 
 #' T4.1 An error when one of the coordinates is not numeric
@@ -118,7 +120,7 @@ testthat::test_that("T3.1 An object of type `character` passed to label is not a
   
 })
 
-
+### This doe snot work, pushed for Tim
 testthat::test_that("T3.2 A `data.frame` passed to label is not affected by the transformation to an annotation",{
   
   lbl <- adtte[1:5,]
@@ -139,6 +141,7 @@ testthat::test_that("T3.2 A `data.frame` passed to label is not affected by the 
   
 })
 
+### This doe snot work, pushed for Tim
 testthat::test_that("T3.3 A `gtable` passed to label is not affected by the transformation to an annotation",{
   
   visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::plot()
