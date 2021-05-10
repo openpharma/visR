@@ -19,8 +19,9 @@
 #' T2.3 Warning when NULL or NA are provided as `size`.
 #' T2.4 Warning when NULL or NA are provided as `shape`.
 #' T2.5 Warning when a non-atomic string is provided as `shape`.
-#' T2.6 A ggplot warning when a non-matching vector for `size` is specified.
-#' T2.7 A ggplot warning when a non-matching vector for `shape` is specified.
+#' T2.6 Warning when `shape` is set to a numerical outside of [0-25].
+#' T2.7 A ggplot warning when a non-matching vector for `size` is specified.
+#' T2.8 A ggplot warning when a non-matching vector for `shape` is specified.
 
 # Requirement T1 ---------------------------------------------------------------
 
@@ -200,7 +201,18 @@ testthat::test_that("T2.5 Warning when a non-atomic string is provided as `shape
   
 })
 
-testthat::test_that("T2.6 A ggplot warning when a non-matching vector for `size` is specified",{
+testthat::test_that("T2.6 Warning when `shape` is set to a numerical outside of [0-25].",{
+  
+  p <- adtte %>% 
+    visR::estimate_KM(strata = "SEX") %>%
+    visR::plot()
+  
+  testthat::expect_warning(p %>% visR::add_CNSR(shape =  -1))
+  testthat::expect_warning(p %>% visR::add_CNSR(shape =  26))
+  
+})
+
+testthat::test_that("T2.7 A ggplot warning when a non-matching vector for `size` is specified",{
   
   p <- adtte %>% 
     visR::estimate_KM(strata = "SEX") %>%
@@ -217,7 +229,7 @@ testthat::test_that("T2.6 A ggplot warning when a non-matching vector for `size`
   
 })
 
-testthat::test_that("T2.7 A ggplot warning when a non-matching vector for `shape` is specified",{
+testthat::test_that("T2.8 A ggplot warning when a non-matching vector for `shape` is specified",{
   
   p <- adtte %>% 
     visR::estimate_KM(strata = "SEX") %>%
