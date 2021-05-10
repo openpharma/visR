@@ -47,7 +47,10 @@
 
 
 <meta property="og:title" content="Add risk tables to visR plots through an S3 method — add_risktable" />
-<meta property="og:description" content="
+<meta property="og:description" content="S3 method for adding risk tables to visR plots. The function has following workflow:
+The risktables are placed underneat visR plots using 
+Both the initial visR plot as the individual risktables are stored as attribute component
+in the final object to allow post-modification of the individual plots if desired
 
 " />
 <meta property="og:image" content="https://openpharma.github.io/visR/logo.png" />
@@ -142,8 +145,11 @@
     </div>
 
     <div class="ref-description">
-    
-
+    <p>S3 method for adding risk tables to visR plots. The function has following workflow:</p><ul>
+<li><p>The risktables are placed underneat visR plots using <code></code></p></li>
+<li><p>Both the initial visR plot as the individual risktables are stored as attribute <code>component</code>
+in the final object to allow post-modification of the individual plots if desired</p></li>
+</ul>
 
     </div>
 
