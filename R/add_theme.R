@@ -34,7 +34,7 @@ define_theme <- function(strata = NULL,
                          fontfamily = "Helvetica",
                          grid = FALSE,
                          bg = "transparent") {
-  theme <- c()
+  theme <- list()
   
   if (!base::is.null(strata)) {
     
