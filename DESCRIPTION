@@ -47,7 +47,6 @@ Imports:
     ggplot2,
     patchwork,
     tibble,
-    DOT,
     tidyr,
     dplyr,
     ggpubr,
