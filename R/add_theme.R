@@ -14,8 +14,6 @@
 #'
 #' @examples
 #'
-#' library(visR)
-#'
 #' theme <- visR::define_theme(strata = list("SEX" = list("F" = "red",
 #'                                                        "M" = "blue"),
 #'                                           "TRTA" = list("Placebo" = "cyan",

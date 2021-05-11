@@ -1,4 +1,4 @@
-#' @title Specifications plot
+#' @title Specifications add_CNSR
 #' @section Last updated by:
 #' Tim Treis
 #' @section Last update date:
