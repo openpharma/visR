@@ -54,20 +54,25 @@ visr.default <- function(x, ...){
 #' # fit KM 
 #' km_fit <- survfit(Surv(AVAL, 1-CNSR) ~ TRTP, data=adtte)
 #' 
+<<<<<<< HEAD
 #' # plot curves using survival plot function
 #' plot(km_fit)
+=======
+#' # plot curves using the plot method for survfit objects
+#' survival:::plot.survfit(km_fit)
+>>>>>>> 4ae5422f79db00972d2be445900f159b0aec5525
 #' 
-#' # plot same curves using visR plot function
+#' # plot same curves using visR::visr plotting function
 #' visR::visr(km_fit)
 #' 
 #' # estimate KM using visR wrapper
 #' survfit_object <- visR::estimate_KM(data = adtte, strata = "TRTP")
 #'
-#' ## Plot survival probability
+#' # Plot survival probability
 #' visR::visr(survfit_object, fun = "surv")
 #' visR::visr(survfit_object, fun = "pct")
 #' 
-#' ## Plot cumulative hazard
+#' # Plot cumulative hazard
 #' visR::visr(survfit_object, fun = "cloglog")
 #'  
 #' @return Object of class \code{ggplot}  \code{ggsurvplot}.

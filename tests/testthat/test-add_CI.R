@@ -1,4 +1,4 @@
-#' @title test-add_CI
+#' @title Specifications add_CI
 #' @section Last updated by:
 #' Tim Treis
 #' @section Last update date:

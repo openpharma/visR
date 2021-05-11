@@ -21,8 +21,6 @@
 #'
 #' @examples
 #' 
-#' library(visR)
-#' 
 #' ## Estimate survival
 #' surv_object <- visR::estimate_KM(data = adtte, strata = "TRTP")
 #' 
