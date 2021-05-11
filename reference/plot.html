@@ -294,14 +294,7 @@ Default is "right".</p></td>
                               <span class='st'>"RACE=='WHITE'"</span>,
                               <span class='st'>"SEX=='F'"</span><span class='op'>)</span>,
     subject_column_name   <span class='op'>=</span> <span class='st'>"USUBJID"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "TRTP != 'Placebo'"
-#&gt; [1] 168
-#&gt; [1] "(TRTP != 'Placebo') &amp; (AGE &gt;= 75)"
-#&gt; [1] 101
-#&gt; [1] "((TRTP != 'Placebo') &amp; (AGE &gt;= 75)) &amp; (RACE=='WHITE')"
-#&gt; [1] 93
-#&gt; [1] "(((TRTP != 'Placebo') &amp; (AGE &gt;= 75)) &amp; (RACE=='WHITE')) &amp; (SEX=='F')"
-#&gt; [1] 51</div><div class='input'>
+
 <span class='co'># Draw a CONSORT attrition chart without specifying extra text for the complement</span>
 <span class='va'>attrition</span> <span class='op'>%&gt;%</span>
   <span class='fu'>plot</span><span class='op'>(</span><span class='st'>"Criteria"</span>, <span class='st'>"Remaining N"</span><span class='op'>)</span>
