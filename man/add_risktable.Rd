@@ -70,33 +70,33 @@ in the final object to allow post-modification of the individual plots if desire
 
 ## Display 2 risk tables, 1 per statlist
 adtte \%>\%
-  estimate_KM(strata = "TRTP") \%>\%
+  visR::estimate_KM(strata = "TRTP") \%>\%
   visR::visr() \%>\%
-  add_risktable( min_at_risk = 3
-                ,label = c("Subjects at Risk", "Censored")
-                ,statlist = c("n.risk", "n.censor")
-                ,group = "statlist"
-                )
+  visR::add_risktable( min_at_risk = 3
+                      ,label = c("Subjects at Risk", "Censored")
+                      ,statlist = c("n.risk", "n.censor")
+                      ,group = "statlist"
+                     )
                 
 ## Display 2 risk tables, 1 per stratum
 adtte \%>\%
-  estimate_KM(strata = "TRTP") \%>\%
+  visR::estimate_KM(strata = "TRTP") \%>\%
   visR::visr() \%>\%
-  add_risktable( min_at_risk = 3
-                ,label = c("Subjects at Risk", "Censored")
-                ,statlist = c("n.risk", "n.censor")
-                ,group = "strata"
-                )
+  visR::add_risktable( min_at_risk = 3
+                      ,label = c("Subjects at Risk", "Censored")
+                      ,statlist = c("n.risk", "n.censor")
+                      ,group = "strata"
+                     )
 
 ## Display overall risk table
 adtte \%>\%
-  estimate_KM(strata = "TRTP") \%>\%
+  visR::estimate_KM(strata = "TRTP") \%>\%
   visR::visr() \%>\%
-  add_risktable( min_at_risk = 3
-                ,label = c("Subjects at Risk", "Censored")
-                ,statlist = c("n.risk", "n.censor")
-                ,collapse = TRUE
-                )
+  visR::add_risktable( min_at_risk = 3
+                      ,label = c("Subjects at Risk", "Censored")
+                      ,statlist = c("n.risk", "n.censor")
+                      ,collapse = TRUE
+                     )
 
 }
 \seealso{

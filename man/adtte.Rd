@@ -49,9 +49,6 @@ ADTTE data copied from the 2013 CDISC Pilot
  data("adtte")
 }
 }
-\seealso{
-\code{\link{}}
-}
 \keyword{CDISC}
 \keyword{adtte}
 \keyword{datasets}

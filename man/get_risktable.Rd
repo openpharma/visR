@@ -54,5 +54,5 @@ Default is FALSE.}
 Create a risk table from an object using an S3 method. Currently, no default method is defined.
 }
 \seealso{
-\code{\link[survival]{Surv}}
+\code{\link[survival]{survfit}}
 }

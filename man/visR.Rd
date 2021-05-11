@@ -99,17 +99,19 @@ km_fit <- survfit(Surv(AVAL, 1-CNSR) ~ TRTP, data=adtte)
 # plot curves using survival plot function
 plot(km_fit)
 
-# plot same curves using visR plot function
+# plot same curves using visR::visr plotting function
 visR::visr(km_fit)
 
 # estimate KM using visR wrapper
 survfit_object <- visR::estimate_KM(data = adtte, strata = "TRTP")
 
-## Plot survival probability
+# Plot survival probability
 visR::visr(survfit_object, fun = "surv")
+
+# Plot survival percentage
 visR::visr(survfit_object, fun = "pct")
 
-## Plot cumulative hazard
+# Plot cumulative hazard
 visR::visr(survfit_object, fun = "cloglog")
  
 attrition <- visR::get_attrition(adtte,
