@@ -34,7 +34,8 @@ get_COX_HR <- function(x, ...){
 #'
 #' ## update formula of KM estimates by treatment to include "AGE" for
 #' ## HR estimation with ties considered via the efron method
-#' visR::get_COX_HR(survfit_object_trt, update_formula = ". ~ . + survival::strata(AGE)", ties = "efron")
+#' visR::get_COX_HR(survfit_object_trt, 
+#'   update_formula = ". ~ . + survival::strata(AGE)", ties = "efron")
 #'
 #' @return A tidied object of class \code{coxph} containing Hazard Ratios
 #'

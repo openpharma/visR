@@ -31,8 +31,6 @@ This function collects several lists if they are present. If absent, reasonable 
 }
 \examples{
 
-library(visR)
-
 theme <- visR::define_theme(strata = list("SEX" = list("F" = "red",
                                                        "M" = "blue"),
                                           "TRTA" = list("Placebo" = "cyan",

@@ -19,7 +19,7 @@
 #' survfit_object <- survival::survfit(data = adtte, survival::Surv(AVAL, 1-CNSR) ~ TRTP)
 #' 
 #' ## plot without confidence intervals
-#' p <- visR::plot(survfit_object) 
+#' p <- visR::visr(survfit_object) 
 #' p
 #'
 #' # add censoring to plot

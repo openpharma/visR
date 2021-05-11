@@ -74,7 +74,7 @@ lung_cohort %>%
 ```{r}
 lung_cohort %>%
   estimate_KM(strata = "SEX", conf.int = 0.90) %>%
-  visR::plot(legend_position = "right", x_unit = "Days") %>%
+  visR::visr(legend_position = "right", x_unit = "Days") %>%
   add_CI(alpha = 0.2, style = "ribbon") %>%
   add_CNSR(shape = 3, size = 2) %>%
   add_risktable(min_at_risk = 0,

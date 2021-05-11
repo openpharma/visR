@@ -8,6 +8,7 @@ tableone(
   data,
   title,
   datasource,
+  footnote,
   strata = NULL,
   overall = T,
   summary_function = summarize_tab1,
@@ -21,6 +22,8 @@ tableone(
 
 \item{datasource}{String specifying the datasource underlying the data set}
 
+\item{footnote}{Table footnote to include in the rendered table. Input is a text string.}
+
 \item{strata}{Character vector with column names to use for
 stratification in the summary table. Default: NULL , which indicates no stratification.}
 
@@ -30,8 +33,6 @@ stratification in the summary table. Default: NULL , which indicates no stratifi
 Pre-implemented functions are summarize and summarize_tab1}
 
 \item{...}{Pass options to render_table}
-
-\item{footnote}{Table footnote to include in the rendered table. Input is a text string.}
 }
 \description{
 Wrapper function to produce a summary table (i.e. Table One).

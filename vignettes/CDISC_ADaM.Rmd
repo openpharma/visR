@@ -72,9 +72,9 @@ render(survfit_object  %>% get_pvalue(), title = "P-values", datasource = DATASE
 
 ```
 
-A survival object can be plotted using the visR function `plot`. Additional information like confidence intervals and a risktable can be added to the plot.
+A survival object can be plotted using the visR function `visr`. Additional information like confidence intervals and a risktable can be added to the plot.
 
 ```{r km_plot_1}
 # Create and display a Kaplan-Meier from the survival object and add a risktable
-plot(survfit_object) %>% add_CI() %>% add_risktable()
+visr(survfit_object) %>% add_CI() %>% add_risktable()
 ```

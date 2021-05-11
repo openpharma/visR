@@ -20,7 +20,7 @@
 #' survfit_object <- survival::survfit(data = adtte, survival::Surv(AVAL, 1-CNSR) ~ TRTP)
 #' 
 #' ## plot without confidence intervals (CI)
-#' p <- visR::plot(survfit_object) 
+#' p <- visR::visr(survfit_object) 
 #' p
 #' 
 #' # add CI to plot with default settings

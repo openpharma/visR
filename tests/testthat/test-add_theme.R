@@ -162,7 +162,7 @@ testthat::test_that("T2.1 No error when a `ggplot` plot is provided, but no them
   
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
-    visR::plot()
+    visR::visr()
   
   testthat::expect_error(visR::add_theme(gg), NA)
   
@@ -172,7 +172,7 @@ testthat::test_that("T2.2 No error when a `ggplot` plot and a minimal `visR::def
   
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
-    visR::plot()
+    visR::visr()
   
   theme <- visR::define_theme()
   
@@ -185,7 +185,7 @@ testthat::test_that("T2.3 No error when a `ggplot` plot and a complex `visR::def
   
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
-    visR::plot()
+    visR::visr()
   
   theme <- visR::define_theme(strata = list("SEX" = list("F" = "red",
                                                          "M" = "blue"),
@@ -207,7 +207,7 @@ testthat::test_that("T2.4 A message when a theme not generated through `visR::de
   
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
-    visR::plot()
+    visR::visr()
   
   theme <- list("fontfamily" = "Palatino")
   

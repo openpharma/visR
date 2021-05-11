@@ -14,8 +14,6 @@
 #'
 #' @examples
 #'
-#' library(visR)
-#'
 #' theme <- visR::define_theme(strata = list("SEX" = list("F" = "red",
 #'                                                        "M" = "blue"),
 #'                                           "TRTA" = list("Placebo" = "cyan",
@@ -149,7 +147,7 @@ define_theme <- function(strata = NULL,
 #'
 #' gg <- adtte %>%
 #'   visR::estimate_KM(strata = "SEX") %>%
-#'   visR::plot() %>%
+#'   visR::visr() %>%
 #'   visR::add_CI() %>%
 #'   add_theme(theme)
 #' gg

@@ -66,7 +66,7 @@ library(visR)
 
 adtte %>%
   estimate_KM(strata = "TRTP", conf.int = 0.90) %>%
-  visR::plot(legend_position = "right", x_unit = "Days") %>%
+  visR::visr(legend_position = "right", x_unit = "Days") %>%
   add_CI(style = "ribbon") %>%
   add_CNSR(shape = 3, size = 1) %>%
   add_risktable(
