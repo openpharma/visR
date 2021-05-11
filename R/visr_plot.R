@@ -54,13 +54,8 @@ visr.default <- function(x, ...){
 #' # fit KM 
 #' km_fit <- survfit(Surv(AVAL, 1-CNSR) ~ TRTP, data=adtte)
 #' 
-<<<<<<< HEAD
 #' # plot curves using survival plot function
 #' plot(km_fit)
-=======
-#' # plot curves using the plot method for survfit objects
-#' survival:::plot.survfit(km_fit)
->>>>>>> 4ae5422f79db00972d2be445900f159b0aec5525
 #' 
 #' # plot same curves using visR::visr plotting function
 #' visR::visr(km_fit)
@@ -70,6 +65,8 @@ visr.default <- function(x, ...){
 #'
 #' # Plot survival probability
 #' visR::visr(survfit_object, fun = "surv")
+#' 
+#' # Plot survival percentage
 #' visR::visr(survfit_object, fun = "pct")
 #' 
 #' # Plot cumulative hazard
