@@ -57,9 +57,10 @@
 #' head(survival::veteran)
 #' 
 #' # convert time and censoring data to ADaM variables 
+#' # convert censoring status to CDISC principles
 #' veteran_adam <- survival::veteran %>%
 #'  dplyr::mutate(AVAL = time, 
-#'                CNSR = dplyr::if_else(status == 1, 0, 1) #convert censoring status to CDISC principles
+#'                CNSR = dplyr::if_else(status == 1, 0, 1) 
 #'  )
 #' 
 #' visR::estimate_KM(data = veteran_adam, strata = "trt")

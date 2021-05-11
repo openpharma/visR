@@ -2,7 +2,7 @@
 #'
 #' @description Create a risk table from an object using an S3 method. Currently, no default method is defined.
 #' 
-#' @seealso \code{\link[survival]{survfit}}
+#' @seealso \code{\link[survival]{summary.survfit}}
 #' 
 #' @param x object to be passed on to the method
 #' @param ... other arguments passed on to the method
