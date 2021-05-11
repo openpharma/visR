@@ -52,7 +52,17 @@ Note that this information is automatically added when using visR::estimate_KM a
 
 \item{y_ticks}{Ticks for the y-axis. When not specified, the default will do a proposal based on the \code{fun} argument.}
 
-\item{fun}{Change the scale of the estimate. Survival probability "surv", percentage "pct" or cumulative hazard "cloglog". The default is "surv".}
+\item{fun}{Change the scale of the estimate.
+\itemize{
+The current options are:
+\item{\code{surv} is the survival probability. This is the default.}
+\item{\code{log} is log of the survival probability}
+\item{\code{event} is the failure probability}
+\item{\code{cloglog} is log(-log(Survival probability))}
+\item{\code{pct} is survival as a percentage}
+\item{\code{logpct} is log survival as a percentage}
+\item{\code{cumhaz} is the cumulative hazard}
+}}
 
 \item{legend_position}{Specifies the legend position in the plot. Character values allowed are "top" "left" "bottom" "right". Numeric coordinates are also allowed.
 Default is "right".}
@@ -82,13 +92,12 @@ S3 method for creating plots directly from objects using \code{ggplot2}, similar
 }
 \examples{
 library(survival)
-library(visR)
 
 # fit KM 
-km_fit <- survival::survfit(Surv(AVAL, 1-CNSR) ~ TRTP, data=adtte)
+km_fit <- survfit(Surv(AVAL, 1-CNSR) ~ TRTP, data=adtte)
 
-# plot curves using base visr function
-survival:::plot.survfit(km_fit)
+# plot curves using survival plot function
+plot(km_fit)
 
 # plot same curves using visR plot function
 visR::visr(km_fit)

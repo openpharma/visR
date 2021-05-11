@@ -32,20 +32,30 @@ visr.default <- function(x, ...){
 #' @param x_units Unit to be added to the x_label (x_label (x_unit)). Default is NULL.
 #' @param x_ticks Ticks for the x-axis. When not specified, the default will do a proposal.
 #' @param y_ticks Ticks for the y-axis. When not specified, the default will do a proposal based on the `fun` argument.
-#' @param fun Change the scale of the estimate. Survival probability "surv", percentage "pct" or cumulative hazard "cloglog". The default is "surv". 
+#' @param fun Change the scale of the estimate. 
+#'   \itemize{
+#'   The current options are:
+#'   \item{`surv` is the survival probability. This is the default.}
+#'   \item{`log` is log of the survival probability}
+#'   \item{`event` is the failure probability}
+#'   \item{`cloglog` is log(-log(Survival probability))}
+#'   \item{`pct` is survival as a percentage}
+#'   \item{`logpct` is log survival as a percentage}
+#'   \item{`cumhaz` is the cumulative hazard}
+
+#'   } 
 #' @param legend_position Specifies the legend position in the plot. Character values allowed are "top" "left" "bottom" "right". Numeric coordinates are also allowed.
 #'   Default is "right".
 #' @param ... other arguments passed on to the method
 #'
 #' @examples
 #' library(survival)
-#' library(visR)
 #' 
 #' # fit KM 
-#' km_fit <- survival::survfit(Surv(AVAL, 1-CNSR) ~ TRTP, data=adtte)
+#' km_fit <- survfit(Surv(AVAL, 1-CNSR) ~ TRTP, data=adtte)
 #' 
-#' # plot curves using base visr function
-#' survival:::plot.survfit(km_fit)
+#' # plot curves using survival plot function
+#' plot(km_fit)
 #' 
 #' # plot same curves using visR plot function
 #' visR::visr(km_fit)
@@ -97,8 +107,8 @@ visr.survfit <- function(
       log = "log(Survival probability)",
       event = "Failure probability",
       cloglog = "log(-log(Survival probability))",
-      pct = "Survival probability (%)",
-      logpct = "log(Survival probability (%))",
+      pct = "Survival percentage (%)",
+      logpct = "log(Survival percentage (%))",
       cumhaz = "cumulative hazard",
       stop("Unrecognized fun argument")
     )
