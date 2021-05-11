@@ -1,4 +1,4 @@
-#' @title Tests the theming functions
+#' @title Specifications add_theme
 #' @section Last updated by:
 #' Tim Treis
 #' @section Last update date:
