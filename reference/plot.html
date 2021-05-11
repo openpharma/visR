@@ -162,6 +162,18 @@ The default method is base::plot.</p>
   y_ticks <span class='op'>=</span> <span class='cn'>NULL</span>,
   fun <span class='op'>=</span> <span class='st'>"surv"</span>,
   legend_position <span class='op'>=</span> <span class='st'>"right"</span>
+<span class='op'>)</span>
+
+<span class='co'># S3 method for attrition</span>
+<span class='fu'>plot</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  description_column_name <span class='op'>=</span> <span class='st'>"Criteria"</span>,
+  value_column_name <span class='op'>=</span> <span class='st'>"Remaining N"</span>,
+  complement_column_name <span class='op'>=</span> <span class='st'>""</span>,
+  box_width <span class='op'>=</span> <span class='fl'>50</span>,
+  font_size <span class='op'>=</span> <span class='fl'>12</span>,
+  fill <span class='op'>=</span> <span class='st'>"white"</span>,
+  border <span class='op'>=</span> <span class='st'>"black"</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -169,7 +181,7 @@ The default method is base::plot.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>object to be passed on to the method</p></td>
+      <td><p>Object of class <code>attritiontable</code> with each row corresponding to an inclusion step in the cohort and minimally a description and a count column</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -206,11 +218,40 @@ Note that this information is automatically added when using visR::estimate_KM a
       <td><p>Specifies the legend position in the plot. Character values allowed are "top" "left" "bottom" "right". Numeric coordinates are also allowed.
 Default is "right".</p></td>
     </tr>
+    <tr>
+      <th>description_column_name</th>
+      <td><p><code>character</code> Name of the column containing the inclusion descriptions</p></td>
+    </tr>
+    <tr>
+      <th>value_column_name</th>
+      <td><p><code>character</code> Name of the column containing the remaining sample counts</p></td>
+    </tr>
+    <tr>
+      <th>complement_column_name</th>
+      <td><p><code>character</code> Optional: Name of the column containing the exclusion descriptions</p></td>
+    </tr>
+    <tr>
+      <th>box_width</th>
+      <td><p><code>character</code> The box width for each box in the flow chart</p></td>
+    </tr>
+    <tr>
+      <th>font_size</th>
+      <td><p><code>character</code> The fontsize in pt</p></td>
+    </tr>
+    <tr>
+      <th>fill</th>
+      <td><p>The color (string or hexcode) to use to fill the boxes in the flowchart</p></td>
+    </tr>
+    <tr>
+      <th>border</th>
+      <td><p>The color (string or hexcode) to use for the borders of the boxes in the flowchart</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Object of class <code>ggplot</code>  <code>ggsurvplot</code>.</p>
+<p>Object of class <code>ggplot</code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></code></p></div>
@@ -243,6 +284,45 @@ Default is "right".</p></td>
 <span class='co'>## Plot cumulative hazard</span>
 <span class='fu'>visR</span><span class='fu'>::</span><span class='fu'>plot</span><span class='op'>(</span><span class='va'>survfit_object</span>, fun <span class='op'>=</span> <span class='st'>"cloglog"</span><span class='op'>)</span>
 </div><div class='img'><img src='plot-6.png' alt='' width='700' height='433' /></div><div class='input'> 
+<span class='va'>attrition</span> <span class='op'>&lt;-</span> <span class='fu'>visR</span><span class='fu'>::</span><span class='fu'><a href='get_attrition.html'>get_attrition</a></span><span class='op'>(</span><span class='va'>adtte</span>,
+    criteria_descriptions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"1. Not in Placebo Group"</span>,
+                              <span class='st'>"2. Be 75 years of age or older."</span>,
+                              <span class='st'>"3. White"</span>,
+                              <span class='st'>"4. Female"</span><span class='op'>)</span>,
+    criteria_conditions   <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"TRTP != 'Placebo'"</span>,
+                              <span class='st'>"AGE &gt;= 75"</span>,
+                              <span class='st'>"RACE=='WHITE'"</span>,
+                              <span class='st'>"SEX=='F'"</span><span class='op'>)</span>,
+    subject_column_name   <span class='op'>=</span> <span class='st'>"USUBJID"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "TRTP != 'Placebo'"
+#&gt; [1] 168
+#&gt; [1] "(TRTP != 'Placebo') &amp; (AGE &gt;= 75)"
+#&gt; [1] 101
+#&gt; [1] "((TRTP != 'Placebo') &amp; (AGE &gt;= 75)) &amp; (RACE=='WHITE')"
+#&gt; [1] 93
+#&gt; [1] "(((TRTP != 'Placebo') &amp; (AGE &gt;= 75)) &amp; (RACE=='WHITE')) &amp; (SEX=='F')"
+#&gt; [1] 51</div><div class='input'>
+<span class='co'># Draw a CONSORT attrition chart without specifying extra text for the complement</span>
+<span class='va'>attrition</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>plot</span><span class='op'>(</span><span class='st'>"Criteria"</span>, <span class='st'>"Remaining N"</span><span class='op'>)</span>
+</div><div class='img'><img src='plot-7.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># Adding more detailed complement descriptions to the "exclusion" part of the CONSORT diagram</span>
+<span class='co'># Step 1. Add new column to attrition dataframe</span>
+<span class='va'>attrition</span><span class='op'>$</span><span class='va'>Complement</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"NA"</span>, <span class='st'>"Placebo Group"</span>, <span class='st'>"Younger than 75 years"</span>, <span class='st'>"Non-White"</span>, <span class='st'>"Male"</span><span class='op'>)</span>
+
+<span class='co'># Step 2. Define the name of the column in the call to the plotting function</span>
+<span class='va'>attrition</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>plot</span><span class='op'>(</span><span class='st'>"Criteria"</span>, <span class='st'>"Remaining N"</span>, <span class='st'>"Complement"</span><span class='op'>)</span>
+</div><div class='img'><img src='plot-8.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># Styling the CONSORT flowchart</span>
+<span class='co'># Change the fill and outline of the boxes in the flowchart</span>
+<span class='va'>attrition</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>plot</span><span class='op'>(</span><span class='st'>"Criteria"</span>, <span class='st'>"Remaining N"</span>, <span class='st'>"Complement"</span>, fill <span class='op'>=</span> <span class='st'>"lightblue"</span>, border<span class='op'>=</span><span class='st'>"grey"</span><span class='op'>)</span>
+</div><div class='img'><img src='plot-9.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># Adjust the font size in the boxes</span>
+<span class='va'>attrition</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>plot</span><span class='op'>(</span><span class='st'>"Criteria"</span>, <span class='st'>"Remaining N"</span>, font_size <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
+</div><div class='img'><img src='plot-10.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

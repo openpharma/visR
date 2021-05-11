@@ -25,6 +25,9 @@
     <loc>https://openpharma.github.io/visR//reference/adtte.html</loc>
   </url>
   <url>
+    <loc>https://openpharma.github.io/visR//reference/apply_attrition.html</loc>
+  </url>
+  <url>
     <loc>https://openpharma.github.io/visR//reference/brca_cohort.html</loc>
   </url>
   <url>
@@ -34,10 +37,22 @@
     <loc>https://openpharma.github.io/visR//reference/define_theme.html</loc>
   </url>
   <url>
+    <loc>https://openpharma.github.io/visR//reference/dot-get_coordinates.html</loc>
+  </url>
+  <url>
+    <loc>https://openpharma.github.io/visR//reference/dot-get_labels.html</loc>
+  </url>
+  <url>
+    <loc>https://openpharma.github.io/visR//reference/dot-get_labelsizes.html</loc>
+  </url>
+  <url>
     <loc>https://openpharma.github.io/visR//reference/estimate_KM.html</loc>
   </url>
   <url>
     <loc>https://openpharma.github.io/visR//reference/get_COX_HR.html</loc>
+  </url>
+  <url>
+    <loc>https://openpharma.github.io/visR//reference/get_attrition.html</loc>
   </url>
   <url>
     <loc>https://openpharma.github.io/visR//reference/get_pvalue.html</loc>
@@ -119,12 +134,6 @@
   </url>
   <url>
     <loc>https://openpharma.github.io/visR//reference/visR.html</loc>
-  </url>
-  <url>
-    <loc>https://openpharma.github.io/visR//reference/vr_attrition.html</loc>
-  </url>
-  <url>
-    <loc>https://openpharma.github.io/visR//reference/vr_attrition_table.html</loc>
   </url>
   <url>
     <loc>https://openpharma.github.io/visR//articles/CDISC_ADaM.html</loc>
