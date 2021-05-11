@@ -73,11 +73,11 @@ get_attrition <- function(
                                     paste(paste0("(",final_cond, ")"),
                                           paste0(paste0("(", each_cond), ")"),
                                           sep=" & "))
-      print(final_cond)
+      # print(final_cond)
       person_count_temp   <- data %>%
          dplyr::filter(eval(parse(text=final_cond))) %>%
          dplyr::select(!!subject_column_name) %>% dplyr::n_distinct()
-      print(person_count_temp)
+      # print(person_count_temp)
 
       person_count_master <- c(person_count_master, person_count_temp)
 
