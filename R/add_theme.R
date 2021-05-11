@@ -149,7 +149,7 @@ define_theme <- function(strata = NULL,
 #'
 #' gg <- adtte %>%
 #'   visR::estimate_KM(strata = "SEX") %>%
-#'   visR::plot() %>%
+#'   visR::visr() %>%
 #'   visR::add_CI() %>%
 #'   add_theme(theme)
 #' gg

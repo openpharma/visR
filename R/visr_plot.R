@@ -2,30 +2,29 @@
 #'
 #' @description Method to display a `ggplot` directly from an object through an S3 method. 
 #' S3 method for creating plots directly from objects using `ggplot2`, similar to base plot function.
-#' The default method is base::plot.
 #' 
 #' @seealso \code{\link[ggplot2]{ggplot}}
 #'
 #' @param x object to be passed on to the method
 #' @param ... other arguments passed on to the method
 #'
-#' @rdname plot
+#' @rdname visr
 #'
 #' @export
 
-plot <- function(x, ...){
-  UseMethod("plot", x)
+visr <- function(x, ...){
+  UseMethod("visr", x)
 } 
 
-#' @rdname plot
-#' @method plot default
+#' @rdname visr
+#' @method visr default
 #' @export
 
-plot.default <- function(x, ...){
-  base::plot(x, ...)
+visr.default <- function(x, ...){
+  stop(paste0("Objects of type ", class(x), "/"), " not supported by visr.")
 }
 
-#' @param survfit_object Object of class `survfit`
+#' @param x Object of class `survfit`
 #' @param y_label \code{character} Label for the y-axis. When not specified, the default will do a proposal, depending on the `fun` argument.
 #' @param x_label \code{character} Label for the x-asis. When not specified, the algorithm will look for "PARAM" information inside the list structure of the `survfit` object.
 #'   Note that this information is automatically added when using visR::estimate_KM and when the input data has the variable "PARAM". If no "PARAM" information is available
@@ -33,9 +32,10 @@ plot.default <- function(x, ...){
 #' @param x_units Unit to be added to the x_label (x_label (x_unit)). Default is NULL.
 #' @param x_ticks Ticks for the x-axis. When not specified, the default will do a proposal.
 #' @param y_ticks Ticks for the y-axis. When not specified, the default will do a proposal based on the `fun` argument.
+#' @param fun Change the scale of the estimate. Survival probability "surv", percentage "pct" or cumulative hazard "cloglog". The default is "surv". 
 #' @param legend_position Specifies the legend position in the plot. Character values allowed are "top" "left" "bottom" "right". Numeric coordinates are also allowed.
 #'   Default is "right".
-#'
+#' @param ... other arguments passed on to the method
 #'
 #' @examples
 #' library(survival)
@@ -44,35 +44,30 @@ plot.default <- function(x, ...){
 #' # fit KM 
 #' km_fit <- survival::survfit(Surv(AVAL, 1-CNSR) ~ TRTP, data=adtte)
 #' 
-#' # plot curves using base plot function
+#' # plot curves using base visr function
 #' survival:::plot.survfit(km_fit)
 #' 
 #' # plot same curves using visR plot function
-#' visR::plot(km_fit)
-#' 
-#' # Note: loading the visR package will override base plot
-#' # Here is an example of the behaviour when we are not explicit to reference base plot. 
-#' # Plotting the object will display a visR plot. 
-#' plot(km_fit)
+#' visR::visr(km_fit)
 #' 
 #' # estimate KM using visR wrapper
 #' survfit_object <- visR::estimate_KM(data = adtte, strata = "TRTP")
 #'
 #' ## Plot survival probability
-#' visR::plot(survfit_object, fun = "surv")
-#' visR::plot(survfit_object, fun = "pct")
+#' visR::visr(survfit_object, fun = "surv")
+#' visR::visr(survfit_object, fun = "pct")
 #' 
 #' ## Plot cumulative hazard
-#' visR::plot(survfit_object, fun = "cloglog")
+#' visR::visr(survfit_object, fun = "cloglog")
 #'  
 #' @return Object of class \code{ggplot}  \code{ggsurvplot}.
 #'
-#' @rdname plot
-#' @method plot survfit
+#' @rdname visr
+#' @method visr survfit
 #' @export
 
-plot.survfit <- function(
-  survfit_object = NULL
+visr.survfit <- function(
+  x = NULL
  ,y_label = NULL
  ,x_label = NULL
  ,x_units = NULL
@@ -80,12 +75,13 @@ plot.survfit <- function(
  ,y_ticks = NULL
  ,fun = "surv"
  ,legend_position = "right"
+ ,...
  ){
 
 
 # Minimal input validation  ----------------------------------------------------
 
-  if (!inherits(survfit_object, "survfit")) stop("survfit object is not of class `survfit`")
+  if (!inherits(x, "survfit")) stop("survfit object is not of class `survfit`")
   if (is.character(legend_position) && ! legend_position %in% c("top", "bottom", "right", "left", "none")){
     stop("Invalid legend position given.")
   } else if (is.numeric(legend_position) && length(legend_position) != 2) {
@@ -107,7 +103,7 @@ plot.survfit <- function(
       stop("Unrecognized fun argument")
     )
   } else if (is.null(y_label) & is.function(fun)) {
-    stop("Error in plot: No Y label defined. No default label is available when `fun` is a function.")
+    stop("Error in visr: No Y label defined. No default label is available when `fun` is a function.")
   }
 
   if (is.character(fun)){
@@ -127,13 +123,13 @@ plot.survfit <- function(
   } else if (is.function(fun)) {
     fun
   } else {
-    stop("Error in plot: fun should be a character or a user-defined function.")
+    stop("Error in visr: fun should be a character or a user-defined function.")
   }
 
 # Extended tidy of survfit class + transformation + remove NA after transfo ----
 
   correctme <- NULL
-  tidy_object <- tidyme(survfit_object)
+  tidy_object <- tidyme(x)
 
   if ("surv" %in% colnames(tidy_object)) {
     tidy_object[["est"]] <- .transfun(tidy_object[["surv"]])
@@ -167,11 +163,11 @@ plot.survfit <- function(
 # Obtain X-asis label ----------------------------------------------------------
 
   if (is.null(x_label)){
-    if ("PARAM" %in% names(survfit_object)) x_label = survfit_object[["PARAM"]]
-    if (! "PARAM" %in% names(survfit_object)) x_label = "time"
+    if ("PARAM" %in% names(x)) x_label = x[["PARAM"]]
+    if (! "PARAM" %in% names(x)) x_label = "time"
     if (!is.null(x_units)) x_label = paste0(x_label, " (", x_units, ")")
   }
-  if (is.null(x_ticks)) x_ticks = pretty(survfit_object$time, 10)
+  if (is.null(x_ticks)) x_ticks = pretty(x$time, 10)
 
 # Obtain Y-asis label ----------------------------------------------------------
 
@@ -188,7 +184,7 @@ plot.survfit <- function(
       stop("Unrecognized fun argument")
     )
   } else if (is.null(y_label) & is.function(fun)) {
-    stop("Error in plot: No Y label defined. No default is available when `fun` is a function.")
+    stop("Error in visr: No Y label defined. No default is available when `fun` is a function.")
   }
 
 # Plotit -----------------------------------------------------
@@ -223,6 +219,7 @@ plot.survfit <- function(
 #' @param font_size \code{character} The fontsize in pt
 #' @param fill The color (string or hexcode) to use to fill the boxes in the flowchart
 #' @param border The color (string or hexcode) to use for the borders of the boxes in the flowchart
+#' @param ... other arguments passed on to the method
 #'
 #' @examples
 #' attrition <- visR::get_attrition(adtte,
@@ -238,7 +235,7 @@ plot.survfit <- function(
 #'
 #' # Draw a CONSORT attrition chart without specifying extra text for the complement
 #' attrition %>%
-#'   plot("Criteria", "Remaining N")
+#'   visr("Criteria", "Remaining N")
 
 #'
 #' # Adding more detailed complement descriptions to the "exclusion" part of the CONSORT diagram
@@ -247,31 +244,32 @@ plot.survfit <- function(
 #'
 #' # Step 2. Define the name of the column in the call to the plotting function
 #' attrition %>%
-#'   plot("Criteria", "Remaining N", "Complement")
+#'   visr("Criteria", "Remaining N", "Complement")
 #'
 #' # Styling the CONSORT flowchart
 #' # Change the fill and outline of the boxes in the flowchart
 #' attrition %>%
-#'   plot("Criteria", "Remaining N", "Complement", fill = "lightblue", border="grey")
+#'   visr("Criteria", "Remaining N", "Complement", fill = "lightblue", border="grey")
 #'
 #' # Adjust the font size in the boxes
 #' attrition %>%
-#'   plot("Criteria", "Remaining N", font_size = 10)
+#'   visr("Criteria", "Remaining N", font_size = 10)
 #'
 #' @return Object of class \code{ggplot}.
 #'
-#' @rdname plot
-#' @method plot attrition
+#' @rdname visr
+#' @method visr attrition
 #' @export
 #'
-plot.attrition <- function(x,
+visr.attrition <- function(x,
                            description_column_name = "Criteria",
                            value_column_name = "Remaining N",
                            complement_column_name="",
                            box_width = 50,
                            font_size = 12,
                            fill="white",
-                           border="black"){
+                           border="black",
+                           ...){
 
   if(missing(description_column_name) | description_column_name == ""){
     stop("Please provide a valid column name as string containing the inclusion descriptions")

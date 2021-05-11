@@ -33,11 +33,14 @@ Default is "n.risk".}
 \item{label}{Character vector with labels for the statlist. Default matches "n.risk" with "At risk", "n.event" with "Events" and "n.censor"
 with "Censored".}
 
-\item{group}{String indicating the grouping variable for the risk tables. Current options are:
+\item{group}{String indicating the grouping variable for the risk tables.
+Current options are:
 \itemize{
-\item{"strata": groups the risk tables per stratum. The \code{label} specifies the label within each risk tabel. The strata levels
+\item{"strata": groups the risk tables per stratum.
+The \code{label} specifies the label within each risk table. The strata levels
 are used for the titles of the risk tables. This is the default}
-\item{"statlist": groups the risk tables per statlist. The \code{label} specifies the title for each risk tabel. The strata levels
+\item{"statlist": groups the risk tables per statlist.
+The \code{label} specifies the title for each risk tabel. The strata levels
 are used for labeling within each risk table.}
 }
 Default is "strata".}
@@ -50,19 +53,25 @@ Object of class \code{ggplot} with added risk table.
 }
 \description{
 S3 method for adding risk tables to visR plots. The function has following workflow:
-\itemize{The risktables are calculated using \code{\link[visR]{get_risktable}}
-\item{The risktables are placed underneat visR plots using \code{\link[cowplot]}}
-\item{Both the initial visR plot as the individual risktables are stored as attribute \code{component}
-in the final object to allow post-modification of the individual plots if desired}
+\itemize{
+\item{
+The risktables are calculated using \code{\link[visR]{get_risktable}}
+}
+\item{
+The risktables are placed underneath visR plots using \code{\link[cowplot]{plot_grid}}
+}
+\item{
+Both the initial visR plot as the individual risktables are stored as attribute \code{component}
+in the final object to allow post-modification of the individual plots if desired
+}
 }
 }
 \examples{
-\donttest{
 
 ## Display 2 risk tables, 1 per statlist
 adtte \%>\%
   estimate_KM(strata = "TRTP") \%>\%
-  visR::plot() \%>\%
+  visR::visr() \%>\%
   add_risktable( min_at_risk = 3
                 ,label = c("Subjects at Risk", "Censored")
                 ,statlist = c("n.risk", "n.censor")
@@ -72,7 +81,7 @@ adtte \%>\%
 ## Display 2 risk tables, 1 per stratum
 adtte \%>\%
   estimate_KM(strata = "TRTP") \%>\%
-  visR::plot() \%>\%
+  visR::visr() \%>\%
   add_risktable( min_at_risk = 3
                 ,label = c("Subjects at Risk", "Censored")
                 ,statlist = c("n.risk", "n.censor")
@@ -82,14 +91,12 @@ adtte \%>\%
 ## Display overall risk table
 adtte \%>\%
   estimate_KM(strata = "TRTP") \%>\%
-  visR::plot() \%>\%
+  visR::visr() \%>\%
   add_risktable( min_at_risk = 3
                 ,label = c("Subjects at Risk", "Censored")
                 ,statlist = c("n.risk", "n.censor")
                 ,collapse = TRUE
                 )
-
-}
 
 }
 \seealso{

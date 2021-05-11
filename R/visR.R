@@ -1,19 +1,14 @@
 #' \code{visR} package
 #'
-#' visR
-#'
-#' See the README on
-#' \href{https://github.com/openpharma/visR}{GitHub}
-#'
-#' For "visible binding note solution" see here \href{https://github.com/STAT545-UBC/Discussion/issues/451}
-#'
 #' @docType package
 #' @name visR
-#' @importFrom dplyr %>%
 NULL
 
 
-## quiets concerns of R CMD check re: the .'s that appear in pipelines
+## Quiets concerns of R CMD check re: the .'s that appear in pipelines
+## For "visible binding note solution" see 
+## here \href{https://github.com/STAT545-UBC/Discussion/issues/451}
+## TODO: move to more maintainable solution
 if (getRversion() >= "2.15.1")
   utils::globalVariables(
     c(

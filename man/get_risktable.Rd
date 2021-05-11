@@ -35,11 +35,14 @@ Default is "n.risk".}
 \item{label}{Character vector with labels for the statlist. Default matches "n.risk" with "At risk", "n.event" with "Events" and "n.censor"
 with "Censored".}
 
-\item{group}{String indicating the grouping variable for the risk tables. Current options are:
+\item{group}{String indicating the grouping variable for the risk tables.
+Current options are:
 \itemize{
-\item{"strata": groups the risk tables per stratum. The \code{label} specifies the label within each risk tabel. The strata levels
+\item{"strata": groups the risk tables per stratum.
+The \code{label} specifies the label within each risk table. The strata levels
 are used for the titles of the risk tables. This is the default}
-\item{"statlist": groups the risk tables per statlist. The \code{label} specifies the title for each risk tabel. The strata levels
+\item{"statlist": groups the risk tables per statlist.
+The \code{label} specifies the title for each risk tabel. The strata levels
 are used for labeling within each risk table.}
 }
 Default is "strata".}
@@ -51,5 +54,5 @@ Default is FALSE.}
 Create a risk table from an object using an S3 method. Currently, no default method is defined.
 }
 \seealso{
-\code{\link[survival]{summary}}
+\code{\link[survival]{Surv}}
 }

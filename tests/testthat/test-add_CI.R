@@ -27,7 +27,7 @@ context("add_CI - T1. No errors when confidence intervals are added to the plots
 testthat::test_that("T1.1 No error when the default parameters are used",{
   
   survfit_object <- adtte %>% visR::estimate_KM()
-  p <- visR::plot(survfit_object)
+  p <- visR::visr(survfit_object)
     
   testthat::expect_error(p %>% visR::add_CI(), NA)
   
@@ -42,7 +42,7 @@ testthat::test_that("T1.2 No error when `alpha` is a numerical value between [0,
   
   p <- adtte %>% 
     visR::estimate_KM(strata = "SEX") %>% 
-    visR::plot() 
+    visR::visr() 
   
   testthat::expect_error(p %>% visR::add_CI(alpha=0), NA)
   testthat::expect_error(p %>% visR::add_CI(alpha=0.5), NA)
@@ -65,7 +65,7 @@ testthat::test_that("T1.3 No error when `style` is `ribbon` or `step`.",{
   
   p <- adtte %>% 
     visR::estimate_KM(strata = "SEX") %>% 
-    visR::plot() 
+    visR::visr() 
   
   testthat::expect_error(p %>% visR::add_CI(style="ribbon"), NA)
   testthat::expect_error(p %>% visR::add_CI(style="step"), NA)
@@ -87,7 +87,7 @@ testthat::test_that("T1.3 No error when `linetype` is one of the valid ggplot ch
   
   p <- adtte %>% 
     visR::estimate_KM(strata = "SEX") %>%
-    visR::plot()
+    visR::visr()
   
   for (i in 1:length(linetypes)) {
     
@@ -119,7 +119,7 @@ testthat::test_that("T2.1 No error when only 1 strata is present.",{
   
   p <- adtte %>% 
     visR::estimate_KM() %>%
-    visR::plot()
+    visR::visr()
   
   testthat::expect_error(p %>% visR::add_CI(alpha = 0.5), NA)
 
@@ -137,7 +137,7 @@ testthat::test_that("T2.2 No error when 2 or more strata are present",{
     p <- adtte %>%       
       dplyr::mutate(TRTDUR = visR:::map_numbers_to_new_range(adtte$TRTDUR, 1, n_strata)) %>%       
       visR::estimate_KM(strata = "TRTDUR") %>%      
-      visR::plot()
+      visR::visr()
     
     testthat::expect_error(p %>% visR::add_CI(), NA)
     
@@ -149,7 +149,7 @@ testthat::test_that("T2.2 No error when 2 or more strata are present",{
     p <- adtte %>%       
       dplyr::mutate(TRTDUR = visR:::map_numbers_to_new_range(adtte$TRTDUR, 1, n_strata)) %>%       
       visR::estimate_KM(strata = "TRTDUR") %>%      
-      visR::plot()
+      visR::visr()
     
     p %>%    
       visR::add_CI() %>%
@@ -166,7 +166,7 @@ context("add_CI - T3.  Warnings in case of missing data or weird arguments are t
 testthat::test_that("T3.1 Error when `est.lower` and `est.upper` are not present.",{
   
   survfit_object <- adtte %>% visR::estimate_KM(strata = "SEX")
-  p <- survfit_object %>% visR::plot()
+  p <- survfit_object %>% visR::visr()
   
   are_present_before <- base::all(c("est.lower", "est.upper") %in% colnames(p$data))
   testthat::expect_equal(are_present_before, TRUE)
@@ -182,7 +182,7 @@ testthat::test_that("T3.1 Error when `est.lower` and `est.upper` are not present
 testthat::test_that("T3.2 Warning when no valid style was provided.",{
   
   survfit_object <- adtte %>% visR::estimate_KM(strata = "SEX")
-  p <- survfit_object %>% visR::plot()
+  p <- survfit_object %>% visR::visr()
   
   warning_message <- "Invalid `style` argument. Setting `style` to `ribbon`."
   testthat::expect_warning(p %>% visR::add_CI(style = "visR"), warning_message)
@@ -193,7 +193,7 @@ testthat::test_that("T3.3 Warning when `alpha` is not in [0, 1].",{
   
   p <- adtte %>% 
     visR::estimate_KM(strata = "SEX") %>% 
-    visR::plot()
+    visR::visr()
   
   warning_message <- "Invalid `alpha` argument, must be between 0 and 1. Setting it to 0.1."
   testthat::expect_warning(p %>% visR::add_CI(alpha = 5), warning_message)
@@ -205,7 +205,7 @@ testthat::test_that("T3.4 Warning when `style` is `ribbon` but a `linetype` was 
   
   p <- adtte %>% 
     visR::estimate_KM(strata = "SEX") %>% 
-    visR::plot()
+    visR::visr()
   
   warning_message <- "Argument `linetype` not used for style ribbon."
   testthat::expect_warning(p %>% visR::add_CI(style = "ribbon", 
