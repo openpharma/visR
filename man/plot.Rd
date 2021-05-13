@@ -4,7 +4,8 @@
 \alias{plot}
 \alias{plot.default}
 \alias{plot.survfit}
-\title{Create a \code{ggplot} directly from an object through an S3 method}
+
+\title{Plot a visR object}
 \usage{
 plot(x, ...)
 
@@ -20,9 +21,20 @@ plot(x, ...)
   fun = "surv",
   legend_position = "right"
 )
+
+\method{plot}{attrition}(
+  x,
+  description_column_name = "Criteria",
+  value_column_name = "Remaining N",
+  complement_column_name = "",
+  box_width = 50,
+  font_size = 12,
+  fill = "white",
+  border = "black"
+)
 }
 \arguments{
-\item{x}{object to be passed on to the method}
+\item{x}{Object of class \code{attritiontable} with each row corresponding to an inclusion step in the cohort and minimally a description and a count column}
 
 \item{...}{other arguments passed on to the method}
 
@@ -42,29 +54,93 @@ Note that this information is automatically added when using visR::estimate_KM a
 
 \item{legend_position}{Specifies the legend position in the plot. Character values allowed are "top" "left" "bottom" "right". Numeric coordinates are also allowed.
 Default is "right".}
+
+\item{description_column_name}{\code{character} Name of the column containing the inclusion descriptions}
+
+\item{value_column_name}{\code{character} Name of the column containing the remaining sample counts}
+
+\item{complement_column_name}{\code{character} Optional: Name of the column containing the exclusion descriptions}
+
+\item{box_width}{\code{character} The box width for each box in the flow chart}
+
+\item{font_size}{\code{character} The fontsize in pt}
+
+\item{fill}{The color (string or hexcode) to use to fill the boxes in the flowchart}
+
+\item{border}{The color (string or hexcode) to use for the borders of the boxes in the flowchart}
 }
 \value{
 Object of class \code{ggplot}  \code{ggsurvplot}.
+
+Object of class \code{ggplot}.
 }
 \description{
+Method to display a \code{ggplot} directly from an object through an S3 method.
 S3 method for creating plots directly from objects using \code{ggplot2}, similar to base plot function.
 The default method is base::plot.
 }
 \examples{
 library(survival)
-library(dplyr)
-library(tidyr)
-library(ggplot2)
+library(visR)
 
-survfit_object <- estimate_KM(data = adtte, strata = "TRTP")
+# fit KM 
+km_fit <- survival::survfit(Surv(AVAL, 1-CNSR) ~ TRTP, data=adtte)
+
+# plot curves using base plot function
+survival:::plot.survfit(km_fit)
+
+# plot same curves using visR plot function
+visR::plot(km_fit)
+
+# Note: loading the visR package will override base plot
+# Here is an example of the behaviour when we are not explicit to reference base plot. 
+# Plotting the object will display a visR plot. 
+plot(km_fit)
+
+# estimate KM using visR wrapper
+survfit_object <- visR::estimate_KM(data = adtte, strata = "TRTP")
 
 ## Plot survival probability
-plot(survfit_object = survfit_object, fun = "surv")
-plot(survfit_object, fun = "pct")
+visR::plot(survfit_object, fun = "surv")
+visR::plot(survfit_object, fun = "pct")
 
 ## Plot cumulative hazard
+
 plot(survfit_object, fun = "cloglog")
- 
+
+attrition <- visR::get_attrition(adtte,
+    criteria_descriptions = c("1. Not in Placebo Group",
+                              "2. Be 75 years of age or older.",
+                              "3. White",
+                              "4. Female"),
+    criteria_conditions   = c("TRTP != 'Placebo'",
+                              "AGE >= 75",
+                              "RACE=='WHITE'",
+                              "SEX=='F'"),
+    subject_column_name   = "USUBJID")
+
+# Draw a CONSORT attrition chart without specifying extra text for the complement
+attrition \%>\%
+  plot("Criteria", "Remaining N")
+
+# Adding more detailed complement descriptions to the "exclusion" part of the CONSORT diagram
+# Step 1. Add new column to attrition dataframe
+attrition$Complement <- c("NA", "Placebo Group", "Younger than 75 years", "Non-White", "Male")
+
+# Step 2. Define the name of the column in the call to the plotting function
+attrition \%>\%
+  plot("Criteria", "Remaining N", "Complement")
+
+# Styling the CONSORT flowchart
+# Change the fill and outline of the boxes in the flowchart
+attrition \%>\%
+  plot("Criteria", "Remaining N", "Complement", fill = "lightblue", border="grey")
+
+# Adjust the font size in the boxes
+attrition \%>\%
+  plot("Criteria", "Remaining N", font_size = 10)
+
+
 }
 \seealso{
 \code{\link[ggplot2]{ggplot}}

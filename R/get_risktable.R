@@ -35,8 +35,6 @@ get_risktable <- function(x, ...){
 #'   Default is FALSE.
 #'
 #' @rdname get_risktable
-#'
-#' @rdname get_risktable
 #' @method get_risktable survfit
 #' @export
 
