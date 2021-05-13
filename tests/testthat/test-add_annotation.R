@@ -74,7 +74,7 @@ testthat::test_that("T2.1 An error when a `ggplot` object is passed to the funct
 
   visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::plot()
 
-  testthat::expect_error(visR::add_annotation(visR_plot, label = NULL), NA)
+  testthat::expect_error(visR::add_annotation(visR_plot, label = NULL))
 
 })
 
@@ -116,51 +116,51 @@ testthat::test_that("T3.1 An object of type `character` passed to label is not a
     visR::plot() %>% 
     visR::add_annotation(label = lbl)
   
-  testthat::expect_equal(base::as.character(visR_plot$components$annotation[[1]]$label), lbl)
+  testthat::expect_equal(base::as.character(visR_plot$components$annotation$grobs[[1]]$label), lbl)
   
 })
 
 testthat::test_that("T3.2 A `data.frame` passed to label is not affected by the transformation to an annotation",{
   
+  anno <- adtte[1:6, 1:5]
+  
   visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% 
     visR::plot() %>% 
-    visR::add_annotation(label = adtte[1:5, 1:5])
+    visR::add_annotation(label = anno)
   
-  lbl <- data.frame(lapply(adtte[1:5,1:5], as.character), stringsAsFactors=FALSE)
-
-  result <- base::unlist(base::lapply(visR_plot$components$annotation$grobs, function(x){
-    x$label
+  extracted_lbl <- base::unlist(base::lapply(visR_plot$components$annotation, function(x){
+    z <- x$label
+    z <- gsub("bold(", "", z, fixed = TRUE)
+    z <- gsub(")", "", z, fixed = TRUE)
+    z <- gsub('\"', "", z, fixed = TRUE)
+    z <- gsub(' - ', "-", z, fixed = TRUE)
+    z
   }))
   
-  visR_plot$components$annotation$grobs[[22]]$label
-  
-  z <- gsub("bold(", "", result, fixed = TRUE)
-  z <- gsub(")", "", z, fixed = TRUE)
-  z <- gsub('\"', "", z, fixed = TRUE)
-  z <- gsub(' - ', "-", z, fixed = TRUE)
-  
-  cN <- z[1:length(colnames(lbl))]
-  bD <- z[(length(cN)+1):length(z)]
+  cN <- extracted_lbl[1:length(colnames(anno))]
+  bD <- extracted_lbl[(length(cN)+1):length(extracted_lbl)]
 
   d <- as.data.frame(matrix(bD, ncol = length(cN), byrow = F), stringsAsFactors = FALSE)
   colnames(d) <- cN
   
-  testthat::expect_equal(d, lbl, check.attributes = FALSE)
+  lbl <- data.frame(lapply(anno, as.character), stringsAsFactors=FALSE)
+
+  testthat::expect_equal(d, lbl, check.attributes = FALSE) ## fix removal of leading zero's. Is this somthing in ggplot2? test with ggplot2
 
 })
 
-### This doe snot work, pushed for Tim
 testthat::test_that("T3.3 A `gtable` passed to label is not affected by the transformation to an annotation",{
   
   visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::plot()
   
-  lbl <- gridExtra::tableGrob(adtte[1:5,])
+  gtab <- gridExtra::tableGrob(adtte[1:6,])
   
-  visR_plot <- visR_plot %>%  visR::add_annotation(label = lbl)
+  ##append changes the structure of gtable
   
-  t1 = visR_plot$components$annotation[[1]]
-  t2 = lbl$grobs[[1]]
+  visR_plot <- visR_plot %>%  visR::add_annotation(label = gtab)
   
+  visR_plot$components[3]
+
   #t1==t2
   
   #t1$

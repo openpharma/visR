@@ -102,7 +102,6 @@ add_annotation <- function(
     
     
     ### Add individual components
-    
     components <- append(list(gg), label)
     names(components) = c("visR_plot", "annotation")
     gg[["components"]] <- components
@@ -127,7 +126,6 @@ add_annotation <- function(
     tt1 <-  gridExtra::ttheme_minimal(
       base_size = base_size,
       base_family = base_family,
-      parse = TRUE,
       core=list(
         fg_params=list(
           hjust = as.vector(core_alignment_matrix),
@@ -139,7 +137,8 @@ add_annotation <- function(
         fg_params = list(
           hjust =  core_alignment_head,
           x = core_alignment_head,
-          fontface = 2
+          fontface = 2,
+          parse = TRUE
         )
       )
     )
@@ -156,7 +155,7 @@ add_annotation <- function(
     
     ### Add individual components
     
-    components <- append(list(gg), list(dfGrob))
+    components <- append(list(gg), dfGrob)
     names(components) = c("visR_plot", "annotation")
     gg[["components"]] <- components
     
