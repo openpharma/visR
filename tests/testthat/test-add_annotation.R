@@ -2,14 +2,13 @@
 #' @section Last updated by:
 #' Steven Haesendonckx
 #' @section Last update date:
-#' 25-APR-2021
+#' 13-MAY-2021
 
 # Specifications ----------------------------------------------------------
 #' T1. The function adds annotations to an object of class `ggplot`
 #' T1.1 No error when a `ggplot` object is passed to the function in the presence of a label
 #' T1.2 An error when a non-`ggplot` object is passed to the function in the presence of a label
 #' T1.3 An error when NULL is passed to the function in the presence of a label
-#'
 #' T2. The function accepts a label of class `character`, `data.frame` or customized objects of class `gtable`
 #' T2.1 An error when a `ggplot` object is passed to the function in the absence of a label
 #' T2.2 No error when label is of class `character`
@@ -113,32 +112,41 @@ testthat::test_that("T3.1 An object of type `character` passed to label is not a
   
   lbl <- "blah"
   
-  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::plot() %>% 
+  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% 
+    visR::plot() %>% 
     visR::add_annotation(label = lbl)
   
   testthat::expect_equal(base::as.character(visR_plot$components$annotation[[1]]$label), lbl)
   
 })
 
-### This doe snot work, pushed for Tim
 testthat::test_that("T3.2 A `data.frame` passed to label is not affected by the transformation to an annotation",{
   
-  lbl <- adtte[1:5,]
+  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% 
+    visR::plot() %>% 
+    visR::add_annotation(label = adtte[1:5, 1:5])
   
-  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::plot() %>% 
-    visR::add_annotation(label = lbl)
-  
-  result <- base::unlist(base::lapply(visR_plot$components$annotation, function(x){
-    as.character(x$label)
+  lbl <- data.frame(lapply(adtte[1:5,1:5], as.character), stringsAsFactors=FALSE)
+
+  result <- base::unlist(base::lapply(visR_plot$components$annotation$grobs, function(x){
+    x$label
   }))
   
-  unname(c(names(lbl), unlist(lbl)))
+  visR_plot$components$annotation$grobs[[22]]$label
   
+  z <- gsub("bold(", "", result, fixed = TRUE)
+  z <- gsub(")", "", z, fixed = TRUE)
+  z <- gsub('\"', "", z, fixed = TRUE)
+  z <- gsub(' - ', "-", z, fixed = TRUE)
   
+  cN <- z[1:length(colnames(lbl))]
+  bD <- z[(length(cN)+1):length(z)]
+
+  d <- as.data.frame(matrix(bD, ncol = length(cN), byrow = F), stringsAsFactors = FALSE)
+  colnames(d) <- cN
   
-  testthat::expect_equal(visR_plot$components$annotation[[1]], lbl)
-  
-  
+  testthat::expect_equal(d, lbl, check.attributes = FALSE)
+
 })
 
 ### This doe snot work, pushed for Tim
