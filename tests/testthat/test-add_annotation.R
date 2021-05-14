@@ -145,8 +145,6 @@ testthat::test_that("T3.3 The content of a `gtable` passed to label is not affec
   visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::plot()
   anno <- gridExtra::tableGrob(adtte[1:6,])
 
-  str(anno)
-  
   visR_plot <- visR_plot %>%  visR::add_annotation(label = anno)
   visR_plot$components[[1]] <- NULL
 
@@ -223,15 +221,30 @@ testthat::test_that("T5.1 The annotation has bold columnheaders when the passed 
 })
 
 testthat::test_that("T5.2 The font size can be changed",{
-  #change size and expect error when expect equal comparing visr plot layers
+ 
+  lbl <- "blah"
+  
+  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% 
+    visR::plot() %>% 
+    visR::add_annotation(label = lbl, base_size = 12)
+  
+  visR_plot2 <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% 
+    visR::plot() %>% 
+    visR::add_annotation(label = lbl, base_size = 5)
+  
+  testthat::expect_error(testthat::expect_equal(visR_plot$layers, visR_plot2$layers))
 })
-
 
 testthat::test_that("T5.3 The font family can be chosen between 'sans', 'serif' and 'mono'",{
   
-    #no error when fonts are chosen between choices
-    #error when other font is chosen
+  anno <- "blah"
 
+  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::plot()
+  
+  testthat::expect_error(visR_plot %>% visR::add_annotation(label = anno, base_family = 'sans'), NA)
+  testthat::expect_error(visR_plot %>% visR::add_annotation(label = anno, base_family = 'serif'), NA)
+  testthat::expect_error(visR_plot %>% visR::add_annotation(label = anno, base_family = 'mono'), NA)
+  testthat::expect_error(visR_plot %>% visR::add_annotation(label = anno, base_family = 'blah'))
 })
 
 
@@ -241,16 +254,37 @@ context("add_annotation - T6. The output object has an additional attribute `com
 
 testthat::test_that("T6.1 The attribute components[['visR_plot']] contains the plot used as input",{
   
+  anno <- "blah"
+
+  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::plot()
+  visR_plot_anno <- visR_plot %>% visR::add_annotation(label = anno)
+  
+  testthat::expect_equal(visR_plot, visR_plot_anno$components$visR_plot)
 })
 
 testthat::test_that("T6.2 The attribute components contains the annotation",{
   
+  anno <- adtte[1:6, 1:5]
+  
+  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% 
+    visR::plot() %>% 
+    visR::add_annotation(label = anno)
+  
+  testthat::expect_equal(names(visR_plot$components)[[2]], "grobs") 
 })
 
 testthat::test_that("T6.3 The output has the same class as the original ggplot",{
-  
-})
 
+  anno <- adtte[1:6, 1:5]
+  
+  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% 
+    visR::plot()
+  
+  visR_plot2 <- visR_plot %>% 
+    visR::add_annotation(label = anno)
+  
+  testthat::expect_equal(class(visR_plot), class(visR_plot2)) 
+})
 
 # END OF CODE ----------------------------------------------------------
 

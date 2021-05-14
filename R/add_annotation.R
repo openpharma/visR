@@ -97,16 +97,16 @@ add_annotation <- function(
 
   if (base::inherits(label, "gtable")) {
 
-    gg <- gg +
+    gganno <- gg +
       ggplot2::annotation_custom(label, xmin = xmin, ymin = ymin, xmax = xmax, ymax = ymax)
     
     
     ### Add individual components
     components <- append(list(gg), label)                # Note: The append changes the structure of the gtable object
     names(components) = c("visR_plot", names(label))
-    gg[["components"]] <- components
+    gganno[["components"]] <- components
     
-    return (gg)
+    return (gganno)
 
   } else {
     
@@ -121,7 +121,8 @@ add_annotation <- function(
     
     core_alignment_matrix <- matrix(rep(0, nrow(df)*dim(df)[2]), nrow = nrow(df), ncol = dim(df)[2])
     if (dim(core_alignment_matrix)[2] > 1) {core_alignment_matrix[,2:dim(core_alignment_matrix)[2]] <- 1}
-    core_alignment_head <- rep(0.5, dim(core_alignment_matrix)[2])
+    core_alignment_head <- rep(1, dim(core_alignment_matrix)[2])
+    core_alignment_head[1] <- 0
 
     tt1 <-  gridExtra::ttheme_minimal(
       base_size = base_size,
@@ -150,16 +151,15 @@ add_annotation <- function(
       dfGrob <- gridExtra::tableGrob(df, rows = NULL, theme = tt1)
     }
 
-    gg <- gg +
+    gganno <- gg +
       ggplot2::annotation_custom(dfGrob, xmin = xmin, ymin = ymin, xmax = xmax, ymax = ymax)
     
     ### Add individual components
     
     components <- append(list(gg), dfGrob)               # Note: The append changes the structure of the tableGrob object
     names(components) = c("visR_plot", names(dfGrob))
-    gg[["components"]] <- components
+    gganno[["components"]] <- components
     
-    
-    return(gg)
+    return(gganno)
   }
 }
