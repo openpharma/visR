@@ -102,8 +102,8 @@ add_annotation <- function(
     
     
     ### Add individual components
-    components <- append(list(gg), label)
-    names(components) = c("visR_plot", "annotation")
+    components <- append(list(gg), label)                # Note: The append changes the structure of the gtable object
+    names(components) = c("visR_plot", names(label))
     gg[["components"]] <- components
     
     return (gg)
@@ -155,8 +155,8 @@ add_annotation <- function(
     
     ### Add individual components
     
-    components <- append(list(gg), dfGrob)
-    names(components) = c("visR_plot", "annotation")
+    components <- append(list(gg), dfGrob)               # Note: The append changes the structure of the tableGrob object
+    names(components) = c("visR_plot", names(dfGrob))
     gg[["components"]] <- components
     
     
