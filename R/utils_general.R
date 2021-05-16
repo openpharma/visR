@@ -1,5 +1,6 @@
 #' Internal function to format pvalues.
 #' @param x Input p-value. Numeric value. 
+#' @noRd
 .pvalformat <- function(x) {
   options(scipen = 999)
   if (x < 0.001)

@@ -106,12 +106,12 @@ visr.survfit <- function(
     y_label <- base::switch(
       fun,
       surv = "Survival probability",
-      log = "log(Survival probability)",
+      log = "log(survival probability)",
       event = "Failure probability",
-      cloglog = "log(-log(Survival probability))",
-      pct = "Survival percentage (%)",
-      logpct = "log(Survival percentage (%))",
-      cumhaz = "cumulative hazard",
+      cloglog = "log(-log(percentage survival))",
+      pct = "Percentage survival",
+      logpct = "log(survival percentage (%))",
+      cumhaz = "Cumulative hazard",
       stop("Unrecognized fun argument")
     )
   } else if (is.null(y_label) & is.function(fun)) {
