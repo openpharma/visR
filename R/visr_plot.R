@@ -38,7 +38,7 @@ visr.default <- function(x, ...){
 #'   \item{`surv` is the survival probability. This is the default.}
 #'   \item{`log` is log of the survival probability}
 #'   \item{`event` is the failure probability}
-#'   \item{`cloglog` is log(-log(Survival probability))}
+#'   \item{`cloglog` is log(-log(survival probability))}
 #'   \item{`pct` is survival as a percentage}
 #'   \item{`logpct` is log survival as a percentage}
 #'   \item{`cumhaz` is the cumulative hazard}
@@ -49,10 +49,9 @@ visr.default <- function(x, ...){
 #' @param ... other arguments passed on to the method
 #'
 #' @examples
-#' library(survival)
 #' 
 #' # fit KM 
-#' km_fit <- survfit(Surv(AVAL, 1-CNSR) ~ TRTP, data=adtte)
+#' km_fit <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ TRTP, data=adtte)
 #' 
 #' # plot curves using survival plot function
 #' plot(km_fit)
@@ -105,17 +104,17 @@ visr.survfit <- function(
   if (is.null(y_label) & is.character(fun)){
     y_label <- base::switch(
       fun,
-      surv = "Survival probability",
+      surv = "survival probability",
       log = "log(survival probability)",
-      event = "Failure probability",
-      cloglog = "log(-log(percentage survival))",
-      pct = "Percentage survival",
-      logpct = "log(survival percentage (%))",
-      cumhaz = "Cumulative hazard",
+      event = "failure probability",
+      cloglog = "log(-log(survival probability))",
+      pct = "percentage survival",
+      logpct = "log(percentage survival)",
+      cumhaz = "cumulative hazard",
       stop("Unrecognized fun argument")
     )
   } else if (is.null(y_label) & is.function(fun)) {
-    stop("Error in visr: No Y label defined. No default label is available when `fun` is a function.")
+    stop("No Y label defined. No default label is available when `fun` is a function.")
   }
 
   if (is.character(fun)){
@@ -212,9 +211,9 @@ visr.survfit <- function(
                                 breaks = y_ticks,
                                 labels = yscaleFUN,
                                 limits = c(min(y_ticks), max(y_ticks))) +
-    # ggplot2::theme_bw() +
+    ggplot2::theme_bw() +
     ggplot2::theme(legend.position = legend_position) +
-    # ggplot2::guides(color=ggplot2::guide_legend(override.aes=list(fill=NA))) +
+    ggplot2::guides(color=ggplot2::guide_legend(override.aes=list(fill=NA))) +
     NULL
 
   class(gg) <- append(class(gg), "ggsurvfit")
@@ -272,7 +271,7 @@ visr.survfit <- function(
 #' @rdname visr
 #' @method visr attrition
 #' @export
-#'
+
 visr.attrition <- function(x,
                            description_column_name = "Criteria",
                            value_column_name = "Remaining N",
