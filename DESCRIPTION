@@ -63,6 +63,8 @@ Imports:
     plotly,
     reshape2,
     rlang,
-    base,
-    openxlsx
+    base
+Suggests:
+    openxlsx,
+    vdiffr
 VignetteBuilder: knitr
