@@ -153,6 +153,7 @@ A typical example of a summary table are "table one", the first table in an appl
   <span class='va'>data</span>,
   <span class='va'>title</span>,
   <span class='va'>datasource</span>,
+  <span class='va'>footnote</span>,
   strata <span class='op'>=</span> <span class='cn'>NULL</span>,
   overall <span class='op'>=</span> <span class='cn'>T</span>,
   summary_function <span class='op'>=</span> <span class='va'>summarize_tab1</span>,
@@ -175,6 +176,10 @@ A typical example of a summary table are "table one", the first table in an appl
       <td><p>String specifying the datasource underlying the data set</p></td>
     </tr>
     <tr>
+      <th>footnote</th>
+      <td><p>Table footnote to include in the rendered table. Input is a text string.</p></td>
+    </tr>
+    <tr>
       <th>strata</th>
       <td><p>Character vector with column names to use for
 stratification in the summary table. Default: NULL , which indicates no stratification.</p></td>
@@ -191,10 +196,6 @@ Pre-implemented functions are summarize and summarize_tab1</p></td>
     <tr>
       <th>...</th>
       <td><p>Pass options to render_table</p></td>
-    </tr>
-    <tr>
-      <th>footnote</th>
-      <td><p>Table footnote to include in the rendered table. Input is a text string.</p></td>
     </tr>
     </table>
 
@@ -236,7 +237,8 @@ Pre-implemented functions are summarize and summarize_tab1</p></td>
       footnote <span class='op'>=</span> <span class='va'>t1_fn</span>,
       engine <span class='op'>=</span> <span class='st'>"gt"</span>
    <span class='op'>)</span>
-</div><div class='output co'>#&gt; &lt;style&gt;html {
+</div><div class='output co'>#&gt; &lt;div id="mwlefoodfi" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"&gt;
+#&gt;   &lt;style&gt;html {
 #&gt;   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 #&gt; }
 #&gt; 
@@ -569,17 +571,16 @@ Pre-implemented functions are summarize and summarize_tab1</p></td>
 #&gt; 
 #&gt; #mwlefoodfi .gt_footnote_marks {
 #&gt;   font-style: italic;
+#&gt;   font-weight: normal;
 #&gt;   font-size: 65%;
 #&gt; }
 #&gt; &lt;/style&gt;
-#&gt; &lt;div id="mwlefoodfi" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"&gt;&lt;table class="gt_table"&gt;
+#&gt;   &lt;table class="gt_table"&gt;
 #&gt;   &lt;thead class="gt_header"&gt;
 #&gt;     &lt;tr&gt;
-#&gt;       &lt;th colspan="4" class="gt_heading gt_title gt_font_normal" style&gt;My table one title&lt;/th&gt;
+#&gt;       &lt;th colspan="4" class="gt_heading gt_title gt_font_normal gt_bottom_border" style&gt;My table one title&lt;/th&gt;
 #&gt;     &lt;/tr&gt;
-#&gt;     &lt;tr&gt;
-#&gt;       &lt;th colspan="4" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style&gt;&lt;/th&gt;
-#&gt;     &lt;/tr&gt;
+#&gt;     
 #&gt;   &lt;/thead&gt;
 #&gt;   &lt;thead class="gt_col_headings"&gt;
 #&gt;     &lt;tr&gt;
@@ -593,92 +594,71 @@ Pre-implemented functions are summarize and summarize_tab1</p></td>
 #&gt;     &lt;tr class="gt_group_heading_row"&gt;
 #&gt;       &lt;td colspan="4" class="gt_group_heading"&gt;AGE&lt;/td&gt;
 #&gt;     &lt;/tr&gt;
-#&gt;     &lt;tr&gt;
-#&gt;       &lt;td class="gt_row gt_left gt_stub"&gt;Mean (SD)&lt;/td&gt;
-#&gt;       &lt;td class="gt_row gt_left"&gt;75.2 (8.59)&lt;/td&gt;
-#&gt;       &lt;td class="gt_row gt_left"&gt;74.4 (7.89)&lt;/td&gt;
-#&gt;       &lt;td class="gt_row gt_left"&gt;75.7 (8.29)&lt;/td&gt;
-#&gt;     &lt;/tr&gt;
-#&gt;     &lt;tr&gt;
-#&gt;       &lt;td class="gt_row gt_left gt_stub"&gt;Median (IQR)&lt;/td&gt;
-#&gt;       &lt;td class="gt_row gt_left"&gt;76 (69.2-81.8)&lt;/td&gt;
-#&gt;       &lt;td class="gt_row gt_left"&gt;76 (70.8-80)&lt;/td&gt;
-#&gt;       &lt;td class="gt_row gt_left"&gt;77.5 (71-82)&lt;/td&gt;
-#&gt;     &lt;/tr&gt;
-#&gt;     &lt;tr&gt;
-#&gt;       &lt;td class="gt_row gt_left gt_stub"&gt;Min-max&lt;/td&gt;
-#&gt;       &lt;td class="gt_row gt_left"&gt;52-89&lt;/td&gt;
-#&gt;       &lt;td class="gt_row gt_left"&gt;56-88&lt;/td&gt;
-#&gt;       &lt;td class="gt_row gt_left"&gt;51-88&lt;/td&gt;
-#&gt;     &lt;/tr&gt;
-#&gt;     &lt;tr&gt;
-#&gt;       &lt;td class="gt_row gt_left gt_stub"&gt;Missing&lt;/td&gt;
-#&gt;       &lt;td class="gt_row gt_left"&gt;0 (0%)&lt;/td&gt;
-#&gt;       &lt;td class="gt_row gt_left"&gt;0 (0%)&lt;/td&gt;
-#&gt;       &lt;td class="gt_row gt_left"&gt;0 (0%)&lt;/td&gt;
-#&gt;     &lt;/tr&gt;
+#&gt;     &lt;tr&gt;&lt;td class="gt_row gt_left gt_stub"&gt;Mean (SD)&lt;/td&gt;
+#&gt; &lt;td class="gt_row gt_left"&gt;75.2 (8.59)&lt;/td&gt;
+#&gt; &lt;td class="gt_row gt_left"&gt;74.4 (7.89)&lt;/td&gt;
+#&gt; &lt;td class="gt_row gt_left"&gt;75.7 (8.29)&lt;/td&gt;&lt;/tr&gt;
+#&gt;     &lt;tr&gt;&lt;td class="gt_row gt_left gt_stub"&gt;Median (IQR)&lt;/td&gt;
+#&gt; &lt;td class="gt_row gt_left"&gt;76 (69.2-81.8)&lt;/td&gt;
+#&gt; &lt;td class="gt_row gt_left"&gt;76 (70.8-80)&lt;/td&gt;
+#&gt; &lt;td class="gt_row gt_left"&gt;77.5 (71-82)&lt;/td&gt;&lt;/tr&gt;
+#&gt;     &lt;tr&gt;&lt;td class="gt_row gt_left gt_stub"&gt;Min-max&lt;/td&gt;
+#&gt; &lt;td class="gt_row gt_left"&gt;52-89&lt;/td&gt;
+#&gt; &lt;td class="gt_row gt_left"&gt;56-88&lt;/td&gt;
+#&gt; &lt;td class="gt_row gt_left"&gt;51-88&lt;/td&gt;&lt;/tr&gt;
+#&gt;     &lt;tr&gt;&lt;td class="gt_row gt_left gt_stub"&gt;Missing&lt;/td&gt;
+#&gt; &lt;td class="gt_row gt_left"&gt;0 (0%)&lt;/td&gt;
+#&gt; &lt;td class="gt_row gt_left"&gt;0 (0%)&lt;/td&gt;
+#&gt; &lt;td class="gt_row gt_left"&gt;0 (0%)&lt;/td&gt;&lt;/tr&gt;
 #&gt;     &lt;tr class="gt_group_heading_row"&gt;
 #&gt;       &lt;td colspan="4" class="gt_group_heading"&gt;AGEGR1&lt;/td&gt;
 #&gt;     &lt;/tr&gt;
-#&gt;     &lt;tr&gt;
-#&gt;       &lt;td class="gt_row gt_left gt_stub"&gt;&amp;lt;65&lt;/td&gt;
-#&gt;       &lt;td class="gt_row gt_left"&gt;14 (16.3%)&lt;/td&gt;
-#&gt;       &lt;td class="gt_row gt_left"&gt;11 (13.1%)&lt;/td&gt;
-#&gt;       &lt;td class="gt_row gt_left"&gt;8 (9.52%)&lt;/td&gt;
-#&gt;     &lt;/tr&gt;
-#&gt;     &lt;tr&gt;
-#&gt;       &lt;td class="gt_row gt_left gt_stub"&gt;&amp;gt;80&lt;/td&gt;
-#&gt;       &lt;td class="gt_row gt_left"&gt;30 (34.9%)&lt;/td&gt;
-#&gt;       &lt;td class="gt_row gt_left"&gt;18 (21.4%)&lt;/td&gt;
-#&gt;       &lt;td class="gt_row gt_left"&gt;29 (34.52%)&lt;/td&gt;
-#&gt;     &lt;/tr&gt;
-#&gt;     &lt;tr&gt;
-#&gt;       &lt;td class="gt_row gt_left gt_stub"&gt;65-80&lt;/td&gt;
-#&gt;       &lt;td class="gt_row gt_left"&gt;42 (48.8%)&lt;/td&gt;
-#&gt;       &lt;td class="gt_row gt_left"&gt;55 (65.5%)&lt;/td&gt;
-#&gt;       &lt;td class="gt_row gt_left"&gt;47 (55.95%)&lt;/td&gt;
-#&gt;     &lt;/tr&gt;
+#&gt;     &lt;tr&gt;&lt;td class="gt_row gt_left gt_stub"&gt;&amp;lt;65&lt;/td&gt;
+#&gt; &lt;td class="gt_row gt_left"&gt;14 (16.3%)&lt;/td&gt;
+#&gt; &lt;td class="gt_row gt_left"&gt;11 (13.1%)&lt;/td&gt;
+#&gt; &lt;td class="gt_row gt_left"&gt;8 (9.52%)&lt;/td&gt;&lt;/tr&gt;
+#&gt;     &lt;tr&gt;&lt;td class="gt_row gt_left gt_stub"&gt;&amp;gt;80&lt;/td&gt;
+#&gt; &lt;td class="gt_row gt_left"&gt;30 (34.9%)&lt;/td&gt;
+#&gt; &lt;td class="gt_row gt_left"&gt;18 (21.4%)&lt;/td&gt;
+#&gt; &lt;td class="gt_row gt_left"&gt;29 (34.52%)&lt;/td&gt;&lt;/tr&gt;
+#&gt;     &lt;tr&gt;&lt;td class="gt_row gt_left gt_stub"&gt;65-80&lt;/td&gt;
+#&gt; &lt;td class="gt_row gt_left"&gt;42 (48.8%)&lt;/td&gt;
+#&gt; &lt;td class="gt_row gt_left"&gt;55 (65.5%)&lt;/td&gt;
+#&gt; &lt;td class="gt_row gt_left"&gt;47 (55.95%)&lt;/td&gt;&lt;/tr&gt;
 #&gt;     &lt;tr class="gt_group_heading_row"&gt;
 #&gt;       &lt;td colspan="4" class="gt_group_heading"&gt;SEX&lt;/td&gt;
 #&gt;     &lt;/tr&gt;
-#&gt;     &lt;tr&gt;
-#&gt;       &lt;td class="gt_row gt_left gt_stub"&gt;F&lt;/td&gt;
-#&gt;       &lt;td class="gt_row gt_left"&gt;53 (61.6%)&lt;/td&gt;
-#&gt;       &lt;td class="gt_row gt_left"&gt;40 (47.6%)&lt;/td&gt;
-#&gt;       &lt;td class="gt_row gt_left"&gt;50 (59.5%)&lt;/td&gt;
-#&gt;     &lt;/tr&gt;
-#&gt;     &lt;tr&gt;
-#&gt;       &lt;td class="gt_row gt_left gt_stub"&gt;M&lt;/td&gt;
-#&gt;       &lt;td class="gt_row gt_left"&gt;33 (38.4%)&lt;/td&gt;
-#&gt;       &lt;td class="gt_row gt_left"&gt;44 (52.4%)&lt;/td&gt;
-#&gt;       &lt;td class="gt_row gt_left"&gt;34 (40.5%)&lt;/td&gt;
-#&gt;     &lt;/tr&gt;
+#&gt;     &lt;tr&gt;&lt;td class="gt_row gt_left gt_stub"&gt;F&lt;/td&gt;
+#&gt; &lt;td class="gt_row gt_left"&gt;53 (61.6%)&lt;/td&gt;
+#&gt; &lt;td class="gt_row gt_left"&gt;40 (47.6%)&lt;/td&gt;
+#&gt; &lt;td class="gt_row gt_left"&gt;50 (59.5%)&lt;/td&gt;&lt;/tr&gt;
+#&gt;     &lt;tr&gt;&lt;td class="gt_row gt_left gt_stub"&gt;M&lt;/td&gt;
+#&gt; &lt;td class="gt_row gt_left"&gt;33 (38.4%)&lt;/td&gt;
+#&gt; &lt;td class="gt_row gt_left"&gt;44 (52.4%)&lt;/td&gt;
+#&gt; &lt;td class="gt_row gt_left"&gt;34 (40.5%)&lt;/td&gt;&lt;/tr&gt;
 #&gt;     &lt;tr class="gt_group_heading_row"&gt;
 #&gt;       &lt;td colspan="4" class="gt_group_heading"&gt;EVNTDESC&lt;/td&gt;
 #&gt;     &lt;/tr&gt;
-#&gt;     &lt;tr&gt;
-#&gt;       &lt;td class="gt_row gt_left gt_stub"&gt;Dematologic Event Occured&lt;/td&gt;
-#&gt;       &lt;td class="gt_row gt_left"&gt;29 (33.7%)&lt;/td&gt;
-#&gt;       &lt;td class="gt_row gt_left"&gt;61 (72.6%)&lt;/td&gt;
-#&gt;       &lt;td class="gt_row gt_left"&gt;62 (73.8%)&lt;/td&gt;
-#&gt;     &lt;/tr&gt;
-#&gt;     &lt;tr&gt;
-#&gt;       &lt;td class="gt_row gt_left gt_stub"&gt;Study Completion Date&lt;/td&gt;
-#&gt;       &lt;td class="gt_row gt_left"&gt;57 (66.3%)&lt;/td&gt;
-#&gt;       &lt;td class="gt_row gt_left"&gt;23 (27.4%)&lt;/td&gt;
-#&gt;       &lt;td class="gt_row gt_left"&gt;22 (26.2%)&lt;/td&gt;
-#&gt;     &lt;/tr&gt;
+#&gt;     &lt;tr&gt;&lt;td class="gt_row gt_left gt_stub"&gt;Dematologic Event Occured&lt;/td&gt;
+#&gt; &lt;td class="gt_row gt_left"&gt;29 (33.7%)&lt;/td&gt;
+#&gt; &lt;td class="gt_row gt_left"&gt;61 (72.6%)&lt;/td&gt;
+#&gt; &lt;td class="gt_row gt_left"&gt;62 (73.8%)&lt;/td&gt;&lt;/tr&gt;
+#&gt;     &lt;tr&gt;&lt;td class="gt_row gt_left gt_stub"&gt;Study Completion Date&lt;/td&gt;
+#&gt; &lt;td class="gt_row gt_left"&gt;57 (66.3%)&lt;/td&gt;
+#&gt; &lt;td class="gt_row gt_left"&gt;23 (27.4%)&lt;/td&gt;
+#&gt; &lt;td class="gt_row gt_left"&gt;22 (26.2%)&lt;/td&gt;&lt;/tr&gt;
 #&gt;   &lt;/tbody&gt;
 #&gt;   &lt;tfoot class="gt_sourcenotes"&gt;
 #&gt;     &lt;tr&gt;
 #&gt;       &lt;td class="gt_sourcenote" colspan="4"&gt;Data Source: My table one data source&lt;/td&gt;
 #&gt;     &lt;/tr&gt;
 #&gt;     &lt;tr&gt;
-#&gt;       &lt;td class="gt_sourcenote" colspan="4"&gt;My table one footnote&lt;/td&gt;
+#&gt;       &lt;td class="gt_sourcenote" colspan="4"&gt;&lt;/td&gt;
 #&gt;     &lt;/tr&gt;
 #&gt;   &lt;/tfoot&gt;
 #&gt;   
-#&gt; &lt;/table&gt;&lt;/div&gt;</div><div class='input'>
+#&gt; &lt;/table&gt;
+#&gt; &lt;/div&gt;</div><div class='input'>
 <span class='co'>## table by treatment - without overall and render with kable</span>
 <span class='va'>adtte</span> <span class='op'>%&gt;%</span>
    <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>SAFFL</span> <span class='op'>==</span> <span class='st'>"Y"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
@@ -784,7 +764,7 @@ Pre-implemented functions are summarize and summarize_tab1</p></td>
 #&gt; &lt;tfoot&gt;
 #&gt; &lt;tr&gt;&lt;td style="padding: 0; " colspan="100%"&gt;&lt;span style="font-style: italic;"&gt;Additional Note:&lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;
 #&gt; &lt;tr&gt;&lt;td style="padding: 0; " colspan="100%"&gt;
-#&gt; &lt;sup&gt;&lt;/sup&gt; My table one footnote&lt;/td&gt;&lt;/tr&gt;
+#&gt; &lt;sup&gt;&lt;/sup&gt; &lt;/td&gt;&lt;/tr&gt;
 #&gt; &lt;/tfoot&gt;
 #&gt; &lt;tfoot&gt;
 #&gt; &lt;tr&gt;&lt;td style="padding: 0; " colspan="100%"&gt;&lt;span style="font-style: italic;"&gt;Data Source:&lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;
@@ -839,7 +819,7 @@ Pre-implemented functions are summarize and summarize_tab1</p></td>
 #&gt; \multicolumn{5}{l}{\rule{0pt}{1em}\textit{Data Source:}}\\
 #&gt; \multicolumn{5}{l}{\rule{0pt}{1em}My table one data source}\\
 #&gt; \multicolumn{5}{l}{\rule{0pt}{1em}\textit{Additional Note:}}\\
-#&gt; \multicolumn{5}{l}{\rule{0pt}{1em}My table one footnote}\\
+#&gt; \multicolumn{5}{l}{\rule{0pt}{1em}}\\
 #&gt; \end{tabular}
 #&gt; \end{table}</div><div class='input'>
 

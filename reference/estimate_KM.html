@@ -252,7 +252,8 @@ Use <code><a href='https://rdrr.io/pkg/survival/man/survfit.formula.html'>?survi
 #&gt;       n  events  median 0.95LCL 0.95UCL 
 #&gt;     143      80      64      47      96 </div><div class='input'>
 <span class='co'>## Modify the default analysis by using the ellipsis</span>
-<span class='fu'>visR</span><span class='fu'>::</span><span class='fu'>estimate_KM</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>adtte</span>, strata <span class='op'>=</span> <span class='cn'>NULL</span>, type <span class='op'>=</span> <span class='st'>"kaplan-meier"</span>, conf.int <span class='op'>=</span> <span class='cn'>FALSE</span>, timefix <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'>visR</span><span class='fu'>::</span><span class='fu'>estimate_KM</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>adtte</span>, strata <span class='op'>=</span> <span class='cn'>NULL</span>, 
+  type <span class='op'>=</span> <span class='st'>"kaplan-meier"</span>, conf.int <span class='op'>=</span> <span class='cn'>FALSE</span>, timefix <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Call: survival::survfit(formula = survival::Surv(AVAL, 1 - CNSR) ~ 
 #&gt;     1, data = adtte, timefix = TRUE, type = "kaplan-meier", conf.int = FALSE)
 #&gt; 
@@ -268,9 +269,10 @@ Use <code><a href='https://rdrr.io/pkg/survival/man/survfit.formula.html'>?survi
 #&gt; 5   1 squamous  118      1    70       11  65    10
 #&gt; 6   1 squamous   10      1    20        5  49     0</div><div class='input'>
 <span class='co'># convert time and censoring data to ADaM variables </span>
+<span class='co'># convert censoring status to CDISC principles</span>
 <span class='va'>veteran_adam</span> <span class='op'>&lt;-</span> <span class='fu'>survival</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/survival/man/veteran.html'>veteran</a></span> <span class='op'>%&gt;%</span>
  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>AVAL <span class='op'>=</span> <span class='va'>time</span>, 
-               CNSR <span class='op'>=</span> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span><span class='op'>(</span><span class='va'>status</span> <span class='op'>==</span> <span class='fl'>1</span>, <span class='fl'>0</span>, <span class='fl'>1</span><span class='op'>)</span> <span class='co'>#convert censoring status to CDISC principles</span>
+               CNSR <span class='op'>=</span> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span><span class='op'>(</span><span class='va'>status</span> <span class='op'>==</span> <span class='fl'>1</span>, <span class='fl'>0</span>, <span class='fl'>1</span><span class='op'>)</span> 
  <span class='op'>)</span>
 
 <span class='fu'>visR</span><span class='fu'>::</span><span class='fu'>estimate_KM</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>veteran_adam</span>, strata <span class='op'>=</span> <span class='st'>"trt"</span><span class='op'>)</span>

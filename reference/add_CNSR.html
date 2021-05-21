@@ -190,7 +190,7 @@ The method is set up to use the pipe <code>%&gt;%</code>.</p>
 <span class='va'>survfit_object</span> <span class='op'>&lt;-</span> <span class='fu'>survival</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/survival/man/survfit.html'>survfit</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>adtte</span>, <span class='fu'>survival</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/survival/man/Surv.html'>Surv</a></span><span class='op'>(</span><span class='va'>AVAL</span>, <span class='fl'>1</span><span class='op'>-</span><span class='va'>CNSR</span><span class='op'>)</span> <span class='op'>~</span> <span class='va'>TRTP</span><span class='op'>)</span>
 
 <span class='co'>## plot without confidence intervals</span>
-<span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'>visR</span><span class='fu'>::</span><span class='fu'><a href='plot.html'>plot</a></span><span class='op'>(</span><span class='va'>survfit_object</span><span class='op'>)</span> 
+<span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'>visR</span><span class='fu'>::</span><span class='fu'><a href='visr.html'>visr</a></span><span class='op'>(</span><span class='va'>survfit_object</span><span class='op'>)</span> 
 <span class='va'>p</span>
 </div><div class='img'><img src='add_CNSR-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># add censoring to plot</span>

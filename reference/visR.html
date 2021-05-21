@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>visR package — visR • visR</title>
+<title>Plot a visR object — visr • visR</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,9 @@
 
 
 
-<meta property="og:title" content="visR package — visR" />
-<meta property="og:description" content="visR" />
+<meta property="og:title" content="Plot a visR object — visr" />
+<meta property="og:description" content="Method to display a ggplot directly from an object through an S3 method.
+S3 method for creating plots directly from objects using ggplot2, similar to base plot function." />
 <meta property="og:image" content="https://openpharma.github.io/visR/logo.png" />
 
 
@@ -134,24 +135,191 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1><code>visR</code> package</h1>
-    <small class="dont-index">Source: <a href='https://github.com/openpharma/visR/blob/master/R/visR.R'><code>R/visR.R</code></a></small>
+    <h1>Plot a visR object</h1>
+    <small class="dont-index">Source: <a href='https://github.com/openpharma/visR/blob/master/R/visr_plot.R'><code>R/visr_plot.R</code></a></small>
     <div class="hidden name"><code>visR.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>visR</p>
+    <p>Method to display a <code>ggplot</code> directly from an object through an S3 method.
+S3 method for creating plots directly from objects using <code>ggplot2</code>, similar to base plot function.</p>
     </div>
 
+    <pre class="usage"><span class='fu'>visr</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
+<span class='co'># S3 method for default</span>
+<span class='fu'>visr</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+<span class='co'># S3 method for survfit</span>
+<span class='fu'>visr</span><span class='op'>(</span>
+  x <span class='op'>=</span> <span class='cn'>NULL</span>,
+  y_label <span class='op'>=</span> <span class='cn'>NULL</span>,
+  x_label <span class='op'>=</span> <span class='cn'>NULL</span>,
+  x_units <span class='op'>=</span> <span class='cn'>NULL</span>,
+  x_ticks <span class='op'>=</span> <span class='cn'>NULL</span>,
+  y_ticks <span class='op'>=</span> <span class='cn'>NULL</span>,
+  fun <span class='op'>=</span> <span class='st'>"surv"</span>,
+  legend_position <span class='op'>=</span> <span class='st'>"right"</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
 
-    <p>See the README on
-<a href='https://github.com/openpharma/visR'>GitHub</a></p>
-<p>For "visible binding note solution" see here <a href='https://github.com/STAT545-UBC/Discussion/issues/451'>
-</a></p>
+<span class='co'># S3 method for attrition</span>
+<span class='fu'>visr</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  description_column_name <span class='op'>=</span> <span class='st'>"Criteria"</span>,
+  value_column_name <span class='op'>=</span> <span class='st'>"Remaining N"</span>,
+  complement_column_name <span class='op'>=</span> <span class='st'>""</span>,
+  box_width <span class='op'>=</span> <span class='fl'>50</span>,
+  font_size <span class='op'>=</span> <span class='fl'>12</span>,
+  fill <span class='op'>=</span> <span class='st'>"white"</span>,
+  border <span class='op'>=</span> <span class='st'>"black"</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>Object of class <code>attritiontable</code> with each row corresponding to an inclusion step in the cohort and minimally a description and a count column</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>other arguments passed on to the method</p></td>
+    </tr>
+    <tr>
+      <th>y_label</th>
+      <td><p><code>character</code> Label for the y-axis. When not specified, the default will do a proposal, depending on the <code>fun</code> argument.</p></td>
+    </tr>
+    <tr>
+      <th>x_label</th>
+      <td><p><code>character</code> Label for the x-asis. When not specified, the algorithm will look for "PARAM" information inside the list structure of the <code>survfit</code> object.
+Note that this information is automatically added when using visR::estimate_KM and when the input data has the variable "PARAM". If no "PARAM" information is available
+"time" is used as label.</p></td>
+    </tr>
+    <tr>
+      <th>x_units</th>
+      <td><p>Unit to be added to the x_label (x_label (x_unit)). Default is NULL.</p></td>
+    </tr>
+    <tr>
+      <th>x_ticks</th>
+      <td><p>Ticks for the x-axis. When not specified, the default will do a proposal.</p></td>
+    </tr>
+    <tr>
+      <th>y_ticks</th>
+      <td><p>Ticks for the y-axis. When not specified, the default will do a proposal based on the <code>fun</code> argument.</p></td>
+    </tr>
+    <tr>
+      <th>fun</th>
+      <td><p>Change the scale of the estimate.</p><ul>
+<li><p><code>surv</code> is the survival probability. This is the default.</p></li>
+<li><p><code>log</code> is log of the survival probability</p></li>
+<li><p><code>event</code> is the failure probability</p></li>
+<li><p><code>cloglog</code> is log(-log(survival probability))</p></li>
+<li><p><code>pct</code> is survival as a percentage</p></li>
+<li><p><code>logpct</code> is log survival as a percentage</p></li>
+<li><p><code>cumhaz</code> is the cumulative hazard</p></li>
+</ul></td>
+    </tr>
+    <tr>
+      <th>legend_position</th>
+      <td><p>Specifies the legend position in the plot. Character values allowed are "top" "left" "bottom" "right". Numeric coordinates are also allowed.
+Default is "right".</p></td>
+    </tr>
+    <tr>
+      <th>description_column_name</th>
+      <td><p><code>character</code> Name of the column containing the inclusion descriptions</p></td>
+    </tr>
+    <tr>
+      <th>value_column_name</th>
+      <td><p><code>character</code> Name of the column containing the remaining sample counts</p></td>
+    </tr>
+    <tr>
+      <th>complement_column_name</th>
+      <td><p><code>character</code> Optional: Name of the column containing the exclusion descriptions</p></td>
+    </tr>
+    <tr>
+      <th>box_width</th>
+      <td><p><code>character</code> The box width for each box in the flow chart</p></td>
+    </tr>
+    <tr>
+      <th>font_size</th>
+      <td><p><code>character</code> The fontsize in pt</p></td>
+    </tr>
+    <tr>
+      <th>fill</th>
+      <td><p>The color (string or hexcode) to use to fill the boxes in the flowchart</p></td>
+    </tr>
+    <tr>
+      <th>border</th>
+      <td><p>The color (string or hexcode) to use for the borders of the boxes in the flowchart</p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>Object of class <code>ggplot</code>  <code>ggsurvplot</code>.</p>
+<p>Object of class <code>ggplot</code>.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></code></p></div>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='co'># fit KM </span>
+<span class='va'>km_fit</span> <span class='op'>&lt;-</span> <span class='fu'>survival</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/survival/man/survfit.html'>survfit</a></span><span class='op'>(</span><span class='fu'>survival</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/survival/man/Surv.html'>Surv</a></span><span class='op'>(</span><span class='va'>AVAL</span>, <span class='fl'>1</span><span class='op'>-</span><span class='va'>CNSR</span><span class='op'>)</span> <span class='op'>~</span> <span class='va'>TRTP</span>, data<span class='op'>=</span><span class='va'>adtte</span><span class='op'>)</span>
+
+<span class='co'># plot curves using survival plot function</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>km_fit</span><span class='op'>)</span>
+</div><div class='img'><img src='visR-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># plot same curves using visR::visr plotting function</span>
+<span class='fu'>visR</span><span class='fu'>::</span><span class='fu'>visr</span><span class='op'>(</span><span class='va'>km_fit</span><span class='op'>)</span>
+</div><div class='img'><img src='visR-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># estimate KM using visR wrapper</span>
+<span class='va'>survfit_object</span> <span class='op'>&lt;-</span> <span class='fu'>visR</span><span class='fu'>::</span><span class='fu'><a href='estimate_KM.html'>estimate_KM</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>adtte</span>, strata <span class='op'>=</span> <span class='st'>"TRTP"</span><span class='op'>)</span>
+
+<span class='co'># Plot survival probability</span>
+<span class='fu'>visR</span><span class='fu'>::</span><span class='fu'>visr</span><span class='op'>(</span><span class='va'>survfit_object</span>, fun <span class='op'>=</span> <span class='st'>"surv"</span><span class='op'>)</span>
+</div><div class='img'><img src='visR-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># Plot survival percentage</span>
+<span class='fu'>visR</span><span class='fu'>::</span><span class='fu'>visr</span><span class='op'>(</span><span class='va'>survfit_object</span>, fun <span class='op'>=</span> <span class='st'>"pct"</span><span class='op'>)</span>
+</div><div class='img'><img src='visR-4.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># Plot cumulative hazard</span>
+<span class='fu'>visR</span><span class='fu'>::</span><span class='fu'>visr</span><span class='op'>(</span><span class='va'>survfit_object</span>, fun <span class='op'>=</span> <span class='st'>"cloglog"</span><span class='op'>)</span>
+</div><div class='img'><img src='visR-5.png' alt='' width='700' height='433' /></div><div class='input'> 
+<span class='va'>attrition</span> <span class='op'>&lt;-</span> <span class='fu'>visR</span><span class='fu'>::</span><span class='fu'><a href='get_attrition.html'>get_attrition</a></span><span class='op'>(</span><span class='va'>adtte</span>,
+    criteria_descriptions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"1. Not in Placebo Group"</span>,
+                              <span class='st'>"2. Be 75 years of age or older."</span>,
+                              <span class='st'>"3. White"</span>,
+                              <span class='st'>"4. Female"</span><span class='op'>)</span>,
+    criteria_conditions   <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"TRTP != 'Placebo'"</span>,
+                              <span class='st'>"AGE &gt;= 75"</span>,
+                              <span class='st'>"RACE=='WHITE'"</span>,
+                              <span class='st'>"SEX=='F'"</span><span class='op'>)</span>,
+    subject_column_name   <span class='op'>=</span> <span class='st'>"USUBJID"</span><span class='op'>)</span>
+
+<span class='co'># Draw a CONSORT attrition chart without specifying extra text for the complement</span>
+<span class='va'>attrition</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>visr</span><span class='op'>(</span><span class='st'>"Criteria"</span>, <span class='st'>"Remaining N"</span><span class='op'>)</span>
+</div><div class='img'><img src='visR-6.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># Adding more detailed complement descriptions to the "exclusion" part of the CONSORT diagram</span>
+<span class='co'># Step 1. Add new column to attrition dataframe</span>
+<span class='va'>attrition</span><span class='op'>$</span><span class='va'>Complement</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"NA"</span>, <span class='st'>"Placebo Group"</span>, <span class='st'>"Younger than 75 years"</span>, <span class='st'>"Non-White"</span>, <span class='st'>"Male"</span><span class='op'>)</span>
+
+<span class='co'># Step 2. Define the name of the column in the call to the plotting function</span>
+<span class='va'>attrition</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>visr</span><span class='op'>(</span><span class='st'>"Criteria"</span>, <span class='st'>"Remaining N"</span>, <span class='st'>"Complement"</span><span class='op'>)</span>
+</div><div class='img'><img src='visR-7.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># Styling the CONSORT flowchart</span>
+<span class='co'># Change the fill and outline of the boxes in the flowchart</span>
+<span class='va'>attrition</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>visr</span><span class='op'>(</span><span class='st'>"Criteria"</span>, <span class='st'>"Remaining N"</span>, <span class='st'>"Complement"</span>, fill <span class='op'>=</span> <span class='st'>"lightblue"</span>, border<span class='op'>=</span><span class='st'>"grey"</span><span class='op'>)</span>
+</div><div class='img'><img src='visR-8.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># Adjust the font size in the boxes</span>
+<span class='va'>attrition</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>visr</span><span class='op'>(</span><span class='st'>"Criteria"</span>, <span class='st'>"Remaining N"</span>, font_size <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
+</div><div class='img'><img src='visR-9.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

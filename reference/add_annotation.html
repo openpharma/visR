@@ -211,13 +211,11 @@ Only the font size and type can be chosen.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/openpharma/visR'>visR</a></span><span class='op'>)</span>
-
 <span class='co'>## Estimate survival</span>
 <span class='va'>surv_object</span> <span class='op'>&lt;-</span> <span class='fu'>visR</span><span class='fu'>::</span><span class='fu'><a href='estimate_KM.html'>estimate_KM</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>adtte</span>, strata <span class='op'>=</span> <span class='st'>"TRTP"</span><span class='op'>)</span>
 
 <span class='co'>## We want to annotate the survival KM plot with a simple string comment</span>
-<span class='fu'>visR</span><span class='fu'>::</span><span class='fu'><a href='plot.html'>plot</a></span><span class='op'>(</span><span class='va'>surv_object</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+<span class='fu'>visR</span><span class='fu'>::</span><span class='fu'><a href='visr.html'>visr</a></span><span class='op'>(</span><span class='va'>surv_object</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>visR</span><span class='fu'>::</span><span class='fu'>add_annotation</span><span class='op'>(</span>
     label <span class='op'>=</span> <span class='st'>"My simple comment"</span>,
     base_family <span class='op'>=</span> <span class='st'>"sans"</span>,
@@ -229,7 +227,7 @@ Only the font size and type can be chosen.</p>
 </div><div class='img'><img src='add_annotation-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>## Currently, care needs to be taken on the x-y values relative</span>
 <span class='co'>## to the plot data area. Here we are plotting outside of the data area. </span>
-<span class='fu'>visR</span><span class='fu'>::</span><span class='fu'><a href='plot.html'>plot</a></span><span class='op'>(</span><span class='va'>surv_object</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+<span class='fu'>visR</span><span class='fu'>::</span><span class='fu'><a href='visr.html'>visr</a></span><span class='op'>(</span><span class='va'>surv_object</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>visR</span><span class='fu'>::</span><span class='fu'>add_annotation</span><span class='op'>(</span>
   label <span class='op'>=</span> <span class='st'>"My simple comment"</span>,
   base_family <span class='op'>=</span> <span class='st'>"sans"</span>,
@@ -256,7 +254,7 @@ Only the font size and type can be chosen.</p>
 #&gt; 2               Wilcoxon  &lt;0.001
 #&gt; 3            Tarone-Ware  &lt;0.001</div><div class='input'>
 <span class='co'>## Now annotate survival KM plot with the p-values</span>
-<span class='fu'>visR</span><span class='fu'>::</span><span class='fu'><a href='plot.html'>plot</a></span><span class='op'>(</span><span class='va'>surv_object</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+<span class='fu'>visR</span><span class='fu'>::</span><span class='fu'><a href='visr.html'>visr</a></span><span class='op'>(</span><span class='va'>surv_object</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>visR</span><span class='fu'>::</span><span class='fu'>add_annotation</span><span class='op'>(</span>
     label <span class='op'>=</span> <span class='va'>lbl</span>,
     base_family <span class='op'>=</span> <span class='st'>"sans"</span>,

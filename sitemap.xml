@@ -37,15 +37,6 @@
     <loc>https://openpharma.github.io/visR//reference/define_theme.html</loc>
   </url>
   <url>
-    <loc>https://openpharma.github.io/visR//reference/dot-get_coordinates.html</loc>
-  </url>
-  <url>
-    <loc>https://openpharma.github.io/visR//reference/dot-get_labels.html</loc>
-  </url>
-  <url>
-    <loc>https://openpharma.github.io/visR//reference/dot-get_labelsizes.html</loc>
-  </url>
-  <url>
     <loc>https://openpharma.github.io/visR//reference/estimate_KM.html</loc>
   </url>
   <url>
@@ -77,9 +68,6 @@
   </url>
   <url>
     <loc>https://openpharma.github.io/visR//reference/pipe.html</loc>
-  </url>
-  <url>
-    <loc>https://openpharma.github.io/visR//reference/plot.html</loc>
   </url>
   <url>
     <loc>https://openpharma.github.io/visR//reference/render.html</loc>
