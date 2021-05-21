@@ -21,13 +21,11 @@
 #'
 #' @examples
 #' 
-#' library(visR)
-#' 
 #' ## Estimate survival
 #' surv_object <- visR::estimate_KM(data = adtte, strata = "TRTP")
 #' 
 #' ## We want to annotate the survival KM plot with a simple string comment
-#' visR::plot(surv_object) %>%
+#' visR::visr(surv_object) %>%
 #'   visR::add_annotation(
 #'     label = "My simple comment",
 #'     base_family = "sans",
@@ -39,7 +37,7 @@
 #' 
 #' ## Currently, care needs to be taken on the x-y values relative
 #' ## to the plot data area. Here we are plotting outside of the data area. 
-#' visR::plot(surv_object) %>%
+#' visR::visr(surv_object) %>%
 #'   visR::add_annotation(
 #'   label = "My simple comment",
 #'   base_family = "sans",
@@ -63,7 +61,7 @@
 #' lbl
 #' 
 #' ## Now annotate survival KM plot with the p-values
-#' visR::plot(surv_object) %>%
+#' visR::visr(surv_object) %>%
 #'   visR::add_annotation(
 #'     label = lbl,
 #'     base_family = "sans",

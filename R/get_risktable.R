@@ -2,7 +2,7 @@
 #'
 #' @description Create a risk table from an object using an S3 method. Currently, no default method is defined.
 #' 
-#' @seealso \code{\link[survival]{summary}}
+#' @seealso \code{\link[survival]{summary.survfit}}
 #' 
 #' @param x object to be passed on to the method
 #' @param ... other arguments passed on to the method
@@ -23,16 +23,20 @@ get_risktable <- function(x, ...){
 #'   Default is "n.risk".
 #' @param label Character vector with labels for the statlist. Default matches "n.risk" with "At risk", "n.event" with "Events" and "n.censor"
 #'   with "Censored".
-#' @param group String indicating the grouping variable for the risk tables. Current options are:
-#'   \itemize{
-#'     \item{"strata": groups the risk tables per stratum. The `label` specifies the label within each risk tabel. The strata levels
-#'        are used for the titles of the risk tables. This is the default}
-#'      \item{"statlist": groups the risk tables per statlist. The `label` specifies the title for each risk tabel. The strata levels
-#'        are used for labeling within each risk table.}
-#'   } 
+#' @param group String indicating the grouping variable for the risk tables. 
+#'   Current options are:
+#'     \itemize{
+#'     \item{"strata": groups the risk tables per stratum. 
+#'       The `label` specifies the label within each risk table. The strata levels 
+#'       are used for the titles of the risk tables. This is the default}
+#'     \item{"statlist": groups the risk tables per statlist. 
+#'       The `label` specifies the title for each risk tabel. The strata levels
+#'       are used for labeling within each risk table.}
+#'     } 
 #'   Default is "strata".
 #' @param collapse Boolean, indicates whether to present the data overall.
 #'   Default is FALSE.
+#' @param ... other arguments passed on to the method
 #'
 #' @rdname get_risktable
 #' @method get_risktable survfit
