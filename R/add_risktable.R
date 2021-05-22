@@ -75,6 +75,7 @@ add_risktable.ggsurvfit <- function(
    ,label = "At risk"
    ,group = "strata"
    ,collapse = FALSE
+   ,...
 ){
 
 # Obtain the relevant table -----------------------------------------------

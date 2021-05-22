@@ -29,13 +29,14 @@
 #' @export
 #' 
 get_quantile <- function(x, ...){
-  UseMethod("get_quantile")
+  UseMethod("get_quantile", x)
 } 
 
 
 
 
-#' @param survfit_object An object of class \code{survfit}
+#' @param x An object of class \code{survfit}
+#' @param ... other arguments passed on to the method
 #' @param probs  probabilies Default = c(0.25,0.50,0.75)
 #' @param debug debug mode. Default = FALSE
 #' @inheritParams survival::quantile.survfit
@@ -44,7 +45,8 @@ get_quantile <- function(x, ...){
 #' @method get_quantile survfit
 #' @export
 #' 
-get_quantile.survfit <- function(survfit_object = survfit_object,
+get_quantile.survfit <- function(x,
+                                 ...,
                                  probs = c(0.25, 0.50, 0.75),
                                  conf.int = TRUE,
                                  tolerance = sqrt(.Machine$double.eps),
@@ -52,14 +54,14 @@ get_quantile.survfit <- function(survfit_object = survfit_object,
   if (debug == TRUE)
     browser()
   
-  if (!inherits(survfit_object, "survfit"))
+  if (!inherits(x, "survfit"))
     stop("x is not of class `survfit`.")
   if (conf.int == TRUE &
-      !base::all(c("lower", "upper") %in% names(survfit_object)))
+      !base::all(c("lower", "upper") %in% names(x)))
     stop("Confidence limits were not part of original estimation.")
   q <-
     quantile(
-      survfit_object,
+      x,
       probs = probs,
       conf.int = conf.int,
       tolerance = tolerance,
@@ -79,7 +81,7 @@ get_quantile.survfit <- function(survfit_object = survfit_object,
   ## focus on fun = surv, but we could do this for more funs
   ## get maximal 1-S(t) and max time
   
-  cutoff <- tidyme.survfit(survfit_object) %>%
+  cutoff <- tidyme.survfit(x) %>%
     dplyr::rename(quantile = surv) %>%
     dplyr::arrange(strata, time) %>%
     dplyr::select(strata, time, quantile, lower, upper) %>%
