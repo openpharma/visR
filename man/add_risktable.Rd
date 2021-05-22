@@ -14,7 +14,8 @@ add_risktable(gg, ...)
   statlist = c("n.risk"),
   label = "At risk",
   group = "strata",
-  collapse = FALSE
+  collapse = FALSE,
+  ...
 )
 }
 \arguments{

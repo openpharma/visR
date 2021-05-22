@@ -8,7 +8,8 @@
 get_quantile(x, ...)
 
 \method{get_quantile}{survfit}(
-  survfit_object = survfit_object,
+  x,
+  ...,
   probs = c(0.25, 0.5, 0.75),
   conf.int = TRUE,
   tolerance = sqrt(.Machine$double.eps),
@@ -16,11 +17,9 @@ get_quantile(x, ...)
 )
 }
 \arguments{
-\item{x}{S3 object}
+\item{x}{An object of class \code{survfit}}
 
 \item{...}{other arguments passed on to the method}
-
-\item{survfit_object}{An object of class \code{survfit}}
 
 \item{probs}{probabilies Default = c(0.25,0.50,0.75)}
 

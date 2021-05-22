@@ -38,7 +38,7 @@ context("add_annotation - T1. The function adds annotations to an object of clas
 
 testthat::test_that("T1.1 No error when a `ggplot` object is passed to the function in the presence of a label",{
 
-  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::plot()
+  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::visr()
 
   testthat::expect_error(visR::add_annotation(visR_plot, label = "blah"), NA)
 
@@ -65,7 +65,7 @@ context("add_annotation - T2. The function accepts a label of class `character`,
 
 testthat::test_that("T2.1 An error when a `ggplot` object is passed to the function in the absence of a label",{
 
-  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::plot()
+  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::visr()
 
   testthat::expect_error(visR::add_annotation(visR_plot, label = NULL))
 
@@ -73,7 +73,7 @@ testthat::test_that("T2.1 An error when a `ggplot` object is passed to the funct
 
 testthat::test_that("T2.2 No error when label is of class `character`",{
 
-  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::plot()
+  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::visr()
 
   testthat::expect_error(visR::add_annotation(visR_plot, label = "blah"), NA)
 
@@ -81,7 +81,7 @@ testthat::test_that("T2.2 No error when label is of class `character`",{
 
 testthat::test_that("T2.3 No error when label is of class `data.frame`",{
 
-  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::plot()
+  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::visr()
 
   testthat::expect_error(visR::add_annotation(visR_plot, label = adtte[1:5,]), NA)
 
@@ -89,7 +89,7 @@ testthat::test_that("T2.3 No error when label is of class `data.frame`",{
 
 testthat::test_that("T2.3 No error when label is of class `gtable`",{
 
-  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::plot()
+  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::visr()
   
   lbl <- gridExtra::tableGrob(adtte[1:5,])
 
@@ -106,7 +106,7 @@ testthat::test_that("T3.1 An object of type `character` passed to label is not a
   lbl <- "blah"
   
   visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% 
-    visR::plot() %>% 
+    visR::visr() %>% 
     visR::add_annotation(label = lbl)
   
   testthat::expect_equal(base::as.character(visR_plot$components$grobs[[1]]$label), lbl)
@@ -117,7 +117,7 @@ testthat::test_that("T3.2 The content of a `data.frame` passed to label is not a
   anno <- adtte[1:6, 1:5]
   
   visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% 
-    visR::plot() %>% 
+    visR::visr() %>% 
     visR::add_annotation(label = anno)
   
   extracted_lbl <- base::unlist(base::lapply(visR_plot$components$grobs, function(x){
@@ -142,7 +142,7 @@ testthat::test_that("T3.2 The content of a `data.frame` passed to label is not a
 
 testthat::test_that("T3.3 The content of a `gtable` passed to label is not affected by the transformation to an annotation",{
   
-  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::plot()
+  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::visr()
   anno <- gridExtra::tableGrob(adtte[1:6,])
 
   visR_plot <- visR_plot %>%  visR::add_annotation(label = anno)
@@ -161,7 +161,7 @@ testthat::test_that("T4.1 An error when one of the coordinates is not numeric",{
   
   lbl <- "blah"
   
-  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::plot()
+  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::visr()
     
   testthat::expect_error(visR_plot %>% visR::add_annotation(label = lbl, xmin = 'blah'))
 })
@@ -171,11 +171,11 @@ testthat::test_that("T4.2 The annotation can be moved on the plot by specifying 
   lbl <- "blah"
   
   visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% 
-    visR::plot() %>% 
+    visR::visr() %>% 
     visR::add_annotation(label = lbl, xmin = 0, xmax = 99)
   
   visR_plot2 <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% 
-    visR::plot() %>% 
+    visR::visr() %>% 
     visR::add_annotation(label = lbl)
   
   testthat::expect_error(testthat::expect_equal(visR_plot$layers, visR_plot2$layers))
@@ -186,11 +186,11 @@ testthat::test_that("T4.3 The annotation can be moved on the plot by specifying 
   lbl <- "blah"
   
   visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% 
-    visR::plot() %>% 
+    visR::visr() %>% 
     visR::add_annotation(label = lbl, ymin = 1, ymax = 1)
   
   visR_plot2 <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% 
-    visR::plot() %>% 
+    visR::visr() %>% 
     visR::add_annotation(label = lbl)
   
   testthat::expect_error(testthat::expect_equal(visR_plot$layers, visR_plot2$layers))
@@ -205,7 +205,7 @@ testthat::test_that("T5.1 The annotation has bold columnheaders when the passed 
   anno <- adtte[1:6, 1:5]
   
   visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% 
-    visR::plot() %>% 
+    visR::visr() %>% 
     visR::add_annotation(label = anno)
   
   extracted_lbl <- base::unlist(base::lapply(visR_plot$components$grobs, function(x){
@@ -225,11 +225,11 @@ testthat::test_that("T5.2 The font size can be changed",{
   lbl <- "blah"
   
   visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% 
-    visR::plot() %>% 
+    visR::visr() %>% 
     visR::add_annotation(label = lbl, base_size = 12)
   
   visR_plot2 <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% 
-    visR::plot() %>% 
+    visR::visr() %>% 
     visR::add_annotation(label = lbl, base_size = 5)
   
   testthat::expect_error(testthat::expect_equal(visR_plot$layers, visR_plot2$layers))
@@ -239,7 +239,7 @@ testthat::test_that("T5.3 The font family can be chosen between 'sans', 'serif' 
   
   anno <- "blah"
 
-  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::plot()
+  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::visr()
   
   testthat::expect_error(visR_plot %>% visR::add_annotation(label = anno, base_family = 'sans'), NA)
   testthat::expect_error(visR_plot %>% visR::add_annotation(label = anno, base_family = 'serif'), NA)
@@ -256,7 +256,7 @@ testthat::test_that("T6.1 The attribute components[['visR_plot']] contains the p
   
   anno <- "blah"
 
-  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::plot()
+  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::visr()
   visR_plot_anno <- visR_plot %>% visR::add_annotation(label = anno)
   
   testthat::expect_equal(visR_plot, visR_plot_anno$components$visR_plot)
@@ -267,7 +267,7 @@ testthat::test_that("T6.2 The attribute components contains the annotation",{
   anno <- adtte[1:6, 1:5]
   
   visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% 
-    visR::plot() %>% 
+    visR::visr() %>% 
     visR::add_annotation(label = anno)
   
   testthat::expect_equal(names(visR_plot$components)[[2]], "grobs") 
@@ -278,7 +278,7 @@ testthat::test_that("T6.3 The output has the same class as the original ggplot",
   anno <- adtte[1:6, 1:5]
   
   visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% 
-    visR::plot()
+    visR::visr()
   
   visR_plot2 <- visR_plot %>% 
     visR::add_annotation(label = anno)
