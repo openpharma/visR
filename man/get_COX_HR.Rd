@@ -7,23 +7,22 @@
 \usage{
 get_COX_HR(x, ...)
 
-\method{get_COX_HR}{survfit}(survfit_object, update_formula = NULL, ...)
+\method{get_COX_HR}{survfit}(x, update_formula = NULL, ...)
 }
 \arguments{
-\item{x}{S3 object}
+\item{x}{An object of class \code{survfit}}
 
 \item{...}{other arguments passed on to the method survival::coxph}
 
-\item{survfit_object}{An object of class \code{survfit}}
-
-\item{update_formula}{Template which specifies how to update the formula of the survfit_object \code{\link[stats]{update.formula}}}
+\item{update_formula}{Template which specifies how to update the formula of the survfit object \code{\link[stats]{update.formula}}}
 }
 \value{
 A tidied object of class \code{coxph} containing Hazard Ratios
 }
 \description{
-S3 method for extracting information regarding Hazard Ratios. The function allows the survival object's
-formula to be updated. No default method is available at the moment.
+S3 method for extracting information regarding Hazard Ratios.
+The function allows the survival object's formula to be updated.
+No default method is available at the moment.
 }
 \examples{
 ## treatment effect

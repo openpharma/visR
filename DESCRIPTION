@@ -29,13 +29,11 @@ Suggests:
     vdiffr,
     knitr,
     rmarkdown,
-    survminer,
     forcats,
     glue,
-    here,
     stringr,
-    openxlsx,    
-    vdiffr
+    openxlsx,
+    data.table
 RoxygenNote: 7.1.1
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -47,14 +45,10 @@ Imports:
     survival,
     magrittr,
     ggplot2,
-    patchwork,
     tibble,
     tidyr,
     dplyr,
-    ggpubr,
-    pammtools,
     kableExtra,
-    assertthat,
     gt (>= 0.1.0),
     tidyselect,
     parcats (>= 0.0.1),

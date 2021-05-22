@@ -58,7 +58,7 @@ The current options are:
 \item{\code{surv} is the survival probability. This is the default.}
 \item{\code{log} is log of the survival probability}
 \item{\code{event} is the failure probability}
-\item{\code{cloglog} is log(-log(Survival probability))}
+\item{\code{cloglog} is log(-log(survival probability))}
 \item{\code{pct} is survival as a percentage}
 \item{\code{logpct} is log survival as a percentage}
 \item{\code{cumhaz} is the cumulative hazard}
@@ -91,10 +91,9 @@ Method to display a \code{ggplot} directly from an object through an S3 method.
 S3 method for creating plots directly from objects using \code{ggplot2}, similar to base plot function.
 }
 \examples{
-library(survival)
 
 # fit KM 
-km_fit <- survfit(Surv(AVAL, 1-CNSR) ~ TRTP, data=adtte)
+km_fit <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ TRTP, data=adtte)
 
 # plot curves using survival plot function
 plot(km_fit)

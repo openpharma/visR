@@ -8,7 +8,8 @@
 get_risktable(x, ...)
 
 \method{get_risktable}{survfit}(
-  survfit_object,
+  x,
+  ...,
   min_at_risk = 0,
   times = NULL,
   statlist = c("n.risk"),
@@ -18,11 +19,9 @@ get_risktable(x, ...)
 )
 }
 \arguments{
-\item{x}{object to be passed on to the method}
+\item{x}{an object of class \code{survfit}}
 
 \item{...}{other arguments passed on to the method}
-
-\item{survfit_object}{an object of class \code{survfit}}
 
 \item{min_at_risk}{\code{numeric} The cutoff for number of participants at risk to display. This minimum is applied across strata.
 Default is 0.}

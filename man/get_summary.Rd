@@ -8,17 +8,15 @@
 get_summary(x, ...)
 
 \method{get_summary}{survfit}(
-  survfit_object,
+  x,
   statlist = c("strata", "records", "events", "median", "LCL", "UCL", "CI"),
   ...
 )
 }
 \arguments{
-\item{x}{S3 object}
+\item{x}{An object of class \code{survfit}}
 
 \item{...}{other arguments passed on to the method}
-
-\item{survfit_object}{An object of class \code{survfit}}
 
 \item{statlist}{Character vector containing the desired information to be displayed. The order of the arguments determines the order in which
 they are displayed in the final result. Default is the strata ("strata"), number of subjects ("records"), number of events ("events"),
