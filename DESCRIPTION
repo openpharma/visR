@@ -33,7 +33,9 @@ Suggests:
     forcats,
     glue,
     here,
-    stringr
+    stringr,
+    openxlsx,    
+    vdiffr
 RoxygenNote: 7.1.1
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -62,9 +64,5 @@ Imports:
     gridExtra,
     plotly,
     reshape2,
-    rlang,
-    base
-Suggests:
-    openxlsx,
-    vdiffr
+    rlang
 VignetteBuilder: knitr
