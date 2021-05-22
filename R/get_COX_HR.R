@@ -1,7 +1,8 @@
 #' @title Summarize Hazard Ratio from a survival object using S3 method
 #'
-#' @description S3 method for extracting information regarding Hazard Ratios. The function allows the survival object's
-#'   formula to be updated. No default method is available at the moment.
+#' @description S3 method for extracting information regarding Hazard Ratios. 
+#' The function allows the survival object's formula to be updated. 
+#' No default method is available at the moment.
 #'
 #' @seealso \code{\link[survival]{coxph}} \code{\link[stats]{update.formula}}
 #'
@@ -17,7 +18,7 @@ get_COX_HR <- function(x, ...){
 } 
 
 
-#' @param x An object of class \code{survfit_visr}
+#' @param x An object of class \code{survfit}
 #' @param update_formula Template which specifies how to update the formula of the survfit object \code{\link[stats]{update.formula}}
 #'
 #' @examples 
