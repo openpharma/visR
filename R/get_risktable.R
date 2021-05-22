@@ -12,11 +12,10 @@
 #' @export
 
 get_risktable <- function(x, ...){
-  UseMethod("get_risktable", x)
+  UseMethod("get_risktable")
 } 
 
 #' @param x an object of class `survfit`
-#' @param ... other arguments passed on to the method
 #' @param min_at_risk \code{numeric} The cutoff for number of participants at risk to display. This minimum is applied across strata. 
 #'   Default is 0.
 #' @param times Numeric vector indicating the times at which the risk set, censored subjects, events are calculated.
@@ -45,13 +44,13 @@ get_risktable <- function(x, ...){
 
 get_risktable.survfit <- function(
     x
-  ,...
    ,min_at_risk = 0
    ,times = NULL
    ,statlist = c("n.risk")
    ,label = NULL
    ,group = "strata"
    ,collapse = FALSE
+   ,...
 ){
 
 # User input validation ---------------------------------------------------
