@@ -10,7 +10,6 @@
 #' @param ... other arguments passed on to the method survival::coxph
 #' 
 #' @rdname get_COX_HR
-#' 
 #' @export
 
 get_COX_HR <- function(x, ...){
