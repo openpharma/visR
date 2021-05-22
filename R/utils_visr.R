@@ -137,6 +137,7 @@ legendopts <- function(legend_position = "right",
 #' @return The input dataframe extended by two columns containing the label and complement label
 #'
 #' @keywords internal
+#' @noRd
 .get_labels <- function(data, description_column_name, value_column_name, complement_column_name="", wrap_width=50){
 
   label <- complement_label <- NULL
@@ -179,6 +180,7 @@ legendopts <- function(legend_position = "right",
 #' @return The input dataframe extended by several columns containing the label and complement label height and width
 #'
 #' @keywords internal
+#' @noRd
 #'
 .get_labelsizes <- function(data, label, complement_label){
   labelheight <- labelwidth <- complementheight <- complementwidth <- maxwidth <- maxheight <- NULL
@@ -206,7 +208,7 @@ legendopts <- function(legend_position = "right",
 #' @return The input dataframe extended by columns containing x and y coordinates for included and excluded counts
 #'
 #' @keywords internal
-#'
+#' @noRd
 .get_coordinates <- function(data, box_width, box_height, field_height){
 
   y <- ymin <- ymax <- down_ystart <- down_yend <- x <- side_xend <- side_y <- NULL

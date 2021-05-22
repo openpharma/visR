@@ -92,6 +92,7 @@ tableone <- function(
     data,
     title,
     datasource,
+    footnote, 
     # abbreviations = "",
     # variable_definitions = "",
     strata = NULL,

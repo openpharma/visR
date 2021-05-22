@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - develop
+      - main
 
 name: pkgdown
 
@@ -28,6 +28,7 @@ jobs:
           install.packages("devtools")
           install.packages("remotes")
           install.packages("pkgdown")
+          install.packages("vdiffr")
           install.packages("textshaping", type = "binary")
           remotes::install_github("lorenzwalthert/gitsum")
           install.packages("ggthemes")

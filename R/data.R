@@ -38,7 +38,6 @@
 #'  \item{SRCSEQ}{Source Sequence Number}
 #'  \item{SAFFL}{Safety Population Flag}
 #' }
-#' @seealso \code{\link{}}
 #' @keywords datasets CDISC adtte
 #' @name adtte
 #' @examples

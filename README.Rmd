@@ -42,20 +42,29 @@ The package is still experimental and under active development with a current fo
 | Badge | Description
 |----------------------|-------------------|
 | [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)     | Development stage |
-| [![Codecov test coverage](https://codecov.io/gh/openpharma/visR/branch/develop/graph/badge.svg)](https://codecov.io/gh/openpharma/visR?branch=develop) | Unit testing coverage - currently points at `develop` |
+| [![Codecov test coverage](https://codecov.io/gh/openpharma/visR/branch/develop/graph/badge.svg)](https://codecov.io/gh/openpharma/visR?branch=main) | Unit testing coverage - on `main` |
+| [![Codecov test coverage](https://codecov.io/gh/openpharma/visR/branch/develop/graph/badge.svg)](https://codecov.io/gh/openpharma/visR?branch=develop) | Unit testing coverage - on `develop` |
 | [![R-CMD-check](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml/badge.svg?branch=develop)](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml) | `develop` branch |
-| [![R-CMD-check](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml/badge.svg?branch=master)](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml) | `master` branch |
+| [![R-CMD-check](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml/badge.svg?branch=main)](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml) | `main` branch |
 | [![pkgdown](https://github.com/openpharma/visR/actions/workflows/makedocs.yml/badge.svg)](https://github.com/openpharma/visR/actions/workflows/makedocs.yml) | Documentation building to [Github pages](https://openpharma.github.io/visR/) |
 <!-- badges: end -->
 
 
 ## Installation
 
-Install the development version from [GitHub](https://github.com/) with:
+Install the *development* version from [GitHub](https://github.com/) with:
 
 ``` r
-devtools::install_github("openpharma/visR")
+devtools::install_github("openpharma/visR") # defaults to develop branch
 ```
+
+Install the *latest stable* version from [GitHub](https://github.com/) with:
+
+``` r
+devtools::install_github("openpharma/visR", ref = "main")
+```
+
+The package is not on CRAN yet. 
 
 ## Example
 
@@ -66,7 +75,7 @@ library(visR)
 
 adtte %>%
   estimate_KM(strata = "TRTP", conf.int = 0.90) %>%
-  visR::plot(legend_position = "right", x_unit = "Days") %>%
+  visR::visr(legend_position = "right", x_unit = "Days") %>%
   add_CI(style = "ribbon") %>%
   add_CNSR(shape = 3, size = 1) %>%
   add_risktable(
@@ -87,7 +96,7 @@ library(dplyr)
 library(glue)
 library(ggplot2)
 #library(GithubMetrics) #remotes::install_github("openpharma/GithubMetrics")
-library(gitsum) #remotes::install_github("lorenzwalthert/gitsum)
+library(gitsum) #remotes::install_github("lorenzwalthert/gitsum")
 
 local_repo <- parse_log_detailed()
 
@@ -159,9 +168,9 @@ lines <- local_repo %>%
   set_changed_file_to_latest_name() %>%
   add_line_history()
 
-r_files <- grep("^R/", lines$changed_file, value = TRUE)
+#r_files <- grep("^R/", lines$changed_file, value = TRUE)
 
-glimpse(r_files)
+#glimpse(r_files)
 
 # to_plot <- lines %>%
 #   filter(changed_file %in% r_files) %>%

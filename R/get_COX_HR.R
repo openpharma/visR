@@ -1,7 +1,8 @@
 #' @title Summarize Hazard Ratio from a survival object using S3 method
 #'
-#' @description S3 method for extracting information regarding Hazard Ratios. The function allows the survival object's
-#'   formula to be updated. No default method is available at the moment.
+#' @description S3 method for extracting information regarding Hazard Ratios. 
+#' The function allows the survival object's formula to be updated. 
+#' No default method is available at the moment.
 #'
 #' @seealso \code{\link[survival]{coxph}} \code{\link[stats]{update.formula}}
 #'
@@ -9,7 +10,6 @@
 #' @param ... other arguments passed on to the method survival::coxph
 #' 
 #' @rdname get_COX_HR
-#' 
 #' @export
 
 get_COX_HR <- function(x, ...){
@@ -17,8 +17,8 @@ get_COX_HR <- function(x, ...){
 } 
 
 
-#' @param survfit_object An object of class \code{survfit}
-#' @param update_formula Template which specifies how to update the formula of the survfit_object \code{\link[stats]{update.formula}}
+#' @param x An object of class \code{survfit}
+#' @param update_formula Template which specifies how to update the formula of the survfit object \code{\link[stats]{update.formula}}
 #'
 #' @examples 
 #' ## treatment effect
@@ -34,7 +34,8 @@ get_COX_HR <- function(x, ...){
 #'
 #' ## update formula of KM estimates by treatment to include "AGE" for
 #' ## HR estimation with ties considered via the efron method
-#' visR::get_COX_HR(survfit_object_trt, update_formula = ". ~ . + survival::strata(AGE)", ties = "efron")
+#' visR::get_COX_HR(survfit_object_trt, 
+#'   update_formula = ". ~ . + survival::strata(AGE)", ties = "efron")
 #'
 #' @return A tidied object of class \code{coxph} containing Hazard Ratios
 #'
@@ -43,7 +44,7 @@ get_COX_HR <- function(x, ...){
 #' @export
 
 get_COX_HR.survfit <- function(
-  survfit_object,
+  x,
   update_formula = NULL,
   ...
 ){
@@ -51,8 +52,8 @@ get_COX_HR.survfit <- function(
 # Update formula ----------------------------------------------------------
   
   if (!is.null(update_formula)){
-    updated_object <- stats::update(survfit_object,  formula = eval(update_formula), evaluate = TRUE)
-  } else updated_object <- survfit_object
+    updated_object <- stats::update(x,  formula = eval(update_formula), evaluate = TRUE)
+  } else updated_object <- x
   
 # Change Call -------------------------------------------------------------
   

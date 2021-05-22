@@ -2,7 +2,7 @@
 #'
 #' @description Create a risk table from an object using an S3 method. Currently, no default method is defined.
 #' 
-#' @seealso \code{\link[survival]{summary}}
+#' @seealso \code{\link[survival]{summary.survfit}}
 #' 
 #' @param x object to be passed on to the method
 #' @param ... other arguments passed on to the method
@@ -12,10 +12,11 @@
 #' @export
 
 get_risktable <- function(x, ...){
-  UseMethod("get_risktable")
+  UseMethod("get_risktable", x)
 } 
 
-#' @param survfit_object an object of class `survfit`
+#' @param x an object of class `survfit`
+#' @param ... other arguments passed on to the method
 #' @param min_at_risk \code{numeric} The cutoff for number of participants at risk to display. This minimum is applied across strata. 
 #'   Default is 0.
 #' @param times Numeric vector indicating the times at which the risk set, censored subjects, events are calculated.
@@ -23,23 +24,28 @@ get_risktable <- function(x, ...){
 #'   Default is "n.risk".
 #' @param label Character vector with labels for the statlist. Default matches "n.risk" with "At risk", "n.event" with "Events" and "n.censor"
 #'   with "Censored".
-#' @param group String indicating the grouping variable for the risk tables. Current options are:
-#'   \itemize{
-#'     \item{"strata": groups the risk tables per stratum. The `label` specifies the label within each risk tabel. The strata levels
-#'        are used for the titles of the risk tables. This is the default}
-#'      \item{"statlist": groups the risk tables per statlist. The `label` specifies the title for each risk tabel. The strata levels
-#'        are used for labeling within each risk table.}
-#'   } 
+#' @param group String indicating the grouping variable for the risk tables. 
+#'   Current options are:
+#'     \itemize{
+#'     \item{"strata": groups the risk tables per stratum. 
+#'       The `label` specifies the label within each risk table. The strata levels 
+#'       are used for the titles of the risk tables. This is the default}
+#'     \item{"statlist": groups the risk tables per statlist. 
+#'       The `label` specifies the title for each risk tabel. The strata levels
+#'       are used for labeling within each risk table.}
+#'     } 
 #'   Default is "strata".
 #' @param collapse Boolean, indicates whether to present the data overall.
 #'   Default is FALSE.
+#' @param ... other arguments passed on to the method
 #'
 #' @rdname get_risktable
 #' @method get_risktable survfit
 #' @export
 
 get_risktable.survfit <- function(
-    survfit_object
+    x
+  ,...
    ,min_at_risk = 0
    ,times = NULL
    ,statlist = c("n.risk")
@@ -68,8 +74,8 @@ get_risktable.survfit <- function(
   if (length(group)>1 | !(base::all(group %in% c("statlist", "strata"))))
     stop("group should equal statlist or strata.")
   
-  if (min_at_risk > max(survfit_object$n.risk)){
-    tidy_object <- tidyme(survfit_object)
+  if (min_at_risk > max(x$n.risk)){
+    tidy_object <- tidyme(x)
 
     max_at_risk <- tidy_object %>% 
       dplyr::group_by(strata) %>%
@@ -80,7 +86,7 @@ get_risktable.survfit <- function(
   
 # Clean input ------------------------------------------------------------
   
-  tidy_object <- tidyme(survfit_object)
+  tidy_object <- tidyme(x)
   
   statlist <- unique(statlist)
   
@@ -122,7 +128,7 @@ get_risktable.survfit <- function(
 # Generate time ticks ----------------------------------------------------
 
   if (is.null(times)) {
-    times <- pretty(survfit_object$time, 10)
+    times <- pretty(x$time, 10)
   } 
 
   if (max_time %in% times)
@@ -132,7 +138,7 @@ get_risktable.survfit <- function(
 
 # Summary -----------------------------------------------------------------
 
-  survfit_summary <- summary(survfit_object, times = times, extend = TRUE)
+  survfit_summary <- summary(x, times = times, extend = TRUE)
 
 # Risk table per statlist -------------------------------------------------
 

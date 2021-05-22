@@ -1,10 +1,17 @@
 #' @title Add risk tables to visR plots through an S3 method
 #'
 #' @description S3 method for adding risk tables to visR plots. The function has following workflow:
-#'     \itemize{The risktables are calculated using \code{\link[visR]{get_risktable}}
-#'       \item{The risktables are placed underneat visR plots using \code{\link[cowplot]}}
-#'       \item{Both the initial visR plot as the individual risktables are stored as attribute `component`
-#'        in the final object to allow post-modification of the individual plots if desired}
+#'     \itemize{
+#'       \item{
+#'       The risktables are calculated using \code{\link[visR]{get_risktable}}
+#'       }
+#'       \item{
+#'       The risktables are placed underneath visR plots using \code{\link[cowplot]{plot_grid}}
+#'       }
+#'       \item{
+#'       Both the initial visR plot as the individual risktables are stored as attribute `component`
+#'        in the final object to allow post-modification of the individual plots if desired
+#'        }
 #'     }
 #'
 #' @param gg visR plot of class `ggsurvfit`
@@ -23,39 +30,36 @@ add_risktable <- function(gg, ...){
 #' @seealso \code{\link[cowplot]{plot_grid}}
 #' 
 #' @examples
-#' \donttest{
 #'
 #' ## Display 2 risk tables, 1 per statlist
 #' adtte %>%
-#'   estimate_KM(strata = "TRTP") %>%
-#'   visR::plot() %>%
-#'   add_risktable( min_at_risk = 3
-#'                 ,label = c("Subjects at Risk", "Censored")
-#'                 ,statlist = c("n.risk", "n.censor")
-#'                 ,group = "statlist"
-#'                 )
+#'   visR::estimate_KM(strata = "TRTP") %>%
+#'   visR::visr() %>%
+#'   visR::add_risktable( min_at_risk = 3
+#'                       ,label = c("Subjects at Risk", "Censored")
+#'                       ,statlist = c("n.risk", "n.censor")
+#'                       ,group = "statlist"
+#'                      )
 #'                 
 #' ## Display 2 risk tables, 1 per stratum
 #' adtte %>%
-#'   estimate_KM(strata = "TRTP") %>%
-#'   visR::plot() %>%
-#'   add_risktable( min_at_risk = 3
-#'                 ,label = c("Subjects at Risk", "Censored")
-#'                 ,statlist = c("n.risk", "n.censor")
-#'                 ,group = "strata"
-#'                 )
+#'   visR::estimate_KM(strata = "TRTP") %>%
+#'   visR::visr() %>%
+#'   visR::add_risktable( min_at_risk = 3
+#'                       ,label = c("Subjects at Risk", "Censored")
+#'                       ,statlist = c("n.risk", "n.censor")
+#'                       ,group = "strata"
+#'                      )
 #'
 #' ## Display overall risk table
 #' adtte %>%
-#'   estimate_KM(strata = "TRTP") %>%
-#'   visR::plot() %>%
-#'   add_risktable( min_at_risk = 3
-#'                 ,label = c("Subjects at Risk", "Censored")
-#'                 ,statlist = c("n.risk", "n.censor")
-#'                 ,collapse = TRUE
-#'                 )
-#'
-#' }
+#'   visR::estimate_KM(strata = "TRTP") %>%
+#'   visR::visr() %>%
+#'   visR::add_risktable( min_at_risk = 3
+#'                       ,label = c("Subjects at Risk", "Censored")
+#'                       ,statlist = c("n.risk", "n.censor")
+#'                       ,collapse = TRUE
+#'                      )
 #'
 #' @return Object of class \code{ggplot} with added risk table.
 #'
@@ -71,6 +75,7 @@ add_risktable.ggsurvfit <- function(
    ,label = "At risk"
    ,group = "strata"
    ,collapse = FALSE
+   ,...
 ){
 
 # Obtain the relevant table -----------------------------------------------

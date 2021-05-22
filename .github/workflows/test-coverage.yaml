@@ -2,12 +2,10 @@ on:
   push:
     branches:
       - main
-      - master
       - develop
   pull_request:
     branches:
       - main
-      - master
 
 name: test-coverage
 
@@ -41,6 +39,7 @@ jobs:
         run: |
           install.packages(c("remotes"))
           remotes::install_deps(dependencies = TRUE)
+          install.packages("vdiffr")
           remotes::install_cran("covr")
         shell: Rscript {0}
 
