@@ -9,13 +9,13 @@ get_risktable(x, ...)
 
 \method{get_risktable}{survfit}(
   x,
-  ...,
   min_at_risk = 0,
   times = NULL,
   statlist = c("n.risk"),
   label = NULL,
   group = "strata",
-  collapse = FALSE
+  collapse = FALSE,
+  ...
 )
 }
 \arguments{
