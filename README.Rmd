@@ -29,7 +29,7 @@ By using a common package for visualising data analysis results in the clinical 
 * **choice of visualisation** by making it easy explore different visualisation and to use impactful visualisations fit-for-purpose
 * effective visual communication by making it easy to **implement best practices** 
 
-We are not judging on what visualisation you chose for your research question, but want facilitate and support good practice.
+We are not judging on what visualisation you chose for your research question, but want to facilitate and support good practice.
 
 You can read more about the philosophy and architecture in the [repo wiki](https://github.com/openpharma/visR/wiki).
 
@@ -71,18 +71,20 @@ The package is not on CRAN yet.
 This is a basic example to demonstrate how the API can be used to add layers to a visualisation. In this example a time to event analysis. The example calculates stratified Kaplan-Meier by treatment and then plots. Additional functions can be used to add uncertainty intervals, censoring information and a risk table. 
 
 ```{r example, warning=FALSE, message = FALSE}
+library(ggplot2)
 library(visR)
+
+theme_set(theme_minimal())
+
 
 adtte %>%
   estimate_KM(strata = "TRTP", conf.int = 0.90) %>%
-  visR::visr(legend_position = "right", x_unit = "Days") %>%
+  visr(legend_position = "right", x_unit = "Days") %>%
   add_CI(style = "ribbon") %>%
   add_CNSR(shape = 3, size = 1) %>%
   add_risktable(
-    min_at_risk = 3,
     statlist = c("n.risk", "n.event", "n.censor"),
-    label = c("At risk", "Event", "Censor"),
-    collapse = F
+    label = c("At risk", "Event", "Censor")
   )
 ```
 
