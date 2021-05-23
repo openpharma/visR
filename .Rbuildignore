@@ -5,3 +5,9 @@
 ^visR\.Rproj$
 ^codecov\.yml$
 ^\.github$
+^CODE_OF_CONDUCT\.md$
+^Makefile$
+^README\.Rmd$
+^_pkgdown\.yml$
+^pkgdown$
+^visR_architecture\.png$
