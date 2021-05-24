@@ -51,7 +51,7 @@ get_quantile.survfit <- function(x,
   if (conf.int == TRUE & !base::all(c("lower", "upper") %in% names(x)))
     stop("Confidence limits were not part of original estimation.")
   
-  if (!base::all(is.numeric(probs) == TRUE))
+  if (!base::all(is.numeric(probs) == TRUE) | (!base::all(probs < 1)))
     stop("probs should be a numeric vector.")
   
   if (!is.numeric(tolerance))
@@ -75,9 +75,9 @@ get_quantile.survfit <- function(x,
     cbind(strata, quantity, qdf)
    ,row.names = NULL
    ,check.names = FALSE
-  ) %>%
-    dplyr::arrange(strata, quantity)
+  )
   
+  final <- final[ order( final[, "strata"], final[, "quantity"] ),  ]
 
   # ## focus on fun = surv, but we could do this for more funs
   # ## get maximal 1-S(t) and max time
