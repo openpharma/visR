@@ -92,11 +92,22 @@ visr.survfit <- function(
 
 # Minimal input validation  ----------------------------------------------------
 
-  if (!inherits(x, "survfit")) stop("survfit object is not of class `survfit`")
   if (is.character(legend_position) && ! legend_position %in% c("top", "bottom", "right", "left", "none")){
-    stop("Invalid legend position given.")
+    stop("Invalid legend position given. Must either be [\"top\", \"bottom\", \"right\", \"left\", \"none\"] or a vector with two numbers indicating the position relative to the axis. For example c(0.5, 0.5) to place the legend in the center of the plot.")
   } else if (is.numeric(legend_position) && length(legend_position) != 2) {
-    stop("Invalid legend position coordinates given.")
+    stop("Invalid legend position given. Must either be [\"top\", \"bottom\", \"right\", \"left\", \"none\"] or a vector with two numbers indicating the position relative to the axis. For example c(0.5, 0.5) to place the legend in the center of the plot.")
+  }
+  
+  valid_funs <- c("surv", "log", "event", "cloglog", "pct", "logpct", "cumhaz")
+  
+  if (is.character(fun)) {
+    
+    if (!(fun %in% valid_funs)) {
+      
+      stop("Unrecognized `fun` argument, must be one of [\"surv\", \"log\", \"event\", \"cloglog\", \"pct\", \"logpct\", \"cumhaz\"] or a user-defined function.")
+      
+    }
+    
   }
 
 # Y-label ----------------------------------------------------------------------
@@ -116,7 +127,7 @@ visr.survfit <- function(
   } else if (is.null(y_label) & is.function(fun)) {
     stop("No Y label defined. No default label is available when `fun` is a function.")
   }
-
+  
   if (is.character(fun)){
     .transfun <- base::switch(
       fun,
@@ -128,15 +139,14 @@ visr.survfit <- function(
       logpct = function(y) log(y *100),
       # survfit object contains an estimate for Cumhaz and SE based on Nelson-Aalen with or without correction for ties
       # However, no CI is calculated automatically. For plotting, the MLE estimator is used for convenience.
-      cumhaz = function(y) -log(y),
-      stop("Unrecognized fun argument")
+      cumhaz = function(y) - log(y)
     )
   } else if (is.function(fun)) {
-    fun
+    .transfun <- function(y) fun(y)
   } else {
     stop("Error in visr: fun should be a character or a user-defined function.")
   }
-
+  
 # Extended tidy of survfit class + transformation + remove NA after transfo ----
 
   correctme <- NULL
@@ -144,32 +154,34 @@ visr.survfit <- function(
 
   if ("surv" %in% colnames(tidy_object)) {
     tidy_object[["est"]] <- .transfun(tidy_object[["surv"]])
-    correctme <- c(correctme,"est")
+    correctme <- c(correctme, "est")
   }
   if (base::all(c("upper", "lower") %in% colnames(tidy_object))) {
     tidy_object[["est.upper"]] <- .transfun(tidy_object[["upper"]])
     tidy_object[["est.lower"]] <- .transfun(tidy_object[["lower"]])
-    correctme <- c(correctme,"est.lower", "est.upper")
+    correctme <- c(correctme, "est.lower", "est.upper")
   }
 
 # Adjust -Inf to minimal value -------------------------------------------------
 
-  tidy_object[ , correctme] <- sapply(tidy_object[ , correctme],
+  tidy_object[ , correctme] <- sapply(tidy_object[, correctme],
                                       FUN = function(x) {
                                         x[which(x == -Inf)] <- min(x[which(x != -Inf)], na.rm = TRUE)
                                         return(x)
                                       }
   )
 
-  ymin = min(sapply(tidy_object[ , correctme], function(x) min(x[which(x != -Inf)], na.rm = TRUE)), na.rm = TRUE)
-  ymax = max(sapply(tidy_object[ , correctme], function(x) max(x[which(x != -Inf)], na.rm = TRUE)), na.rm = TRUE)
+  ymin = min(sapply(tidy_object[, correctme], function(x) min(x[which(x != -Inf)], na.rm = TRUE)), na.rm = TRUE)
+  ymax = max(sapply(tidy_object[, correctme], function(x) max(x[which(x != -Inf)], na.rm = TRUE)), na.rm = TRUE)
 
-  if (fun == "cloglog") {
-    if (nrow(tidy_object[tidy_object$est == "-Inf",]) > 0) {
-      warning("NAs introduced by y-axis transformation.\n")
+  if (is.character(fun)) {
+    if (fun == "cloglog") {
+      if (nrow(tidy_object[tidy_object$est == "-Inf",]) > 0) {
+        warning("NAs introduced by y-axis transformation.\n")
+      }
+      tidy_object <- tidy_object[tidy_object$est != "-Inf",]
     }
-    tidy_object = tidy_object[tidy_object$est != "-Inf",]
-  }
+  } 
 
 # Obtain X-asis label ----------------------------------------------------------
 
@@ -185,19 +197,22 @@ visr.survfit <- function(
   if (is.null(y_ticks) & is.character(fun)){
     y_ticks <- base::switch(
       fun,
-      surv = pretty(c(0,1), 5),
-      log =  pretty(round(c(ymin,ymax), 0), 5),
-      event = pretty(c(0,1), 5),
-      cloglog = pretty(round(c(ymin,ymax), 0), 5),
-      pct = pretty(c(0,100), 5),
-      logpct = pretty(c(0,5), 5),
-      cumhaz =  pretty(round(c(ymin,ymax), 0), 5),
+      surv = pretty(c(0, 1), 5),
+      log =  pretty(round(c(ymin, ymax), 0), 5),
+      event = pretty(c(0, 1), 5),
+      cloglog = pretty(round(c(ymin, ymax), 0), 5),
+      pct = pretty(c(0, 100), 5),
+      logpct = pretty(c(0, 5), 5),
+      cumhaz =  pretty(round(c(ymin, ymax), 0), 5),
       stop("Unrecognized fun argument")
     )
-  } else if (is.null(y_label) & is.function(fun)) {
-    stop("Error in visr: No Y label defined. No default is available when `fun` is a function.")
+  } else if (is.null(y_ticks) & is.function(fun)) {
+    
+    y_ticks = pretty(round(c(ymin, ymax), 0), 5)
+    
+    #stop("Error in visr: No Y label defined. No default is available when `fun` is a function.")
   }
-
+  
 # Plotit -----------------------------------------------------
 
   yscaleFUN <- function(x) sprintf("%.2f", x)
@@ -215,7 +230,7 @@ visr.survfit <- function(
     NULL
 
   class(gg) <- append(class(gg), "ggsurvfit")
-
+  
   return(gg)
 }
 
