@@ -325,32 +325,52 @@ visr.attrition <- function(x,
                            border="black",
                            ...){
 
-  if(missing(description_column_name) | description_column_name == ""){
-    stop("Please provide a valid column name as string containing the inclusion descriptions")
-  }
-  if(!description_column_name %in% names(x)){
-    stop(paste0("Column ", description_column_name, " cannot be found in the input data. ",
+  if (!description_column_name %in% names(x)) {
+    stop(paste0("Column \"", description_column_name, "\" cannot be found in the input data. ",
                 "Please provide the column name as string in the input ",
-                "data containing the inclusion descriptions"))
+                "data containing the inclusion descriptions."))
   }
 
-
-  if(missing(value_column_name) | value_column_name == ""){
-    stop(paste("Please provide the column name  as string containing the remaining",
-               "sample size after applying inclusion criteria."))
-  }
-  if(!value_column_name %in% names(x)){
-    stop(paste0("Column ", value_column_name, " cannot be found in the input data. ",
+  if (!value_column_name %in% names(x)) {
+    stop(paste0("Column \"", value_column_name, "\" cannot be found in the input data. ",
                 "Please provide the column name as string in the input data containing",
-                "the sample size after applying inclusion criteria"))
+                "the sample size after applying inclusion criteria."))
   }
 
-  if(complement_column_name != "" & !complement_column_name %in% names(x)){
-    stop(paste0("Column ", complement_column_name, " cannot be found in the input data. ",
+  if (complement_column_name != "" & !complement_column_name %in% names(x)) {
+    stop(paste0("Column \"", complement_column_name, "\" cannot be found in the input data. ",
                 "Please provide a valid column name as string in the input data containing",
                 "complement description or omit this argument for default labels."))
   }
-
+  
+  if (!is.numeric(box_width)) {
+    
+    warning("An invalid input was given for `box_width`, must be `numeric` value. Setting it to 50.")
+    box_width <- 50
+    
+  }
+  
+  if (!is.numeric(font_size)) {
+    
+    warning("An invalid input was given for `font_size`, must be `numeric` value. Setting it to 12.")
+    font_size <- 12
+    
+  }
+  
+  if (!is.character(fill)) {
+    
+    warning("An invalid input was given for `fill`, must be `character` string. Setting it to \"white\".")
+    fill <- "white"
+    
+  }
+  
+  if (!is.character(border)) {
+    
+    warning("An invalid input was given for `border`, must be `character` string. Setting it to \"black\".")
+    border <- "black"
+    
+  }
+  
   label <- complement_label <- NULL
   y <- down_ystart <- down_yend <- side_xstart <- side_xend <- side_y <- NULL
   cx <- cy <- NULL
