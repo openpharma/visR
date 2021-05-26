@@ -135,12 +135,11 @@ testthat::test_that("T2.4 An error when `data` is missing.",{
 testthat::test_that("T2.5 An error when `criteria_conditions` is missing.",{
   
   testthat::expect_error(
-    visR::apply_attrition(adtte)
+    visR::apply_attrition(data = adtte)
   )
   
 })
 
-# TODO
 context("get_attrition - T3. The function filters correctly when provided a vector of single filters")
 testthat::test_that("# T3.1 Correct filtering string column",{
     
