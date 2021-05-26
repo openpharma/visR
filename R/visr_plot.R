@@ -21,14 +21,20 @@ visr <- function(x, ...){
 #' @export
 
 visr.default <- function(x, ...){
-  stop(paste0("Objects of type ", class(x), "/"), " not supported by visr.")
+  
+  if (length(class(x)) > 1) {
+    stop("Objects of type `", paste0(class(x), collapse = "` / `"), "` not supported by visr.")
+  } else if (length(class(x)) == 1) {
+    stop(paste0("Objects of type `", class(x), "` not supported by visr."))
+  }
+  
 }
 
 #' @param x Object of class `survfit`
-#' @param y_label \code{character} Label for the y-axis. When not specified, the default will do a proposal, depending on the `fun` argument.
 #' @param x_label \code{character} Label for the x-asis. When not specified, the algorithm will look for "PARAM" information inside the list structure of the `survfit` object.
 #'   Note that this information is automatically added when using visR::estimate_KM and when the input data has the variable "PARAM". If no "PARAM" information is available
 #'   "time" is used as label.
+#' @param y_label \code{character} Label for the y-axis. When not specified, the default will do a proposal, depending on the `fun` argument.
 #' @param x_units Unit to be added to the x_label (x_label (x_unit)). Default is NULL.
 #' @param x_ticks Ticks for the x-axis. When not specified, the default will do a proposal.
 #' @param y_ticks Ticks for the y-axis. When not specified, the default will do a proposal based on the `fun` argument.
@@ -79,8 +85,8 @@ visr.default <- function(x, ...){
 
 visr.survfit <- function(
   x = NULL
- ,y_label = NULL
  ,x_label = NULL
+ ,y_label = NULL
  ,x_units = NULL
  ,x_ticks = NULL
  ,y_ticks = NULL
@@ -91,7 +97,37 @@ visr.survfit <- function(
 
 
 # Minimal input validation  ----------------------------------------------------
-
+  
+  if (!(is.null(x_label) | is.character(x_label) | is.expression(x_label))) {
+    
+    stop("Invalid `x_label` argument, must be either `character` or `expression`.")
+    
+  }
+  
+  if (!(is.null(y_label) | is.character(y_label) | is.expression(y_label))) {
+    
+    stop("Invalid `y_label` argument, must be either `character` or `expression`.")
+    
+  }
+  
+  if (!(is.null(x_units) | is.character(x_units))) {
+    
+    stop("Invalid `x_units` argument, must be `character`.")
+    
+  }
+  
+  if (!(is.null(x_ticks) | is.numeric(x_ticks))) {
+    
+    stop("Invalid `x_ticks` argument, must be `numeric`.")
+    
+  }
+  
+  if (!(is.null(y_ticks) | is.numeric(y_ticks))) {
+    
+    stop("Invalid `y_ticks` argument, must be `numeric`.")
+    
+  }
+  
   if (is.character(legend_position) && ! legend_position %in% c("top", "bottom", "right", "left", "none")){
     stop("Invalid legend position given. Must either be [\"top\", \"bottom\", \"right\", \"left\", \"none\"] or a vector with two numbers indicating the position relative to the axis. For example c(0.5, 0.5) to place the legend in the center of the plot.")
   } else if (is.numeric(legend_position) && length(legend_position) != 2) {
@@ -164,6 +200,10 @@ visr.survfit <- function(
 
 # Adjust -Inf to minimal value -------------------------------------------------
 
+  if (nrow(tidy_object[tidy_object$est == "-Inf",]) > 0) {
+    warning("NAs introduced by y-axis transformation.")
+  }
+  
   tidy_object[ , correctme] <- sapply(tidy_object[, correctme],
                                       FUN = function(x) {
                                         x[which(x == -Inf)] <- min(x[which(x != -Inf)], na.rm = TRUE)
@@ -173,15 +213,6 @@ visr.survfit <- function(
 
   ymin = min(sapply(tidy_object[, correctme], function(x) min(x[which(x != -Inf)], na.rm = TRUE)), na.rm = TRUE)
   ymax = max(sapply(tidy_object[, correctme], function(x) max(x[which(x != -Inf)], na.rm = TRUE)), na.rm = TRUE)
-
-  if (is.character(fun)) {
-    if (fun == "cloglog") {
-      if (nrow(tidy_object[tidy_object$est == "-Inf",]) > 0) {
-        warning("NAs introduced by y-axis transformation.\n")
-      }
-      tidy_object <- tidy_object[tidy_object$est != "-Inf",]
-    }
-  } 
 
 # Obtain X-asis label ----------------------------------------------------------
 
@@ -210,7 +241,6 @@ visr.survfit <- function(
     
     y_ticks = pretty(round(c(ymin, ymax), 0), 5)
     
-    #stop("Error in visr: No Y label defined. No default is available when `fun` is a function.")
   }
   
 # Plotit -----------------------------------------------------
@@ -219,10 +249,10 @@ visr.survfit <- function(
 
   gg <- ggplot2::ggplot(tidy_object, ggplot2::aes(x = time, group = strata)) +
     ggplot2::geom_step(ggplot2::aes(y = est, col = strata)) + 
-    ggplot2::scale_x_continuous(name = paste0("\n", x_label),
+    ggplot2::scale_x_continuous(name = x_label,
                                 breaks = x_ticks,
                                 limits = c(min(x_ticks), max(x_ticks))) +
-    ggplot2::scale_y_continuous(name = paste0(y_label, "\n"),
+    ggplot2::scale_y_continuous(name = y_label,
                                 breaks = y_ticks,
                                 labels = yscaleFUN,
                                 limits = c(min(y_ticks), max(y_ticks))) +
