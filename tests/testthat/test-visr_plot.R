@@ -2,7 +2,7 @@
 #' @section Last updated by:
 #' Tim Treis
 #' @section Last update date:
-#' 25-MAY-2021
+#' 27-MAY-2021
 
 # Specifications ----------------------------------------------------------
 
@@ -10,7 +10,7 @@
 #' T1.1 No error when applied to a `survfit` object.
 #' T1.2 No error when applied to a `attrition` object.
 #' T1.3 An error when applied to an object that is not `survfit` or `attrition`.
-#' T2. No invalid parameters are used when applying `visR::visr()` to a `survfit` object.
+#' T2. Invalid parameters are captured when applying `visR::visr()` to a `survfit` object and respective warnings/errors are thrown.
 #' T2.1 No error when `x_label` is `NULL`, a `character` string or an `expression`.
 #' T2.2 No error when `y_label` is `NULL`, a `character` string or an `expression`.
 #' T2.3 No error when `x_units` is `NULL` or a `character` string.
@@ -24,15 +24,14 @@
 #' T2.11 An error when `y_ticks` is not `NULL` or a `numeric`.
 #' T2.12 No error when a valid option is passed to `legend_position`.
 #' T2.13 An error when the string is not amongst the valid options for `legend_position`.
-#' T2.14 An error when an invalid option is passed to `legend_position`.
+#' T2.14 An error when an undefined option is passed to `legend_position`.
 #' T3. The y-axis properties are correctly deducted from the provided `fun` when applying `visR::visr()` to a `survfit` object.
 #' T3.1 No error when `y_label` is `NULL` and `fun` is one of the valid string options.
 #' T3.2 An error when `y_label` is `NULL`, `fun` is a string but not one of the valid options.
 #' T3.3 No error when `y_label` is a string and `fun` is a function.
 #' T3.4 An error when `y_label` is `NULL` and `fun` is a function.
 #' T3.5 A warning when the provided function causes undefined values, f.e. log(-log(2)).
-#' T4. No invalid parameters are used when applying `visR::visr()` to a `attrition` object.
-#' T4.1 No error when `description_column_name` is a `character` string that is found in the colnames of the `attrition` object.
+#' T4. Invalid parameters are captured when applying `visR::visr()` to a `attrition` object and respective warnings/errors are thrown.#' T4.1 No error when `description_column_name` is a `character` string that is found in the colnames of the `attrition` object.
 #' T4.2 No error when `value_column_name` is a `character` string that is found in the colnames of the `attrition` object.
 #' T4.3 No error when `complement_column_name` is a `character` string that is found in the colnames of the `attrition` object.
 #' T4.4 No error when `box_width` is a `numeric` value.
@@ -95,7 +94,7 @@ testthat::test_that("T1.3 An error when applied to an object that is not `survfi
 
 # Requirement T2 ----------------------------------------------------------
 
-testthat::context("visr_plot - T2. No invalid parameters are used when applying `visR::visr()` to a `survfit` object.")
+testthat::context("visr_plot - T2. Invalid parameters are captured when applying `visR::visr()` to a `survfit` object and respective warnings/errors are thrown.")
 
 testthat::test_that("T2.1 No error when `x_label` is `NULL`, a `character` string or an `expression`.", {
   
@@ -260,7 +259,7 @@ testthat::test_that("T2.13 An error when the string is not amongst the valid opt
   
 })
 
-testthat::test_that("T2.14 An error when an invalid option is passed to `legend_position`.", {
+testthat::test_that("T2.14 An error when an undefined option is passed to `legend_position`.", {
   
   survfit_object <- adtte %>%
     visR::estimate_KM("SEX") 
@@ -367,7 +366,7 @@ testthat::test_that("T3.5 A warning when the provided function causes undefined 
 
 # Requirement T4 ----------------------------------------------------------
 
-testthat::context("visr_plot - T4. No invalid parameters are used when applying `visR::visr()` to a `attrition` object.")
+testthat::context("visr_plot - T4. Invalid parameters are captured when applying `visR::visr()` to an `attrition` object and respective warnings/errors are thrown.")
 
 testthat::test_that("T4.1 No error when `description_column_name` is a `character` string that is found in the colnames of the `attrition` object.", {
   
@@ -754,6 +753,5 @@ testthat::test_that("T4.19 An error when `border` is not a `character` string.",
   testthat::expect_warning(attrition_object %>% visR::visr(border = list()))
   
 })
-
 
 # END ---------------------------------------------------------------------
