@@ -222,7 +222,7 @@ testthat::test_that("T2.7 A ggplot warning when a non-matching vector for `size`
   p %>% visR::add_CNSR(size = list("We", "let", "ggplot", "test", "lists"))
   
   # Catch warning
-  abortive_warning <- visR:::check_traceback_stack_for_ggplot_aesthetics_warning()
+  abortive_warning <- check_traceback_stack_for_ggplot_aesthetics_warning()
   
   ggplot_error <- "Aesthetics must be either length 1 or the same as the data"
   testthat::expect_match(abortive_warning, ggplot_error)
@@ -239,7 +239,7 @@ testthat::test_that("T2.8 A ggplot warning when a non-matching vector for `shape
   p %>% visR::add_CNSR(shape = list("We", "let", "ggplot", "test", "lists"))
   
   # Catch warning
-  abortive_warning <- visR:::check_traceback_stack_for_ggplot_aesthetics_warning()
+  abortive_warning <- check_traceback_stack_for_ggplot_aesthetics_warning()
   
   ggplot_error <- "Aesthetics must be either length 1 or the same as the data"
   testthat::expect_match(abortive_warning, ggplot_error)

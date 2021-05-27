@@ -32,7 +32,6 @@
 #' @export
 #'
 #' @examples
-#' library(visR)
 #'
 #' ## No stratification
 #' visR::estimate_KM(data = adtte)
