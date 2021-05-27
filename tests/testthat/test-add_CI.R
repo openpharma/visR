@@ -135,7 +135,7 @@ testthat::test_that("T2.2 No error when 2 or more strata are present",{
   for (n_strata in c(5, 10, 20)) {
     
     p <- adtte %>%       
-      dplyr::mutate(TRTDUR = visR:::map_numbers_to_new_range(adtte$TRTDUR, 1, n_strata)) %>%       
+      dplyr::mutate(TRTDUR = map_numbers_to_new_range(adtte$TRTDUR, 1, n_strata)) %>%       
       visR::estimate_KM(strata = "TRTDUR") %>%      
       visR::visr()
     
@@ -147,7 +147,7 @@ testthat::test_that("T2.2 No error when 2 or more strata are present",{
   for (n_strata in c(5, 10, 20)) {
     
     p <- adtte %>%       
-      dplyr::mutate(TRTDUR = visR:::map_numbers_to_new_range(adtte$TRTDUR, 1, n_strata)) %>%       
+      dplyr::mutate(TRTDUR = map_numbers_to_new_range(adtte$TRTDUR, 1, n_strata)) %>%       
       visR::estimate_KM(strata = "TRTDUR") %>%      
       visR::visr()
     

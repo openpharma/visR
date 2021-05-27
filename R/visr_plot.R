@@ -21,14 +21,20 @@ visr <- function(x, ...){
 #' @export
 
 visr.default <- function(x, ...){
-  stop(paste0("Objects of type ", class(x), "/"), " not supported by visr.")
+  
+  if (length(class(x)) > 1) {
+    stop("Objects of type `", paste0(class(x), collapse = "` / `"), "` not supported by visr.")
+  } else if (length(class(x)) == 1) {
+    stop(paste0("Objects of type `", class(x), "` not supported by visr."))
+  }
+  
 }
 
 #' @param x Object of class `survfit`
-#' @param y_label \code{character} Label for the y-axis. When not specified, the default will do a proposal, depending on the `fun` argument.
 #' @param x_label \code{character} Label for the x-asis. When not specified, the algorithm will look for "PARAM" information inside the list structure of the `survfit` object.
 #'   Note that this information is automatically added when using visR::estimate_KM and when the input data has the variable "PARAM". If no "PARAM" information is available
 #'   "time" is used as label.
+#' @param y_label \code{character} Label for the y-axis. When not specified, the default will do a proposal, depending on the `fun` argument.
 #' @param x_units Unit to be added to the x_label (x_label (x_unit)). Default is NULL.
 #' @param x_ticks Ticks for the x-axis. When not specified, the default will do a proposal.
 #' @param y_ticks Ticks for the y-axis. When not specified, the default will do a proposal based on the `fun` argument.
@@ -79,8 +85,8 @@ visr.default <- function(x, ...){
 
 visr.survfit <- function(
   x = NULL
- ,y_label = NULL
  ,x_label = NULL
+ ,y_label = NULL
  ,x_units = NULL
  ,x_ticks = NULL
  ,y_ticks = NULL
@@ -91,12 +97,54 @@ visr.survfit <- function(
  ){
 
 # Minimal input validation  ----------------------------------------------------
+  
+  if (!(is.null(x_label) | is.character(x_label) | is.expression(x_label))) {
+    
+    stop("Invalid `x_label` argument, must be either `character` or `expression`.")
+    
+  }
+  
+  if (!(is.null(y_label) | is.character(y_label) | is.expression(y_label))) {
+    
+    stop("Invalid `y_label` argument, must be either `character` or `expression`.")
+    
+  }
+  
+  if (!(is.null(x_units) | is.character(x_units))) {
+    
+    stop("Invalid `x_units` argument, must be `character`.")
+    
+  }
+  
+  if (!(is.null(x_ticks) | is.numeric(x_ticks))) {
+    
+    stop("Invalid `x_ticks` argument, must be `numeric`.")
+    
+  }
+  
+  if (!(is.null(y_ticks) | is.numeric(y_ticks))) {
+    
+    stop("Invalid `y_ticks` argument, must be `numeric`.")
+    
+  }
+  
+  if (is.character(legend_position) && ! legend_position %in% c("top", "bottom", "right", "left", "none")){
+    stop("Invalid legend position given. Must either be [\"top\", \"bottom\", \"right\", \"left\", \"none\"] or a vector with two numbers indicating the position relative to the axis. For example c(0.5, 0.5) to place the legend in the center of the plot.")
 
-  if (!inherits(x, "survfit")) stop("survfit object is not of class `survfit`")
-  if (is.character(legend_position) && ! legend_position %in% c("top", "bottom", "right", "left", "none", "TOP", "BOTTOM", "RIGHT", "LEFT")){
-    stop("Invalid legend position given.")
   } else if (is.numeric(legend_position) && length(legend_position) != 2) {
-    stop("Invalid legend position coordinates given.")
+    stop("Invalid legend position given. Must either be [\"top\", \"bottom\", \"right\", \"left\", \"none\"] or a vector with two numbers indicating the position relative to the axis. For example c(0.5, 0.5) to place the legend in the center of the plot.")
+  }
+  
+  valid_funs <- c("surv", "log", "event", "cloglog", "pct", "logpct", "cumhaz")
+  
+  if (is.character(fun)) {
+    
+    if (!(fun %in% valid_funs)) {
+      
+      stop("Unrecognized `fun` argument, must be one of [\"surv\", \"log\", \"event\", \"cloglog\", \"pct\", \"logpct\", \"cumhaz\"] or a user-defined function.")
+      
+    }
+    
   }
 
 # Y-label ----------------------------------------------------------------------
@@ -116,7 +164,7 @@ visr.survfit <- function(
   } else if (is.null(y_label) & is.function(fun)) {
     stop("No Y label defined. No default label is available when `fun` is a function.")
   }
-
+  
   if (is.character(fun)){
     .transfun <- base::switch(
       fun,
@@ -128,15 +176,14 @@ visr.survfit <- function(
       logpct = function(y) log(y *100),
       # survfit object contains an estimate for Cumhaz and SE based on Nelson-Aalen with or without correction for ties
       # However, no CI is calculated automatically. For plotting, the MLE estimator is used for convenience.
-      cumhaz = function(y) -log(y),
-      stop("Unrecognized fun argument")
+      cumhaz = function(y) - log(y)
     )
   } else if (is.function(fun)) {
-    fun
+    .transfun <- function(y) fun(y)
   } else {
     stop("Error in visr: fun should be a character or a user-defined function.")
   }
-
+  
 # Extended tidy of survfit class + transformation + remove NA after transfo ----
 
   correctme <- NULL
@@ -144,32 +191,29 @@ visr.survfit <- function(
 
   if ("surv" %in% colnames(tidy_object)) {
     tidy_object[["est"]] <- .transfun(tidy_object[["surv"]])
-    correctme <- c(correctme,"est")
+    correctme <- c(correctme, "est")
   }
   if (base::all(c("upper", "lower") %in% colnames(tidy_object))) {
     tidy_object[["est.upper"]] <- .transfun(tidy_object[["upper"]])
     tidy_object[["est.lower"]] <- .transfun(tidy_object[["lower"]])
-    correctme <- c(correctme,"est.lower", "est.upper")
+    correctme <- c(correctme, "est.lower", "est.upper")
   }
 
 # Adjust -Inf to minimal value -------------------------------------------------
 
-  tidy_object[ , correctme] <- sapply(tidy_object[ , correctme],
+  if (nrow(tidy_object[tidy_object$est == "-Inf",]) > 0) {
+    warning("NAs introduced by y-axis transformation.")
+  }
+  
+  tidy_object[ , correctme] <- sapply(tidy_object[, correctme],
                                       FUN = function(x) {
                                         x[which(x == -Inf)] <- min(x[which(x != -Inf)], na.rm = TRUE)
                                         return(x)
                                       }
   )
 
-  ymin = min(sapply(tidy_object[ , correctme], function(x) min(x[which(x != -Inf)], na.rm = TRUE)), na.rm = TRUE)
-  ymax = max(sapply(tidy_object[ , correctme], function(x) max(x[which(x != -Inf)], na.rm = TRUE)), na.rm = TRUE)
-
-  if (fun == "cloglog") {
-    if (nrow(tidy_object[tidy_object$est == "-Inf",]) > 0) {
-      warning("NAs introduced by y-axis transformation.\n")
-    }
-    tidy_object = tidy_object[tidy_object$est != "-Inf",]
-  }
+  ymin = min(sapply(tidy_object[, correctme], function(x) min(x[which(x != -Inf)], na.rm = TRUE)), na.rm = TRUE)
+  ymax = max(sapply(tidy_object[, correctme], function(x) max(x[which(x != -Inf)], na.rm = TRUE)), na.rm = TRUE)
 
 # Obtain X-asis label ----------------------------------------------------------
 
@@ -185,29 +229,31 @@ visr.survfit <- function(
   if (is.null(y_ticks) & is.character(fun)){
     y_ticks <- base::switch(
       fun,
-      surv = pretty(c(0,1), 5),
-      log =  pretty(round(c(ymin,ymax), 0), 5),
-      event = pretty(c(0,1), 5),
-      cloglog = pretty(round(c(ymin,ymax), 0), 5),
-      pct = pretty(c(0,100), 5),
-      logpct = pretty(c(0,5), 5),
-      cumhaz =  pretty(round(c(ymin,ymax), 0), 5),
+      surv = pretty(c(0, 1), 5),
+      log =  pretty(round(c(ymin, ymax), 0), 5),
+      event = pretty(c(0, 1), 5),
+      cloglog = pretty(round(c(ymin, ymax), 0), 5),
+      pct = pretty(c(0, 100), 5),
+      logpct = pretty(c(0, 5), 5),
+      cumhaz =  pretty(round(c(ymin, ymax), 0), 5),
       stop("Unrecognized fun argument")
     )
-  } else if (is.null(y_label) & is.function(fun)) {
-    stop("Error in visr: No Y label defined. No default is available when `fun` is a function.")
+  } else if (is.null(y_ticks) & is.function(fun)) {
+    
+    y_ticks = pretty(round(c(ymin, ymax), 0), 5)
+    
   }
-
+  
 # Plotit -----------------------------------------------------
 
   yscaleFUN <- function(x) sprintf("%.2f", x)
 
   gg <- ggplot2::ggplot(tidy_object, ggplot2::aes(x = time, group = strata)) +
     ggplot2::geom_step(ggplot2::aes(y = est, col = strata)) + 
-    ggplot2::scale_x_continuous(name = paste0("\n", x_label),
+    ggplot2::scale_x_continuous(name = x_label,
                                 breaks = x_ticks,
                                 limits = c(min(x_ticks), max(x_ticks))) +
-    ggplot2::scale_y_continuous(name = paste0(y_label, "\n"),
+    ggplot2::scale_y_continuous(name = y_label,
                                 breaks = y_ticks,
                                 labels = yscaleFUN,
                                 limits = c(min(y_ticks), max(y_ticks))) +
@@ -294,32 +340,52 @@ visr.attrition <- function(x,
                            border="black",
                            ...){
 
-  if(missing(description_column_name) | description_column_name == ""){
-    stop("Please provide a valid column name as string containing the inclusion descriptions")
-  }
-  if(!description_column_name %in% names(x)){
-    stop(paste0("Column ", description_column_name, " cannot be found in the input data. ",
+  if (!description_column_name %in% names(x)) {
+    stop(paste0("Column \"", description_column_name, "\" cannot be found in the input data. ",
                 "Please provide the column name as string in the input ",
-                "data containing the inclusion descriptions"))
+                "data containing the inclusion descriptions."))
   }
 
-
-  if(missing(value_column_name) | value_column_name == ""){
-    stop(paste("Please provide the column name  as string containing the remaining",
-               "sample size after applying inclusion criteria."))
-  }
-  if(!value_column_name %in% names(x)){
-    stop(paste0("Column ", value_column_name, " cannot be found in the input data. ",
+  if (!value_column_name %in% names(x)) {
+    stop(paste0("Column \"", value_column_name, "\" cannot be found in the input data. ",
                 "Please provide the column name as string in the input data containing",
-                "the sample size after applying inclusion criteria"))
+                "the sample size after applying inclusion criteria."))
   }
 
-  if(complement_column_name != "" & !complement_column_name %in% names(x)){
-    stop(paste0("Column ", complement_column_name, " cannot be found in the input data. ",
+  if (complement_column_name != "" & !complement_column_name %in% names(x)) {
+    stop(paste0("Column \"", complement_column_name, "\" cannot be found in the input data. ",
                 "Please provide a valid column name as string in the input data containing",
                 "complement description or omit this argument for default labels."))
   }
-
+  
+  if (!is.numeric(box_width)) {
+    
+    warning("An invalid input was given for `box_width`, must be `numeric` value. Setting it to 50.")
+    box_width <- 50
+    
+  }
+  
+  if (!is.numeric(font_size)) {
+    
+    warning("An invalid input was given for `font_size`, must be `numeric` value. Setting it to 12.")
+    font_size <- 12
+    
+  }
+  
+  if (!is.character(fill)) {
+    
+    warning("An invalid input was given for `fill`, must be `character` string. Setting it to \"white\".")
+    fill <- "white"
+    
+  }
+  
+  if (!is.character(border)) {
+    
+    warning("An invalid input was given for `border`, must be `character` string. Setting it to \"black\".")
+    border <- "black"
+    
+  }
+  
   label <- complement_label <- NULL
   y <- down_ystart <- down_yend <- side_xstart <- side_xend <- side_y <- NULL
   cx <- cy <- NULL
