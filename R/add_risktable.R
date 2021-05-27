@@ -35,30 +35,19 @@ add_risktable <- function(gg, ...){
 #' adtte %>%
 #'   visR::estimate_KM(strata = "TRTP") %>%
 #'   visR::visr() %>%
-#'   visR::add_risktable( min_at_risk = 3
-#'                       ,label = c("Subjects at Risk", "Censored")
+#'   visR::add_risktable( label = c("Subjects at Risk", "Censored")
 #'                       ,statlist = c("n.risk", "n.censor")
 #'                       ,group = "statlist"
 #'                      )
-#'                 
-#' ## Display 2 risk tables, 1 per stratum
-#' adtte %>%
-#'   visR::estimate_KM(strata = "TRTP") %>%
-#'   visR::visr() %>%
-#'   visR::add_risktable( min_at_risk = 3
-#'                       ,label = c("Subjects at Risk", "Censored")
-#'                       ,statlist = c("n.risk", "n.censor")
-#'                       ,group = "strata"
-#'                      )
 #'
-#' ## Display overall risk table
+#' ## Display overall risk table at selected times
 #' adtte %>%
 #'   visR::estimate_KM(strata = "TRTP") %>%
 #'   visR::visr() %>%
-#'   visR::add_risktable( min_at_risk = 3
-#'                       ,label = c("Subjects at Risk", "Censored")
+#'   visR::add_risktable( label = c("Subjects at Risk", "Censored")
 #'                       ,statlist = c("n.risk", "n.censor")
 #'                       ,collapse = TRUE
+#'                       ,times = c(0,20,40,60)
 #'                      )
 #'
 #' @return Object of class \code{ggplot} with added risk table.
@@ -69,7 +58,6 @@ add_risktable <- function(gg, ...){
 
 add_risktable.ggsurvfit <- function(
     gg
-   ,min_at_risk = 0
    ,times = NULL
    ,statlist = c("n.risk")
    ,label = "At risk"
@@ -88,18 +76,18 @@ add_risktable.ggsurvfit <- function(
   
   ggbld <- ggplot2::ggplot_build(gg)
   
-  if (is.null(times)) times <- as.numeric(ggbld$layout$panel_params[[1]]$x$get_labels())
+  graphtimes <- as.numeric(ggbld$layout$panel_params[[1]]$x$get_labels())
+  
+  if (is.null(times)) times <- graphtimes
 
   final <- get_risktable( 
               survfit_object
-             ,min_at_risk
              ,times
              ,statlist
              ,label
              ,group
              ,collapse)
 
-  time_ticks <- attributes(final)$time_ticks
   times <- as.numeric(unique(final$time))
   statlist <- attributes(final)$statlist
   title <- attributes(final)$title
@@ -121,8 +109,8 @@ add_risktable.ggsurvfit <- function(
                             ) +
       ggplot2::geom_text(size = 3.0, hjust=.5, vjust=.5, angle=0, show.legend = F) +
       ggplot2::theme_bw() +
-      ggplot2::scale_x_continuous(breaks = times,
-                                  limits = c(min(times), max(times))) +
+      ggplot2::scale_x_continuous(breaks = graphtimes,
+                                  limits = c(min(graphtimes), max(graphtimes))) +
 
       ggplot2::theme(axis.title.x = ggplot2::element_text(size = 8,
                                                  vjust = 1,
