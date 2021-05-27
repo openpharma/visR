@@ -31,7 +31,7 @@
 #' T3.3 No error when `y_label` is a string and `fun` is a function.
 #' T3.4 An error when `y_label` is `NULL` and `fun` is a function.
 #' T3.5 A warning when the provided function causes undefined values, f.e. log(-log(2)).
-#' T4. Invalid parameters are captured when applying `visR::visr()` to a `attrition` object and respective warnings/errors are thrown.#' T4.1 No error when `description_column_name` is a `character` string that is found in the colnames of the `attrition` object.
+#' T4. Invalid parameters are captured when applying `visR::visr()` to an `attrition` object and respective warnings/errors are thrown.#' T4.1 No error when `description_column_name` is a `character` string that is found in the colnames of the `attrition` object.
 #' T4.2 No error when `value_column_name` is a `character` string that is found in the colnames of the `attrition` object.
 #' T4.3 No error when `complement_column_name` is a `character` string that is found in the colnames of the `attrition` object.
 #' T4.4 No error when `box_width` is a `numeric` value.
