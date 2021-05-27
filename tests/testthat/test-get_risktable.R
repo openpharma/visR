@@ -106,7 +106,7 @@ testthat::test_that("T2.5 The function includes the first available time, specif
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
   
-  risktable <- visR::get_risktable(survfit_object, min_at_risk = 7, times = c(0,40,80,89,200))
+  risktable <- visR::get_risktable(survfit_object, min_at_risk = 50, times = c(0,40,80,89,200))
   testthat::expect_equal(risktable[["time"]], c(0,40,80,89))
   
   risktable <- visR::get_risktable(survfit_object, min_at_risk = 0, times = c(0,40,80,200))

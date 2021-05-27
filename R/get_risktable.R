@@ -84,7 +84,7 @@ get_risktable.survfit <- function(
   }
   
 # Clean input ------------------------------------------------------------
-  
+
   tidy_object <- tidyme(x)
   
   statlist <- unique(statlist)
@@ -121,8 +121,8 @@ get_risktable.survfit <- function(
     dplyr::group_by(strata) %>%
     dplyr::summarize(max_time = max(time)) %>%
     dplyr::ungroup() %>%
-    dplyr::summarize(min_time = min(max_time)) %>%
-    dplyr::pull(min_time)
+    dplyr::summarize(max_time = max(max_time)) %>%
+    dplyr::pull(max_time)
   
 # Generate time ticks ----------------------------------------------------
 
