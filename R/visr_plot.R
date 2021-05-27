@@ -86,9 +86,9 @@ visr.survfit <- function(
  ,y_ticks = NULL
  ,fun = "surv"
  ,legend_position = "right"
+ ,theme = "visR"
  ,...
  ){
-
 
 # Minimal input validation  ----------------------------------------------------
 
@@ -213,10 +213,26 @@ visr.survfit <- function(
                                 limits = c(min(y_ticks), max(y_ticks))) +
     ggplot2::theme(legend.position = legend_position) +
     NULL
-
+  
   class(gg) <- append(class(gg), "ggsurvfit")
+  
+  if (theme == "visR") {
+    
+    theme <- visR::define_theme(legend_position = legend_position)
+    
+    print(theme)
+    
+    gg <- gg %>% visR::apply_theme(theme)
+    
+    return(gg)
+    
+  } else {
+    
+    base::warning("No other options supported here yet. Please use `visR::define_theme()` and `visR::apply_theme()` for styling.")
+    return(gg)
+    
+  }
 
-  return(gg)
 }
 
 
