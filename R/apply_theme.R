@@ -9,6 +9,7 @@
 #' @param fontfamily string with the name of a supported font
 #' @param grid boolean that specifies whether the grid should be drawn or not
 #' @param bg string giving the colour for the background of the plot
+#' @param legend_position string indicating the legend position
 #'
 #' @return Nested list with styling preferences for a ggplot object
 #'
@@ -20,11 +21,14 @@
 #'                                                         "Xanomeline High Dose" = "purple",
 #'                                                         "Xanomeline Low Dose" = "brown")),
 #'                             fontsizes = list("axis" = 12,
-#'                                              "ticks" = 10),
+#'                                              "ticks" = 10,
+#'                                              "legend_title" = 10,
+#'                                              "legend_text" = 8),
 #'                             fontfamily = "Helvetica",
 #'                             grid = list("major" = FALSE,
 #'                                         "minor" = FALSE),
-#'                             bg = "transparent")
+#'                             bg = "transparent",
+#'                             legend_position = "top")
 #'
 #' @export
 
@@ -33,7 +37,7 @@ define_theme <- function(strata = NULL,
                          fontfamily = "Helvetica",
                          grid = FALSE,
                          bg = "transparent",
-                         legend_position = "right") {
+                         legend_position = NULL) {
   theme <- list()
   
   if (!base::is.null(strata)) {
@@ -136,7 +140,7 @@ define_theme <- function(strata = NULL,
     
   }
   
-  if (base::is.character(legend_position)) {
+  if (base::is.null(legend_position) | base::is.character(legend_position)) {
     
     theme[["legend_position"]] <- legend_position
     
@@ -174,10 +178,13 @@ define_theme <- function(strata = NULL,
 #'                                                         "Xanomeline High Dose" = "purple",
 #'                                                         "Xanomeline Low Dose" = "brown")),
 #'                             fontsizes = list("axis" = 12,
-#'                                              "ticks" = 10),
+#'                                              "ticks" = 10,
+#'                                              "legend_title" = 10,
+#'                                              "legend_text" = 8),
 #'                             fontfamily = "Helvetica",
 #'                             grid = FALSE,
-#'                             bg = "transparent")
+#'                             bg = "transparent",
+#'                             legend_position = "top")
 #'
 #'
 #' gg <- adtte %>%

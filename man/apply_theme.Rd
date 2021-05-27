@@ -27,10 +27,13 @@ theme <- visR::define_theme(strata = list("SEX" = list("F" = "red",
                                                         "Xanomeline High Dose" = "purple",
                                                         "Xanomeline Low Dose" = "brown")),
                             fontsizes = list("axis" = 12,
-                                             "ticks" = 10),
+                                             "ticks" = 10,
+                                             "legend_title" = 10,
+                                             "legend_text" = 8),
                             fontfamily = "Helvetica",
                             grid = FALSE,
-                            bg = "transparent")
+                            bg = "transparent",
+                            legend_position = "top")
 
 
 gg <- adtte \%>\%

@@ -93,7 +93,7 @@ visr.survfit <- function(
 # Minimal input validation  ----------------------------------------------------
 
   if (!inherits(x, "survfit")) stop("survfit object is not of class `survfit`")
-  if (is.character(legend_position) && ! legend_position %in% c("top", "bottom", "right", "left", "none")){
+  if (is.character(legend_position) && ! legend_position %in% c("top", "bottom", "right", "left", "none", "TOP", "BOTTOM", "RIGHT", "LEFT")){
     stop("Invalid legend position given.")
   } else if (is.numeric(legend_position) && length(legend_position) != 2) {
     stop("Invalid legend position coordinates given.")
@@ -219,8 +219,6 @@ visr.survfit <- function(
   if (theme == "visR") {
     
     theme <- visR::define_theme(legend_position = legend_position)
-    
-    print(theme)
     
     gg <- gg %>% visR::apply_theme(theme)
     
