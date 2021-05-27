@@ -159,9 +159,9 @@ testthat::test_that("T6.2 The output contains a column with the strata names",{
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
   quant <- visR::get_quantile(survfit_object, conf.int = TRUE)
   
-  stratNm <- factor(unique(names(survfit_object[["strata"]])))
+  stratNm <- unique(names(survfit_object[["strata"]]))
   
-  testthat::expect_equal(stratNm, unique(quant[["strata"]]))
+  testthat::expect_equal(as.character(stratNm), as.character(unique(quant[["strata"]])))
 })
 
 testthat::test_that("T6.3 The output contains a column with the quantities",{
@@ -169,9 +169,9 @@ testthat::test_that("T6.3 The output contains a column with the quantities",{
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
   quant <- visR::get_quantile(survfit_object, conf.int = TRUE)
   
-  quaNm <- factor(c("lower", "quantile", "upper"))
+  quaNm <- c("lower", "quantile", "upper")
   
-  testthat::expect_equal(quaNm, unique(quant[["quantity"]]))
+  testthat::expect_equal(as.character(quaNm), as.character(unique(quant[["quantity"]])))
 })
 
 testthat::test_that("T6.4 The output contains columns with the requested quantiles",{
