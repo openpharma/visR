@@ -49,6 +49,13 @@ add_risktable <- function(gg, ...){
 #'                       ,collapse = TRUE
 #'                       ,times = c(0,20,40,60)
 #'                      )
+#'                      
+#' ## Add risk set as specified times
+#' km_fit <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ TRTP, data=adtte)
+#' 
+#' visR::visr(km_fit, x_ticks = c(0, 20, 40, 100,111, 200)) %>% 
+#'   add_risktable(times = c(0, 20, 40, 100,111, 200))
+#'
 #'
 #' @return Object of class \code{ggplot} with added risk table.
 #'
