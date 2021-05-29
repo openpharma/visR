@@ -92,7 +92,6 @@ visr.survfit <- function(
  ,y_ticks = NULL
  ,fun = "surv"
  ,legend_position = "right"
- ,theme = "visR"
  ,...
  ){
 
@@ -261,21 +260,12 @@ visr.survfit <- function(
     NULL
   
   class(gg) <- append(class(gg), "ggsurvfit")
+    
+  theme <- visR::define_theme(legend_position = legend_position)
+    
+  gg <- gg %>% visR::apply_theme(theme)
   
-  if (theme == "visR") {
-    
-    theme <- visR::define_theme(legend_position = legend_position)
-    
-    gg <- gg %>% visR::apply_theme(theme)
-    
-    return(gg)
-    
-  } else {
-    
-    base::warning("No other options supported here yet. Please use `visR::define_theme()` and `visR::apply_theme()` for styling.")
-    return(gg)
-    
-  }
+  return(gg)
 
 }
 
