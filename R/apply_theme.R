@@ -235,8 +235,6 @@ apply_theme <- function(gg, visR_theme_dict = NULL) {
   
   plot_background <- ggplot2::element_rect(fill = "transparent")
   
-  
-  
   if (!is.null(visR_theme_dict)) {
     
     if (!("visR_theme" %in% base::class(visR_theme_dict))) {
@@ -263,7 +261,6 @@ apply_theme <- function(gg, visR_theme_dict = NULL) {
       
     } 
     
-    
     # fonts and text -----------------------------------------------------------
     
     if ("fontsizes" %in% base::names(visR_theme_dict)) {
@@ -282,38 +279,39 @@ apply_theme <- function(gg, visR_theme_dict = NULL) {
         legend_title <- ggplot2::element_text(size = default_fontsize)
         legend_text <- ggplot2::element_text(size = default_fontsize)
         
-      }
-      
-      if ("axis" %in% names(visR_theme_dict[["fontsizes"]])) {
+      } else if (is.list(visR_theme_dict[["fontsizes"]])) {
         
-        axis_title_fontsize <- visR_theme_dict[["fontsizes"]][["axis"]]
-        axis_margin <- base::floor(axis_title_fontsize / 2)
-        axis_title <- ggplot2::element_text(size = axis_title_fontsize,
-                                            margin = ggplot2::margin(t = axis_margin, 
-                                                                     r = axis_margin, 
-                                                                     b = axis_margin,
-                                                                     l = axis_margin,
-                                                                     unit = "pt"))
+        if ("axis" %in% names(visR_theme_dict[["fontsizes"]])) {
+          
+          axis_title_fontsize <- visR_theme_dict[["fontsizes"]][["axis"]]
+          axis_margin <- base::floor(axis_title_fontsize / 2)
+          axis_title <- ggplot2::element_text(size = axis_title_fontsize,
+                                              margin = ggplot2::margin(t = axis_margin, 
+                                                                       r = axis_margin, 
+                                                                       b = axis_margin,
+                                                                       l = axis_margin,
+                                                                       unit = "pt"))
+          
+        }
         
-      }
-      
-      if ("ticks" %in% names(visR_theme_dict[["fontsizes"]])) {
+        if ("ticks" %in% names(visR_theme_dict[["fontsizes"]])) {
+          
+          axis_text <- ggplot2::element_text(size = visR_theme_dict[["fontsizes"]][["ticks"]])
+          
+        }
         
-        axis_text <- ggplot2::element_text(size = visR_theme_dict[["fontsizes"]][["ticks"]])
+        if ("legend_title" %in% names(visR_theme_dict[["fontsizes"]])) {
+          
+          legend_title <- ggplot2::element_text(size = visR_theme_dict[["fontsizes"]][["legend_title"]])
+          
+        }
         
-      }
-      
-      if ("legend_title" %in% names(visR_theme_dict[["fontsizes"]])) {
-        
-        legend_title <- ggplot2::element_text(size = visR_theme_dict[["fontsizes"]][["legend_title"]])
-        
-      }
-      
-      if ("legend_text" %in% names(visR_theme_dict[["fontsizes"]])) {
-        
-        legend_text <- ggplot2::element_text(size = visR_theme_dict[["fontsizes"]][["legend_text"]])
-        
-      }
+        if ("legend_text" %in% names(visR_theme_dict[["fontsizes"]])) {
+          
+          legend_text <- ggplot2::element_text(size = visR_theme_dict[["fontsizes"]][["legend_text"]])
+          
+        }
+      } 
     }
     
     if ("fontfamily" %in% base::names(visR_theme_dict)) {
@@ -321,8 +319,6 @@ apply_theme <- function(gg, visR_theme_dict = NULL) {
       font_family <- ggplot2::element_text(family = visR_theme_dict[["fontfamily"]])
       
     }
-    
-    
     
     # grid ---------------------------------------------------------------------
     
@@ -417,6 +413,13 @@ apply_theme <- function(gg, visR_theme_dict = NULL) {
       legend_position <- ggb$plot$theme$legend.position
       
     }
+  }
+  
+  if (is.null(legend_position)) {
+    
+    ggb <- ggplot2::ggplot_build(gg)
+    legend_position <- ggb$plot$theme$legend.position
+    
   }
   
   # Reset background

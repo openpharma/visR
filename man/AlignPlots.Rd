@@ -37,6 +37,3 @@ cowplot::plot_grid(plotlist = AlignPlots(pltlist = list(p1, p2)), align = "none"
 \references{
 \url{https://stackoverflow.com/questions/26159495/align-multiple-ggplot-graphs-with-and-without-legends}
 }
-\author{
-Steven Haesendonckx
-}

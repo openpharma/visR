@@ -44,6 +44,3 @@ gg <- adtte \%>\%
 gg
 
 }
-\author{
-Tim Treis
-}

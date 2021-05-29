@@ -50,6 +50,3 @@ theme <- visR::define_theme(strata = list("SEX" = list("F" = "red",
                             legend_position = "top")
 
 }
-\author{
-Tim Treis
-}
