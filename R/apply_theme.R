@@ -196,34 +196,35 @@ apply_theme <- function(gg, visR_theme_dict = NULL) {
   
   # Manually define colour-blind friendly palette, taken from
   # http://mkweb.bcgsc.ca/biovis2012/krzywinski-visualizing-biological-data.pdf
-  # skipping black
   cols <- c(
-    grDevices::rgb(0,  73,  73, maxColorValue = 255),
-    grDevices::rgb(0, 146, 146, maxColorValue = 255),
-    grDevices::rgb(255, 109, 182, maxColorValue = 255),
-    grDevices::rgb(255, 182, 119, maxColorValue = 255),
-    grDevices::rgb(73,   0, 146, maxColorValue = 255),
-    grDevices::rgb(0, 109, 219, maxColorValue = 255),
-    grDevices::rgb(182, 109, 255, maxColorValue = 255),
-    grDevices::rgb(109, 182, 255, maxColorValue = 255),
-    grDevices::rgb(182, 219, 255, maxColorValue = 255),
-    grDevices::rgb(146,   0,   0, maxColorValue = 255),
-    grDevices::rgb(146,  73,   0, maxColorValue = 255),
-    grDevices::rgb(219, 209,   0, maxColorValue = 255),
-    grDevices::rgb(36, 255,  36, maxColorValue = 255),
-    grDevices::rgb(255, 255, 109, maxColorValue = 255)
+    grDevices::rgb(  0,   0,   0, maxColorValue = 255),  #  1
+    grDevices::rgb( 73,   0, 146, maxColorValue = 255),  #  6
+    grDevices::rgb(146,   0,   0, maxColorValue = 255),  # 11
+    grDevices::rgb(  0, 146, 146, maxColorValue = 255),  #  3
+    grDevices::rgb(182, 109, 255, maxColorValue = 255),  #  8
+    grDevices::rgb(219, 209,   0, maxColorValue = 255),  # 13
+    grDevices::rgb(255, 182, 119, maxColorValue = 255),  #  5
+    grDevices::rgb(182, 219, 255, maxColorValue = 255),  # 10
+    grDevices::rgb(255, 255, 109, maxColorValue = 255),  # 15
+    
+    grDevices::rgb(  0,  73,  73, maxColorValue = 255),  #  2
+    grDevices::rgb(  0, 109, 219, maxColorValue = 255),  #  7
+    grDevices::rgb(146,  73,   0, maxColorValue = 255),  # 12
+    grDevices::rgb(255, 109, 182, maxColorValue = 255),  #  4
+    grDevices::rgb(109, 182, 255, maxColorValue = 255),  #  9
+    grDevices::rgb( 36, 255,  36, maxColorValue = 255)   # 14
   )
   
-  font_family = ggplot2::element_text(family = "Helvetica")
-  axis_title = ggplot2::element_text(size = 12)
-  axis_text = ggplot2::element_text(size = 10)
-  legend_title = ggplot2::element_text(size = 12)
-  legend_text = ggplot2::element_text(size = 10)
-  legend_position = "right"
-  panel_grid_major = ggplot2::element_blank()
-  panel_grid_minor = ggplot2::element_blank()
-  panel_background = ggplot2::element_rect(fill = "transparent")
-  plot_background = ggplot2::element_rect(fill = "transparent")
+  font_family <- ggplot2::element_text(family = "Helvetica")
+  axis_title <- ggplot2::element_text(size = 12)
+  axis_text <- ggplot2::element_text(size = 10)
+  legend_title <- ggplot2::element_text(size = 12)
+  legend_text <- ggplot2::element_text(size = 10)
+  legend_position <- NULL
+  panel_grid_major <- ggplot2::element_blank()
+  panel_grid_minor <- ggplot2::element_blank()
+  panel_background <- ggplot2::element_rect(fill = "transparent")
+  plot_background <- ggplot2::element_rect(fill = "transparent")
   
   if (!is.null(visR_theme_dict)) {
     
@@ -359,14 +360,17 @@ apply_theme <- function(gg, visR_theme_dict = NULL) {
     
     if ("bg" %in% base::names(visR_theme_dict)) {
       bg_colour <- visR_theme_dict[["bg"]]
-      panel_background = ggplot2::element_rect(fill = bg_colour)
-      plot_background = ggplot2::element_rect(fill = bg_colour)
+      panel_background <- ggplot2::element_rect(fill = bg_colour)
+      plot_background <- ggplot2::element_rect(fill = bg_colour)
     }
     
     # legend position ----------------------------------------------------------
     
     if ("legend_position" %in% base::names(visR_theme_dict)) {
       legend_position <- visR_theme_dict[["legend_position"]]
+    } else {
+      ggb <- ggplot2::ggplot_build(gg)
+      legend_position <- ggb$plot$theme$legend.position
     }
     
   }
