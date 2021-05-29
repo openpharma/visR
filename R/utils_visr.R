@@ -2,8 +2,6 @@
 #'
 #' @description This function aligns multiple \code{ggplot} graphs by making them the same width by taking into account the legend width.
 #'
-#' @author Steven Haesendonckx
-#'
 #' @param pltlist A list of plots (TODO: provide more detail)
 #'
 #' @return List of \code{ggplot} with equal width.
@@ -65,8 +63,6 @@ AlignPlots <- function(pltlist = NULL) {
 #' @title Translates options for legend into a list that can be passed to ggplot2
 #'
 #' @description This function takes the legend position and orientation, defined by the user and puts them into a list for ggplot2.
-#'
-#' @author Steven Haesendonckx
 #'
 #' @param legend_position  Deafult = "right".
 #' @param legend_orientation Deafult = NULL.

@@ -12,8 +12,6 @@
 #'      \item{A two-sided pointwise 0.95 confidence interval is estimated using a log transformation (conf.type = "log").}
 #'    }
 #'
-#' @author Steven Haesendonckx
-#'
 #' @seealso \code{\link[survival]{survfit.formula} \link[survival]{survfitCI}}
 #'
 #' @param data The name of the dataset for Time-to-Event analysis based on the Analysis Data Model (ADaM) principles. The dataset is expected to have

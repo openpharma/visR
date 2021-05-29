@@ -2,8 +2,6 @@
 #'
 #' @description This function collects several lists if they are present. If absent, reasonable defaults are used.
 #'
-#' @author Tim Treis
-#'
 #' @param strata list containing the different strata and name:colour value pairs
 #' @param fontsizes list containing the font sizes for different options
 #' @param fontfamily string with the name of a supported font
@@ -160,8 +158,6 @@ define_theme <- function(strata = NULL,
 #' @title Applies a theme to a ggplot object.
 #'
 #' @description Takes in the styling options defined through `visR::define_theme` and applies them to a plot.
-#'
-#' @author Tim Treis
 #'
 #' @param gg object of class \code{ggplot}
 #' @param visR_theme_dict nested list containing possible font options
