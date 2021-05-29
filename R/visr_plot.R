@@ -260,10 +260,6 @@ visr.survfit <- function(
     NULL
   
   class(gg) <- append(class(gg), "ggsurvfit")
-    
-  theme <- visR::define_theme(legend_position = legend_position)
-    
-  gg <- gg %>% visR::apply_theme(theme)
   
   return(gg)
 
