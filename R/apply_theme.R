@@ -48,7 +48,7 @@ define_theme <- function(strata = NULL,
       
       } else {
         
-        base::warning("Invalid argument for `strata`. Please provide a named list as described in the documentation. Setting strata to `NULL`.")
+        base::warning("Invalid argument for `strata`. Please provide a named list as described in the documentation. Setting strata to `NULL` (which results in no specific theming for stratification).")
         theme[["strata"]] <- NULL
         
       }
@@ -84,6 +84,18 @@ define_theme <- function(strata = NULL,
   } 
   
   if (!base::is.character(fontfamily)) {
+    
+    base::warning("Invalid argument for `fontfamily`. Please provide the name of a valid font family as a string. Setting to default `Helvetica`.")
+    theme[["fontfamily"]] <- "Helvetica"
+    
+  } else if (base::is.character(fontfamily) & (base::length(fontfamily) > 1)) {
+    
+    base::warning(paste0("Invalid amount of arguments for `fontfamily`. Using the first one: ", fontfamily[[1]]))
+    theme[["fontfamily"]] <- fontfamily[[1]]
+    
+  } else if (base::is.character(fontfamily) & 
+            (base::length(fontfamily) == 1) & 
+            (base::nchar(fontfamily) == 0)) {
     
     base::warning("Invalid argument for `fontfamily`. Please provide the name of a valid font family as a string. Setting to default `Helvetica`.")
     theme[["fontfamily"]] <- "Helvetica"

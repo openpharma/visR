@@ -20,12 +20,14 @@
 #' T1.11 A message when `fontsizes` is a numerical value.
 #' T1.12 A warning when `fontsizes` is neither `NULL`, a `list` or a `numeric`.
 #' T1.13 No error when `fontfamily` is a string.
-#' T1.14 A warning when `fontfamily` is anything but a string.
-#' T1.15 No error when `grid` is a boolean.
-#' T1.16 A warning when `grid` is anything but a boolean.
-#' T1.17 No error when `bg` is a string.
+#' T1.14 A warning when `fontfamily` is an empty string.
+#' T1.15 A warning when `fontfamily` is a vector of strings.
+#' T1.16 A warning when `fontfamily` is anything but a string.
+#' T1.17 No error when `grid` is a boolean.
 #' T1.18 A warning when `grid` is anything but a boolean.
-#' T1.19 The returned theme obejct is of class `visR_theme`.
+#' T1.19 No error when `bg` is a string.
+#' T1.20 A warning when `grid` is anything but a boolean.
+#' T1.21 The returned theme obejct is of class `visR_theme`.
 #' T2. The `apply_theme` function applies the specified changes to a `ggplot` object.
 #' T2.1 No error when a `ggplot` plot is provided, but no theme.
 #' T2.2 No error when a `ggplot` plot and a minimal `visR::define_theme` object are provided.
@@ -43,13 +45,13 @@
 
 testthat::context("apply_theme - T1. The `define_theme()` function returns a `visR_theme` object can contain valid input parameters for `apply_theme()`.")
 
-testthat::test_that("T1.1 No error when no parameters are specified.",{
+testthat::test_that("T1.1 No error when no parameters are specified.", {
   
   testthat::expect_error(visR::define_theme(), NA)
   
 })
 
-testthat::test_that("T1.2 Not specifying any parameters returns a list.",{
+testthat::test_that("T1.2 Not specifying any parameters returns a list.", {
   
   theme <- visR::define_theme()
   
@@ -57,89 +59,102 @@ testthat::test_that("T1.2 Not specifying any parameters returns a list.",{
   
 })
 
-testthat::test_that("T1.3 No error when `strata` is `NULL`.",{
+testthat::test_that("T1.3 No error when `strata` is `NULL`.", {
   
   testthat::expect_error(visR::define_theme(strata = NULL), NA)
   
 })
 
-testthat::test_that("T1.4 A warning when `strata` is an empty `list`.",{
+testthat::test_that("T1.4 A warning when `strata` is an empty `list`.", {
   
   testthat::expect_warning(visR::define_theme(strata = list()))
   
 })
 
-testthat::test_that("T1.5 A warning when `strata` is an unnamed `list`.",{
+testthat::test_that("T1.5 A warning when `strata` is an unnamed `list`.", {
   
   testthat::expect_warning(visR::define_theme(strata = list("v", "i", "s", "R")))
   
 })
 
-testthat::test_that("T1.6 No warning when `strata` is a named `list`.",{
+testthat::test_that("T1.6 No warning when `strata` is a named `list`.", {
   
   testthat::expect_warning(visR::define_theme(strata = list("visR" = "visR")), NA)
   
 })
 
-testthat::test_that("T1.7 No error when `fontsizes` is `NULL`.",{
+testthat::test_that("T1.7 No error when `fontsizes` is `NULL`.", {
   
   testthat::expect_error(visR::define_theme(fontsizes = NULL), NA)
   
 })
 
-testthat::test_that("T1.8 A warning when `fontsizes` is an empty `list`.",{
+testthat::test_that("T1.8 A warning when `fontsizes` is an empty `list`.", {
   
   testthat::expect_warning(visR::define_theme(fontsizes = list()))
   
 })
 
-testthat::test_that("T1.9 A warning when `fontsizes` is an unnamed `list`.",{
+testthat::test_that("T1.9 A warning when `fontsizes` is an unnamed `list`.", {
   
   testthat::expect_warning(visR::define_theme(fontsizes = list("v", "i", "s", "R")))
   
 })
 
-testthat::test_that("T1.10 No warning when `fontsizes` is a named `list`.",{
+testthat::test_that("T1.10 No warning when `fontsizes` is a named `list`.", {
   
   testthat::expect_warning(visR::define_theme(fontsizes = list("visR" = "visR")), NA)
   
 })
 
-testthat::test_that("T1.11 A message when `fontsizes` is a numerical value.",{
+testthat::test_that("T1.11 A message when `fontsizes` is a numerical value.", {
   
   testthat::expect_message(visR::define_theme(fontsizes = 12))
   
 })
 
-testthat::test_that("T1.12 A warning when `fontsizes` is neither `NULL`, a `list` or a `numeric`.",{
+testthat::test_that("T1.12 A warning when `fontsizes` is neither `NULL`, a `list` or a `numeric`.", {
   
   testthat::expect_warning(visR::define_theme(fontsizes = "visR"))
   
 })
 
-testthat::test_that("T1.13 No error when `fontfamily` is a string.",{
+testthat::test_that("T1.13 No error when `fontfamily` is a string.", {
   
   testthat::expect_error(visR::define_theme(fontfamily = "Times"), NA)
   
 })
 
-testthat::test_that("T1.14 A warning when `fontfamily` is anything but a string.",{
+testthat::test_that("T1.14 A warning when `fontfamily` is an empty string.", {
+  
+  testthat::expect_warning(visR::define_theme(fontfamily = ""))
+  testthat::expect_warning(visR::define_theme(fontfamily = c("")))
+  
+})
+
+testthat::test_that("T1.15 A warning when `fontfamily` is a vector of strings.", {
+  
+  testthat::expect_warning(visR::define_theme(fontfamily = c("Times", "Helvetica")))
+  
+})
+
+testthat::test_that("T1.16 A warning when `fontfamily` is anything but a string.", {
   
   testthat::expect_warning(visR::define_theme(fontfamily = NULL))
   testthat::expect_warning(visR::define_theme(fontfamily = 12))
   testthat::expect_warning(visR::define_theme(fontfamily = TRUE))
-  testthat::expect_warning(visR::define_theme(fontfamily = c()))
+  testthat::expect_warning(visR::define_theme(fontfamily = list()))
   
 })
 
-testthat::test_that("T1.15 No error when `grid` is a boolean",{
+testthat::test_that("T1.17 No error when `grid` is a boolean", {
   
   testthat::expect_error(visR::define_theme(grid = TRUE), NA)
   testthat::expect_error(visR::define_theme(grid = FALSE), NA)
   
 })
 
-testthat::test_that("T1.16 A warning when `grid` is anything but a boolean",{
+testthat::test_that("T1.18 A warning when `grid` is anything but a boolean", {
   
   testthat::expect_warning(visR::define_theme(grid = NULL))
   testthat::expect_warning(visR::define_theme(grid = 12))
@@ -148,13 +163,13 @@ testthat::test_that("T1.16 A warning when `grid` is anything but a boolean",{
   
 })
 
-testthat::test_that("T1.17 No error when `bg` is a character.",{
+testthat::test_that("T1.19 No error when `bg` is a character.", {
   
   testthat::expect_error(visR::define_theme(bg = "blue"), NA)
   
 })
 
-testthat::test_that("T1.18 A warning when `bg` is anything but a character.",{
+testthat::test_that("T1.20 A warning when `bg` is anything but a character.", {
   
   testthat::expect_warning(visR::define_theme(bg = NULL))
   testthat::expect_warning(visR::define_theme(bg = 12))
@@ -162,7 +177,7 @@ testthat::test_that("T1.18 A warning when `bg` is anything but a character.",{
   
 })
 
-testthat::test_that("T1.19 The returned theme obejct is of class `visR_theme`.",{
+testthat::test_that("T1.21 The returned theme obejct is of class `visR_theme`.", {
   
   testthat::expect_true("visR_theme" %in% class(visR::define_theme()))
   
@@ -174,7 +189,7 @@ testthat::test_that("T1.19 The returned theme obejct is of class `visR_theme`.",
 
 testthat::context("apply_theme - T2. The `apply_theme` function applies the specified changes to a `ggplot` object.")
 
-testthat::test_that("T2.1 No error when a `ggplot` plot is provided, but no theme.",{
+testthat::test_that("T2.1 No error when a `ggplot` plot is provided, but no theme.", {
   
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
@@ -184,7 +199,7 @@ testthat::test_that("T2.1 No error when a `ggplot` plot is provided, but no them
   
 })
 
-testthat::test_that("T2.2 No error when a `ggplot` plot and a minimal `visR::define_theme` object are provided.",{
+testthat::test_that("T2.2 No error when a `ggplot` plot and a minimal `visR::define_theme` object are provided.", {
   
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
@@ -197,7 +212,7 @@ testthat::test_that("T2.2 No error when a `ggplot` plot and a minimal `visR::def
   
 })
 
-testthat::test_that("T2.3 No error when a `ggplot` plot and a complex `visR::define_theme` object are provided.",{
+testthat::test_that("T2.3 No error when a `ggplot` plot and a complex `visR::define_theme` object are provided.", {
   
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
@@ -219,7 +234,7 @@ testthat::test_that("T2.3 No error when a `ggplot` plot and a complex `visR::def
   
 })
 
-testthat::test_that("T2.4 A message when a theme not generated through `visR::define_theme` is provided.",{
+testthat::test_that("T2.4 A message when a theme not generated through `visR::define_theme` is provided.", {
   
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
@@ -235,7 +250,7 @@ testthat::test_that("T2.4 A message when a theme not generated through `visR::de
   
 })
 
-testthat::test_that("T2.5 Colours applied through `visR::apply_theme()` are used in the resulting `ggplot` object.",{
+testthat::test_that("T2.5 Colours applied through `visR::apply_theme()` are used in the resulting `ggplot` object.", {
   
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
@@ -255,7 +270,7 @@ testthat::test_that("T2.5 Colours applied through `visR::apply_theme()` are used
   
 })
 
-testthat::test_that("T2.6 Fontsizes applied through `visR::apply_theme()` are used in the resulting `ggplot` object.",{
+testthat::test_that("T2.6 Fontsizes applied through `visR::apply_theme()` are used in the resulting `ggplot` object.", {
   
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
@@ -277,7 +292,7 @@ testthat::test_that("T2.6 Fontsizes applied through `visR::apply_theme()` are us
   
 })
 
-testthat::test_that("T2.7 The fontfamily applied through `visR::apply_theme()` is used in the resulting `ggplot` object.",{
+testthat::test_that("T2.7 The fontfamily applied through `visR::apply_theme()` is used in the resulting `ggplot` object.", {
   
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
@@ -292,7 +307,7 @@ testthat::test_that("T2.7 The fontfamily applied through `visR::apply_theme()` i
   
 })
 
-testthat::test_that("T2.8 The grid applied through `visR::apply_theme()` is used in the resulting `ggplot` object.",{
+testthat::test_that("T2.8 The grid applied through `visR::apply_theme()` is used in the resulting `ggplot` object.", {
   
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
@@ -329,7 +344,7 @@ testthat::test_that("T2.8 The grid applied through `visR::apply_theme()` is used
   
 })
 
-testthat::test_that("T2.9 The background applied through `visR::apply_theme()` is used in the resulting `ggplot` object.",{
+testthat::test_that("T2.9 The background applied through `visR::apply_theme()` is used in the resulting `ggplot` object.", {
   
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
@@ -344,7 +359,7 @@ testthat::test_that("T2.9 The background applied through `visR::apply_theme()` i
   
 })
 
-testthat::test_that("T2.10 The legend_position applied through `visR::apply_theme()` is used in the resulting `ggplot` object.",{
+testthat::test_that("T2.10 The legend_position applied through `visR::apply_theme()` is used in the resulting `ggplot` object.", {
   
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
@@ -372,7 +387,7 @@ testthat::test_that("T2.10 The legend_position applied through `visR::apply_them
   
 })
 
-testthat::test_that("T2.11 The legend_position defined in `visR::visr()` is correctly passed through to the resulting `ggplot` object.",{
+testthat::test_that("T2.11 The legend_position defined in `visR::visr()` is correctly passed through to the resulting `ggplot` object.", {
   
   gg_top <- adtte %>%
     visR::estimate_KM("SEX") %>%
