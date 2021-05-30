@@ -27,7 +27,7 @@
 #' T1.18 A warning when `grid` is anything but a boolean.
 #' T1.19 No error when `bg` is a string.
 #' T1.20 A warning when `grid` is anything but a boolean.
-#' T1.21 The returned theme obejct is of class `visR_theme`.
+#' T1.21 The returned theme object is of class `visR_theme`.
 #' T2. The `apply_theme` function applies the specified changes to a `ggplot` object.
 #' T2.1 No error when a `ggplot` plot is provided, but no theme.
 #' T2.2 No error when a `ggplot` plot and a minimal `visR::define_theme` object are provided.
@@ -177,13 +177,11 @@ testthat::test_that("T1.20 A warning when `bg` is anything but a character.", {
   
 })
 
-testthat::test_that("T1.21 The returned theme obejct is of class `visR_theme`.", {
+testthat::test_that("T1.21 The returned theme object is of class `visR_theme`.", {
   
   testthat::expect_true("visR_theme" %in% class(visR::define_theme()))
   
 })
-
-
 
 # Requirement T2 ---------------------------------------------------------------
 
