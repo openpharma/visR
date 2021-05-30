@@ -19,13 +19,9 @@
 #'
 #' @examples
 #'
-#' library(dplyr)
-#' library(visR)
-#'
-#'
 #' # metadata for table
-#' t1_title <- "My table one title"
-#' t1_ds <- "My table one data source"
+#' t1_title <- "Cohort Summary"
+#' t1_ds <- "ADaM Interim Dataset for Time-to-Event Analysis"
 #' t1_fn <- "My table one footnote"
 #'
 #'

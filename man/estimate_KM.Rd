@@ -37,7 +37,6 @@ The MLE (H.hat(t) = -log(S.hat(t))) can't be requested.}
 }
 }
 \examples{
-library(visR)
 
 ## No stratification
 visR::estimate_KM(data = adtte)

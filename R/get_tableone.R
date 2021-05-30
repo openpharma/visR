@@ -21,8 +21,7 @@
 #' variables prior to creating the summary table by using dplyr::select()
 #'
 #' @examples
-#'
-#' library(visR)
+
 #'
 #' # Example using the ovarian data set
 #'
