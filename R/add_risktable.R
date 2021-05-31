@@ -81,11 +81,7 @@ add_risktable.ggsurvfit <- function(
   
   call <- as.character(gg$data$call[[1]])
   
-  print(call)
-  
   survfit_object <- eval(gg$data$call[[1]])
-  
-  print(survfit_object)
   
   ggbld <- ggplot2::ggplot_build(gg)
   
