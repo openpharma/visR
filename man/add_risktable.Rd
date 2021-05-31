@@ -87,11 +87,10 @@ adtte \%>\%
                      )
                      
 ## Add risk set as specified times
-km_fit <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ TRTP, data=adtte)
-
-visR::visr(km_fit, x_ticks = c(0, 20, 40, 100,111, 200)) \%>\% 
+adtte \%>\%
+  visR::estimate_KM(strata = "TRTP") \%>\%
+  visR::visr() \%>\%
   visR::add_risktable(times = c(0, 20, 40, 100,111, 200))
-
 
 }
 \seealso{
