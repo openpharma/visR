@@ -37,7 +37,7 @@ DATASET <- paste0("NCCTG Lung Cancer Dataset (from survival package ",
 options(digits = 3)
 
 # Global ggplot settings
-theme_set(theme_classic())
+theme_set(theme_bw())
 
 # Global table settings 
 options(DT.options = list(pageLength = 10, 
