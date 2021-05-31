@@ -2,7 +2,7 @@
 % Please edit documentation in R/apply_theme.R
 \name{define_theme}
 \alias{define_theme}
-\title{Provides a simple wrapper for theming}
+\title{Provides a simple wrapper for themes}
 \usage{
 define_theme(
   strata = NULL,
