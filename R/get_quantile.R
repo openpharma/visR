@@ -31,7 +31,7 @@ get_quantile <- function(x, ...){
 
 #' @param x An object of class \code{survfit}
 #' @param ... other arguments passed on to the method
-#' @param probs  probabilies Default = c(0.25,0.50,0.75)
+#' @param probs  probabilities Default = c(0.25,0.50,0.75)
 #' @inheritParams survival::quantile.survfit
 #'
 #' @rdname get_quantile

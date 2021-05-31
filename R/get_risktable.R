@@ -28,7 +28,7 @@ get_risktable <- function(x, ...){
 #'       The `label` specifies the label within each risk table. The strata levels 
 #'       are used for the titles of the risk tables. This is the default}
 #'     \item{"statlist": groups the risk tables per statlist. 
-#'       The `label` specifies the title for each risk tabel. The strata levels
+#'       The `label` specifies the title for each risk table. The strata levels
 #'       are used for labeling within each risk table.}
 #'     } 
 #'   Default is "strata".

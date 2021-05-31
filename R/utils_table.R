@@ -74,7 +74,7 @@ summarize_short <- function(x) UseMethod("summarize_short")
 
 #' Create variable summary for factors
 #'
-#' Calculates N and % of occurence for each factor value
+#' Calculates N and % of occurrence for each factor value
 #'
 #' @param x an object of class "factor"
 #'
