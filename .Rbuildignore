@@ -12,3 +12,4 @@
 ^pkgdown$
 ^visR_architecture\.png$
 ^.gitsum$
+^docs$
