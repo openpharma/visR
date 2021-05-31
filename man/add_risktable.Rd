@@ -65,6 +65,8 @@ in the final object to allow post-modification of the individual plots if desire
 }
 \examples{
 
+library(survival)
+
 ## Display 2 risk tables, 1 per statlist
 adtte \%>\%
   visR::estimate_KM(strata = "TRTP") \%>\%

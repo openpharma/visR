@@ -31,6 +31,8 @@ add_risktable <- function(gg, ...){
 #' 
 #' @examples
 #'
+#' library(survival)
+#'
 #' ## Display 2 risk tables, 1 per statlist
 #' adtte %>%
 #'   visR::estimate_KM(strata = "TRTP") %>%
@@ -79,7 +81,11 @@ add_risktable.ggsurvfit <- function(
   
   call <- as.character(gg$data$call[[1]])
   
+  print(call)
+  
   survfit_object <- eval(gg$data$call[[1]])
+  
+  print(survfit_object)
   
   ggbld <- ggplot2::ggplot_build(gg)
   
