@@ -41,23 +41,18 @@ Roxygen: list(markdown = TRUE)
 biocViews:
 Imports: 
     broom,
-    RColorBrewer,
     DT,
     survival,
     magrittr,
     ggplot2,
-    tibble,
     tidyr,
     dplyr,
     kableExtra,
     gt (>= 0.1.0),
     tidyselect,
     parcats (>= 0.0.1),
-    easyalluvial (>= 0.2.2),
     cowplot,
     gtable,
     gridExtra,
-    plotly,
-    reshape2,
     rlang
 VignetteBuilder: knitr
