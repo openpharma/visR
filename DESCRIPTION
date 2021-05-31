@@ -33,6 +33,7 @@ Suggests:
     forcats,
     glue,
     stringr,
+    tibble,
     openxlsx,
     data.table
 RoxygenNote: 7.1.1
