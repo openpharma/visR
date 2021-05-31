@@ -14,8 +14,6 @@ NULL
 #' @title Find the "lhs" in the pipeline
 #'  
 #' @description This function finds the left-hand sided symbol in a magrittr pipe and returns it as a character.
-#'
-#' @author Steven Haesendonckx
 #' 
 #' @return Left-hand sided symbol as string in the magrittr pipe.
 #' 

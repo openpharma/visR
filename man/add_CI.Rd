@@ -55,6 +55,3 @@ p \%>\% add_CI(alpha = 0.1, style = "step")
 p \%>\% add_CI(style = "step", linetype = 1)
 
 }
-\author{
-Steven Haesendonckx
-}

@@ -7,8 +7,6 @@
 #'    
 #'   No default method is available at the moment.
 #'
-#' @author Steven Haesendonckx
-#'
 #' @param gg visR object
 #' @param ... other arguments passed on to the method to modify \code{\link[ggplot2]{geom_ribbon}}
 #'

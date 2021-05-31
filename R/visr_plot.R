@@ -95,7 +95,6 @@ visr.survfit <- function(
  ,...
  ){
 
-
 # Minimal input validation  ----------------------------------------------------
   
   if (!(is.null(x_label) | is.character(x_label) | is.expression(x_label))) {
@@ -130,6 +129,7 @@ visr.survfit <- function(
   
   if (is.character(legend_position) && ! legend_position %in% c("top", "bottom", "right", "left", "none")){
     stop("Invalid legend position given. Must either be [\"top\", \"bottom\", \"right\", \"left\", \"none\"] or a vector with two numbers indicating the position relative to the axis. For example c(0.5, 0.5) to place the legend in the center of the plot.")
+
   } else if (is.numeric(legend_position) && length(legend_position) != 2) {
     stop("Invalid legend position given. Must either be [\"top\", \"bottom\", \"right\", \"left\", \"none\"] or a vector with two numbers indicating the position relative to the axis. For example c(0.5, 0.5) to place the legend in the center of the plot.")
   }
@@ -258,10 +258,11 @@ visr.survfit <- function(
                                 limits = c(min(y_ticks), max(y_ticks))) +
     ggplot2::theme(legend.position = legend_position) +
     NULL
-
+  
   class(gg) <- append(class(gg), "ggsurvfit")
   
   return(gg)
+
 }
 
 

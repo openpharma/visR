@@ -75,6 +75,3 @@ visR::estimate_KM(data = veteran_adam, strata = "trt")
 \seealso{
 \code{\link[survival]{survfit.formula} \link[survival]{survfitCI}}
 }
-\author{
-Steven Haesendonckx
-}

@@ -49,6 +49,3 @@ p \%>\% visR::add_CNSR(shape = 1)
 p \%>\% visR::add_CNSR(size = 4, shape = 2)
 
 }
-\author{
-Steven Haesendonckx
-}
