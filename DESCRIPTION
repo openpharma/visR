@@ -2,7 +2,7 @@ Package: visR
 Type: Package
 Title: A Package to Wrap Functionality for Plots, Tables and Diagrams Adhering to Graphical Principles
 Description: The goal of visR is to enable fit-for-purpose, reusable clinical and medical research focused visualizations and tables with sensible defaults and based on sound graphical principles.
-Version: 0.1.1.9004
+Version: 0.2.0
 Date: 2020-05-31
 LazyData: true
 Authors@R: as.person(c(
