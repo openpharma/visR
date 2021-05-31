@@ -9,14 +9,14 @@ get_tableone(
   data,
   strata = NULL,
   overall = TRUE,
-  summary_function = summarize_tab1
+  summary_function = summarize_short
 )
 
 \method{get_tableone}{default}(
   data,
   strata = NULL,
   overall = TRUE,
-  summary_function = summarize_tab1
+  summary_function = summarize_short
 )
 }
 \arguments{
@@ -50,8 +50,6 @@ variables prior to creating the summary table by using dplyr::select()
 }
 \examples{
 
-library(visR)
-
 # Example using the ovarian data set
 
 survival::ovarian \%>\%
@@ -70,31 +68,31 @@ survival::ovarian \%>\%
   ) \%>\%
   dplyr::select(age, age_group, everything()) \%>\%
   visR::get_tableone()
-    
+
 # Examples using ADaM data
 
 # display patients in an analysis set
-adtte \%>\% 
+adtte \%>\%
   dplyr::filter(SAFFL == "Y") \%>\%
   dplyr::select(TRTA) \%>\%
   visR::get_tableone()
 
 ## display overall summaries for demog
-adtte \%>\% 
+adtte \%>\%
   dplyr::filter(SAFFL == "Y") \%>\%
   dplyr::select(AGE, AGEGR1, SEX, RACE) \%>\%
   visR::get_tableone()
 
-## By actual treatment 
-adtte \%>\% 
+## By actual treatment
+adtte \%>\%
   dplyr::filter(SAFFL == "Y") \%>\%
   dplyr::select(AGE, AGEGR1, SEX, RACE, TRTA ) \%>\%
   visR::get_tableone(strata = "TRTA")
-  
+
 ## By actual treatment, without overall
-adtte \%>\% 
+adtte \%>\%
   dplyr::filter(SAFFL == "Y") \%>\%
   dplyr::select(AGE, AGEGR1, SEX, EVNTDESC, TRTA ) \%>\%
   visR::get_tableone(strata = "TRTA", overall = FALSE)
-    
+
 }

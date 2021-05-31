@@ -9,7 +9,6 @@ add_risktable(gg, ...)
 
 \method{add_risktable}{ggsurvfit}(
   gg,
-  min_at_risk = 0,
   times = NULL,
   statlist = c("n.risk"),
   label = "At risk",
@@ -22,9 +21,6 @@ add_risktable(gg, ...)
 \item{gg}{visR plot of class \code{ggsurvfit}}
 
 \item{...}{other arguments passed on to the method add_risktable}
-
-\item{min_at_risk}{\code{numeric} The cutoff for number of participants at risk to display. This minimum is applied across strata.
-Default is 0.}
 
 \item{times}{Numeric vector indicating the times at which the risk set, censored subjects, events are calculated.}
 
@@ -73,31 +69,27 @@ in the final object to allow post-modification of the individual plots if desire
 adtte \%>\%
   visR::estimate_KM(strata = "TRTP") \%>\%
   visR::visr() \%>\%
-  visR::add_risktable( min_at_risk = 3
-                      ,label = c("Subjects at Risk", "Censored")
+  visR::add_risktable( label = c("Subjects at Risk", "Censored")
                       ,statlist = c("n.risk", "n.censor")
                       ,group = "statlist"
                      )
-                
-## Display 2 risk tables, 1 per stratum
-adtte \%>\%
-  visR::estimate_KM(strata = "TRTP") \%>\%
-  visR::visr() \%>\%
-  visR::add_risktable( min_at_risk = 3
-                      ,label = c("Subjects at Risk", "Censored")
-                      ,statlist = c("n.risk", "n.censor")
-                      ,group = "strata"
-                     )
 
-## Display overall risk table
+## Display overall risk table at selected times
 adtte \%>\%
   visR::estimate_KM(strata = "TRTP") \%>\%
   visR::visr() \%>\%
-  visR::add_risktable( min_at_risk = 3
-                      ,label = c("Subjects at Risk", "Censored")
+  visR::add_risktable( label = c("Subjects at Risk", "Censored")
                       ,statlist = c("n.risk", "n.censor")
                       ,collapse = TRUE
+                      ,times = c(0,20,40,60)
                      )
+                     
+## Add risk set as specified times
+km_fit <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ TRTP, data=adtte)
+
+visR::visr(km_fit, x_ticks = c(0, 20, 40, 100,111, 200)) \%>\% 
+  add_risktable(times = c(0, 20, 40, 100,111, 200))
+
 
 }
 \seealso{

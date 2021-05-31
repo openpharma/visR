@@ -11,7 +11,7 @@ tableone(
   footnote,
   strata = NULL,
   overall = T,
-  summary_function = summarize_tab1,
+  summary_function = summarize_short,
   ...
 )
 }
@@ -30,7 +30,7 @@ stratification in the summary table. Default: NULL , which indicates no stratifi
 \item{overall}{If TRUE, the summary statistics for the overall dataset are also calculated}
 
 \item{summary_function}{A function defining summary statistics for numeric and categorical values
-Pre-implemented functions are summarize and summarize_tab1}
+Pre-implemented functions are summarize_long and summarize_short}
 
 \item{...}{Pass options to render_table}
 }
@@ -43,17 +43,13 @@ Calculate summary statistics and present them in a formatted table
 }
 \examples{
 
-library(dplyr)
-library(visR)
-
-
 # metadata for table
-t1_title <- "My table one title"
-t1_ds <- "My table one data source"
+t1_title <- "Cohort Summary"
+t1_ds <- "ADaM Interim Dataset for Time-to-Event Analysis"
 t1_fn <- "My table one footnote"
 
 
-## table by treatment - without overall and render with DT 
+## table by treatment - without overall and render with DT
 adtte \%>\%
    dplyr::filter(SAFFL == "Y") \%>\%
    dplyr::select(AGE, AGEGR1, SEX, EVNTDESC, TRTA) \%>\%
@@ -66,7 +62,7 @@ adtte \%>\%
       engine = "DT"
    )
 
-## table by treatment - without overall and render with GT 
+## table by treatment - without overall and render with GT
 adtte \%>\%
    dplyr::filter(SAFFL == "Y") \%>\%
    dplyr::select(AGE, AGEGR1, SEX, EVNTDESC, TRTA) \%>\%
@@ -92,8 +88,8 @@ adtte \%>\%
       engine = "kable"
    )
 
-## table by treatment - without overall and render with kable as 
-## a latex table format rather than html 
+## table by treatment - without overall and render with kable as
+## a latex table format rather than html
 adtte \%>\%
    dplyr::filter(SAFFL == "Y") \%>\%
    dplyr::select(AGE, AGEGR1, SEX, EVNTDESC, TRTA) \%>\%

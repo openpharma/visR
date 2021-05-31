@@ -9,7 +9,6 @@ get_risktable(x, ...)
 
 \method{get_risktable}{survfit}(
   x,
-  min_at_risk = 0,
   times = NULL,
   statlist = c("n.risk"),
   label = NULL,
@@ -22,9 +21,6 @@ get_risktable(x, ...)
 \item{x}{an object of class \code{survfit}}
 
 \item{...}{other arguments passed on to the method}
-
-\item{min_at_risk}{\code{numeric} The cutoff for number of participants at risk to display. This minimum is applied across strata.
-Default is 0.}
 
 \item{times}{Numeric vector indicating the times at which the risk set, censored subjects, events are calculated.}
 
