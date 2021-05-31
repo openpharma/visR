@@ -2,7 +2,7 @@
 title: "Creating consort flow diagram with visR"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Consort_flow_diagram}
+  %\VignetteIndexEntry{Creating consort flow diagram with visR}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
