@@ -14,3 +14,5 @@
 ^.gitsum$
 ^docs$
 ^LICENSE\.md$
+^CODE_OF_CONDUCT\.md$
+^README\.md$
