@@ -1,19 +1,19 @@
 Package: visR
 Type: Package
-Title: A Package to Wrap Functionality for Plots, Tables and Diagrams Adhering to Graphical Principle
-Description: The goal of visR is to enable fit-for-purpose, reusable clinical and medcial research focused visualizations and tables with sensible defaults and based on sound graphical principles.
+Title: A Package to Wrap Functionality for Plots, Tables and Diagrams Adhering to Graphical Principles
+Description: The goal of visR is to enable fit-for-purpose, reusable clinical and medical research focused visualizations and tables with sensible defaults and based on sound graphical principles.
 Version: 0.1.1.9004
 Date: 2020-05-31
 LazyData: true
 Authors@R: as.person(c(
     "Diego Saldana <diego.saldana@roche.com> [aut]", 
-    "Charlotta Fruechtenicht <charlotta.fruechtenicht@roche.com> [aut]",
+    "Charlotta Fruechtenicht <charlotta.fruechtenicht@roche.com> [aut, cre]",
     "Mark Baillie <bailliem@gmail.com> [aut, cre]",
     "Marc Vandemeulebroecke <marc.vandemeulebroecke@novartis.com> [aut]",
     "Thanos Siadimas <thanos.siadimas@roche.com> [aut]", 
     "Pawel Kawski <pawel.kawski@contractors.roche.com> [aut]",  
     "Steven Haesendonckx <shaesen2@its.jnj.com> [aut]",
-    "James Black <james.black.jb2@roche.com> [aut]",
+    "James Black <james.black.jb2@roche.com> [aut, cre]",
     "Pelagia Alexandra Papadopoulou <PPapadop@its.jnj.com> [aut]",
     "Tim Treis <tim.treis@outlook.de> [aut]",
 	  "Rebecca Albrecht <rebecca.albrecht.dietsch@gmail.com> [aut]"
