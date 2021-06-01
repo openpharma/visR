@@ -40,7 +40,7 @@ lung_cohort <- survival::lung
 
 lung_cohort <- lung_cohort %>%  
   dplyr::mutate(sex = as.factor(ifelse(sex == 1, "Male", "Female")))  %>%  
-  dplyr::mutate(status = status -1) %>%
+  dplyr::mutate(status = status - 1) %>%
   dplyr::rename(Age = "age", Sex = "sex", Status = "status", Days = "time") 
 
 lung_suvival_object <- lung_cohort %>%
