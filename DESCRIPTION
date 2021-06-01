@@ -32,7 +32,6 @@ Suggests:
     rmarkdown,
     forcats,
     glue,
-    stringr,
     tibble,
     openxlsx,
     data.table
