@@ -103,7 +103,7 @@ theme <- visR::define_theme(strata = list("Sex" = list("Female" = "red",
                                              "legend_text" = 8),
                             fontfamily = "Helvetica",
                             grid = list("major" = FALSE,
-                                         "minor" = FALSE),
+                                        "minor" = FALSE),
 #                           grid = TRUE/FALSE # <- can also be used instead of the named list above
                             bg = "transparent",
                             legend_position = "top")
