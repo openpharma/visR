@@ -16,3 +16,5 @@
 ^LICENSE\.md$
 ^CODE_OF_CONDUCT\.md$
 ^README\.md$
+^CRAN-RELEASE$
+^cran-comments\.md$
