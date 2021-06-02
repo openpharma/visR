@@ -25,7 +25,7 @@
 #'
 #' @return survfit object, extended by elements PARAM/PARAMCD, ready for downstream processing in estimation or visualization functions and methods.
 #'
-#' @references \url{https://https://github.com/therneau/survival}
+#' @references \url{https://github.com/therneau/survival}
 #'
 #' @export
 #'

@@ -64,8 +64,8 @@ AlignPlots <- function(pltlist = NULL) {
 #'
 #' @description This function takes the legend position and orientation, defined by the user and puts them into a list for ggplot2.
 #'
-#' @param legend_position  Deafult = "right".
-#' @param legend_orientation Deafult = NULL.
+#' @param legend_position  Default = "right".
+#' @param legend_orientation Default = NULL.
 #'
 #' @return List of legend options for ggplot2.
 

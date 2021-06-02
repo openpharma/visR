@@ -70,7 +70,7 @@ veteran_adam <- survival::veteran \%>\%
 visR::estimate_KM(data = veteran_adam, strata = "trt")
 }
 \references{
-\url{https://https://github.com/therneau/survival}
+\url{https://github.com/therneau/survival}
 }
 \seealso{
 \code{\link[survival]{survfit.formula} \link[survival]{survfitCI}}

@@ -1,4 +1,4 @@
-#' @title Provides a simple wrapper for theming
+#' @title Provides a simple wrapper for themes
 #'
 #' @description This function collects several lists if they are present. If absent, reasonable defaults are used.
 #'

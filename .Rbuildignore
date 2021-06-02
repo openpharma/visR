@@ -11,3 +11,8 @@
 ^_pkgdown\.yml$
 ^pkgdown$
 ^visR_architecture\.png$
+^.gitsum$
+^docs$
+^LICENSE\.md$
+^CODE_OF_CONDUCT\.md$
+^README\.md$

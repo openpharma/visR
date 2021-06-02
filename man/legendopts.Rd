@@ -7,9 +7,9 @@
 legendopts(legend_position = "right", legend_orientation = NULL)
 }
 \arguments{
-\item{legend_position}{Deafult = "right".}
+\item{legend_position}{Default = "right".}
 
-\item{legend_orientation}{Deafult = NULL.}
+\item{legend_orientation}{Default = NULL.}
 }
 \value{
 List of legend options for ggplot2.

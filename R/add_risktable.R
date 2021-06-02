@@ -31,8 +31,6 @@ add_risktable <- function(gg, ...){
 #' 
 #' @examples
 #'
-#' library(survival)
-#'
 #' ## Display 2 risk tables, 1 per statlist
 #' adtte %>%
 #'   visR::estimate_KM(strata = "TRTP") %>%
@@ -172,7 +170,6 @@ add_risktable.ggsurvfit <- function(
   components <- append(list(gg), tbls)
   names(components) = c("visR_plot", title)
   ggB[["components"]] <- components
-  
   
   return(ggB)
 }

@@ -1,7 +1,9 @@
 #' @title Plot a visR object
 #'
-#' @description Method to display a `ggplot` directly from an object through an S3 method. 
-#' S3 method for creating plots directly from objects using `ggplot2`, similar to base plot function.
+#' @description Method to display a `ggplot` directly from an object 
+#'   through an S3 method. 
+#'   S3 method for creating plots directly from objects using `ggplot2`, 
+#'   similar to base plot function.
 #' 
 #' @seealso \code{\link[ggplot2]{ggplot}}
 #'
@@ -23,7 +25,9 @@ visr <- function(x, ...){
 visr.default <- function(x, ...){
   
   if (length(class(x)) > 1) {
-    stop("Objects of type `", paste0(class(x), collapse = "` / `"), "` not supported by visr.")
+    stop("Objects of type `",
+         paste0(class(x), collapse = "` / `"),
+         "` not supported by visr.")
   } else if (length(class(x)) == 1) {
     stop(paste0("Objects of type `", class(x), "` not supported by visr."))
   }
@@ -31,26 +35,34 @@ visr.default <- function(x, ...){
 }
 
 #' @param x Object of class `survfit`
-#' @param x_label \code{character} Label for the x-asis. When not specified, the algorithm will look for "PARAM" information inside the list structure of the `survfit` object.
-#'   Note that this information is automatically added when using visR::estimate_KM and when the input data has the variable "PARAM". If no "PARAM" information is available
-#'   "time" is used as label.
-#' @param y_label \code{character} Label for the y-axis. When not specified, the default will do a proposal, depending on the `fun` argument.
-#' @param x_units Unit to be added to the x_label (x_label (x_unit)). Default is NULL.
-#' @param x_ticks Ticks for the x-axis. When not specified, the default will do a proposal.
-#' @param y_ticks Ticks for the y-axis. When not specified, the default will do a proposal based on the `fun` argument.
+#' @param x_label \code{character} Label for the x-asis. When not specified, 
+#'   the algorithm will look for "PARAM" information inside the list structure 
+#'   of the `survfit` object.
+#'   Note that this information is automatically added when using 
+#'   visR::estimate_KM and when the input data has the variable "PARAM". 
+#'   If no "PARAM" information is available "time" is used as label.
+#' @param y_label \code{character} Label for the y-axis. When not specified, 
+#'   the default will do a proposal, depending on the `fun` argument.
+#' @param x_units Unit to be added to the x_label (x_label (x_unit)). 
+#'   Default is NULL.
+#' @param x_ticks Ticks for the x-axis. When not specified, the default will 
+#'   do a proposal.
+#' @param y_ticks Ticks for the y-axis. When not specified, 
+#'   the default will do a proposal based on the `fun` argument.
 #' @param fun Change the scale of the estimate. 
-#'   \itemize{
 #'   The current options are:
-#'   \item{`surv` is the survival probability. This is the default.}
-#'   \item{`log` is log of the survival probability}
-#'   \item{`event` is the failure probability}
-#'   \item{`cloglog` is log(-log(survival probability))}
-#'   \item{`pct` is survival as a percentage}
-#'   \item{`logpct` is log survival as a percentage}
-#'   \item{`cumhaz` is the cumulative hazard}
-
+#'   \itemize{
+#'   \item{`surv`}{is the survival probability. This is the default.}
+#'   \item{`log`}{is log of the survival probability}
+#'   \item{`event`}{is the failure probability}
+#'   \item{`cloglog`}{is log(-log(survival probability))}
+#'   \item{`pct`}{is survival as a percentage}
+#'   \item{`logpct`}{is log survival as a percentage}
+#'   \item{`cumhaz`}{is the cumulative hazard}
 #'   } 
-#' @param legend_position Specifies the legend position in the plot. Character values allowed are "top" "left" "bottom" "right". Numeric coordinates are also allowed.
+#' @param legend_position Specifies the legend position in the plot. 
+#'   Character values allowed are "top" "left" "bottom" "right". 
+#'   Numeric coordinates are also allowed.
 #'   Default is "right".
 #' @param ... other arguments passed on to the method
 #'
@@ -127,11 +139,17 @@ visr.survfit <- function(
     
   }
   
-  if (is.character(legend_position) && ! legend_position %in% c("top", "bottom", "right", "left", "none")){
-    stop("Invalid legend position given. Must either be [\"top\", \"bottom\", \"right\", \"left\", \"none\"] or a vector with two numbers indicating the position relative to the axis. For example c(0.5, 0.5) to place the legend in the center of the plot.")
-
-  } else if (is.numeric(legend_position) && length(legend_position) != 2) {
-    stop("Invalid legend position given. Must either be [\"top\", \"bottom\", \"right\", \"left\", \"none\"] or a vector with two numbers indicating the position relative to the axis. For example c(0.5, 0.5) to place the legend in the center of the plot.")
+  if (is.character(legend_position) &&
+      !legend_position %in% c("top", "bottom", "right", "left", "none")) {
+    stop(
+      "Invalid legend position given. Must either be [\"top\", \"bottom\", \"right\", \"left\", \"none\"] or a vector with two numbers indicating the position relative to the axis. For example c(0.5, 0.5) to place the legend in the center of the plot."
+    )
+    
+  } else if (is.numeric(legend_position) &&
+             length(legend_position) != 2) {
+    stop(
+      "Invalid legend position given. Must either be [\"top\", \"bottom\", \"right\", \"left\", \"none\"] or a vector with two numbers indicating the position relative to the axis. For example c(0.5, 0.5) to place the legend in the center of the plot."
+    )
   }
   
   valid_funs <- c("surv", "log", "event", "cloglog", "pct", "logpct", "cumhaz")
@@ -139,8 +157,9 @@ visr.survfit <- function(
   if (is.character(fun)) {
     
     if (!(fun %in% valid_funs)) {
-      
-      stop("Unrecognized `fun` argument, must be one of [\"surv\", \"log\", \"event\", \"cloglog\", \"pct\", \"logpct\", \"cumhaz\"] or a user-defined function.")
+      stop(
+        "Unrecognized `fun` argument, must be one of [\"surv\", \"log\", \"event\", \"cloglog\", \"pct\", \"logpct\", \"cumhaz\"] or a user-defined function."
+      )
       
     }
     
@@ -266,14 +285,21 @@ visr.survfit <- function(
 }
 
 
-#' @param x Object of class `attritiontable` with each row corresponding to an inclusion step in the cohort and minimally a description and a count column
-#' @param description_column_name \code{character} Name of the column containing the inclusion descriptions
-#' @param value_column_name \code{character} Name of the column containing the remaining sample counts
-#' @param complement_column_name \code{character} Optional: Name of the column containing the exclusion descriptions
-#' @param box_width \code{character} The box width for each box in the flow chart
+#' @param x Object of class `attritiontable` with each row corresponding to an 
+#'   inclusion step in the cohort and minimally a description and a count column
+#' @param description_column_name \code{character} Name of the column containing 
+#'   the inclusion descriptions
+#' @param value_column_name \code{character} Name of the column containing the 
+#'   remaining sample counts
+#' @param complement_column_name \code{character} Optional: Name of the column 
+#'   containing the exclusion descriptions
+#' @param box_width \code{character} The box width for each box in the flow 
+#'   chart
 #' @param font_size \code{character} The fontsize in pt
-#' @param fill The color (string or hexcode) to use to fill the boxes in the flowchart
-#' @param border The color (string or hexcode) to use for the borders of the boxes in the flowchart
+#' @param fill The color (string or hexcode) to use to fill the boxes in the 
+#'   flowchart
+#' @param border The color (string or hexcode) to use for the borders of the 
+#'   boxes in the flowchart
 #' @param ... other arguments passed on to the method
 #'
 #' @examples
@@ -291,7 +317,6 @@ visr.survfit <- function(
 #' # Draw a CONSORT attrition chart without specifying extra text for the complement
 #' attrition %>%
 #'   visr("Criteria", "Remaining N")
-
 #'
 #' # Adding more detailed complement descriptions to the "exclusion" part of the CONSORT diagram
 #' # Step 1. Add new column to attrition dataframe

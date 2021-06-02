@@ -17,10 +17,11 @@ knitr::opts_chunk$set(
 ## Introduction
 
 
-This very short tutorial illustrates how a standard time-to-event analysis can be done very efficiently when the data set adheres to the [CDISC ADaM standard](https://www.cdisc.org/standards/foundational/adam/adam-basic-data-structure-bds-time-event-tte-analyses-v1-0). A more detailed time-to-event analysis with a more braod overview of visR's functionality is presented in another vignette.
+This very short tutorial illustrates how a standard time-to-event analysis can be done very efficiently when the data set adheres to the [CDISC ADaM standard](https://www.cdisc.org/standards/foundational/adam/adam-basic-data-structure-bds-time-event-tte-analyses-v1-0). A more detailed time-to-event analysis with a more broad overview of visR's functionality is presented in another vignette.
 
 
-```{r imports, echo=FALSE, warning=FALSE, message=FALSE}
+```{r imports, echo=TRUE, warning=FALSE, message=FALSE}
+library(ggplot2)
 library(visR)
 ```
 
@@ -33,7 +34,7 @@ DATASET <- paste0("Analysis data - time to event")
 options(digits = 3)
 
 # Global ggplot settings
-# theme_set(theme_classic())
+theme_set(theme_bw())
 
 # Global table settings 
 options(DT.options = list(pageLength = 10, 

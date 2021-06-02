@@ -10,5 +10,5 @@
 \item{x}{an object of class "factor"}
 }
 \description{
-Calculates N and \% of occurence for each factor value
+Calculates N and \% of occurrence for each factor value
 }

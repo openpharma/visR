@@ -1,9 +1,9 @@
 Package: visR
 Type: Package
-Title: A package to wrap functionality for plots, tables and diagrams adhering to graphical principles
-Description: The goal of visR is to enable fit-for-purpose, reusable clinical and medcial research focused visualizations and tables with sensible defaults and based on sound graphical principles.
-Version: 0.1.1.9004
-Date: 2020-05-31
+Title: A Package to Wrap Functionality for Plots, Tables and Diagrams Adhering to Graphical Principles
+Description: The goal of visR is to enable fit-for-purpose, reusable clinical and medical research focused visualizations and tables with sensible defaults and based on sound graphical principles.
+Version: 0.2.0
+Date: 2021-06-02
 LazyData: true
 Authors@R: as.person(c(
     "Diego Saldana <diego.saldana@roche.com> [aut]", 
@@ -32,7 +32,7 @@ Suggests:
     rmarkdown,
     forcats,
     glue,
-    stringr,
+    tibble,
     openxlsx,
     data.table
 RoxygenNote: 7.1.1
@@ -41,23 +41,18 @@ Roxygen: list(markdown = TRUE)
 biocViews:
 Imports: 
     broom,
-    RColorBrewer,
     DT,
     survival,
     magrittr,
     ggplot2,
-    tibble,
     tidyr,
     dplyr,
     kableExtra,
     gt (>= 0.1.0),
     tidyselect,
     parcats (>= 0.0.1),
-    easyalluvial (>= 0.2.2),
     cowplot,
     gtable,
     gridExtra,
-    plotly,
-    reshape2,
     rlang
 VignetteBuilder: knitr

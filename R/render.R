@@ -133,7 +133,6 @@ render.data.frame <- function(
   
   check_rendering_input(output_format, engine)
 
-
   #--------------------
   # Kable output
   if(tolower(engine) == "kable"){
@@ -185,17 +184,14 @@ render.data.frame <- function(
     #   DT::tableHeader(colnames(data)),
     #   DT::tableFooter(paste("Source:", datasource))
     # ))
-    footnote_1 <- paste0("Data Source: ", datasource)
-    caption_datasource <- paste("  var caption = 'Data Source:", datasource)
-    caption_compl <- paste(caption_datasource, footnote, "'", sep="; ")
+    caption_datasource <- paste("  var caption = 'Data Source:", datasource, "';")
     source_cap <- c(
       "function(settings){",
       "  var datatable = settings.oInstance.api();",
       "  var table = datatable.table().node();",
-      caption_compl,
-      #paste("  var caption = 'Data Source:", datasource, "'"),
-      "  $(table).append('<caption style=\"caption-side: bottom\">' + caption + '</caption>');",
-      #"  $(table).lastElementChild.replaceWith('<caption style=\"caption-side: bottom\">' + caption + '</caption>');",
+      "  var n_captions = $(table).find('caption').length + 1;",
+      caption_datasource,
+      "  if (n_captions <= 1) { $(table).append('<caption style=\"caption-side: bottom\">' + caption + '</caption>')};",
       "}"
     )
 

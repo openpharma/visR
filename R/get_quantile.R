@@ -31,7 +31,7 @@ get_quantile <- function(x, ...){
 
 #' @param x An object of class \code{survfit}
 #' @param ... other arguments passed on to the method
-#' @param probs  probabilies Default = c(0.25,0.50,0.75)
+#' @param probs  probabilities Default = c(0.25,0.50,0.75)
 #' @inheritParams survival::quantile.survfit
 #'
 #' @rdname get_quantile
@@ -78,62 +78,6 @@ get_quantile.survfit <- function(x,
   )
   
   final <- final[ order( final[, "strata"], final[, "quantity"] ),  ]
-
-  # ## focus on fun = surv, but we could do this for more funs
-  # ## get maximal 1-S(t) and max time
-  # 
-  # cutoff <- tidyme(x) %>%
-  #   dplyr::rename(quantile = surv) %>%
-  #   dplyr::arrange(strata, time) %>%
-  #   dplyr::select(strata, time, quantile, lower, upper) %>%
-  #   reshape2::melt(id.vars = c("strata", "time"), value.name = "value") %>%
-  #   dplyr::group_by(strata, variable) %>%
-  #   dplyr::filter(!is.na(value)) %>%
-  #   dplyr::filter(value == min(value)) %>%
-  #   dplyr::summarize(
-  #     tmax = max(time),
-  #     tmin = min(time),
-  #     vmin = min(value),
-  #     qmax = 1 - (min(value))
-  #   ) %>%
-  #   dplyr::ungroup() %>%
-  #   dplyr::mutate(
-  #     quantity = as.character(variable),
-  #     variable = NULL,
-  #     strata = unlist(lapply(strsplit(strata, "\\.", fixed =
-  #                                       FALSE), function(x) {
-  #                                         x[[length(x)]]
-  #                                       }))
-  #   )
-  # 
-  # 
-  # ## merge info
-  # correct <- qdf %>%
-  #   dplyr::left_join(cutoff, by = base::intersect(colnames(cutoff), colnames(.))) %>%
-  #   dplyr::mutate(
-  #     variable = as.numeric(as.character(variable)),
-  #     diff = abs(variable - qmax * 100),
-  #     value = ifelse(
-  #       as.numeric(variable) > 100 * qmax |
-  #         value > tmax |
-  #         (abs(as.numeric(variable) - 100 * qmax) <= tolerance &
-  #            tmin != tmax)
-  #       ,
-  #       NA_real_
-  #       ,
-  #       value
-  #     )
-  #   ) %>%
-  #   dplyr::arrange(strata, quantity, variable) %>%
-  #   dplyr::select(-diff,-qmax,-vmin,-tmin,-tmax) %>%
- 
-  # final <- tidyr::pivot_wider(
-  #   data = qdf,
-  #   id_cols = c(strata, quantity),
-  #   names_from = variable,
-  #   values_from = value
-  # ) %>%
-  #   data.frame(check.names = FALSE)
   
   return(final)
 }

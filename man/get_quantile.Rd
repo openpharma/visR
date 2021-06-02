@@ -20,7 +20,7 @@ get_quantile(x, ...)
 
 \item{...}{other arguments passed on to the method}
 
-\item{probs}{probabilies Default = c(0.25,0.50,0.75)}
+\item{probs}{probabilities Default = c(0.25,0.50,0.75)}
 
 \item{conf.int}{should lower and upper confidence limits be returned?}
 

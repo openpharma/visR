@@ -37,7 +37,7 @@ Current options are:
 The \code{label} specifies the label within each risk table. The strata levels
 are used for the titles of the risk tables. This is the default}
 \item{"statlist": groups the risk tables per statlist.
-The \code{label} specifies the title for each risk tabel. The strata levels
+The \code{label} specifies the title for each risk table. The strata levels
 are used for labeling within each risk table.}
 }
 Default is "strata".}
@@ -64,8 +64,6 @@ in the final object to allow post-modification of the individual plots if desire
 }
 }
 \examples{
-
-library(survival)
 
 ## Display 2 risk tables, 1 per statlist
 adtte \%>\%
