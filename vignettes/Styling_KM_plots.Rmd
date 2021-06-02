@@ -99,7 +99,7 @@ If no further options are provided to `visR::define_theme()`, it nonetheless ret
 visR::define_theme() 
 ```
 
-However, this function also takes several other styling options. The currently usable ones are displayed below. One particular use that we had in mind when writing this function was, that we wanted to have the option to define the different colours for the strata once and then to not have to worry about all of them being present. When defining the strata through a list of colours, the absence of data for a particular option would shift the order. 
+However, this function also takes several other styling options. The currently usable ones are displayed below. One particular use that we had in mind when writing this function was, that we wanted to have the option to define the different colours for the strata once and then to not have to worry about all of them being present.
 
 ```{r visr-define_theme-nonempty}
 theme <-
