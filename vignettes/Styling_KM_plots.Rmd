@@ -32,7 +32,7 @@ This tutorial illustrates the usage of the styling function that `visR` provides
 
 ## Preparation of the data
 
-In this example, we will work with patient data from NCCTG Lung Cancer dataset that is part of the `survival` package. This data is also used to demonstrate more functions of `visR` in the vignette XXX. However, in this particular one, it will only be used to demonstrate the adjustments of the aesthetics. 
+In this example, we will work with patient data from NCCTG Lung Cancer dataset that is part of the `survival` package. This data is also used to demonstrate more functions of `visR` in another vignette. However, in this particular one, it will only be used to demonstrate the adjustments of the aesthetics. 
 
 ## Generation of a `survfit` object
 
