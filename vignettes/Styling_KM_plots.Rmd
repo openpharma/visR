@@ -1,0 +1,156 @@
+---
+title: "Styling survival plots"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Styling survival plots}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  fig.width = 7,
+  fig.height = 4,
+  fig.align = "center",
+  comment = "#>"
+)
+```
+
+
+
+# Introduction
+
+```{r libraries, include = TRUE}
+library(visR)
+library(survival)
+library(ggplot2)
+```
+
+
+This tutorial illustrates the usage of the styling function that `visR` provides. By default, `visR::visr()` does not apply any form of visual changes to the generated survival plots. Therefore, the default output looks like you would expect from a standard `ggplot2::ggplot()` plot.
+
+## Preparation of the data
+
+In this example, we will work with patient data from NCCTG Lung Cancer dataset that is part of the `survival` package. This data is also used to demonstrate more functions of `visR` in another vignette. However, in this particular one, it will only be used to demonstrate the adjustments of the aesthetics. 
+
+## Generation of a `survfit` object
+
+```{r generate-survival-data}
+lung_cohort <- survival::lung
+
+lung_cohort <- lung_cohort %>%  
+  dplyr::mutate(sex = as.factor(ifelse(sex == 1, "Male", "Female")))  %>%  
+  dplyr::mutate(status = status - 1) %>%
+  dplyr::rename(Age = "age", Sex = "sex", Status = "status", Days = "time") 
+
+lung_suvival_object <- lung_cohort %>%
+  visR::estimate_KM(strata = "Sex", CNSR = "Status", AVAL = "Days")
+```
+
+# Styling
+
+## Plotting the generated `survfit` object without adjustments
+
+```{r default-ggplot2-plot}
+p <- lung_suvival_object %>%
+  visR::visr()
+p
+```
+
+As we can, the plot shows the default [`ggplot2::theme_grey()`](https://ggplot2.tidyverse.org/reference/ggtheme.html) style with a grey background, a visible grid and the default `ggplot2` colours.
+
+## Using `ggplot2` to style the plot
+
+Since `visR::visr()` also generates a valid `ggplot` object as an output, we can use the conventional styling logic and options that `ggplot2` provides, as shown below. 
+
+```{r styling-with-ggplot2}
+p +
+  ggplot2::theme_bw() +
+  ggplot2::theme(legend.position = "top") +
+  ggplot2::scale_color_manual(values = c("red", "blue"))
+```
+
+However, `visR` also provides functions to adjust common aesthetics more easily and with less code. 
+
+## Using `visR` to style the plot
+
+The most direct option to style plots generated through `visR::visr()` is by using the parameters that the function provides. Internally, parameters like the y-axis label are automatically deducted from the used function. The following example demonstrates the options exposed.
+
+```{r visr-parameter-styling}
+lung_suvival_object %>%
+  visR::visr(x_label = "Time",
+             y_label = NULL, # NULL (default) causes the label to be deducted from the used function
+             x_ticks = seq(0, 1200, 200),
+             y_ticks = seq(0, 100, 20),
+             fun = "pct",
+             legend_position = "top") 
+```
+
+However, these rather minimal adjustments usually don't cover all the things a user wants to modify. Therefore, we provide two additional functions to adjust more aesthetics: `visR::define_theme()` and `visR::apply_theme()`. The first one provides an easy wrapper to create a nested list of list with styling options that is then applied to the plot by the second function.
+
+# New themes
+
+## Defining a `visR_theme` using `visR::define_theme()`
+
+If no further options are provided to `visR::define_theme()`, it nonetheless returns a very minimal list of reasonable defaults.
+
+```{r visr-define_theme-empty}
+visR::define_theme() 
+```
+
+However, this function also takes several other styling options. The currently usable ones are displayed below. One particular use that we had in mind when writing this function was, that we wanted to have the option to define the different colours for the strata once and then to not have to worry about all of them being present.
+
+```{r visr-define_theme-nonempty}
+theme <-
+  visR::define_theme(
+    strata = list(
+      "Sex" = list("Female" = "red",
+                   "Male" = "blue"),
+      "ph.ecog" = list("0" = "cyan",
+                       "1" = "purple",
+                       "2" = "brown")
+    ),
+    fontsizes = list(
+      "axis" = 12,
+      "ticks" = 10,
+      "legend_title" = 10,
+      "legend_text" = 8
+    ),
+    fontfamily = "Helvetica",
+    grid = list("major" = FALSE,
+                "minor" = FALSE),
+    #grid = TRUE/FALSE # <- can also be used instead of the named list above
+    bg = "transparent",
+    legend_position = "top"
+  )
+```
+
+## Apply styling using `visR::apply_theme()`
+
+The `visR::apply_theme()` function exposes the user to two ways to style their plot. The most direct one would be to just apply the function to a plot without specifying any options. This applies several reasonable defaults to the plot.
+
+```{r visr-apply_theme-empty, warning=FALSE}
+lung_suvival_object %>%
+  visR::visr() %>%
+  visR::apply_theme()
+```
+
+The second one would be to apply a nested list of lists to, ideally generated through `visR::define_theme()` to a plot. This serves the purpose to generate a detailed `visR_theme` object once and then apply it to one or several plots with a single line. These lists could then also be easily saved and shared. The usage of the theme generated above is shown below.
+
+```{r visr-apply_theme-nonempty, warning = FALSE, message=FALSE}
+lung_suvival_object %>%
+  visR::visr() %>%
+  visR::apply_theme(theme)
+```
+
+Applying a theme does not prevent the user from further applying modifications, as for example the addition of confidence intervals, censoring indicators or risk tables.
+
+```{r visr-apply_theme-non-empty-fancy, warning=FALSE}
+lung_suvival_object %>%
+  visR::visr() %>%
+  visR::apply_theme(theme) %>%
+  visR::add_CI() %>%
+  visR::add_CNSR() %>%
+  visR::add_risktable()
+```
