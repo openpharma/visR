@@ -1,12 +1,14 @@
 #' \code{visR} package
 #'
 #' @docType package
-#' @name visR
+#' @name visR Global
+#'
+#' @description Set global variables
 NULL
 
 
 ## Quiets concerns of R CMD check re: the .'s that appear in pipelines
-## For "visible binding note solution" see 
+## For "visible binding note solution" see
 ## here \href{https://github.com/STAT545-UBC/Discussion/issues/451}
 ## TODO: move to more maintainable solution
 if (getRversion() >= "2.15.1")

@@ -1,0 +1,90 @@
+---
+title: "Creating consort flow diagram with visR"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Creating consort flow diagram with visR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(visR)
+```
+
+# Attrition example
+
+## Data preperation
+
+Prepare the data using the attrition function. 
+
+```{r data_prep}
+attrition <- visR::get_attrition(adtte,
+   criteria_descriptions = c("1. Not in Placebo Group",
+                             "2. Be 75 years of age or older.",
+                             "3. White",
+                             "4. Female"),
+   criteria_conditions   = c("TRTP != 'Placebo'",
+                             "AGE >= 75",
+                             "RACE=='WHITE'",
+                             "SEX=='F'"),
+   subject_column_name   = "USUBJID")
+```
+
+## Render chart 
+
+Draw a CONSORT attrition chart without specifying extra text for the complement
+
+```{r render1, fig.align='center', fig.width= 6, fig.height=6}
+attrition %>%
+  visr("Criteria", "Remaining N")
+```
+
+## Adding more detail
+
+Adding more detailed complement descriptions to the "exclusion" part of the CONSORT diagram
+
+### Add the control group
+
+Step 1. Add new column to attrition dataframe
+
+```{r, data_control}
+attrition$Complement <- c("NA", "Placebo Group", "Younger than 75 years", "Non-White", "Male")
+```
+ 
+### Define metadata 
+
+Step 2. Define the name of the column in the call to the plotting function
+
+```{r render2, fig.align='center', fig.width= 6, fig.height=6}
+attrition %>%
+  visr("Criteria", "Remaining N", "Complement")
+```
+
+# Additional features 
+
+## Styling the CONSORT flowchart. 
+
+Change the fill and outline of the boxes in the flowchart
+
+```{r render3, fig.align='center', fig.width= 6, fig.height=6}
+ attrition %>%
+   visr("Criteria", "Remaining N", "Complement", fill = "lightblue", border="grey")
+
+```
+
+## Adjusting size
+
+Adjust the font size in the boxes
+
+```{r render4,  fig.align='center', fig.width= 6, fig.height=6}
+ attrition %>%
+   visr("Criteria", "Remaining N", font_size = 10)
+```
+

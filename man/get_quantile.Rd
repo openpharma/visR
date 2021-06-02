@@ -3,57 +3,49 @@
 \name{get_quantile}
 \alias{get_quantile}
 \alias{get_quantile.survfit}
-\title{Extended quantile S3 method - EXPERIMENTAL NEEDS TESTING AND COMPARING WITH SAS SOFTWARE}
+\title{Wrapper around quantile methods}
 \usage{
 get_quantile(x, ...)
 
 \method{get_quantile}{survfit}(
-  survfit_object = survfit_object,
+  x,
+  ...,
   probs = c(0.25, 0.5, 0.75),
   conf.int = TRUE,
-  tolerance = sqrt(.Machine$double.eps),
-  debug = FALSE
+  tolerance = sqrt(.Machine$double.eps)
 )
 }
 \arguments{
-\item{x}{S3 object}
+\item{x}{An object of class \code{survfit}}
 
 \item{...}{other arguments passed on to the method}
 
-\item{survfit_object}{An object of class \code{survfit}}
-
-\item{probs}{probabilies Default = c(0.25,0.50,0.75)}
+\item{probs}{probabilities Default = c(0.25,0.50,0.75)}
 
 \item{conf.int}{should lower and upper confidence limits be returned?}
 
 \item{tolerance}{tolerance for checking that the survival curve exactly
     equals one of the quantiles}
-
-\item{debug}{debug mode. Default = FALSE}
 }
 \value{
-A tibble with quantiles
+A data frame with quantiles of the object
 }
 \description{
-S3 method for extracting quantiles. For survival objects, it takes into account the maximal time of survival as limit instead of NA
-If the quantile requested is larger than the minimal quantile available, the result is NA.
+S3 method for extracting quantiles.
 No default method is available at the moment.
 }
 \examples{
-\donttest{
-library(survival)
-library(dplyr)
-library(tidyr)
 
-survfit_object_trt <- estimate_KM(data = adtte, strata = c("TRTP"))
-get_quantile(survfit_object_trt)
-quantile(survfit_object_trt)
-}
+## Kaplan-Meier estimates
+survfit_object <- visR::estimate_KM(data = adtte, strata = c("TRTP"))
+
+## visR quantiles
+visR::get_quantile(survfit_object)
+
+## survival quantiles
+quantile(survfit_object)
 
 }
 \seealso{
 \code{\link[survival]{quantile.survfit}}
-}
-\author{
-Steven Haesendonckx
 }

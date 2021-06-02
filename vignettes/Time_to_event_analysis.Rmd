@@ -22,7 +22,8 @@ For a more thorough introduction to Survival Analysis, we recommend the followin
 
 In this example, we will work with patient data from NCCTG Lung Cancer dataset that is part of the `survival` package. Another vignette presents an example using a data set following the [CDISC ADaM standard](https://www.cdisc.org/standards/foundational/adam/adam-basic-data-structure-bds-time-event-tte-analyses-v1-0). 
 
-```{r imports, echo=FALSE, warning=FALSE, message=FALSE}
+```{r imports, echo=TRUE, warning=FALSE, message=FALSE}
+library(ggplot2)
 library(visR)
 ```
 
@@ -36,7 +37,7 @@ DATASET <- paste0("NCCTG Lung Cancer Dataset (from survival package ",
 options(digits = 3)
 
 # Global ggplot settings
-# theme_set(theme_classic())
+theme_set(theme_bw())
 
 # Global table settings 
 options(DT.options = list(pageLength = 10, 
@@ -194,5 +195,4 @@ visR includes a wrapper function to create a risktable and then add it directly 
 # Add a confidence interval and the censor ticks and a risktable to the Kaplan-Meier and display the plot
 gg %>% add_CI() %>% add_CNSR(shape = 3, size = 2) %>% add_risktable()
 ```
-
 

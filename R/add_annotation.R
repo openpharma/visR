@@ -4,9 +4,9 @@
 #' This function accepts a string, dataframe, data.table, tibble or customized 
 #' objects of class \code{gtable} and places them on the specified location on 
 #' the \code{ggplot}. The layout is fixed: bold columnheaders and plain body. 
-#' Only the font size and type can be chosen. 
-#'
-#' @author Steven Haesendonckx
+#' Only the font size and type can be chosen.
+#' Both the initial plot as the individual annotation are stored as attribute `component`
+#' in the final object.
 #'
 #' @seealso \code{\link[gridExtra]{tableGrob}} \code{\link[ggplot2]{annotation_custom}}
 #'
@@ -20,7 +20,6 @@
 #' @param ymax y coordinates giving vertical location of raster in which to fit annotation.
 #'
 #' @examples
-#' 
 #' ## Estimate survival
 #' surv_object <- visR::estimate_KM(data = adtte, strata = "TRTP")
 #' 
@@ -86,68 +85,80 @@ add_annotation <- function(
   ymax = Inf
   ){
 
-  #### Validate user input ####
+# User input validation ---------------------------------------------------
 
   if (!base::inherits(gg, "ggplot")) stop("Error in add_annotation: gg is not of class `ggplot`")
   if (is.null(label)) stop("Error in add_annotation: label does not exist")
   if (!base_family %in% c("sans", "serif", "mono")) stop("Error in add_annotation: Specified font not supported")
   if (!base::any(unlist(lapply(as.list(c(xmin, xmax, ymin, ymax, base_size)), is.numeric)))) stop("Error in add_annotation: One of the coordinates are not numeric.")
 
-  #### If user has custom gtable, skip all the remaining steps ####
+# ggtable -----------------------------------------------------------------
 
   if (base::inherits(label, "gtable")) {
 
-    gg <- gg +
+    gganno <- gg +
       ggplot2::annotation_custom(label, xmin = xmin, ymin = ymin, xmax = xmax, ymax = ymax)
-
-    return (gg)
+    
+    
+    ### Add individual components
+    components <- append(list(gg), label)                # Note: The append changes the structure of the gtable object
+    names(components) = c("visR_plot", names(label))
+    gganno[["components"]] <- components
+    
+    return (gganno)
 
   } else {
+    
+    ### Prepare label: turn into dataframe and avoid factors + add manual bolding to avoid parsing issues with `` in colnames
 
-    #### Prepare label: turn into dataframe and avoid factors + add manual bolding to avoid parsing issues with `` in colnames ####
+    df <- data.frame(lapply(label, as.character), stringsAsFactors = FALSE, check.names = FALSE) #as.character to protect leading zero in numeric
 
-    df <- data.frame(label, stringsAsFactors = FALSE, check.names = FALSE)
     colnames(df) <- as.vector(paste(paste0("bold(\"", colnames(df), "\")")))
 
-    #### Layout of gtable: access and modify options eg tt1$colhead ####
-
-    ## Use hjust and x to left justify the text
-    core_alignment <- matrix(c(0, 1), ncol=max(ncol(df), 2), nrow=nrow(df), byrow=TRUE)[, 1:(1+as.numeric(ncol(df)>1)), drop = FALSE]
-    core_x <- core_alignment
-
-    ## TODO: Commented these two lines for RMD CHECK.
-    #head_alignment <- matrix(c(0, 1), ncol=max(length(colnames(df)), 2), nrow=1, byrow=TRUE)[, 1:(1+as.numeric(ncol(df)>1)), drop = FALSE]
-    #head_x <- head_alignment
+    ### Layout of gtable: access and modify options eg tt1$colhead
+     ## First column to left, rest rightaligned
+    
+    core_alignment_matrix <- matrix(rep(0, nrow(df)*dim(df)[2]), nrow = nrow(df), ncol = dim(df)[2])
+    if (dim(core_alignment_matrix)[2] > 1) {core_alignment_matrix[,2:dim(core_alignment_matrix)[2]] <- 1}
+    core_alignment_head <- rep(1, dim(core_alignment_matrix)[2])
+    core_alignment_head[1] <- 0
 
     tt1 <-  gridExtra::ttheme_minimal(
       base_size = base_size,
       base_family = base_family,
-      parse = TRUE,
       core=list(
         fg_params=list(
-          hjust = as.vector(core_alignment),
-          x = as.vector(core_x),
+          hjust = as.vector(core_alignment_matrix),
+          x = as.vector(core_alignment_matrix),
           fontface = "plain"
         )
       ),
       colhead = list(
         fg_params = list(
-          hjust =  as.vector(core_alignment[1, ]),
-          x = as.vector(core_x[1, ]),
-          fontface = 2
+          hjust =  core_alignment_head,
+          x = core_alignment_head,
+          fontface = 2,
+          parse = TRUE
         )
       )
     )
 
+    
     if (inherits(label, "character")) {
       dfGrob <- gridExtra::tableGrob(df, rows = NULL, theme = tt1, cols = NULL)
     } else {
       dfGrob <- gridExtra::tableGrob(df, rows = NULL, theme = tt1)
     }
 
-    gg <- gg +
+    gganno <- gg +
       ggplot2::annotation_custom(dfGrob, xmin = xmin, ymin = ymin, xmax = xmax, ymax = ymax)
-
-    return(gg)
+    
+    ### Add individual components
+    
+    components <- append(list(gg), dfGrob)               # Note: The append changes the structure of the tableGrob object
+    names(components) = c("visR_plot", names(dfGrob))
+    gganno[["components"]] <- components
+    
+    return(gganno)
   }
 }

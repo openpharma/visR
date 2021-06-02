@@ -9,21 +9,18 @@ add_risktable(gg, ...)
 
 \method{add_risktable}{ggsurvfit}(
   gg,
-  min_at_risk = 0,
   times = NULL,
   statlist = c("n.risk"),
   label = "At risk",
   group = "strata",
-  collapse = FALSE
+  collapse = FALSE,
+  ...
 )
 }
 \arguments{
 \item{gg}{visR plot of class \code{ggsurvfit}}
 
 \item{...}{other arguments passed on to the method add_risktable}
-
-\item{min_at_risk}{\code{numeric} The cutoff for number of participants at risk to display. This minimum is applied across strata.
-Default is 0.}
 
 \item{times}{Numeric vector indicating the times at which the risk set, censored subjects, events are calculated.}
 
@@ -40,7 +37,7 @@ Current options are:
 The \code{label} specifies the label within each risk table. The strata levels
 are used for the titles of the risk tables. This is the default}
 \item{"statlist": groups the risk tables per statlist.
-The \code{label} specifies the title for each risk tabel. The strata levels
+The \code{label} specifies the title for each risk table. The strata levels
 are used for labeling within each risk table.}
 }
 Default is "strata".}
@@ -72,31 +69,26 @@ in the final object to allow post-modification of the individual plots if desire
 adtte \%>\%
   visR::estimate_KM(strata = "TRTP") \%>\%
   visR::visr() \%>\%
-  visR::add_risktable( min_at_risk = 3
-                      ,label = c("Subjects at Risk", "Censored")
+  visR::add_risktable( label = c("Subjects at Risk", "Censored")
                       ,statlist = c("n.risk", "n.censor")
                       ,group = "statlist"
                      )
-                
-## Display 2 risk tables, 1 per stratum
-adtte \%>\%
-  visR::estimate_KM(strata = "TRTP") \%>\%
-  visR::visr() \%>\%
-  visR::add_risktable( min_at_risk = 3
-                      ,label = c("Subjects at Risk", "Censored")
-                      ,statlist = c("n.risk", "n.censor")
-                      ,group = "strata"
-                     )
 
-## Display overall risk table
+## Display overall risk table at selected times
 adtte \%>\%
   visR::estimate_KM(strata = "TRTP") \%>\%
   visR::visr() \%>\%
-  visR::add_risktable( min_at_risk = 3
-                      ,label = c("Subjects at Risk", "Censored")
+  visR::add_risktable( label = c("Subjects at Risk", "Censored")
                       ,statlist = c("n.risk", "n.censor")
                       ,collapse = TRUE
+                      ,times = c(0,20,40,60)
                      )
+                     
+## Add risk set as specified times
+adtte \%>\%
+  visR::estimate_KM(strata = "TRTP") \%>\%
+  visR::visr() \%>\%
+  visR::add_risktable(times = c(0, 20, 40, 100,111, 200))
 
 }
 \seealso{

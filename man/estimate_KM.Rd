@@ -37,7 +37,6 @@ The MLE (H.hat(t) = -log(S.hat(t))) can't be requested.}
 }
 }
 \examples{
-library(visR)
 
 ## No stratification
 visR::estimate_KM(data = adtte)
@@ -71,11 +70,8 @@ veteran_adam <- survival::veteran \%>\%
 visR::estimate_KM(data = veteran_adam, strata = "trt")
 }
 \references{
-\url{https://https://github.com/therneau/survival}
+\url{https://github.com/therneau/survival}
 }
 \seealso{
 \code{\link[survival]{survfit.formula} \link[survival]{survfitCI}}
-}
-\author{
-Steven Haesendonckx
 }

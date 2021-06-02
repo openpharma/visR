@@ -23,6 +23,3 @@ adtte \%>\%
 \references{
 \url{https://github.com/tidyverse/magrittr/issues/115#issuecomment-173894787}
 }
-\author{
-Steven Haesendonckx
-}

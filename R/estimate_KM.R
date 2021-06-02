@@ -12,8 +12,6 @@
 #'      \item{A two-sided pointwise 0.95 confidence interval is estimated using a log transformation (conf.type = "log").}
 #'    }
 #'
-#' @author Steven Haesendonckx
-#'
 #' @seealso \code{\link[survival]{survfit.formula} \link[survival]{survfitCI}}
 #'
 #' @param data The name of the dataset for Time-to-Event analysis based on the Analysis Data Model (ADaM) principles. The dataset is expected to have
@@ -27,12 +25,11 @@
 #'
 #' @return survfit object, extended by elements PARAM/PARAMCD, ready for downstream processing in estimation or visualization functions and methods.
 #'
-#' @references \url{https://https://github.com/therneau/survival}
+#' @references \url{https://github.com/therneau/survival}
 #'
 #' @export
 #'
 #' @examples
-#' library(visR)
 #'
 #' ## No stratification
 #' visR::estimate_KM(data = adtte)

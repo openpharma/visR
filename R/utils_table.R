@@ -4,7 +4,7 @@
 #'
 #' @param x an object
 #' @export
-summarize <- function(x) UseMethod("summarize")
+summarize_long <- function(x) UseMethod("summarize_long")
 
 
 #' Create variable summary for factors
@@ -12,7 +12,7 @@ summarize <- function(x) UseMethod("summarize")
 #' @param x an object of class "factor"
 #'
 #' @export
-summarize.factor <- function(x){
+summarize_long.factor <- function(x){
   x1 <- forcats::fct_explicit_na(x, na_level = "Missing")
 
   dat <- tibble::enframe(x1) %>%
@@ -29,8 +29,8 @@ summarize.factor <- function(x){
 #' @param x an object of class "integer"
 #'
 #' @export
-summarize.integer <- function(x){
-  summarize.numeric(x)
+summarize_long.integer <- function(x){
+  summarize_long.numeric(x)
 }
 
 #' Create variable summary for numeric variables
@@ -38,7 +38,7 @@ summarize.integer <- function(x){
 #' @param x an object of class "numeric"
 #'
 #' @export
-summarize.numeric <- function(x){
+summarize_long.numeric <- function(x){
   dat <- list(
     mean = mean(x, na.rm = TRUE),
     min = min(x, na.rm = TRUE),
@@ -56,7 +56,7 @@ summarize.numeric <- function(x){
 #' @param x an object of any other class
 #'
 #' @export
-summarize.default <- function(x){
+summarize_long.default <- function(x){
   dat <- list(
     unique_values = length(unique(x)),
     nmiss = sum(is.na(x))
@@ -70,16 +70,16 @@ summarize.default <- function(x){
 #'
 #' @param x a vector to be summarized
 #' @export
-summarize_tab1 <- function(x) UseMethod("summarize_tab1")
+summarize_short <- function(x) UseMethod("summarize_short")
 
 #' Create variable summary for factors
 #'
-#' Calculates N and % of occurence for each factor value
+#' Calculates N and % of occurrence for each factor value
 #'
 #' @param x an object of class "factor"
 #'
 #' @export
-summarize_tab1.factor <- function(x){
+summarize_short.factor <- function(x){
   x1 <- forcats::fct_explicit_na(x, na_level = "Missing")
 
   dat <- tibble::enframe(x1) %>%
@@ -100,13 +100,13 @@ summarize_tab1.factor <- function(x){
 #' @param x an object of class "numeric"
 #'
 #' @export
-summarize_tab1.numeric <- function(x){
+summarize_short.numeric <- function(x){
   dat <- list(
     `Mean (SD)` = paste0(format(mean(x, na.rm = TRUE), digits = 3), " (", format(sd(x, na.rm = TRUE), digits = 3), ")"),
     `Median (IQR)` = paste0(format(median(x, na.rm = TRUE), digits = 3), " (", format(quantile(x, probs=0.25, na.rm = TRUE), digits = 3),
                             "-", format(quantile(x, probs=0.75, na.rm = TRUE), digits = 3), ")"),
     `Min-max` = paste0(format(min(x, na.rm = TRUE), digits = 3), "-", format(max(x, na.rm = TRUE), digits = 3)),
-    Missing = paste0(format(sum(is.na(x)), digits = 3), 
+    Missing = paste0(format(sum(is.na(x)), digits = 3),
                      " (", format(100 * sum(is.na(x))/length(x), trim=TRUE, digits = 3), "%)")
   )
   list(dat)
@@ -120,8 +120,8 @@ summarize_tab1.numeric <- function(x){
 #' @param x an object of class "integer"
 #'
 #' @export
-summarize_tab1.integer <- function(x){
-  summarize_tab1.numeric(x)
+summarize_short.integer <- function(x){
+  summarize_short.numeric(x)
 }
 
 #' Create variable summary for all other variable types
@@ -129,7 +129,7 @@ summarize_tab1.integer <- function(x){
 #' @param x an object of any other class
 #'
 #' @export
-summarize_tab1.default <- function(x){
+summarize_short.default <- function(x){
   dat <- list(
     `Unique values` = format(length(unique(x))),
     `Missing (%)` = paste0(format(sum(is.na(x))), " (", format(100 * sum(is.na(x))/length(x), trim=TRUE), "%)")

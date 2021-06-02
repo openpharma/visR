@@ -8,24 +8,19 @@
 get_risktable(x, ...)
 
 \method{get_risktable}{survfit}(
-  survfit_object,
-  min_at_risk = 0,
+  x,
   times = NULL,
   statlist = c("n.risk"),
   label = NULL,
   group = "strata",
-  collapse = FALSE
+  collapse = FALSE,
+  ...
 )
 }
 \arguments{
-\item{x}{object to be passed on to the method}
+\item{x}{an object of class \code{survfit}}
 
 \item{...}{other arguments passed on to the method}
-
-\item{survfit_object}{an object of class \code{survfit}}
-
-\item{min_at_risk}{\code{numeric} The cutoff for number of participants at risk to display. This minimum is applied across strata.
-Default is 0.}
 
 \item{times}{Numeric vector indicating the times at which the risk set, censored subjects, events are calculated.}
 
@@ -42,7 +37,7 @@ Current options are:
 The \code{label} specifies the label within each risk table. The strata levels
 are used for the titles of the risk tables. This is the default}
 \item{"statlist": groups the risk tables per statlist.
-The \code{label} specifies the title for each risk tabel. The strata levels
+The \code{label} specifies the title for each risk table. The strata levels
 are used for labeling within each risk table.}
 }
 Default is "strata".}

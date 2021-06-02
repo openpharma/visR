@@ -41,9 +41,10 @@ This function accepts a string, dataframe, data.table, tibble or customized
 objects of class \code{gtable} and places them on the specified location on
 the \code{ggplot}. The layout is fixed: bold columnheaders and plain body.
 Only the font size and type can be chosen.
+Both the initial plot as the individual annotation are stored as attribute \code{component}
+in the final object.
 }
 \examples{
-
 ## Estimate survival
 surv_object <- visR::estimate_KM(data = adtte, strata = "TRTP")
 
@@ -97,7 +98,4 @@ visR::visr(surv_object) \%>\%
 }
 \seealso{
 \code{\link[gridExtra]{tableGrob}} \code{\link[ggplot2]{annotation_custom}}
-}
-\author{
-Steven Haesendonckx
 }

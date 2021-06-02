@@ -7,16 +7,13 @@
 legendopts(legend_position = "right", legend_orientation = NULL)
 }
 \arguments{
-\item{legend_position}{Deafult = "right".}
+\item{legend_position}{Default = "right".}
 
-\item{legend_orientation}{Deafult = NULL.}
+\item{legend_orientation}{Default = NULL.}
 }
 \value{
 List of legend options for ggplot2.
 }
 \description{
 This function takes the legend position and orientation, defined by the user and puts them into a list for ggplot2.
-}
-\author{
-Steven Haesendonckx
 }

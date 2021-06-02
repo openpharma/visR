@@ -15,9 +15,7 @@ get_risktable <- function(x, ...){
   UseMethod("get_risktable")
 } 
 
-#' @param survfit_object an object of class `survfit`
-#' @param min_at_risk \code{numeric} The cutoff for number of participants at risk to display. This minimum is applied across strata. 
-#'   Default is 0.
+#' @param x an object of class `survfit`
 #' @param times Numeric vector indicating the times at which the risk set, censored subjects, events are calculated.
 #' @param statlist Character vector indicating which summary data to present. Current choices are "n.risk" "n.event" "n.censor".
 #'   Default is "n.risk".
@@ -30,7 +28,7 @@ get_risktable <- function(x, ...){
 #'       The `label` specifies the label within each risk table. The strata levels 
 #'       are used for the titles of the risk tables. This is the default}
 #'     \item{"statlist": groups the risk tables per statlist. 
-#'       The `label` specifies the title for each risk tabel. The strata levels
+#'       The `label` specifies the title for each risk table. The strata levels
 #'       are used for labeling within each risk table.}
 #'     } 
 #'   Default is "strata".
@@ -43,13 +41,13 @@ get_risktable <- function(x, ...){
 #' @export
 
 get_risktable.survfit <- function(
-    survfit_object
-   ,min_at_risk = 0
+    x
    ,times = NULL
    ,statlist = c("n.risk")
    ,label = NULL
    ,group = "strata"
    ,collapse = FALSE
+   ,...
 ){
 
 # User input validation ---------------------------------------------------
@@ -63,28 +61,25 @@ get_risktable.survfit <- function(
   if (!base::is.logical(collapse))
     stop("Error in get_risktable: collapse is expected to be boolean.")
 
-  if (min_at_risk < 0 | min_at_risk %% 1 != 0)
-    stop("min_at_risk needs to be a positive integer.")
-  
   if (base::any(times < 0))
     stop("Negative times are not valid.")
   
   if (length(group)>1 | !(base::all(group %in% c("statlist", "strata"))))
     stop("group should equal statlist or strata.")
   
-  if (min_at_risk > max(survfit_object$n.risk)){
-    tidy_object <- tidyme(survfit_object)
-
-    max_at_risk <- tidy_object %>% 
-      dplyr::group_by(strata) %>%
-      dplyr::summarize(risk = max(n.risk))
-    
-    stop(paste0("min_at_risk larger than the risk available in any strata. Maximum at risk is ", max(max_at_risk[["risk"]]), " in stratum ", max_at_risk[which(max_at_risk["risk"] == max(max_at_risk[["risk"]])), "strata"] ,"."))
-  }
+  # if (min_at_risk > max(x$n.risk)){
+  #   tidy_object <- tidyme(x)
+  # 
+  #   max_at_risk <- tidy_object %>% 
+  #     dplyr::group_by(strata) %>%
+  #     dplyr::summarize(risk = max(n.risk))
+  #   
+  #   stop(paste0("min_at_risk larger than the risk available in any strata. Maximum at risk is ", max(max_at_risk[["risk"]]), " in stratum ", max_at_risk[which(max_at_risk["risk"] == max(max_at_risk[["risk"]])), "strata"] ,"."))
+  # }
   
 # Clean input ------------------------------------------------------------
-  
-  tidy_object <- tidyme(survfit_object)
+
+  tidy_object <- tidyme(x)
   
   statlist <- unique(statlist)
   
@@ -112,31 +107,31 @@ get_risktable.survfit <- function(
     label <- label[1:length(statlist)]
 
   
-# Pull out the max time to consider ---------------------------------------
-
-  max_time <-
-    tidy_object %>%
-    dplyr::filter(n.risk >= min_at_risk) %>%
-    dplyr::group_by(strata) %>%
-    dplyr::summarize(max_time = max(time)) %>%
-    dplyr::ungroup() %>%
-    dplyr::summarize(min_time = min(max_time)) %>%
-    dplyr::pull(min_time)
+# # Pull out the max time to consider ---------------------------------------
+# 
+#   max_time <-
+#     tidy_object %>%
+#     dplyr::filter(n.risk >= min_at_risk) %>%
+#     dplyr::group_by(strata) %>%
+#     dplyr::summarize(max_time = max(time)) %>%
+#     dplyr::ungroup() %>%
+#     dplyr::summarize(max_time = max(max_time)) %>%
+#     dplyr::pull(max_time)
   
 # Generate time ticks ----------------------------------------------------
 
   if (is.null(times)) {
-    times <- pretty(survfit_object$time, 10)
+    times <- pretty(x$time, 10)
   } 
 
-  if (max_time %in% times)
-    times <- times[0 <= times & times <= max_time]
-  else #make sure the min at risk is shown eg when falls between 180 and 200
-    times <- unique(times[c(which(0 <= times & times <= max_time), min(length(times), max(which(0 <= times & times <= max_time))+1))])
+  # if (max_time %in% times)
+  #   times <- times[0 <= times & times <= max_time]
+  # else #make sure the min at risk is shown eg when falls between 180 and 200
+  #   times <- unique(times[c(which(0 <= times & times <= max_time), min(length(times), max(which(0 <= times & times <= max_time))+1))])
 
 # Summary -----------------------------------------------------------------
 
-  survfit_summary <- summary(survfit_object, times = times, extend = TRUE)
+  survfit_summary <- summary(x, times = times, extend = TRUE)
 
 # Risk table per statlist -------------------------------------------------
 

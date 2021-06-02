@@ -5,3 +5,16 @@
 ^visR\.Rproj$
 ^codecov\.yml$
 ^\.github$
+^CODE_OF_CONDUCT\.md$
+^Makefile$
+^README\.Rmd$
+^_pkgdown\.yml$
+^pkgdown$
+^visR_architecture\.png$
+^.gitsum$
+^docs$
+^LICENSE\.md$
+^CODE_OF_CONDUCT\.md$
+^README\.md$
+^CRAN-RELEASE$
+^cran-comments\.md$

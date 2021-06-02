@@ -10,6 +10,8 @@
 #' T2.1 No error when `criteria_conditions` is a character vector
 #' T2.2 An error when `criteria_conditions` is not a character vector
 #' T2.3 An error when `criteria_conditions` is NULL
+#' T2.4 An error when `data` is missing.
+#' T2.5 An error when `criteria_conditions`.
 #' 
 #' T3. The function filters correctly when provided a vector of single filters
 #' T3.1 Correct filtering string column
@@ -114,15 +116,30 @@ testthat::test_that("T2.2 An error when `criteria_conditions` is not a character
 })
 
 testthat::test_that("T2.3 An error when `criteria_conditions` is NULL",{
-    
-    testthat::expect_error(
-        visR::apply_attrition(adtte, criteria_conditions   = NULL
-        )
+  
+  testthat::expect_error(
+    visR::apply_attrition(adtte, criteria_conditions   = NULL
     )
-    
+  )
+  
 })
 
-# TODO
+testthat::test_that("T2.4 An error when `data` is missing.",{
+  
+  testthat::expect_error(
+    visR::apply_attrition(criteria_conditions = NULL)
+  )
+  
+})
+
+testthat::test_that("T2.5 An error when `criteria_conditions` is missing.",{
+  
+  testthat::expect_error(
+    visR::apply_attrition(data = adtte)
+  )
+  
+})
+
 context("get_attrition - T3. The function filters correctly when provided a vector of single filters")
 testthat::test_that("# T3.1 Correct filtering string column",{
     
