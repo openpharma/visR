@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">visR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1.9004</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -62,6 +62,12 @@
   <ul class="dropdown-menu" role="menu">
 <li>
       <a href="../articles/CDISC_ADaM.html">Survival Analysis with visR using CDISC ADaM standard</a>
+    </li>
+    <li>
+      <a href="../articles/Consort_flow_diagram.html">Creating consort flow diagram with visR</a>
+    </li>
+    <li>
+      <a href="../articles/Styling_KM_plots.html">Styling survival plots</a>
     </li>
     <li>
       <a href="../articles/Time_to_event_analysis.html">Survival Analysis with visR</a>
@@ -105,12 +111,15 @@
 <div id="introduction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h2>
-<p>This very short tutorial illustrates how a standard time-to-event analysis can be done very efficiently when the data set adheres to the <a href="https://www.cdisc.org/standards/foundational/adam/adam-basic-data-structure-bds-time-event-tte-analyses-v1-0">CDISC ADaM standard</a>. A more detailed time-to-event analysis with a more braod overview of visR’s functionality is presented in another vignette.</p>
+<p>This very short tutorial illustrates how a standard time-to-event analysis can be done very efficiently when the data set adheres to the <a href="https://www.cdisc.org/standards/foundational/adam/adam-basic-data-structure-bds-time-event-tte-analyses-v1-0">CDISC ADaM standard</a>. A more detailed time-to-event analysis with a more broad overview of visR’s functionality is presented in another vignette.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/openpharma/visR">visR</a></span><span class="op">)</span></code></pre></div>
 </div>
 <div id="global-document-setup" class="section level2">
 <h2 class="hasAnchor">
 <a href="#global-document-setup" class="anchor"></a>Global Document Setup</h2>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Constants</span>
 <span class="va">DATASET</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Analysis data - time to event"</span><span class="op">)</span>
 
@@ -118,7 +127,7 @@
 <span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
 
 <span class="co"># Global ggplot settings</span>
-<span class="co"># theme_set(theme_classic())</span>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># Global table settings </span>
 <span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>DT.options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>pageLength <span class="op">=</span> <span class="fl">10</span>, 
@@ -132,16 +141,16 @@
 <h2 class="hasAnchor">
 <a href="#time-to-event-analysis" class="anchor"></a>Time-to-event analysis</h2>
 <p>visR includes a wrapper function to easily display summary tables (e.g. <code>tableone</code>)</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Display a summary table (e.g. tableone)</span>
 <span class="fu"><a href="../reference/tableone.html">tableone</a></span><span class="op">(</span><span class="va">adtte</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"TRTP"</span>, <span class="st">"AGE"</span><span class="op">)</span><span class="op">]</span>,
          title <span class="op">=</span> <span class="st">"Demographic summary"</span> , datasource <span class="op">=</span> <span class="va">DATASET</span><span class="op">)</span></code></pre></div>
-<div id="iohwtvrnro" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="murfbhtmfl" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#iohwtvrnro .gt_table {
+#murfbhtmfl .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -166,7 +175,7 @@
   border-left-color: #D3D3D3;
 }
 
-#iohwtvrnro .gt_heading {
+#murfbhtmfl .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -178,7 +187,7 @@
   border-right-color: #D3D3D3;
 }
 
-#iohwtvrnro .gt_title {
+#murfbhtmfl .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -188,7 +197,7 @@
   border-bottom-width: 0;
 }
 
-#iohwtvrnro .gt_subtitle {
+#murfbhtmfl .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -198,13 +207,13 @@
   border-top-width: 0;
 }
 
-#iohwtvrnro .gt_bottom_border {
+#murfbhtmfl .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#iohwtvrnro .gt_col_headings {
+#murfbhtmfl .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -219,7 +228,7 @@
   border-right-color: #D3D3D3;
 }
 
-#iohwtvrnro .gt_col_heading {
+#murfbhtmfl .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -239,7 +248,7 @@
   overflow-x: hidden;
 }
 
-#iohwtvrnro .gt_column_spanner_outer {
+#murfbhtmfl .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -251,15 +260,15 @@
   padding-right: 4px;
 }
 
-#iohwtvrnro .gt_column_spanner_outer:first-child {
+#murfbhtmfl .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#iohwtvrnro .gt_column_spanner_outer:last-child {
+#murfbhtmfl .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#iohwtvrnro .gt_column_spanner {
+#murfbhtmfl .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -271,7 +280,7 @@
   width: 100%;
 }
 
-#iohwtvrnro .gt_group_heading {
+#murfbhtmfl .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -293,7 +302,7 @@
   vertical-align: middle;
 }
 
-#iohwtvrnro .gt_empty_group_heading {
+#murfbhtmfl .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -308,15 +317,15 @@
   vertical-align: middle;
 }
 
-#iohwtvrnro .gt_from_md > :first-child {
+#murfbhtmfl .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#iohwtvrnro .gt_from_md > :last-child {
+#murfbhtmfl .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#iohwtvrnro .gt_row {
+#murfbhtmfl .gt_row {
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 5px;
@@ -335,7 +344,7 @@
   overflow-x: hidden;
 }
 
-#iohwtvrnro .gt_stub {
+#murfbhtmfl .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -347,7 +356,7 @@
   padding-left: 12px;
 }
 
-#iohwtvrnro .gt_summary_row {
+#murfbhtmfl .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -357,7 +366,7 @@
   padding-right: 5px;
 }
 
-#iohwtvrnro .gt_first_summary_row {
+#murfbhtmfl .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -367,7 +376,7 @@
   border-top-color: #D3D3D3;
 }
 
-#iohwtvrnro .gt_grand_summary_row {
+#murfbhtmfl .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -377,7 +386,7 @@
   padding-right: 5px;
 }
 
-#iohwtvrnro .gt_first_grand_summary_row {
+#murfbhtmfl .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -387,11 +396,11 @@
   border-top-color: #D3D3D3;
 }
 
-#iohwtvrnro .gt_striped {
+#murfbhtmfl .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#iohwtvrnro .gt_table_body {
+#murfbhtmfl .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -400,7 +409,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#iohwtvrnro .gt_footnotes {
+#murfbhtmfl .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -414,13 +423,13 @@
   border-right-color: #D3D3D3;
 }
 
-#iohwtvrnro .gt_footnote {
+#murfbhtmfl .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#iohwtvrnro .gt_sourcenotes {
+#murfbhtmfl .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -434,41 +443,41 @@
   border-right-color: #D3D3D3;
 }
 
-#iohwtvrnro .gt_sourcenote {
+#murfbhtmfl .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#iohwtvrnro .gt_left {
+#murfbhtmfl .gt_left {
   text-align: left;
 }
 
-#iohwtvrnro .gt_center {
+#murfbhtmfl .gt_center {
   text-align: center;
 }
 
-#iohwtvrnro .gt_right {
+#murfbhtmfl .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#iohwtvrnro .gt_font_normal {
+#murfbhtmfl .gt_font_normal {
   font-weight: normal;
 }
 
-#iohwtvrnro .gt_font_bold {
+#murfbhtmfl .gt_font_bold {
   font-weight: bold;
 }
 
-#iohwtvrnro .gt_font_italic {
+#murfbhtmfl .gt_font_italic {
   font-style: italic;
 }
 
-#iohwtvrnro .gt_super {
+#murfbhtmfl .gt_super {
   font-size: 65%;
 }
 
-#iohwtvrnro .gt_footnote_marks {
+#murfbhtmfl .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -529,7 +538,7 @@
 </table>
 </div>
 <p>A wrapper function to estimate a Kaplan-Meier curve that is compatible with <code><a href="../reference/%&gt;%.html">%&gt;%</a></code> and purrr::map functions without losing traceability of the dataset name is included in visR. If a data set adhere to the CDISC ADaM standard, only a stratifier needs to be specified.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Estimate a survival object</span>
 <span class="va">survfit_object</span> <span class="op">&lt;-</span>  <span class="fu"><a href="../reference/estimate_KM.html">estimate_KM</a></span><span class="op">(</span><span class="va">adtte</span>, strata <span class="op">=</span> <span class="st">"TRTP"</span><span class="op">)</span>
 <span class="va">survfit_object</span>
@@ -541,15 +550,15 @@
 <span class="co">#&gt; TRTP=Xanomeline High Dose 84     61     36      25      47</span>
 <span class="co">#&gt; TRTP=Xanomeline Low Dose  84     62     33      28      51</span></code></pre></div>
 <p>Given a survival object visR includes several functions to easily to get additional information from the survival object (e.g. test statistics and p-values) and a general function to display a table (<code>render</code>).</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Display test statistics associated with the survival estimate</span>
 <span class="fu"><a href="../reference/render.html">render</a></span><span class="op">(</span><span class="va">survfit_object</span>  <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/get_pvalue.html">get_pvalue</a></span><span class="op">(</span><span class="op">)</span>, title <span class="op">=</span> <span class="st">"P-values"</span>, datasource <span class="op">=</span> <span class="va">DATASET</span><span class="op">)</span></code></pre></div>
-<div id="jzabvcbpsu" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="mjpcjrrfzh" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#jzabvcbpsu .gt_table {
+#mjpcjrrfzh .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -574,7 +583,7 @@
   border-left-color: #D3D3D3;
 }
 
-#jzabvcbpsu .gt_heading {
+#mjpcjrrfzh .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -586,7 +595,7 @@
   border-right-color: #D3D3D3;
 }
 
-#jzabvcbpsu .gt_title {
+#mjpcjrrfzh .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -596,7 +605,7 @@
   border-bottom-width: 0;
 }
 
-#jzabvcbpsu .gt_subtitle {
+#mjpcjrrfzh .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -606,13 +615,13 @@
   border-top-width: 0;
 }
 
-#jzabvcbpsu .gt_bottom_border {
+#mjpcjrrfzh .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#jzabvcbpsu .gt_col_headings {
+#mjpcjrrfzh .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -627,7 +636,7 @@
   border-right-color: #D3D3D3;
 }
 
-#jzabvcbpsu .gt_col_heading {
+#mjpcjrrfzh .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -647,7 +656,7 @@
   overflow-x: hidden;
 }
 
-#jzabvcbpsu .gt_column_spanner_outer {
+#mjpcjrrfzh .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -659,15 +668,15 @@
   padding-right: 4px;
 }
 
-#jzabvcbpsu .gt_column_spanner_outer:first-child {
+#mjpcjrrfzh .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#jzabvcbpsu .gt_column_spanner_outer:last-child {
+#mjpcjrrfzh .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#jzabvcbpsu .gt_column_spanner {
+#mjpcjrrfzh .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -679,7 +688,7 @@
   width: 100%;
 }
 
-#jzabvcbpsu .gt_group_heading {
+#mjpcjrrfzh .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -701,7 +710,7 @@
   vertical-align: middle;
 }
 
-#jzabvcbpsu .gt_empty_group_heading {
+#mjpcjrrfzh .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -716,15 +725,15 @@
   vertical-align: middle;
 }
 
-#jzabvcbpsu .gt_from_md > :first-child {
+#mjpcjrrfzh .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#jzabvcbpsu .gt_from_md > :last-child {
+#mjpcjrrfzh .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#jzabvcbpsu .gt_row {
+#mjpcjrrfzh .gt_row {
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 5px;
@@ -743,7 +752,7 @@
   overflow-x: hidden;
 }
 
-#jzabvcbpsu .gt_stub {
+#mjpcjrrfzh .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -755,7 +764,7 @@
   padding-left: 12px;
 }
 
-#jzabvcbpsu .gt_summary_row {
+#mjpcjrrfzh .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -765,7 +774,7 @@
   padding-right: 5px;
 }
 
-#jzabvcbpsu .gt_first_summary_row {
+#mjpcjrrfzh .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -775,7 +784,7 @@
   border-top-color: #D3D3D3;
 }
 
-#jzabvcbpsu .gt_grand_summary_row {
+#mjpcjrrfzh .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -785,7 +794,7 @@
   padding-right: 5px;
 }
 
-#jzabvcbpsu .gt_first_grand_summary_row {
+#mjpcjrrfzh .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -795,11 +804,11 @@
   border-top-color: #D3D3D3;
 }
 
-#jzabvcbpsu .gt_striped {
+#mjpcjrrfzh .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#jzabvcbpsu .gt_table_body {
+#mjpcjrrfzh .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -808,7 +817,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#jzabvcbpsu .gt_footnotes {
+#mjpcjrrfzh .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -822,13 +831,13 @@
   border-right-color: #D3D3D3;
 }
 
-#jzabvcbpsu .gt_footnote {
+#mjpcjrrfzh .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#jzabvcbpsu .gt_sourcenotes {
+#mjpcjrrfzh .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -842,41 +851,41 @@
   border-right-color: #D3D3D3;
 }
 
-#jzabvcbpsu .gt_sourcenote {
+#mjpcjrrfzh .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#jzabvcbpsu .gt_left {
+#mjpcjrrfzh .gt_left {
   text-align: left;
 }
 
-#jzabvcbpsu .gt_center {
+#mjpcjrrfzh .gt_center {
   text-align: center;
 }
 
-#jzabvcbpsu .gt_right {
+#mjpcjrrfzh .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#jzabvcbpsu .gt_font_normal {
+#mjpcjrrfzh .gt_font_normal {
   font-weight: normal;
 }
 
-#jzabvcbpsu .gt_font_bold {
+#mjpcjrrfzh .gt_font_bold {
   font-weight: bold;
 }
 
-#jzabvcbpsu .gt_font_italic {
+#mjpcjrrfzh .gt_font_italic {
   font-style: italic;
 }
 
-#jzabvcbpsu .gt_super {
+#mjpcjrrfzh .gt_super {
   font-size: 65%;
 }
 
-#jzabvcbpsu .gt_footnote_marks {
+#mjpcjrrfzh .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -923,7 +932,7 @@
 </table>
 </div>
 <p>A survival object can be plotted using the visR function <code>visr</code>. Additional information like confidence intervals and a risktable can be added to the plot.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Create and display a Kaplan-Meier from the survival object and add a risktable</span>
 <span class="fu"><a href="../reference/visr.html">visr</a></span><span class="op">(</span><span class="va">survfit_object</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/add_CI.html">add_CI</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/add_risktable.html">add_risktable</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="CDISC_ADaM_files/figure-html/km_plot_1-1.png" width="700"></p>
@@ -941,7 +950,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Diego Saldana, Charlotta Fruechtenicht, Mark Baillie, Marc Vandemeulebroecke, Thanos Siadimas, Pawel Kawski, Steven Haesendonckx, Pelagia Alexandra Papadopoulou, Tim Treis, Rebecca Albrecht.</p>
+  <p>Developed by Diego Saldana, Charlotta Fruechtenicht, Mark Baillie, Marc Vandemeulebroecke, Thanos Siadimas, Pawel Kawski, Steven Haesendonckx, James Black, Pelagia Alexandra Papadopoulou, Tim Treis, Rebecca Albrecht.</p>
 </div>
 
 <div class="pkgdown">

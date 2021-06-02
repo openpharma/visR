@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Extended quantile S3 method - EXPERIMENTAL NEEDS TESTING AND COMPARING WITH SAS SOFTWARE — get_quantile • visR</title>
+<title>Wrapper around quantile methods — get_quantile • visR</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,9 +46,8 @@
 
 
 
-<meta property="og:title" content="Extended quantile S3 method - EXPERIMENTAL NEEDS TESTING AND COMPARING WITH SAS SOFTWARE — get_quantile" />
-<meta property="og:description" content="S3 method for extracting quantiles. For survival objects, it takes into account the maximal time of survival as limit instead of NA
-If the quantile requested is larger than the minimal quantile available, the result is NA.
+<meta property="og:title" content="Wrapper around quantile methods — get_quantile" />
+<meta property="og:description" content="S3 method for extracting quantiles.
 No default method is available at the moment." />
 <meta property="og:image" content="https://openpharma.github.io/visR/logo.png" />
 
@@ -82,7 +81,7 @@ No default method is available at the moment." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">visR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1.9004</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -106,6 +105,12 @@ No default method is available at the moment." />
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/CDISC_ADaM.html">Survival Analysis with visR using CDISC ADaM standard</a>
+    </li>
+    <li>
+      <a href="../articles/Consort_flow_diagram.html">Creating consort flow diagram with visR</a>
+    </li>
+    <li>
+      <a href="../articles/Styling_KM_plots.html">Styling survival plots</a>
     </li>
     <li>
       <a href="../articles/Time_to_event_analysis.html">Survival Analysis with visR</a>
@@ -136,14 +141,13 @@ No default method is available at the moment." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Extended quantile S3 method - EXPERIMENTAL NEEDS TESTING AND COMPARING WITH SAS SOFTWARE</h1>
+    <h1>Wrapper around quantile methods</h1>
     <small class="dont-index">Source: <a href='https://github.com/openpharma/visR/blob/master/R/get_quantile.R'><code>R/get_quantile.R</code></a></small>
     <div class="hidden name"><code>get_quantile.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>S3 method for extracting quantiles. For survival objects, it takes into account the maximal time of survival as limit instead of NA
-If the quantile requested is larger than the minimal quantile available, the result is NA.
+    <p>S3 method for extracting quantiles.
 No default method is available at the moment.</p>
     </div>
 
@@ -151,11 +155,11 @@ No default method is available at the moment.</p>
 
 <span class='co'># S3 method for survfit</span>
 <span class='fu'>get_quantile</span><span class='op'>(</span>
-  survfit_object <span class='op'>=</span> <span class='va'>survfit_object</span>,
+  <span class='va'>x</span>,
+  <span class='va'>...</span>,
   probs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.25</span>, <span class='fl'>0.5</span>, <span class='fl'>0.75</span><span class='op'>)</span>,
   conf.int <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  tolerance <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span><span class='op'>(</span><span class='va'>.Machine</span><span class='op'>$</span><span class='va'>double.eps</span><span class='op'>)</span>,
-  debug <span class='op'>=</span> <span class='cn'>FALSE</span>
+  tolerance <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span><span class='op'>(</span><span class='va'>.Machine</span><span class='op'>$</span><span class='va'>double.eps</span><span class='op'>)</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -163,19 +167,15 @@ No default method is available at the moment.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>S3 object</p></td>
+      <td><p>An object of class <code>survfit</code></p></td>
     </tr>
     <tr>
       <th>...</th>
       <td><p>other arguments passed on to the method</p></td>
     </tr>
     <tr>
-      <th>survfit_object</th>
-      <td><p>An object of class <code>survfit</code></p></td>
-    </tr>
-    <tr>
       <th>probs</th>
-      <td><p>probabilies Default = c(0.25,0.50,0.75)</p></td>
+      <td><p>probabilities Default = c(0.25,0.50,0.75)</p></td>
     </tr>
     <tr>
       <th>conf.int</th>
@@ -186,49 +186,34 @@ No default method is available at the moment.</p>
       <td><p>tolerance for checking that the survival curve exactly
     equals one of the quantiles</p></td>
     </tr>
-    <tr>
-      <th>debug</th>
-      <td><p>debug mode. Default = FALSE</p></td>
-    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A tibble with quantiles</p>
+    <p>A data frame with quantiles of the object</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/survival/man/quantile.survfit.html'>quantile.survfit</a></code></p></div>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
-
-    <p>Steven Haesendonckx</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/therneau/survival'>survival</a></span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘dplyr’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:visR’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    summarize</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyr.tidyverse.org'>tidyr</a></span><span class='op'>)</span>
+    <pre class="examples"><div class='input'>
+<span class='co'>## Kaplan-Meier estimates</span>
+<span class='va'>survfit_object</span> <span class='op'>&lt;-</span> <span class='fu'>visR</span><span class='fu'>::</span><span class='fu'><a href='estimate_KM.html'>estimate_KM</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>adtte</span>, strata <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"TRTP"</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='va'>survfit_object_trt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='estimate_KM.html'>estimate_KM</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>adtte</span>, strata <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"TRTP"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'>get_quantile</span><span class='op'>(</span><span class='va'>survfit_object_trt</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 9 x 5</span>
-#&gt;   strata                    quantity  `25`  `50`  `75`
-#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                     <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span> TRTP=Placebo              lower       35    <span style='color: #BB0000;'>NA</span>    <span style='color: #BB0000;'>NA</span>
-#&gt; <span style='color: #BCBCBC;'>2</span> TRTP=Placebo              quantile    70    <span style='color: #BB0000;'>NA</span>    <span style='color: #BB0000;'>NA</span>
-#&gt; <span style='color: #BCBCBC;'>3</span> TRTP=Placebo              upper      177    <span style='color: #BB0000;'>NA</span>    <span style='color: #BB0000;'>NA</span>
-#&gt; <span style='color: #BCBCBC;'>4</span> TRTP=Xanomeline High Dose lower        5    25    50
-#&gt; <span style='color: #BCBCBC;'>5</span> TRTP=Xanomeline High Dose quantile    14    36    58
-#&gt; <span style='color: #BCBCBC;'>6</span> TRTP=Xanomeline High Dose upper       22    47    94
-#&gt; <span style='color: #BCBCBC;'>7</span> TRTP=Xanomeline Low Dose  lower       15    28    57
-#&gt; <span style='color: #BCBCBC;'>8</span> TRTP=Xanomeline Low Dose  quantile    19    33    80
-#&gt; <span style='color: #BCBCBC;'>9</span> TRTP=Xanomeline Low Dose  upper       27    51   126</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span><span class='op'>(</span><span class='va'>survfit_object_trt</span><span class='op'>)</span>
+<span class='co'>## visR quantiles</span>
+<span class='fu'>visR</span><span class='fu'>::</span><span class='fu'>get_quantile</span><span class='op'>(</span><span class='va'>survfit_object</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                      strata quantity  25 50  75
+#&gt; 4              TRTP=Placebo    lower  35 NA  NA
+#&gt; 1              TRTP=Placebo quantile  70 NA  NA
+#&gt; 7              TRTP=Placebo    upper 177 NA  NA
+#&gt; 5 TRTP=Xanomeline High Dose    lower   5 25  50
+#&gt; 2 TRTP=Xanomeline High Dose quantile  14 36  58
+#&gt; 8 TRTP=Xanomeline High Dose    upper  22 47  94
+#&gt; 6  TRTP=Xanomeline Low Dose    lower  15 28  57
+#&gt; 3  TRTP=Xanomeline Low Dose quantile  19 33  80
+#&gt; 9  TRTP=Xanomeline Low Dose    upper  27 51 126</div><div class='input'>
+<span class='co'>## survival quantiles</span>
+<span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span><span class='op'>(</span><span class='va'>survfit_object</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; $quantile
 #&gt;                           25 50 75
 #&gt; TRTP=Placebo              70 NA NA
@@ -246,8 +231,7 @@ No default method is available at the moment.</p>
 #&gt; TRTP=Placebo              177 NA  NA
 #&gt; TRTP=Xanomeline High Dose  22 47  94
 #&gt; TRTP=Xanomeline Low Dose   27 51 126
-#&gt; </div><div class='input'><span class='co'># }</span>
-
+#&gt; </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -260,7 +244,7 @@ No default method is available at the moment.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Diego Saldana, Charlotta Fruechtenicht, Mark Baillie, Marc Vandemeulebroecke, Thanos Siadimas, Pawel Kawski, Steven Haesendonckx, Pelagia Alexandra Papadopoulou, Tim Treis, Rebecca Albrecht.</p>
+  <p>Developed by Diego Saldana, Charlotta Fruechtenicht, Mark Baillie, Marc Vandemeulebroecke, Thanos Siadimas, Pawel Kawski, Steven Haesendonckx, James Black, Pelagia Alexandra Papadopoulou, Tim Treis, Rebecca Albrecht.</p>
 </div>
 
 <div class="pkgdown">

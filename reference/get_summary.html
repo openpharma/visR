@@ -81,7 +81,7 @@ No default method is available at the moment." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">visR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1.9004</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -105,6 +105,12 @@ No default method is available at the moment." />
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/CDISC_ADaM.html">Survival Analysis with visR using CDISC ADaM standard</a>
+    </li>
+    <li>
+      <a href="../articles/Consort_flow_diagram.html">Creating consort flow diagram with visR</a>
+    </li>
+    <li>
+      <a href="../articles/Styling_KM_plots.html">Styling survival plots</a>
     </li>
     <li>
       <a href="../articles/Time_to_event_analysis.html">Survival Analysis with visR</a>
@@ -149,7 +155,7 @@ No default method is available at the moment.</p>
 
 <span class='co'># S3 method for survfit</span>
 <span class='fu'>get_summary</span><span class='op'>(</span>
-  <span class='va'>survfit_object</span>,
+  <span class='va'>x</span>,
   statlist <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"strata"</span>, <span class='st'>"records"</span>, <span class='st'>"events"</span>, <span class='st'>"median"</span>, <span class='st'>"LCL"</span>, <span class='st'>"UCL"</span>, <span class='st'>"CI"</span><span class='op'>)</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
@@ -159,15 +165,11 @@ No default method is available at the moment.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>S3 object</p></td>
+      <td><p>An object of class <code>survfit</code></p></td>
     </tr>
     <tr>
       <th>...</th>
       <td><p>other arguments passed on to the method</p></td>
-    </tr>
-    <tr>
-      <th>survfit_object</th>
-      <td><p>An object of class <code>survfit</code></p></td>
     </tr>
     <tr>
       <th>statlist</th>
@@ -195,7 +197,7 @@ get_summary(survfit_object)</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Diego Saldana, Charlotta Fruechtenicht, Mark Baillie, Marc Vandemeulebroecke, Thanos Siadimas, Pawel Kawski, Steven Haesendonckx, Pelagia Alexandra Papadopoulou, Tim Treis, Rebecca Albrecht.</p>
+  <p>Developed by Diego Saldana, Charlotta Fruechtenicht, Mark Baillie, Marc Vandemeulebroecke, Thanos Siadimas, Pawel Kawski, Steven Haesendonckx, James Black, Pelagia Alexandra Papadopoulou, Tim Treis, Rebecca Albrecht.</p>
 </div>
 
 <div class="pkgdown">

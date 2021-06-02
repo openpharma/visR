@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">visR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1.9004</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -103,6 +103,12 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/CDISC_ADaM.html">Survival Analysis with visR using CDISC ADaM standard</a>
+    </li>
+    <li>
+      <a href="../articles/Consort_flow_diagram.html">Creating consort flow diagram with visR</a>
+    </li>
+    <li>
+      <a href="../articles/Styling_KM_plots.html">Styling survival plots</a>
     </li>
     <li>
       <a href="../articles/Time_to_event_analysis.html">Survival Analysis with visR</a>
@@ -189,12 +195,6 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="add_theme.html">add_theme()</a></code> </p>
-        </td>
-        <td><p>Applies a theme to a ggplot object.</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="adtte.html">adtte</a></code> </p>
         </td>
         <td><p>adtte</p></td>
@@ -207,6 +207,12 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="apply_theme.html">apply_theme()</a></code> </p>
+        </td>
+        <td><p>Applies a theme to a ggplot object.</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="brca_cohort.html">brca_cohort</a></code> </p>
         </td>
         <td><p>Cancer survival data</p></td>
@@ -215,7 +221,7 @@
         <td>
           <p><code><a href="define_theme.html">define_theme()</a></code> </p>
         </td>
-        <td><p>Provides a simple wrapper for theming</p></td>
+        <td><p>Provides a simple wrapper for themes</p></td>
       </tr><tr>
         
         <td>
@@ -245,7 +251,7 @@
         <td>
           <p><code><a href="get_quantile.html">get_quantile()</a></code> </p>
         </td>
-        <td><p>Extended quantile S3 method - EXPERIMENTAL NEEDS TESTING AND COMPARING WITH SAS SOFTWARE</p></td>
+        <td><p>Wrapper around quantile methods</p></td>
       </tr><tr>
         
         <td>
@@ -279,67 +285,61 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="style_visR.html">style_visR()</a></code> </p>
-        </td>
-        <td><p>Add visR theme to ggplot chart</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="summarize.html">summarize()</a></code> </p>
+          <p><code><a href="summarize_long.html">summarize_long()</a></code> </p>
         </td>
         <td><p>Calculate summary statistics for a vector</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="summarize.default.html">summarize(<i>&lt;default&gt;</i>)</a></code> </p>
+          <p><code><a href="summarize_long.default.html">summarize_long(<i>&lt;default&gt;</i>)</a></code> </p>
         </td>
         <td><p>Create variable summary for all other variable types</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="summarize.factor.html">summarize(<i>&lt;factor&gt;</i>)</a></code> </p>
+          <p><code><a href="summarize_long.factor.html">summarize_long(<i>&lt;factor&gt;</i>)</a></code> </p>
         </td>
         <td><p>Create variable summary for factors</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="summarize.integer.html">summarize(<i>&lt;integer&gt;</i>)</a></code> </p>
+          <p><code><a href="summarize_long.integer.html">summarize_long(<i>&lt;integer&gt;</i>)</a></code> </p>
         </td>
         <td><p>Create variable summary for numeric variables</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="summarize.numeric.html">summarize(<i>&lt;numeric&gt;</i>)</a></code> </p>
+          <p><code><a href="summarize_long.numeric.html">summarize_long(<i>&lt;numeric&gt;</i>)</a></code> </p>
         </td>
         <td><p>Create variable summary for numeric variables</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="summarize_tab1.html">summarize_tab1()</a></code> </p>
+          <p><code><a href="summarize_short.html">summarize_short()</a></code> </p>
         </td>
         <td><p>Create abbreviated variable summary for table1</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="summarize_tab1.default.html">summarize_tab1(<i>&lt;default&gt;</i>)</a></code> </p>
+          <p><code><a href="summarize_short.default.html">summarize_short(<i>&lt;default&gt;</i>)</a></code> </p>
         </td>
         <td><p>Create variable summary for all other variable types</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="summarize_tab1.factor.html">summarize_tab1(<i>&lt;factor&gt;</i>)</a></code> </p>
+          <p><code><a href="summarize_short.factor.html">summarize_short(<i>&lt;factor&gt;</i>)</a></code> </p>
         </td>
         <td><p>Create variable summary for factors</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="summarize_tab1.integer.html">summarize_tab1(<i>&lt;integer&gt;</i>)</a></code> </p>
+          <p><code><a href="summarize_short.integer.html">summarize_short(<i>&lt;integer&gt;</i>)</a></code> </p>
         </td>
         <td><p>Create variable summary for integer variables</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="summarize_tab1.numeric.html">summarize_tab1(<i>&lt;numeric&gt;</i>)</a></code> </p>
+          <p><code><a href="summarize_short.numeric.html">summarize_short(<i>&lt;numeric&gt;</i>)</a></code> </p>
         </td>
         <td><p>Create variable summary for numeric variables</p></td>
       </tr><tr>
@@ -375,7 +375,13 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="visR.html">visr()</a></code> </p>
+          <p><code><a href="visR-Global.html">visR Global</a></code> </p>
+        </td>
+        <td><p><code>visR</code> package</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="visr.html">visr()</a></code> </p>
         </td>
         <td><p>Plot a visR object</p></td>
       </tr>
@@ -393,7 +399,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Diego Saldana, Charlotta Fruechtenicht, Mark Baillie, Marc Vandemeulebroecke, Thanos Siadimas, Pawel Kawski, Steven Haesendonckx, Pelagia Alexandra Papadopoulou, Tim Treis, Rebecca Albrecht.</p>
+  <p>Developed by Diego Saldana, Charlotta Fruechtenicht, Mark Baillie, Marc Vandemeulebroecke, Thanos Siadimas, Pawel Kawski, Steven Haesendonckx, James Black, Pelagia Alexandra Papadopoulou, Tim Treis, Rebecca Albrecht.</p>
 </div>
 
 <div class="pkgdown">

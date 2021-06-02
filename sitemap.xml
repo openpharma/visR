@@ -19,19 +19,16 @@
     <loc>https://openpharma.github.io/visR//reference/add_risktable.html</loc>
   </url>
   <url>
-    <loc>https://openpharma.github.io/visR//reference/add_theme.html</loc>
-  </url>
-  <url>
     <loc>https://openpharma.github.io/visR//reference/adtte.html</loc>
   </url>
   <url>
     <loc>https://openpharma.github.io/visR//reference/apply_attrition.html</loc>
   </url>
   <url>
-    <loc>https://openpharma.github.io/visR//reference/brca_cohort.html</loc>
+    <loc>https://openpharma.github.io/visR//reference/apply_theme.html</loc>
   </url>
   <url>
-    <loc>https://openpharma.github.io/visR//reference/check_traceback_stack_for_ggplot_aesthetics_warning.html</loc>
+    <loc>https://openpharma.github.io/visR//reference/brca_cohort.html</loc>
   </url>
   <url>
     <loc>https://openpharma.github.io/visR//reference/define_theme.html</loc>
@@ -64,46 +61,40 @@
     <loc>https://openpharma.github.io/visR//reference/legendopts.html</loc>
   </url>
   <url>
-    <loc>https://openpharma.github.io/visR//reference/map_numbers_to_new_range.html</loc>
-  </url>
-  <url>
     <loc>https://openpharma.github.io/visR//reference/pipe.html</loc>
   </url>
   <url>
     <loc>https://openpharma.github.io/visR//reference/render.html</loc>
   </url>
   <url>
-    <loc>https://openpharma.github.io/visR//reference/style_visR.html</loc>
+    <loc>https://openpharma.github.io/visR//reference/summarize_long.html</loc>
   </url>
   <url>
-    <loc>https://openpharma.github.io/visR//reference/summarize.html</loc>
+    <loc>https://openpharma.github.io/visR//reference/summarize_long.default.html</loc>
   </url>
   <url>
-    <loc>https://openpharma.github.io/visR//reference/summarize.default.html</loc>
+    <loc>https://openpharma.github.io/visR//reference/summarize_long.factor.html</loc>
   </url>
   <url>
-    <loc>https://openpharma.github.io/visR//reference/summarize.factor.html</loc>
+    <loc>https://openpharma.github.io/visR//reference/summarize_long.integer.html</loc>
   </url>
   <url>
-    <loc>https://openpharma.github.io/visR//reference/summarize.integer.html</loc>
+    <loc>https://openpharma.github.io/visR//reference/summarize_long.numeric.html</loc>
   </url>
   <url>
-    <loc>https://openpharma.github.io/visR//reference/summarize.numeric.html</loc>
+    <loc>https://openpharma.github.io/visR//reference/summarize_short.html</loc>
   </url>
   <url>
-    <loc>https://openpharma.github.io/visR//reference/summarize_tab1.html</loc>
+    <loc>https://openpharma.github.io/visR//reference/summarize_short.default.html</loc>
   </url>
   <url>
-    <loc>https://openpharma.github.io/visR//reference/summarize_tab1.default.html</loc>
+    <loc>https://openpharma.github.io/visR//reference/summarize_short.factor.html</loc>
   </url>
   <url>
-    <loc>https://openpharma.github.io/visR//reference/summarize_tab1.factor.html</loc>
+    <loc>https://openpharma.github.io/visR//reference/summarize_short.integer.html</loc>
   </url>
   <url>
-    <loc>https://openpharma.github.io/visR//reference/summarize_tab1.integer.html</loc>
-  </url>
-  <url>
-    <loc>https://openpharma.github.io/visR//reference/summarize_tab1.numeric.html</loc>
+    <loc>https://openpharma.github.io/visR//reference/summarize_short.numeric.html</loc>
   </url>
   <url>
     <loc>https://openpharma.github.io/visR//reference/table_caption.html</loc>
@@ -121,10 +112,19 @@
     <loc>https://openpharma.github.io/visR//reference/tidyme.html</loc>
   </url>
   <url>
-    <loc>https://openpharma.github.io/visR//reference/visR.html</loc>
+    <loc>https://openpharma.github.io/visR//reference/visR-Global.html</loc>
+  </url>
+  <url>
+    <loc>https://openpharma.github.io/visR//reference/visr.html</loc>
   </url>
   <url>
     <loc>https://openpharma.github.io/visR//articles/CDISC_ADaM.html</loc>
+  </url>
+  <url>
+    <loc>https://openpharma.github.io/visR//articles/Consort_flow_diagram.html</loc>
+  </url>
+  <url>
+    <loc>https://openpharma.github.io/visR//articles/Styling_KM_plots.html</loc>
   </url>
   <url>
     <loc>https://openpharma.github.io/visR//articles/Time_to_event_analysis.html</loc>
