@@ -5,7 +5,7 @@ output: github_document
 <!-- README.md is generated from README.Rmd as part of the CICD process. -->
 <!-- Please edit README.Rmd - but you do not need to build it! -->
 
-```{r, include = FALSE}
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -93,7 +93,7 @@ adtte %>%
 
 Please note that the 'visR' project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
 
-```{r, echo=FALSE, warning=FALSE, message = FALSE}
+```{r getcontributions, echo=FALSE, warning=FALSE, message = FALSE}
 library(dplyr)
 library(glue)
 library(ggplot2)
@@ -141,8 +141,28 @@ local_repo <- parse_log_detailed()
 #   knitr::kable()
 ```
 
+```{r plotcontriuptake, echo=FALSE, warning=FALSE, message = FALSE}
 
-```{r, echo=FALSE, warning=FALSE, message = FALSE}
+# plot
+local_repo %>%
+  arrange(
+    date
+  ) %>%
+  group_by(author_email) %>% 
+  slice(1) %>% ungroup %>%
+  ggplot(aes(x = date)) +
+  stat_bin(aes(y = cumsum(..count..)),geom = "step") +
+  theme_minimal() +
+  labs(
+    title = "Uptake in new contributors to visR",
+    subtitle = "Based on recorded unique git email addresses",
+    y = "Contributors",
+    x = "Date"
+  ) + theme(legend.position = "none")
+```
+
+
+```{r plotcontributions, echo=FALSE, warning=FALSE, message = FALSE}
 
 # plot
 local_repo %>%
@@ -165,10 +185,10 @@ local_repo %>%
 ```
 
 ```{r, echo=FALSE, warning=FALSE, message = FALSE}
-lines <- local_repo %>%
-  unnest_log() %>%
-  set_changed_file_to_latest_name() %>%
-  add_line_history()
+# lines <- local_repo %>%
+#   unnest_log() %>%
+#   set_changed_file_to_latest_name() %>%
+#   add_line_history()
 
 #r_files <- grep("^R/", lines$changed_file, value = TRUE)
 
