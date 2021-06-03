@@ -5,7 +5,7 @@ output: github_document
 <!-- README.md is generated from README.Rmd as part of the CICD process. -->
 <!-- Please edit README.Rmd - but you do not need to build it! -->
 
-```{r, include = FALSE}
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -93,7 +93,7 @@ adtte %>%
 
 Please note that the 'visR' project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
 
-```{r, echo=FALSE, warning=FALSE, message = FALSE}
+```{r getcontributions, echo=FALSE, warning=FALSE, message = FALSE}
 library(dplyr)
 library(glue)
 library(ggplot2)
@@ -142,7 +142,7 @@ local_repo <- parse_log_detailed()
 ```
 
 
-```{r, echo=FALSE, warning=FALSE, message = FALSE}
+```{r plotcontributions, echo=FALSE, warning=FALSE, message = FALSE}
 
 # plot
 local_repo %>%
