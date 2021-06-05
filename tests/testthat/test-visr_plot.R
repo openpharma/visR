@@ -199,11 +199,13 @@ testthat::test_that("T2.8 When `x_label` is `NULL` and the `survfit` object does
   
   names(survfit_object)[which(names(survfit_object) == "PARAM")] <- "visR"
   
-  gg <- survfit_object %>% visR::visr(y_label = NULL)
+  gg <- survfit_object %>% visR::visr(x_label = NULL)
   
   ggb <- ggplot2::ggplot_build(gg)
   
-  testthat::expect_true("time" %in% ggb$layout$panel_params[[1]]$x$name)
+  # Ensures that the label is pulled from gg$labels$x
+  testthat::expect_true("waiver" %in% class(ggb$layout$panel_params[[1]]$x$name))
+  testthat::expect_true("time" %in% gg$labels$x)
   
 })
 
