@@ -26,6 +26,7 @@
 #' T2.13 No error when a valid option is passed to `legend_position`.
 #' T2.14 An error when the string is not amongst the valid options for `legend_position`.
 #' T2.15 An error when an undefined option is passed to `legend_position`.
+#' T2.16 When both `x_label` and `x_units` are specified, they are concatenated into the x-axis label.
 #' T3. The y-axis properties are correctly deducted from the provided `fun` when applying `visR::visr()` to a `survfit` object.
 #' T3.1 No error when `y_label` is `NULL` and `fun` is one of the valid string options.
 #' T3.2 An error when `y_label` is `NULL`, `fun` is a string but not one of the valid options.
@@ -329,6 +330,24 @@ testthat::test_that("T2.15 An error when an undefined option is passed to `legen
   })   
   
   testthat::expect_false(could_set_to_list)
+  
+})
+
+testthat::test_that("T2.16 When both `x_label` and `x_units` are specified, they are concatenated into the x-axis label.", {
+  
+  survfit_object <- adtte %>%
+    visR::estimate_KM("SEX") 
+  
+  x_label <- "visR"
+  x_units <- "Rsiv"
+  
+  gg <- survfit_object %>% visR::visr(x_label = x_label, x_units = x_units)
+  
+  ggb <- ggplot2::ggplot_build(gg)
+  
+  plot_axis_label <- ggb$layout$panel_params[[1]]$x$name
+  
+  testthat::expect_equal(plot_axis_label, paste0(x_label, " (", x_units, ")"))
   
 })
 
