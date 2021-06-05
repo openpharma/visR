@@ -345,7 +345,10 @@ testthat::test_that("T2.16 When both `x_label` and `x_units` are specified, they
   
   ggb <- ggplot2::ggplot_build(gg)
   
-  plot_axis_label <- ggb$layout$panel_params[[1]]$x$name
+  # Ensures that the label is pulled from gg$labels$x
+  testthat::expect_true("waiver" %in% class(ggb$layout$panel_params[[1]]$x$name))
+  
+  plot_axis_label <- gg$labels$x
   
   testthat::expect_equal(plot_axis_label, paste0(x_label, " (", x_units, ")"))
   
