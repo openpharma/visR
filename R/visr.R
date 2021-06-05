@@ -235,11 +235,18 @@ visr.survfit <- function(
 
 # Obtain X-asis label ----------------------------------------------------------
 
-  if (is.null(x_label)){
+  if (is.null(x_label)) {
+    
     if ("PARAM" %in% names(x)) x_label = x[["PARAM"]]
     if (! "PARAM" %in% names(x)) x_label = "time"
     if (!is.null(x_units)) x_label = paste0(x_label, " (", x_units, ")")
+    
+  } else {
+    
+    if (!is.null(x_units)) x_label = paste0(x_label, " (", x_units, ")")
+    
   }
+  
   if (is.null(x_ticks)) x_ticks = pretty(x$time, 10)
 
 # Obtain Y-asis label ----------------------------------------------------------
