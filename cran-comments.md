@@ -13,3 +13,4 @@
 * Remove ""The goal of visR is to"" from description field in the DESCRIPTION file.
 * removed as.person tag and replaced with person tag per author. 
 * Add reference to papers that motivate the package design  Vandemeulebroecke et al. (2018) <doi:10.1002/pst.1912>, and Vandemeulebroecke et al. (2019) <doi:10.1002/psp4.12455>, and Morris et al. (2019) <doi:10.1136/bmjopen-2019-030215>.
+* updated lifecycle badge in documentation based on current advice https://github.com/r-lib/lifecycle/issues/39 to clear note: "Package has help file(s) containing install/render-stage \Sexpr{} expressions but no prebuilt PDF manual.""
