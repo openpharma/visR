@@ -20,7 +20,7 @@ library(visR)
 
 # Attrition example
 
-## Data preperation
+## Data preparation
 
 Prepare the data using the attrition function. 
 

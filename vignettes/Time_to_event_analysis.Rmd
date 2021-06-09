@@ -55,18 +55,18 @@ lung_cohort <- lung_cohort %>%
 ```
 
 
-## Cohort Overview (Tableone)
+## Cohort Overview (Table one)
 
-Visualizing tables, like the tableone or risktables, is a two-step process in visR . First, a data.frame (or tibble) is created by a `get_XXX()` function (e.g. `get_tableone()`). Secondly, the data.frame can be displayed by calling the function `render()`. The advantage of this process is that data summaries can be created, used and adjusted throughout an analysis, while at every step data summaries can be displayed or even be downloaded.
+Visualizing tables, like the table one or risk tables, is a two-step process in visR . First, a data.frame (or tibble) is created by a `get_XXX()` function (e.g. `get_tableone()`). Secondly, the data.frame can be displayed by calling the function `render()`. The advantage of this process is that data summaries can be created, used and adjusted throughout an analysis, while at every step data summaries can be displayed or even be downloaded.
 
-Populations are usually displayed as a so-called tableone. Function `get_tableone` creates a tibble that includes populations summaries. 
+Populations are usually displayed as a so-called table one. Function `get_tableone` creates a tibble that includes populations summaries. 
 
 ```{r table1_get_default}
 # Select variables of interest and change names to look nicer
 lung_cohort_tab1 <- lung_cohort %>%  
   dplyr::select(Age, Sex) 
 
-# Create a tableone
+# Create a table one
 tab1 <- get_tableone(lung_cohort_tab1)
 
 # Render the tableone

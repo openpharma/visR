@@ -91,7 +91,7 @@ adtte %>%
 
 ## Contribution 
 
-Please note that the 'visR' project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
+Please note that the `visR` project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
 
 ```{r, echo=FALSE, warning=FALSE, message = FALSE}
 library(dplyr)
