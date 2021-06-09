@@ -28,7 +28,7 @@ The counts and percentages of the remaining and excluded subjects
 for each step of the cohort selection in a table format.
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 This is an experimental function that may be developed over time.
 
 This function calculates the subjects counts excluded and included
