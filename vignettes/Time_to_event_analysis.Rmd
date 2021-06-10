@@ -86,7 +86,7 @@ In both the getter and the wrapper functions, a stratifier can be defined and th
 
 ```{r table1_get_options}
 # Create and render a tableone with a stratifier and without displaying the total
-tableone(lung_cohort_tab1, strata = "Sex", overall = F,
+tableone(lung_cohort_tab1, strata = "Sex", overall = FALSE,
          title = "Overview over Lung Cancer patients", datasource = DATASET)
 
 ```
@@ -95,7 +95,7 @@ visR's `render` supports three different rendering engines to be as flexible as 
 
 ```{r table1_render_options_dt}
 # Create and render a tableone with with dt as an engine
-tableone(lung_cohort_tab1, strata = "Sex", overall = F,
+tableone(lung_cohort_tab1, strata = "Sex", overall = FALSE,
          title = "Overview over Lung Cancer patients", datasource = DATASET, 
          engine = "dt")
 ```
@@ -104,7 +104,7 @@ tableone(lung_cohort_tab1, strata = "Sex", overall = F,
  
 ```{r table1_render_options_kable}
 # Create and render a tableone with with kable as an engine and html as output format
-tableone(lung_cohort_tab1, strata = "Sex", overall = F, 
+tableone(lung_cohort_tab1, strata = "Sex", overall = FALSE, 
          title = "Overview over Lung Cancer patients", datasource = DATASET, 
          engine = "kable", output_format="html")
 ```

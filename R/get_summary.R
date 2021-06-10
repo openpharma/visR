@@ -86,8 +86,8 @@ get_summary.survfit <- function(x,
   summary_survfit <-
     as.data.frame(
       base::rbind(summary(x)[["table"]]),
-      check.names = F,
-      stringsAsFactors = F,
+      check.names = FALSE,
+      stringsAsFactors = FALSE,
       row.names = NULL
     ) %>%
     dplyr::mutate(strata = strata) %>%

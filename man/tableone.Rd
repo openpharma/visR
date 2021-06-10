@@ -10,7 +10,7 @@ tableone(
   datasource,
   footnote,
   strata = NULL,
-  overall = T,
+  overall = TRUE,
   summary_function = summarize_short,
   ...
 )

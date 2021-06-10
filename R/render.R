@@ -92,7 +92,7 @@ render.risktable <- function(
     tab$variable <- s
     complete_tab <- rbind(complete_tab, tab)
   }
-  colnames(complete_tab) <- c("statistic",colnames(tab)[2:ncol(tab)])
+  colnames(complete_tab) <- c("statistic", colnames(tab)[2:ncol(tab)])
   class(complete_tab) <- c("tableone", class(complete_tab))
   class(complete_tab) <- c("risktable", class(complete_tab))
   complete_tab <- complete_tab %>% select(variable, statistic, everything())
@@ -124,8 +124,8 @@ render.data.frame <- function(
   title,
   datasource,
   footnote = "",
-  output_format="html",
-  engine="gt",
+  output_format = "html",
+  engine = "gt",
   download_format = c('copy', 'csv', 'excel')){
   # TODO: add code for rtf output
   # TODO: do we need a routine for falling back on minimal?
@@ -141,7 +141,7 @@ render.data.frame <- function(
         knitr::kable(format = output_format,
                      caption = title,
                      digits = 2,
-                     booktabs = T) %>%
+                     booktabs = TRUE) %>%
         kableExtra::collapse_rows(valign="top") %>%
         kableExtra::footnote(general = footnote, 
                              general_title = "Additional Note:") %>%
