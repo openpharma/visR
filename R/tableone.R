@@ -92,7 +92,7 @@ tableone <- function(
     # abbreviations = "",
     # variable_definitions = "",
     strata = NULL,
-    overall = T,
+    overall = TRUE,
     summary_function = summarize_short,
     ...
     # engine = "gt"
