@@ -50,7 +50,7 @@ testthat::test_that("T1.2. No error when `data` is of class `tibble`",{
 
 testthat::test_that("T1.3. No error when `data` is of class `data.table`",{
 
-  if ("data.table" %in% rownames(installed.packages())){
+  if (nzchar(find.package("data.table"))){
     data <- data.table::as.data.table(adtte)
     testthat::expect_error(visR::get_tableone(data = data), NA)
   }
