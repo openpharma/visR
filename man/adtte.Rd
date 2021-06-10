@@ -45,9 +45,7 @@ adtte
 ADTTE data copied from the 2013 CDISC Pilot
 }
 \examples{
-\dontrun{
- data("adtte")
-}
+data("adtte")
 }
 \keyword{CDISC}
 \keyword{adtte}
