@@ -3,10 +3,6 @@
 #' @noRd
 .pvalformat <- function(x) {
   
-  old <- options()
-  on.exit(options(old)) 
-  options(scipen = 999)
-  
   if (x < 0.001)
     "<0.001"
   else if (x > 0.999)
@@ -15,5 +11,6 @@
     format(round(x, 3),
            digits = 3,
            justify = "right",
-           width = 6)
+           width = 6,
+           scientific = FALSE)
 }
