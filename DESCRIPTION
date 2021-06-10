@@ -1,7 +1,6 @@
 Package: visR
 Type: Package
-Title: Functionality for Clinical Plots, Tables and Diagrams Adhering 
-  to Graphical Principles
+Title: Clinical Graphs and Tables Adhering to Graphical Principles
 Description: To enable fit-for-purpose, reusable clinical and medical research 
   focused visualizations and tables with sensible defaults and based on 
   graphical principles as described in: 
