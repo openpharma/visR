@@ -41,7 +41,5 @@
 #' @keywords datasets CDISC adtte
 #' @name adtte
 #' @examples
-#' \dontrun{
-#'  data("adtte")
-#' }
+#' data("adtte")
 "adtte"
