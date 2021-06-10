@@ -9,6 +9,8 @@
 
 * This is a new release.
 
+## Resubmission 1
+
 * Removed "A Package to" from title field in the DESCRIPTION file.
 * Remove ""The goal of visR is to"" from description field in the DESCRIPTION file.
 * removed as.person tag and replaced with person tag per author. 
@@ -20,7 +22,7 @@
 
 * shortened description title to: Clinical Graphs and Tables Adhering to Graphical Principles
 * replaced T and F with TRUE and FALSE
-* removed all instances of \dontrun{} 
-* replaced options(scipen = 999) in function pvalueformat with a function that formats directly
-* captured user settings in two vignettes prior to calling options(digits = 3) then reinstate after analysis. 
-* replaced installed.packages("data.table") with find.package("data.table") within three tests. 
+* removed all instances of `\dontrun{}` 
+* replaced `options(scipen = 999)` in function pvalueformat with a function that formats directly
+* captured user settings in two vignettes prior to calling `options(digits = 3)` then reinstate after analysis. 
+* replaced `installed.packages("data.table")` with `find.package("data.table")` within three tests. 
