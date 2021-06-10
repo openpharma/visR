@@ -16,7 +16,7 @@ List of \code{ggplot} with equal width.
 This function aligns multiple \code{ggplot} graphs by making them the same width by taking into account the legend width.
 }
 \examples{
-\dontrun{
+\donttest{
 library(ggplot2)
 library(gtable)
 library(cowplot)

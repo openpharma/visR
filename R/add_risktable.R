@@ -104,7 +104,6 @@ add_risktable.ggsurvfit <- function(
 
 # Plot requested tables below using list approach with map function -------
 
-
   tbls <-  base::Map(function(statlist, title = NA) {
     ggrisk <- ggplot2::ggplot(final,
                               ggplot2::aes(
@@ -113,7 +112,7 @@ add_risktable.ggsurvfit <- function(
                                  label = format(get(statlist), nsmall = 0) # = value columns
                               )
                             ) +
-      ggplot2::geom_text(size = 3.0, hjust=.5, vjust=.5, angle=0, show.legend = F) +
+      ggplot2::geom_text(size = 3.0, hjust = 0.5, vjust = 0.5, angle = 0, show.legend = FALSE) +
       ggplot2::theme_bw() +
       ggplot2::scale_x_continuous(breaks = graphtimes,
                                   limits = c(min(graphtimes), max(graphtimes))) +
@@ -127,8 +126,8 @@ add_risktable.ggsurvfit <- function(
                      axis.line = ggplot2::element_blank(),
                      axis.text.x = ggplot2::element_blank(),
                      axis.ticks = ggplot2::element_blank(),
-                     axis.text.y = ggplot2::element_text(size=8, colour = "black", face = "plain"),
-                     plot.margin = ggplot2::unit(c(1,0,0,0), "lines"),
+                     axis.text.y = ggplot2::element_text(size = 8, colour = "black", face = "plain"),
+                     plot.margin = ggplot2::unit(c(1, 0, 0, 0), "lines"),
                      plot.title = ggplot2::element_text(hjust = 0, vjust = 0)
                     ) +
       ggplot2::xlab(NULL) +
