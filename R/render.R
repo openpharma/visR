@@ -12,7 +12,7 @@
 #' @param engine If html is selected as output format, one can chose between
 #' using kable, gt and DT as engine to create the output table
 #' @param download_format How can users download it
-#'
+#' @return None
 #' @rdname render
 #' 
 #' @export
@@ -30,6 +30,7 @@ render <- function(data,
  
 #' @rdname render
 #' @method render tableone
+#' @return None
 #' @export
 render.tableone <- function(
   data,
@@ -64,7 +65,8 @@ render.tableone <- function(
 #' @param engine If html is selected as output format, one can chose between
 #' using kable, gt and DT as engine to create the output table
 #' @param download_format How can users download it
-#'
+#' @return None
+#' 
 #' @rdname render
 #' @method render risktable
 #' @export
@@ -116,6 +118,8 @@ render.risktable <- function(
 #' @param engine If html is selected as output format, one can chose between
 #' using kable, gt and DT as engine to create the output table
 #' @param download_format How can users download it
+#' @return None
+#' 
 #' @rdname render
 #' @method render data.frame
 #' @export

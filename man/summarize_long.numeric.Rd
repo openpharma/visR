@@ -9,6 +9,9 @@
 \arguments{
 \item{x}{an object of class "numeric"}
 }
+\value{
+numeric value
+}
 \description{
 Create variable summary for numeric variables
 }

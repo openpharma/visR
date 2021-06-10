@@ -64,6 +64,15 @@ using kable, gt and DT as engine to create the output table}
 
 \item{download_format}{How can users download it}
 }
+\value{
+None
+
+None
+
+None
+
+None
+}
 \description{
 Render a previously created dataframe to html,
 rtf or latex

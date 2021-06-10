@@ -9,6 +9,9 @@
 \arguments{
 \item{x}{an object of class "factor"}
 }
+\value{
+list of summary statistics for the input factors.
+}
 \description{
 Create variable summary for factors
 }

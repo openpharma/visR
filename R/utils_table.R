@@ -10,7 +10,7 @@ summarize_long <- function(x) UseMethod("summarize_long")
 #' Create variable summary for factors
 #'
 #' @param x an object of class "factor"
-#'
+#' @return list of summary statistics for the input factors.
 #' @export
 summarize_long.factor <- function(x){
   x1 <- forcats::fct_explicit_na(x, na_level = "Missing")
@@ -27,7 +27,7 @@ summarize_long.factor <- function(x){
 #' Create variable summary for numeric variables
 #'
 #' @param x an object of class "integer"
-#'
+#' @return numeric value
 #' @export
 summarize_long.integer <- function(x){
   summarize_long.numeric(x)
@@ -36,7 +36,7 @@ summarize_long.integer <- function(x){
 #' Create variable summary for numeric variables
 #'
 #' @param x an object of class "numeric"
-#'
+#' @return numeric value
 #' @export
 summarize_long.numeric <- function(x){
   dat <- list(
