@@ -8,7 +8,7 @@ Description: To enable fit-for-purpose, reusable clinical and medical research
   "Vandemeulebroecke et al. (2019)" <doi:10.1002/psp4.12455>, and 
   "Morris et al. (2019)" <doi:10.1136/bmjopen-2019-030215>.
 Version: 0.2.0
-Date: 2021-06-02
+Date: 2021-06-11
 LazyData: true
 Authors@R: c(
    person("Diego", "Saldana", , "diego.saldana@roche.com", "aut"),
