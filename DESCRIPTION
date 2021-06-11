@@ -37,7 +37,6 @@ Suggests:
     forcats,
     glue,
     tibble,
-    openxlsx,
     data.table
 RoxygenNote: 7.1.1
 Encoding: UTF-8
