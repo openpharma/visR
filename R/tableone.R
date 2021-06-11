@@ -80,6 +80,8 @@
 #'    )
 #'
 #'
+#' @return A table-like data structure, possibly interactive depending on the choice of the engine
+#' 
 #' @rdname tableone
 #'
 #' @export
