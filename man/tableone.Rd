@@ -34,6 +34,9 @@ Pre-implemented functions are summarize_long and summarize_short}
 
 \item{...}{Pass options to render_table}
 }
+\value{
+A table-like data structure, possibly interactive depending on the choice of the engine
+}
 \description{
 Wrapper function to produce a summary table (i.e. Table One).
 Create and render a summary table for a dataset.

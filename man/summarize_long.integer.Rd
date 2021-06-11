@@ -9,6 +9,9 @@
 \arguments{
 \item{x}{an object of class "integer"}
 }
+\value{
+Long list of summary statistics for the input.
+}
 \description{
 Create variable summary for numeric variables
 }
