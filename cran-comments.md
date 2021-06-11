@@ -26,3 +26,4 @@
 * replaced `options(scipen = 999)` in function pvalueformat with a function that formats directly
 * captured user settings in two vignettes prior to calling `options(digits = 3)` then reinstate after analysis. 
 * replaced `installed.packages("data.table")` with `find.package("data.table")` within three tests. 
+* ensure all function documentation includes return value. 
