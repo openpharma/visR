@@ -3,6 +3,7 @@
 #' Calculates several summary statistics for a vector depending on the vector class
 #'
 #' @param x an object
+#' @return A summarized version of the input.
 #' @export
 summarize_long <- function(x) UseMethod("summarize_long")
 
@@ -10,7 +11,7 @@ summarize_long <- function(x) UseMethod("summarize_long")
 #' Create variable summary for factors
 #'
 #' @param x an object of class "factor"
-#' @return list of summary statistics for the input factors.
+#' @return Long list of summary statistics for the input factors.
 #' @export
 summarize_long.factor <- function(x){
   x1 <- forcats::fct_explicit_na(x, na_level = "Missing")
@@ -27,7 +28,7 @@ summarize_long.factor <- function(x){
 #' Create variable summary for numeric variables
 #'
 #' @param x an object of class "integer"
-#' @return numeric value
+#' @return Long list of summary statistics for the input.
 #' @export
 summarize_long.integer <- function(x){
   summarize_long.numeric(x)
@@ -36,7 +37,7 @@ summarize_long.integer <- function(x){
 #' Create variable summary for numeric variables
 #'
 #' @param x an object of class "numeric"
-#' @return numeric value
+#' @return Long list of summary statistics for the input.
 #' @export
 summarize_long.numeric <- function(x){
   dat <- list(
@@ -54,7 +55,7 @@ summarize_long.numeric <- function(x){
 #' Create variable summary for all other variable types
 #'
 #' @param x an object of any other class
-#'
+#' @return List of counts for unique and missing values in `x`.
 #' @export
 summarize_long.default <- function(x){
   dat <- list(
@@ -69,6 +70,7 @@ summarize_long.default <- function(x){
 #' This function creates summaries combines multiple summary measures in a single formatted string.
 #'
 #' @param x a vector to be summarized
+#' @return A summarized less detailed version of the input.
 #' @export
 summarize_short <- function(x) UseMethod("summarize_short")
 
@@ -77,7 +79,7 @@ summarize_short <- function(x) UseMethod("summarize_short")
 #' Calculates N and % of occurrence for each factor value
 #'
 #' @param x an object of class "factor"
-#'
+#' @return Short list of summary statistics for the input factors.
 #' @export
 summarize_short.factor <- function(x){
   x1 <- forcats::fct_explicit_na(x, na_level = "Missing")
@@ -98,7 +100,7 @@ summarize_short.factor <- function(x){
 #' for a numeric vector.
 #'
 #' @param x an object of class "numeric"
-#'
+#' @return Short list of summary statistics for the input.
 #' @export
 summarize_short.numeric <- function(x){
   dat <- list(
@@ -118,7 +120,7 @@ summarize_short.numeric <- function(x){
 #' for a integer vector.
 #'
 #' @param x an object of class "integer"
-#'
+#' @return Short list of summary statistics for the input.
 #' @export
 summarize_short.integer <- function(x){
   summarize_short.numeric(x)
@@ -127,7 +129,7 @@ summarize_short.integer <- function(x){
 #' Create variable summary for all other variable types
 #'
 #' @param x an object of any other class
-#'
+#' @return List of counts for unique and missing values in `x`.
 #' @export
 summarize_short.default <- function(x){
   dat <- list(
@@ -142,17 +144,17 @@ summarize_short.default <- function(x){
 #' @param caption The table caption
 #' @param label Label
 #' @param width Width
-#'
+#' @return A `knit_asis` object containing the `caption` wrapped in a \<caption\> tag.
 #' @export
-table_caption <-function(caption,
+table_caption <- function(caption,
          label = knitr::opts_current$get("label"),
          width = knitr::opts_current$get("out.width")) {
-  asis_output(paste(
-    '<table>',
+  knitr::asis_output(paste(
+    "<table>",
     glue::glue(
-      "<caption style=\"width:{width}px\">(#tab:{label}){caption}</caption>"
+      "<caption style=\"width:{width}px\">{caption}</caption>"
     ),
-    '</table>',
+    "</table>",
     sep = ""
   ))
 }
@@ -163,7 +165,7 @@ table_caption <-function(caption,
 #' @param filename The filename
 #' @param format What format. One of "txt", "tsv", "csv", "xlsx"
 #' @param button What does the download button say
-#'
+#' @return A `knit_asis` object containing a download link to the references `df` as a clickable HTML button.
 #' @export
 table_download <- function(df,
                               filename = NULL,
@@ -203,6 +205,6 @@ table_download <- function(df,
   }
 
   # String result ready to be placed in rmarkdown
-  asis_output(paste0('<a class="btn btn-info" role="button" download="', filename, '" href="', filename, '">', button, '</a>'))
+  knitr::asis_output(paste0('<a class="btn btn-info" role="button" download="', filename, '" href="', filename, '">', button, '</a>'))
   # paste0('<button type="submit" onclick="window.open("', filename, '")">', button, '</button>')
 }

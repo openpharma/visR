@@ -15,6 +15,9 @@ table_download(df, filename = NULL, format = "csv", button = "Download data")
 
 \item{button}{What does the download button say}
 }
+\value{
+A \code{knit_asis} object containing a download link to the references \code{df} as a clickable HTML button.
+}
 \description{
 Create a caption for any table
 }

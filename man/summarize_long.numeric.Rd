@@ -10,7 +10,7 @@
 \item{x}{an object of class "numeric"}
 }
 \value{
-numeric value
+Long list of summary statistics for the input.
 }
 \description{
 Create variable summary for numeric variables

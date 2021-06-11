@@ -17,6 +17,9 @@ table_caption(
 
 \item{width}{Width}
 }
+\value{
+A \code{knit_asis} object containing the \code{caption} wrapped in a \<caption\> tag.
+}
 \description{
 Create a caption for any table
 }

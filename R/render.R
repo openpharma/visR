@@ -12,7 +12,7 @@
 #' @param engine If html is selected as output format, one can chose between
 #' using kable, gt and DT as engine to create the output table
 #' @param download_format How can users download it
-#' @return None
+#' @return A table-like data structure, possibly interactive depending on the choice of the engine
 #' @rdname render
 #' 
 #' @export
@@ -30,7 +30,7 @@ render <- function(data,
  
 #' @rdname render
 #' @method render tableone
-#' @return None
+#' @return A table-like data structure, possibly interactive depending on the choice of the engine
 #' @export
 render.tableone <- function(
   data,
@@ -65,7 +65,7 @@ render.tableone <- function(
 #' @param engine If html is selected as output format, one can chose between
 #' using kable, gt and DT as engine to create the output table
 #' @param download_format How can users download it
-#' @return None
+#' @return A table-like data structure, possibly interactive depending on the choice of the engine
 #' 
 #' @rdname render
 #' @method render risktable
@@ -118,7 +118,7 @@ render.risktable <- function(
 #' @param engine If html is selected as output format, one can chose between
 #' using kable, gt and DT as engine to create the output table
 #' @param download_format How can users download it
-#' @return None
+#' @return A table-like data structure, possibly interactive depending on the choice of the engine
 #' 
 #' @rdname render
 #' @method render data.frame
@@ -219,9 +219,9 @@ render_datatable.tableone <- function(data, title, download_format, source_cap){
       DT::datatable(caption = title,
                     filter = "none",
                     # container = sketch,
-                    options = list(paging=FALSE, 
-                                   ordering=FALSE,
-                                   info=FALSE,
+                    options = list(paging = FALSE, 
+                                   ordering = FALSE,
+                                   info = FALSE,
                                    drawCallback = DT::JS(source_cap)))
   } else {
     table_out <- data %>% 
@@ -229,9 +229,9 @@ render_datatable.tableone <- function(data, title, download_format, source_cap){
                     filter = "none",
                     # container = sketch,
                     extensions = 'Buttons',
-                    options = list(paging=FALSE,
-                                   info=FALSE,
-                                   ordering=FALSE,
+                    options = list(paging = FALSE,
+                                   info = FALSE,
+                                   ordering = FALSE,
                                    drawCallback = DT::JS(source_cap),
                                    dom = 'Bfrtip', 
                                    buttons = download_format))

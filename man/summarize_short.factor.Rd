@@ -9,6 +9,9 @@
 \arguments{
 \item{x}{an object of class "factor"}
 }
+\value{
+Short list of summary statistics for the input factors.
+}
 \description{
 Calculates N and \% of occurrence for each factor value
 }

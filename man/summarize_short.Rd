@@ -9,6 +9,9 @@ summarize_short(x)
 \arguments{
 \item{x}{a vector to be summarized}
 }
+\value{
+A summarized less detailed version of the input.
+}
 \description{
 This function creates summaries combines multiple summary measures in a single formatted string.
 }

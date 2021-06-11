@@ -9,6 +9,9 @@ summarize_long(x)
 \arguments{
 \item{x}{an object}
 }
+\value{
+A summarized version of the input.
+}
 \description{
 Calculates several summary statistics for a vector depending on the vector class
 }

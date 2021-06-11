@@ -6,7 +6,10 @@
 \usage{
 lhs \%>\% rhs
 }
+\value{
+None
+}
 \description{
-See \code{magrittr::\link[magrittr:pipe]{\%>\%}} for details.
+See \code{magrittr::\`\link[magrittr:pipe]{\%>\%}}\` for details.
 }
 \keyword{internal}
