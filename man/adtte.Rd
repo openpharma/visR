@@ -3,7 +3,7 @@
 \docType{data}
 \name{adtte}
 \alias{adtte}
-\title{adtte}
+\title{adtte - CDISC ADaM compliant time to event data set}
 \format{
 A data frame with 254 rows and 26 variables:
 \describe{
