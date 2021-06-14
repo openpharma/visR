@@ -1,4 +1,4 @@
-#' @title Plot a visR object
+#' @title Plot a supported S3 object
 #'
 #' @description Method to display a `ggplot` directly from an object 
 #'   through an S3 method. 
