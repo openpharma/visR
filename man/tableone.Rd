@@ -10,7 +10,7 @@ tableone(
   datasource,
   footnote,
   strata = NULL,
-  overall = T,
+  overall = TRUE,
   summary_function = summarize_short,
   ...
 )
@@ -33,6 +33,9 @@ stratification in the summary table. Default: NULL , which indicates no stratifi
 Pre-implemented functions are summarize_long and summarize_short}
 
 \item{...}{Pass options to render_table}
+}
+\value{
+A table-like data structure, possibly interactive depending on the choice of the engine
 }
 \description{
 Wrapper function to produce a summary table (i.e. Table One).

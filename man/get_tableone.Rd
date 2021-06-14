@@ -28,6 +28,12 @@ get_tableone(
 
 \item{summary_function}{A function defining summary statistics for numeric and categorical values}
 }
+\value{
+A list of data specified summaries for all input variables.
+
+object of class tableone. That is a list of data specified summaries
+for all input variables.
+}
 \description{
 S3 method for creating a table of summary statistics.
 The summary statistics can be used for presentation in tables such as table one or baseline and demography tables.

@@ -12,7 +12,7 @@
 #' @param engine If html is selected as output format, one can chose between
 #' using kable, gt and DT as engine to create the output table
 #' @param download_format How can users download it
-#'
+#' @return A table-like data structure, possibly interactive depending on the choice of the engine
 #' @rdname render
 #' 
 #' @export
@@ -30,6 +30,7 @@ render <- function(data,
  
 #' @rdname render
 #' @method render tableone
+#' @return A table-like data structure, possibly interactive depending on the choice of the engine
 #' @export
 render.tableone <- function(
   data,
@@ -64,7 +65,8 @@ render.tableone <- function(
 #' @param engine If html is selected as output format, one can chose between
 #' using kable, gt and DT as engine to create the output table
 #' @param download_format How can users download it
-#'
+#' @return A table-like data structure, possibly interactive depending on the choice of the engine
+#' 
 #' @rdname render
 #' @method render risktable
 #' @export
@@ -92,7 +94,7 @@ render.risktable <- function(
     tab$variable <- s
     complete_tab <- rbind(complete_tab, tab)
   }
-  colnames(complete_tab) <- c("statistic",colnames(tab)[2:ncol(tab)])
+  colnames(complete_tab) <- c("statistic", colnames(tab)[2:ncol(tab)])
   class(complete_tab) <- c("tableone", class(complete_tab))
   class(complete_tab) <- c("risktable", class(complete_tab))
   complete_tab <- complete_tab %>% select(variable, statistic, everything())
@@ -116,6 +118,8 @@ render.risktable <- function(
 #' @param engine If html is selected as output format, one can chose between
 #' using kable, gt and DT as engine to create the output table
 #' @param download_format How can users download it
+#' @return A table-like data structure, possibly interactive depending on the choice of the engine
+#' 
 #' @rdname render
 #' @method render data.frame
 #' @export
@@ -124,8 +128,8 @@ render.data.frame <- function(
   title,
   datasource,
   footnote = "",
-  output_format="html",
-  engine="gt",
+  output_format = "html",
+  engine = "gt",
   download_format = c('copy', 'csv', 'excel')){
   # TODO: add code for rtf output
   # TODO: do we need a routine for falling back on minimal?
@@ -141,7 +145,7 @@ render.data.frame <- function(
         knitr::kable(format = output_format,
                      caption = title,
                      digits = 2,
-                     booktabs = T) %>%
+                     booktabs = TRUE) %>%
         kableExtra::collapse_rows(valign="top") %>%
         kableExtra::footnote(general = footnote, 
                              general_title = "Additional Note:") %>%
@@ -215,9 +219,9 @@ render_datatable.tableone <- function(data, title, download_format, source_cap){
       DT::datatable(caption = title,
                     filter = "none",
                     # container = sketch,
-                    options = list(paging=FALSE, 
-                                   ordering=FALSE,
-                                   info=FALSE,
+                    options = list(paging = FALSE, 
+                                   ordering = FALSE,
+                                   info = FALSE,
                                    drawCallback = DT::JS(source_cap)))
   } else {
     table_out <- data %>% 
@@ -225,9 +229,9 @@ render_datatable.tableone <- function(data, title, download_format, source_cap){
                     filter = "none",
                     # container = sketch,
                     extensions = 'Buttons',
-                    options = list(paging=FALSE,
-                                   info=FALSE,
-                                   ordering=FALSE,
+                    options = list(paging = FALSE,
+                                   info = FALSE,
+                                   ordering = FALSE,
                                    drawCallback = DT::JS(source_cap),
                                    dom = 'Bfrtip', 
                                    buttons = download_format))

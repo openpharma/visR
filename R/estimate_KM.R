@@ -153,7 +153,7 @@ estimate_KM <- function(
     names(survfit_object$call)
     names(dots)
     for (i in seq_along(dots)){
-      survfit_object$call[[names(dots)[i]]] <- unlist(dots[i], use.names = F)
+      survfit_object$call[[names(dots)[i]]] <- unlist(dots[i], use.names = FALSE)
     }
   }
 
