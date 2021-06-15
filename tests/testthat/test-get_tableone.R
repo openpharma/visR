@@ -19,8 +19,8 @@
 #' T2.4. Additional colnames in the tableone are the crossproduct of all `strata` values (for more than one `strata`)
 #' T3. The tableone includes expected columnnames
 #' T3.1. Tableone by default includes columns `variable`,  `statistic`, and `Total`
-#' T3.2. Tableone still includes the colum `Total` if `overall` is F but no `strata` is given
-#' T3.3. Tableone does not include the colum `Total` if `overall` is F and a `strata` is given
+#' T3.2. Tableone still includes the colum `Total` if `overall` is FALSE but no `strata` is given
+#' T3.3. Tableone does not include the colum `Total` if `overall` is FALSE and a `strata` is given
 #' T4. The function only accepts suitable summary functions
 #' T4.1. An error when the `summary_function` is NULL
 #' T4.2. An error when the `summary_function` is a string
@@ -50,7 +50,7 @@ testthat::test_that("T1.2. No error when `data` is of class `tibble`",{
 
 testthat::test_that("T1.3. No error when `data` is of class `data.table`",{
 
-  if ("data.table" %in% rownames(installed.packages())){
+  if (nzchar(find.package("data.table"))){
     data <- data.table::as.data.table(adtte)
     testthat::expect_error(visR::get_tableone(data = data), NA)
   }
@@ -76,14 +76,14 @@ context("get_tableone - T2. The function accepts a list of `colnames` in the `da
 testthat::test_that("T2.1. An error when `strata` is a number",{
 
   data <- adtte
-  testthat::expect_error(visR::get_tableone(data = data, strata=1))
+  testthat::expect_error(visR::get_tableone(data = data, strata = 1))
 
 })
 
 testthat::test_that("T2.2. An error when `strata` is a string that is not a colname in `data`",{
 
   data <- adtte
-  testthat::expect_error(visR::get_tableone(data = data, strata="blah"))
+  testthat::expect_error(visR::get_tableone(data = data, strata = "blah"))
 
 })
 
@@ -112,14 +112,14 @@ testthat::test_that("T3.1. Tableone by default includes columns `variable`,  `st
   testthat::expect_equal(colnames(visR::get_tableone(data = data)), c("variable", "statistic", "Total"))
 })
 
-testthat::test_that("T3.2. Tableone still includes the colum `Total` if `overall` is F but no `strata` is given", {
+testthat::test_that("T3.2. Tableone still includes the colum `Total` if `overall` is FALSE but no `strata` is given", {
   data <- adtte
-  testthat::expect_equal(colnames(visR::get_tableone(data = data, overall = F)), c("variable", "statistic", "Total"))
+  testthat::expect_equal(colnames(visR::get_tableone(data = data, overall = FALSE)), c("variable", "statistic", "Total"))
 })
 
-testthat::test_that("T3.3. Tableone does not include the colum `Total` if `overall` is F and a `strata` is given", {
+testthat::test_that("T3.3. Tableone does not include the colum `Total` if `overall` is FALSE and a `strata` is given", {
   data <- adtte
-  testthat::expect_equal(colnames(visR::get_tableone(data = data, overall = F, strata=c("TRTP"))), c("variable", "statistic", levels(data$TRTP)))
+  testthat::expect_equal(colnames(visR::get_tableone(data = data, overall = FALSE, strata=c("TRTP"))), c("variable", "statistic", levels(data$TRTP)))
 })
 
 # Requirement T4 ----------------------------------------------------------

@@ -4,7 +4,7 @@
 #'
 "brca_cohort"
 
-#' @title adtte
+#' @title adtte - CDISC ADaM compliant time to event data set
 #'
 #' @description ADTTE data copied from the 2013 CDISC Pilot
 #' @source CDISC SDTM/ADAM Pilot Project. \url{https://bitbucket.cdisc.org/projects/CED}
@@ -41,7 +41,5 @@
 #' @keywords datasets CDISC adtte
 #' @name adtte
 #' @examples
-#' \dontrun{
-#'  data("adtte")
-#' }
+#' data("adtte")
 "adtte"

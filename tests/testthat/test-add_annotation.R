@@ -132,7 +132,7 @@ testthat::test_that("T3.2 The content of a `data.frame` passed to label is not a
   cN <- extracted_lbl[1:length(colnames(anno))]
   bD <- extracted_lbl[(length(cN)+1):length(extracted_lbl)]
 
-  d <- as.data.frame(matrix(bD, ncol = length(cN), byrow = F), stringsAsFactors = FALSE)
+  d <- as.data.frame(matrix(bD, ncol = length(cN), byrow = FALSE), stringsAsFactors = FALSE)
   colnames(d) <- cN
   
   lbl <- data.frame(lapply(anno, as.character), stringsAsFactors=FALSE)

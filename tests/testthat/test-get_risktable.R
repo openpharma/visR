@@ -71,14 +71,14 @@ context("get_risktable.survfit - T2. The function accepts an argument that speci
 testthat::test_that("T2.1 An error when the times specified are negative",{
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
-  testthat::expect_error(visR::get_risktable(survfit_object, times = c(0,5,-20,9)))
+  testthat::expect_error(visR::get_risktable(survfit_object, times = c(0, 5, -20, 9)))
 
 })
 
 testthat::test_that("T2.2 The function orders the times argument internally to avoid errors",{
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
-  times <- c(0,9,5,10,8,3)
+  times <- c(0, 9, 5, 10, 8, 3)
   risktable <- visR::get_risktable(survfit_object, times = times)
   testthat::expect_equal(unique(risktable[["time"]]), times[order(times)])
 })
@@ -89,7 +89,7 @@ testthat::test_that("T2.3 The function proposes 11 times which are equally space
   risktable <- visR::get_risktable(survfit_object)
   
   testthat::expect_equal(length(risktable[["time"]]), 11)
-  testthat::expect_equal(risktable[["time"]], c(0,20,40,60,80,100,120,140,160,180,200))
+  testthat::expect_equal(risktable[["time"]], seq(0, 200, 20))
 })
 
 
@@ -106,13 +106,13 @@ testthat::test_that("T3.1 No error when the `statlist` contains allowed strings"
 testthat::test_that("T3.2 An error when the `statlist` contains non-allowed strings eg 'blah'",{
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
-  testthat::expect_error(visR::get_risktable(survfit_object, statlist = c("blah","n.risk", -3)))
+  testthat::expect_error(visR::get_risktable(survfit_object, statlist = c("blah", "n.risk", -3)))
 })
 
 testthat::test_that("T3.3 Duplicate entries are removed from `statlist`",{
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
-  risktable <- visR::get_risktable(survfit_object, statlist = c("n.risk","n.risk"))
+  risktable <- visR::get_risktable(survfit_object, statlist = c("n.risk", "n.risk"))
   testthat::expect_equal(length(risktable[which(risktable[["time"]] == 0), "y_values"]), 1)
 })
 
@@ -214,7 +214,7 @@ testthat::test_that("T5.7 The calculations are in agreement with what is expecte
   attr(risktable_visR, "statlist") <- NULL
   
   risktable_ref <-  data.frame(
-  `time` = c(0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200),
+  `time` = seq(0, 200, 20),
   `y_values` = structure(c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L), .Label = "At risk", class = "factor"),
   `Placebo` = c(86, 75, 65, 59, 50, 47, 45, 42, 40, 35, 0),
   `Xanomeline High Dose` = c(84, 48, 31, 14, 7, 4, 4, 4, 4, 3, 0),
@@ -238,7 +238,7 @@ testthat::test_that("T6.1 An error when the argument collapse is not boolean",{
 testthat::test_that("T6.2 No error when the argument collapse is boolean",{
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
-  testthat::expect_error(visR::get_risktable(survfit_object, collapse = T), NA)
+  testthat::expect_error(visR::get_risktable(survfit_object, collapse = TRUE), NA)
 })
 
 testthat::test_that("T6.3 The calculations are grouped overall when collapse = TRUE",{
@@ -260,13 +260,13 @@ testthat::test_that("T6.3 The calculations are grouped overall when collapse = T
 testthat::test_that("T6.4 The calculations are in agreement with expectations when grouped overall",{
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
-  risktable_visR <- visR::get_risktable(survfit_object, group = "strata", collapse = T)
+  risktable_visR <- visR::get_risktable(survfit_object, group = "strata", collapse = TRUE)
   attr(risktable_visR, "time_ticks") <- NULL
   attr(risktable_visR, "title") <- NULL
   attr(risktable_visR, "statlist") <- NULL
   
   risktable_ref <-  data.frame(
-  `time` = c(0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200),
+  `time` = seq(0, 200, 20),
   `y_values` = structure(c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L), .Label = "At risk", class = "factor"),
   `Overall` = c(254, 181, 127, 93, 71, 63, 57, 52, 50, 43, 0),
   stringsAsFactors = FALSE,
@@ -278,8 +278,8 @@ testthat::test_that("T6.4 The calculations are in agreement with expectations wh
 testthat::test_that("T6.5 No error when there is only one strata available and collapse = TRUE",{
 
   survfit_object <- visR::estimate_KM(adtte)
-  risktable_visR <- visR::get_risktable(survfit_object, collapse = T)
-  testthat::expect_error(visR::get_risktable(survfit_object, collapse = T), NA)
+  risktable_visR <- visR::get_risktable(survfit_object, collapse = TRUE)
+  testthat::expect_error(visR::get_risktable(survfit_object, collapse = TRUE), NA)
 })
 
 # Requirement T7 ----------------------------------------------------------
@@ -295,7 +295,7 @@ testthat::test_that("T7.1 The output dataset is a data.frame",{
 testthat::test_that("T7.2 The output dataset has the attribute `time_ticks` that specifies the times",{
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
-  times <- c(20,40,80)
+  times <- c(20, 40, 80)
   risktable <- visR::get_risktable(survfit_object, times = times)
   testthat::expect_equal(attr(risktable, "time_ticks"), times)
 })

@@ -3,7 +3,7 @@
 \docType{data}
 \name{adtte}
 \alias{adtte}
-\title{adtte}
+\title{adtte - CDISC ADaM compliant time to event data set}
 \format{
 A data frame with 254 rows and 26 variables:
 \describe{
@@ -45,9 +45,7 @@ adtte
 ADTTE data copied from the 2013 CDISC Pilot
 }
 \examples{
-\dontrun{
- data("adtte")
-}
+data("adtte")
 }
 \keyword{CDISC}
 \keyword{adtte}

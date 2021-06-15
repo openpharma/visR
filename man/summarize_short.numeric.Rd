@@ -9,6 +9,9 @@
 \arguments{
 \item{x}{an object of class "numeric"}
 }
+\value{
+Short list of summary statistics for the input.
+}
 \description{
 Calculates mean (standard deviation), median (IQR), min-max range and N/\% missing elements
 for a numeric vector.

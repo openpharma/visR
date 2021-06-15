@@ -45,8 +45,16 @@ Default is "strata".}
 \item{collapse}{Boolean, indicates whether to present the data overall.
 Default is FALSE.}
 }
+\value{
+return list of attributes the form the risk table i.e.
+number of patients at risk per strata
+
+return list of attributes the form the risk table i.e.
+number of patients at risk per strata
+}
 \description{
-Create a risk table from an object using an S3 method. Currently, no default method is defined.
+Create a risk table from an object using an S3 method.
+Currently, no default method is defined.
 }
 \seealso{
 \code{\link[survival]{summary.survfit}}

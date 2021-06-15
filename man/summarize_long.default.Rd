@@ -9,6 +9,9 @@
 \arguments{
 \item{x}{an object of any other class}
 }
+\value{
+List of counts for unique and missing values in \code{x}.
+}
 \description{
 Create variable summary for all other variable types
 }

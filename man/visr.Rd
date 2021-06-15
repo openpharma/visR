@@ -5,7 +5,7 @@
 \alias{visr.default}
 \alias{visr.survfit}
 \alias{visr.attrition}
-\title{Plot a visR object}
+\title{Plot a supported S3 object}
 \usage{
 visr(x, ...)
 

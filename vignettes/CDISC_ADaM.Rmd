@@ -30,6 +30,9 @@ library(visR)
 # Constants
 DATASET <- paste0("Analysis data - time to event")
 
+# Save original options()
+old <- options()  
+
 # Global formatting options
 options(digits = 3)
 
@@ -43,6 +46,9 @@ options(DT.options = list(pageLength = 10,
 
 # load data set adtte already adhering to the CDISC ADaM standard 
 data(adtte)
+
+# Restore original options()
+options(old)
 
 ```
 

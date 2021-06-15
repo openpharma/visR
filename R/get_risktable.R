@@ -1,12 +1,14 @@
 #' @title Obtain risk tables for tables and plots
 #'
-#' @description Create a risk table from an object using an S3 method. Currently, no default method is defined.
+#' @description Create a risk table from an object using an S3 method. 
+#'   Currently, no default method is defined.
 #' 
 #' @seealso \code{\link[survival]{summary.survfit}}
 #' 
 #' @param x object to be passed on to the method
 #' @param ... other arguments passed on to the method
-#'  
+#' @return return list of attributes the form the risk table i.e. 
+#'   number of patients at risk per strata 
 #' @rdname get_risktable
 #' 
 #' @export
@@ -35,7 +37,9 @@ get_risktable <- function(x, ...){
 #' @param collapse Boolean, indicates whether to present the data overall.
 #'   Default is FALSE.
 #' @param ... other arguments passed on to the method
-#'
+#' @return return list of attributes the form the risk table i.e. 
+#'   number of patients at risk per strata 
+#'   
 #' @rdname get_risktable
 #' @method get_risktable survfit
 #' @export

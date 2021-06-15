@@ -14,7 +14,7 @@
 #' @param strata Stratifying/Grouping variable name(s) as character vector. If NULL, only overall results are returned
 #' @param overall If TRUE, the summary statistics for the overall dataset are also calculated
 #' @param summary_function A function defining summary statistics for numeric and categorical values
-#'
+#' @return A list of data specified summaries for all input variables. 
 #' @details It is possible to provide your own summary function. Please have a loot at summary for inspiration.
 #'
 #' @note All columns in the table will be summarized. If only some columns shall be used, please select only those
@@ -78,6 +78,8 @@ get_tableone <- function(data, strata = NULL, overall=TRUE, summary_function = s
 
 #' @rdname get_tableone
 #' @method get_tableone default
+#' @return object of class tableone. That is a list of data specified summaries 
+#'   for all input variables.  
 #' @export
 get_tableone.default <- function(data, strata = NULL, overall=TRUE, summary_function = summarize_short){
 

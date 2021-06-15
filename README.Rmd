@@ -47,10 +47,17 @@ The package is still experimental and under active development with a current fo
 | [![R-CMD-check](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml/badge.svg?branch=develop)](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml) | `develop` branch |
 | [![R-CMD-check](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml/badge.svg?branch=main)](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml) | `main` branch |
 | [![pkgdown](https://github.com/openpharma/visR/actions/workflows/makedocs.yml/badge.svg)](https://github.com/openpharma/visR/actions/workflows/makedocs.yml) | Documentation building to [Github pages](https://openpharma.github.io/visR/) |
+| [![CRAN status](https://www.r-pkg.org/badges/version/visR)](https://CRAN.R-project.org/package=visR)| Latest CRAN release |
 <!-- badges: end -->
 
 
 ## Installation
+
+```{r}
+# The easiest way to get visR is to install from cran:
+install.packages("visR")
+```
+
 
 Install the *development* version from [GitHub](https://github.com/) with:
 
@@ -64,15 +71,13 @@ Install the *latest stable* version from [GitHub](https://github.com/) with:
 devtools::install_github("openpharma/visR", ref = "main")
 ```
 
-The package is not on CRAN yet. 
-
 ## Example
 
 This is a basic example to demonstrate how the API can be used to add layers to a visualisation. In this example a time to event analysis. The example calculates stratified Kaplan-Meier by treatment and then plots. Additional functions can be used to add uncertainty intervals, censoring information and a risk table. 
 
 ```{r example, warning=FALSE, message = FALSE}
-library(ggplot2)
 library(visR)
+library(ggplot2)
 
 theme_set(theme_minimal())
 
@@ -91,7 +96,7 @@ adtte %>%
 
 ## Contribution 
 
-Please note that the 'visR' project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
+Please note that the `visR` project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
 
 ```{r getcontributions, echo=FALSE, warning=FALSE, message = FALSE}
 library(dplyr)

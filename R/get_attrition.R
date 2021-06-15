@@ -1,7 +1,7 @@
 #' Generate cohort attrition table
 #'
 #' @description
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
+#' `r lifecycle::badge("experimental")`
 #' This is an experimental function that may be developed over time.
 #'
 #' This function calculates the subjects counts excluded and included
