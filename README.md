@@ -49,17 +49,16 @@ current focus on developing a stable API.
 
 ## Installation
 
-``` r
-# The easiest way to get visR is to install from cran:
-install.packages("visR")
-#> installing the source package 'visR'
-```
+The easiest way to get visR is to install from cran:
+
+    #> Error in install.packages : Updating loaded packages
 
 Install the *development* version from [GitHub](https://github.com/)
 with:
 
 ``` r
-devtools::install_github("openpharma/visR") # defaults to develop branch
+# defaults to develop branch
+devtools::install_github("openpharma/visR") 
 ```
 
 Install the *latest stable* version from [GitHub](https://github.com/)
@@ -82,7 +81,6 @@ library(visR)
 library(ggplot2)
 
 theme_set(theme_minimal())
-
 
 adtte %>%
   estimate_KM(strata = "TRTP", conf.int = 0.90) %>%
