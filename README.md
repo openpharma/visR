@@ -51,7 +51,9 @@ current focus on developing a stable API.
 
 The easiest way to get visR is to install from cran:
 
-    #> Error in install.packages : Updating loaded packages
+``` r
+install.packages("visR")
+```
 
 Install the *development* version from [GitHub](https://github.com/)
 with:

@@ -55,7 +55,7 @@ The package is still experimental and under active development with a current fo
 
 The easiest way to get visR is to install from cran:
 
-```{r, echo=FALSE}
+``` r
 install.packages("visR")
 ```
 
