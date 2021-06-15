@@ -41,7 +41,7 @@ The package is still experimental and under active development with a current fo
 
 | Badge | Description
 |----------------------|-------------------|
-| [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)     | Development stage |
+| [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)    | Development stage |
 | [![Codecov test coverage](https://codecov.io/gh/openpharma/visR/branch/develop/graph/badge.svg)](https://codecov.io/gh/openpharma/visR?branch=main) | Unit testing coverage - on `main` |
 | [![Codecov test coverage](https://codecov.io/gh/openpharma/visR/branch/develop/graph/badge.svg)](https://codecov.io/gh/openpharma/visR?branch=develop) | Unit testing coverage - on `develop` |
 | [![R-CMD-check](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml/badge.svg?branch=develop)](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml) | `develop` branch |
@@ -53,8 +53,9 @@ The package is still experimental and under active development with a current fo
 
 ## Installation
 
-```{r}
-# The easiest way to get visR is to install from cran:
+The easiest way to get visR is to install from cran:
+
+``` r
 install.packages("visR")
 ```
 
@@ -62,7 +63,8 @@ install.packages("visR")
 Install the *development* version from [GitHub](https://github.com/) with:
 
 ``` r
-devtools::install_github("openpharma/visR") # defaults to develop branch
+# defaults to develop branch
+devtools::install_github("openpharma/visR") 
 ```
 
 Install the *latest stable* version from [GitHub](https://github.com/) with:
@@ -80,7 +82,6 @@ library(visR)
 library(ggplot2)
 
 theme_set(theme_minimal())
-
 
 adtte %>%
   estimate_KM(strata = "TRTP", conf.int = 0.90) %>%
