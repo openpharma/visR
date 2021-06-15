@@ -132,6 +132,9 @@
 <span class="va">DATASET</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"NCCTG Lung Cancer Dataset (from survival package "</span>, 
                   <span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html">packageVersion</a></span><span class="op">(</span><span class="st">"survival"</span><span class="op">)</span>, <span class="st">")"</span><span class="op">)</span>
 
+<span class="co"># Save original options()</span>
+<span class="va">old</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span><span class="op">)</span>  
+
 <span class="co"># Global formatting options</span>
 <span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
 
@@ -148,29 +151,32 @@
 <span class="co"># Change gender to be a factor and rename some variables to make output look nicer</span>
 <span class="va">lung_cohort</span> <span class="op">&lt;-</span> <span class="va">lung_cohort</span> <span class="op">%&gt;%</span>  
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">sex</span> <span class="op">==</span> <span class="fl">1</span>, <span class="st">"Male"</span>, <span class="st">"Female"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>  <span class="op">%&gt;%</span>  
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span>Age <span class="op">=</span> <span class="st">"age"</span>, Sex <span class="op">=</span> <span class="st">"sex"</span>, Status <span class="op">=</span> <span class="st">"status"</span>, Days <span class="op">=</span> <span class="st">"time"</span><span class="op">)</span></code></pre></div>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span>Age <span class="op">=</span> <span class="st">"age"</span>, Sex <span class="op">=</span> <span class="st">"sex"</span>, Status <span class="op">=</span> <span class="st">"status"</span>, Days <span class="op">=</span> <span class="st">"time"</span><span class="op">)</span>
+
+<span class="co"># Restore original options()</span>
+<span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span><span class="va">old</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="cohort-overview-tableone" class="section level2">
+<div id="cohort-overview-table-one" class="section level2">
 <h2 class="hasAnchor">
-<a href="#cohort-overview-tableone" class="anchor"></a>Cohort Overview (Tableone)</h2>
-<p>Visualizing tables, like the tableone or risktables, is a two-step process in visR . First, a data.frame (or tibble) is created by a <code>get_XXX()</code> function (e.g. <code><a href="../reference/get_tableone.html">get_tableone()</a></code>). Secondly, the data.frame can be displayed by calling the function <code><a href="../reference/render.html">render()</a></code>. The advantage of this process is that data summaries can be created, used and adjusted throughout an analysis, while at every step data summaries can be displayed or even be downloaded.</p>
-<p>Populations are usually displayed as a so-called tableone. Function <code>get_tableone</code> creates a tibble that includes populations summaries.</p>
+<a href="#cohort-overview-table-one" class="anchor"></a>Cohort Overview (Table one)</h2>
+<p>Visualizing tables, like the table one or risk tables, is a two-step process in visR . First, a data.frame (or tibble) is created by a <code>get_XXX()</code> function (e.g. <code><a href="../reference/get_tableone.html">get_tableone()</a></code>). Secondly, the data.frame can be displayed by calling the function <code><a href="../reference/render.html">render()</a></code>. The advantage of this process is that data summaries can be created, used and adjusted throughout an analysis, while at every step data summaries can be displayed or even be downloaded.</p>
+<p>Populations are usually displayed as a so-called table one. Function <code>get_tableone</code> creates a tibble that includes populations summaries.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Select variables of interest and change names to look nicer</span>
 <span class="va">lung_cohort_tab1</span> <span class="op">&lt;-</span> <span class="va">lung_cohort</span> <span class="op">%&gt;%</span>  
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">Age</span>, <span class="va">Sex</span><span class="op">)</span> 
 
-<span class="co"># Create a tableone</span>
+<span class="co"># Create a table one</span>
 <span class="va">tab1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_tableone.html">get_tableone</a></span><span class="op">(</span><span class="va">lung_cohort_tab1</span><span class="op">)</span>
 
 <span class="co"># Render the tableone</span>
 <span class="fu"><a href="../reference/render.html">render</a></span><span class="op">(</span><span class="va">tab1</span>, title <span class="op">=</span> <span class="st">"Overview over Lung Cancer patients"</span>, datasource <span class="op">=</span> <span class="va">DATASET</span><span class="op">)</span></code></pre></div>
-<div id="csbccausoe" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="ugqponxcem" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#csbccausoe .gt_table {
+#ugqponxcem .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -195,7 +201,7 @@
   border-left-color: #D3D3D3;
 }
 
-#csbccausoe .gt_heading {
+#ugqponxcem .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -207,7 +213,7 @@
   border-right-color: #D3D3D3;
 }
 
-#csbccausoe .gt_title {
+#ugqponxcem .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -217,7 +223,7 @@
   border-bottom-width: 0;
 }
 
-#csbccausoe .gt_subtitle {
+#ugqponxcem .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -227,13 +233,13 @@
   border-top-width: 0;
 }
 
-#csbccausoe .gt_bottom_border {
+#ugqponxcem .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#csbccausoe .gt_col_headings {
+#ugqponxcem .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -248,7 +254,7 @@
   border-right-color: #D3D3D3;
 }
 
-#csbccausoe .gt_col_heading {
+#ugqponxcem .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -268,7 +274,7 @@
   overflow-x: hidden;
 }
 
-#csbccausoe .gt_column_spanner_outer {
+#ugqponxcem .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -280,15 +286,15 @@
   padding-right: 4px;
 }
 
-#csbccausoe .gt_column_spanner_outer:first-child {
+#ugqponxcem .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#csbccausoe .gt_column_spanner_outer:last-child {
+#ugqponxcem .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#csbccausoe .gt_column_spanner {
+#ugqponxcem .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -300,7 +306,7 @@
   width: 100%;
 }
 
-#csbccausoe .gt_group_heading {
+#ugqponxcem .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -322,7 +328,7 @@
   vertical-align: middle;
 }
 
-#csbccausoe .gt_empty_group_heading {
+#ugqponxcem .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -337,15 +343,15 @@
   vertical-align: middle;
 }
 
-#csbccausoe .gt_from_md > :first-child {
+#ugqponxcem .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#csbccausoe .gt_from_md > :last-child {
+#ugqponxcem .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#csbccausoe .gt_row {
+#ugqponxcem .gt_row {
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 5px;
@@ -364,7 +370,7 @@
   overflow-x: hidden;
 }
 
-#csbccausoe .gt_stub {
+#ugqponxcem .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -376,7 +382,7 @@
   padding-left: 12px;
 }
 
-#csbccausoe .gt_summary_row {
+#ugqponxcem .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -386,7 +392,7 @@
   padding-right: 5px;
 }
 
-#csbccausoe .gt_first_summary_row {
+#ugqponxcem .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -396,7 +402,7 @@
   border-top-color: #D3D3D3;
 }
 
-#csbccausoe .gt_grand_summary_row {
+#ugqponxcem .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -406,7 +412,7 @@
   padding-right: 5px;
 }
 
-#csbccausoe .gt_first_grand_summary_row {
+#ugqponxcem .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -416,11 +422,11 @@
   border-top-color: #D3D3D3;
 }
 
-#csbccausoe .gt_striped {
+#ugqponxcem .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#csbccausoe .gt_table_body {
+#ugqponxcem .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -429,7 +435,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#csbccausoe .gt_footnotes {
+#ugqponxcem .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -443,13 +449,13 @@
   border-right-color: #D3D3D3;
 }
 
-#csbccausoe .gt_footnote {
+#ugqponxcem .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#csbccausoe .gt_sourcenotes {
+#ugqponxcem .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -463,41 +469,41 @@
   border-right-color: #D3D3D3;
 }
 
-#csbccausoe .gt_sourcenote {
+#ugqponxcem .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#csbccausoe .gt_left {
+#ugqponxcem .gt_left {
   text-align: left;
 }
 
-#csbccausoe .gt_center {
+#ugqponxcem .gt_center {
   text-align: center;
 }
 
-#csbccausoe .gt_right {
+#ugqponxcem .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#csbccausoe .gt_font_normal {
+#ugqponxcem .gt_font_normal {
   font-weight: normal;
 }
 
-#csbccausoe .gt_font_bold {
+#ugqponxcem .gt_font_bold {
   font-weight: bold;
 }
 
-#csbccausoe .gt_font_italic {
+#ugqponxcem .gt_font_italic {
   font-style: italic;
 }
 
-#csbccausoe .gt_super {
+#ugqponxcem .gt_super {
   font-size: 65%;
 }
 
-#csbccausoe .gt_footnote_marks {
+#ugqponxcem .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -557,12 +563,12 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Use wrapper functionality to create and display a tableone</span>
 <span class="fu"><a href="../reference/tableone.html">tableone</a></span><span class="op">(</span><span class="va">lung_cohort_tab1</span>, title <span class="op">=</span> <span class="st">"Overview over Lung Cancer patients"</span>, datasource <span class="op">=</span> <span class="va">DATASET</span><span class="op">)</span></code></pre></div>
-<div id="aokwrexpwm" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="ijfrmwafsq" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#aokwrexpwm .gt_table {
+#ijfrmwafsq .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -587,7 +593,7 @@
   border-left-color: #D3D3D3;
 }
 
-#aokwrexpwm .gt_heading {
+#ijfrmwafsq .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -599,7 +605,7 @@
   border-right-color: #D3D3D3;
 }
 
-#aokwrexpwm .gt_title {
+#ijfrmwafsq .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -609,7 +615,7 @@
   border-bottom-width: 0;
 }
 
-#aokwrexpwm .gt_subtitle {
+#ijfrmwafsq .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -619,13 +625,13 @@
   border-top-width: 0;
 }
 
-#aokwrexpwm .gt_bottom_border {
+#ijfrmwafsq .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#aokwrexpwm .gt_col_headings {
+#ijfrmwafsq .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -640,7 +646,7 @@
   border-right-color: #D3D3D3;
 }
 
-#aokwrexpwm .gt_col_heading {
+#ijfrmwafsq .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -660,7 +666,7 @@
   overflow-x: hidden;
 }
 
-#aokwrexpwm .gt_column_spanner_outer {
+#ijfrmwafsq .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -672,15 +678,15 @@
   padding-right: 4px;
 }
 
-#aokwrexpwm .gt_column_spanner_outer:first-child {
+#ijfrmwafsq .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#aokwrexpwm .gt_column_spanner_outer:last-child {
+#ijfrmwafsq .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#aokwrexpwm .gt_column_spanner {
+#ijfrmwafsq .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -692,7 +698,7 @@
   width: 100%;
 }
 
-#aokwrexpwm .gt_group_heading {
+#ijfrmwafsq .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -714,7 +720,7 @@
   vertical-align: middle;
 }
 
-#aokwrexpwm .gt_empty_group_heading {
+#ijfrmwafsq .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -729,15 +735,15 @@
   vertical-align: middle;
 }
 
-#aokwrexpwm .gt_from_md > :first-child {
+#ijfrmwafsq .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#aokwrexpwm .gt_from_md > :last-child {
+#ijfrmwafsq .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#aokwrexpwm .gt_row {
+#ijfrmwafsq .gt_row {
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 5px;
@@ -756,7 +762,7 @@
   overflow-x: hidden;
 }
 
-#aokwrexpwm .gt_stub {
+#ijfrmwafsq .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -768,7 +774,7 @@
   padding-left: 12px;
 }
 
-#aokwrexpwm .gt_summary_row {
+#ijfrmwafsq .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -778,7 +784,7 @@
   padding-right: 5px;
 }
 
-#aokwrexpwm .gt_first_summary_row {
+#ijfrmwafsq .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -788,7 +794,7 @@
   border-top-color: #D3D3D3;
 }
 
-#aokwrexpwm .gt_grand_summary_row {
+#ijfrmwafsq .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -798,7 +804,7 @@
   padding-right: 5px;
 }
 
-#aokwrexpwm .gt_first_grand_summary_row {
+#ijfrmwafsq .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -808,11 +814,11 @@
   border-top-color: #D3D3D3;
 }
 
-#aokwrexpwm .gt_striped {
+#ijfrmwafsq .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#aokwrexpwm .gt_table_body {
+#ijfrmwafsq .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -821,7 +827,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#aokwrexpwm .gt_footnotes {
+#ijfrmwafsq .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -835,13 +841,13 @@
   border-right-color: #D3D3D3;
 }
 
-#aokwrexpwm .gt_footnote {
+#ijfrmwafsq .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#aokwrexpwm .gt_sourcenotes {
+#ijfrmwafsq .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -855,41 +861,41 @@
   border-right-color: #D3D3D3;
 }
 
-#aokwrexpwm .gt_sourcenote {
+#ijfrmwafsq .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#aokwrexpwm .gt_left {
+#ijfrmwafsq .gt_left {
   text-align: left;
 }
 
-#aokwrexpwm .gt_center {
+#ijfrmwafsq .gt_center {
   text-align: center;
 }
 
-#aokwrexpwm .gt_right {
+#ijfrmwafsq .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#aokwrexpwm .gt_font_normal {
+#ijfrmwafsq .gt_font_normal {
   font-weight: normal;
 }
 
-#aokwrexpwm .gt_font_bold {
+#ijfrmwafsq .gt_font_bold {
   font-weight: bold;
 }
 
-#aokwrexpwm .gt_font_italic {
+#ijfrmwafsq .gt_font_italic {
   font-style: italic;
 }
 
-#aokwrexpwm .gt_super {
+#ijfrmwafsq .gt_super {
   font-size: 65%;
 }
 
-#aokwrexpwm .gt_footnote_marks {
+#ijfrmwafsq .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -949,14 +955,14 @@
 <p>In both the getter and the wrapper functions, a stratifier can be defined and the column displaying total information can be removed.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Create and render a tableone with a stratifier and without displaying the total</span>
-<span class="fu"><a href="../reference/tableone.html">tableone</a></span><span class="op">(</span><span class="va">lung_cohort_tab1</span>, strata <span class="op">=</span> <span class="st">"Sex"</span>, overall <span class="op">=</span> <span class="cn">F</span>,
+<span class="fu"><a href="../reference/tableone.html">tableone</a></span><span class="op">(</span><span class="va">lung_cohort_tab1</span>, strata <span class="op">=</span> <span class="st">"Sex"</span>, overall <span class="op">=</span> <span class="cn">FALSE</span>,
          title <span class="op">=</span> <span class="st">"Overview over Lung Cancer patients"</span>, datasource <span class="op">=</span> <span class="va">DATASET</span><span class="op">)</span></code></pre></div>
-<div id="vgaxpwfkmm" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="ycgseavroc" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#vgaxpwfkmm .gt_table {
+#ycgseavroc .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -981,7 +987,7 @@
   border-left-color: #D3D3D3;
 }
 
-#vgaxpwfkmm .gt_heading {
+#ycgseavroc .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -993,7 +999,7 @@
   border-right-color: #D3D3D3;
 }
 
-#vgaxpwfkmm .gt_title {
+#ycgseavroc .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1003,7 +1009,7 @@
   border-bottom-width: 0;
 }
 
-#vgaxpwfkmm .gt_subtitle {
+#ycgseavroc .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1013,13 +1019,13 @@
   border-top-width: 0;
 }
 
-#vgaxpwfkmm .gt_bottom_border {
+#ycgseavroc .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#vgaxpwfkmm .gt_col_headings {
+#ycgseavroc .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1034,7 +1040,7 @@
   border-right-color: #D3D3D3;
 }
 
-#vgaxpwfkmm .gt_col_heading {
+#ycgseavroc .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1054,7 +1060,7 @@
   overflow-x: hidden;
 }
 
-#vgaxpwfkmm .gt_column_spanner_outer {
+#ycgseavroc .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1066,15 +1072,15 @@
   padding-right: 4px;
 }
 
-#vgaxpwfkmm .gt_column_spanner_outer:first-child {
+#ycgseavroc .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#vgaxpwfkmm .gt_column_spanner_outer:last-child {
+#ycgseavroc .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#vgaxpwfkmm .gt_column_spanner {
+#ycgseavroc .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1086,7 +1092,7 @@
   width: 100%;
 }
 
-#vgaxpwfkmm .gt_group_heading {
+#ycgseavroc .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1108,7 +1114,7 @@
   vertical-align: middle;
 }
 
-#vgaxpwfkmm .gt_empty_group_heading {
+#ycgseavroc .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1123,15 +1129,15 @@
   vertical-align: middle;
 }
 
-#vgaxpwfkmm .gt_from_md > :first-child {
+#ycgseavroc .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#vgaxpwfkmm .gt_from_md > :last-child {
+#ycgseavroc .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#vgaxpwfkmm .gt_row {
+#ycgseavroc .gt_row {
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 5px;
@@ -1150,7 +1156,7 @@
   overflow-x: hidden;
 }
 
-#vgaxpwfkmm .gt_stub {
+#ycgseavroc .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1162,7 +1168,7 @@
   padding-left: 12px;
 }
 
-#vgaxpwfkmm .gt_summary_row {
+#ycgseavroc .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1172,7 +1178,7 @@
   padding-right: 5px;
 }
 
-#vgaxpwfkmm .gt_first_summary_row {
+#ycgseavroc .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1182,7 +1188,7 @@
   border-top-color: #D3D3D3;
 }
 
-#vgaxpwfkmm .gt_grand_summary_row {
+#ycgseavroc .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1192,7 +1198,7 @@
   padding-right: 5px;
 }
 
-#vgaxpwfkmm .gt_first_grand_summary_row {
+#ycgseavroc .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1202,11 +1208,11 @@
   border-top-color: #D3D3D3;
 }
 
-#vgaxpwfkmm .gt_striped {
+#ycgseavroc .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#vgaxpwfkmm .gt_table_body {
+#ycgseavroc .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1215,7 +1221,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#vgaxpwfkmm .gt_footnotes {
+#ycgseavroc .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1229,13 +1235,13 @@
   border-right-color: #D3D3D3;
 }
 
-#vgaxpwfkmm .gt_footnote {
+#ycgseavroc .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#vgaxpwfkmm .gt_sourcenotes {
+#ycgseavroc .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1249,41 +1255,41 @@
   border-right-color: #D3D3D3;
 }
 
-#vgaxpwfkmm .gt_sourcenote {
+#ycgseavroc .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#vgaxpwfkmm .gt_left {
+#ycgseavroc .gt_left {
   text-align: left;
 }
 
-#vgaxpwfkmm .gt_center {
+#ycgseavroc .gt_center {
   text-align: center;
 }
 
-#vgaxpwfkmm .gt_right {
+#ycgseavroc .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#vgaxpwfkmm .gt_font_normal {
+#ycgseavroc .gt_font_normal {
   font-weight: normal;
 }
 
-#vgaxpwfkmm .gt_font_bold {
+#ycgseavroc .gt_font_bold {
   font-weight: bold;
 }
 
-#vgaxpwfkmm .gt_font_italic {
+#ycgseavroc .gt_font_italic {
   font-style: italic;
 }
 
-#vgaxpwfkmm .gt_super {
+#ycgseavroc .gt_super {
   font-size: 65%;
 }
 
-#vgaxpwfkmm .gt_footnote_marks {
+#ycgseavroc .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -1336,14 +1342,14 @@
 <p>visR’s <code>render</code> supports three different rendering engines to be as flexible as possible. By default, <code>render</code> uses <code>gt</code>. Additional engines are <code>datatable</code> (<code>dt</code>) to include easy downloading options…</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Create and render a tableone with with dt as an engine</span>
-<span class="fu"><a href="../reference/tableone.html">tableone</a></span><span class="op">(</span><span class="va">lung_cohort_tab1</span>, strata <span class="op">=</span> <span class="st">"Sex"</span>, overall <span class="op">=</span> <span class="cn">F</span>,
+<span class="fu"><a href="../reference/tableone.html">tableone</a></span><span class="op">(</span><span class="va">lung_cohort_tab1</span>, strata <span class="op">=</span> <span class="st">"Sex"</span>, overall <span class="op">=</span> <span class="cn">FALSE</span>,
          title <span class="op">=</span> <span class="st">"Overview over Lung Cancer patients"</span>, datasource <span class="op">=</span> <span class="va">DATASET</span>, 
          engine <span class="op">=</span> <span class="st">"dt"</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-2f2ff98efd523dd03664" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-2f2ff98efd523dd03664">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption>Overview over Lung Cancer patients<\/caption>","data":[["1","2","3","4"],["Age","Age","Age","Age"],["Mean (SD)","Median (IQR)","Min-max","Missing"],["61.1 (8.85)","61 (55-68)","41-77","0 (0%)"],["63.3 (9.14)","64 (57-70)","39-82","0 (0%)"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>variable<\/th>\n      <th>statistic<\/th>\n      <th>Female (N=90)<\/th>\n      <th>Male (N=138)<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"language":{"search":"Filter:"},"scrollX":true,"paging":false,"info":false,"ordering":false,"drawCallback":"function(settings){\n  var datatable = settings.oInstance.api();\n  var table = datatable.table().node();\n  var n_captions = $(table).find('caption').length + 1;\n  var caption = 'Data Source: NCCTG Lung Cancer Dataset (from survival package 3.2.11) ';\n  if (n_captions <= 1) { $(table).append('<caption style=\"caption-side: bottom\">' + caption + '<\/caption>')};\n}","dom":"Bfrtip","buttons":["copy","csv","excel"],"order":[],"autoWidth":false,"orderClasses":false,"columnDefs":[{"orderable":false,"targets":0}]}},"evals":["options.drawCallback"],"jsHooks":[]}</script><p>…and <code>kable</code> for flexible displaying in various output formats (<code>html</code> by default, <code>latex</code> supported).</p>
+<div id="htmlwidget-bd5640b53e5703fb718e" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-bd5640b53e5703fb718e">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption>Overview over Lung Cancer patients<\/caption>","data":[["1","2","3","4"],["Age","Age","Age","Age"],["Mean (SD)","Median (IQR)","Min-max","Missing"],["61.1 (8.85)","61 (55-68)","41-77","0 (0%)"],["63.3 (9.14)","64 (57-70)","39-82","0 (0%)"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>variable<\/th>\n      <th>statistic<\/th>\n      <th>Female (N=90)<\/th>\n      <th>Male (N=138)<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"language":{"search":"Filter:"},"scrollX":true,"paging":false,"info":false,"ordering":false,"drawCallback":"function(settings){\n  var datatable = settings.oInstance.api();\n  var table = datatable.table().node();\n  var n_captions = $(table).find('caption').length + 1;\n  var caption = 'Data Source: NCCTG Lung Cancer Dataset (from survival package 3.2.11) ';\n  if (n_captions <= 1) { $(table).append('<caption style=\"caption-side: bottom\">' + caption + '<\/caption>')};\n}","dom":"Bfrtip","buttons":["copy","csv","excel"],"order":[],"autoWidth":false,"orderClasses":false,"columnDefs":[{"orderable":false,"targets":0}]}},"evals":["options.drawCallback"],"jsHooks":[]}</script><p>…and <code>kable</code> for flexible displaying in various output formats (<code>html</code> by default, <code>latex</code> supported).</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Create and render a tableone with with kable as an engine and html as output format</span>
-<span class="fu"><a href="../reference/tableone.html">tableone</a></span><span class="op">(</span><span class="va">lung_cohort_tab1</span>, strata <span class="op">=</span> <span class="st">"Sex"</span>, overall <span class="op">=</span> <span class="cn">F</span>, 
+<span class="fu"><a href="../reference/tableone.html">tableone</a></span><span class="op">(</span><span class="va">lung_cohort_tab1</span>, strata <span class="op">=</span> <span class="st">"Sex"</span>, overall <span class="op">=</span> <span class="cn">FALSE</span>, 
          title <span class="op">=</span> <span class="st">"Overview over Lung Cancer patients"</span>, datasource <span class="op">=</span> <span class="va">DATASET</span>, 
          engine <span class="op">=</span> <span class="st">"kable"</span>, output_format<span class="op">=</span><span class="st">"html"</span><span class="op">)</span></code></pre></div>
 <table class="table">
@@ -1489,12 +1495,12 @@ Missing
 
 <span class="co"># Display the risktable</span>
 <span class="fu"><a href="../reference/render.html">render</a></span><span class="op">(</span><span class="va">rt</span>, title <span class="op">=</span> <span class="st">"Overview over survival rates of Lung Cancer patients"</span>, datasource <span class="op">=</span> <span class="va">DATASET</span><span class="op">)</span></code></pre></div>
-<div id="ppzosqwegm" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="wavxdrotpo" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#ppzosqwegm .gt_table {
+#wavxdrotpo .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1519,7 +1525,7 @@ Missing
   border-left-color: #D3D3D3;
 }
 
-#ppzosqwegm .gt_heading {
+#wavxdrotpo .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1531,7 +1537,7 @@ Missing
   border-right-color: #D3D3D3;
 }
 
-#ppzosqwegm .gt_title {
+#wavxdrotpo .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1541,7 +1547,7 @@ Missing
   border-bottom-width: 0;
 }
 
-#ppzosqwegm .gt_subtitle {
+#wavxdrotpo .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1551,13 +1557,13 @@ Missing
   border-top-width: 0;
 }
 
-#ppzosqwegm .gt_bottom_border {
+#wavxdrotpo .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ppzosqwegm .gt_col_headings {
+#wavxdrotpo .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1572,7 +1578,7 @@ Missing
   border-right-color: #D3D3D3;
 }
 
-#ppzosqwegm .gt_col_heading {
+#wavxdrotpo .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1592,7 +1598,7 @@ Missing
   overflow-x: hidden;
 }
 
-#ppzosqwegm .gt_column_spanner_outer {
+#wavxdrotpo .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1604,15 +1610,15 @@ Missing
   padding-right: 4px;
 }
 
-#ppzosqwegm .gt_column_spanner_outer:first-child {
+#wavxdrotpo .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ppzosqwegm .gt_column_spanner_outer:last-child {
+#wavxdrotpo .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ppzosqwegm .gt_column_spanner {
+#wavxdrotpo .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1624,7 +1630,7 @@ Missing
   width: 100%;
 }
 
-#ppzosqwegm .gt_group_heading {
+#wavxdrotpo .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1646,7 +1652,7 @@ Missing
   vertical-align: middle;
 }
 
-#ppzosqwegm .gt_empty_group_heading {
+#wavxdrotpo .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1661,15 +1667,15 @@ Missing
   vertical-align: middle;
 }
 
-#ppzosqwegm .gt_from_md > :first-child {
+#wavxdrotpo .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ppzosqwegm .gt_from_md > :last-child {
+#wavxdrotpo .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ppzosqwegm .gt_row {
+#wavxdrotpo .gt_row {
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 5px;
@@ -1688,7 +1694,7 @@ Missing
   overflow-x: hidden;
 }
 
-#ppzosqwegm .gt_stub {
+#wavxdrotpo .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1700,7 +1706,7 @@ Missing
   padding-left: 12px;
 }
 
-#ppzosqwegm .gt_summary_row {
+#wavxdrotpo .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1710,7 +1716,7 @@ Missing
   padding-right: 5px;
 }
 
-#ppzosqwegm .gt_first_summary_row {
+#wavxdrotpo .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1720,7 +1726,7 @@ Missing
   border-top-color: #D3D3D3;
 }
 
-#ppzosqwegm .gt_grand_summary_row {
+#wavxdrotpo .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1730,7 +1736,7 @@ Missing
   padding-right: 5px;
 }
 
-#ppzosqwegm .gt_first_grand_summary_row {
+#wavxdrotpo .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1740,11 +1746,11 @@ Missing
   border-top-color: #D3D3D3;
 }
 
-#ppzosqwegm .gt_striped {
+#wavxdrotpo .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ppzosqwegm .gt_table_body {
+#wavxdrotpo .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1753,7 +1759,7 @@ Missing
   border-bottom-color: #D3D3D3;
 }
 
-#ppzosqwegm .gt_footnotes {
+#wavxdrotpo .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1767,13 +1773,13 @@ Missing
   border-right-color: #D3D3D3;
 }
 
-#ppzosqwegm .gt_footnote {
+#wavxdrotpo .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#ppzosqwegm .gt_sourcenotes {
+#wavxdrotpo .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1787,41 +1793,41 @@ Missing
   border-right-color: #D3D3D3;
 }
 
-#ppzosqwegm .gt_sourcenote {
+#wavxdrotpo .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#ppzosqwegm .gt_left {
+#wavxdrotpo .gt_left {
   text-align: left;
 }
 
-#ppzosqwegm .gt_center {
+#wavxdrotpo .gt_center {
   text-align: center;
 }
 
-#ppzosqwegm .gt_right {
+#wavxdrotpo .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ppzosqwegm .gt_font_normal {
+#wavxdrotpo .gt_font_normal {
   font-weight: normal;
 }
 
-#ppzosqwegm .gt_font_bold {
+#wavxdrotpo .gt_font_bold {
   font-weight: bold;
 }
 
-#ppzosqwegm .gt_font_italic {
+#wavxdrotpo .gt_font_italic {
   font-style: italic;
 }
 
-#ppzosqwegm .gt_super {
+#wavxdrotpo .gt_super {
   font-size: 65%;
 }
 
-#ppzosqwegm .gt_footnote_marks {
+#wavxdrotpo .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -1925,12 +1931,12 @@ Missing
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Display a summary of the survival estimate</span>
 <span class="fu"><a href="../reference/render.html">render</a></span><span class="op">(</span><span class="va">lung_suvival_object</span>  <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/get_summary.html">get_summary</a></span><span class="op">(</span><span class="op">)</span>, title <span class="op">=</span> <span class="st">"Summary"</span>, datasource <span class="op">=</span> <span class="va">DATASET</span><span class="op">)</span></code></pre></div>
-<div id="xapfibkcdu" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="vxzixbslhm" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#xapfibkcdu .gt_table {
+#vxzixbslhm .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1955,7 +1961,7 @@ Missing
   border-left-color: #D3D3D3;
 }
 
-#xapfibkcdu .gt_heading {
+#vxzixbslhm .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1967,7 +1973,7 @@ Missing
   border-right-color: #D3D3D3;
 }
 
-#xapfibkcdu .gt_title {
+#vxzixbslhm .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1977,7 +1983,7 @@ Missing
   border-bottom-width: 0;
 }
 
-#xapfibkcdu .gt_subtitle {
+#vxzixbslhm .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1987,13 +1993,13 @@ Missing
   border-top-width: 0;
 }
 
-#xapfibkcdu .gt_bottom_border {
+#vxzixbslhm .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#xapfibkcdu .gt_col_headings {
+#vxzixbslhm .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2008,7 +2014,7 @@ Missing
   border-right-color: #D3D3D3;
 }
 
-#xapfibkcdu .gt_col_heading {
+#vxzixbslhm .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2028,7 +2034,7 @@ Missing
   overflow-x: hidden;
 }
 
-#xapfibkcdu .gt_column_spanner_outer {
+#vxzixbslhm .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2040,15 +2046,15 @@ Missing
   padding-right: 4px;
 }
 
-#xapfibkcdu .gt_column_spanner_outer:first-child {
+#vxzixbslhm .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#xapfibkcdu .gt_column_spanner_outer:last-child {
+#vxzixbslhm .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#xapfibkcdu .gt_column_spanner {
+#vxzixbslhm .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2060,7 +2066,7 @@ Missing
   width: 100%;
 }
 
-#xapfibkcdu .gt_group_heading {
+#vxzixbslhm .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2082,7 +2088,7 @@ Missing
   vertical-align: middle;
 }
 
-#xapfibkcdu .gt_empty_group_heading {
+#vxzixbslhm .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2097,15 +2103,15 @@ Missing
   vertical-align: middle;
 }
 
-#xapfibkcdu .gt_from_md > :first-child {
+#vxzixbslhm .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#xapfibkcdu .gt_from_md > :last-child {
+#vxzixbslhm .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#xapfibkcdu .gt_row {
+#vxzixbslhm .gt_row {
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 5px;
@@ -2124,7 +2130,7 @@ Missing
   overflow-x: hidden;
 }
 
-#xapfibkcdu .gt_stub {
+#vxzixbslhm .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2136,7 +2142,7 @@ Missing
   padding-left: 12px;
 }
 
-#xapfibkcdu .gt_summary_row {
+#vxzixbslhm .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2146,7 +2152,7 @@ Missing
   padding-right: 5px;
 }
 
-#xapfibkcdu .gt_first_summary_row {
+#vxzixbslhm .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2156,7 +2162,7 @@ Missing
   border-top-color: #D3D3D3;
 }
 
-#xapfibkcdu .gt_grand_summary_row {
+#vxzixbslhm .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2166,7 +2172,7 @@ Missing
   padding-right: 5px;
 }
 
-#xapfibkcdu .gt_first_grand_summary_row {
+#vxzixbslhm .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2176,11 +2182,11 @@ Missing
   border-top-color: #D3D3D3;
 }
 
-#xapfibkcdu .gt_striped {
+#vxzixbslhm .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#xapfibkcdu .gt_table_body {
+#vxzixbslhm .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2189,7 +2195,7 @@ Missing
   border-bottom-color: #D3D3D3;
 }
 
-#xapfibkcdu .gt_footnotes {
+#vxzixbslhm .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2203,13 +2209,13 @@ Missing
   border-right-color: #D3D3D3;
 }
 
-#xapfibkcdu .gt_footnote {
+#vxzixbslhm .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#xapfibkcdu .gt_sourcenotes {
+#vxzixbslhm .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2223,41 +2229,41 @@ Missing
   border-right-color: #D3D3D3;
 }
 
-#xapfibkcdu .gt_sourcenote {
+#vxzixbslhm .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#xapfibkcdu .gt_left {
+#vxzixbslhm .gt_left {
   text-align: left;
 }
 
-#xapfibkcdu .gt_center {
+#vxzixbslhm .gt_center {
   text-align: center;
 }
 
-#xapfibkcdu .gt_right {
+#vxzixbslhm .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#xapfibkcdu .gt_font_normal {
+#vxzixbslhm .gt_font_normal {
   font-weight: normal;
 }
 
-#xapfibkcdu .gt_font_bold {
+#vxzixbslhm .gt_font_bold {
   font-weight: bold;
 }
 
-#xapfibkcdu .gt_font_italic {
+#vxzixbslhm .gt_font_italic {
   font-style: italic;
 }
 
-#xapfibkcdu .gt_super {
+#vxzixbslhm .gt_super {
   font-size: 65%;
 }
 
-#xapfibkcdu .gt_footnote_marks {
+#vxzixbslhm .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -2309,12 +2315,12 @@ Missing
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Display test statistics associated with the survival estimate</span>
 <span class="fu"><a href="../reference/render.html">render</a></span><span class="op">(</span><span class="va">lung_suvival_object</span>  <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/get_pvalue.html">get_pvalue</a></span><span class="op">(</span><span class="op">)</span>, title <span class="op">=</span> <span class="st">"P-values"</span>, datasource <span class="op">=</span> <span class="va">DATASET</span><span class="op">)</span></code></pre></div>
-<div id="trjunwiskm" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="reehlxcwnt" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#trjunwiskm .gt_table {
+#reehlxcwnt .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2339,7 +2345,7 @@ Missing
   border-left-color: #D3D3D3;
 }
 
-#trjunwiskm .gt_heading {
+#reehlxcwnt .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2351,7 +2357,7 @@ Missing
   border-right-color: #D3D3D3;
 }
 
-#trjunwiskm .gt_title {
+#reehlxcwnt .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2361,7 +2367,7 @@ Missing
   border-bottom-width: 0;
 }
 
-#trjunwiskm .gt_subtitle {
+#reehlxcwnt .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2371,13 +2377,13 @@ Missing
   border-top-width: 0;
 }
 
-#trjunwiskm .gt_bottom_border {
+#reehlxcwnt .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#trjunwiskm .gt_col_headings {
+#reehlxcwnt .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2392,7 +2398,7 @@ Missing
   border-right-color: #D3D3D3;
 }
 
-#trjunwiskm .gt_col_heading {
+#reehlxcwnt .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2412,7 +2418,7 @@ Missing
   overflow-x: hidden;
 }
 
-#trjunwiskm .gt_column_spanner_outer {
+#reehlxcwnt .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2424,15 +2430,15 @@ Missing
   padding-right: 4px;
 }
 
-#trjunwiskm .gt_column_spanner_outer:first-child {
+#reehlxcwnt .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#trjunwiskm .gt_column_spanner_outer:last-child {
+#reehlxcwnt .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#trjunwiskm .gt_column_spanner {
+#reehlxcwnt .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2444,7 +2450,7 @@ Missing
   width: 100%;
 }
 
-#trjunwiskm .gt_group_heading {
+#reehlxcwnt .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2466,7 +2472,7 @@ Missing
   vertical-align: middle;
 }
 
-#trjunwiskm .gt_empty_group_heading {
+#reehlxcwnt .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2481,15 +2487,15 @@ Missing
   vertical-align: middle;
 }
 
-#trjunwiskm .gt_from_md > :first-child {
+#reehlxcwnt .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#trjunwiskm .gt_from_md > :last-child {
+#reehlxcwnt .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#trjunwiskm .gt_row {
+#reehlxcwnt .gt_row {
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 5px;
@@ -2508,7 +2514,7 @@ Missing
   overflow-x: hidden;
 }
 
-#trjunwiskm .gt_stub {
+#reehlxcwnt .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2520,7 +2526,7 @@ Missing
   padding-left: 12px;
 }
 
-#trjunwiskm .gt_summary_row {
+#reehlxcwnt .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2530,7 +2536,7 @@ Missing
   padding-right: 5px;
 }
 
-#trjunwiskm .gt_first_summary_row {
+#reehlxcwnt .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2540,7 +2546,7 @@ Missing
   border-top-color: #D3D3D3;
 }
 
-#trjunwiskm .gt_grand_summary_row {
+#reehlxcwnt .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2550,7 +2556,7 @@ Missing
   padding-right: 5px;
 }
 
-#trjunwiskm .gt_first_grand_summary_row {
+#reehlxcwnt .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2560,11 +2566,11 @@ Missing
   border-top-color: #D3D3D3;
 }
 
-#trjunwiskm .gt_striped {
+#reehlxcwnt .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#trjunwiskm .gt_table_body {
+#reehlxcwnt .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2573,7 +2579,7 @@ Missing
   border-bottom-color: #D3D3D3;
 }
 
-#trjunwiskm .gt_footnotes {
+#reehlxcwnt .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2587,13 +2593,13 @@ Missing
   border-right-color: #D3D3D3;
 }
 
-#trjunwiskm .gt_footnote {
+#reehlxcwnt .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#trjunwiskm .gt_sourcenotes {
+#reehlxcwnt .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2607,41 +2613,41 @@ Missing
   border-right-color: #D3D3D3;
 }
 
-#trjunwiskm .gt_sourcenote {
+#reehlxcwnt .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#trjunwiskm .gt_left {
+#reehlxcwnt .gt_left {
   text-align: left;
 }
 
-#trjunwiskm .gt_center {
+#reehlxcwnt .gt_center {
   text-align: center;
 }
 
-#trjunwiskm .gt_right {
+#reehlxcwnt .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#trjunwiskm .gt_font_normal {
+#reehlxcwnt .gt_font_normal {
   font-weight: normal;
 }
 
-#trjunwiskm .gt_font_bold {
+#reehlxcwnt .gt_font_bold {
   font-weight: bold;
 }
 
-#trjunwiskm .gt_font_italic {
+#reehlxcwnt .gt_font_italic {
   font-style: italic;
 }
 
-#trjunwiskm .gt_super {
+#reehlxcwnt .gt_super {
   font-size: 65%;
 }
 
-#trjunwiskm .gt_footnote_marks {
+#reehlxcwnt .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -2690,12 +2696,12 @@ Missing
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Display qunatile information of the survival estimate</span>
 <span class="fu"><a href="../reference/render.html">render</a></span><span class="op">(</span><span class="va">lung_suvival_object</span>  <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/get_quantile.html">get_quantile</a></span><span class="op">(</span><span class="op">)</span>, title <span class="op">=</span> <span class="st">"Quantile Information"</span>, datasource <span class="op">=</span> <span class="va">DATASET</span><span class="op">)</span></code></pre></div>
-<div id="jjblhjqmyy" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="ohitxulhjm" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#jjblhjqmyy .gt_table {
+#ohitxulhjm .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2720,7 +2726,7 @@ Missing
   border-left-color: #D3D3D3;
 }
 
-#jjblhjqmyy .gt_heading {
+#ohitxulhjm .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2732,7 +2738,7 @@ Missing
   border-right-color: #D3D3D3;
 }
 
-#jjblhjqmyy .gt_title {
+#ohitxulhjm .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2742,7 +2748,7 @@ Missing
   border-bottom-width: 0;
 }
 
-#jjblhjqmyy .gt_subtitle {
+#ohitxulhjm .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2752,13 +2758,13 @@ Missing
   border-top-width: 0;
 }
 
-#jjblhjqmyy .gt_bottom_border {
+#ohitxulhjm .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#jjblhjqmyy .gt_col_headings {
+#ohitxulhjm .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2773,7 +2779,7 @@ Missing
   border-right-color: #D3D3D3;
 }
 
-#jjblhjqmyy .gt_col_heading {
+#ohitxulhjm .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2793,7 +2799,7 @@ Missing
   overflow-x: hidden;
 }
 
-#jjblhjqmyy .gt_column_spanner_outer {
+#ohitxulhjm .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2805,15 +2811,15 @@ Missing
   padding-right: 4px;
 }
 
-#jjblhjqmyy .gt_column_spanner_outer:first-child {
+#ohitxulhjm .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#jjblhjqmyy .gt_column_spanner_outer:last-child {
+#ohitxulhjm .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#jjblhjqmyy .gt_column_spanner {
+#ohitxulhjm .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2825,7 +2831,7 @@ Missing
   width: 100%;
 }
 
-#jjblhjqmyy .gt_group_heading {
+#ohitxulhjm .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2847,7 +2853,7 @@ Missing
   vertical-align: middle;
 }
 
-#jjblhjqmyy .gt_empty_group_heading {
+#ohitxulhjm .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2862,15 +2868,15 @@ Missing
   vertical-align: middle;
 }
 
-#jjblhjqmyy .gt_from_md > :first-child {
+#ohitxulhjm .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#jjblhjqmyy .gt_from_md > :last-child {
+#ohitxulhjm .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#jjblhjqmyy .gt_row {
+#ohitxulhjm .gt_row {
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 5px;
@@ -2889,7 +2895,7 @@ Missing
   overflow-x: hidden;
 }
 
-#jjblhjqmyy .gt_stub {
+#ohitxulhjm .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2901,7 +2907,7 @@ Missing
   padding-left: 12px;
 }
 
-#jjblhjqmyy .gt_summary_row {
+#ohitxulhjm .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2911,7 +2917,7 @@ Missing
   padding-right: 5px;
 }
 
-#jjblhjqmyy .gt_first_summary_row {
+#ohitxulhjm .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2921,7 +2927,7 @@ Missing
   border-top-color: #D3D3D3;
 }
 
-#jjblhjqmyy .gt_grand_summary_row {
+#ohitxulhjm .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2931,7 +2937,7 @@ Missing
   padding-right: 5px;
 }
 
-#jjblhjqmyy .gt_first_grand_summary_row {
+#ohitxulhjm .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2941,11 +2947,11 @@ Missing
   border-top-color: #D3D3D3;
 }
 
-#jjblhjqmyy .gt_striped {
+#ohitxulhjm .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#jjblhjqmyy .gt_table_body {
+#ohitxulhjm .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2954,7 +2960,7 @@ Missing
   border-bottom-color: #D3D3D3;
 }
 
-#jjblhjqmyy .gt_footnotes {
+#ohitxulhjm .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2968,13 +2974,13 @@ Missing
   border-right-color: #D3D3D3;
 }
 
-#jjblhjqmyy .gt_footnote {
+#ohitxulhjm .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#jjblhjqmyy .gt_sourcenotes {
+#ohitxulhjm .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2988,41 +2994,41 @@ Missing
   border-right-color: #D3D3D3;
 }
 
-#jjblhjqmyy .gt_sourcenote {
+#ohitxulhjm .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#jjblhjqmyy .gt_left {
+#ohitxulhjm .gt_left {
   text-align: left;
 }
 
-#jjblhjqmyy .gt_center {
+#ohitxulhjm .gt_center {
   text-align: center;
 }
 
-#jjblhjqmyy .gt_right {
+#ohitxulhjm .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#jjblhjqmyy .gt_font_normal {
+#ohitxulhjm .gt_font_normal {
   font-weight: normal;
 }
 
-#jjblhjqmyy .gt_font_bold {
+#ohitxulhjm .gt_font_bold {
   font-weight: bold;
 }
 
-#jjblhjqmyy .gt_font_italic {
+#ohitxulhjm .gt_font_italic {
   font-style: italic;
 }
 
-#jjblhjqmyy .gt_super {
+#ohitxulhjm .gt_super {
   font-size: 65%;
 }
 
-#jjblhjqmyy .gt_footnote_marks {
+#ohitxulhjm .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;

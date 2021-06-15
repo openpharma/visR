@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A Package to Wrap Functionality for Plots, Tables and Diagrams Adhering to Graphical Principles • visR</title>
+<title>Clinical Graphs and Tables Adhering to Graphical Principles • visR</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
@@ -17,8 +17,13 @@
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="A Package to Wrap Functionality for Plots, Tables and Diagrams Adhering to Graphical Principles">
-<meta property="og:description" content="The goal of visR is to enable fit-for-purpose, reusable clinical and medical research focused visualizations and tables with sensible defaults and based on sound graphical principles.">
+<script src="pkgdown.js"></script><meta property="og:title" content="Clinical Graphs and Tables Adhering to Graphical Principles">
+<meta property="og:description" content='To enable fit-for-purpose, reusable clinical and medical research 
+  focused visualizations and tables with sensible defaults and based on 
+  graphical principles as described in: 
+  "Vandemeulebroecke et al. (2018)" &lt;doi:10.1002/pst.1912&gt;, 
+  "Vandemeulebroecke et al. (2019)" &lt;doi:10.1002/psp4.12455&gt;, and 
+  "Morris et al. (2019)" &lt;doi:10.1136/bmjopen-2019-030215&gt;.'>
 <meta property="og:image" content="https://openpharma.github.io/visR/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -126,21 +131,26 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>Install the <em>development</em> version from <a href="https://github.com/">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># The easiest way to get visR is to install from cran:</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"visR"</span><span class="op">)</span>
+<span class="co">#&gt; Installing package into '/Users/runner/work/_temp/Library'</span>
+<span class="co">#&gt; (as 'lib' is unspecified)</span>
+<span class="co">#&gt; installing the source package 'visR'</span></code></pre></div>
+<p>Install the <em>development</em> version from <a href="https://github.com/">GitHub</a> with:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"openpharma/visR"</span><span class="op">)</span> <span class="co"># defaults to develop branch</span></code></pre></div>
 <p>Install the <em>latest stable</em> version from <a href="https://github.com/">GitHub</a> with:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"openpharma/visR"</span>, ref <span class="op">=</span> <span class="st">"main"</span><span class="op">)</span></code></pre></div>
-<p>The package is not on CRAN yet.</p>
 </div>
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
 <p>This is a basic example to demonstrate how the API can be used to add layers to a visualisation. In this example a time to event analysis. The example calculates stratified Kaplan-Meier by treatment and then plots. Additional functions can be used to add uncertainty intervals, censoring information and a risk table.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/openpharma/visR">visR</a></span><span class="op">)</span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/openpharma/visR">visR</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
 
@@ -159,7 +169,7 @@
 <div id="contribution" class="section level2">
 <h2 class="hasAnchor">
 <a href="#contribution" class="anchor"></a>Contribution</h2>
-<p>Please note that the ‘visR’ project is released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
+<p>Please note that the <code>visR</code> project is released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 <p><img src="reference/figures/README-plotcontriuptake-1.png" width="100%"></p>
 <p><img src="reference/figures/README-plotcontributions-1.png" width="100%"></p>
 </div>
@@ -167,14 +177,13 @@
 <h2 class="hasAnchor">
 <a href="#code-coverage" class="anchor"></a>Code coverage</h2>
 <p>Last time readme built.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">covr</span><span class="fu">::</span><span class="fu"><a href="http://covr.r-lib.org/reference/package_coverage.html">package_coverage</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; visR Coverage: 81.24%</span>
+<span class="co">#&gt; visR Coverage: 83.00%</span>
 <span class="co">#&gt; R/render.R: 0.00%</span>
 <span class="co">#&gt; R/tableone.R: 0.00%</span>
-<span class="co">#&gt; R/utils_general.R: 33.33%</span>
+<span class="co">#&gt; R/utils_general.R: 22.22%</span>
 <span class="co">#&gt; R/utils_visr.R: 59.81%</span>
-<span class="co">#&gt; R/utils_table.R: 64.10%</span>
 <span class="co">#&gt; R/apply_theme.R: 87.50%</span>
 <span class="co">#&gt; R/add_annotation.R: 100.00%</span>
 <span class="co">#&gt; R/add_CI.R: 100.00%</span>
@@ -191,6 +200,7 @@
 <span class="co">#&gt; R/get_tableone.R: 100.00%</span>
 <span class="co">#&gt; R/tidyme.R: 100.00%</span>
 <span class="co">#&gt; R/utils_pipe.R: 100.00%</span>
+<span class="co">#&gt; R/utils_table.R: 100.00%</span>
 <span class="co">#&gt; R/visr.R: 100.00%</span></code></pre></div>
 </div>
 </div>
@@ -200,6 +210,8 @@
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
+<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=visR">https://​cloud.r-project.org/​package=visR</a>
+</li>
 <li>Browse source code at <br><a href="https://github.com/openpharma/visR/">https://​github.com/​openpharma/​visR/​</a>
 </li>
 <li>Report a bug at <br><a href="https://github.com/openpharma/visR/issues">https://​github.com/​openpharma/​visR/​issues</a>
@@ -246,6 +258,7 @@
 <li><a href="https://github.com/openpharma/visR/actions/workflows/check-standard.yaml"><img src="https://github.com/openpharma/visR/actions/workflows/check-standard.yaml/badge.svg?branch=develop" alt="R-CMD-check"></a></li>
 <li><a href="https://github.com/openpharma/visR/actions/workflows/check-standard.yaml"><img src="https://github.com/openpharma/visR/actions/workflows/check-standard.yaml/badge.svg?branch=main" alt="R-CMD-check"></a></li>
 <li><a href="https://github.com/openpharma/visR/actions/workflows/makedocs.yml"><img src="https://github.com/openpharma/visR/actions/workflows/makedocs.yml/badge.svg" alt="pkgdown"></a></li>
+<li><a href="https://CRAN.R-project.org/package=visR"><img src="https://www.r-pkg.org/badges/version/visR" alt="CRAN status"></a></li>
 </ul>
 </div>
 </div>
