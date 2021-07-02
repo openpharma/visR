@@ -14,6 +14,17 @@ knitr::opts_chunk$set(
 )
 
 library(magrittr)
+
+#library(riskmetric)
+riskmetric_score <- "visR" %>%
+  riskmetric::pkg_ref() %>%
+  dplyr::as_tibble() %>%
+  riskmetric::pkg_assess() %>%
+  riskmetric::pkg_score() %>%
+  dplyr::pull("pkg_score") %>%
+  round(2)
+
+
 ```
 
 # visR <img src='man/figures/logo.png' align="right" height="131.5" />
@@ -48,6 +59,7 @@ The package is still experimental and under active development with a current fo
 | [![R-CMD-check](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml/badge.svg?branch=main)](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml) | `main` branch |
 | [![pkgdown](https://github.com/openpharma/visR/actions/workflows/makedocs.yml/badge.svg)](https://github.com/openpharma/visR/actions/workflows/makedocs.yml) | Documentation building to [Github pages](https://openpharma.github.io/visR/) |
 | [![CRAN status](https://www.r-pkg.org/badges/version/visR)](https://CRAN.R-project.org/package=visR)| Latest CRAN release |
+| <img src=https://img.shields.io/badge/riskmetric-`r riskmetric_score`-green></img>| `riskmetric` score |
 <!-- badges: end -->
 
 
