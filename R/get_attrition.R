@@ -61,7 +61,7 @@ get_attrition <- function(
 
  if (!NA %in% criteria_conditions) {
 
-   criteria_map <- data.frame(cbind(criteria_descriptions, criteria_conditions), stringsAsFactors=F)
+   criteria_map <- data.frame(cbind(criteria_descriptions, criteria_conditions), stringsAsFactors=FALSE)
 
    final_cond          <- c()
    person_count_master <- c()
