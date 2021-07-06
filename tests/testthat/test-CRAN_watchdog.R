@@ -2,18 +2,19 @@
 #' @section Last updated by:
 #' Tim Treis
 #' @section Last update date:
-#' 05-JULY-2021
+#' 06-JULY-2021
 
-# Specifications ----------------------------------------------------------
-#' T1. Our codebase doesn't violate CRAN style-guidelines
-#' T1.1 TRUE/FALSE are used instead of T/F
-#' T1.2 Each function documentation contains a \value{} tag 
+# Specifications ---------------------------------------------------------------
+#' T1. Our codebase doesn't violate CRAN style-guidelines.
+#' T1.1 TRUE/FALSE are used instead of T/F.
+#' T1.2 Each function documentation contains a \value{} tag.
+#' T1.3 The existence of packages is not checked through 'installed.packages()'.
 
-# Requirement T1 ----------------------------------------------------------
+# Requirement T1 ---------------------------------------------------------------
 
-context("CRAN_watchdog - T1. Our codebase doesn't violate CRAN style-guidelines")
+context("CRAN_watchdog - T1. Our codebase doesn't violate CRAN style-guidelines.")
 
-testthat::test_that("T1.1 TRUE/FALSE are used instead of T/F",{
+testthat::test_that("T1.1 TRUE/FALSE are used instead of T/F.",{
   
   test_files <- get_visR_files(functions = TRUE,
                                tests = TRUE,
@@ -44,13 +45,13 @@ testthat::test_that("T1.1 TRUE/FALSE are used instead of T/F",{
     }
   }
   
-  if (base::nrow(CRAN_incompabilities) > 0) {print(CRAN_incompabilities)}
+  if (base::nrow(CRAN_incompabilities) > 0) { print(CRAN_incompabilities) }
   
   testthat::expect_true(base::nrow(CRAN_incompabilities) == 0)
   
 })
 
-testthat::test_that("T1.2 Each function documentation contains a \value{} tag ",{
+testthat::test_that("T1.2 Each function documentation contains a \value{} tag.",{
   
   test_files <- get_visR_files(documentation = TRUE)
   
@@ -86,11 +87,40 @@ testthat::test_that("T1.2 Each function documentation contains a \value{} tag ",
     }
   }
   
-  if (base::nrow(CRAN_incompabilities) > 0) {print(CRAN_incompabilities)}
+  if (base::nrow(CRAN_incompabilities) > 0) { print(CRAN_incompabilities) }
   
   testthat::expect_true(base::nrow(CRAN_incompabilities) == 0)
   
 })
 
-# END OF CODE ----------------------------------------------------------
+testthat::test_that("T1.3 The existence of packages is not checked through 'installed.packages()'.",{
+  
+  # installed.packages might be slow on CRAN servers
+  
+  test_files <- get_visR_files(functions = TRUE,
+                               tests = TRUE,
+                               documentation = TRUE,
+                               vignettes = TRUE)
+  
+  CRAN_incompabilities <- data.frame()
+  
+  for (test_file in test_files) {
+      
+    hits <- base::grep("\\\\installed.packages", base::readLines(test_file, warn = FALSE))
+    
+    if (length(hits) > 0) {
+      
+      tmp <- data.frame("line" = hits)
+      tmp[["file"]] <- test_file
+      CRAN_incompabilities <- base::rbind(CRAN_incompabilities, tmp)
+        
+    }
+  }
+  
+  if (base::nrow(CRAN_incompabilities) > 0) { print(CRAN_incompabilities) }
+  
+  testthat::expect_true(base::nrow(CRAN_incompabilities) == 0)
+  
+})
 
+# END OF CODE ------------------------------------------------------------------
