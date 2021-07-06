@@ -15,13 +15,11 @@ context("CRAN_watchdog - T1. Our codebase doesn't violate CRAN style-guidelines"
 
 testthat::test_that("T1.1 TRUE/FALSE are used instead of T/F",{
   
-  test_files <- base::list.files(path = base::getwd(), 
-                                 pattern = "*.R", 
-                                 full.names = FALSE)
-  
-  # Remove this file
-  test_files <- test_files[test_files != "test-CRAN_watchdog.R"] 
-  
+  test_files <- get_visR_files(functions = TRUE,
+                               tests = TRUE,
+                               documentation = TRUE,
+                               vignettes = TRUE)
+
   patterns <- list("=T,",  "=T ",  "=T)",
                    "=F,",  "=F ",  "=F)",
                    "= T,", "= T ", "= T)",
@@ -46,18 +44,17 @@ testthat::test_that("T1.1 TRUE/FALSE are used instead of T/F",{
     }
   }
   
+  if (base::nrow(CRAN_incompabilities) > 0) {print(CRAN_incompabilities)}
+  
   testthat::expect_true(base::nrow(CRAN_incompabilities) == 0)
   
 })
 
 testthat::test_that("T1.2 Each function documentation contains a \value{} tag ",{
   
-  test_files <- base::list.files(path = base::paste0(base::getwd(), "/../../man"), 
-                                 pattern = "*.Rd", 
-                                 full.names = TRUE)
+  test_files <- get_visR_files(documentation = TRUE)
   
   # List of files in which we don't expect a return value.
-  
   exceptions <- list("adtte.Rd",
                      "brca_cohort.Rd",
                      "visR-Global.Rd")
@@ -89,7 +86,7 @@ testthat::test_that("T1.2 Each function documentation contains a \value{} tag ",
     }
   }
   
-  print(CRAN_incompabilities)
+  if (base::nrow(CRAN_incompabilities) > 0) {print(CRAN_incompabilities)}
   
   testthat::expect_true(base::nrow(CRAN_incompabilities) == 0)
   
