@@ -167,8 +167,7 @@ testthat::test_that("T1.5 The use of 'options()' is immediately preemptively rev
                                vignettes = TRUE)
   
   # List of files in which we don't expect a return value.
-  exceptions <- list("Time_to_event_analysis.Rmd",
-                     "CDISC_ADaM.Rmd")
+  exceptions <- list("Time_to_event_analysis.Rmd", "CDISC_ADaM.Rmd")
   exceptions_collapsed <- paste(exceptions, collapse = "|")
   
   CRAN_incompabilities <- data.frame()
@@ -177,7 +176,7 @@ testthat::test_that("T1.5 The use of 'options()' is immediately preemptively rev
     
     if (sum(grepl(exceptions_collapsed, test_file)) == 0) {
       
-      hits <- base::grep("[\\n\\r\\s]options\\(", base::readLines(test_file, warn = FALSE))
+      hits <- base::grep("^options\\(", base::readLines(test_file, warn = FALSE))
       
       if (length(hits) > 0) {
         
