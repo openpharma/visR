@@ -10,6 +10,7 @@
 #' T1.2 Each function documentation contains a \value{} tag.
 #' T1.3 The existence of packages is not checked through 'installed.packages()'.
 #' T1.4 No \dontrun{} tags unless the code actually takes a long time.
+#' T1.5 The use of 'options()' is immediately preemptively reverted.
 
 # Requirement T1 ---------------------------------------------------------------
 
@@ -141,6 +142,42 @@ testthat::test_that("T1.4 No \\dontrun{} tags unless the code actually takes a l
     if (sum(grepl(exceptions_collapsed, test_file)) == 0) {
       
       hits <- base::grep("\\\\dontrun\\{", base::readLines(test_file, warn = FALSE))
+      
+      if (length(hits) > 0) {
+        
+        tmp <- data.frame("line" = hits)
+        tmp[["file"]] <- test_file
+        CRAN_incompabilities <- base::rbind(CRAN_incompabilities, tmp)
+        
+      }
+    }
+  }
+  
+  if (base::nrow(CRAN_incompabilities) > 0) { print(CRAN_incompabilities) }
+  
+  testthat::expect_true(base::nrow(CRAN_incompabilities) == 0)
+  
+})
+
+testthat::test_that("T1.5 The use of 'options()' is immediately preemptively reverted.",{
+  
+  test_files <- get_visR_files(functions = TRUE,
+                               tests = TRUE,
+                               documentation = TRUE,
+                               vignettes = TRUE)
+  
+  # List of files in which we don't expect a return value.
+  exceptions <- list("Time_to_event_analysis.Rmd",
+                     "CDISC_ADaM.Rmd")
+  exceptions_collapsed <- paste(exceptions, collapse = "|")
+  
+  CRAN_incompabilities <- data.frame()
+  
+  for (test_file in test_files) {
+    
+    if (sum(grepl(exceptions_collapsed, test_file)) == 0) {
+      
+      hits <- base::grep("[\\n\\r\\s]options\\(", base::readLines(test_file, warn = FALSE))
       
       if (length(hits) > 0) {
         
