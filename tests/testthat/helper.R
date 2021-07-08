@@ -43,6 +43,79 @@ map_numbers_to_new_range <- function(numbers, lower, upper) {
   
 }
 
+#' A helper function to get all files in the ~/R/ folder
+#' @keywords internal
+
+get_files_in_R_folder <- function() {
+  
+  R_files <- base::list.files(path = base::paste0(base::getwd(), "/../../R"), 
+                                pattern = "*.R", 
+                                full.names = TRUE)
+  
+  return(unlist(R_files))
+  
+}
+
+#' A helper function to get all files in the ~/tests/testthat/ folder
+#' @keywords internal
+
+get_files_in_test_folder <- function() {
+  
+  test_files <- base::list.files(path = base::getwd(), 
+                                 pattern = "*.R", 
+                                 full.names = TRUE)
+  
+  return(unlist(test_files))
+  
+}
+
+#' A helper function to get all files in the ~/man/ folder
+#' @keywords internal
+
+get_files_in_man_folder <- function() {
+  
+  man_files <- base::list.files(path = base::paste0(base::getwd(), "/../../man"), 
+                                pattern = "*.Rd", 
+                                full.names = TRUE)
+  
+  return(unlist(man_files))
+  
+}
+
+#' A helper function to get all files in the ~/vignettes/ folder
+#' @keywords internal
+
+get_files_in_vignettes_folder <- function() {
+  
+  vignette_files <- base::list.files(path = base::paste0(base::getwd(), "/../../vignettes"), 
+                                     pattern = "*.Rmd", 
+                                     full.names = TRUE)
+  
+  return(unlist(vignette_files))
+  
+}
+
+#' A helper function to conditionally retrieve files of the package
+#' @keywords internal
+
+get_visR_files <- function(functions = FALSE,
+                           tests = FALSE,
+                           documentation = FALSE,
+                           vignettes = FALSE,
+                           remove_watchdog = TRUE) {
+  
+  files <- list()
+  
+  if (functions)     {files <- c(files, get_files_in_R_folder())}
+  if (tests)         {files <- c(files, get_files_in_test_folder())}
+  if (documentation) {files <- c(files, get_files_in_man_folder())}
+  if (vignettes)     {files <- c(files, get_files_in_vignettes_folder())}
+  
+  if (remove_watchdog) {files <- files[!grepl("test-CRAN_watchdog.R", files)] }
+  
+  return(unlist(files))
+  
+}
 
 # get_pvalue - Results to compare against ---------------------------------
 
