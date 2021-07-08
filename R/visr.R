@@ -269,6 +269,10 @@ visr.survfit <- function(
     
     if (!is.null(x_units)) { x_label = paste0(x_label, " (", x_units, ")") }
     
+  } else {
+    
+    if (!is.null(x_units)) { x_label = paste0(x_label, " (", x_units, ")") }
+    
   }
   
   if (is.null(x_ticks)) x_ticks = pretty(x$time, 10)
