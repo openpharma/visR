@@ -30,8 +30,7 @@ jobs:
         shell: Rscript {0}
       - name: Render README
         run: |
-          RMD_PATH=$(git diff-tree --no-commit-id --name-only -r ${{ github.event.push.ref }} | grep '[.]Rmd$' | head -n 1)
-          Rscript -e 'rmarkdown::render(commandArgs(TRUE))' ${RMD_PATH}
+          Rscript -e 'rmarkdown::render("README.Rmd")'
       - name: Commit results
         run: |
           git config --local user.email "actions@github.com"
