@@ -171,7 +171,7 @@ local_repo %>%
   theme_minimal() +
   labs(
     title = "Uptake in new contributors to visR",
-    subtitle = "Based on recorded unique git email addresses",
+    subtitle = "Based email addresse used with git commit",
     y = "Contributors",
     x = "Date"
   ) + theme(legend.position = "none")
