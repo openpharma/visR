@@ -24,6 +24,7 @@ jobs:
           remotes::install_cran("dplyr")
           remotes::install_cran("ggplot2")
           remotes::install_cran("glue")
+          remotes::install_cran("vdiffr")
           remotes::install_github("lorenzwalthert/gitsum")
           remotes::install_github("pharmaR/riskmetric")
           install.packages("ggthemes")
