@@ -158,7 +158,6 @@ local_repo <- parse_log_detailed()
 ```
 
 ```{r plotcontriuptake, echo=FALSE, warning=FALSE, message = FALSE}
-
 # plot
 local_repo %>%
   arrange(
