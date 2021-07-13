@@ -4,7 +4,7 @@
 #' @section Last update date:
 #' 27-MAY-2021
 
-# Specifications ----------------------------------------------------------
+# Specifications ---------------------------------------------------------------
 
 #' T1. visR::visr() only accepts `survfit` or `attrition`.
 #' T1.1 No error when applied to a `survfit` object.
@@ -18,14 +18,22 @@
 #' T2.5 No error when `y_ticks` is `NULL` or a `numeric` value.
 #' T2.6 No error when a valid option is passed to `legend_position`.
 #' T2.7 An error when `x_label` is not `NULL`, a `character` string or an `expression`.
-#' T2.8 When `x_label` is `NULL` and the `survfit` object doesn't have a `PARAM` column, the `x_label` is set to "time".
-#' T2.9 An error when `y_label` is not `NULL`, a `character` string or an `expression`.
-#' T2.10 An error when `x_units` is not `NULL` or a `character` string.
-#' T2.11 An error when `x_ticks` is not `NULL` or a `numeric`.
-#' T2.12 An error when `y_ticks` is not `NULL` or a `numeric`.
-#' T2.13 No error when a valid option is passed to `legend_position`.
-#' T2.14 An error when the string is not amongst the valid options for `legend_position`.
-#' T2.15 An error when an undefined option is passed to `legend_position`.
+#' T2.8 No warning when `x_label` is `NULL` and the `survfit` object has a `PARAM` and a `PARAMCD` column.
+#' T2.9 No warning when `x_label` is `NULL` and the `survfit` object has a `PARAM` but no `PARAMCD` column.
+#' T2.10 No warning when `x_label` is `NULL` and the `survfit` object has no `PARAM` but a `PARAMCD` column.
+#' T2.11 A warning when `x_label` is `NULL` and the `survfit` object has no `PARAM` and no `PARAMCD` column.
+#' T2.12 When `x_label` is `NULL` and the `survfit` object does have a `PARAM` column, the `x_label` is set to `PARAM`.
+#' T2.13 When `x_label` is `NULL` and the `survfit` object does not have a `PARAM` but a `PARAMCD` column, the `x_label` is set to `PARAMCD`.
+#' T2.14 When `x_label` is `NULL` and the `survfit` object does have a `PARAM` but no `PARAMCD` column, the `x_label` is set to `PARAM`.
+#' T2.15 When `x_label` is `NULL` and the `survfit` object does not have a `PARAM` or `PARAMCD` column, the `x_label` is `NULL`.
+#' T2.16 When `x_label` and `x_unit` are both defined, they are concatenated into the final `x_label`.
+#' T2.17 An error when `y_label` is not `NULL`, a `character` string or an `expression`.
+#' T2.18 An error when `x_units` is not `NULL` or a `character` string.
+#' T2.19 An error when `x_ticks` is not `NULL` or a `numeric`.
+#' T2.20 An error when `y_ticks` is not `NULL` or a `numeric`.
+#' T2.21 No error when a valid option is passed to `legend_position`.
+#' T2.22 An error when the string is not amongst the valid options for `legend_position`.
+#' T2.23 An error when an undefined option is passed to `legend_position`.
 #' T3. The y-axis properties are correctly deducted from the provided `fun` when applying `visR::visr()` to a `survfit` object.
 #' T3.1 No error when `y_label` is `NULL` and `fun` is one of the valid string options.
 #' T3.2 An error when `y_label` is `NULL`, `fun` is a string but not one of the valid options.
@@ -33,7 +41,8 @@
 #' T3.4 An error when `y_label` is `NULL` and `fun` is a function.
 #' T3.5 A warning when the provided function causes undefined values, f.e. log(-log(2)).
 #' T3.6 An error when `fun` is neither a `character` string nor a function.
-#' T4. Invalid parameters are captured when applying `visR::visr()` to an `attrition` object and respective warnings/errors are thrown.#' T4.1 No error when `description_column_name` is a `character` string that is found in the colnames of the `attrition` object.
+#' T4. Invalid parameters are captured when applying `visR::visr()` to an `attrition` object and respective warnings/errors are thrown.
+#' T4.1 No error when `description_column_name` is a `character` string that is found in the colnames of the `attrition` object.
 #' T4.2 No error when `value_column_name` is a `character` string that is found in the colnames of the `attrition` object.
 #' T4.3 No error when `complement_column_name` is a `character` string that is found in the colnames of the `attrition` object.
 #' T4.4 No error when `box_width` is a `numeric` value.
@@ -53,7 +62,7 @@
 #' T4.18 An error when `border` is a `character` string but not a valid colour.
 #' T4.19 An error when `border` is not a `character` string.
 
-# Requirement T1 ----------------------------------------------------------
+# Requirement T1 ---------------------------------------------------------------
 
 testthat::context("visr_plot - T1. visR::visr() only accepts `survfit` or `attrition`.")
 
@@ -100,7 +109,7 @@ testthat::test_that("T1.3 An error when applied to an object that is not `survfi
   
 })
 
-# Requirement T2 ----------------------------------------------------------
+# Requirement T2 ---------------------------------------------------------------
 
 testthat::context("visr_plot - T2. Invalid parameters are captured when applying `visR::visr()` to a `survfit` object and respective warnings/errors are thrown.")
 
@@ -192,22 +201,104 @@ testthat::test_that("T2.7 An error when `x_label` is not `NULL`, a `character` s
   
 })
 
-testthat::test_that("T2.8 When `x_label` is `NULL` and the `survfit` object doesn't have a `PARAM` column, the `x_label` is set to \"time\".", {
+testthat::test_that("T2.8 No warning when `x_label` is `NULL` and the `survfit` object has a `PARAM` and a `PARAMCD` column.", {
   
   survfit_object <- adtte %>%
     visR::estimate_KM("SEX") 
   
-  names(survfit_object)[which(names(survfit_object) == "PARAM")] <- "visR"
-  
-  gg <- survfit_object %>% visR::visr(y_label = NULL)
-  
-  ggb <- ggplot2::ggplot_build(gg)
-  
-  testthat::expect_true("time" %in% ggb$layout$panel_params[[1]]$x$name)
+  testthat::expect_warning(survfit_object %>% visR::visr(x_label = NULL), NA)
   
 })
 
-testthat::test_that("T2.9 An error when `y_label` is not `NULL`, a `character` string or an `expression`.", {
+testthat::test_that("T2.9 No warning when `x_label` is `NULL` and the `survfit` object has a `PARAM` but no `PARAMCD` column.", {
+  
+  survfit_object <- adtte %>%
+    dplyr::select(-PARAMCD) %>%
+    visR::estimate_KM("SEX") 
+  
+  testthat::expect_warning(survfit_object %>% visR::visr(x_label = NULL), NA)
+  
+})
+
+testthat::test_that("T2.10 No warning when `x_label` is `NULL` and the `survfit` object has no `PARAM` but a `PARAMCD` column.", {
+  
+  survfit_object <- adtte %>%
+    dplyr::select(-PARAM) %>%
+    visR::estimate_KM("SEX") 
+  
+  testthat::expect_warning(survfit_object %>% visR::visr(x_label = NULL), NA)
+  
+})
+
+testthat::test_that("T2.11 A warning when `x_label` is `NULL` and the `survfit` object has no `PARAM` and no `PARAMCD` column.", {
+  
+  survfit_object <- adtte %>%
+    dplyr::select(-c(PARAM, PARAMCD)) %>%
+    visR::estimate_KM("SEX") 
+  
+  testthat::expect_warning(survfit_object %>% visR::visr(x_label = NULL))
+  
+})
+
+testthat::test_that("T2.12 When `x_label` is `NULL` and the `survfit` object does have a `PARAM` column, the `x_label` is set to `PARAM`.", {
+  
+  survfit_object <- adtte %>%
+    visR::estimate_KM("SEX") 
+  
+  gg <- survfit_object %>% visR::visr(x_label = NULL)
+  
+  testthat::expect_true("Time to First Dermatologic Event" %in% gg$labels$x)
+  
+})
+
+testthat::test_that("T2.13 When `x_label` is `NULL` and the `survfit` object does not have a `PARAM` but a `PARAMCD` column, the `x_label` is set to `PARAMCD`.", {
+  
+  survfit_object <- adtte %>%
+    dplyr::select(-PARAM) %>%
+    visR::estimate_KM("SEX") 
+  
+  gg <- survfit_object %>% visR::visr(x_label = NULL)
+  
+  testthat::expect_true("TTDE" %in% gg$labels$x)
+  
+})
+
+testthat::test_that("T2.14 When `x_label` is `NULL` and the `survfit` object does have a `PARAM` but no `PARAMCD` column, the `x_label` is set to `PARAM`.", {
+  
+  survfit_object <- adtte %>%
+    dplyr::select(-PARAMCD) %>%
+    visR::estimate_KM("SEX") 
+  
+  gg <- survfit_object %>% visR::visr(x_label = NULL)
+  
+  testthat::expect_true("Time to First Dermatologic Event" %in% gg$labels$x)
+  
+})
+
+testthat::test_that("T2.15 When `x_label` is `NULL` and the `survfit` object does not have a `PARAM` or `PARAMCD` column, the `x_label` is `NULL`.", {
+  
+  survfit_object <- adtte %>%
+    dplyr::select(-c(PARAM, PARAMCD)) %>%
+    visR::estimate_KM("SEX") 
+  
+  suppressWarnings(gg <- survfit_object %>% visR::visr(x_label = NULL))
+  
+  testthat::expect_true(is.null(gg$labels$x))
+  
+})
+
+testthat::test_that("T2.16 When `x_label` and `x_unit` are both defined, they are concatenated into the final `x_label`.", {
+  
+  survfit_object <- adtte %>%
+    visR::estimate_KM("SEX") 
+  
+  gg <- survfit_object %>% visR::visr(x_label = "visR", x_unit = "Rsiv")
+  
+  testthat::expect_equal(gg$labels$x, "visR (Rsiv)")
+  
+})
+
+testthat::test_that("T2.17 An error when `y_label` is not `NULL`, a `character` string or an `expression`.", {
   
   survfit_object <- adtte %>%
     visR::estimate_KM("SEX") 
@@ -220,7 +311,7 @@ testthat::test_that("T2.9 An error when `y_label` is not `NULL`, a `character` s
   
 })
 
-testthat::test_that("T2.10 An error when `x_units` is not `NULL` or a `character` string.", {
+testthat::test_that("T2.18 An error when `x_units` is not `NULL` or a `character` string.", {
   
   survfit_object <- adtte %>%
     visR::estimate_KM("SEX") 
@@ -233,7 +324,7 @@ testthat::test_that("T2.10 An error when `x_units` is not `NULL` or a `character
   
 })
 
-testthat::test_that("T2.11 An error when `x_ticks` is not `NULL` or a `numeric`.", {
+testthat::test_that("T2.19 An error when `x_ticks` is not `NULL` or a `numeric`.", {
   
   survfit_object <- adtte %>%
     visR::estimate_KM("SEX") 
@@ -246,7 +337,7 @@ testthat::test_that("T2.11 An error when `x_ticks` is not `NULL` or a `numeric`.
   
 })
 
-testthat::test_that("T2.12 An error when `y_ticks` is not `NULL` or a `numeric`.", {
+testthat::test_that("T2.20 An error when `y_ticks` is not `NULL` or a `numeric`.", {
   
   survfit_object <- adtte %>%
     visR::estimate_KM("SEX") 
@@ -259,7 +350,7 @@ testthat::test_that("T2.12 An error when `y_ticks` is not `NULL` or a `numeric`.
   
 })
 
-testthat::test_that("T2.13 No error when a valid option is passed to `legend_position`.", {
+testthat::test_that("T2.21 No error when a valid option is passed to `legend_position`.", {
   
   survfit_object <- adtte %>%
     visR::estimate_KM("SEX") 
@@ -273,7 +364,7 @@ testthat::test_that("T2.13 No error when a valid option is passed to `legend_pos
   
 })
 
-testthat::test_that("T2.14 An error when the string is not amongst the valid options for `legend_position`.", {
+testthat::test_that("T2.22 An error when the string is not amongst the valid options for `legend_position`.", {
   
   survfit_object <- adtte %>%
     visR::estimate_KM("SEX") 
@@ -282,7 +373,7 @@ testthat::test_that("T2.14 An error when the string is not amongst the valid opt
   
 })
 
-testthat::test_that("T2.15 An error when an undefined option is passed to `legend_position`.", {
+testthat::test_that("T2.23 An error when an undefined option is passed to `legend_position`.", {
   
   survfit_object <- adtte %>%
     visR::estimate_KM("SEX") 
@@ -332,7 +423,7 @@ testthat::test_that("T2.15 An error when an undefined option is passed to `legen
   
 })
 
-# Requirement T3 ----------------------------------------------------------
+# Requirement T3 ---------------------------------------------------------------
 
 testthat::context("visr_plot - T3. The y-axis properties are correctly deducted from the provided `fun` when applying `visR::visr()` to a `survfit` object.")
 
@@ -400,7 +491,7 @@ testthat::test_that("T3.6 An error when `fun` is neither a `character` string no
   
 })
 
-# Requirement T4 ----------------------------------------------------------
+# Requirement T4 ---------------------------------------------------------------
 
 testthat::context("visr_plot - T4. Invalid parameters are captured when applying `visR::visr()` to an `attrition` object and respective warnings/errors are thrown.")
 
@@ -790,4 +881,4 @@ testthat::test_that("T4.19 An error when `border` is not a `character` string.",
   
 })
 
-# END ---------------------------------------------------------------------
+# END --------------------------------------------------------------------------
