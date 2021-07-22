@@ -1,7 +1,6 @@
 #' @title Specifications utils_general
 #' @section Last updated by: Tim Treis
-#' @section Last update date:
-#' 21-JULY-2021
+#' @section Last update date: 21-JULY-2021
 
 # Specifications ---------------------------------------------------------------
 

@@ -1,0 +1,122 @@
+#' @title Specifications tableone
+#' @section Last updated by: Tim Treis
+#' @section Last update date: 22-JULY-2021
+
+# Specifications ---------------------------------------------------------------
+
+#' T1. The function accepts a `data.frame` `tibble` or `data.table`
+#' T1.1 No error when `data` is a data.frame
+
+
+
+# Requirement T1 ---------------------------------------------------------------
+
+context("tableone - T1. The function accepts a `data.frame` as the main `data` object.")
+
+testthat::test_that("T1.1 No error when `data` is of class `data.frame`.", {
+  
+  adtte %>%
+    visR::tableone(title = NULL, datasource = NULL) %>%
+    testthat::expect_error(NA)
+  
+})
+
+testthat::test_that("T1.2 An error when `data` is not of class `data.frame`.", {
+  
+  1 %>%
+    visR::tableone(title = NULL, datasource = NULL) %>%
+    testthat::expect_error()
+  
+  "visR" %>%
+    visR::tableone(title = NULL, datasource = NULL) %>%
+    testthat::expect_error()
+  
+  c(1, 2, 3) %>%
+    visR::tableone(title = NULL, datasource = NULL) %>%
+    testthat::expect_error()
+  
+  NULL %>%
+    visR::tableone(title = NULL, datasource = NULL) %>%
+    testthat::expect_error()
+  
+})
+
+context("tableone - T2. The function accepts additional parameters.")
+
+testthat::test_that("T2.1 No error when `title` is not `NULL`.", {
+  
+  adtte %>%
+    visR::tableone(title = 1, datasource = NULL) %>%
+    testthat::expect_error(NA)
+  
+  adtte %>%
+    visR::tableone(title = "visR", datasource = NULL) %>%
+    testthat::expect_error(NA)
+  
+  adtte %>%
+    visR::tableone(title = c(1, 2, 3), datasource = NULL) %>%
+    testthat::expect_error(NA)
+  
+})
+
+testthat::test_that("T1.2 No error when `datasource` is not `NULL`.", {
+  
+  adtte %>%
+    visR::tableone(title = NULL, datasource = 1) %>%
+    testthat::expect_error(NA)
+  
+  adtte %>%
+    visR::tableone(title = NULL, datasource = "visR") %>%
+    testthat::expect_error(NA)
+  
+  adtte %>%
+    visR::tableone(title = NULL, datasource = c(1, 2, 3)) %>%
+    testthat::expect_error(NA)
+  
+})
+
+testthat::test_that("T1.3 No error when `footnote` is not `NULL`.", {
+  
+  adtte %>%
+    visR::tableone(title = NULL, datasource = NULL, footnote = 1) %>%
+    testthat::expect_error(NA)
+  
+  adtte %>%
+    visR::tableone(title = NULL, datasource = NULL, footnote = "visR") %>%
+    testthat::expect_error(NA)
+  
+  adtte %>%
+    visR::tableone(title = NULL, datasource = NULL, footnote = c(1, 2, 3)) %>%
+    testthat::expect_error(NA)
+  
+})
+
+testthat::test_that("T1.4 No error when `strata` is not `NULL`.", {
+  
+  adtte %>%
+    visR::tableone(title = NULL, datasource = NULL, strata = "SEX") %>%
+    testthat::expect_error(NA)
+  
+})
+
+testthat::test_that("T1.5 No error when `overall` is a `logical`.", {
+  
+  adtte %>%
+    visR::tableone(title = NULL, datasource = NULL, overall = TRUE) %>%
+    testthat::expect_error()
+  
+  adtte %>%
+    visR::tableone(title = NULL, datasource = NULL, overall = FALSE) %>%
+    testthat::expect_error()
+  
+})
+
+testthat::test_that("T1.6 An error when `overall` is not a `logical`.", {
+  
+  adtte %>%
+    visR::tableone(title = NULL, datasource = NULL, overall = "visR") %>%
+    testthat::expect_error()
+  
+})
+
+# END --------------------------------------------------------------------------
