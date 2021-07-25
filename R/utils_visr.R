@@ -23,13 +23,13 @@
 #' ## default alignment does not take into account legend size
 #' cowplot::plot_grid(plotlist = list(p1,p2), align = "none", nrow=2)
 #'
-#' ## Alignplots takes into account legend width
-#' cowplot::plot_grid(plotlist = AlignPlots(pltlist = list(p1, p2)), align = "none", nrow=2)
+#' ## align_plots() takes into account legend width
+#' cowplot::plot_grid(plotlist = align_plots(pltlist = list(p1, p2)), align = "none", nrow=2)
 #' }
 #' @export
 
 
-AlignPlots <- function(pltlist = NULL) {
+align_plots <- function(pltlist = NULL) {
   .LegendWidth <- function(x)
     x$grobs[[8]]$grobs[[1]]$widths[[4]]
 
