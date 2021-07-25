@@ -29,7 +29,23 @@
 #' @export
 
 
-align_plots <- function(pltlist = NULL) {
+align_plots <- function(pltlist) {
+  
+  if (missing(pltlist) | is.null(pltlist)) {
+    
+    base::stop("Please provide a list of valid `ggplot` objects.")
+    
+  } 
+  
+  for (plt in pltlist) {
+    
+    if (!("ggplot" %in% class(plt))) {
+      
+      base::stop("Not all elements of the provided list are `ggplot` objects.")
+      
+    }
+  }
+  
   .LegendWidth <- function(x)
     x$grobs[[8]]$grobs[[1]]$widths[[4]]
 
