@@ -4,10 +4,17 @@
 
 # Specifications ---------------------------------------------------------------
 
-#' T1. The function accepts a `data.frame` `tibble` or `data.table`
-#' T1.1 No error when `data` is a data.frame
+#' T1. The function accepts a `data.frame` as the main `data` object.
+#' T1.1 No error when `data` is of class `data.frame`.
+#' T1.2 An error when `data` is not of class `data.frame`.
 
-
+#' T2. The function accepts additional parameters.
+#' T2.1 No error when `title` is not `NULL`.
+#' T2.2 No error when `datasource` is not `NULL`.
+#' T2.3 No error when `footnote` is not `NULL`.
+#' T2.4 No error when `strata` is not `NULL`.
+#' T2.5 No error when `overall` is a `logical`.
+#' T2.6 An error when `overall` is not a `logical`.
 
 # Requirement T1 ---------------------------------------------------------------
 
@@ -59,7 +66,7 @@ testthat::test_that("T2.1 No error when `title` is not `NULL`.", {
   
 })
 
-testthat::test_that("T1.2 No error when `datasource` is not `NULL`.", {
+testthat::test_that("T2.2 No error when `datasource` is not `NULL`.", {
   
   adtte %>%
     visR::tableone(title = NULL, datasource = 1) %>%
@@ -75,7 +82,7 @@ testthat::test_that("T1.2 No error when `datasource` is not `NULL`.", {
   
 })
 
-testthat::test_that("T1.3 No error when `footnote` is not `NULL`.", {
+testthat::test_that("T2.3 No error when `footnote` is not `NULL`.", {
   
   adtte %>%
     visR::tableone(title = NULL, datasource = NULL, footnote = 1) %>%
@@ -91,7 +98,7 @@ testthat::test_that("T1.3 No error when `footnote` is not `NULL`.", {
   
 })
 
-testthat::test_that("T1.4 No error when `strata` is not `NULL`.", {
+testthat::test_that("T2.4 No error when `strata` is not `NULL`.", {
   
   adtte %>%
     visR::tableone(title = NULL, datasource = NULL, strata = "SEX") %>%
@@ -99,7 +106,7 @@ testthat::test_that("T1.4 No error when `strata` is not `NULL`.", {
   
 })
 
-testthat::test_that("T1.5 No error when `overall` is a `logical`.", {
+testthat::test_that("T2.5 No error when `overall` is a `logical`.", {
   
   adtte %>%
     visR::tableone(title = NULL, datasource = NULL, overall = TRUE) %>%
@@ -111,7 +118,7 @@ testthat::test_that("T1.5 No error when `overall` is a `logical`.", {
   
 })
 
-testthat::test_that("T1.6 An error when `overall` is not a `logical`.", {
+testthat::test_that("T2.6 An error when `overall` is not a `logical`.", {
   
   adtte %>%
     visR::tableone(title = NULL, datasource = NULL, overall = "visR") %>%
