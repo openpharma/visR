@@ -7,7 +7,6 @@
 #' T1. The function accepts a `data.frame` as the main `data` object.
 #' T1.1 No error when `data` is of class `data.frame`.
 #' T1.2 An error when `data` is not of class `data.frame`.
-
 #' T2. The function accepts additional parameters.
 #' T2.1 No error when `title` is not `NULL`.
 #' T2.2 No error when `datasource` is not `NULL`.
