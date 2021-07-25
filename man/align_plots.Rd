@@ -4,7 +4,7 @@
 \alias{align_plots}
 \title{Align multiple ggplot graphs, taking into account the legend}
 \usage{
-align_plots(pltlist = NULL)
+align_plots(pltlist)
 }
 \arguments{
 \item{pltlist}{A list of plots (TODO: provide more detail)}

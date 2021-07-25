@@ -53,10 +53,10 @@ align_plots <- function(pltlist) {
   max.widths <-
     do.call(grid::unit.pmax, lapply(plots.grobs, "[[", "widths"))
   legends.widths <- lapply(plots.grobs, .LegendWidth)
-
+  
   max.legends.width <-
     base::suppressWarnings(do.call(max, legends.widths))
-
+  
   plots.grobs.eq.widths <- lapply(plots.grobs, function(x) {
     x$widths <- max.widths
     x
