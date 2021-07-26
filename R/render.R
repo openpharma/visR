@@ -37,9 +37,55 @@ render.tableone <- function(
   title,
   datasource,
   footnote = "",
-  output_format="html",
-  engine="gt",
-  download_format = c('copy', 'csv', 'excel')){
+  output_format = "html",
+  engine = "gt",
+  download_format = NULL){
+  
+  if (!("tableone" %in% class(data))) {
+    
+    stop("Please provide a valid `tableone` object.")
+    
+  }
+  
+  if (!(output_format %in% c("html", "latex"))) {
+    
+    if (output_format == "latex" & engine != "gt") {
+      
+      stop("Currently, 'latex' output is only implemented with 'gt' as a table engine.")
+      
+    }
+    
+    stop("Invalid output_format. Currently, 'html' and 'latex' are supported.")
+    
+  }
+  
+  download_formats <- c()
+  
+  if (engine %in% c("dt", "datatable", "datatables")) {
+    
+    if ("copy" %in% download_format)  { download_formats <- c(download_formats, "copy") }
+    if ("csv" %in% download_format)   { download_formats <- c(download_formats, "csv") }
+    if ("excel" %in% download_format) { download_formats <- c(download_formats, "excel") }
+    
+    for (f in download_format) {
+      
+      if (!(is.null(f)) & !(f %in% c("copy", "csv", "excel"))) {
+        
+        warning("Currently, only 'copy', 'csv' and 'excel' are supported as 'download_format'.")
+        
+      }
+      
+    }
+    
+  } else {
+    
+    if (!is.null(download_format)) {
+      
+      warning("Currently, 'download_format' is only supported for the following engines: dt, datatable, datatables.")
+      
+    }
+    
+  }
   
   if(!("risktable" %in% class(data))){
     sample <- data[data$variable == "Sample", ]
