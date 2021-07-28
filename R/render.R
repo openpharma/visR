@@ -39,11 +39,23 @@ render.tableone <- function(
   footnote = "",
   output_format = "html",
   engine = "gt",
-  download_format = NULL){
+  download_format = NULL) {
   
   if (!("tableone" %in% class(data))) {
     
     stop("Please provide a valid `tableone` object.")
+    
+  }
+  
+  if (missing(title)) {
+    
+    stop("Please provide a valid `title`.")
+    
+  }
+  
+  if (missing(datasource)) {
+    
+    stop("Please provide a valid `datasource`.")
     
   }
   
@@ -88,6 +100,7 @@ render.tableone <- function(
   }
   
   if(!("risktable" %in% class(data))){
+    
     sample <- data[data$variable == "Sample", ]
     sample <- sample[3:length(sample)]
     sample_names = colnames(sample)
@@ -97,9 +110,16 @@ render.tableone <- function(
     })
     colnames(data) <- c(colnames(data)[1:2], new_sample_names)
     data <- data[data$variable != "Sample", ]
+    
   }
   
-  render.data.frame(data=data, title=title, datasource=datasource, footnote=footnote, output_format=output_format, engine=engine, download_format=download_format)
+  render.data.frame(data, 
+                    title, 
+                    datasource, 
+                    footnote, 
+                    output_format, 
+                    engine, 
+                    download_format)
 }
 
 #' @param data The dataframe or tibble to visualise
@@ -121,29 +141,62 @@ render.risktable <- function(
   title,
   datasource,
   footnote = "",
-  output_format="html",
-  engine="gt",
-  download_format = c('copy', 'csv', 'excel')){
+  output_format = "html",
+  engine = "gt",
+  download_format = NULL) {
+  
+  if (!("risktable" %in% class(data))) {
+    
+    stop("Please provide a valid `risktable` object.")
+    
+  } else {
+    
+    # Many tidyr operations don't work on non-standard class objects. Therefore,
+    # we remove the class and add it back later.
+    class(data) <- class(data)[class(data) != "risktable"]
+    
+  }
+  
+  if (missing(title)) {
+    
+    stop("Please provide a valid `title`.")
+    
+  }
+  
+  if (missing(datasource)) {
+    
+    stop("Please provide a valid `datasource`.")
+    
+  }
   
   strata <- colnames(data)[3:ncol(data)]
+  
   if (!is.null(attributes(data)$title) & length(attributes(data)$title) == length(strata)){
-    data <- data %>% rename_at(vars(strata), ~ attributes(data)$title)
+    
+    data <- data %>% dplyr::rename_at(dplyr::vars(strata), ~ attributes(data)$title)
     strata <- colnames(data)[3:ncol(data)]  
+    
   }
+  
   y_lables <- unique(data$y_values)
   coln <- colnames(data)[1:2]
   complete_tab <- c()
-  for (s in strata){
-    tab <- 
-      data[c(coln, s)] %>%
+  
+  for (s in strata) {
+    
+    tab <- data[c(coln, s)] %>% 
       tidyr::pivot_wider(names_from = "time", values_from=s)
     tab$variable <- s
     complete_tab <- rbind(complete_tab, tab)
+    
   }
+  
   colnames(complete_tab) <- c("statistic", colnames(tab)[2:ncol(tab)])
   class(complete_tab) <- c("tableone", class(complete_tab))
   class(complete_tab) <- c("risktable", class(complete_tab))
-  complete_tab <- complete_tab %>% select(variable, statistic, everything())
+  complete_tab <- complete_tab %>% 
+    dplyr::select(variable, statistic, dplyr::everything())
+  
   render.tableone(complete_tab,
                   title,
                   datasource,
