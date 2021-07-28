@@ -46,7 +46,7 @@
 
 # Requirement T1 ----------------------------------------------------------
 
-context("get_risktable.survfit - T1. The function accepts a `survfit` object")
+testthat::context("get_risktable.survfit - T1. The function accepts a `survfit` object")
 
 testthat::test_that("T1.1. No error when a `survfit` object is passed to the function",{
 
@@ -66,7 +66,7 @@ testthat::test_that("TT1.2 An error when a non-`survfit` object is passed to the
 
 # Requirement T2 ----------------------------------------------------------
 
-context("get_risktable.survfit - T2. The function accepts an argument that specifies the time at which the risk set is calculated")
+testthat::context("get_risktable.survfit - T2. The function accepts an argument that specifies the time at which the risk set is calculated")
 
 testthat::test_that("T2.1 An error when the times specified are negative",{
 
@@ -95,7 +95,7 @@ testthat::test_that("T2.3 The function proposes 11 times which are equally space
 
 # Requirement T3 ----------------------------------------------------------
 
-context("get_risktable.survfit - T3. The function accepts a `statlist` to be displayed for which labels can be specified")
+testthat::context("get_risktable.survfit - T3. The function accepts a `statlist` to be displayed for which labels can be specified")
 
 testthat::test_that("T3.1 No error when the `statlist` contains allowed strings",{
 
@@ -138,7 +138,7 @@ testthat::test_that("T3.6 No error when the `label` is a factor",{
 
 # Requirement T4 ----------------------------------------------------------
 
-context("get_risktable.survfit - T4. The function matches the length of the `label` vector with that of the `statlist` vector")
+testthat::context("get_risktable.survfit - T4. The function matches the length of the `label` vector with that of the `statlist` vector")
 
 testthat::test_that("T4.1 The function supplies defaults to increase the length of the `label` vector to same length as the `statlist` vector",{
 
@@ -164,7 +164,7 @@ testthat::test_that("T4.3 The function limits the length of the `label` vector t
 
 # Requirement T5 ----------------------------------------------------------
 
-context("get_risktable.survfit - T5. The function groups the calculation by strata, by statlist or overall")
+testthat::context("get_risktable.survfit - T5. The function groups the calculation by strata, by statlist or overall")
 
 testthat::test_that("T5.1 An error when the `group` argument is not equal to `strata` or `statlist`",{
 
@@ -222,12 +222,14 @@ testthat::test_that("T5.7 The calculations are in agreement with what is expecte
   stringsAsFactors = FALSE,
   check.names = FALSE)
   
+  class(risktable_ref) <- c(class(risktable_ref), "risktable")
+  
   testthat::expect_equal(risktable_visR, risktable_ref)
 })
 
 # Requirement T6 ----------------------------------------------------------
 
-context("get_risktable.survfit - T6. The function allows the calculations to be grouped overall ")
+testthat::context("get_risktable.survfit - T6. The function allows the calculations to be grouped overall ")
 
 testthat::test_that("T6.1 An error when the argument collapse is not boolean",{
 
@@ -272,6 +274,8 @@ testthat::test_that("T6.4 The calculations are in agreement with expectations wh
   stringsAsFactors = FALSE,
   check.names = FALSE)
   
+  class(risktable_ref) <- c(class(risktable_ref), "risktable")
+  
   testthat::expect_equal(risktable_visR, risktable_ref)
 })
 
@@ -284,7 +288,7 @@ testthat::test_that("T6.5 No error when there is only one strata available and c
 
 # Requirement T7 ----------------------------------------------------------
 
-context("get_risktable.survfit - T7. The output dataset is a data.frame with attributes for downstream processing")
+testthat::context("get_risktable.survfit - T7. The output dataset is a data.frame with attributes for downstream processing")
 
 testthat::test_that("T7.1 The output dataset is a data.frame",{
 
