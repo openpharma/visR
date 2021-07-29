@@ -404,15 +404,19 @@ add_metadata_gt <- function(gt, title, datasource, footnote){
 }
 
 ### Check if the input works
-check_rendering_input <- function(output_format, engine){
+check_rendering_input <- function(output_format = NULL, engine = NULL){
+  
+  if (missing(output_format) | is.null(output_format) | missing(engine) | is.null(engine)) {
+    stop("Please provide an output_format and an engine.")
+  }
   
   # stop if output format is not supported
-  if(!tolower(output_format) %in% c("html", "latex")){ #"rtf",
+  if (!tolower(output_format) %in% c("html", "latex")) { #"rtf",
     stop(paste("Currently supported output formats are html and latex.", output_format, "is not yet supported."))
   }
   
   # stop if engine format is not supported
-  if(!tolower(engine) %in% c("kable", "gt", "dt", "datatables", "datatable")){
+  if (!tolower(engine) %in% c("kable", "gt", "dt", "datatables", "datatable")) {
     stop(paste("Currently implemented output engines are kable, gt and jquery datatables (DT).", engine, "is not yet supported."))
   }
 }

@@ -39,10 +39,23 @@
 #' T2.14 A warning when `output_format` is 'latex' and `engine` is 'dt', 'datatable' or 'datatables'.
 #' T2.15 No error when `engine` is in ['dt', 'datatable', 'datatables'] and download_format` is in ['copy', 'csv', 'excel'].
 #' T2.16 A warning when `engine` is not in ['dt', 'datatable', 'datatables'] and download_format` is in ['copy', 'csv', 'excel'].
+#' T2.17 The metric of the risktable is used in the rendered table.
+#' T2.18 The strata-colnames of the `risktable` object are used as rownames.
+#' T2.19 The values of the evalutated metric are pivoted wide.
+
+#' T3. The function `render.data.frame()` properly renders a `data.frame` object.
+#' 
+#' T4. The function `check_rendering_input()` only permits valid `output_format` and `engine` options.
+#' T4.1 No error when `output_format` and `engine` are defined.
+#' T4.2 An error when `output_format` and/or `engine` are missing, `NULL` or `NA`.
+#' T4.3 No error when `output_format` is `html` or `latex` and `engine` is a valid option.
+#' T4.4 An error when `output_format` is not `html` or `latex` and `engine` is a valid option.
+#' T4.5 No error when `engine` is `kable`, `gt`, `dt`, `datatables` or `datatable` and `output_format` is a valid option.
+#' T4.6 An error when `engine` is not `kable`, `gt`, `dt`, `datatables` or `datatable` and `output_format` is a valid option.
 
 # Requirement T1 ---------------------------------------------------------------
 
-testthat::context("tableone - T1. The function `render.tableone()` properly renders a `render.tableone` object.")
+testthat::context("render - T1. The function `render.tableone()` properly renders a `render.tableone` object.")
 
 testthat::test_that("T1.1 No error when `data` is a `tableone` object.", {
   
@@ -316,7 +329,7 @@ testthat::test_that("T1.16 A warning when `engine` is not in ['dt', 'datatable',
 
 # Requirement T2 ---------------------------------------------------------------
 
-testthat::context("tableone - T2. The function `render.risktable()` properly renders a `risktable` object.")
+testthat::context("render - T2. The function `render.risktable()` properly renders a `risktable` object.")
 
 testthat::test_that("T2.1 No error when `data` is a `risktable` object.", {
   
@@ -668,6 +681,64 @@ testthat::test_that("T2.19 The values of the evalutated metric are pivoted wide.
   
   testthat::expect_identical(adtte_risktable[,"F"], female_vals)
   testthat::expect_identical(adtte_risktable[,"M"], male_vals)
+  
+})
+#' T4. The function `check_rendering_input()` only permits valid `output_format` and `engine` options.
+#' T4.1 No error when `output_format` is `html` or `latex` and `engine` is `kable`, `gt`, `dt`, `datatable` or `datatables`.
+#' T4.2 An error when `output_format` and/or `engine` are missing, `NULL` or `NA`.
+#' T4.3 An error when `output_format` is not `html` or `latex` and `engine` is a valid option.
+#' T4.4 An error when `engine` is not `kable`, `gt`, `dt`, `datatables` or `datatable` and `output_format` is a valid option.
+
+# Requirement T4 ---------------------------------------------------------------
+
+testthat::context("render - T4. The function `check_rendering_input()` only permits valid `output_format` and `engine` options.")
+
+testthat::test_that("T4.1 No error when `output_format` is `html` or `latex` and `engine` is `kable`, `gt`, `dt`, `datatable` or `datatables`.", {
+  
+  for (output_format in c("html", "latex")) {
+    
+    for (engine in c("kable", "gt", "dt", "datatable", "datatables")) {
+      
+      visR:::check_rendering_input(output_format = output_format,
+                                   engine = engine) %>% 
+        testthat::expect_error(NA)
+      
+    }
+    
+  }
+  
+})
+
+testthat::test_that("T4.2 An error when `output_format` and/or `engine` are missing, `NULL` or `NA`.", {
+  
+  arg_missing_waring <- "Please provide an output_format and an engine."
+  visR:::check_rendering_input(output_format = "visR") %>% testthat::expect_error(arg_missing_waring)
+  visR:::check_rendering_input(engine = "visR") %>% testthat::expect_error(arg_missing_waring)
+  
+  visR:::check_rendering_input(output_format = "html", engine = NULL) %>% testthat::expect_error()
+  visR:::check_rendering_input(output_format = "html", engine = NA) %>% testthat::expect_error()
+  
+  visR:::check_rendering_input(engine = "kable", output_format = NULL) %>% testthat::expect_error()
+  visR:::check_rendering_input(engine = "kable", output_format = NA) %>% testthat::expect_error()
+  
+  visR:::check_rendering_input(engine = NULL, output_format = NULL) %>% testthat::expect_error()
+  visR:::check_rendering_input(engine = NA, output_format = NA) %>% testthat::expect_error()
+  
+})
+
+testthat::test_that("T4.3 An error when `output_format` is not `html` or `latex` and `engine` is a valid option.", {
+  
+  expected_error <- "Currently supported output formats are html and latex. visR is not yet supported."
+  visR:::check_rendering_input(engine = "kable", output_format = "visR") %>% 
+    testthat::expect_error(expected_error)
+  
+})
+
+testthat::test_that("T4.4 An error when `engine` is not `kable`, `gt`, `dt`, `datatables` or `datatable` and `output_format` is a valid option.", {
+  
+  expected_error <- "Currently implemented output engines are kable, gt and jquery datatables \\(DT\\). visR is not yet supported."
+  visR:::check_rendering_input(output_format = "html", engine = "visR") %>% 
+    testthat::expect_error(expected_error)
   
 })
 
