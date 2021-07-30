@@ -192,7 +192,7 @@ testthat::test_that("T3.9 When `legend_orientation` is not `NULL`, it is used as
 
 testthat::test_that("T3.10 When `legend_position` is not a character, but a vector with at least length 2, the first two elements are used as x/y positions for the legend.", {
   
-  suppressWarnings(legend <- visR:::legendopts(legend_position = c(1, 2, 3)))
+  suppressWarnings(legend <- visR:::legendopts(legend_position = c(1, 2)))
   
   testthat::expect_true(legend$leg_opts$x == 1)
   testthat::expect_true(legend$leg_opts$y == 2)
