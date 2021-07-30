@@ -382,16 +382,23 @@ testthat::test_that("T2.10 If `grid` is a named list containing 'major' and/or '
     visR::estimate_KM("SEX") %>%
     visR::visr()
   
+  theme_grid_none <- visR::define_theme(grid = list("major" = FALSE,
+                                                    "minor" = FALSE))
   theme_grid_only_minor <- visR::define_theme(grid = list("major" = FALSE,
                                                           "minor" = TRUE))
   theme_grid_minor_and_major <- visR::define_theme(grid = list("major" = TRUE,
                                                                "minor" = TRUE))
   
+  gg_grid_none            <- gg %>% visR::apply_theme(theme_grid_none)
   gg_grid_only_minor      <- gg %>% visR::apply_theme(theme_grid_only_minor)
   gg_grid_minor_and_major <- gg %>% visR::apply_theme(theme_grid_minor_and_major)
   
+  ggb_grid_none            <- ggplot2::ggplot_build(gg_grid_none)
   ggb_grid_only_minor      <- ggplot2::ggplot_build(gg_grid_only_minor)
   ggb_grid_minor_and_major <- ggplot2::ggplot_build(gg_grid_minor_and_major)
+  
+  testthat::expect_true(("element_blank" %in% class(ggb_grid_none$plot$theme$panel.grid.major)) &
+                          ("element_blank" %in% class(ggb_grid_none$plot$theme$panel.grid.minor)))
   
   testthat::expect_true(("element_blank" %in% class(ggb_grid_only_minor$plot$theme$panel.grid.major)) &
                           ("element_line" %in% class(ggb_grid_only_minor$plot$theme$panel.grid.minor)))
