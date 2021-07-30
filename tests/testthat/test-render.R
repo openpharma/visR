@@ -4,7 +4,7 @@
 
 # Specifications ---------------------------------------------------------------
 
-#' T1. The function `render.tableone()` properly renders a `tableone` object.
+#' T1. The function `render.tableone()` properly renders a `render.tableone` object.
 #' T1.1 No error when `data` is a `tableone` object.
 #' T1.2 An error when `data` is not a `tableone` object.
 #' T1.3 An error when `title` is missing.
@@ -15,13 +15,13 @@
 #' T1.8 No error when `output_format` is 'html' and `engine` is 'gt'.
 #' T1.9 No error when `output_format` is 'html' and `engine` is 'kable'.
 #' T1.10 No error when `output_format` is 'html' and `engine` is 'dt', 'datatable' or 'datatables'.
-#' T1.11 An error when `output_format` is an invalid parameter.
-#' T1.12 An error when `engine` is an invalid parameter.
-#' T1.13 No error when `output_format` is 'latex' and `engine` is 'kable'.
-#' T1.14 A warning when `output_format` is 'latex' and `engine` is 'dt', 'datatable' or 'datatables'.
-#' T1.15 No error when `engine` is in ['dt', 'datatable', 'datatables'] and download_format` is in ['copy', 'csv', 'excel'].
-#' T1.16 A warning when `engine` is not in ['dt', 'datatable', 'datatables'] and download_format` is in ['copy', 'csv', 'excel'].
-
+#' T1.11 An error when `output_format` is 'latex' and `engine` is not 'gt' or 'kable'.
+#' T1.12 An error when `output_format` is an invalid parameter.
+#' T1.13 An error when `engine` is an invalid parameter.
+#' T1.14 No error when `output_format` is 'latex' and `engine` is 'kable'.
+#' T1.16 No error when `engine` is in ['dt', 'datatable', 'datatables'] and download_format` is in ['copy', 'csv', 'excel'].
+#' T1.17 A warning when `engine` is not in ['dt', 'datatable', 'datatables'] and download_format` is in ['copy', 'csv', 'excel'].
+#' T1.18 A warning when `download_format` is not 'copy', 'csv' or 'excel'.
 #' T2. The function `render.risktable()` properly renders a `risktable` object.
 #' T2.1 No error when `data` is a `risktable` object.
 #' T2.2 An error when `data` is not a `risktable` object.
@@ -36,22 +36,28 @@
 #' T2.11 An error when `output_format` is an invalid parameter.
 #' T2.12 An error when `engine` is an invalid parameter.
 #' T2.13 No error when `output_format` is 'latex' and `engine` is 'kable'.
-#' T2.14 A warning when `output_format` is 'latex' and `engine` is 'dt', 'datatable' or 'datatables'.
+#' T2.14 An error when `output_format` is 'latex' and `engine` is 'dt', 'datatable' or 'datatables'.
 #' T2.15 No error when `engine` is in ['dt', 'datatable', 'datatables'] and download_format` is in ['copy', 'csv', 'excel'].
 #' T2.16 A warning when `engine` is not in ['dt', 'datatable', 'datatables'] and download_format` is in ['copy', 'csv', 'excel'].
-#' T2.17 The metric of the risktable is used in the rendered table.
-#' T2.18 The strata-colnames of the `risktable` object are used as rownames.
+#' T2.17 The strata-colnames of the `risktable` object are used as rownames.
+#' T2.18 The metric of the risktable is used in the rendered table.
 #' T2.19 The values of the evalutated metric are pivoted wide.
-
 #' T3. The function `render.data.frame()` properly renders a `data.frame` object.
-#' 
-#' T4. The function `check_rendering_input()` only permits valid `output_format` and `engine` options.
-#' T4.1 No error when `output_format` and `engine` are defined.
-#' T4.2 An error when `output_format` and/or `engine` are missing, `NULL` or `NA`.
-#' T4.3 No error when `output_format` is `html` or `latex` and `engine` is a valid option.
-#' T4.4 An error when `output_format` is not `html` or `latex` and `engine` is a valid option.
-#' T4.5 No error when `engine` is `kable`, `gt`, `dt`, `datatables` or `datatable` and `output_format` is a valid option.
-#' T4.6 An error when `engine` is not `kable`, `gt`, `dt`, `datatables` or `datatable` and `output_format` is a valid option.
+#' T3.1 When `engine` is 'gt' and `output_format` is 'latex', a latex `knit_asis` object is returned.                                                                                                      
+#' T4. The function `check_rendering_input()` only permits valid `output_format` and `engine` options.                                                                                                     
+#' T4.1 No error when `output_format` is `html` or `latex` and `engine` is `kable`, `gt`, `dt`, `datatable` or `datatables`.                                                                               
+#' T4.2 An error when `output_format` and/or `engine` are missing, `NULL` or `NA`.                                                                                                                         
+#' T4.3 An error when `output_format` is not `html` or `latex` and `engine` is a valid option.                                                                                                             
+#' T4.4 An error when `engine` is not `kable`, `gt`, `dt`, `datatables` or `datatable` and `output_format` is a valid option.                                                                              
+#' T5. The function `render_datatable.data.frame()` creates an `htmlwidget` of the table.                                                                                                                  
+#' T5.1 No error when `data` is a `data.frame`.                                                                                                                                                            
+#' T5.2 The returned object is of type `htmlwidget`.                                                                                                                                                       
+#' T5.3 The `title` is passed along to the HTML widget.                                                                                                                                                    
+#' T5.4 The `source_cap` is passed along to the HTML widget.                                                                                                                                               
+#' T5.5 When `download_format` is not `NULL`, a button is added.                                                                                                                                           
+#' T6. The function `get_gt.data.frame()` properly passes the input along to `gt::gt()`.                                                                                                                   
+#' T6.1 No error when `data` is a `data.frame`.                                                                                                                                                            
+#' T6.2 The returned object is of type `gt_tbl`. 
 
 # Requirement T1 ---------------------------------------------------------------
 
@@ -208,7 +214,21 @@ testthat::test_that("T1.10 No error when `output_format` is 'html' and `engine` 
   
 })
 
-testthat::test_that("T1.11 An error when `output_format` is an invalid parameter.", {
+testthat::test_that("T1.11 An error when `output_format` is 'latex' and `engine` is not 'gt' or 'kable'.", {
+  
+  adtte_tableone <- adtte %>%
+    visR::get_tableone() 
+  
+  expected_error <- "Currently, 'latex' output is only implemented with 'gt' or 'kable' as a table engine."
+  adtte_tableone %>% visR:::render.tableone(title = NULL, 
+                                            datasource = NULL, 
+                                            output_format = "latex", 
+                                            engine = "dt") %>%
+    testthat::expect_error(expected_error)
+  
+})
+
+testthat::test_that("T1.12 An error when `output_format` is an invalid parameter.", {
   
   adtte_tableone <- adtte %>%
     visR::get_tableone() 
@@ -230,7 +250,7 @@ testthat::test_that("T1.11 An error when `output_format` is an invalid parameter
   
 })
 
-testthat::test_that("T1.12 An error when `engine` is an invalid parameter.", {
+testthat::test_that("T1.13 An error when `engine` is an invalid parameter.", {
   
   adtte_tableone <- adtte %>%
     visR::get_tableone() 
@@ -252,7 +272,7 @@ testthat::test_that("T1.12 An error when `engine` is an invalid parameter.", {
   
 })
 
-testthat::test_that("T1.13 No error when `output_format` is 'latex' and `engine` is 'kable'.", {
+testthat::test_that("T1.14 No error when `output_format` is 'latex' and `engine` is 'kable'.", {
   
   adtte_tableone <- adtte %>%
     visR::get_tableone() 
@@ -262,32 +282,7 @@ testthat::test_that("T1.13 No error when `output_format` is 'latex' and `engine`
   
 })
 
-testthat::test_that("T1.14 A warning when `output_format` is 'latex' and `engine` is 'dt', 'datatable' or 'datatables'.", {
-  
-  adtte_tableone <- adtte %>%
-    visR::get_tableone() 
-  
-  adtte_tableone %>% visR:::render.tableone(title = NULL, 
-                                            datasource = NULL, 
-                                            output_format = "latex", 
-                                            engine = "dt") %>%
-    testthat::expect_warning()
-  
-  adtte_tableone %>% visR:::render.tableone(title = NULL, 
-                                            datasource = NULL, 
-                                            output_format = "latex", 
-                                            engine = "datatable") %>%
-    testthat::expect_warning()
-  
-  adtte_tableone %>% visR:::render.tableone(title = NULL, 
-                                            datasource = NULL, 
-                                            output_format = "latex", 
-                                            engine = "datatables") %>%
-    testthat::expect_warning()
-  
-})
-
-testthat::test_that("T1.15 No error when `engine` is in ['dt', 'datatable', 'datatables'] and download_format` is in ['copy', 'csv', 'excel'].", {
+testthat::test_that("T1.16 No error when `engine` is in ['dt', 'datatable', 'datatables'] and download_format` is in ['copy', 'csv', 'excel'].", {
   
   adtte_tableone <- adtte %>%
     visR::get_tableone() 
@@ -307,7 +302,7 @@ testthat::test_that("T1.15 No error when `engine` is in ['dt', 'datatable', 'dat
   
 })
 
-testthat::test_that("T1.16 A warning when `engine` is not in ['dt', 'datatable', 'datatables'] and download_format` is in ['copy', 'csv', 'excel'].", {
+testthat::test_that("T1.17 A warning when `engine` is not in ['dt', 'datatable', 'datatables'] and download_format` is in ['copy', 'csv', 'excel'].", {
   
   adtte_tableone <- adtte %>%
     visR::get_tableone() 
@@ -324,6 +319,20 @@ testthat::test_that("T1.16 A warning when `engine` is not in ['dt', 'datatable',
       
     }
   }
+  
+})
+
+testthat::test_that("T1.18 A warning when `download_format` is not 'copy', 'csv' or 'excel'.", {
+  
+  adtte_tableone <- adtte %>%
+    visR::get_tableone() 
+  
+  expected_warning <- "Currently, only 'copy', 'csv' and 'excel' are supported as 'download_format'."
+  adtte_tableone %>% visR:::render.tableone(title = NULL, 
+                                            datasource = NULL, 
+                                            engine = "dt", 
+                                            download_format = "visR") %>%
+    testthat::expect_warning(expected_warning)
   
 })
 
@@ -553,7 +562,7 @@ testthat::test_that("T2.13 No error when `output_format` is 'latex' and `engine`
   
 })
 
-testthat::test_that("T2.14 A warning when `output_format` is 'latex' and `engine` is 'dt', 'datatable' or 'datatables'.", {
+testthat::test_that("T2.14 An error when `output_format` is 'latex' and `engine` is 'dt', 'datatable' or 'datatables'.", {
   
   adtte_risktable <- adtte %>%
     visR::estimate_KM("SEX") %>%
@@ -563,19 +572,19 @@ testthat::test_that("T2.14 A warning when `output_format` is 'latex' and `engine
                                               datasource = NULL, 
                                               output_format = "latex", 
                                               engine = "dt") %>%
-    testthat::expect_warning()
+    testthat::expect_error()
   
   adtte_risktable %>% visR:::render.risktable(title = NULL, 
                                               datasource = NULL, 
                                               output_format = "latex", 
                                               engine = "datatable") %>%
-    testthat::expect_warning()
+    testthat::expect_error()
   
   adtte_risktable %>% visR:::render.risktable(title = NULL, 
                                               datasource = NULL, 
                                               output_format = "latex", 
                                               engine = "datatables") %>%
-    testthat::expect_warning()
+    testthat::expect_error()
   
 })
 
@@ -684,6 +693,22 @@ testthat::test_that("T2.19 The values of the evalutated metric are pivoted wide.
   
 })
 
+# Requirement T3 ---------------------------------------------------------------
+
+testthat::context("render - T3. The function `render.data.frame()` properly renders a `data.frame` object.")
+
+testthat::test_that("T3.1 When `engine` is 'gt' and `output_format` is 'latex', a latex `knit_asis` object is returned.", {
+  
+  latex_table <- adtte %>% 
+    visR:::render.data.frame(title = NULL, 
+                             datasource = NULL,
+                             engine = "gt",
+                             output_format = "latex")
+  
+  testthat::expect_true("knit_asis" %in% class(latex_table))
+  
+})
+
 # Requirement T4 ---------------------------------------------------------------
 
 testthat::context("render - T4. The function `check_rendering_input()` only permits valid `output_format` and `engine` options.")
@@ -732,6 +757,91 @@ testthat::test_that("T4.4 An error when `engine` is not `kable`, `gt`, `dt`, `da
   expected_error <- "Currently implemented output engines are kable, gt and jquery datatables \\(DT\\). visR is not yet supported."
   visR:::check_rendering_input(output_format = "html", engine = "visR") %>% 
     testthat::expect_error(expected_error)
+  
+})
+
+# Requirement T5 ---------------------------------------------------------------
+
+testthat::context("render - T5. The function `render_datatable.data.frame()` creates an `htmlwidget` of the table.")
+
+testthat::test_that("T5.1 No error when `data` is a `data.frame`.", {
+  
+  adtte %>%
+    visR:::render_datatable.data.frame(title = "visR", 
+                                       download_format = "csv", 
+                                       source_cap = "visR") %>%
+    testthat::expect_error(NA)
+  
+})
+
+testthat::test_that("T5.2 The returned object is of type `htmlwidget`.", {
+  
+  tmp <- adtte %>%
+    visR:::render_datatable.data.frame(title = "visR_title", 
+                                       download_format = "csv", 
+                                       source_cap = "visR_source_cap")
+  
+  testthat::expect_true("htmlwidget" %in% class(tmp))
+  
+})
+
+testthat::test_that("T5.3 The `title` is passed along to the HTML widget.", {
+  
+  widget_title <- "visR_title"
+  
+  tmp <- adtte %>%
+    visR:::render_datatable.data.frame(title = widget_title, 
+                                       download_format = "csv", 
+                                       source_cap = "visR_source_cap")
+  
+  testthat::expect_true(grepl(widget_title, tmp$x$caption))
+  
+})
+
+testthat::test_that("T5.4 The `source_cap` is passed along to the HTML widget.", {
+  
+  source_cap <- "visR_source_cap"
+  
+  tmp <- adtte %>%
+    visR:::render_datatable.data.frame(title = "visR_title", 
+                                       download_format = "csv", 
+                                       source_cap = source_cap)
+  
+  testthat::expect_true(grepl(source_cap, tmp$x$options$drawCallback))
+  
+})
+
+testthat::test_that("T5.5 When `download_format` is not `NULL`, a button is added.", {
+  
+  download_format <- "visR_csv"
+  
+  tmp <- adtte %>%
+    visR:::render_datatable.data.frame(title = "visR_title", 
+                                       download_format = download_format, 
+                                       source_cap = "visR_source_cap")
+  
+  testthat::expect_equal(tmp$x$options$buttons[[1]], download_format)
+  
+})
+
+# Requirement T6 ---------------------------------------------------------------
+
+testthat::context("render - T6. The function `get_gt.data.frame()` properly passes the input along to `gt::gt()`.")
+
+testthat::test_that("T6.1 No error when `data` is a `data.frame`.", {
+  
+  adtte %>%
+    visR:::get_gt.data.frame() %>%
+    testthat::expect_error(NA)
+  
+})
+
+testthat::test_that("T6.2 The returned object is of type `gt_tbl`.", {
+  
+  tmp <- adtte %>%
+    visR:::get_gt.data.frame()
+  
+  testthat::expect_true("gt_tbl" %in% class(tmp))
   
 })
 

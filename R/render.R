@@ -61,13 +61,11 @@ render.tableone <- function(
   
   if (!(output_format %in% c("html", "latex"))) {
     
-    if (output_format == "latex" & engine != "gt") {
-      
-      stop("Currently, 'latex' output is only implemented with 'gt' as a table engine.")
-      
-    }
-    
     stop("Invalid output_format. Currently, 'html' and 'latex' are supported.")
+    
+  } else if (output_format == "latex" & !(engine %in% c("gt", "kable"))) {
+    
+    stop("Currently, 'latex' output is only implemented with 'gt' or 'kable' as a table engine.")
     
   }
   
@@ -251,24 +249,34 @@ render.data.frame <- function(
         kableExtra::footnote(general = datasource,
                              general_title = "Data Source:") 
         
-    }
-    else{
-      warning(paste("Supported output format of the kable engine are html and latex and not", output_format, " - falling back to html"))
-      render(data=data, title=title, datasource=datasource,
-                         output_format="html", engine=engine, download_format=download_format)
+    } else {
+      
+      # Currently can't be triggered due to check_rendering_input()
+      # Uncommented for possible later use with rtf 
+      # warning(paste("Supported output format of the kable engine are html and latex and not", output_format, " - falling back to html"))
+      # render(data = data, 
+      #        title = title, 
+      #        datasource = datasource,
+      #        output_format = "html", 
+      #        engine = engine, 
+      #        download_format = download_format)
     }
   }
 
   #--------------------
   # GT output
   else if(tolower(engine) == "gt"){
-    if(!tolower(output_format) %in% c("html", "latex")){
-      warning(paste("Supported output format of the gt engine are html and latex and not", output_format, " - falling back to html"))
-    }
+    if (!tolower(output_format) %in% c("html", "latex")) {
+      
+      # Currently can't be triggered due to check_rendering_input()
+      # Uncommented for possible later use with rtf 
+      # warning(paste("Supported output format of the gt engine are html and latex and not", output_format, " - falling back to html"))
+    
+      }
 
     table_out <- render_gt(data=data, title=title, datasource=datasource, footnote=footnote)
 
-    if(output_format == "latex"){
+    if (output_format == "latex") {
       # note: after this step, the table is not a gt object anymore and thus cannot be further styled
       table_out <- table_out %>% gt::as_latex()
     }
