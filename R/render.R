@@ -37,11 +37,70 @@ render.tableone <- function(
   title,
   datasource,
   footnote = "",
-  output_format="html",
-  engine="gt",
-  download_format = c('copy', 'csv', 'excel')){
+  output_format = "html",
+  engine = "gt",
+  download_format = NULL) {
+  
+  if (!("tableone" %in% class(data))) {
+    
+    stop("Please provide a valid `tableone` object.")
+    
+  }
+  
+  if (missing(title)) {
+    
+    stop("Please provide a valid `title`.")
+    
+  }
+  
+  if (missing(datasource)) {
+    
+    stop("Please provide a valid `datasource`.")
+    
+  }
+  
+  if (!(output_format %in% c("html", "latex"))) {
+    
+    if (output_format == "latex" & engine != "gt") {
+      
+      stop("Currently, 'latex' output is only implemented with 'gt' as a table engine.")
+      
+    }
+    
+    stop("Invalid output_format. Currently, 'html' and 'latex' are supported.")
+    
+  }
+  
+  download_formats <- c()
+  
+  if (engine %in% c("dt", "datatable", "datatables")) {
+    
+    if ("copy" %in% download_format)  { download_formats <- c(download_formats, "copy") }
+    if ("csv" %in% download_format)   { download_formats <- c(download_formats, "csv") }
+    if ("excel" %in% download_format) { download_formats <- c(download_formats, "excel") }
+    
+    for (f in download_format) {
+      
+      if (!(is.null(f)) & !(f %in% c("copy", "csv", "excel"))) {
+        
+        warning("Currently, only 'copy', 'csv' and 'excel' are supported as 'download_format'.")
+        
+      }
+      
+    }
+    
+  } else {
+    
+    if (!is.null(download_format)) {
+      
+      warning("Currently, 'download_format' is only supported for the following engines: dt, datatable, datatables.")
+      
+    }
+    
+  }
   
   if(!("risktable" %in% class(data))){
+    
     sample <- data[data$variable == "Sample", ]
     sample <- sample[3:length(sample)]
     sample_names = colnames(sample)
@@ -51,9 +110,16 @@ render.tableone <- function(
     })
     colnames(data) <- c(colnames(data)[1:2], new_sample_names)
     data <- data[data$variable != "Sample", ]
+    
   }
   
-  render.data.frame(data=data, title=title, datasource=datasource, footnote=footnote, output_format=output_format, engine=engine, download_format=download_format)
+  render.data.frame(data, 
+                    title, 
+                    datasource, 
+                    footnote, 
+                    output_format, 
+                    engine, 
+                    download_format)
 }
 
 #' @param data The dataframe or tibble to visualise
@@ -75,29 +141,62 @@ render.risktable <- function(
   title,
   datasource,
   footnote = "",
-  output_format="html",
-  engine="gt",
-  download_format = c('copy', 'csv', 'excel')){
+  output_format = "html",
+  engine = "gt",
+  download_format = NULL) {
+  
+  if (!("risktable" %in% class(data))) {
+    
+    stop("Please provide a valid `risktable` object.")
+    
+  } else {
+    
+    # Many tidyr operations don't work on non-standard class objects. Therefore,
+    # we remove the class and add it back later.
+    class(data) <- class(data)[class(data) != "risktable"]
+    
+  }
+  
+  if (missing(title)) {
+    
+    stop("Please provide a valid `title`.")
+    
+  }
+  
+  if (missing(datasource)) {
+    
+    stop("Please provide a valid `datasource`.")
+    
+  }
   
   strata <- colnames(data)[3:ncol(data)]
+  
   if (!is.null(attributes(data)$title) & length(attributes(data)$title) == length(strata)){
-    data <- data %>% rename_at(vars(strata), ~ attributes(data)$title)
+    
+    data <- data %>% dplyr::rename_at(dplyr::vars(strata), ~ attributes(data)$title)
     strata <- colnames(data)[3:ncol(data)]  
+    
   }
+  
   y_lables <- unique(data$y_values)
   coln <- colnames(data)[1:2]
   complete_tab <- c()
-  for (s in strata){
-    tab <- 
-      data[c(coln, s)] %>%
+  
+  for (s in strata) {
+    
+    tab <- data[c(coln, s)] %>% 
       tidyr::pivot_wider(names_from = "time", values_from=s)
     tab$variable <- s
     complete_tab <- rbind(complete_tab, tab)
+    
   }
+  
   colnames(complete_tab) <- c("statistic", colnames(tab)[2:ncol(tab)])
   class(complete_tab) <- c("tableone", class(complete_tab))
   class(complete_tab) <- c("risktable", class(complete_tab))
-  complete_tab <- complete_tab %>% select(variable, statistic, everything())
+  complete_tab <- complete_tab %>% 
+    dplyr::select(variable, statistic, dplyr::everything())
+  
   render.tableone(complete_tab,
                   title,
                   datasource,
@@ -305,15 +404,19 @@ add_metadata_gt <- function(gt, title, datasource, footnote){
 }
 
 ### Check if the input works
-check_rendering_input <- function(output_format, engine){
+check_rendering_input <- function(output_format = NULL, engine = NULL){
+  
+  if (missing(output_format) | is.null(output_format) | missing(engine) | is.null(engine)) {
+    stop("Please provide an output_format and an engine.")
+  }
   
   # stop if output format is not supported
-  if(!tolower(output_format) %in% c("html", "latex")){ #"rtf",
+  if (!tolower(output_format) %in% c("html", "latex")) { #"rtf",
     stop(paste("Currently supported output formats are html and latex.", output_format, "is not yet supported."))
   }
   
   # stop if engine format is not supported
-  if(!tolower(engine) %in% c("kable", "gt", "dt", "datatables", "datatable")){
+  if (!tolower(engine) %in% c("kable", "gt", "dt", "datatables", "datatable")) {
     stop(paste("Currently implemented output engines are kable, gt and jquery datatables (DT).", engine, "is not yet supported."))
   }
 }
