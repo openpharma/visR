@@ -4,15 +4,15 @@
 
 # Specifications ---------------------------------------------------------------
 
-#' T1. The function `render.tableone()` properly renders a `render.tableone` object.
-#' T1.1 No error when `data` is a `tableone` object.
-#' T1.2 An error when `data` is not a `tableone` object.
-#' T1.3 An error when `title` is missing.
-#' T1.4 No error when `title` is defined.
-#' T1.5 An error when `datasource` is missing.
-#' T1.6 No error when `datasource` is defined.
-#' T1.7 No error when `footnote` is defined.
-#' T1.8 No error when `output_format` is 'html' and `engine` is 'gt'.
+#' T1. The function `render.tableone()` properly renders a `render.tableone` object.                                                                                                                       
+#' T1.1 No error when `data` is a `tableone` object.                                                                                                                                                       
+#' T1.2 An error when `data` is not a `tableone` object.                                                                                                                                                   
+#' T1.3 An error when `title` is missing.                                                                                                                                                                  
+#' T1.4 No error when `title` is defined.                                                                                                                                                                  
+#' T1.5 An error when `datasource` is missing.                                                                                                                                                             
+#' T1.6 No error when `datasource` is defined.                                                                                                                                                             
+#' T1.7 No error when `footnote` is defined.                                                                                                                                                               
+#' T1.8 No error when `output_format` is 'html' and `engine` is 'gt'.                                                                                                                                      
 #' T1.9 No error when `output_format` is 'html' and `engine` is 'kable'.
 #' T1.10 No error when `output_format` is 'html' and `engine` is 'dt', 'datatable' or 'datatables'.
 #' T1.11 An error when `output_format` is 'latex' and `engine` is not 'gt' or 'kable'.
@@ -43,21 +43,24 @@
 #' T2.18 The metric of the risktable is used in the rendered table.
 #' T2.19 The values of the evalutated metric are pivoted wide.
 #' T3. The function `render.data.frame()` properly renders a `data.frame` object.
-#' T3.1 When `engine` is 'gt' and `output_format` is 'latex', a latex `knit_asis` object is returned.                                                                                                      
-#' T4. The function `check_rendering_input()` only permits valid `output_format` and `engine` options.                                                                                                     
-#' T4.1 No error when `output_format` is `html` or `latex` and `engine` is `kable`, `gt`, `dt`, `datatable` or `datatables`.                                                                               
-#' T4.2 An error when `output_format` and/or `engine` are missing, `NULL` or `NA`.                                                                                                                         
-#' T4.3 An error when `output_format` is not `html` or `latex` and `engine` is a valid option.                                                                                                             
-#' T4.4 An error when `engine` is not `kable`, `gt`, `dt`, `datatables` or `datatable` and `output_format` is a valid option.                                                                              
-#' T5. The function `render_datatable.data.frame()` creates an `htmlwidget` of the table.                                                                                                                  
-#' T5.1 No error when `data` is a `data.frame`.                                                                                                                                                            
-#' T5.2 The returned object is of type `htmlwidget`.                                                                                                                                                       
-#' T5.3 The `title` is passed along to the HTML widget.                                                                                                                                                    
-#' T5.4 The `source_cap` is passed along to the HTML widget.                                                                                                                                               
-#' T5.5 When `download_format` is not `NULL`, a button is added.                                                                                                                                           
-#' T6. The function `get_gt.data.frame()` properly passes the input along to `gt::gt()`.                                                                                                                   
-#' T6.1 No error when `data` is a `data.frame`.                                                                                                                                                            
-#' T6.2 The returned object is of type `gt_tbl`. 
+#' T3.1 When `engine` is 'gt' and `output_format` is 'latex', a latex `knit_asis` object is returned.
+#' T3.2 A warning when `engine` is 'dt', 'datatable' or 'datatables' and `output_format is not 'html'.`
+#' T4. The function `check_rendering_input()` only permits valid `output_format` and `engine` options.
+#' T4.1 No error when `output_format` is `html` or `latex` and `engine` is `kable`, `gt`, `dt`, `datatable` or `datatables`.
+#' T4.2 An error when `output_format` and/or `engine` are missing, `NULL` or `NA`.
+#' T4.3 An error when `output_format` is not `html` or `latex` and `engine` is a valid option.
+#' T4.4 An error when `engine` is not `kable`, `gt`, `dt`, `datatables` or `datatable` and `output_format` is a valid option.
+#' T5. The function `render_datatable.data.frame()` creates an `htmlwidget` of the table.
+#' T5.1 No error when `data` is a `data.frame`.
+#' T5.2 The returned object is of type `htmlwidget`.
+#' T5.3 The `title` is passed along to the HTML widget.
+#' T5.4 The `source_cap` is passed along to the HTML widget.
+#' T5.5 When `download_format` is not `NULL`, a button is added.
+#' T5.6 When `download_format` is `NULL`, no button is added.
+#' T6. The function `get_gt.data.frame()` properly passes the input along to `gt::gt()`.
+#' T6.1 No error when `data` is a `data.frame`.
+#' T6.2 The returned object is of type `gt_tbl`.
+
 
 # Requirement T1 ---------------------------------------------------------------
 
@@ -709,6 +712,32 @@ testthat::test_that("T3.1 When `engine` is 'gt' and `output_format` is 'latex', 
   
 })
 
+testthat::test_that("T3.2 A warning when `engine` is 'dt', 'datatable' or 'datatables' and `output_format is not 'html'.`", {
+  
+  expected_warning <- "DT engine only supports html output and not latex - falling back to html. Please pick a different engine to create other outputs"
+  adtte %>% 
+    visR:::render.data.frame(title = NULL, 
+                             datasource = NULL,
+                             engine = "dt",
+                             output_format = "latex") %>%
+    testthat::expect_warning(expected_warning)
+  
+  adtte %>% 
+    visR:::render.data.frame(title = NULL, 
+                             datasource = NULL,
+                             engine = "datatable",
+                             output_format = "latex") %>%
+    testthat::expect_warning(expected_warning)
+  
+  adtte %>% 
+    visR:::render.data.frame(title = NULL, 
+                             datasource = NULL,
+                             engine = "datatables",
+                             output_format = "latex") %>%
+    testthat::expect_warning(expected_warning)
+  
+})
+
 # Requirement T4 ---------------------------------------------------------------
 
 testthat::context("render - T4. The function `check_rendering_input()` only permits valid `output_format` and `engine` options.")
@@ -821,6 +850,17 @@ testthat::test_that("T5.5 When `download_format` is not `NULL`, a button is adde
                                        source_cap = "visR_source_cap")
   
   testthat::expect_equal(tmp$x$options$buttons[[1]], download_format)
+  
+})
+
+testthat::test_that("T5.6 When `download_format` is `NULL`, no button is added.", {
+  
+  tmp <- adtte %>%
+    visR:::render_datatable.data.frame(title = "visR_title", 
+                                       download_format = NULL, 
+                                       source_cap = "visR_source_cap")
+  
+  testthat::expect_false("buttons" %in% names(tmp$x$options))
   
 })
 
