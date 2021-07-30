@@ -4,47 +4,47 @@
 
 # Specifications ---------------------------------------------------------------
 
-#' T1. The `define_theme()` function returns a `visR_theme` object can contain valid input parameters for `apply_theme()`.
-#' T1.1 No error when no parameters are specified.
-#' T1.2 Not specifying any parameters returns a list.
-#' T1.3 No error when `strata` is `NULL`.
-#' T1.4 A warning when `strata` is an empty `list`.
-#' T1.5 A warning when `strata` is an unnamed `list`.
-#' T1.6 No warning when `strata` is a named `list`.
-#' T1.7 No error when `fontsizes` is `NULL`.
-#' T1.8 A warning when `fontsizes` is an empty `list`.
-#' T1.9 A warning when `fontsizes` is an unnamed `list`.
-#' T1.10 No warning when `fontsizes` is a named `list`.
-#' T1.11 A message when `fontsizes` is a numerical value.
-#' T1.12 A warning when `fontsizes` is neither `NULL`, a `list` or a `numeric`.
-#' T1.13 No error when `fontfamily` is a string.
-#' T1.14 A warning when `fontfamily` is an empty string.
-#' T1.15 A warning when `fontfamily` is a vector of strings.
-#' T1.16 A warning when `fontfamily` is anything but a string.
-#' T1.17 No error when `grid` is a boolean
-#' T1.18 A warning when `grid` is a list but its members are not `major` or `minor`.
-#' T1.19 A warning when `grid` is anything but a boolean or a list                                                                                                                                         
+#' T1. The `define_theme()` function returns a `visR_theme` object can contain valid input parameters for `apply_theme()`.                                                                                 
+#' T1.1 No error when no parameters are specified.                                                                                                                                                         
+#' T1.2 Not specifying any parameters returns a list.                                                                                                                                                      
+#' T1.3 No error when `strata` is `NULL`.                                                                                                                                                                  
+#' T1.4 A warning when `strata` is an empty `list`.                                                                                                                                                        
+#' T1.5 A warning when `strata` is an unnamed `list`.                                                                                                                                                      
+#' T1.6 No warning when `strata` is a named `list`.                                                                                                                                                        
+#' T1.7 No error when `fontsizes` is `NULL`.                                                                                                                                                               
+#' T1.8 A warning when `fontsizes` is an empty `list`.                                                                                                                                                     
+#' T1.9 A warning when `fontsizes` is an unnamed `list`.                                                                                                                                                   
+#' T1.10 No warning when `fontsizes` is a named `list`.                                                                                                                                                    
+#' T1.11 A message when `fontsizes` is a numerical value.                                                                                                                                                  
+#' T1.12 A warning when `fontsizes` is neither `NULL`, a `list` or a `numeric`.                                                                                                                            
+#' T1.13 No error when `fontfamily` is a string.                                                                                                                                                           
+#' T1.14 A warning when `fontfamily` is an empty string.                                                                                                                                                   
+#' T1.15 A warning when `fontfamily` is a vector of strings.                                                                                                                                               
+#' T1.16 A warning when `fontfamily` is anything but a string.                                                                                                                                             
+#' T1.17 No error when `grid` is a boolean.                                                                                                                                                                
+#' T1.18 A warning when `grid` is a list but its members are not `major` or `minor`.                                                                                                                       
+#' T1.19 A warning when `grid` is anything but a boolean or a list.                                                                                                                                        
 #' T1.20 No error when `bg` is a character.                                                                                                                                                                
-#' T1.21 A warning when `bg` is anything but a character.                                                                                                                                                  
-#' T1.22 No warning when `legend_position` is a `character` or `NULL`.                                                                                                                                     
-#' T1.23 A warning when `legend_position` is not a `character` or `NULL`.                                                                                                                                  
-#' T1.24 The returned theme object is of class `visR_theme`.                                                                                                                                               
-#' T2. The `apply_theme` function applies the specified changes to a `ggplot` object.                                                                                                                      
-#' T2.1 No error when a `ggplot` plot is provided, but no theme.                                                                                                                                           
-#' T2.2 No error when a `ggplot` plot and a minimal `visR::define_theme` object are provided.                                                                                                              
-#' T2.3 No error when a `ggplot` plot and a complex `visR::define_theme` object are provided.                                                                                                              
-#' T2.4 A message when a theme not generated through `visR::define_theme` is provided.                                                                                                                     
-#' T2.5 Colours applied through `visR::apply_theme()` are used in the resulting `ggplot` object.                                                                                                           
-#' T2.6 If `fontsizes` is a `numeric`, the other font occurrences are derived from it.                                                                                                                     
-#' T2.7 If `fontsizes` is a `list`, the individual fonts are extracted and used.                                                                                                                           
-#' T2.8 The fontfamily applied through `visR::apply_theme()` is used in the resulting `ggplot` object.                                                                                                     
-#' T2.9 If `grid` is a single `logical`, it is used for both major and minor grid.                                                                                                                         
-#' T2.10 If `grid` is a named list containing \                                                                                                                                                            
-#' T2.11 A warning when `grid` is a named list containing \                                                                                                                                                
-#' T2.12 A warning when `grid` is a named list that does not contain \                                                                                                                                     
-#' T2.13 The background applied through `visR::apply_theme()` is used in the resulting `ggplot` object.                                                                                                    
-#' T2.14 The legend_position applied through `visR::apply_theme()` is used in the resulting `ggplot` object.                                                                                               
-#' T2.15 The legend_position defined in `visR::visr()` is correctly passed through to the resulting `ggplot` object.  
+#' T1.21 A warning when `bg` is anything but a character.
+#' T1.22 No warning when `legend_position` is a `character` or `NULL`.
+#' T1.23 A warning when `legend_position` is not a `character` or `NULL`.
+#' T1.24 The returned theme object is of class `visR_theme`.
+#' T2. The `apply_theme` function applies the specified changes to a `ggplot` object.
+#' T2.1 No error when a `ggplot` plot is provided, but no theme.
+#' T2.2 No error when a `ggplot` plot and a minimal `visR::define_theme` object are provided.
+#' T2.3 No error when a `ggplot` plot and a complex `visR::define_theme` object are provided.
+#' T2.4 A message when a theme not generated through `visR::define_theme` is provided.
+#' T2.5 Colours applied through `visR::apply_theme()` are used in the resulting `ggplot` object.
+#' T2.6 If `fontsizes` is a `numeric`, the other font occurrences are derived from it.
+#' T2.7 If `fontsizes` is a `list`, the individual fonts are extracted and used.
+#' T2.8 The fontfamily applied through `visR::apply_theme()` is used in the resulting `ggplot` object.
+#' T2.9 If `grid` is a single `logical`, it is used for both major and minor grid.
+#' T2.10 If `grid` is a named list containing 'major' and/or 'minor' as single `logical`s, these are used for their respective options.
+#' T2.11 A warning when `grid` is a named list containing 'major' and/or 'minor' that are not single `logical`s.
+#' T2.12 A warning when `grid` is a named list that does not contain 'major' and/or 'minor'.
+#' T2.13 The background applied through `visR::apply_theme()` is used in the resulting `ggplot` object.
+#' T2.14 The legend_position applied through `visR::apply_theme()` is used in the resulting `ggplot` object.
+#' T2.15 The legend_position defined in `visR::visr()` is correctly passed through to the resulting `ggplot` object.
 
 # Requirement T1 ---------------------------------------------------------------
 
@@ -152,7 +152,7 @@ testthat::test_that("T1.16 A warning when `fontfamily` is anything but a string.
   
 })
 
-testthat::test_that("T1.17 No error when `grid` is a boolean", {
+testthat::test_that("T1.17 No error when `grid` is a boolean.", {
   
   testthat::expect_error(visR::define_theme(grid = TRUE), NA)
   testthat::expect_error(visR::define_theme(grid = FALSE), NA)
@@ -355,8 +355,12 @@ testthat::test_that("T2.9 If `grid` is a single `logical`, it is used for both m
     visR::estimate_KM("SEX") %>%
     visR::visr()
   
-  theme_grid_true  <- visR::define_theme(grid = TRUE) # Equal to major = TRUE and minor = FALSE
   theme_grid_false <- visR::define_theme(grid = FALSE) # Equal to major = minor = FALSE
+  
+  # Construct "grid = TRUE" case manually since visR::define_theme(grid = TRUE) 
+  # would result in "major = TRUE; minor = FALSE)" due to our opinionated position
+  theme_grid_true <- theme_grid_false
+  theme_grid_true$grid <- TRUE
   
   gg_grid_true  <- gg %>% visR::apply_theme(theme_grid_true)
   gg_grid_false <- gg %>% visR::apply_theme(theme_grid_false)
@@ -365,14 +369,14 @@ testthat::test_that("T2.9 If `grid` is a single `logical`, it is used for both m
   ggb_grid_false <- ggplot2::ggplot_build(gg_grid_false)
   
   testthat::expect_true(("element_line" %in% class(ggb_grid_true$plot$theme$panel.grid.major)) &
-                          ("element_blank" %in% class(ggb_grid_true$plot$theme$panel.grid.minor)))
+                          ("element_line" %in% class(ggb_grid_true$plot$theme$panel.grid.minor)))
   
   testthat::expect_true(("element_blank" %in% class(ggb_grid_false$plot$theme$panel.grid.major)) &
                           ("element_blank" %in% class(ggb_grid_false$plot$theme$panel.grid.minor)))
   
 })
 
-testthat::test_that("T2.10 If `grid` is a named list containing \"major\" and/or \"minor\" as single `logical`s, these are used for their respective options.", {
+testthat::test_that("T2.10 If `grid` is a named list containing 'major' and/or 'minor' as single `logical`s, these are used for their respective options.", {
   
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
@@ -397,7 +401,7 @@ testthat::test_that("T2.10 If `grid` is a named list containing \"major\" and/or
   
 })
 
-testthat::test_that("T2.11 A warning when `grid` is a named list containing \"major\" and/or \"minor\" that are not single `logical`s.", {
+testthat::test_that("T2.11 A warning when `grid` is a named list containing 'major' and/or 'minor' that are not single `logical`s.", {
   
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
@@ -413,7 +417,7 @@ testthat::test_that("T2.11 A warning when `grid` is a named list containing \"ma
   
 })
 
-testthat::test_that("T2.12 A warning when `grid` is a named list that does not contain \"major\" and/or \"minor\".", {
+testthat::test_that("T2.12 A warning when `grid` is a named list that does not contain 'major' and/or 'minor'.", {
   
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
