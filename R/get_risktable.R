@@ -218,7 +218,7 @@ get_risktable.survfit <- function(
     attr(final, 'statlist') <- "Overall"
   }
 
-  class(final) <- c(class(final), "risktable")
+  class(final) <- c("risktable", class(final))
   
   return(final)
 }

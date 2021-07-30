@@ -8,7 +8,7 @@ tableone(
   data,
   title,
   datasource,
-  footnote,
+  footnote = "",
   strata = NULL,
   overall = TRUE,
   summary_function = summarize_short,

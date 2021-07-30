@@ -24,7 +24,7 @@ render(
   footnote = "",
   output_format = "html",
   engine = "gt",
-  download_format = c("copy", "csv", "excel")
+  download_format = NULL
 )
 
 \method{render}{risktable}(
@@ -34,7 +34,7 @@ render(
   footnote = "",
   output_format = "html",
   engine = "gt",
-  download_format = c("copy", "csv", "excel")
+  download_format = NULL
 )
 
 \method{render}{data.frame}(

@@ -222,7 +222,7 @@ testthat::test_that("T5.7 The calculations are in agreement with what is expecte
   stringsAsFactors = FALSE,
   check.names = FALSE)
   
-  class(risktable_ref) <- c(class(risktable_ref), "risktable")
+  class(risktable_ref) <- c("risktable", class(risktable_ref))
   
   testthat::expect_equal(risktable_visR, risktable_ref)
 })
@@ -274,7 +274,7 @@ testthat::test_that("T6.4 The calculations are in agreement with expectations wh
   stringsAsFactors = FALSE,
   check.names = FALSE)
   
-  class(risktable_ref) <- c(class(risktable_ref), "risktable")
+  class(risktable_ref) <- c("risktable", class(risktable_ref))
   
   testthat::expect_equal(risktable_visR, risktable_ref)
 })
