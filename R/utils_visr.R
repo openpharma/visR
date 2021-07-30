@@ -128,8 +128,25 @@ legendopts <- function(legend_position = "right",
       leg_opts <- NULL
     }
   } else {
-    leg_opts <- list(x = legend_position[1],
-                     y = legend_position[2])
+    
+    if (length(legend_position) == 2) {
+      
+      leg_opts <- list(x = legend_position[1],
+                       y = legend_position[2])
+      
+    } else if (length(legend_position) > 2) {
+      
+      warning("The provided vector for the legend position contains more than 2 elements, only using the first two.")
+      
+      leg_opts <- list(x = legend_position[1],
+                       y = legend_position[2])
+      
+    } else {
+      
+      stop("Invalid argument for 'legend_position'. Use 'bottom', 'right', 'top', 'left', 'none' or a vector indicating the desired absolute x/y position, as for examle c(1, 2).")
+      
+    }
+    
   }
 
   return(list(leg_opts = leg_opts, showlegend = showlegend))
@@ -171,7 +188,7 @@ legendopts <- function(legend_position = "right",
       dplyr::mutate(complement_label = sprintf("%s\nN = %d",
                                                complement_label,
                                                dplyr::lag(get(value_column_name)) - get(value_column_name)))
-  }else{
+  } else {
     plotting_data <- plotting_data %>%
       dplyr::ungroup() %>%
       dplyr::mutate(complement_label = sprintf("%s N = %d", "Excluded",
