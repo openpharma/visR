@@ -683,11 +683,6 @@ testthat::test_that("T2.19 The values of the evalutated metric are pivoted wide.
   testthat::expect_identical(adtte_risktable[,"M"], male_vals)
   
 })
-#' T4. The function `check_rendering_input()` only permits valid `output_format` and `engine` options.
-#' T4.1 No error when `output_format` is `html` or `latex` and `engine` is `kable`, `gt`, `dt`, `datatable` or `datatables`.
-#' T4.2 An error when `output_format` and/or `engine` are missing, `NULL` or `NA`.
-#' T4.3 An error when `output_format` is not `html` or `latex` and `engine` is a valid option.
-#' T4.4 An error when `engine` is not `kable`, `gt`, `dt`, `datatables` or `datatable` and `output_format` is a valid option.
 
 # Requirement T4 ---------------------------------------------------------------
 
@@ -704,9 +699,7 @@ testthat::test_that("T4.1 No error when `output_format` is `html` or `latex` and
         testthat::expect_error(NA)
       
     }
-    
   }
-  
 })
 
 testthat::test_that("T4.2 An error when `output_format` and/or `engine` are missing, `NULL` or `NA`.", {
@@ -714,15 +707,15 @@ testthat::test_that("T4.2 An error when `output_format` and/or `engine` are miss
   arg_missing_waring <- "Please provide an output_format and an engine."
   visR:::check_rendering_input(output_format = "visR") %>% testthat::expect_error(arg_missing_waring)
   visR:::check_rendering_input(engine = "visR") %>% testthat::expect_error(arg_missing_waring)
+  visR:::check_rendering_input(output_format = "html", engine = NULL) %>% testthat::expect_error(arg_missing_waring)
+  visR:::check_rendering_input(engine = "kable", output_format = NULL) %>% testthat::expect_error(arg_missing_waring)
+  visR:::check_rendering_input(engine = NULL, output_format = NULL) %>% testthat::expect_error(arg_missing_waring)
   
-  visR:::check_rendering_input(output_format = "html", engine = NULL) %>% testthat::expect_error()
-  visR:::check_rendering_input(output_format = "html", engine = NA) %>% testthat::expect_error()
+  expected_error <- "Currently implemented output engines are kable, gt and jquery datatables \\(DT\\). NA is not yet supported."
+  visR:::check_rendering_input(output_format = "html", engine = NA) %>% testthat::expect_error(expected_error)
   
-  visR:::check_rendering_input(engine = "kable", output_format = NULL) %>% testthat::expect_error()
+  expected_error <- "Currently supported output formats are html and latex. NA is not yet supported."
   visR:::check_rendering_input(engine = "kable", output_format = NA) %>% testthat::expect_error()
-  
-  visR:::check_rendering_input(engine = NULL, output_format = NULL) %>% testthat::expect_error()
-  visR:::check_rendering_input(engine = NA, output_format = NA) %>% testthat::expect_error()
   
 })
 
