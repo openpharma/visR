@@ -1,8 +1,6 @@
 #' @title Specifications apply_theme
-#' @section Last updated by:
-#' Tim Treis
-#' @section Last update date:
-#' 29-MAY-2021
+#' @section Last updated by: Tim Treis
+#' @section Last update date: 21-JULY-2021
 
 # Specifications ---------------------------------------------------------------
 
@@ -23,23 +21,30 @@
 #' T1.14 A warning when `fontfamily` is an empty string.
 #' T1.15 A warning when `fontfamily` is a vector of strings.
 #' T1.16 A warning when `fontfamily` is anything but a string.
-#' T1.17 No error when `grid` is a boolean.
-#' T1.18 A warning when `grid` is anything but a boolean.
-#' T1.19 No error when `bg` is a string.
-#' T1.20 A warning when `grid` is anything but a boolean.
-#' T1.21 The returned theme object is of class `visR_theme`.
-#' T2. The `apply_theme` function applies the specified changes to a `ggplot` object.
-#' T2.1 No error when a `ggplot` plot is provided, but no theme.
-#' T2.2 No error when a `ggplot` plot and a minimal `visR::define_theme` object are provided.
-#' T2.3 No error when a `ggplot` plot and a complex `visR::define_theme` object are provided.
-#' T2.4 A message when a theme not generated through `visR::define_theme` is provided.
-#' T2.5 Colours applied through `visR::apply_theme()` are used in the resulting `ggplot` object.
-#' T2.6 Fontsizes applied through `visR::apply_theme()` are used in the resulting `ggplot` object.
-#' T2.7 The fontfamily applied through `visR::apply_theme()` is used in the resulting `ggplot` object.
-#' T2.8 The grid applied through `visR::apply_theme()` is used in the resulting `ggplot` object.
-#' T2.9 The background applied through `visR::apply_theme()` is used in the resulting `ggplot` object.
-#' T2.10 The legend_position applied through `visR::apply_theme()` is used in the resulting `ggplot` object.
-#' T2.11 The legend_position defined in `visR::visr()` is correctly passed through to the resulting `ggplot` object.
+#' T1.17 No error when `grid` is a boolean
+#' T1.18 A warning when `grid` is a list but its members are not `major` or `minor`.
+#' T1.19 A warning when `grid` is anything but a boolean or a list                                                                                                                                         
+#' T1.20 No error when `bg` is a character.                                                                                                                                                                
+#' T1.21 A warning when `bg` is anything but a character.                                                                                                                                                  
+#' T1.22 No warning when `legend_position` is a `character` or `NULL`.                                                                                                                                     
+#' T1.23 A warning when `legend_position` is not a `character` or `NULL`.                                                                                                                                  
+#' T1.24 The returned theme object is of class `visR_theme`.                                                                                                                                               
+#' T2. The `apply_theme` function applies the specified changes to a `ggplot` object.                                                                                                                      
+#' T2.1 No error when a `ggplot` plot is provided, but no theme.                                                                                                                                           
+#' T2.2 No error when a `ggplot` plot and a minimal `visR::define_theme` object are provided.                                                                                                              
+#' T2.3 No error when a `ggplot` plot and a complex `visR::define_theme` object are provided.                                                                                                              
+#' T2.4 A message when a theme not generated through `visR::define_theme` is provided.                                                                                                                     
+#' T2.5 Colours applied through `visR::apply_theme()` are used in the resulting `ggplot` object.                                                                                                           
+#' T2.6 If `fontsizes` is a `numeric`, the other font occurrences are derived from it.                                                                                                                     
+#' T2.7 If `fontsizes` is a `list`, the individual fonts are extracted and used.                                                                                                                           
+#' T2.8 The fontfamily applied through `visR::apply_theme()` is used in the resulting `ggplot` object.                                                                                                     
+#' T2.9 If `grid` is a single `logical`, it is used for both major and minor grid.                                                                                                                         
+#' T2.10 If `grid` is a named list containing \                                                                                                                                                            
+#' T2.11 A warning when `grid` is a named list containing \                                                                                                                                                
+#' T2.12 A warning when `grid` is a named list that does not contain \                                                                                                                                     
+#' T2.13 The background applied through `visR::apply_theme()` is used in the resulting `ggplot` object.                                                                                                    
+#' T2.14 The legend_position applied through `visR::apply_theme()` is used in the resulting `ggplot` object.                                                                                               
+#' T2.15 The legend_position defined in `visR::visr()` is correctly passed through to the resulting `ggplot` object.  
 
 # Requirement T1 ---------------------------------------------------------------
 
@@ -154,7 +159,13 @@ testthat::test_that("T1.17 No error when `grid` is a boolean", {
   
 })
 
-testthat::test_that("T1.18 A warning when `grid` is anything but a boolean", {
+testthat::test_that("T1.18 A warning when `grid` is a list but its members are not `major` or `minor`.", {
+  
+  testthat::expect_warning(visR::define_theme(grid = list("visR" = TRUE)))
+  
+})
+
+testthat::test_that("T1.19 A warning when `grid` is anything but a boolean or a list.", {
   
   testthat::expect_warning(visR::define_theme(grid = NULL))
   testthat::expect_warning(visR::define_theme(grid = 12))
@@ -163,13 +174,13 @@ testthat::test_that("T1.18 A warning when `grid` is anything but a boolean", {
   
 })
 
-testthat::test_that("T1.19 No error when `bg` is a character.", {
+testthat::test_that("T1.20 No error when `bg` is a character.", {
   
   testthat::expect_error(visR::define_theme(bg = "blue"), NA)
   
 })
 
-testthat::test_that("T1.20 A warning when `bg` is anything but a character.", {
+testthat::test_that("T1.21 A warning when `bg` is anything but a character.", {
   
   testthat::expect_warning(visR::define_theme(bg = NULL))
   testthat::expect_warning(visR::define_theme(bg = 12))
@@ -177,7 +188,21 @@ testthat::test_that("T1.20 A warning when `bg` is anything but a character.", {
   
 })
 
-testthat::test_that("T1.21 The returned theme object is of class `visR_theme`.", {
+testthat::test_that("T1.22 No warning when `legend_position` is a `character` or `NULL`.", {
+  
+  testthat::expect_warning(visR::define_theme(legend_position = "top"), NA)
+  testthat::expect_warning(visR::define_theme(legend_position = NULL), NA)
+  
+})
+
+testthat::test_that("T1.23 A warning when `legend_position` is not a `character` or `NULL`.", {
+  
+  testthat::expect_warning(visR::define_theme(legend_position = 12))
+  testthat::expect_warning(visR::define_theme(legend_position = list()))
+  
+})
+
+testthat::test_that("T1.24 The returned theme object is of class `visR_theme`.", {
   
   testthat::expect_true("visR_theme" %in% class(visR::define_theme()))
   
@@ -268,7 +293,26 @@ testthat::test_that("T2.5 Colours applied through `visR::apply_theme()` are used
   
 })
 
-testthat::test_that("T2.6 Fontsizes applied through `visR::apply_theme()` are used in the resulting `ggplot` object.", {
+testthat::test_that("T2.6 If `fontsizes` is a `numeric`, the other font occurrences are derived from it.", {
+  
+  gg <- adtte %>%
+    visR::estimate_KM("SEX") %>%
+    visR::visr()
+  
+  theme <- visR::define_theme(fontsizes = 12)
+  
+  gg <- gg %>% visR::apply_theme(theme)
+  ggb <- ggplot2::ggplot_build(gg)
+  
+  testthat::expect_equal(theme$fontsizes, ggb$plot$theme$axis.title.x$size)
+  testthat::expect_equal(theme$fontsizes, ggb$plot$theme$axis.title.y$size)
+  testthat::expect_equal(theme$fontsizes, ggb$plot$theme$axis.text$size)
+  testthat::expect_equal(theme$fontsizes, ggb$plot$theme$legend.title$size)
+  testthat::expect_equal(theme$fontsizes, ggb$plot$theme$legend.text$size)
+  
+})
+
+testthat::test_that("T2.7 If `fontsizes` is a `list`, the individual fonts are extracted and used.", {
   
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
@@ -290,7 +334,7 @@ testthat::test_that("T2.6 Fontsizes applied through `visR::apply_theme()` are us
   
 })
 
-testthat::test_that("T2.7 The fontfamily applied through `visR::apply_theme()` is used in the resulting `ggplot` object.", {
+testthat::test_that("T2.8 The fontfamily applied through `visR::apply_theme()` is used in the resulting `ggplot` object.", {
   
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
@@ -305,44 +349,86 @@ testthat::test_that("T2.7 The fontfamily applied through `visR::apply_theme()` i
   
 })
 
-testthat::test_that("T2.8 The grid applied through `visR::apply_theme()` is used in the resulting `ggplot` object.", {
+testthat::test_that("T2.9 If `grid` is a single `logical`, it is used for both major and minor grid.", {
   
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
     visR::visr()
   
-  theme_grid_true <- visR::define_theme(grid = TRUE) # Equal to major = TRUE and minor = FALSE
+  theme_grid_true  <- visR::define_theme(grid = TRUE) # Equal to major = TRUE and minor = FALSE
   theme_grid_false <- visR::define_theme(grid = FALSE) # Equal to major = minor = FALSE
+  
+  gg_grid_true  <- gg %>% visR::apply_theme(theme_grid_true)
+  gg_grid_false <- gg %>% visR::apply_theme(theme_grid_false)
+  
+  ggb_grid_true  <- ggplot2::ggplot_build(gg_grid_true)
+  ggb_grid_false <- ggplot2::ggplot_build(gg_grid_false)
+  
+  testthat::expect_true(("element_line" %in% class(ggb_grid_true$plot$theme$panel.grid.major)) &
+                          ("element_blank" %in% class(ggb_grid_true$plot$theme$panel.grid.minor)))
+  
+  testthat::expect_true(("element_blank" %in% class(ggb_grid_false$plot$theme$panel.grid.major)) &
+                          ("element_blank" %in% class(ggb_grid_false$plot$theme$panel.grid.minor)))
+  
+})
+
+testthat::test_that("T2.10 If `grid` is a named list containing \"major\" and/or \"minor\" as single `logical`s, these are used for their respective options.", {
+  
+  gg <- adtte %>%
+    visR::estimate_KM("SEX") %>%
+    visR::visr()
+  
   theme_grid_only_minor <- visR::define_theme(grid = list("major" = FALSE,
                                                           "minor" = TRUE))
   theme_grid_minor_and_major <- visR::define_theme(grid = list("major" = TRUE,
                                                                "minor" = TRUE))
   
-  gg_grid_true            <- gg %>% visR::apply_theme(theme_grid_true)
-  gg_grid_false           <- gg %>% visR::apply_theme(theme_grid_false)
   gg_grid_only_minor      <- gg %>% visR::apply_theme(theme_grid_only_minor)
   gg_grid_minor_and_major <- gg %>% visR::apply_theme(theme_grid_minor_and_major)
   
-  ggb_grid_true            <- ggplot2::ggplot_build(gg_grid_true)
-  ggb_grid_false           <- ggplot2::ggplot_build(gg_grid_false)
   ggb_grid_only_minor      <- ggplot2::ggplot_build(gg_grid_only_minor)
   ggb_grid_minor_and_major <- ggplot2::ggplot_build(gg_grid_minor_and_major)
   
-  testthat::expect_true(("element_line" %in% class(ggb_grid_true$plot$theme$panel.grid.major)) &
-                        ("element_blank" %in% class(ggb_grid_true$plot$theme$panel.grid.minor)))
-  
-  testthat::expect_true(("element_blank" %in% class(ggb_grid_false$plot$theme$panel.grid.major)) &
-                        ("element_blank" %in% class(ggb_grid_false$plot$theme$panel.grid.minor)))
-  
   testthat::expect_true(("element_blank" %in% class(ggb_grid_only_minor$plot$theme$panel.grid.major)) &
-                        ("element_line" %in% class(ggb_grid_only_minor$plot$theme$panel.grid.minor)))
+                          ("element_line" %in% class(ggb_grid_only_minor$plot$theme$panel.grid.minor)))
   
   testthat::expect_true(("element_line" %in% class(ggb_grid_minor_and_major$plot$theme$panel.grid.major)) &
-                        ("element_line" %in% class(ggb_grid_minor_and_major$plot$theme$panel.grid.minor)))
+                          ("element_line" %in% class(ggb_grid_minor_and_major$plot$theme$panel.grid.minor)))
   
 })
 
-testthat::test_that("T2.9 The background applied through `visR::apply_theme()` is used in the resulting `ggplot` object.", {
+testthat::test_that("T2.11 A warning when `grid` is a named list containing \"major\" and/or \"minor\" that are not single `logical`s.", {
+  
+  gg <- adtte %>%
+    visR::estimate_KM("SEX") %>%
+    visR::visr()
+  
+  theme_major_correct <- visR::define_theme(grid = list("major" = TRUE,
+                                                        "minor" = "visR"))
+  theme_minor_correct <- visR::define_theme(grid = list("major" = "visR",
+                                                        "minor" = TRUE))
+  
+  testthat::expect_warning(gg %>% visR::apply_theme(theme_major_correct))
+  testthat::expect_warning(gg %>% visR::apply_theme(theme_minor_correct))
+  
+})
+
+testthat::test_that("T2.12 A warning when `grid` is a named list that does not contain \"major\" and/or \"minor\".", {
+  
+  gg <- adtte %>%
+    visR::estimate_KM("SEX") %>%
+    visR::visr()
+  
+  theme <- visR::define_theme(grid = list("major" = "visR",
+                                          "minor" = "Rsiv"))
+  
+  names(theme$grid) <- c("visR", "Rsiv")
+  
+  testthat::expect_warning(gg %>% visR::apply_theme(theme))
+  
+})
+
+testthat::test_that("T2.13 The background applied through `visR::apply_theme()` is used in the resulting `ggplot` object.", {
   
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
@@ -357,7 +443,7 @@ testthat::test_that("T2.9 The background applied through `visR::apply_theme()` i
   
 })
 
-testthat::test_that("T2.10 The legend_position applied through `visR::apply_theme()` is used in the resulting `ggplot` object.", {
+testthat::test_that("T2.14 The legend_position applied through `visR::apply_theme()` is used in the resulting `ggplot` object.", {
   
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
@@ -385,7 +471,7 @@ testthat::test_that("T2.10 The legend_position applied through `visR::apply_them
   
 })
 
-testthat::test_that("T2.11 The legend_position defined in `visR::visr()` is correctly passed through to the resulting `ggplot` object.", {
+testthat::test_that("T2.15 The legend_position defined in `visR::visr()` is correctly passed through to the resulting `ggplot` object.", {
   
   gg_top <- adtte %>%
     visR::estimate_KM("SEX") %>%

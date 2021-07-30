@@ -90,7 +90,7 @@ tableone <- function(
     data,
     title,
     datasource,
-    footnote,
+    footnote = "",
     # abbreviations = "",
     # variable_definitions = "",
     strata = NULL,
@@ -99,7 +99,14 @@ tableone <- function(
     ...
     # engine = "gt"
 ) {
-    tab1_rendered <- get_tableone(data, strata = strata, summary_function = summary_function, overall = overall) %>%
-        render(title = title, datasource = datasource, ...)
+    tab1_rendered <- get_tableone(data, 
+                                  strata = strata, 
+                                  summary_function = summary_function, 
+                                  overall = overall) %>%
+        render(title = title, 
+               datasource = datasource, 
+               footnote = footnote,
+               ...)
+    
     return(tab1_rendered)
 }
