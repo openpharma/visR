@@ -23,13 +23,29 @@
 #' ## default alignment does not take into account legend size
 #' cowplot::plot_grid(plotlist = list(p1,p2), align = "none", nrow=2)
 #'
-#' ## Alignplots takes into account legend width
-#' cowplot::plot_grid(plotlist = AlignPlots(pltlist = list(p1, p2)), align = "none", nrow=2)
+#' ## align_plots() takes into account legend width
+#' cowplot::plot_grid(plotlist = align_plots(pltlist = list(p1, p2)), align = "none", nrow=2)
 #' }
 #' @export
 
 
-AlignPlots <- function(pltlist = NULL) {
+align_plots <- function(pltlist) {
+  
+  if (missing(pltlist) | is.null(pltlist)) {
+    
+    base::stop("Please provide a list of valid `ggplot` objects.")
+    
+  } 
+  
+  for (plt in pltlist) {
+    
+    if (!("ggplot" %in% class(plt))) {
+      
+      base::stop("Not all elements of the provided list are `ggplot` objects.")
+      
+    }
+  }
+  
   .LegendWidth <- function(x)
     x$grobs[[8]]$grobs[[1]]$widths[[4]]
 
@@ -37,10 +53,10 @@ AlignPlots <- function(pltlist = NULL) {
   max.widths <-
     do.call(grid::unit.pmax, lapply(plots.grobs, "[[", "widths"))
   legends.widths <- lapply(plots.grobs, .LegendWidth)
-
+  
   max.legends.width <-
     base::suppressWarnings(do.call(max, legends.widths))
-
+  
   plots.grobs.eq.widths <- lapply(plots.grobs, function(x) {
     x$widths <- max.widths
     x
@@ -112,8 +128,25 @@ legendopts <- function(legend_position = "right",
       leg_opts <- NULL
     }
   } else {
-    leg_opts <- list(x = legend_position[1],
-                     y = legend_position[2])
+    
+    if (length(legend_position) == 2) {
+      
+      leg_opts <- list(x = legend_position[1],
+                       y = legend_position[2])
+      
+    } else if (length(legend_position) > 2) {
+      
+      warning("The provided vector for the legend position contains more than 2 elements, only using the first two.")
+      
+      leg_opts <- list(x = legend_position[1],
+                       y = legend_position[2])
+      
+    } else {
+      
+      stop("Invalid argument for 'legend_position'. Use 'bottom', 'right', 'top', 'left', 'none' or a vector indicating the desired absolute x/y position, as for examle c(1, 2).")
+      
+    }
+    
   }
 
   return(list(leg_opts = leg_opts, showlegend = showlegend))
@@ -155,7 +188,7 @@ legendopts <- function(legend_position = "right",
       dplyr::mutate(complement_label = sprintf("%s\nN = %d",
                                                complement_label,
                                                dplyr::lag(get(value_column_name)) - get(value_column_name)))
-  }else{
+  } else {
     plotting_data <- plotting_data %>%
       dplyr::ungroup() %>%
       dplyr::mutate(complement_label = sprintf("%s N = %d", "Excluded",
