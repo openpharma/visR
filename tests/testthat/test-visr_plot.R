@@ -1,8 +1,6 @@
 #' @title Specifications visr_plot
-#' @section Last updated by:
-#' Tim Treis
-#' @section Last update date:
-#' 27-MAY-2021
+#' @section Last updated by: Tim Treis
+#' @section Last update date: 30-JULY-2021
 
 # Specifications ---------------------------------------------------------------
 
@@ -26,14 +24,16 @@
 #' T2.13 When `x_label` is `NULL` and the `survfit` object does not have a `PARAM` but a `PARAMCD` column, the `x_label` is set to `PARAMCD`.
 #' T2.14 When `x_label` is `NULL` and the `survfit` object does have a `PARAM` but no `PARAMCD` column, the `x_label` is set to `PARAM`.
 #' T2.15 When `x_label` is `NULL` and the `survfit` object does not have a `PARAM` or `PARAMCD` column, the `x_label` is `NULL`.
-#' T2.16 When `x_label` and `x_unit` are both defined, they are concatenated into the final `x_label`.
-#' T2.17 An error when `y_label` is not `NULL`, a `character` string or an `expression`.
-#' T2.18 An error when `x_units` is not `NULL` or a `character` string.
-#' T2.19 An error when `x_ticks` is not `NULL` or a `numeric`.
-#' T2.20 An error when `y_ticks` is not `NULL` or a `numeric`.
-#' T2.21 No error when a valid option is passed to `legend_position`.
-#' T2.22 An error when the string is not amongst the valid options for `legend_position`.
-#' T2.23 An error when an undefined option is passed to `legend_position`.
+#' T2.16 A warning when `x_label` is `NULL` and the `PARAM` column has more than one unique entry.
+#' T2.17 A warning when `x_label` is `NULL` and the `PARAMCD` column has more than one unique entry.
+#' T2.18 When `x_label` and `x_unit` are both defined, they are concatenated into the final `x_label`.
+#' T2.19 An error when `y_label` is not `NULL`, a `character` string or an `expression`.
+#' T2.20 An error when `x_units` is not `NULL` or a `character` string.
+#' T2.21 An error when `x_ticks` is not `NULL` or a `numeric`.
+#' T2.22 An error when `y_ticks` is not `NULL` or a `numeric`.
+#' T2.23 No error when a valid option is passed to `legend_position`.
+#' T2.24 An error when the string is not amongst the valid options for `legend_position`.
+#' T2.25 An error when an undefined option is passed to `legend_position`.
 #' T3. The y-axis properties are correctly deducted from the provided `fun` when applying `visR::visr()` to a `survfit` object.
 #' T3.1 No error when `y_label` is `NULL` and `fun` is one of the valid string options.
 #' T3.2 An error when `y_label` is `NULL`, `fun` is a string but not one of the valid options.
@@ -287,7 +287,38 @@ testthat::test_that("T2.15 When `x_label` is `NULL` and the `survfit` object doe
   
 })
 
-testthat::test_that("T2.16 When `x_label` and `x_unit` are both defined, they are concatenated into the final `x_label`.", {
+testthat::test_that("T2.16 A warning when `x_label` is `NULL` and the `PARAM` column has more than one unique entry.", {
+  
+  survfit_object <- adtte %>%
+    visR::estimate_KM("SEX") 
+  
+  survfit_object$PARAM <- rep(survfit_object$PARAM, length(survfit_object$surv)-1)
+  survfit_object$PARAM <- c(survfit_object$PARAM, "visR")
+  
+  expected_warning <- "More than one unique entry in 'PARAM'."
+  survfit_object %>% 
+    visR::visr(x_label = NULL) %>%
+    testthat::expect_warning(expected_warning)
+  
+})
+
+testthat::test_that("T2.17 A warning when `x_label` is `NULL` and the `PARAMCD` column has more than one unique entry.", {
+  
+  survfit_object <- adtte %>%
+    dplyr::select(-PARAM) %>%
+    visR::estimate_KM("SEX") 
+  
+  survfit_object$PARAMCD <- rep(survfit_object$PARAMCD, length(survfit_object$surv)-1)
+  survfit_object$PARAMCD <- c(survfit_object$PARAMCD, "visR")
+  
+  expected_warning <- "More than one unique entry in 'PARAMCD'."
+  survfit_object %>% 
+    visR::visr(x_label = NULL) %>%
+    testthat::expect_warning(expected_warning)
+  
+})
+
+testthat::test_that("T2.18 When `x_label` and `x_unit` are both defined, they are concatenated into the final `x_label`.", {
   
   survfit_object <- adtte %>%
     visR::estimate_KM("SEX") 
@@ -298,7 +329,7 @@ testthat::test_that("T2.16 When `x_label` and `x_unit` are both defined, they ar
   
 })
 
-testthat::test_that("T2.17 An error when `y_label` is not `NULL`, a `character` string or an `expression`.", {
+testthat::test_that("T2.19 An error when `y_label` is not `NULL`, a `character` string or an `expression`.", {
   
   survfit_object <- adtte %>%
     visR::estimate_KM("SEX") 
@@ -311,7 +342,7 @@ testthat::test_that("T2.17 An error when `y_label` is not `NULL`, a `character` 
   
 })
 
-testthat::test_that("T2.18 An error when `x_units` is not `NULL` or a `character` string.", {
+testthat::test_that("T2.20 An error when `x_units` is not `NULL` or a `character` string.", {
   
   survfit_object <- adtte %>%
     visR::estimate_KM("SEX") 
@@ -324,7 +355,7 @@ testthat::test_that("T2.18 An error when `x_units` is not `NULL` or a `character
   
 })
 
-testthat::test_that("T2.19 An error when `x_ticks` is not `NULL` or a `numeric`.", {
+testthat::test_that("T2.21 An error when `x_ticks` is not `NULL` or a `numeric`.", {
   
   survfit_object <- adtte %>%
     visR::estimate_KM("SEX") 
@@ -337,7 +368,7 @@ testthat::test_that("T2.19 An error when `x_ticks` is not `NULL` or a `numeric`.
   
 })
 
-testthat::test_that("T2.20 An error when `y_ticks` is not `NULL` or a `numeric`.", {
+testthat::test_that("T2.22 An error when `y_ticks` is not `NULL` or a `numeric`.", {
   
   survfit_object <- adtte %>%
     visR::estimate_KM("SEX") 
@@ -350,7 +381,7 @@ testthat::test_that("T2.20 An error when `y_ticks` is not `NULL` or a `numeric`.
   
 })
 
-testthat::test_that("T2.21 No error when a valid option is passed to `legend_position`.", {
+testthat::test_that("T2.23 No error when a valid option is passed to `legend_position`.", {
   
   survfit_object <- adtte %>%
     visR::estimate_KM("SEX") 
@@ -364,7 +395,7 @@ testthat::test_that("T2.21 No error when a valid option is passed to `legend_pos
   
 })
 
-testthat::test_that("T2.22 An error when the string is not amongst the valid options for `legend_position`.", {
+testthat::test_that("T2.24 An error when the string is not amongst the valid options for `legend_position`.", {
   
   survfit_object <- adtte %>%
     visR::estimate_KM("SEX") 
@@ -373,7 +404,7 @@ testthat::test_that("T2.22 An error when the string is not amongst the valid opt
   
 })
 
-testthat::test_that("T2.23 An error when an undefined option is passed to `legend_position`.", {
+testthat::test_that("T2.25 An error when an undefined option is passed to `legend_position`.", {
   
   survfit_object <- adtte %>%
     visR::estimate_KM("SEX") 
