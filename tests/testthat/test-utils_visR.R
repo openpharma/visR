@@ -204,9 +204,6 @@ testthat::test_that("T3.11 A warning when `legend_position` is a vector with a l
   expected_warning <- "The provided vector for the legend position contains more than 2 elements, only using the first two."
   visR:::legendopts(legend_position = c(1, 2, 3)) %>% testthat::expect_warning(expected_warning)
   
-  testthat::expect_true(legend$leg_opts$x == 1)
-  testthat::expect_true(legend$leg_opts$y == 2)
-  
 })
 
 testthat::test_that("T3.12 An error when `legend_position` is not a `character` or a vector with a length of at least 2.", {
