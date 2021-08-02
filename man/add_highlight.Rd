@@ -7,33 +7,31 @@
 \usage{
 add_highlight(gg, ...)
 
-\method{add_highlight}{ggsurvfit}(gg, strata, new_alpha = 0.5, ...)
+\method{add_highlight}{ggsurvfit}(gg, strata, bg_alpha_multiplier = 0.2, ...)
 }
 \arguments{
 \item{gg}{A ggplot created with visR}
 
-\item{...}{other arguments passed on to the method to modify \code{\link[ggplot2]{geom_ribbon}}}
+\item{...}{other arguments passed on to the method}
 
-\item{strata}{aesthetic of ggplot2 \code{\link[ggplot2]{geom_ribbon}}. Default is 0.1.}
+\item{strata}{Name of the strata to be highlighted as shown in the legend.}
 
-\item{alpha}{aesthetic of ggplot2 \code{\link[ggplot2]{geom_ribbon}}. Default is "ribbon".}
+\item{bg_alpha_multiplier}{Factor with which the \code{alpha} values of all but the specified strata will be multiplied.}
 }
 \value{
-Pointwise confidence interval overlayed on a visR ggplot
+The input \code{ggplot2} object with adjusted \code{alpha} values
 }
 \description{
-S3 method for adding a pointwise confidence interval to a object created with visR.
-No default method is available at the moment.
+S3 method for highlighting a specific strata by lowering the opacity of all other strata.
 }
 \examples{
-library(survival)
-library(dplyr)
-library(tidyr)
-library(ggplot2)
+library(visR)
 
-survfit_object <- survival::survfit(data = adtte, Surv(AVAL, 1-CNSR) ~ TRTP)
-vr_plot(survfit_object) \%>\%
-  add_CI(alpha = 0.1, style = "step", linetype = 3)
+adtte \%>\%
+  visR::estimate_KM("SEX") \%>\%
+  visR::visr() \%>\%
+  visR::add_CI(alpha = 0.4) \%>\%
+  visR::add_highlight("SEX=M", bg_alpha_multiplier = 0.2)
 
 }
 \author{

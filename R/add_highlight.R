@@ -1,36 +1,34 @@
 #' @title Highlight a specific strata
 #'
-#' @description S3 method for adding a pointwise confidence interval to a object created with visR.
-#'     No default method is available at the moment.
+#' @description S3 method for highlighting a specific strata by lowering the opacity of all other strata.
 #'
 #' @author Tim Treis
 #'
 #' @param gg visR object
-#' @param ... other arguments passed on to the method to modify \code{\link[ggplot2]{geom_ribbon}}
-#'
+#' @param ... other arguments passed on to the method 
+#' 
 #' @examples
-#' library(survival)
-#' library(dplyr)
-#' library(tidyr)
-#' library(ggplot2)
+#' library(visR)
 #'
-#' survfit_object <- survival::survfit(data = adtte, Surv(AVAL, 1-CNSR) ~ TRTP)
-#' vr_plot(survfit_object) %>%
-#'   add_CI(alpha = 0.1, style = "step", linetype = 3)
+#' adtte %>%
+#'   visR::estimate_KM("SEX") %>%
+#'   visR::visr() %>%
+#'   visR::add_CI(alpha = 0.4) %>%
+#'   visR::add_highlight("SEX=M", bg_alpha_multiplier = 0.2)
 #'
-#' @return Pointwise confidence interval overlayed on a visR ggplot
+#' @return The input `ggplot2` object with adjusted `alpha` values
 #'
 #' @rdname add_highlight
 #'
 #' @export
 
 add_highlight <- function(gg, ...){
-  UseMethod("add_highlight")
+  UseMethod("add_highlight", gg)
 }
 
 #' @param gg A ggplot created with visR
-#' @param strata aesthetic of ggplot2 \code{\link[ggplot2]{geom_ribbon}}. Default is 0.1.
-#' @param alpha aesthetic of ggplot2 \code{\link[ggplot2]{geom_ribbon}}. Default is "ribbon".
+#' @param strata Name of the strata to be highlighted as shown in the legend.
+#' @param bg_alpha_multiplier Factor with which the `alpha` values of all but the specified strata will be multiplied.
 #'
 #' @rdname add_highlight
 #' @method add_highlight ggsurvfit
@@ -38,124 +36,18 @@ add_highlight <- function(gg, ...){
 
 add_highlight.ggsurvfit <- function(gg, 
                                     strata, 
-                                    bg_alpha_multiplier = 0.5,
-                                    ...){
+                                    bg_alpha_multiplier = 0.2,
+                                    ...) {
+  
+  # Ugly hack to suppress CRAN warning as described here:
+  # https://www.r-bloggers.com/2019/08/no-visible-binding-for-global-variable/#option-two
+  alpha <- colour <- fill <- group <- NULL
   
   if (missing(strata)) {
     
     warning("A strata to highlight has to be specified.")
     return(NULL)
   
-  }
-  
-  get_alpha_from_hex_colour <- function(hex_colour) {
-    
-    if (missing(hex_colour) | !is.character(hex_colour)) {
-      
-      stop("Please provide a colour in hex representation as a string for `hex_colour`.")
-      
-    }
-    
-    if (!nchar(hex_colour) == 9) {
-      
-      stop("Please provide a hex colour in the format #RRGGBBAA.")
-      
-    } else {
-      
-      colour_parts <- strsplit(hex_colour, "")[[1]]
-      
-      if (colour_parts[1] != "#") {
-        
-        stop("Please provide a hex colour in the format #RRGGBBAA.")
-        
-      } else {
-        
-        alpha <- col2rgb(hex_colour, alpha = TRUE)["alpha",][[1]]
-        alpha <- round(alpha/255, 2) 
-        
-        return(alpha)
-        
-      }
-    }
-  }
-  
-  numeric_alpha_to_hex <- function(numeric_alpha = NULL) {
-    
-    # Two separate ifs so that is.na(NULL) doesn't cause an error
-    if (is.null(numeric_alpha)) { return("00") }
-    if (is.na(numeric_alpha)) { return("00") }
-  
-    if (is.numeric(numeric_alpha)) {
-      
-      if (numeric_alpha > 1 | numeric_alpha < 0) {
-        
-        stop("Please enter a numeric value between 0 and 1.")
-        
-      } else {
-        
-        alpha_decimal = base::round((numeric_alpha * 100) * (255/100))
-        alpha_hex = base::format(base::as.hexmode(alpha_decimal), 
-                                 width = 2,
-                                 upper.case = TRUE)
-        
-        return(alpha_hex)
-        
-      }
-      
-    } else {
-      
-      stop("Please enter a numeric value between 0 and 1.")
-      
-    }
-
-  }
-  
-  replace_hex_alpha <- function(colour, new_alpha) {
-    
-    if (missing(colour) | missing(new_alpha)) {
-      
-      stop("Please provide a `colour` and a `new_alpha` in hex representation as strings.")
-      
-    }
-    
-    if (!(is.character(new_alpha) & nchar(new_alpha) == 2)) {
-      
-      stop("Please provide a two-character string for the hex representation of the new alpha.")
-      
-    }
-    
-    if (!(is.character(colour))) {
-      
-      stop("Please provide a hex colour as a string.")
-      
-    } else {
-      
-      if (!nchar(colour) == 9) {
-        
-        stop("Please provide a hex colour in the format #RRGGBBAA.")
-        
-      } else {
-        
-        colour_parts <- strsplit(colour, "")[[1]]
-        
-        if (colour_parts[1] != "#") {
-          
-          stop("Please provide a hex colour in the format #RRGGBBAA.")
-          
-        } else {
-          
-          colour_red <- paste0(colour_parts[2:3], collapse = "")
-          colour_green <- paste0(colour_parts[4:5], collapse = "")
-          colour_blue <- paste0(colour_parts[6:7], collapse = "")
-          new_alpha <- base::toupper(new_alpha)
-          
-          new_colour <- paste0("#", colour_red, colour_green, colour_blue, new_alpha)
-          
-          return(new_colour)
-          
-        }
-      }
-    }
   }
   
   # Extract names of strata objects

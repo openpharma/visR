@@ -267,3 +267,143 @@ legendopts <- function(legend_position = "right",
 
 }
 
+#' @title Extract the numerical alpha representation of #RRGGBBAA colour 
+#'
+#' @description This function dissects a #RRGGBBAA colour into its components and then returns the numeric representation of the alpha (AA) value.
+#'
+#' @param hex_colour A string in the format '#RRGGBBAA'
+#'
+#' @return The numeric representation of the colors' alpha value, rounded to 2 digits.
+#'
+#' @keywords internal
+
+get_alpha_from_hex_colour <- function(hex_colour) {
+  
+  if (missing(hex_colour) | !is.character(hex_colour)) {
+    
+    stop("Please provide a colour in hex representation as a string for `hex_colour`.")
+    
+  }
+  
+  if (!nchar(hex_colour) == 9) {
+    
+    stop("Please provide a hex colour in the format #RRGGBBAA.")
+    
+  } else {
+    
+    colour_parts <- strsplit(hex_colour, "")[[1]]
+    
+    if (colour_parts[1] != "#") {
+      
+      stop("Please provide a hex colour in the format #RRGGBBAA.")
+      
+    } else {
+      
+      alpha <- grDevices::col2rgb(hex_colour, alpha = TRUE)["alpha",][[1]]
+      alpha <- round(alpha/255, 2) 
+      
+      return(alpha)
+      
+    }
+  }
+}
+
+#' @title Converts a the numeric representation of an alpha value into the hex-encoded version.
+#'
+#' @description The function accepts a numeric value (or NULL/NA) and returns a two-character hex representation of it.
+#'
+#' @param numeric_alpha A numerical value between 0 and 1.
+#'
+#' @return A two-character sequence that represents the hex-value of `numeric_alpha`.
+#'
+#' @keywords internal
+
+numeric_alpha_to_hex <- function(numeric_alpha = NULL) {
+  
+  # Two separate ifs so that is.na(NULL) doesn't cause an error
+  if (is.null(numeric_alpha)) { return("00") }
+  if (is.na(numeric_alpha)) { return("00") }
+  
+  if (is.numeric(numeric_alpha)) {
+    
+    if (numeric_alpha > 1 | numeric_alpha < 0) {
+      
+      stop("Please enter a numeric value between 0 and 1.")
+      
+    } else {
+      
+      alpha_decimal = base::round((numeric_alpha * 100) * (255/100))
+      alpha_hex = base::format(base::as.hexmode(alpha_decimal), 
+                               width = 2,
+                               upper.case = TRUE)
+      
+      return(alpha_hex)
+      
+    }
+    
+  } else {
+    
+    stop("Please enter a numeric value between 0 and 1.")
+    
+  }
+  
+}
+
+#' @title Replaces the AA part of a #RRGGBBAA hex-colour.
+#'
+#' @description The function dissects a string of the format #RRGGBBAA into its components and replaces the alpha (AA) part.
+#'
+#' @param colour A character string of the format #RRGGBBAA.
+#' @param new_alpha A two-character string with the new alpha value.
+#'
+#' @return A hex-encoded RGBA colour.
+#'
+#' @keywords internal
+
+replace_hex_alpha <- function(colour, new_alpha) {
+  
+  if (missing(colour) | missing(new_alpha)) {
+    
+    stop("Please provide a `colour` and a `new_alpha` in hex representation as strings.")
+    
+  }
+  
+  if (!(is.character(new_alpha) & nchar(new_alpha) == 2)) {
+    
+    stop("Please provide a two-character string for the hex representation of the new alpha.")
+    
+  }
+  
+  if (!(is.character(colour))) {
+    
+    stop("Please provide a hex colour as a string.")
+    
+  } else {
+    
+    if (!nchar(colour) == 9) {
+      
+      stop("Please provide a hex colour in the format #RRGGBBAA.")
+      
+    } else {
+      
+      colour_parts <- strsplit(colour, "")[[1]]
+      
+      if (colour_parts[1] != "#") {
+        
+        stop("Please provide a hex colour in the format #RRGGBBAA.")
+        
+      } else {
+        
+        colour_red <- paste0(colour_parts[2:3], collapse = "")
+        colour_green <- paste0(colour_parts[4:5], collapse = "")
+        colour_blue <- paste0(colour_parts[6:7], collapse = "")
+        new_alpha <- base::toupper(new_alpha)
+        
+        new_colour <- paste0("#", colour_red, colour_green, colour_blue, new_alpha)
+        
+        return(new_colour)
+        
+      }
+    }
+  }
+}
