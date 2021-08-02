@@ -169,7 +169,7 @@ render(lung_suvival_object  %>% get_quantile(), title = "Quantile Information", 
 
 ```{r km_tab_options_4}
 # Display a cox model estimate associated with the survival estimate
-#render(lung_suvival_object  %>% get_COX_HR(), title = "COX estimate", datasource = DATASET)
+render(lung_suvival_object  %>% get_COX_HR(), title = "COX estimate", datasource = DATASET)
 ```
 
 
