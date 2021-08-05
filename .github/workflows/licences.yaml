@@ -1,8 +1,9 @@
 name: License Compliance Check
 
 on:
-  push:
-    epijim-patch-1
+  push: 
+      branches:
+      - epijim-patch-1
   pull_request:
     branches: develop
 
