@@ -4,7 +4,28 @@
 
 # Specifications ---------------------------------------------------------------
 
-#' T1. No errors when confidence intervals are added to the plots. 
+#' T1. The function modifies a `ggsurvfit` object and returns it.
+#' T1.1 No error when `add_highlight` is called on a `ggsurvfit` object.
+#' T1.2 An error when `add_highlight` is called without a plot.
+#' T1.3 An error when `add_highlight` is called on a non-`ggplot` object
+#' T1.4 An error when `add_highlight` is called on a `ggplot` but non-`ggsurvfit` object.
+#' T1.5 The function returns a modified object of type `ggsurvfit`.
+#' T2. No errors when one or more strata are highlighted with default parameters.
+#' T2.1 No error when `strata` is a character string found in the plot strata.
+#' T2.2 An error when `strata` is a character string not found in the plot strata.
+#' T2.3 No error when `strata` is a `list` or `vector` of character strings found in the plot strata.
+#' T2.4 An error when `strata` is a `list` or `vector` that holds non-character-string elements.
+#' T2.5 An error when `strata` is not a character string or a list.
+#' T2.6 An error when `strata` is `NULL` or missing.
+#' T2.7 An error when `strata` is not a character string or a list.
+#' T3. The opacity of the background strata can be changed through `bg_alpha_multiplier`.
+#' T3.1 No error when `bg_alpha_multiplier` is a `numberic`.
+#' T3.2 An error when `bg_alpha_multiplier` is a not a `numberic`.
+#' T3.3 An error when `bg_alpha_multiplier` is outside of [0, 1].
+#' T3.4 The alpha of the background strata changes with `bg_alpha_multiplier`.
+#' T4. The function modifies the underlying data structure than is interpreted during plotting.
+#' T4.1 The function adds the alpha channel to the hex-encoded colour.
+#' T4.2 The function also reduces the alpha value of the confidence intervals introduced by `add_CI`.
 
 # Requirement T1 ---------------------------------------------------------------
 

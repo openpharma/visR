@@ -23,7 +23,9 @@
 #' T3.10 When `legend_position` is not a character, but a vector with at least length 2, the first two elements are used as x/y positions for the legend.
 #' T3.11 A warning when `legend_position` is a vector with a length greater than 2.
 #' T3.12 An error when `legend_position` is not a `character` or a vector with a length of at least 2.
-
+#' T4. `convert_alpha` can convert hex-encoded alpha values between its two representations
+#' T4.1 No error when `numeric_alpha` is a `numeric`.
+#' T4.2 An Error when `numeric_alpha` is not a `numeric`.
 
 # Requirement T1 ---------------------------------------------------------------
 
@@ -93,7 +95,7 @@ testthat::test_that("T2.1 No error when a list of ggplots is passed.", {
   
 })
 
-# Requirement T2 ---------------------------------------------------------------
+# Requirement T3 ---------------------------------------------------------------
 
 testthat::context("utils_visr - T3. The function `legendopts()` translates the input to a `ggplot2`-compatible list.")
 
@@ -211,6 +213,167 @@ testthat::test_that("T3.12 An error when `legend_position` is not a `character` 
   visR:::legendopts(legend_position = 1) %>% testthat::expect_error()
   visR:::legendopts(legend_position = c(1)) %>% testthat::expect_error()
   visR:::legendopts(legend_position = c()) %>% testthat::expect_error()
+  
+})
+
+
+# Requirement T4 ---------------------------------------------------------------
+
+testthat::context("utils_visr - T4. `convert_alpha` can convert hex-encoded alpha values between its two representations.")
+
+testthat::test_that("T4.1 A two-letter character string is returned when `numeric_alpha` is specified but not `hex_alpha`.", {
+  
+  visR:::convert_alpha(numeric_alpha = 0.5) %>%
+    testthat::expect_error(NA)
+  
+  res <- visR:::convert_alpha(numeric_alpha = 0.5) 
+  
+  testthat::expect_true(nchar(res) == 2)
+  testthat::expect_true("character" %in% class(res))
+  
+})
+
+testthat::test_that("T4.2 A numeric is returned when `numeric_alpha` is not specified but `hex_alpha`.", {
+  
+  visR:::convert_alpha(hex_alpha = "FF") %>%
+    testthat::expect_error(NA)
+  
+  testthat::expect_true("numeric" %in% class(visR:::convert_alpha(hex_alpha = "FF")))
+  
+})
+
+testthat::test_that("T4.3 An error when `numeric_alpha` and `hex_alpha` are both specified.", {
+  
+  expected_error <- "Please choose either `numeric_alpha` or `hex_alpha`."
+  
+  visR:::convert_alpha(numeric_alpha = 0.5, hex_alpha = "FF") %>%
+    testthat::expect_error(expected_error)
+  
+})
+
+testthat::test_that("T4.4 Ab error when neither `numeric_alpha` nor `hex_alpha` are specified.", {
+  
+  expected_error <- "Either `numeric_alpha` or `hex_alpha` has to be specified."
+  
+  visR:::convert_alpha() %>%
+    testthat::expect_error(expected_error)
+  
+})
+
+testthat::test_that("T4.5 No error when `numeric_alpha` is a `numeric` between 0 and 1.", {
+  
+  visR:::convert_alpha(numeric_alpha = 0.5) %>%
+    testthat::expect_error(NA)
+  
+})
+
+testthat::test_that("T4.6 An error when `numeric_alpha` is a `numeric` outside of [0, 1].", {
+  
+  expected_error <- "Please enter a numeric value between 0 and 1 for `numeric_alpha`."
+  
+  visR:::convert_alpha(numeric_alpha = -0.5) %>%
+    testthat::expect_error(expected_error)
+  
+  visR:::convert_alpha(numeric_alpha = 1.5) %>%
+    testthat::expect_error(expected_error)
+  
+})
+
+testthat::test_that("T4.7 An error when `numeric_alpha` is not a `numeric`.", {
+  
+  expected_error <- "Please enter a numeric value between 0 and 1 for `numeric_alpha`."
+  
+  visR:::convert_alpha(numeric_alpha = "visR") %>%
+    testthat::expect_error(expected_error)
+  
+})
+
+testthat::test_that("T4.8 No error when `hex_alpha` is a two-letter character string.", {
+  
+  visR:::convert_alpha(hex_alpha = "FF") %>%
+    testthat::expect_error(NA)
+  
+})
+
+testthat::test_that("T4.9 An error when `hex_alpha` is a character string longer than two letters.", {
+  
+  expected_error <- "Please specify a two-letter character string for `hex_alpha`."
+  
+  visR:::convert_alpha(hex_alpha = "visR") %>%
+    testthat::expect_error(expected_error)
+  
+})
+
+# Requirement T5 ---------------------------------------------------------------
+
+testthat::context("utils_visr - T5. `replace_hex_alpha` modified the alpha value of a hex-encoded colour.")
+
+testthat::test_that("T5.1 No error when `colour` is a #RRGGBBAA string and `new_alpha` is a two-letter string.", {
+  
+  visR:::replace_hex_alpha(colour = "#FFFFFF00", new_alpha = "FF") %>%
+    testthat::expect_error(NA)
+  
+})
+
+testthat::test_that("T5.2 An error when either `colour` or `new_alpha` or none of both are specified.", {
+  
+  expected_error <- "Please provide a `colour` and a `new_alpha` in hex representation as strings."
+  
+  visR:::replace_hex_alpha(colour = "#FFFFFF00") %>%
+    testthat::expect_error(expected_error)
+  
+  visR:::replace_hex_alpha(new_alpha = "FF") %>%
+    testthat::expect_error(expected_error)
+  
+  visR:::replace_hex_alpha() %>%
+    testthat::expect_error(expected_error)
+  
+})
+
+testthat::test_that("T5.3 An error when `new_alpha` is not a two-character string.", {
+  
+  expected_error <- "Please provide a two-character string for the hex representation of the new alpha."
+  
+  visR:::replace_hex_alpha(colour = "#FFFFFF00", new_alpha = 1) %>%
+    testthat::expect_error(expected_error)
+  
+  visR:::replace_hex_alpha(colour = "#FFFFFF00", new_alpha = "visR") %>%
+    testthat::expect_error(expected_error)
+  
+})
+
+testthat::test_that("T5.4 An error when `colour` is not a string.", {
+  
+  expected_error <- "Please provide a hex colour as a string."
+  
+  visR:::replace_hex_alpha(colour = 1, new_alpha = "FF") %>%
+    testthat::expect_error(expected_error)
+  
+})
+
+testthat::test_that("T5.5 An error when `colour` is a string but not in the format of #RRGGBBAA.", {
+  
+  expected_error <- "Please provide a hex colour in the format #RRGGBBAA."
+  
+  # Covers case of too long strings
+  visR:::replace_hex_alpha(colour = "this_string_is_too_long", new_alpha = "FF") %>%
+    testthat::expect_error(expected_error)
+  
+  # Covers case of nchar == 9 but no # in first position
+  visR:::replace_hex_alpha(colour = "visRvisRv", new_alpha = "FF") %>%
+    testthat::expect_error(expected_error)
+  
+})
+
+testthat::test_that("T5.6 The function replaces the AA part #RRGGBBAA in `colour` with `new_alpha`.", {
+  
+  colour <- "#FFFFFFAA"
+  new_alpha <- "00"
+  
+  new_colour <- visR:::replace_hex_alpha(colour = colour, new_alpha = new_alpha)
+  
+  testthat::expect_equal(substr(colour, 1, 7), substr(new_colour, 1, 7))
+  testthat::expect_equal(new_alpha, substr(new_colour, 8, 9))
   
 })
 
