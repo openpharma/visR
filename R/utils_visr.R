@@ -277,7 +277,7 @@ legendopts <- function(legend_position = "right",
 #'
 #' @keywords internal
 
-get_alpha_from_hex_colour <- function(hex_colour) {
+get_alpha_from_hex_colour <- function(hex_colour = NULL) {
   
   if (missing(hex_colour) | !is.character(hex_colour)) {
     

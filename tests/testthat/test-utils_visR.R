@@ -20,12 +20,32 @@
 #' T3.7 When `legend_position` is 'left' and `legend_orientation` is `NULL`, the parameters in the returned object anchor it left-centered.
 #' T3.8 When `legend_position` is 'none', the parameters in the returned object disable the legend.
 #' T3.9 When `legend_orientation` is not `NULL`, it is used as `$leg_opts$orientation` in the returned object.
-#' T3.10 When `legend_position` is not a character, but a vector with at least length 2, the first two elements are used as x/y positions for the legend.
-#' T3.11 A warning when `legend_position` is a vector with a length greater than 2.
-#' T3.12 An error when `legend_position` is not a `character` or a vector with a length of at least 2.
-#' T4. `convert_alpha` can convert hex-encoded alpha values between its two representations
-#' T4.1 No error when `numeric_alpha` is a `numeric`.
-#' T4.2 An Error when `numeric_alpha` is not a `numeric`.
+#' T3.10 When `legend_position` is not a character, but a vector with at least length 2, the first two elements are used as x/y positions for the legend.                                                  
+#' T3.11 A warning when `legend_position` is a vector with a length greater than 2.                                                                                                                        
+#' T3.12 An error when `legend_position` is not a `character` or a vector with a length of at least 2.                                                                                                     
+#' T4. `convert_alpha` can convert hex-encoded alpha values between its two representations.                                                                                                               
+#' T4.1 A two-letter character string is returned when `numeric_alpha` is specified but not `hex_alpha`.                                                                                                   
+#' T4.2 A numeric is returned when `numeric_alpha` is not specified but `hex_alpha`.                                                                                                                       
+#' T4.3 An error when `numeric_alpha` and `hex_alpha` are both specified.                                                                                                                                  
+#' T4.4 Ab error when neither `numeric_alpha` nor `hex_alpha` are specified.                                                                                                                               
+#' T4.5 No error when `numeric_alpha` is a `numeric` between 0 and 1.                                                                                                                                      
+#' T4.6 An error when `numeric_alpha` is a `numeric` outside of [0, 1].                                                                                                                                    
+#' T4.7 An error when `numeric_alpha` is not a `numeric`.                                                                                                                                                  
+#' T4.8 No error when `hex_alpha` is a two-letter character string.                                                                                                                                        
+#' T4.9 An error when `hex_alpha` is a character string longer than two letters.                                                                                                                           
+#' T5. `replace_hex_alpha` modified the alpha value of a hex-encoded colour.                                                                                                                               
+#' T5.1 No error when `colour` is a #RRGGBBAA string and `new_alpha` is a two-letter string.                                                                                                               
+#' T5.2 An error when either `colour` or `new_alpha` or none of both are specified.                                                                                                                        
+#' T5.3 An error when `new_alpha` is not a two-character string.                                                                                                                                           
+#' T5.4 An error when `colour` is not a string.                                                                                                                                                            
+#' T5.5 An error when `colour` is a string but not in the format of #RRGGBBAA.                                                                                                                             
+#' T5.6 The function replaces the AA part #RRGGBBAA in `colour` with `new_alpha`.                                                                                                                          
+#' T6. `get_alpha_from_hex_colour` extracts the numerical value of a hex-encoded colour.                                                                                                                   
+#' T6.1 A numerical value is returned when `hex_colour` is a #RRGGBBAA `character` string.                                                                                                                 
+#' T6.2 An error when `hex_color` is misisng                                                                                                                                                               
+#' T6.3 An error when `hex_color` is not a character string.
+#' T6.4 An error when `hex_color` is not a character string with length 9.
+#' T6.5 An error when `hex_color` is a character string with length 9 but doesn't have # at the first position.
 
 # Requirement T1 ---------------------------------------------------------------
 
@@ -377,5 +397,54 @@ testthat::test_that("T5.6 The function replaces the AA part #RRGGBBAA in `colour
   
 })
 
+# Requirement T6 ---------------------------------------------------------------
+
+testthat::context("utils_visr - T6. `get_alpha_from_hex_colour` extracts the numerical value of a hex-encoded colour.")
+
+testthat::test_that("T6.1 A numerical value is returned when `hex_colour` is a #RRGGBBAA `character` string.", {
+  
+  visR:::get_alpha_from_hex_colour(hex_colour = "#FFFFFF04") %>%
+    testthat::expect_error(NA)
+  
+  alpha <- visR:::get_alpha_from_hex_colour(hex_colour = "#FFFFFF04")
+  testthat::expect_true("numeric" %in% class(alpha))
+  
+})
+
+testthat::test_that("T6.2 An error when `hex_color` is misisng", {
+  
+  expected_error <- "Please provide a colour in hex representation as a string for `hex_colour`."
+  
+  visR:::get_alpha_from_hex_colour() %>%
+    testthat::expect_error(expected_error)
+  
+})
+
+testthat::test_that("T6.3 An error when `hex_color` is not a character string.", {
+  
+  expected_error <- "Please provide a colour in hex representation as a string for `hex_colour`."
+  
+  visR:::get_alpha_from_hex_colour(hex_colour = 1) %>%
+    testthat::expect_error(expected_error)
+  
+})
+
+testthat::test_that("T6.4 An error when `hex_color` is not a character string with length 9.", {
+  
+  expected_error <- "Please provide a hex colour in the format #RRGGBBAA."
+  
+  visR:::get_alpha_from_hex_colour(hex_colour = "visR") %>%
+    testthat::expect_error(expected_error)
+  
+})
+
+testthat::test_that("T6.5 An error when `hex_color` is a character string with length 9 but doesn't have # at the first position.", {
+  
+  expected_error <- "Please provide a hex colour in the format #RRGGBBAA."
+  
+  visR:::get_alpha_from_hex_colour(hex_colour = "visRvisRv") %>%
+    testthat::expect_error(expected_error)
+  
+})
 
 # END --------------------------------------------------------------------------
