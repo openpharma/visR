@@ -308,42 +308,70 @@ get_alpha_from_hex_colour <- function(hex_colour) {
   }
 }
 
-#' @title Converts a the numeric representation of an alpha value into the hex-encoded version.
+#' @title Converts an alpha value between its numeric and its hex-encoded form.
 #'
-#' @description The function accepts a numeric value (or NULL/NA) and returns a two-character hex representation of it.
+#' @description The function accepts a numeric (or NULL/NA) or a two-character hex encoded alpha representation and returns a the respective other representation.
 #'
 #' @param numeric_alpha A numerical value between 0 and 1.
+#' @param hex_alpha A two-letter character string.
 #'
-#' @return A two-character sequence that represents the hex-value of `numeric_alpha`.
+#' @return If `numeric_alpha` was specified, its two-letter representation is returned. If `hex_alpha` was specified, its numeric representation is returned.
 #'
 #' @keywords internal
 
-numeric_alpha_to_hex <- function(numeric_alpha = NULL) {
+convert_alpha <- function(numeric_alpha = NULL, hex_alpha = NULL) {
   
-  # Two separate ifs so that is.na(NULL) doesn't cause an error
-  if (is.null(numeric_alpha)) { return("00") }
-  if (is.na(numeric_alpha)) { return("00") }
-  
-  if (is.numeric(numeric_alpha)) {
+  if (missing(numeric_alpha) & missing(hex_alpha)) {
     
-    if (numeric_alpha > 1 | numeric_alpha < 0) {
+    stop("Either `numeric_alpha` or `hex_alpha` has to be specified.")
+    
+  } else if (!missing(numeric_alpha) & missing(hex_alpha)) {
+    
+    # Two separate ifs so that is.na(NULL) doesn't cause an error
+    if (is.null(numeric_alpha)) { return("00") }
+    if (is.na(numeric_alpha)) { return("00") }
+    
+    if (is.numeric(numeric_alpha)) {
       
-      stop("Please enter a numeric value between 0 and 1.")
+      if (numeric_alpha > 1 | numeric_alpha < 0) {
+        
+        stop("Please enter a numeric value between 0 and 1 for `numeric_alpha`.")
+        
+      } else {
+        
+        alpha_decimal = base::round((numeric_alpha * 100) * (255/100))
+        alpha_hex = base::format(base::as.hexmode(alpha_decimal), 
+                                 width = 2,
+                                 upper.case = TRUE)
+        
+        return(alpha_hex)
+        
+      }
       
     } else {
       
-      alpha_decimal = base::round((numeric_alpha * 100) * (255/100))
-      alpha_hex = base::format(base::as.hexmode(alpha_decimal), 
-                               width = 2,
-                               upper.case = TRUE)
-      
-      return(alpha_hex)
+      stop("Please enter a numeric value between 0 and 1 for `numeric_alpha`.")
       
     }
     
-  } else {
+  } else if (missing(numeric_alpha) & !missing(hex_alpha)) {
     
-    stop("Please enter a numeric value between 0 and 1.")
+    if (is.character(hex_alpha) & nchar(hex_alpha) == 2) {
+      
+      alpha <- grDevices::col2rgb(paste0("#FFFFFF", hex_alpha), alpha = TRUE)["alpha",][[1]]
+      alpha <- round(alpha/255, 2) 
+      
+      return(alpha)
+      
+    } else {
+      
+      stop("Please specify a two-letter character string for `hex_alpha`.")
+      
+    }
+    
+  } else if (!missing(numeric_alpha) & !missing(hex_alpha)) {
+    
+    stop("Please choose either `numeric_alpha` or `hex_alpha`.")
     
   }
   
