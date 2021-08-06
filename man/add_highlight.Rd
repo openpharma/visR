@@ -25,15 +25,19 @@ The input \code{ggplot2} object with adjusted \code{alpha} values
 S3 method for highlighting a specific strata by lowering the opacity of all other strata.
 }
 \examples{
-library(visR)
 
 adtte \%>\%
-  visR::estimate_KM("SEX") \%>\%
+  visR::estimate_KM(strata = "SEX") \%>\%
   visR::visr() \%>\%
   visR::add_CI(alpha = 0.4) \%>\%
-  visR::add_highlight("SEX=M", bg_alpha_multiplier = 0.2)
+  visR::add_highlight(strata = "SEX=M", bg_alpha_multiplier = 0.2)
 
-}
-\author{
-Tim Treis
+strata = c("TRTP=Placebo", "TRTP=Xanomeline Low Dose")
+
+adtte \%>\%
+  visR::estimate_KM(strata = "TRTP") \%>\%
+  visR::visr() \%>\%
+  visR::add_CI(alpha = 0.4) \%>\%
+  visR::add_highlight(strata = strata, bg_alpha_multiplier = 0.2)
+
 }

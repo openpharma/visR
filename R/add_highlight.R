@@ -2,19 +2,24 @@
 #'
 #' @description S3 method for highlighting a specific strata by lowering the opacity of all other strata.
 #'
-#' @author Tim Treis
-#'
 #' @param gg visR object
 #' @param ... other arguments passed on to the method 
 #' 
 #' @examples
-#' library(visR)
 #'
 #' adtte %>%
-#'   visR::estimate_KM("SEX") %>%
+#'   visR::estimate_KM(strata = "SEX") %>%
 #'   visR::visr() %>%
 #'   visR::add_CI(alpha = 0.4) %>%
-#'   visR::add_highlight("SEX=M", bg_alpha_multiplier = 0.2)
+#'   visR::add_highlight(strata = "SEX=M", bg_alpha_multiplier = 0.2)
+#'
+#' strata = c("TRTP=Placebo", "TRTP=Xanomeline Low Dose")
+#' 
+#' adtte %>%
+#'   visR::estimate_KM(strata = "TRTP") %>%
+#'   visR::visr() %>%
+#'   visR::add_CI(alpha = 0.4) %>%
+#'   visR::add_highlight(strata = strata, bg_alpha_multiplier = 0.2)
 #'
 #' @return The input `ggplot2` object with adjusted `alpha` values
 #'
@@ -43,11 +48,52 @@ add_highlight.ggsurvfit <- function(gg,
   # https://www.r-bloggers.com/2019/08/no-visible-binding-for-global-variable/#option-two
   alpha <- colour <- fill <- group <- NULL
   
-  if (missing(strata)) {
+  if (missing(gg) | !("ggplot" %in% class(gg))) {
     
-    warning("A strata to highlight has to be specified.")
-    return(NULL)
+    stop("A 'ggplot' has to be specified for 'gg'.")
+    
+  } 
   
+  if (missing(strata) | length(strata) == 0) {
+    
+    stop("Please specify one or more 'strata' to highlight.")
+    
+  } 
+  
+  if (length(strata) == 1) {
+    
+    if (class(strata) == "list") {
+      
+      if (class(strata[[1]]) != "character") {
+        
+        stop("A 'strata' must be either a single character string or a list of them.")
+        
+      }
+      
+    } else if (!(class(strata) == "character")) {
+      
+      stop("A 'strata' must be either a single character string or a list of them.")
+      
+    }
+    
+  } else if (length(strata) > 1) {
+    
+    if (is.list(strata)) {
+      
+      strata <- unlist(strata)
+      
+    }
+    
+    for (s in strata) {
+      
+      if (class(s) != "character") {
+        
+        stop("When 'strata' is a list, all elements must be character strings.")
+        
+      }
+      
+    }
+    
   }
   
   # Extract names of strata objects
@@ -58,76 +104,84 @@ add_highlight.ggsurvfit <- function(gg,
   
   # Get IDs of elements containing strata labels
   strata_label_ids <- base::grep("label", gg_table_grob$layout$name)
-  strata_labels <- c()
   
-  for (id in strata_label_ids) {
+  extract_strata_name_by_id <- function(gg_table_grob, id) {
     
     label <- gg_table_grob$grobs[[id]]$children[[1]]$children[[1]]$label
-    strata_labels <- c(strata_labels, label)
+    
+    return(label)
     
   }
   
-  if (!(strata %in% strata_labels)) {
+  strata_labels <- sapply(strata_label_ids, 
+                          extract_strata_name_by_id,
+                          gg_table_grob = gg_table_grob)
+  
+  if (length(strata) > 1) {
     
-    msg <- "The strata you specified has not been found in the provided plot.\n"
-    msg <- base::paste0(msg, 
-                  "  Available strata: ", 
-                  base::paste(strata_labels, collapse = ", "), 
-                  "\n")
-    msg <- base::paste0(msg, "  Please adjust and rerun.")
-    
-    warning(msg)
-    return(gg)
-    
-  } else {
-    
-    # Which group(s) in the ggplot data object corresponds to the bg strata?
-    bg_strata_ids <- base::which(strata != strata_labels)
-    
-    # Replace the previous hex alpha values with the new one
-    for (i in 1:length(gg_gb$data)) {
+    for (s in strata) {
       
-      if ("ymin" %in% colnames(gg_gb$data[[i]])) {
+      if (!(s %in% strata_labels)) {
         
-        # Check whether colour contains an alpha value
-        if (nchar(gg_gb$data[[i]]$fill[[1]])) {
-          
-          gg_gb$data[[i]] <- gg_gb$data[[i]] %>%
-            dplyr::rowwise() %>%
-            dplyr::mutate(alpha = get_alpha_from_hex_colour(fill)) %>%
-            as.data.frame()
-          
-        }
+        msg <- "The strata you specified has not been found in the provided plot.\n"
+        msg <- base::paste0(msg, 
+                            "  Available strata: ", 
+                            base::paste(strata_labels, collapse = ", "), 
+                            "\n")
+        msg <- base::paste0(msg, "  Please adjust and rerun.")
         
-        gg_gb$data[[i]] <- gg_gb$data[[i]] %>%
-          dplyr::rowwise() %>%
-          dplyr::mutate(alpha = base::ifelse(is.na(alpha), 1, alpha)) %>%
-          dplyr::mutate(alpha = base::ifelse(group %in% bg_strata_ids, 
-                                             alpha * bg_alpha_multiplier, 
-                                             alpha)) %>%
-          dplyr::mutate(fill = replace_hex_alpha(fill, numeric_alpha_to_hex(alpha))) %>%
-          as.data.frame()
-        
-        strata_colours <- unique(gg_gb$data[[i]]$fill)
-
-        suppressMessages(gg <- gg + ggplot2::scale_fill_manual(values = strata_colours))
-        
-      } else {
-        
-        gg_gb$data[[i]] <- gg_gb$data[[i]] %>%
-          dplyr::rowwise() %>%
-          dplyr::mutate(alpha = base::ifelse(is.na(alpha), 1, alpha)) %>%
-          dplyr::mutate(alpha = base::ifelse(group %in% bg_strata_ids, 
-                                             alpha * bg_alpha_multiplier, 
-                                             alpha)) %>%
-          dplyr::mutate(colour = paste0(colour, numeric_alpha_to_hex(alpha))) %>%
-          as.data.frame()
-        
-        strata_colours <- unique(gg_gb$data[[i]]$colour)
-
-        suppressMessages(gg <- gg + ggplot2::scale_color_manual(values = strata_colours))
+        stop(msg)
         
       }
+    }
+  }
+    
+  # Which group(s) in the ggplot data object corresponds to the bg strata?
+  bg_strata_ids <- unique(gg_gb$data[[1]]$group)[!(strata_labels %in% strata)]
+  
+  # Replace the previous hex alpha values with the new one
+  for (i in 1:length(gg_gb$data)) {
+    
+    if ("ymin" %in% colnames(gg_gb$data[[i]])) {
+      
+      # Check whether colour contains an alpha value
+      if (nchar(gg_gb$data[[i]]$fill[[1]])) {
+        
+        gg_gb$data[[i]] <- gg_gb$data[[i]] %>%
+          dplyr::rowwise() %>%
+          dplyr::mutate(alpha = get_alpha_from_hex_colour(fill)) %>%
+          as.data.frame()
+        
+      }
+      
+      gg_gb$data[[i]] <- gg_gb$data[[i]] %>%
+        dplyr::rowwise() %>%
+        dplyr::mutate(alpha = base::ifelse(is.na(alpha), 1, alpha)) %>%
+        dplyr::mutate(alpha = base::ifelse(group %in% bg_strata_ids, 
+                                           alpha * bg_alpha_multiplier, 
+                                           alpha)) %>%
+        dplyr::mutate(fill = replace_hex_alpha(fill, numeric_alpha_to_hex(alpha))) %>%
+        as.data.frame()
+      
+      strata_colours <- unique(gg_gb$data[[i]]$fill)
+
+      suppressMessages(gg <- gg + ggplot2::scale_fill_manual(values = strata_colours))
+      
+    } else {
+      
+      gg_gb$data[[i]] <- gg_gb$data[[i]] %>%
+        dplyr::rowwise() %>%
+        dplyr::mutate(alpha = base::ifelse(is.na(alpha), 1, alpha)) %>%
+        dplyr::mutate(alpha = base::ifelse(group %in% bg_strata_ids, 
+                                           alpha * bg_alpha_multiplier, 
+                                           alpha)) %>%
+        dplyr::mutate(colour = paste0(colour, numeric_alpha_to_hex(alpha))) %>%
+        as.data.frame()
+      
+      strata_colours <- unique(gg_gb$data[[i]]$colour)
+
+      suppressMessages(gg <- gg + ggplot2::scale_color_manual(values = strata_colours))
+      
     }
   }
   
