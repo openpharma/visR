@@ -10,7 +10,7 @@ add_highlight(gg, ...)
 \method{add_highlight}{ggsurvfit}(gg, strata, bg_alpha_multiplier = 0.2, ...)
 }
 \arguments{
-\item{gg}{A ggplot created with visR}
+\item{gg}{A ggsurvfit, ideatlly created with visR}
 
 \item{...}{other arguments passed on to the method}
 
@@ -19,7 +19,7 @@ add_highlight(gg, ...)
 \item{bg_alpha_multiplier}{Factor with which the \code{alpha} values of all but the specified strata will be multiplied.}
 }
 \value{
-The input \code{ggplot2} object with adjusted \code{alpha} values
+The input \code{ggsurvfit} object with adjusted \code{alpha} values
 }
 \description{
 S3 method for highlighting a specific strata by lowering the opacity of all other strata.

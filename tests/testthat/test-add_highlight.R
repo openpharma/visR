@@ -8,7 +8,7 @@
 
 # Requirement T1 ---------------------------------------------------------------
 
-testthat::context("add_highlight - T1. The function changes the alpha values of strata found in the plot.")
+testthat::context("add_highlight - T1. The function modifies a `ggsurvfit` object and returns it.")
 
 testthat::test_that("T1.1 No error when `add_highlight` is called on a `ggsurvfit` object.", {
   
@@ -56,6 +56,22 @@ testthat::test_that("T1.4 An error when `add_highlight` is called on a `ggplot` 
   testthat::expect_false("ggsurvfit" %in% class(gg))
   
   gg %>% add_highlight() %>% testthat::expect_error()
+  
+})
+
+testthat::test_that("T1.5 The function returns a modified object of type `ggsurvfit`.", {
+  
+  gg <- adtte %>%
+    visR::estimate_KM(strata = "TRTP") %>%
+    visR::visr()
+  
+  testthat::expect_true("ggsurvfit" %in% class(gg))
+  
+  gg_with_highlight <- gg %>% add_highlight("TRTP=Placebo")
+  
+  testthat::expect_true("ggsurvfit" %in% class(gg_with_highlight))
+  
+  testthat::expect_false(base::identical(gg, gg_with_highlight))
   
 })
 
@@ -240,6 +256,104 @@ testthat::test_that("T3.3 An error when `bg_alpha_multiplier` is outside of [0, 
     visR::add_highlight(strata = "TRTP=Placebo",
                         bg_alpha_multiplier = 2) %>%
     testthat::expect_error(expected_error)
+  
+})
+
+testthat::test_that("T3.4 The alpha of the background strata changes with `bg_alpha_multiplier`.", {
+  
+  gg <- adtte %>%
+    visR::estimate_KM(strata = "TRTP") %>%
+    visR::visr()
+  
+  testthat::skip_on_cran()
+  
+  gg %>%
+    visR::add_highlight(strata = "TRTP=Placebo",
+                        bg_alpha_multiplier = 0) %>%
+    vdiffr::expect_doppelganger(title = "add_highlight_T3_4_alpha_multiplier_of_bg_strata_set_to_0")  
+  
+  gg %>%
+    visR::add_highlight(strata = "TRTP=Placebo",
+                        bg_alpha_multiplier = 0.4) %>%
+    vdiffr::expect_doppelganger(title = "add_highlight_T3_4_alpha_multiplier_of_bg_strata_set_to_0_4")  
+  
+  gg %>%
+    visR::add_highlight(strata = "TRTP=Placebo",
+                        bg_alpha_multiplier = 1.0) %>%
+    vdiffr::expect_doppelganger(title = "add_highlight_T3_4_alpha_multiplier_of_bg_strata_set_to_1")  
+
+})
+
+# Requirement T4 ---------------------------------------------------------------
+
+testthat::context("add_highlight - T4. The function modifies the underlying data structure than is interpreted during plotting.")
+
+testthat::test_that("T4.1 The function adds the alpha channel to the hex-encoded colour.", {
+  
+  gg <- adtte %>%
+    visR::estimate_KM(strata = "TRTP") %>%
+    visR::visr()
+  
+  gg_with_highlight <- gg %>% visR::add_highlight(strata = "TRTP=Placebo")
+  
+  gg_data <- ggplot2::ggplot_build(gg)$data[[1]]
+  gg_with_highlight_data <- ggplot2::ggplot_build(gg_with_highlight)$data[[1]]
+  
+  gg_colours <- gg_data$colour %>% unique()
+  gg_with_highlight_colours <- gg_with_highlight_data$colour %>% unique()
+  
+  # Remove #RRGGBB from #RRGGBBAA colours
+  alphas <- unlist(lapply(gg_colours, function(c) {
+    
+    gsub(c, "", gg_with_highlight_colours[gg_colours == c])
+    
+  }))
+  
+  testthat::expect_identical(alphas, c("FF", "33", "33"))
+  
+})
+
+testthat::test_that("T4.2 The function also reduces the alpha value of the confidence intervals introduced by `add_CI`.", {
+  
+  ci_alpha = 0.5
+  bg_alpha_multiplier <- 0.2
+  
+  gg <- adtte %>%
+    visR::estimate_KM(strata = "TRTP") %>%
+    visR::visr() %>%
+    visR::add_CI(alpha = ci_alpha)
+  
+  gg_with_highlight <- gg %>% 
+    visR::add_highlight(strata = "TRTP=Placebo", bg_alpha_multiplier = bg_alpha_multiplier)
+  
+  gg_CI_data <- ggplot2::ggplot_build(gg)$data[[2]]
+  gg_with_highlight_CI_data <- ggplot2::ggplot_build(gg_with_highlight)$data[[2]]
+  
+  gg_CI_fills <- gg_CI_data$fill %>% unique()
+  gg_with_highlight_CI_fills <- gg_with_highlight_CI_data$fill %>% unique()
+  
+  # Remove #RRGGBB from #RRGGBBAA colours
+  gg_CI_fills_numeric <- gsub("#[A-Z0-9]{6}", "", gg_CI_fills) %>% 
+    sapply(function(s) {
+      
+      visR:::convert_alpha(hex_alpha = s)
+      
+    }) %>% as.vector()
+  
+  gg_with_highlight_CI_fills_numeric <- gsub("#[A-Z0-9]{6}", "", gg_with_highlight_CI_fills) %>% 
+    sapply(function(s) {
+      
+      visR:::convert_alpha(hex_alpha = s)
+      
+    }) %>% as.vector()
+  
+  testthat::expect_equal(gg_CI_fills_numeric, rep(ci_alpha, length(gg_CI_fills_numeric)))
+  
+  # To not over-engineer the test here, we take for granted that the foreground strata
+  # is the first of the three in the evaluation order
+  testthat::expect_equal(gg_with_highlight_CI_fills_numeric[1], ci_alpha)
+  testthat::expect_equal(gg_with_highlight_CI_fills_numeric[2], ci_alpha*bg_alpha_multiplier)
+  testthat::expect_equal(gg_with_highlight_CI_fills_numeric[3], ci_alpha*bg_alpha_multiplier)
   
 })
 

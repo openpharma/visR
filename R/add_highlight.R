@@ -170,7 +170,7 @@ add_highlight.ggsurvfit <- function(gg,
         dplyr::mutate(alpha = base::ifelse(group %in% bg_strata_ids, 
                                            alpha * bg_alpha_multiplier, 
                                            alpha)) %>%
-        dplyr::mutate(fill = replace_hex_alpha(fill, numeric_alpha_to_hex(alpha))) %>%
+        dplyr::mutate(fill = replace_hex_alpha(fill, convert_alpha(numeric_alpha = alpha))) %>%
         as.data.frame()
       
       strata_colours <- unique(gg_gb$data[[i]]$fill)
@@ -185,7 +185,7 @@ add_highlight.ggsurvfit <- function(gg,
         dplyr::mutate(alpha = base::ifelse(group %in% bg_strata_ids, 
                                            alpha * bg_alpha_multiplier, 
                                            alpha)) %>%
-        dplyr::mutate(colour = paste0(colour, numeric_alpha_to_hex(alpha))) %>%
+        dplyr::mutate(colour = paste0(colour, convert_alpha(numeric_alpha = alpha))) %>%
         as.data.frame()
       
       strata_colours <- unique(gg_gb$data[[i]]$colour)
