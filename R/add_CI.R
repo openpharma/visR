@@ -112,7 +112,6 @@ add_CI.ggsurvfit <- function(gg,
                                         alpha = alpha),
                            outline.type = "both",
                            linetype = linetype, 
-                           show.legend = TRUE,
                            na.rm = TRUE)
   }
   

@@ -21,7 +21,7 @@
 #'   visR::add_CI(alpha = 0.4) %>%
 #'   visR::add_highlight(strata = strata, bg_alpha_multiplier = 0.2)
 #'
-#' @return The input `ggplot2` object with adjusted `alpha` values
+#' @return The input `ggsurvfit` object with adjusted `alpha` values
 #'
 #' @rdname add_highlight
 #'
@@ -31,7 +31,7 @@ add_highlight <- function(gg, ...){
   UseMethod("add_highlight", gg)
 }
 
-#' @param gg A ggplot created with visR
+#' @param gg A ggsurvfit, ideatlly created with visR
 #' @param strata Name of the strata to be highlighted as shown in the legend.
 #' @param bg_alpha_multiplier Factor with which the `alpha` values of all but the specified strata will be multiplied.
 #'
@@ -84,7 +84,7 @@ add_highlight.ggsurvfit <- function(gg,
       
     }
     
-    for (s in strata) {
+    base::sapply(strata, function(s) {
       
       if (class(s) != "character") {
         
@@ -92,14 +92,27 @@ add_highlight.ggsurvfit <- function(gg,
         
       }
       
-    }
+    })
+    
+  }
+  
+  if (!is.numeric(bg_alpha_multiplier)) {
+    
+    stop("The `bg_alpha_multiplier` must be a `numeric`.")
+    
+  }
+  
+  if (bg_alpha_multiplier > 1 | bg_alpha_multiplier < 0) {
+    
+    stop("The `bg_alpha_multiplier` must be a numeric value between 0 and 1.")
     
   }
   
   # Extract names of strata objects
   gg_gb <- ggplot2::ggplot_build(gg)
   gg_gtable <- ggplot2::ggplot_gtable(gg_gb)
-  gg_guidebox_id <- base::which(sapply(gg_gtable$grobs, function(x) x$name) == "guide-box")
+  gg_guidebox_id <- base::which(base::sapply(gg_gtable$grobs, 
+                                             function(x) x$name) == "guide-box")
   gg_table_grob <- gg_gtable$grobs[[gg_guidebox_id]]$grobs[[1]]
   
   # Get IDs of elements containing strata labels
@@ -113,13 +126,11 @@ add_highlight.ggsurvfit <- function(gg,
     
   }
   
-  strata_labels <- sapply(strata_label_ids, 
-                          extract_strata_name_by_id,
-                          gg_table_grob = gg_table_grob)
+  strata_labels <- base::sapply(strata_label_ids, 
+                                extract_strata_name_by_id,
+                                gg_table_grob = gg_table_grob)
   
-  if (length(strata) > 1) {
-    
-    for (s in strata) {
+  base::sapply(c(strata), function(s) {
       
       if (!(s %in% strata_labels)) {
         
@@ -133,19 +144,18 @@ add_highlight.ggsurvfit <- function(gg,
         stop(msg)
         
       }
-    }
-  }
+    })
     
   # Which group(s) in the ggplot data object corresponds to the bg strata?
   bg_strata_ids <- unique(gg_gb$data[[1]]$group)[!(strata_labels %in% strata)]
   
   # Replace the previous hex alpha values with the new one
-  for (i in 1:length(gg_gb$data)) {
+  for (i in 1:base::length(gg_gb$data)) {
     
-    if ("ymin" %in% colnames(gg_gb$data[[i]])) {
+    if ("ymin" %in% base::colnames(gg_gb$data[[i]])) {
       
       # Check whether colour contains an alpha value
-      if (nchar(gg_gb$data[[i]]$fill[[1]])) {
+      if (base::nchar(gg_gb$data[[i]]$fill[[1]])) {
         
         gg_gb$data[[i]] <- gg_gb$data[[i]] %>%
           dplyr::rowwise() %>%
