@@ -39,8 +39,8 @@ add_highlight <- function(gg, ...){
 #' @method add_highlight ggsurvfit
 #' @export
 
-add_highlight.ggsurvfit <- function(gg, 
-                                    strata, 
+add_highlight.ggsurvfit <- function(gg = NULL, 
+                                    strata = NULL, 
                                     bg_alpha_multiplier = 0.2,
                                     ...) {
   
@@ -48,7 +48,7 @@ add_highlight.ggsurvfit <- function(gg,
   # https://www.r-bloggers.com/2019/08/no-visible-binding-for-global-variable/#option-two
   alpha <- colour <- fill <- group <- NULL
   
-  if (missing(gg) | !("ggplot" %in% class(gg))) {
+  if (!("ggplot" %in% class(gg))) {
     
     stop("A 'ggplot' has to be specified for 'gg'.")
     

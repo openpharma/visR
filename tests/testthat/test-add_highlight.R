@@ -13,11 +13,12 @@
 #' T2. No errors when one or more strata are highlighted with default parameters.
 #' T2.1 No error when `strata` is a character string found in the plot strata.
 #' T2.2 An error when `strata` is a character string not found in the plot strata.
-#' T2.3 No error when `strata` is a `list` or `vector` of character strings found in the plot strata.
-#' T2.4 An error when `strata` is a `list` or `vector` that holds non-character-string elements.
-#' T2.5 An error when `strata` is not a character string or a list.
-#' T2.6 An error when `strata` is `NULL` or missing.
-#' T2.7 An error when `strata` is not a character string or a list.
+#' T2.3 No error when `strata` is a `list` with a single non-character element.
+#' T2.4 No error when `strata` is a `list` or `vector` of character strings found in the plot strata.
+#' T2.5 An error when `strata` is a `list` or `vector` that holds non-character-string elements.
+#' T2.6 An error when `strata` is not a character string or a list.
+#' T2.7 An error when `strata` is `NULL` or missing.
+#' T2.8 An error when `strata` is not a character string or a list.
 #' T3. The opacity of the background strata can be changed through `bg_alpha_multiplier`.
 #' T3.1 No error when `bg_alpha_multiplier` is a `numberic`.
 #' T3.2 An error when `bg_alpha_multiplier` is a not a `numberic`.
@@ -62,7 +63,10 @@ testthat::test_that("T1.3 An error when `add_highlight` is called on a non-`ggpl
   visR::add_highlight(1) %>%
     testthat::expect_error()
   
-  visR::add_highlight(stats::lm(data = adtte, "AGE ~ TRTDUR")) %>%
+  model <- stats::lm(data = adtte, "AGE ~ TRTDUR")
+  class(model) <- c(class(model), "ggsurvfit")
+  
+  visR::add_highlight(model) %>%
     testthat::expect_error()
   
 })
@@ -131,7 +135,19 @@ testthat::test_that("T2.2 An error when `strata` is a character string not found
   
 })
 
-testthat::test_that("T2.3 No error when `strata` is a `list` or `vector` of character strings found in the plot strata.", {
+testthat::test_that("T2.3 No error when `strata` is a `list` with a single non-character element.", {
+  
+  expected_error <- "A 'strata' must be either a single character string or a list of them."
+  
+  adtte %>%
+    visR::estimate_KM("SEX") %>%
+    visR::visr() %>%
+    visR::add_highlight(list(1)) %>%
+    testthat::expect_error(expected_error)
+  
+})
+
+testthat::test_that("T2.4 No error when `strata` is a `list` or `vector` of character strings found in the plot strata.", {
   
   strata_list <- list("TRTP=Placebo", "TRTP=Xanomeline Low Dose")
   strata_vector <- c("TRTP=Placebo", "TRTP=Xanomeline Low Dose")
@@ -160,7 +176,7 @@ testthat::test_that("T2.3 No error when `strata` is a `list` or `vector` of char
   
 })
 
-testthat::test_that("T2.4 An error when `strata` is a `list` or `vector` that holds non-character-string elements.", {
+testthat::test_that("T2.5 An error when `strata` is a `list` or `vector` that holds non-character-string elements.", {
   
   strata <- c(1, 2, 3)
   
@@ -176,7 +192,7 @@ testthat::test_that("T2.4 An error when `strata` is a `list` or `vector` that ho
   
 })
 
-testthat::test_that("T2.5 An error when `strata` is not a character string or a list.", {
+testthat::test_that("T2.6 An error when `strata` is not a character string or a list.", {
   
   gg <- adtte %>%
     visR::estimate_KM(strata = "TRTP") %>%
@@ -194,7 +210,7 @@ testthat::test_that("T2.5 An error when `strata` is not a character string or a 
   
 })
 
-testthat::test_that("T2.6 An error when `strata` is `NULL` or missing.", {
+testthat::test_that("T2.7 An error when `strata` is `NULL` or missing.", {
   
   gg <- adtte %>%
     visR::estimate_KM(strata = "TRTP") %>%
@@ -210,7 +226,7 @@ testthat::test_that("T2.6 An error when `strata` is `NULL` or missing.", {
   
 })
 
-testthat::test_that("T2.7 An error when `strata` is not a character string or a list.", {
+testthat::test_that("T2.8 An error when `strata` is not a character string or a list.", {
   
   gg <- adtte %>%
     visR::estimate_KM(strata = "TRTP") %>%
