@@ -32,7 +32,8 @@
 #' T4.6 An error when `numeric_alpha` is a `numeric` outside of [0, 1].                                                                                                                                    
 #' T4.7 An error when `numeric_alpha` is not a `numeric`.                                                                                                                                                  
 #' T4.8 No error when `hex_alpha` is a two-letter character string.                                                                                                                                        
-#' T4.9 An error when `hex_alpha` is a character string longer than two letters.                                                                                                                           
+#' T4.9 An error when `hex_alpha` is a character string longer than two letters.                                                                                                                         
+#' T4.10 When `numeric_alpha` is `NULL` or `NA`, the hex-encoded alpha = 1 (00) is returned.                                                                                                          
 #' T5. `replace_hex_alpha` modified the alpha value of a hex-encoded colour.                                                                                                                               
 #' T5.1 No error when `colour` is a #RRGGBBAA string and `new_alpha` is a two-letter string.                                                                                                               
 #' T5.2 An error when either `colour` or `new_alpha` or none of both are specified.                                                                                                                        
@@ -321,6 +322,16 @@ testthat::test_that("T4.9 An error when `hex_alpha` is a character string longer
   
   visR:::convert_alpha(hex_alpha = "visR") %>%
     testthat::expect_error(expected_error)
+  
+})
+
+testthat::test_that("T4.10 When `numeric_alpha` is `NULL` or `NA`, the hex-encoded alpha = 1 (00) is returned.", {
+  
+  visR:::convert_alpha(numeric_alpha = NULL) %>%
+    testthat::expect_identical("00")
+  
+  visR:::convert_alpha(numeric_alpha = NA) %>%
+    testthat::expect_identical("00")
   
 })
 
