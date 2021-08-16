@@ -15,6 +15,6 @@ replace_hex_alpha(colour, new_alpha)
 A hex-encoded RGBA colour.
 }
 \description{
-The function dissects a string of the format #RRGGBBAA into its components and replaces the alpha (AA) part.
+RGB colours can be encoded as hexadecimal values, as for example internally used by \code{ggplot2}. For this, the numerical RGB values are mapped from their 0-255 value range to two-character hex-values. This yields a string in the form of '#RRGGBB'. Additionally, a fourth optional block can be present encoding the alpha transparency of the colour. This extends the string to '#RRGGBBAA'. This function takes an '#RRGGBBAA' string as input for \code{colour} and a two-character hex-representation of an alpha value as an input for \code{new_alpha}, replaces the 'AA' part of \code{colour} with the \code{new_alpha} and returns the new colour.
 }
 \keyword{internal}

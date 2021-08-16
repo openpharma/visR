@@ -14,7 +14,7 @@ add_highlight(gg, ...)
 
 \item{...}{other arguments passed on to the method}
 
-\item{strata}{Name of the strata to be highlighted as shown in the legend.}
+\item{strata}{String representing the name and value of the strata to be highlighted as shown in the legend.}
 
 \item{bg_alpha_multiplier}{Factor with which the \code{alpha} values of all but the specified strata will be multiplied.}
 }

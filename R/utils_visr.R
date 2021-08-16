@@ -269,7 +269,7 @@ legendopts <- function(legend_position = "right",
 
 #' @title Extract the numerical alpha representation of #RRGGBBAA colour 
 #'
-#' @description The colours for the strata are usually encoded by their hex-representation. This yields a string with 3 blocks of hex-encoded values between 0-255 for the colours red, green and blue in the form of '#RRGGBB'. Additionally, a fourth optional block can be present encoding the alpha transparency of the colour. This extends the string to '#RRGGBBAA'. This function extracts the 'AA' part of a colour and returns the numerical representation if it.
+#' @description RGB colours can be encoded as hexadecimal values, as for example internally used by `ggplot2`. For this, the numerical RGB values are mapped from their 0-255 value range to two-character hex-values. This yields a string in the form of '#RRGGBB'. Additionally, a fourth optional block can be present encoding the alpha transparency of the colour. This extends the string to '#RRGGBBAA'. This function takes such a string as input for `hex_colour`, extracts the 'AA' part and returns the numerical representation if it.
 #'
 #' @param hex_colour A string in the format '#RRGGBBAA'
 #'
@@ -379,7 +379,7 @@ convert_alpha <- function(numeric_alpha = NULL, hex_alpha = NULL) {
 
 #' @title Replaces the AA part of a #RRGGBBAA hex-colour.
 #'
-#' @description The function dissects a string of the format #RRGGBBAA into its components and replaces the alpha (AA) part.
+#' @description RGB colours can be encoded as hexadecimal values, as for example internally used by `ggplot2`. For this, the numerical RGB values are mapped from their 0-255 value range to two-character hex-values. This yields a string in the form of '#RRGGBB'. Additionally, a fourth optional block can be present encoding the alpha transparency of the colour. This extends the string to '#RRGGBBAA'. This function takes an '#RRGGBBAA' string as input for `colour` and a two-character hex-representation of an alpha value as an input for `new_alpha`, replaces the 'AA' part of `colour` with the `new_alpha` and returns the new colour.
 #'
 #' @param colour A character string of the format #RRGGBBAA.
 #' @param new_alpha A two-character string with the new alpha value.
