@@ -32,7 +32,7 @@ add_highlight <- function(gg, ...){
 }
 
 #' @param gg A ggsurvfit, ideatlly created with visR
-#' @param strata Name of the strata to be highlighted as shown in the legend.
+#' @param strata String representing the name and value of the strata to be highlighted as shown in the legend.
 #' @param bg_alpha_multiplier Factor with which the `alpha` values of all but the specified strata will be multiplied.
 #'
 #' @rdname add_highlight
