@@ -7,7 +7,7 @@
 \usage{
 add_highlight(gg, ...)
 
-\method{add_highlight}{ggsurvfit}(gg, strata, bg_alpha_multiplier = 0.2, ...)
+\method{add_highlight}{ggsurvfit}(gg = NULL, strata = NULL, bg_alpha_multiplier = 0.2, ...)
 }
 \arguments{
 \item{gg}{A ggsurvfit, ideatlly created with visR}

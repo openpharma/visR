@@ -269,7 +269,7 @@ legendopts <- function(legend_position = "right",
 
 #' @title Extract the numerical alpha representation of #RRGGBBAA colour 
 #'
-#' @description This function dissects a #RRGGBBAA colour into its components and then returns the numeric representation of the alpha (AA) value.
+#' @description The colours for the strata are usually encoded by their hex-representation. This yields a string with 3 blocks of hex-encoded values between 0-255 for the colours red, green and blue in the form of '#RRGGBB'. Additionally, a fourth optional block can be present encoding the alpha transparency of the colour. This extends the string to '#RRGGBBAA'. This function extracts the 'AA' part of a colour and returns the numerical representation if it.
 #'
 #' @param hex_colour A string in the format '#RRGGBBAA'
 #'

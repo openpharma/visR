@@ -4,7 +4,7 @@
 \alias{get_alpha_from_hex_colour}
 \title{Extract the numerical alpha representation of #RRGGBBAA colour}
 \usage{
-get_alpha_from_hex_colour(hex_colour)
+get_alpha_from_hex_colour(hex_colour = NULL)
 }
 \arguments{
 \item{hex_colour}{A string in the format '#RRGGBBAA'}
@@ -13,6 +13,6 @@ get_alpha_from_hex_colour(hex_colour)
 The numeric representation of the colors' alpha value, rounded to 2 digits.
 }
 \description{
-This function dissects a #RRGGBBAA colour into its components and then returns the numeric representation of the alpha (AA) value.
+The colours for the strata are usually encoded by their hex-representation. This yields a string with 3 blocks of hex-encoded values between 0-255 for the colours red, green and blue in the form of '#RRGGBB'. Additionally, a fourth optional block can be present encoding the alpha transparency of the colour. This extends the string to '#RRGGBBAA'. This function extracts the 'AA' part of a colour and returns the numerical representation if it.
 }
 \keyword{internal}
