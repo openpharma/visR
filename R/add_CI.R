@@ -77,6 +77,9 @@ add_CI.ggsurvfit <- function(gg,
     
   }
   
+  gg_gb <- ggplot2::ggplot_build(gg)
+  strata_colours <- unique(gg_gb$data[[1]]$colour)
+  
   if (style == "ribbon"){
     
     if (!missing(linetype)) {
@@ -84,9 +87,6 @@ add_CI.ggsurvfit <- function(gg,
       warning("Argument `linetype` not used for style ribbon.")
       
     }
-    
-    gg_gb <- ggplot2::ggplot_build(gg)
-    strata_colours <- unique(gg_gb$data[[1]]$colour)
     
     gg <- gg +
       ggplot2::geom_ribbon(ggplot2::aes(ymin = est.lower, 
@@ -106,15 +106,14 @@ add_CI.ggsurvfit <- function(gg,
     }
     
     gg <- gg +
-      ggplot2::geom_ribbon(ggplot2::aes(ymin = est.lower, 
-                                        ymax = est.upper, 
-                                        fill = strata, 
-                                        colour = strata,
-                                        alpha = alpha),
+      ggplot2::geom_ribbon(ggplot2::aes(ymin   = est.lower, 
+                                        ymax   = est.upper,
+                                        colour = strata),
                            outline.type = "both",
                            linetype = linetype, 
                            show.legend = FALSE,
-                           na.rm = TRUE)
+                           na.rm = TRUE) +
+      ggplot2::scale_fill_manual(values = ggplot2::alpha(strata_colours, 0)) 
   }
   
   return(gg)
