@@ -91,7 +91,8 @@ add_CI.ggsurvfit <- function(gg,
     gg <- gg +
       ggplot2::geom_ribbon(ggplot2::aes(ymin = est.lower, 
                                         ymax = est.upper), 
-                           na.rm = TRUE) +
+                           na.rm = TRUE,
+                           show.legend = FALSE) +
       ggplot2::scale_fill_manual(values = ggplot2::alpha(strata_colours, alpha))
   }
   
@@ -112,6 +113,7 @@ add_CI.ggsurvfit <- function(gg,
                                         alpha = alpha),
                            outline.type = "both",
                            linetype = linetype, 
+                           show.legend = FALSE,
                            na.rm = TRUE)
   }
   
