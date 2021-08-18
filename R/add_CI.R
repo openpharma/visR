@@ -77,6 +77,9 @@ add_CI.ggsurvfit <- function(gg,
     
   }
   
+  gg_gb <- ggplot2::ggplot_build(gg)
+  strata_colours <- unique(gg_gb$data[[1]]$colour)
+  
   if (style == "ribbon"){
     
     if (!missing(linetype)) {
@@ -87,10 +90,10 @@ add_CI.ggsurvfit <- function(gg,
     
     gg <- gg +
       ggplot2::geom_ribbon(ggplot2::aes(ymin = est.lower, 
-                                        ymax = est.upper, 
-                                        fill = strata), 
-                           alpha = alpha, 
-                           na.rm = TRUE)
+                                        ymax = est.upper), 
+                           na.rm = TRUE,
+                           show.legend = FALSE) +
+      ggplot2::scale_fill_manual(values = ggplot2::alpha(strata_colours, alpha))
   }
   
   if (style == "step"){
@@ -103,15 +106,14 @@ add_CI.ggsurvfit <- function(gg,
     }
     
     gg <- gg +
-      ggplot2::geom_ribbon(ggplot2::aes(ymin = est.lower, 
-                                        ymax = est.upper, 
-                                        fill = "transparent", 
+      ggplot2::geom_ribbon(ggplot2::aes(ymin   = est.lower, 
+                                        ymax   = est.upper,
                                         colour = strata),
-                           alpha = alpha, 
                            outline.type = "both",
                            linetype = linetype, 
                            show.legend = FALSE,
-                           na.rm = TRUE)
+                           na.rm = TRUE) +
+      ggplot2::scale_fill_manual(values = ggplot2::alpha(strata_colours, 0)) 
   }
   
   return(gg)

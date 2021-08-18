@@ -301,7 +301,9 @@ visr.survfit <- function(
 
   yscaleFUN <- function(x) sprintf("%.2f", x)
 
-  gg <- ggplot2::ggplot(tidy_object, ggplot2::aes(x = time, group = strata)) +
+  gg <- ggplot2::ggplot(tidy_object, ggplot2::aes(x = time, 
+                                                  group = strata, 
+                                                  fill = strata)) +
     ggplot2::geom_step(ggplot2::aes(y = est, col = strata)) + 
     ggplot2::scale_x_continuous(breaks = x_ticks,
                                 limits = c(min(x_ticks), max(x_ticks))) +
@@ -311,6 +313,7 @@ visr.survfit <- function(
                                 limits = c(min(y_ticks), max(y_ticks))) +
     ggplot2::ylab(y_label) +
     ggplot2::theme(legend.position = legend_position) +
+    ggplot2::theme(legend.key = ggplot2::element_blank()) +
     NULL
   
   class(gg) <- append(class(gg), "ggsurvfit")
