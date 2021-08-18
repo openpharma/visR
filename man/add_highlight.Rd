@@ -7,7 +7,7 @@
 \usage{
 add_highlight(gg, ...)
 
-\method{add_highlight}{ggsurvfit}(gg = NULL, strata = NULL, bg_alpha_multiplier = 0.2, ...)
+\method{add_highlight}{ggsurvfit}(gg = NULL, strata = NULL, bg_alpha = 0.2, ...)
 }
 \arguments{
 \item{gg}{A ggsurvfit, ideatlly created with visR}
@@ -16,7 +16,7 @@ add_highlight(gg, ...)
 
 \item{strata}{String representing the name and value of the strata to be highlighted as shown in the legend.}
 
-\item{bg_alpha_multiplier}{Factor with which the \code{alpha} values of all but the specified strata will be multiplied.}
+\item{bg_alpha}{A numerical value between 0 and 1 that is used to decrease the opacity off all strata not chosen to be highlighted in \code{strata}. The other strata's existing alpha values are multiplied by \code{bg_alpha} to decrease their opacity, highlighting the target strata. This works on both \code{colour} and \code{fill} properties, as for example present after applying \code{visR::add_CI()}.}
 }
 \value{
 The input \code{ggsurvfit} object with adjusted \code{alpha} values
@@ -30,7 +30,7 @@ adtte \%>\%
   visR::estimate_KM(strata = "SEX") \%>\%
   visR::visr() \%>\%
   visR::add_CI(alpha = 0.4) \%>\%
-  visR::add_highlight(strata = "SEX=M", bg_alpha_multiplier = 0.2)
+  visR::add_highlight(strata = "SEX=M", bg_alpha = 0.2)
 
 strata = c("TRTP=Placebo", "TRTP=Xanomeline Low Dose")
 
@@ -38,6 +38,6 @@ adtte \%>\%
   visR::estimate_KM(strata = "TRTP") \%>\%
   visR::visr() \%>\%
   visR::add_CI(alpha = 0.4) \%>\%
-  visR::add_highlight(strata = strata, bg_alpha_multiplier = 0.2)
+  visR::add_highlight(strata = strata, bg_alpha = 0.2)
 
 }

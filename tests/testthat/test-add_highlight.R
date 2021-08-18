@@ -19,11 +19,11 @@
 #' T2.6 An error when `strata` is not a character string or a list.
 #' T2.7 An error when `strata` is `NULL` or missing.
 #' T2.8 An error when `strata` is not a character string or a list.
-#' T3. The opacity of the background strata can be changed through `bg_alpha_multiplier`.
-#' T3.1 No error when `bg_alpha_multiplier` is a `numberic`.
-#' T3.2 An error when `bg_alpha_multiplier` is a not a `numberic`.
-#' T3.3 An error when `bg_alpha_multiplier` is outside of [0, 1].
-#' T3.4 The alpha of the background strata changes with `bg_alpha_multiplier`.
+#' T3. The opacity of the background strata can be changed through `bg_alpha`.
+#' T3.1 No error when `bg_alpha` is a `numberic`.
+#' T3.2 An error when `bg_alpha` is a not a `numberic`.
+#' T3.3 An error when `bg_alpha` is outside of [0, 1].
+#' T3.4 The alpha of the background strata changes with `bg_alpha`.
 #' T4. The function modifies the underlying data structure than is interpreted during plotting.
 #' T4.1 The function adds the alpha channel to the hex-encoded colour.
 #' T4.2 The function also reduces the alpha value of the confidence intervals introduced by `add_CI`.
@@ -246,9 +246,9 @@ testthat::test_that("T2.8 An error when `strata` is not a character string or a 
 
 # Requirement T3 ---------------------------------------------------------------
 
-testthat::context("add_highlight - T3. The opacity of the background strata can be changed through `bg_alpha_multiplier`.")
+testthat::context("add_highlight - T3. The opacity of the background strata can be changed through `bg_alpha`.")
 
-testthat::test_that("T3.1 No error when `bg_alpha_multiplier` is a `numberic`.", {
+testthat::test_that("T3.1 No error when `bg_alpha` is a `numberic`.", {
   
   gg <- adtte %>%
     visR::estimate_KM(strata = "TRTP") %>%
@@ -256,47 +256,47 @@ testthat::test_that("T3.1 No error when `bg_alpha_multiplier` is a `numberic`.",
   
   gg %>%
     visR::add_highlight(strata = "TRTP=Placebo",
-                        bg_alpha_multiplier = 0.2) %>%
+                        bg_alpha = 0.2) %>%
     testthat::expect_error(NA)
   
 })
 
-testthat::test_that("T3.2 An error when `bg_alpha_multiplier` is a not a `numberic`.", {
+testthat::test_that("T3.2 An error when `bg_alpha` is a not a `numberic`.", {
   
   gg <- adtte %>%
     visR::estimate_KM(strata = "TRTP") %>%
     visR::visr()
   
-  expected_error <- "The `bg_alpha_multiplier` must be a `numeric`."
+  expected_error <- "The `bg_alpha` must be a `numeric`."
   
   gg %>%
     visR::add_highlight(strata = "TRTP=Placebo",
-                        bg_alpha_multiplier = "visR") %>%
+                        bg_alpha = "visR") %>%
     testthat::expect_error(expected_error)
   
 })
 
-testthat::test_that("T3.3 An error when `bg_alpha_multiplier` is outside of [0, 1].", {
+testthat::test_that("T3.3 An error when `bg_alpha` is outside of [0, 1].", {
   
   gg <- adtte %>%
     visR::estimate_KM(strata = "TRTP") %>%
     visR::visr()
   
-  expected_error <- "The `bg_alpha_multiplier` must be a numeric value between 0 and 1."
+  expected_error <- "The `bg_alpha` must be a numeric value between 0 and 1."
   
   gg %>%
     visR::add_highlight(strata = "TRTP=Placebo",
-                        bg_alpha_multiplier = -1) %>%
+                        bg_alpha = -1) %>%
     testthat::expect_error(expected_error)
   
   gg %>%
     visR::add_highlight(strata = "TRTP=Placebo",
-                        bg_alpha_multiplier = 2) %>%
+                        bg_alpha = 2) %>%
     testthat::expect_error(expected_error)
   
 })
 
-testthat::test_that("T3.4 The alpha of the background strata changes with `bg_alpha_multiplier`.", {
+testthat::test_that("T3.4 The alpha of the background strata changes with `bg_alpha`.", {
   
   gg <- adtte %>%
     visR::estimate_KM(strata = "TRTP") %>%
@@ -306,17 +306,17 @@ testthat::test_that("T3.4 The alpha of the background strata changes with `bg_al
   
   gg %>%
     visR::add_highlight(strata = "TRTP=Placebo",
-                        bg_alpha_multiplier = 0) %>%
+                        bg_alpha = 0) %>%
     vdiffr::expect_doppelganger(title = "add_highlight_T3_4_alpha_multiplier_of_bg_strata_set_to_0")  
   
   gg %>%
     visR::add_highlight(strata = "TRTP=Placebo",
-                        bg_alpha_multiplier = 0.4) %>%
+                        bg_alpha = 0.4) %>%
     vdiffr::expect_doppelganger(title = "add_highlight_T3_4_alpha_multiplier_of_bg_strata_set_to_0_4")  
   
   gg %>%
     visR::add_highlight(strata = "TRTP=Placebo",
-                        bg_alpha_multiplier = 1.0) %>%
+                        bg_alpha = 1.0) %>%
     vdiffr::expect_doppelganger(title = "add_highlight_T3_4_alpha_multiplier_of_bg_strata_set_to_1")  
 
 })
@@ -353,7 +353,7 @@ testthat::test_that("T4.1 The function adds the alpha channel to the hex-encoded
 testthat::test_that("T4.2 The function also reduces the alpha value of the confidence intervals introduced by `add_CI`.", {
   
   ci_alpha = 0.5
-  bg_alpha_multiplier <- 0.2
+  bg_alpha <- 0.2
   
   gg <- adtte %>%
     visR::estimate_KM(strata = "TRTP") %>%
@@ -361,7 +361,7 @@ testthat::test_that("T4.2 The function also reduces the alpha value of the confi
     visR::add_CI(alpha = ci_alpha)
   
   gg_with_highlight <- gg %>% 
-    visR::add_highlight(strata = "TRTP=Placebo", bg_alpha_multiplier = bg_alpha_multiplier)
+    visR::add_highlight(strata = "TRTP=Placebo", bg_alpha = bg_alpha)
   
   gg_CI_data <- ggplot2::ggplot_build(gg)$data[[2]]
   gg_with_highlight_CI_data <- ggplot2::ggplot_build(gg_with_highlight)$data[[2]]
@@ -389,8 +389,8 @@ testthat::test_that("T4.2 The function also reduces the alpha value of the confi
   # To not over-engineer the test here, we take for granted that the foreground strata
   # is the first of the three in the evaluation order
   testthat::expect_equal(gg_with_highlight_CI_fills_numeric[1], ci_alpha)
-  testthat::expect_equal(gg_with_highlight_CI_fills_numeric[2], ci_alpha*bg_alpha_multiplier)
-  testthat::expect_equal(gg_with_highlight_CI_fills_numeric[3], ci_alpha*bg_alpha_multiplier)
+  testthat::expect_equal(gg_with_highlight_CI_fills_numeric[2], ci_alpha*bg_alpha)
+  testthat::expect_equal(gg_with_highlight_CI_fills_numeric[3], ci_alpha*bg_alpha)
   
 })
 

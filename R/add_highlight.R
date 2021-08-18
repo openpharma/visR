@@ -11,7 +11,7 @@
 #'   visR::estimate_KM(strata = "SEX") %>%
 #'   visR::visr() %>%
 #'   visR::add_CI(alpha = 0.4) %>%
-#'   visR::add_highlight(strata = "SEX=M", bg_alpha_multiplier = 0.2)
+#'   visR::add_highlight(strata = "SEX=M", bg_alpha = 0.2)
 #'
 #' strata = c("TRTP=Placebo", "TRTP=Xanomeline Low Dose")
 #' 
@@ -19,7 +19,7 @@
 #'   visR::estimate_KM(strata = "TRTP") %>%
 #'   visR::visr() %>%
 #'   visR::add_CI(alpha = 0.4) %>%
-#'   visR::add_highlight(strata = strata, bg_alpha_multiplier = 0.2)
+#'   visR::add_highlight(strata = strata, bg_alpha = 0.2)
 #'
 #' @return The input `ggsurvfit` object with adjusted `alpha` values
 #'
@@ -33,7 +33,7 @@ add_highlight <- function(gg, ...){
 
 #' @param gg A ggsurvfit, ideatlly created with visR
 #' @param strata String representing the name and value of the strata to be highlighted as shown in the legend.
-#' @param bg_alpha_multiplier Factor with which the `alpha` values of all but the specified strata will be multiplied.
+#' @param bg_alpha A numerical value between 0 and 1 that is used to decrease the opacity off all strata not chosen to be highlighted in `strata`. The other strata's existing alpha values are multiplied by `bg_alpha` to decrease their opacity, highlighting the target strata. This works on both `colour` and `fill` properties, as for example present after applying `visR::add_CI()`.
 #'
 #' @rdname add_highlight
 #' @method add_highlight ggsurvfit
@@ -41,7 +41,7 @@ add_highlight <- function(gg, ...){
 
 add_highlight.ggsurvfit <- function(gg = NULL, 
                                     strata = NULL, 
-                                    bg_alpha_multiplier = 0.2,
+                                    bg_alpha = 0.2,
                                     ...) {
   
   # Ugly hack to suppress CRAN warning as described here:
@@ -96,15 +96,15 @@ add_highlight.ggsurvfit <- function(gg = NULL,
     
   }
   
-  if (!is.numeric(bg_alpha_multiplier)) {
+  if (!is.numeric(bg_alpha)) {
     
-    stop("The `bg_alpha_multiplier` must be a `numeric`.")
+    stop("The `bg_alpha` must be a `numeric`.")
     
   }
   
-  if (bg_alpha_multiplier > 1 | bg_alpha_multiplier < 0) {
+  if (bg_alpha > 1 | bg_alpha < 0) {
     
-    stop("The `bg_alpha_multiplier` must be a numeric value between 0 and 1.")
+    stop("The `bg_alpha` must be a numeric value between 0 and 1.")
     
   }
   
@@ -168,7 +168,7 @@ add_highlight.ggsurvfit <- function(gg = NULL,
         dplyr::rowwise() %>%
         dplyr::mutate(alpha = base::ifelse(is.na(alpha), 1, alpha)) %>%
         dplyr::mutate(alpha = base::ifelse(group %in% bg_strata_ids, 
-                                           alpha * bg_alpha_multiplier, 
+                                           alpha * bg_alpha, 
                                            alpha)) %>%
         dplyr::mutate(fill = replace_hex_alpha(fill, convert_alpha(numeric_alpha = alpha))) %>%
         as.data.frame()
@@ -183,7 +183,7 @@ add_highlight.ggsurvfit <- function(gg = NULL,
         dplyr::rowwise() %>%
         dplyr::mutate(alpha = base::ifelse(is.na(alpha), 1, alpha)) %>%
         dplyr::mutate(alpha = base::ifelse(group %in% bg_strata_ids, 
-                                           alpha * bg_alpha_multiplier, 
+                                           alpha * bg_alpha, 
                                            alpha)) %>%
         dplyr::mutate(colour = paste0(colour, convert_alpha(numeric_alpha = alpha))) %>%
         as.data.frame()
