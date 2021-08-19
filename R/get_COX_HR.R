@@ -19,6 +19,7 @@ get_COX_HR <- function(x, ...){
 
 #' @param x An object of class \code{survfit}
 #' @param update_formula Template which specifies how to update the formula of the survfit object \code{\link[stats]{update.formula}}
+#' @param tidy Boolean indicating whether the output should be tidied up for easier extraction of the coefficients.
 #'
 #' @examples 
 #' ## treatment effect
@@ -46,9 +47,16 @@ get_COX_HR <- function(x, ...){
 get_COX_HR.survfit <- function(
   x,
   update_formula = NULL,
+  tidy = FALSE,
   ...
 ){
 
+  if (!is.logical(tidy)) {
+    
+    stop("The parameter `tidy` must either be TRUE or FALSE.")
+    
+  }
+  
 # Update formula ----------------------------------------------------------
   
   if (!is.null(update_formula)){
@@ -64,9 +72,20 @@ get_COX_HR.survfit <- function(
 
 # Tidy output -------------------------------------------------------------
   
-  cox <- tidyme(eval(as.call(CoxCall)))
+  if (isTRUE(tidy)) {
+    
+    cox <- tidyme(eval(as.call(CoxCall)))
+    
+    return(cox)
+    
+  } else {
+    
+    cox <- eval(as.call(CoxCall))
+    
+    return(cox)
+    
+  }
 
-  return(cox)
 }
 
 # END OF CODE -------------------------------------------------------------

@@ -1,0 +1,13 @@
+ID,Group,Subgroup,NoP,P_S,P_G
+1,Renal Failure,No,4594,0.2,0.51
+2,Renal Failure,Yes,66,0.37,0.51
+3,Diabetes,No,2523,0.84,0.13
+4,Diabetes,Yes,2228,0.06,0.13
+5,PA Disease,No,4366,0.37,0.54
+6,PA Disease,Yes,385,0.33,0.54
+7,CV Disease,No,4296,0.18,0.41
+8,CV Disease,Yes,456,0.69,0.41
+9,Sex,Female,908,0.21,0.46
+10,Sex,Male,3843,0.47,0.46
+11,Age,>70 yr,1935,0.17,0.46
+12,Age,<70 yr,2815,0.77,0.46
