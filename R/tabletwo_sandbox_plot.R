@@ -77,7 +77,7 @@ LegendLabels<-data.frame(x=c(rep(1,times=2)),
                          lab=c("Off-Pump CABG Better","On-Pump CABG Better"))
 
 ## BASIC PLOT
-haz<-ggplot(hazardData,aes(factor(ID),HR))+ labs(x=NULL, y=NULL)
+haz<-ggplot(hazardData,aes(factor(ID), HR))+ labs(x=NULL, y=NULL)
 
 ## RIGHT PANEL WITH LOG SCALE
 rightPanel<-haz + 
@@ -111,3 +111,4 @@ leftPanel<-haz +
 
 ## PLOT THEM BOTH IN A GRID SO THEY MATCH UP
 gridExtra::grid.arrange(leftPanel,rightPanel, widths=c(1,3), ncol=2, nrow=1)
+
