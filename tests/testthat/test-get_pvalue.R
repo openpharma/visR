@@ -2,7 +2,7 @@
 #' @section Last updated by:
 #' Steven Haesendonckx
 #' @section Last update date:
-#' 19-MAR-2021
+#' 28-SEP-2021
 
 # Specifications ----------------------------------------------------------
 
@@ -31,6 +31,7 @@
 #' T4.3 Each test statistic and associated calculations are available via the rows of the output object
 #' T4.4 The statistical tests are ordered in line with the order defined in ptype
 #' T4.5 The associated calculations of the statistical tests are ordered in line with the order defined in the statlist
+#' T4.6 The Chisq statistic has the same precision as the pvalue
 
 # Requirement T1 ----------------------------------------------------------
 
@@ -175,5 +176,21 @@ testthat::test_that("T4.5 The associated calculations of the statistical tests a
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
   testthat::expect_identical(colnames(visR::get_pvalue(survfit_object, statlist = c("df", "test"))), c("df", "Equality across strata"))
 })
+
+testthat::test_that("The Chisq statistic has the same precision as the pvalue",{
+
+  survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
+  totest <- visR::get_pvalue(survfit_object, statlist = c("Chisq", "pvalue"))
+
+  testthat::expect_identical( nchar(sapply(strsplit(as.character(totest[["p-value"]]), "\\."), "[[", 2))
+                             ,nchar(sapply(strsplit(as.character(totest[["Chisq"]]), "\\."), "[[", 2)))
+  
+  survfit_object <- visR::estimate_KM(adtte, strata = "SEX")
+  totest <- visR::get_pvalue(survfit_object, statlist = c("Chisq", "pvalue"))
+
+  testthat::expect_identical( nchar(sapply(strsplit(as.character(totest[["p-value"]]), "\\."), "[[", 2))
+                             ,nchar(sapply(strsplit(as.character(totest[["Chisq"]]), "\\."), "[[", 2)))
+})
+
 # END OF CODE ----------------------------------------------------------
 
