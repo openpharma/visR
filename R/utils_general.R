@@ -9,7 +9,7 @@
     ">0.999"
   else
     format(round(x, 3),
-           digits = 3,
+           nsmall = 3,
            justify = "right",
            width = 6,
            scientific = FALSE)
