@@ -197,12 +197,12 @@ check_grob_width_equal <- function(gg_A, gg_B) {
     get_pvalue_ref2,
     get_pvalue_ref3,
     get_pvalue_ref4,
-    make.row.names = F
+    make.row.names = FALSE
   )
 
   get_pvalue_ref134 <- base::rbind.data.frame(
     get_pvalue_ref1,
     get_pvalue_ref3,
     get_pvalue_ref4,
-    make.row.names = F
+    make.row.names = FALSE
   )
