@@ -47,7 +47,7 @@ testthat::test_that("T1.1 TRUE/FALSE are used instead of T/F.",{
     }
   }
 
-  if (base::nrow(CRAN_incompabilities) > 0) { cat(CRAN_incompabilities) }
+  if (base::nrow(CRAN_incompabilities) > 0) { cat(paste0(CRAN_incompabilities, collapse = ";") }
 
   testthat::expect_true(base::nrow(CRAN_incompabilities) == 0)
 
