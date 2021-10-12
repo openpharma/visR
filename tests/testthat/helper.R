@@ -43,16 +43,17 @@ map_numbers_to_new_range <- function(numbers, lower, upper) {
 
 }
 
-#' A helper function to get all files in a folder with a specific extension as 
+#' A helper function to get all files in a folder with a specific extension as
 #' defined by a given pattern.
 #' @keywords internal
 
 get_files <- function(path, pattern) {
-  
+
   files <- base::list.files(path = path, pattern = pattern, full.names = TRUE)
-  
-  return(unlist(files))
-  
+  files <- unlist(files)
+
+  return(files)
+
 }
 
 #' A helper function to conditionally retrieve files of the package
@@ -68,37 +69,33 @@ get_visR_files <- function(functions = FALSE,
   wd <- base::getwd()
 
   if (functions) {
-    
-    R_files <- get_files(path = base::paste0(wd, "/../../R"),
-                         pattern = "*.R")
-    files <- c(files, unlist(R_files))
-  
-  }
-  
-  if (tests) {
-    
-    test_files <- get_files(path = wd,
-                            pattern = "*.R")
-    files <- c(files, unlist(test_files))
-  
-  }
-  
-  if (documentation) {
-    
-    man_files <- get_files(path = base::paste0(wd, "/../../man"),
-                           pattern = "*.Rd")
-    files <- c(files, unlist(man_files))
-  }
-  
-  if (vignettes) {
-    
-    vignette_files <- get_files(path = base::paste0(wd, "/../../vignettes"),
-                                pattern = "*.Rmd")
-    files <- c(files, unlist(vignette_files))
-  
+
+    R_files <- get_files(path = base::paste0(wd, "/../../R"), pattern = "*.R")
+    files <- c(files, R_files)
+
   }
 
-  if (remove_watchdog) {files <- files[!grepl("test-CRAN_watchdog.R", files)] }
+  if (tests) {
+
+    test_files <- get_files(path = wd, pattern = "*.R")
+    files <- c(files, test_files)
+
+  }
+
+  if (documentation) {
+
+    man_files <- get_files(path = base::paste0(wd, "/../../man"), pattern = "*.Rd")
+    files <- c(files, man_files)
+  }
+
+  if (vignettes) {
+
+    vignette_files <- get_files(path = base::paste0(wd, "/../../vignettes"), pattern = "*.Rmd")
+    files <- c(files, vignette_files)
+
+  }
+
+  if (remove_watchdog) { files <- files[!grepl("test-CRAN_watchdog.R", files)] }
 
   return(unlist(files))
 
