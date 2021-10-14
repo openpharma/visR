@@ -140,10 +140,10 @@ get_risktable.survfit <- function(
 # Risk table per statlist -------------------------------------------------
 
   ## labels of risk table are strata, titles are specifified through `label
-  
+ 
   per_statlist <- data.frame(
     time = survfit_summary$time,
-    strata = base::factor(base::sub('.*=', '', survfit_summary$strata), levels = base::sub('.*=', '', levels(survfit_summary$strata))),
+    strata = base::factor(.get_strata(survfit_summary[["strata"]]), levels = unique(.get_strata(survfit_summary[["strata"]]))),
     n.risk = survfit_summary$n.risk,
     n.event = survfit_summary$n.event
   ) %>%

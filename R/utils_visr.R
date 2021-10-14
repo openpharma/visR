@@ -76,6 +76,27 @@ align_plots <- function(pltlist) {
   plots.grobs.eq.widths.aligned
 }
 
+#' @title Get strata level combinations 
+#'
+#' @description Extracts the strata level combinations from a survival objects without the specified strata.
+#'
+#' @param strata The strata from a survival object
+#'
+#' @return The strata level combinations from a survival objects without the specified strata. 
+#'
+#' @keywords internal
+
+.get_strata <- function(strata) {
+  
+  x1 <- base::strsplit(as.character(strata), ",")
+  x2 <- lapply(x1, FUN = function(x) base::sub('.*=', '', x))
+  x3 <- base::lapply(x2, FUN = function(x) base::paste0(x, collapse = ", "))
+  x4 <- base::unlist(trimws(x3, which="both"))
+  
+  return(x4)
+}
+
+
 #' @title Translates options for legend into a list that can be passed to ggplot2
 #'
 #' @description This function takes the legend position and orientation, defined by the user and puts them into a list for ggplot2.
@@ -269,7 +290,12 @@ legendopts <- function(legend_position = "right",
 
 #' @title Extract the numerical alpha representation of #RRGGBBAA colour 
 #'
-#' @description RGB colours can be encoded as hexadecimal values, as for example internally used by `ggplot2`. For this, the numerical RGB values are mapped from their 0-255 value range to two-character hex-values. This yields a string in the form of '#RRGGBB'. Additionally, a fourth optional block can be present encoding the alpha transparency of the colour. This extends the string to '#RRGGBBAA'. This function takes such a string as input for `hex_colour`, extracts the 'AA' part and returns the numerical representation if it.
+#' @description RGB colours can be encoded as hexadecimal values, as for example internally used by `ggplot2`.
+#'  For this, the numerical RGB values are mapped from their 0-255 value range to two-character hex-values.
+#'  This yields a string in the form of '#RRGGBB'. Additionally, a fourth optional block can be present encoding
+#'  the alpha transparency of the colour. This extends the string to '#RRGGBBAA'. 
+#'  This function takes such a string as input for `hex_colour`, extracts the 'AA' part and returns the
+#'  numerical representation if it.
 #'
 #' @param hex_colour A string in the format '#RRGGBBAA'
 #'
