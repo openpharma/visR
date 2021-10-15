@@ -2,13 +2,16 @@
 #' @section Last updated by:
 #' Steven Haesendonckx
 #' @section Last update date:
-#' 10-APR-2021
+#' 14-OCT-2021
 
 # Specifications ----------------------------------------------------------
 
 #' T1. The function accepts a `survfit` object
 #' T1.1 No error when a `survfit` object is passed to the function
 #' T1.2 An error when a non-`survfit` object is passed to the function
+#' T1.3 No error when one strata is present in the `survfit` object
+#' T1.4 No error when multiple strata are present in the `survfit` object
+#' T1.5 Only the levels of the strata combinations are used, while the strata themselves are not mentioned
 #' T2. The function accepts an argument that specifies the time at which the risk set is calculated
 #' T2.1 An error when the times specified are negative
 #' T2.2 The function orders the times argument internally to avoid errors
@@ -56,11 +59,33 @@ testthat::test_that("T1.1. No error when a `survfit` object is passed to the fun
 
 })
 
-testthat::test_that("TT1.2 An error when a non-`survfit` object is passed to the function",{
+testthat::test_that("T1.2 An error when a non-`survfit` object is passed to the function",{
 
   survfit_object <- visR::estimate_KM(adtte, strata = "STUDYID")
   class(survfit_object) <- "blah"
   testthat::expect_error(visR::get_risktable(survfit_object))
+
+})
+
+testthat::test_that("T1.3 No error when one strata is present in the `survfit` object",{
+
+  survfit_object <- visR::estimate_KM(adtte, strata = c("SEX"))
+  testthat::expect_error(visR::get_risktable(survfit_object), NA)
+
+})
+
+testthat::test_that("T1.4 No error when multiple strata are present in the `survfit` object",{
+
+  survfit_object <- visR::estimate_KM(adtte, strata = c("SEX", "TRTP"))
+  testthat::expect_error(visR::get_risktable(survfit_object), NA)
+
+})
+
+testthat::test_that("T1.5 Only the levels of the strata combinations are used, while the strata themselves are not mentioned",{
+
+  survfit_object <- visR::estimate_KM(adtte, strata = c("SEX", "TRTP"))
+  risktable <- visR::get_risktable(survfit_object, group = "statlist")
+  testthat::expect_equal(as.character(unique(risktable[["y_values"]])), visR:::.get_strata(names(survfit_object$strata)))
 
 })
 
