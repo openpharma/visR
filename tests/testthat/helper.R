@@ -43,19 +43,6 @@ map_numbers_to_new_range <- function(numbers, lower, upper) {
 
 }
 
-#' A helper function to get all files in a folder with a specific extension as
-#' defined by a given pattern.
-#' @keywords internal
-
-get_files <- function(path, pattern) {
-
-  files <- base::list.files(path = path, pattern = pattern, full.names = TRUE)
-  files <- unlist(files)
-
-  return(files)
-
-}
-
 #' A helper function to conditionally retrieve files of the package
 #' @keywords internal
 
@@ -66,32 +53,40 @@ get_visR_files <- function(functions = FALSE,
                            remove_watchdog = TRUE) {
 
   files <- list()
-  wd <- base::getwd()
+  wd <- getwd()
 
   if (functions) {
 
-    R_files <- get_files(path = base::paste0(wd, "/../../R"), pattern = "*.R")
-    files <- c(files, R_files)
+    R_files <- list.files(path = paste0(wd, "/../../R"), 
+                          pattern = "*.R", 
+                          full.names = TRUE)
+    files <- c(files, unlist(R_files))
 
   }
 
   if (tests) {
 
-    test_files <- get_files(path = wd, pattern = "*.R")
-    files <- c(files, test_files)
+    test_files <- list.files(path = wd,
+                             pattern = "*.R", 
+                             full.names = TRUE)
+    files <- c(files, unlist(test_files))
 
   }
 
   if (documentation) {
 
-    man_files <- get_files(path = base::paste0(wd, "/../../man"), pattern = "*.Rd")
-    files <- c(files, man_files)
+    man_files <- list.files(path = paste0(wd, "/../../man"), 
+                            pattern = "*.Rd", 
+                            full.names = TRUE)
+    files <- c(files, unlist(man_files))
   }
 
   if (vignettes) {
 
-    vignette_files <- get_files(path = base::paste0(wd, "/../../vignettes"), pattern = "*.Rmd")
-    files <- c(files, vignette_files)
+    vignette_files <- list.files(path = paste0(wd, "/../../vignettes"),
+                                 pattern = "*.Rmd", 
+                                 full.names = TRUE)
+    files <- c(files, unlist(vignette_files))
 
   }
 
