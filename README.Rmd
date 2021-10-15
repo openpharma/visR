@@ -57,13 +57,13 @@ The package is still experimental and under active development with a current fo
 | [![R-CMD-check](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml/badge.svg?branch=main)](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml) | `main` branch |
 | [![pkgdown](https://github.com/openpharma/visR/actions/workflows/makedocs.yml/badge.svg)](https://github.com/openpharma/visR/actions/workflows/makedocs.yml) | Documentation building to [Github pages](https://openpharma.github.io/visR/) |
 | [![CRAN status](https://www.r-pkg.org/badges/version/visR)](https://CRAN.R-project.org/package=visR)| Latest CRAN release |
-| <img src=https://img.shields.io/badge/riskmetric-`r riskmetric_score`-green></img>| `riskmetric` score |
+| <a href=https://github.com/pharmaR/riskmetric><img src=https://img.shields.io/badge/riskmetric-`r riskmetric_score`-green></img></a>| `riskmetric` score |
 <!-- badges: end -->
 
 
 ## Installation
 
-The easiest way to get visR is to install from cran:
+The easiest way to get `visR` is to install from CRAN:
 
 ``` r
 install.packages("visR")
@@ -85,7 +85,7 @@ devtools::install_github("openpharma/visR", ref = "main")
 
 ## Example
 
-This is a basic example to demonstrate how the API can be used to add layers to a visualisation. In this example a time to event analysis. The example calculates stratified Kaplan-Meier by treatment and then plots. Additional functions can be used to add uncertainty intervals, censoring information and a risk table. 
+This is a basic example to demonstrate how the API can be used to add layers to a visualization. In this example a time to event analysis. The example calculates stratified Kaplan-Meier by treatment and then plots. Additional functions can be used to add uncertainty intervals, censoring information and a risk table. 
 
 ```{r example, warning=FALSE, message = FALSE}
 library(visR)
@@ -181,8 +181,10 @@ local_repo %>%
 
 # plot
 local_repo %>%
+  mutate(date = gsub("([0-9]{4}\\-[0-9]{2})\\-.*","\\1", date)) %>%
+  mutate(date = as.POSIXct(paste0(date, "-01 UTC"), tz = "UTC")) %>%
   group_by(
-    Month = lubridate::floor_date(date, "month"),
+    Month = date,
     author_name
     ) %>%
   summarise(
@@ -227,3 +229,4 @@ Last time readme built.
 ```{r}
 covr::package_coverage()
 ```
+
