@@ -1,8 +1,4 @@
 #' @title Specifications get_summary
-#' @section Last updated by:
-#' Steven Haesendonckx
-#' @section Last update date:
-#' 14-MAY-2021
 
 # Specifications ----------------------------------------------------------
 

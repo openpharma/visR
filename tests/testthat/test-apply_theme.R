@@ -1,6 +1,4 @@
 #' @title Specifications apply_theme
-#' @section Last updated by: Tim Treis
-#' @section Last update date: 21-JULY-2021
 
 # Specifications ---------------------------------------------------------------
 

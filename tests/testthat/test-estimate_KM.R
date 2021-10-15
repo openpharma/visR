@@ -1,8 +1,4 @@
 #' @title Specifications estimate_KM
-#' @section Last updated by:
-#' Steven Haesendonckx
-#' @section Last update date:
-#' 12-OCT-2021
 
 # Specifications ----------------------------------------------------------
 

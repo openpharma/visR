@@ -1,8 +1,4 @@
 #' @title Specifications add_risktable.survfit
-#' @section Last updated by:
-#' Steven Haesendonckx
-#' @section Last update date:
-#' 23-APR-2021
 
 # Specifications ----------------------------------------------------------
 

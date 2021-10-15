@@ -1,6 +1,4 @@
 #' @title Specifications tableone
-#' @section Last updated by: Tim Treis
-#' @section Last update date: 22-JULY-2021
 
 # Specifications ---------------------------------------------------------------
 

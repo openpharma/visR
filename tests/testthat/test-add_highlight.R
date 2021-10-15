@@ -1,6 +1,4 @@
 #' @title Specifications add_highlight
-#' @section Last updated by: Tim Treis
-#' @section Last update date: 06-Auust-2021
 
 # Specifications ---------------------------------------------------------------
 

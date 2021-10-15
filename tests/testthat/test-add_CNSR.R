@@ -1,8 +1,4 @@
 #' @title Specifications add_CNSR
-#' @section Last updated by:
-#' Tim Treis
-#' @section Last update date:
-#' 18-MAR-2021
 
 # Specifications ---------------------------------------------------------------
 

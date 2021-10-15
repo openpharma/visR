@@ -1,8 +1,4 @@
 #' @title Specifications get_COX_HR
-#' @section Last updated by:
-#' Steven Haesendonckx
-#' @section Last update date:
-#' 19-APR-2021
 
 # Specifications ----------------------------------------------------------
 

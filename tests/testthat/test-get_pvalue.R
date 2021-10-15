@@ -1,8 +1,4 @@
 #' @title Specifications get_pvalue
-#' @section Last updated by:
-#' Steven Haesendonckx
-#' @section Last update date:
-#' 28-SEP-2021
 
 # Specifications ----------------------------------------------------------
 

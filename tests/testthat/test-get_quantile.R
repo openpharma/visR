@@ -1,8 +1,4 @@
 #' @title Specifications get_quantile
-#' @section Last updated by:
-#' Steven Haesendonckx
-#' @section Last update date:
-#' 24-MAY-2021
 
 # Specifications ----------------------------------------------------------
 #' T1.  The function accepts a survival object

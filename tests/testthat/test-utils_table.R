@@ -1,7 +1,4 @@
 #' @title Specifications utils_table
-#' @section Last updated by: Charlotta Fruechteniccht
-#' @section Last update date:
-#' 29-MAY-2021
 
 # Specifications ----------------------------------------------------------
 

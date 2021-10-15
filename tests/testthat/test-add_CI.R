@@ -1,8 +1,4 @@
 #' @title Specifications add_CI
-#' @section Last updated by:
-#' Tim Treis
-#' @section Last update date:
-#' 10-MAY-2021
 
 # Specifications ---------------------------------------------------------------
 

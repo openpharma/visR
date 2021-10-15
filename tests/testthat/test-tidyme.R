@@ -1,8 +1,4 @@
 #' @title tidyme
-#' @section Last updated by:
-#' Steven Haesendonckx
-#' @section Last update date:
-#' 21-APR-2021
 
 # Specifications ---------------------------------------------------------------
 

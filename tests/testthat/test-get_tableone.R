@@ -1,8 +1,4 @@
 #' @title Specifications get_tableone
-#' @section Last updated by:
-#' Rebecca Albrecht
-#' @section Last update date:
-#' 20-APR-2021
 
 # Specifications ----------------------------------------------------------
 

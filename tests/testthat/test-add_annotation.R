@@ -1,8 +1,4 @@
 #' @title Specifications add_annotation
-#' @section Last updated by:
-#' Steven Haesendonckx
-#' @section Last update date:
-#' 13-MAY-2021
 
 # Specifications ----------------------------------------------------------
 #' T1. The function adds annotations to an object of class `ggplot`

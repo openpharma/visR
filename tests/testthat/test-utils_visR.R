@@ -1,6 +1,4 @@
 #' @title Specifications utils_visr
-#' @section Last updated by: Tim Treis
-#' @section Last update date: 30-JULY-2021
 
 # Specifications ---------------------------------------------------------------
 

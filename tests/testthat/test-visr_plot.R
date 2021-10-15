@@ -1,6 +1,4 @@
 #' @title Specifications visr_plot
-#' @section Last updated by: Tim Treis
-#' @section Last update date: 30-JULY-2021
 
 # Specifications ---------------------------------------------------------------
 
