@@ -43,13 +43,13 @@ current focus on developing a stable API.
 | [![R-CMD-check](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml/badge.svg?branch=main)](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml) | `main` branch                                                                |
 | [![pkgdown](https://github.com/openpharma/visR/actions/workflows/makedocs.yml/badge.svg)](https://github.com/openpharma/visR/actions/workflows/makedocs.yml)                               | Documentation building to [Github pages](https://openpharma.github.io/visR/) |
 | [![CRAN status](https://www.r-pkg.org/badges/version/visR)](https://CRAN.R-project.org/package=visR)                                                                                       | Latest CRAN release                                                          |
-| <img src=https://img.shields.io/badge/riskmetric-0.44-green></img>                                                                                                                         | `riskmetric` score                                                           |
+| <a href=https://github.com/pharmaR/riskmetric><img src=https://img.shields.io/badge/riskmetric--1.15-green></img></a>                                                                      | `riskmetric` score                                                           |
 
 <!-- badges: end -->
 
 ## Installation
 
-The easiest way to get visR is to install from cran:
+The easiest way to get `visR` is to install from CRAN:
 
 ``` r
 install.packages("visR")
@@ -73,7 +73,7 @@ devtools::install_github("openpharma/visR", ref = "main")
 ## Example
 
 This is a basic example to demonstrate how the API can be used to add
-layers to a visualisation. In this example a time to event analysis. The
+layers to a visualization. In this example a time to event analysis. The
 example calculates stratified Kaplan-Meier by treatment and then plots.
 Additional functions can be used to add uncertainty intervals, censoring
 information and a risk table.
@@ -113,12 +113,12 @@ Last time readme built.
 
 ``` r
 covr::package_coverage()
-#> visR Coverage: 96.62%
-#> R/add_highlight.R: 0.00%
-#> R/utils_visr.R: 96.61%
+#> visR Coverage: 99.72%
+#> R/utils_visr.R: 97.67%
 #> R/add_annotation.R: 100.00%
 #> R/add_CI.R: 100.00%
 #> R/add_CNSR.R: 100.00%
+#> R/add_highlight.R: 100.00%
 #> R/add_risktable.R: 100.00%
 #> R/apply_attrition.R: 100.00%
 #> R/apply_theme.R: 100.00%
