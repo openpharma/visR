@@ -25,7 +25,8 @@ survfit object, extended by elements PARAM/PARAMCD, ready for downstream process
 }
 \description{
 This function is a wrapper around \code{survival::survfit.formula} to perform a Kaplan-Meier analysis, assuming right-censored data.
-The function expects that the data has been filtered on the parameter (PARAM/PARAMCD) of interest.
+The function expects that the data has been filtered on the parameter (PARAM/PARAMCD) of interest. All NA values in the CNSR, AVAL and strata
+argument are removed.
 Alternatively, PARAM/PARAMCD can be used in the \code{strata} argument. \cr
 The result is an object of class \code{survfit} which can be used in downstream functions and methods that rely on the \code{survfit} class.
 By default:
