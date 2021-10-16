@@ -52,13 +52,13 @@ visr.default <- function(x, ...){
 #' @param fun Change the scale of the estimate. 
 #'   The current options are:
 #'   \itemize{
-#'   \item{`surv`}{is the survival probability. This is the default.}
-#'   \item{`log`}{is log of the survival probability}
-#'   \item{`event`}{is the failure probability}
-#'   \item{`cloglog`}{is log(-log(survival probability))}
-#'   \item{`pct`}{is survival as a percentage}
-#'   \item{`logpct`}{is log survival as a percentage}
-#'   \item{`cumhaz`}{is the cumulative hazard}
+#'   \item{`surv`}{ is the survival probability. This is the default.}
+#'   \item{`log`}{ is log of the survival probability}
+#'   \item{`event`}{ is the failure probability}
+#'   \item{`cloglog`}{ is log(-log(survival probability))}
+#'   \item{`pct`}{ is survival as a percentage}
+#'   \item{`logpct`}{ is log survival as a percentage}
+#'   \item{`cumhaz`}{ is the cumulative hazard}
 #'   } 
 #' @param legend_position Specifies the legend position in the plot. 
 #'   Character values allowed are "top" "left" "bottom" "right". 
@@ -69,7 +69,7 @@ visr.default <- function(x, ...){
 #' @examples
 #' 
 #' # fit KM 
-#' km_fit <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ TRTP, data=adtte)
+#' km_fit <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ TRTP, data = adtte)
 #' 
 #' # plot curves using survival plot function
 #' plot(km_fit)
