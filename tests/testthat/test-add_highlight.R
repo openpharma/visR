@@ -117,7 +117,7 @@ testthat::test_that("T2.1 No error when `strata` is a character string found in 
   testthat::skip_on_cran()
   gg %>%
     visR::add_highlight(strata = "TRTP=Placebo") %>%
-    vdiffr::expect_doppelganger(title = "add_highlight_T2_1_no_error_when_strata_is_a_character_string_found_in_the_plot_strata")
+    vdiffr::expect_doppelganger(title = "add_highlight_T2_1_no_error_when_strata_is_string")
 
 })
 
@@ -168,11 +168,11 @@ testthat::test_that("T2.4 No error when `strata` is a `list` or `vector` of char
 
   gg %>%
     visR::add_highlight(strata = strata_list) %>%
-    vdiffr::expect_doppelganger(title = "add_highlight_T2_2_no_error_when_strata_is_a_list_of_character_strings_found_in_the_plot_strata")
+    vdiffr::expect_doppelganger(title = "add_highlight_T2_4_no_error_when_strata_is_string_list")
 
   gg %>%
     visR::add_highlight(strata = strata_vector) %>%
-    vdiffr::expect_doppelganger(title = "add_highlight_T2_2_no_error_when_strata_is_a_vector_of_character_strings_found_in_the_plot_strata")
+    vdiffr::expect_doppelganger(title = "add_highlight_T2_4_no_error_when_strata_is_string_vector")
 
 })
 
@@ -307,17 +307,17 @@ testthat::test_that("T3.4 The alpha of the background strata changes with `bg_al
   gg %>%
     visR::add_highlight(strata = "TRTP=Placebo",
                         bg_alpha = 0) %>%
-    vdiffr::expect_doppelganger(title = "add_highlight_T3_4_alpha_multiplier_of_bg_strata_set_to_0")
+    vdiffr::expect_doppelganger(title = "add_highlight_T3_4_bg_alpha_is_0")
 
   gg %>%
     visR::add_highlight(strata = "TRTP=Placebo",
                         bg_alpha = 0.4) %>%
-    vdiffr::expect_doppelganger(title = "add_highlight_T3_4_alpha_multiplier_of_bg_strata_set_to_0_4")
+    vdiffr::expect_doppelganger(title = "add_highlight_T3_4_bg_alpha_is_0_4")
 
   gg %>%
     visR::add_highlight(strata = "TRTP=Placebo",
                         bg_alpha = 1.0) %>%
-    vdiffr::expect_doppelganger(title = "add_highlight_T3_4_alpha_multiplier_of_bg_strata_set_to_1")
+    vdiffr::expect_doppelganger(title = "add_highlight_T3_4_bg_alpha_is_1")
 
 })
 
