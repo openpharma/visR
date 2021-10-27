@@ -59,7 +59,7 @@ map_numbers_to_new_range <- function(numbers, lower, upper) {
 
   if (functions) {
 
-    R_files <- list.files(path = paste0(wd, "/../../R"), 
+    R_files <- list.files(path = file.path(wd, "/../../R"), 
                           pattern = "*.R", 
                           full.names = TRUE)
     files <- c(files, unlist(R_files))
@@ -77,7 +77,7 @@ map_numbers_to_new_range <- function(numbers, lower, upper) {
 
   if (documentation) {
 
-    man_files <- list.files(path = paste0(wd, "/../../man"), 
+    man_files <- list.files(path = file.path(wd, "/../../man"), 
                             pattern = "*.Rd", 
                             full.names = TRUE)
     files <- c(files, unlist(man_files))
@@ -85,7 +85,7 @@ map_numbers_to_new_range <- function(numbers, lower, upper) {
 
   if (vignettes) {
 
-    vignette_files <- list.files(path = paste0(wd, "/../../vignettes"),
+    vignette_files <- list.files(path = file.path(wd, "/../../vignettes"),
                                  pattern = "*.Rmd", 
                                  full.names = TRUE)
     files <- c(files, unlist(vignette_files))
