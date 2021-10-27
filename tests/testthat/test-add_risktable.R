@@ -2,7 +2,7 @@
 #' @section Last updated by:
 #' Steven Haesendonckx
 #' @section Last update date:
-#' 23-APR-2021
+#' 20-OCT-2021
 
 # Specifications ----------------------------------------------------------
 
@@ -10,9 +10,10 @@
 #' T1.1 No error when a `ggsurvfit` object is passed to the function
 #' T1.2 An error when a non-`ggsurvfit` object is passed to the function
 #' T2. The risktables are `ggplot` representations of the actual risktables
-#' T2.1 The calculated values in the risktable are not affected by the transformation to a `ggplot`
-#' T2.2 The risktables are placed below the visR plot, in alignment with the x-axis of a visR plot without legend
-#' T2.3 The risktables are placed below the visR plot, in alignment with the x-axis of a visR plot with a legend
+#' T2.1 When no strata were specified, an artificial strata is displayed 'Overall'
+#' T2.2 The calculated values in the risktable are not affected by the transformation to a `ggplot`
+#' T2.3 The risktables are placed below the visR plot, in alignment with the x-axis of a visR plot without legend
+#' T2.4 The risktables are placed below the visR plot, in alignment with the x-axis of a visR plot with a legend
 #' T3. The output object is ggplot with additional class `ggsurvfit` and an attribute `components`
 #' T3.1 The output object has an additional attribute `components`
 #' T3.2 The attribute components[['visR_plot']] contains the plot used as input
@@ -44,7 +45,16 @@ testthat::test_that("T1.2 An error when a non-`ggsurvfit` object is passed to th
 
 context("add_risktable.survfit - T2. The risktables are `ggplot` representations of the actual risktables")
 
-testthat::test_that("T2.1 The calculated values in the risktable are not affected by the transformation to a `ggplot`",{
+testthat::test_that("T2.1 When no strata were specified, an artificial strata is displayed 'Overall'",{
+
+  visR_plot <- visR::estimate_KM(data = adtte) %>% visR::visr() %>% visR::add_risktable()
+  strata <- base::intersect("Overall", names(visR_plot$components))
+                  
+  testthat::expect_error(strata == "Overall", NA)
+    
+})
+
+testthat::test_that("T2.2 The calculated values in the risktable are not affected by the transformation to a `ggplot`",{
 
   visR_risk <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::get_risktable()
   visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::visr() %>% visR::add_risktable()
@@ -55,7 +65,9 @@ testthat::test_that("T2.1 The calculated values in the risktable are not affecte
   
 })
 
-# testthat::test_that("T2.2 The risktables are placed below the visR plot, in alignment with the x-axis of a visR plot without legend",{
+
+
+# testthat::test_that("T2.3 The risktables are placed below the visR plot, in alignment with the x-axis of a visR plot without legend",{
 # 
 #   visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>%
 #     visR::visr(legend_position = "none") %>%
@@ -65,7 +77,7 @@ testthat::test_that("T2.1 The calculated values in the risktable are not affecte
 #   vdiffr::manage_cases()
 # })
 # 
-# testthat::test_that("T2.3 The risktables are placed below the visR plot, in alignment with the x-axis of a visR plot with legend",{
+# testthat::test_that("T2.4 The risktables are placed below the visR plot, in alignment with the x-axis of a visR plot with legend",{
 # 
 #   visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>%
 #     visR::visr(legend_position = "right") %>%
