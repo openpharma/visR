@@ -43,7 +43,9 @@ map_numbers_to_new_range <- function(numbers, lower, upper) {
 
 }
 
-#' A helper function that returns the full paths of the package files as a vector
+#' A helper function that returns the full paths of the package files as a vector. 
+#' It is used as part of the watchdogs documented here at 
+#' https://github.com/openpharma/visR/wiki/Coding-principles#package-maintenance
 #' @keywords internal
 
 .get_visR_files <- function(functions = FALSE,
