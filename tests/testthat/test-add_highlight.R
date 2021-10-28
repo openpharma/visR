@@ -1,9 +1,8 @@
-#' @title Specifications add_highlight
-#' @section Last updated by: Tim Treis
-#' @section Last update date: 06-Auust-2021
-
-# Specifications ---------------------------------------------------------------
-
+#' @title Specifications test-add_highlight.R
+#' @section Last updated by: Tim Treis (tim.treis(at)outlook.de)
+#' @section Last update date: 2021-10-15 15:34:55
+#'
+#' @section List of tested specifications
 #' T1. The function modifies a `ggsurvfit` object and returns it.
 #' T1.1 No error when `add_highlight` is called on a `ggsurvfit` object.
 #' T1.2 An error when `add_highlight` is called without a plot.
@@ -28,9 +27,9 @@
 #' T4.1 The function adds the alpha channel to the hex-encoded colour.
 #' T4.2 The function also reduces the alpha value of the confidence intervals introduced by `add_CI`.
 
-# Requirement T1 ---------------------------------------------------------------
+#' Requirement T1 ------------------------------------------------------------------------------------------------------
 
-testthat::context("add_highlight - T1. The function modifies a `ggsurvfit` object and returns it.")
+context("add_highlight - T1. The function modifies a `ggsurvfit` object and returns it.")
 
 testthat::test_that("T1.1 No error when `add_highlight` is called on a `ggsurvfit` object.", {
 

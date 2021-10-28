@@ -1,36 +1,16 @@
-#' @title Specifications utils_table
-#' @section Last updated by: Charlotta Fruechteniccht
-#' @section Last update date:
-#' 29-MAY-2021
-
-# Specifications ----------------------------------------------------------
-
+#' @title Specifications test-utils_table.R
+#' @section Last updated by: charlotta fruechtenicht (charlotta.fruechtenicht(at)roche.com)
+#' @section Last update date: 2021-05-30 08:01:38
+#'
+#' @section List of tested specifications
+#' NA
 #' T1. Correct values for summarize_long.numeric
-#' T1.1. Correct mean values for numeric values
-#' T1.2. Correct min value for numeric values
-#' T1.3. Correct max value for numeric values
-#' T1.4. Correct Q1 value for numeric values
-#' T1.5. Correct Q3 value for numeric values
-#' T1.6. Correct SD value for numeric values
-#' T1.7. Correct median value for numeric values
-#' T1.8. Integers as correctly dispatched to summarize_long.numeric
 #' T2. Correct values for summarize_long.factors
-#' T2.1. Correct count of factor values
-#' T2.2. Correct percentage of factor values
 #' T3. Correct values for summarize_long.default
-#' T3.1. Correct count of unique values
-#' T3.2. Correct count of missing values
 #' T4. Correct values for summarize_short.numeric
-#' T4.1. Correct mean values for numeric values in summarize_short
-#' T4.2. Correct median values for numeric values in summarize_short
-#' T4.3. Correct range values for numeric values in summarize_short
-#' T4.4. Correct missing values for numeric values in summarize_short
 #' T5. Correct values for summarize_short.factor and summarize_short.string
-#' T5.1. Correct value for factors in summarize_short
-#' T5.2. Correct default value in summarize_short
 
-
-# Requirement T1 ----------------------------------------------------------
+#' Requirement T1 ------------------------------------------------------------------------------------------------------
 
 context("utils_table - T1. Correct values for summarize_long.numeric")
 

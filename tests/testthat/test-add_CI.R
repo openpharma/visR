@@ -1,26 +1,23 @@
-#' @title Specifications add_CI
-#' @section Last updated by:
-#' Tim Treis
-#' @section Last update date:
-#' 10-MAY-2021
-
-# Specifications ---------------------------------------------------------------
-
-#' T1. No errors when confidence intervals are added to the plots. 
-#' T1.1 No error when the default parameters are used.
+#' @title Specifications test-add_CI.R
+#' @section Last updated by: shaesen2 (haesendonckx.steven(at)gmail.com)
+#' @section Last update date: 2021-05-24 08:37:23
+#'
+#' @section List of tested specifications
+#' T1. No errors when confidence intervals are added to the plots.
+#' T1.1 No error when the default parameters are used
 #' T1.2 No error when `alpha` is a numerical value between [0, 1].
 #' T1.3 No error when `style` is `ribbon` or `step`.
-#' T1.4 No error when `linetype` is one of the valid ggplot choices.
+#' T1.3 No error when `linetype` is one of the valid ggplot choices.
 #' T2. No errors when different amount of strata are used.
 #' T2.1 No error when only 1 strata is present.
-#' T2.2 No error when 2 or more strata are present.
-#' T3. Warnings in case of missing data or arguments are thrown. 
+#' T2.2 No error when 2 or more strata are present
+#' T3.  Warnings in case of missing data or weird arguments are thrown.
 #' T3.1 Error when `est.lower` and `est.upper` are not present.
 #' T3.2 Warning when no valid style was provided.
 #' T3.3 Warning when `alpha` is not in [0, 1].
 #' T3.4 Warning when `style` is `ribbon` but a `linetype` was specified.
 
-# Requirement T1 ---------------------------------------------------------------
+#' Requirement T1 ------------------------------------------------------------------------------------------------------
 
 context("add_CI - T1. No errors when confidence intervals are added to the plots.")
 

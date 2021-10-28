@@ -1,13 +1,10 @@
-#' @title Specifications get_risktable.survfit
-#' @section Last updated by:
-#' Steven Haesendonckx
-#' @section Last update date:
-#' 20-OCT-2021
-
-# Specifications ----------------------------------------------------------
-
+#' @title Specifications test-get_risktable.R
+#' @section Last updated by: shaesen2 (shaesen2(at)its.jnj.com)
+#' @section Last update date: 2021-10-20 03:57:58
+#'
+#' @section List of tested specifications
 #' T1. The function accepts a `survfit` object
-#' T1.1 No error when a `survfit` object is passed to the function
+#' T1.1. No error when a `survfit` object is passed to the function
 #' T1.2 An error when a non-`survfit` object is passed to the function
 #' T1.3 No error when no strata is present in the `survfit` object
 #' T1.4 No error when one strata is present in the `survfit` object
@@ -17,16 +14,16 @@
 #' T2. The function accepts an argument that specifies the time at which the risk set is calculated
 #' T2.1 An error when the times specified are negative
 #' T2.2 The function orders the times argument internally to avoid errors
-#' T2.3 The function proposes 11 times which are equally spaced when no times are specified 
+#' T2.3 The function proposes 11 times which are equally spaces when no times are specified
 #' T3. The function accepts a `statlist` to be displayed for which labels can be specified
 #' T3.1 No error when the `statlist` contains allowed strings
-#' T3.2 An error when the `statlist` contains non-allowed strings eg "blah"
+#' T3.2 An error when the `statlist` contains non-allowed strings eg 'blah'
 #' T3.3 Duplicate entries are removed from `statlist`
 #' T3.4 An error when the `label` is not a character vector or a factor
 #' T3.5 No error when the `label` is a character vector
 #' T3.6 No error when the `label` is a factor
 #' T4. The function matches the length of the `label` vector with that of the `statlist` vector
-#' T4.1 The function supplies defaults to increase the length of the `label` vector to same length as the `statlist` vector 
+#' T4.1 The function supplies defaults to increase the length of the `label` vector to same length as the `statlist` vector
 #' T4.2 The supplied defaults for the `label` vector match the arguments specified in the `statlist`
 #' T4.3 The function limits the length of the `label` vector to the length of the `statlist` vector
 #' T5. The function groups the calculation by strata, by statlist or overall
@@ -36,7 +33,7 @@
 #' T5.4 No error when the `group` arguments is `statlist`
 #' T5.5 The calculations are grouped by strata when group = `strata`
 #' T5.6 The calculations are grouped by statlist when group = `statlist`
-#' T5.7 The calculations are in agreement with expectations
+#' T5.7 The calculations are in agreement with what is expected
 #' T6. The function allows the calculations to be grouped overall 
 #' T6.1 An error when the argument collapse is not boolean
 #' T6.2 No error when the argument collapse is boolean
@@ -49,9 +46,9 @@
 #' T7.3 The output dataset has the attribute `title` that specifies the labels used in downstream functions
 #' T7.4 The output dataset has the attribute `statlist` that reflects the ´group´ used
 
-# Requirement T1 ----------------------------------------------------------
+#' Requirement T1 ------------------------------------------------------------------------------------------------------
 
-testthat::context("get_risktable.survfit - T1. The function accepts a `survfit` object")
+context("get_risktable.survfit - T1. The function accepts a `survfit` object")
 
 testthat::test_that("T1.1. No error when a `survfit` object is passed to the function",{
 

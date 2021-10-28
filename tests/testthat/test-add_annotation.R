@@ -1,10 +1,8 @@
-#' @title Specifications add_annotation
-#' @section Last updated by:
-#' Steven Haesendonckx
-#' @section Last update date:
-#' 13-MAY-2021
-
-# Specifications ----------------------------------------------------------
+#' @title Specifications test-add_annotation.R
+#' @section Last updated by: Tim Treis (tim.treis(at)outlook.de)
+#' @section Last update date: 2021-06-10 16:23:56
+#'
+#' @section List of tested specifications
 #' T1. The function adds annotations to an object of class `ggplot`
 #' T1.1 No error when a `ggplot` object is passed to the function in the presence of a label
 #' T1.2 An error when a non-`ggplot` object is passed to the function in the presence of a label
@@ -13,26 +11,25 @@
 #' T2.1 An error when a `ggplot` object is passed to the function in the absence of a label
 #' T2.2 No error when label is of class `character`
 #' T2.3 No error when label is of class `data.frame`
-#' T2.4 No error when label is of class `gtable`
+#' T2.3 No error when label is of class `gtable`
 #' T3. The annotation are representations of the actual label
 #' T3.1 An object of type `character` passed to label is not affected by the transformation to an annotation
 #' T3.2 The content of a `data.frame` passed to label is not affected by the transformation to an annotation
 #' T3.3 The content of a `gtable` passed to label is not affected by the transformation to an annotation
-#' T4. The annotation can be placed on the plot by specifying the coordinates 
+#' T4. The annotation can be placed on the plot by specifying the coordinates
 #' T4.1 An error when one of the coordinates is not numeric
 #' T4.2 The annotation can be moved on the plot by specifying the x coordinates
 #' T4.3 The annotation can be moved on the plot by specifying the y coordinates
 #' T5. The layout of the annotation can be modified to a certain extend
 #' T5.1 The annotation has bold columnheaders when the passed object is of class `data.frame`
 #' T5.2 The font size can be changed
-#' T5.3 The font family can be chosen between "sans", "serif" and "mono"
+#' T5.3 The font family can be chosen between 'sans', 'serif' and 'mono'
 #' T6. The output object has an additional attribute `components`
 #' T6.1 The attribute components[['visR_plot']] contains the plot used as input
 #' T6.2 The attribute components contains the annotation
 #' T6.3 The output has the same class as the original ggplot
 
-
-# Requirement T1 ----------------------------------------------------------
+#' Requirement T1 ------------------------------------------------------------------------------------------------------
 
 context("add_annotation - T1. The function adds annotations to an object of class `ggplot`")
 

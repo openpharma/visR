@@ -1,9 +1,8 @@
-#' @title Specifications visr_plot
-#' @section Last updated by: Tim Treis
-#' @section Last update date: 30-JULY-2021
-
-# Specifications ---------------------------------------------------------------
-
+#' @title Specifications test-visr_plot.R
+#' @section Last updated by: Tim Treis (tim.treis(at)outlook.de)
+#' @section Last update date: 2021-07-30 10:58:31
+#'
+#' @section List of tested specifications
 #' T1. visR::visr() only accepts `survfit` or `attrition`.
 #' T1.1 No error when applied to a `survfit` object.
 #' T1.2 No error when applied to a `attrition` object.
@@ -62,9 +61,9 @@
 #' T4.18 An error when `border` is a `character` string but not a valid colour.
 #' T4.19 An error when `border` is not a `character` string.
 
-# Requirement T1 ---------------------------------------------------------------
+#' Requirement T1 ------------------------------------------------------------------------------------------------------
 
-testthat::context("visr_plot - T1. visR::visr() only accepts `survfit` or `attrition`.")
+context("visr_plot - T1. visR::visr() only accepts `survfit` or `attrition`.")
 
 testthat::test_that("T1.1 No error when applied to a `survfit` object.", {
   

@@ -1,8 +1,6 @@
 #' @title Specifications CRAN_watchdog
 #' @section Last updated by:
-#' Tim Treis
 #' @section Last update date:
-#' 06-JULY-2021
 
 # Specifications ---------------------------------------------------------------
 #' T1. Our codebase doesn't violate CRAN style-guidelines.

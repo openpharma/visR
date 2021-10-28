@@ -1,15 +1,12 @@
-#' @title Specifications get_pvalue
-#' @section Last updated by:
-#' Steven Haesendonckx
-#' @section Last update date:
-#' 28-SEP-2021
-
-# Specifications ----------------------------------------------------------
-
-#' T1. The function accepts a `survfit` object with at least 2 strata
-#' T1.1 No error when a `survfit` object is passed to the function with at least 2 strata
-#' T1.2 An error when a `survfit` object is passed to the function with 1 strata
-#' T1.3 An error when a non-`survfit` object is passed to the function
+#' @title Specifications test-get_pvalue.R
+#' @section Last updated by: shaesen2 (shaesen2(at)its.jnj.com)
+#' @section Last update date: 2021-09-28 04:27:19
+#'
+#' @section List of tested specifications
+#' T1. The function accepts a `survfit` object
+#' T1.1. No error when a `survfit` object is passed to the function with at least 2 strata
+#' TT1.2 An error when a `survfit` object is passed to the function with 1 strata
+#' TT1.3 An error when a non-`survfit` object is passed to the function
 #' T2. The functions tests the null hypothesis of no difference between two or more survival curves using the G-rho family of tests
 #' T2.1 The function supports the Log-Rank test by setting ptype = 'Log-Rank'
 #' T2.2 The function supports the Wilcoxon test by setting ptype = 'Wilcoxon'
@@ -17,8 +14,8 @@
 #' T2.4 The function calculates the default ptype when ptype = 'All'
 #' T2.5 The function supports the use of a custom `rho` in the calculation
 #' T2.6 The function supports the use of a custom `rho` in the calculation when ptype = `All`
-#' T2.7 The function accepts a vector for ptype, containing multiple requests eg c('Log-Rank', Tarone-Ware', 'Custom')
-#' T2.8 An error when ptype includes "Custom" but rho is not specified
+#' T2.7 The function accepts a vector for ptype, containing multiple requests eg c('Tarone-Ware', 'Log-Rank', 'Custom')
+#' T2.8 An error when ptype includes 'Custom' but rho is not specified
 #' T2.9 An error when a non-supported ptype is requested
 #' T3. The functions returns the results of the test statistic, degrees of freedom and the p-value of the null hypothesis when requested
 #' T3.1 No error when the test statistic is requested
@@ -27,13 +24,13 @@
 #' T3.4 An error when an unsupported argument is used in statlist
 #' T4. The output object provides the requested information
 #' T4.1 The output object is a data frame
-#' T4.2 The summary measures are available via the columns of the output object
+#' T4.2 The calculated information is available via the columns of the output object
 #' T4.3 Each test statistic and associated calculations are available via the rows of the output object
 #' T4.4 The statistical tests are ordered in line with the order defined in ptype
 #' T4.5 The associated calculations of the statistical tests are ordered in line with the order defined in the statlist
-#' T4.6 The Chisq statistic has the same precision as the pvalue
+#' The Chisq statistic has the same precision as the pvalue
 
-# Requirement T1 ----------------------------------------------------------
+#' Requirement T1 ------------------------------------------------------------------------------------------------------
 
 context("get_pvalue - T1. The function accepts a `survfit` object")
 

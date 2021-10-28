@@ -1,30 +1,29 @@
-#' @title Specifications apply_theme
-#' @section Last updated by: Tim Treis
-#' @section Last update date: 21-JULY-2021
-
-# Specifications ---------------------------------------------------------------
-
-#' T1. The `define_theme()` function returns a `visR_theme` object can contain valid input parameters for `apply_theme()`.                                                                                 
-#' T1.1 No error when no parameters are specified.                                                                                                                                                         
-#' T1.2 Not specifying any parameters returns a list.                                                                                                                                                      
-#' T1.3 No error when `strata` is `NULL`.                                                                                                                                                                  
-#' T1.4 A warning when `strata` is an empty `list`.                                                                                                                                                        
-#' T1.5 A warning when `strata` is an unnamed `list`.                                                                                                                                                      
-#' T1.6 No warning when `strata` is a named `list`.                                                                                                                                                        
-#' T1.7 No error when `fontsizes` is `NULL`.                                                                                                                                                               
-#' T1.8 A warning when `fontsizes` is an empty `list`.                                                                                                                                                     
-#' T1.9 A warning when `fontsizes` is an unnamed `list`.                                                                                                                                                   
-#' T1.10 No warning when `fontsizes` is a named `list`.                                                                                                                                                    
-#' T1.11 A message when `fontsizes` is a numerical value.                                                                                                                                                  
-#' T1.12 A warning when `fontsizes` is neither `NULL`, a `list` or a `numeric`.                                                                                                                            
-#' T1.13 No error when `fontfamily` is a string.                                                                                                                                                           
-#' T1.14 A warning when `fontfamily` is an empty string.                                                                                                                                                   
-#' T1.15 A warning when `fontfamily` is a vector of strings.                                                                                                                                               
-#' T1.16 A warning when `fontfamily` is anything but a string.                                                                                                                                             
-#' T1.17 No error when `grid` is a boolean.                                                                                                                                                                
-#' T1.18 A warning when `grid` is a list but its members are not `major` or `minor`.                                                                                                                       
-#' T1.19 A warning when `grid` is anything but a boolean or a list.                                                                                                                                        
-#' T1.20 No error when `bg` is a character.                                                                                                                                                                
+#' @title Specifications test-apply_theme.R
+#' @section Last updated by: Tim Treis (tim.treis(at)outlook.de)
+#' @section Last update date: 2021-07-30 10:37:16
+#'
+#' @section List of tested specifications
+#' T1. The `define_theme()` function returns a `visR_theme` object can contain valid input parameters for `apply_theme()`.
+#' T1.1 No error when no parameters are specified.
+#' T1.2 Not specifying any parameters returns a list.
+#' T1.3 No error when `strata` is `NULL`.
+#' T1.4 A warning when `strata` is an empty `list`.
+#' T1.5 A warning when `strata` is an unnamed `list`.
+#' T1.6 No warning when `strata` is a named `list`.
+#' T1.7 No error when `fontsizes` is `NULL`.
+#' T1.8 A warning when `fontsizes` is an empty `list`.
+#' T1.9 A warning when `fontsizes` is an unnamed `list`.
+#' T1.10 No warning when `fontsizes` is a named `list`.
+#' T1.11 A message when `fontsizes` is a numerical value.
+#' T1.12 A warning when `fontsizes` is neither `NULL`, a `list` or a `numeric`.
+#' T1.13 No error when `fontfamily` is a string.
+#' T1.14 A warning when `fontfamily` is an empty string.
+#' T1.15 A warning when `fontfamily` is a vector of strings.
+#' T1.16 A warning when `fontfamily` is anything but a string.
+#' T1.17 No error when `grid` is a boolean.
+#' T1.18 A warning when `grid` is a list but its members are not `major` or `minor`.
+#' T1.19 A warning when `grid` is anything but a boolean or a list.
+#' T1.20 No error when `bg` is a character.
 #' T1.21 A warning when `bg` is anything but a character.
 #' T1.22 No warning when `legend_position` is a `character` or `NULL`.
 #' T1.23 A warning when `legend_position` is not a `character` or `NULL`.
@@ -46,9 +45,9 @@
 #' T2.14 The legend_position applied through `visR::apply_theme()` is used in the resulting `ggplot` object.
 #' T2.15 The legend_position defined in `visR::visr()` is correctly passed through to the resulting `ggplot` object.
 
-# Requirement T1 ---------------------------------------------------------------
+#' Requirement T1 ------------------------------------------------------------------------------------------------------
 
-testthat::context("apply_theme - T1. The `define_theme()` function returns a `visR_theme` object can contain valid input parameters for `apply_theme()`.")
+context("apply_theme - T1. The `define_theme()` function returns a `visR_theme` object can contain valid input parameters for `apply_theme()`.")
 
 testthat::test_that("T1.1 No error when no parameters are specified.", {
   

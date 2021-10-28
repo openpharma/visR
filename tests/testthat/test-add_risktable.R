@@ -1,11 +1,8 @@
-#' @title Specifications add_risktable.survfit
-#' @section Last updated by:
-#' Steven Haesendonckx
-#' @section Last update date:
-#' 20-OCT-2021
-
-# Specifications ----------------------------------------------------------
-
+#' @title Specifications test-add_risktable.R
+#' @section Last updated by: shaesen2 (shaesen2(at)its.jnj.com)
+#' @section Last update date: 2021-10-20 03:57:58
+#'
+#' @section List of tested specifications
 #' T1. The function accepts a `ggsurvfit` object
 #' T1.1 No error when a `ggsurvfit` object is passed to the function
 #' T1.2 An error when a non-`ggsurvfit` object is passed to the function
@@ -13,15 +10,14 @@
 #' T2.1 When no strata were specified, an artificial strata is displayed 'Overall'
 #' T2.2 The calculated values in the risktable are not affected by the transformation to a `ggplot`
 #' T2.3 The risktables are placed below the visR plot, in alignment with the x-axis of a visR plot without legend
-#' T2.4 The risktables are placed below the visR plot, in alignment with the x-axis of a visR plot with a legend
-#' T3. The output object is ggplot with additional class `ggsurvfit` and an attribute `components`
+#' T2.4 The risktables are placed below the visR plot, in alignment with the x-axis of a visR plot with legend
+#' The output object is ggplot with additional class `ggsurvfit` and attribute `components`
 #' T3.1 The output object has an additional attribute `components`
 #' T3.2 The attribute components[['visR_plot']] contains the plot used as input
 #' T3.3 The attribute components contains the risktables, identified through the risktable titles
 #' T3.4 The output has class `ggsurvfit`
 
-
-# Requirement T1 ----------------------------------------------------------
+#' Requirement T1 ------------------------------------------------------------------------------------------------------
 
 context("add_risktable.survfit - T1. The function accepts a `ggsurvfit` object")
 

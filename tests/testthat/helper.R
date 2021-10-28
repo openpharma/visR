@@ -103,18 +103,71 @@ get_visR_files <- function(functions = FALSE,
                            documentation = FALSE,
                            vignettes = FALSE,
                            remove_watchdog = TRUE) {
-
+  
   files <- list()
-
+  
   if (functions)     {files <- c(files, get_R_files())}
   if (tests)         {files <- c(files, get_test_files())}
   if (documentation) {files <- c(files, get_man_files())}
   if (vignettes)     {files <- c(files, get_vignette_files())}
-
+  
   if (remove_watchdog) {files <- files[!grepl("test-CRAN_watchdog.R", files)] }
-
+  
   return(unlist(files))
+  
+}
 
+#' A helper function to scrape a test file for the names of the tests
+#' The function returns a formatted table of contents for those
+#' @keywords internal
+
+.get_test_TOC <- function(path_to_file) {
+  
+  txt <- paste(readLines(path_to_file, warn = FALSE), collapse = "\n")
+  tests <- gregexpr("testthat::test_that\\(\\\"(.+?)\"", txt)
+  contexts <- gregexpr("context\\(\\\"(.+?)\"", txt)
+  
+  context_df <- data.frame("pos" = unlist(contexts))
+  context_df["match.length"] <- attributes(contexts[[1]])$match.length  
+  context_df["index.type"] <- attributes(contexts[[1]])$index.type
+  context_df["useBytes"] <- attributes(contexts[[1]])$useBytes
+  context_df["type"] = "context"
+  context_df["content"] <- regmatches(txt, contexts)
+  
+  for (i in 1:length(context_df$content)) {
+    
+    context_df$content[[i]] <- gsub(pattern = "context\\(\"(.+?)T", replacement = "T", x = context_df$content[[i]])
+    context_df$content[[i]] <- gsub(pattern = "\"", replacement = "", x = context_df$content[[i]])
+    
+  }
+  
+  test_df <- data.frame("pos" = unlist(tests))
+  test_df["match.length"] <- attributes(tests[[1]])$match.length  
+  test_df["index.type"] <- attributes(tests[[1]])$index.type
+  test_df["useBytes"] <- attributes(tests[[1]])$useBytes
+  test_df["type"] <- "test"
+  test_df["content"] <- regmatches(txt, tests)
+  
+  for (i in 1:length(test_df$content)) {
+    
+    test_df$content[[i]] <- gsub(pattern = "testthat::test_that\\(\\\"T", replacement = "T", x = test_df$content[[i]])
+    test_df$content[[i]] <- gsub(pattern = "\"", replacement = "", x = test_df$content[[i]])
+    
+  }
+  
+  matches <- rbind(context_df, test_df)
+  matches <- matches[order(matches$pos),]
+  
+  toc <- ""
+  
+  for (line in matches$content) {
+    
+    toc <- paste0(toc, "#' ", line, "\n")
+    
+  }
+  
+  return(toc)
+  
 }
 
 #' A helper function that compares the width of the grobs comprising the two given ggplot objects
