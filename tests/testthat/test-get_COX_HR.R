@@ -1,23 +1,20 @@
-#' @title Specifications get_COX_HR
-#' @section Last updated by:
-#' Steven Haesendonckx
-#' @section Last update date:
-#' 19-APR-2021
-
-# Specifications ----------------------------------------------------------
-
+#' @title Specifications test-get_COX_HR.R
+#' @section Last updated by: shaesen2 (shaesen2(at)its.jnj.com)
+#' @section Last update date: 2021-04-21 09:18:21
+#'
+#' @section List of tested specifications
 #' T1. The function accepts a `survfit` object
 #' T1.1 No error when the input is a `survfit` object
 #' T1.2 An error when the input is a non-`survfit` object
 #' T1.3 An error when the input is NULL
-#' T2. The function accepts an update to the original formula of the `survfit` object
+#' T1. The function accepts a `survfit` object
 #' T2.1 No error when the update_formula argument is a `formula`
 #' T2.2 An error when the update_formula argument is not a `formula`
 #' T3. The function calculates the COX Hazard Ratio
-#' T3.1 The function produces the same results as survival::coxph
+#' T3.1 No error when the update_formula argument is a `formula`
 #' T3.2 The function returns a tidied data frame 
 
-# Requirement T1 ----------------------------------------------------------
+#' Requirement T1 ------------------------------------------------------------------------------------------------------
 
 context("get_COX_HR - T1. The function accepts a `survfit` object")
 

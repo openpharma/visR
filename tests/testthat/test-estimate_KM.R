@@ -1,31 +1,29 @@
-#' @title Specifications estimate_KM
-#' @section Last updated by:
-#' Steven Haesendonckx
-#' @section Last update date:
-#' 12-OCT-2021
-
-# Specifications ----------------------------------------------------------
-
+#' @title Specifications test-estimate_KM.R
+#' @section Last updated by: shaesen2 (haesendonckx.steven(at)gmail.com)
+#' @section Last update date: 2021-10-12 13:01:44
+#'
+#' @section List of tested specifications
 #' T1. The function accepts a `data.frame` `tibble` or `data.table`
-#' T1.1 No error when `data` is a data.frame
-#' T1.2 No error when `data` is a tibble
-#' T1.3 No error when `data` is a data.table
-#' T1.4 An error when `data` is a random object
+#' T1.1. No error when `data` is of class `data.frame`
+#' T1.2. No error when `data` is of class `tibble`
+#' T1.3. No error when `data` is of class `data.table`
+#' T1.4. An error when `data` is of class `list`
 #' T1.5 An error when `data` is NULL
 #' T2. The function relies on the presence of two numeric variables, specified through `AVAL` and `CNSR`, to be present in `data`
 #' T2.1 An error when colname specified through `AVAL` is not present in `data`
 #' T2.2 An error when colname specified through `AVAL` is not numeric
 #' T2.3 No error when the colname specified through `AVAL` is not the proposed default
-#' T2.4 An error when colname specified through `CNSR` is not present in `data`
-#' T2.5 An error when colname specified through `CNSR` is not numeric
+#' T2.4 An error when the colname specified through `CNSR` is not present in `data`
+#' T2.5 An error when the colname specified through `CNSR` is not numeric
 #' T2.6 No error when the colname specified through `CNSR` is not the proposed default
 #' T3. The user can specify strata
 #' T3.1 An error when the columns, specifying the strata are not available in `data`
 #' T3.2 No error when strata is NULL
 #' T3.3 When no strata are specified, an artificial strata is created 'Overall'
-#' T3.4 When only 1 stratum is specified, the stratum names are added to the `names` attribute
+#' T3.4 When only 1 stratum is specified, the stratum names are added to the `names` attribute'
 #' T3.5 When more than 1 strata is specified, the stratum names are available in the `names` attribute
-#' T4. The function removes all rows with NA values inside any of the strata
+#' T4. The function removes all rows with NA values inside any of the strata, CNSR or AVAL
+#' T4.1 The function removes all rows with NA values inside any of the strata, CNSR or AVAL
 #' T5. The function does not alter the calculation of survival::survfit
 #' T5.1 The function gives the same results as survival::survfit
 #' T5.2 The function adds timepoint = 0
@@ -38,7 +36,7 @@
 #' T7.1 The function updates call$data when magrittr pipe is used
 #' T7.2 The function prefixes the function call with survival
 
-# Requirement T1 ----------------------------------------------------------
+#' Requirement T1 ------------------------------------------------------------------------------------------------------
 
 context("estimate_KM - T1. The function accepts a `data.frame` `tibble` or `data.table`")
 

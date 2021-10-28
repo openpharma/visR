@@ -1,23 +1,20 @@
-#' @title tidyme
-#' @section Last updated by:
-#' Steven Haesendonckx
-#' @section Last update date:
-#' 21-APR-2021
-
-# Specifications ---------------------------------------------------------------
-
+#' @title Specifications test-tidyme.R
+#' @section Last updated by: Tim Treis (tim.treis(at)roche.com)
+#' @section Last update date: 2021-10-11 10:53:11
+#'
+#' @section List of tested specifications
 #' T1. The function accepts an S3 object
 #' T1.1 No error when a `survfit` object is passed to the function
 #' T1.2 No error when a `survfit` object with missing values is passed to the function
 #' T1.3 No error when a non-`survfit` S3 object is passed to the function
 #' T2. The function tidies up an associated object
 #' T2.1 The default method throws a message to indicate it relies on broom::tidy
-#' T3. The S3 method, associated with a `survfit` object, outputs an extended tidied dataframe
+#' T3. The S3 method, associated with a `survfit` object, outputs an extended tidied tibble
 #' T3.1 The S3 method, associated with a `survfit` object, returns a tibble
 #' T3.2 The S3 method, associated with a `survfit` object, has columns representing all list elements of the S3 object
 #' T3.3 The S3 method, associated with a `survfit` object, turns list elements that represent integer numbers into integers
 
-# Requirement T1 ---------------------------------------------------------------
+#' Requirement T1 ------------------------------------------------------------------------------------------------------
 
 context("tidyme - T1. The function accepts an S3 object")
 

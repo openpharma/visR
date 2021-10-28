@@ -1,14 +1,13 @@
-#' @title Specifications get_quantile
-#' @section Last updated by:
-#' Steven Haesendonckx
-#' @section Last update date:
-#' 24-MAY-2021
-
-# Specifications ----------------------------------------------------------
-#' T1.  The function accepts a survival object
+#' @title Specifications test-get_quantile.R
+#' @section Last updated by: shaesen2 (shaesen2(at)its.jnj.com)
+#' @section Last update date: 2021-05-27 10:48:09
+#'
+#' @section List of tested specifications
+#' T1. The function accepts a `survfit` object
 #' T1.1 No error when a `survfit` object is passed to the function with at least 2 strata
 #' T1.2 An error when a `survfit` object is passed to the function with 1 strata
-#' T1.3 An error when a non-`survfit` object is passed to the function
+#' testthat::test_that(An error when a non-`survfit` object is passed to the function
+#' T1.4 An error when `survfit_object` does not exist in the global environment
 #' T2. The function accepts a tolerance limit
 #' T2.1 An error when the tolerance is not numeric
 #' T2.2 No error when the tolerance is numeric
@@ -28,7 +27,7 @@
 #' T6.3 The output contains a column with the quantities
 #' T6.4 The output contains columns with the requested quantiles
 
-# Requirement T1 ----------------------------------------------------------
+#' Requirement T1 ------------------------------------------------------------------------------------------------------
 
 context("get_pvalue - T1. The function accepts a `survfit` object")
 

@@ -1,16 +1,13 @@
-#' @title Specifications get_tableone
-#' @section Last updated by:
-#' Rebecca Albrecht
-#' @section Last update date:
-#' 20-APR-2021
-
-# Specifications ----------------------------------------------------------
-
+#' @title Specifications test-get_tableone.R
+#' @section Last updated by: Mark Baillie (bailliem(at)gmail.com)
+#' @section Last update date: 2021-06-10 20:54:51
+#'
+#' @section List of tested specifications
 #' T1. The function accepts a `data.frame` `tibble` or `data.table`
-#' T1.1 No error when `data` is a data.frame
-#' T1.2 No error when `data` is a tibble
-#' T1.3 No error when `data` is a data.table
-#' T1.4 An error when `data` is a random object
+#' T1.1. No error when `data` is of class `data.frame`
+#' T1.2. No error when `data` is of class `tibble`
+#' T1.3. No error when `data` is of class `data.table`
+#' T1.4. An error when `data` is of class `list`
 #' T1.5 An error when `data` is NULL
 #' T2. The function accepts a list of `colnames` in the `data` as `strata`
 #' T2.1. An error when `strata` is a number
@@ -28,8 +25,7 @@
 #' T4.4. An error when the `summary_function` is `summarize_long`
 #' T4.5. No error when the `summary_function` is `summarize_short`
 
-
-# Requirement T1 ----------------------------------------------------------
+#' Requirement T1 ------------------------------------------------------------------------------------------------------
 
 context("get_tableone - T1. The function accepts a `data.frame` `tibble` or `data.table`")
 

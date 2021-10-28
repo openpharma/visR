@@ -1,10 +1,15 @@
-#' T1. The function accepts a data.frame or related table object
-#' T1.1 No error when `data` is a data.frame
-#' T1.2 No error when `data` is a tibble
-#' T1.3 No error when `data` is a data.table
-#' T1.4 An error when `data` is a random object
-#' T1.5 An error when `data` is NULL
+#' @title Specifications test-get_attrition.R
+#' @section Last updated by: Tim Treis (tim.treis(at)outlook.de)
+#' @section Last update date: 2021-06-10 17:14:24
 #'
+#' @section List of tested specifications
+#' T1. The function accepts a `data.frame` `tibble` or `data.table`
+#' T1.1. No error when `data` is of class `data.frame`
+#' T1.2. No error when `data` is of class `tibble`
+#' T1.3. No error when `data` is of class `data.table`
+#' T1.4. An error when `data` is of class `list`
+#' T1.5 An error when `data` is NULL
+#' T1.6 An error when `data` does not exist in the global environment
 #' T2. The function correctly handles arguments
 #' T2.1 No error when `criteria_descriptions` is a character vector
 #' T2.2 An error when `criteria_descriptions` is not a character vector
@@ -13,27 +18,25 @@
 #' T2.5 An error when `criteria_conditions` is not a character vector
 #' T2.6 An error when `criteria_conditions` is NULL
 #' T2.7 No error when `subject_column_name` is a string
-#' T2.8 An error when `subject_column_name` is not a string
+#' T2.8 An error when `subject_column_name` is not a single string
 #' T2.9 An error when `subject_column_name` is NULL
 #' T2.10 An error when `subject_column_name` is missing as a column in `data`
-#' T2.11 An error when `criteria_descriptions` and `criteria_descriptions` do not have the same length"
-#'
+#' T2.11 An error when `criteria_descriptions` and `criteria_descriptions` do not have the same length
 #' T3. The returned object is of correct shape
 #' T3.1 Correct number of rows in the data.frame with `criteria_conditions`+1 rows
 #' T3.2 Correct number of columns in the data.frame
-#'
 #' T4. The function filters correctly when provided a vector of single filters
-#' T4.1 Correct filtering string column
+#' testthat::test_that(# T4.1 Correct filtering string column
 #' T4.2 Correct filtering integer column
 #' T4.3 Correct filtering factor column
-#'
-#' T5. The function filters correctly when provided a vector of combined filters
+#' T4. The function filters correctly when provided a vector of single filters
 #' T5.1 Correct filtering using a combined filter containing logical `and` (`&`)
 #' T5.2 Correct filtering using a combined filter containing logical `or` (`|`)
-#'
 #' T6. The returned object is of correct class
 #' T6.1 The object is of class `data.frame`
-#' T6.2 The object is of class `attritiontable`
+#' T6.2 The object is of class `attrition`
+
+#' Requirement T1 ------------------------------------------------------------------------------------------------------
 
 context("get_attrition - T1. The function accepts a `data.frame` `tibble` or `data.table`")
 

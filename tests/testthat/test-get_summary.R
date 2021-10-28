@@ -1,11 +1,8 @@
-#' @title Specifications get_summary
-#' @section Last updated by:
-#' Steven Haesendonckx
-#' @section Last update date:
-#' 14-MAY-2021
-
-# Specifications ----------------------------------------------------------
-
+#' @title Specifications test-get_summary.R
+#' @section Last updated by: shaesen2 (haesendonckx.steven(at)gmail.com)
+#' @section Last update date: 2021-05-14 11:27:14
+#'
+#' @section List of tested specifications
 #' T1. The function accepts a survival object
 #' T1.1 No error when `survfit_object` is a survfit object
 #' T1.2 An error when `survfit_object` is a data.frame
@@ -13,9 +10,9 @@
 #' T1.4 An error when `survfit_object` is a data.table
 #' T1.5 An error when `survfit_object` is a random object
 #' T1.6 An error when `survfit_object` is NULL
-#' T2. The function accepts an argument that specifies the summaries to be displayed
+#' T2. Correct info displayed for different statlists
 #' T2.1 An error when `statlist` is NULL
-#' T2.2 An error when the `statlist` contains non-allowed strings e.g. "blah"
+#' T2.2 An error when the `statlist` contains non-allowed strings e.g. `blah`
 #' T2.3 No error when the `statlist` contains arguments `strata`, `records`, `events`, `median`, `LCL`, `UCL`, or `CI`
 #' T2.4 The values in the column `strata` are the same as the `strata` in the `survfit` object
 #' T2.5. The values in the column `strata` contain 'Overall' when no strata are present in the `survfit` object
@@ -27,8 +24,8 @@
 #' T2.11 The values in the column `0.95CI` are the same as the confidence intervals in the `survfit` object
 #' T2.12 An error when the confidence intervals are requested and not calculated in the survival object
 #' T2.13 Column name for confidence intervals changes for different confidence levels
- 
-# Requirement T1 ----------------------------------------------------------
+
+#' Requirement T1 ------------------------------------------------------------------------------------------------------
 
 context("get_summary - T1. The function accepts a survival object")
 

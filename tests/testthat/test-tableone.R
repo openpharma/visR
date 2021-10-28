@@ -1,9 +1,8 @@
-#' @title Specifications tableone
-#' @section Last updated by: Tim Treis
-#' @section Last update date: 22-JULY-2021
-
-# Specifications ---------------------------------------------------------------
-
+#' @title Specifications test-tableone.R
+#' @section Last updated by: James Black (james(at)epijim.uk)
+#' @section Last update date: 2021-07-29 13:57:27
+#'
+#' @section List of tested specifications
 #' T1. The function accepts a `data.frame` as the main `data` object.
 #' T1.1 No error when `data` is of class `data.frame`.
 #' T1.2 An error when `data` is not of class `data.frame`.
@@ -15,7 +14,7 @@
 #' T2.5 No error when `overall` is a `logical`.
 #' T2.6 An error when `overall` is not a `logical`.
 
-# Requirement T1 ---------------------------------------------------------------
+#' Requirement T1 ------------------------------------------------------------------------------------------------------
 
 context("tableone - T1. The function accepts a `data.frame` as the main `data` object.")
 

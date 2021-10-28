@@ -1,18 +1,17 @@
-#' @title Specifications render
-#' @section Last updated by: Tim Treis
-#' @section Last update date: 25-JULY-2021
-
-# Specifications ---------------------------------------------------------------
-
-#' T1. The function `render.tableone()` properly renders a `render.tableone` object.                                                                                                                       
-#' T1.1 No error when `data` is a `tableone` object.                                                                                                                                                       
-#' T1.2 An error when `data` is not a `tableone` object.                                                                                                                                                   
-#' T1.3 An error when `title` is missing.                                                                                                                                                                  
-#' T1.4 No error when `title` is defined.                                                                                                                                                                  
-#' T1.5 An error when `datasource` is missing.                                                                                                                                                             
-#' T1.6 No error when `datasource` is defined.                                                                                                                                                             
-#' T1.7 No error when `footnote` is defined.                                                                                                                                                               
-#' T1.8 No error when `output_format` is 'html' and `engine` is 'gt'.                                                                                                                                      
+#' @title Specifications test-render.R
+#' @section Last updated by: Tim Treis (tim.treis(at)outlook.de)
+#' @section Last update date: 2021-07-30 21:49:54
+#'
+#' @section List of tested specifications
+#' T1. The function `render.tableone()` properly renders a `render.tableone` object.
+#' T1.1 No error when `data` is a `tableone` object.
+#' T1.2 An error when `data` is not a `tableone` object.
+#' T1.3 An error when `title` is missing.
+#' T1.4 No error when `title` is defined.
+#' T1.5 An error when `datasource` is missing.
+#' T1.6 No error when `datasource` is defined.
+#' T1.7 No error when `footnote` is defined.
+#' T1.8 No error when `output_format` is 'html' and `engine` is 'gt'.
 #' T1.9 No error when `output_format` is 'html' and `engine` is 'kable'.
 #' T1.10 No error when `output_format` is 'html' and `engine` is 'dt', 'datatable' or 'datatables'.
 #' T1.11 An error when `output_format` is 'latex' and `engine` is not 'gt' or 'kable'.
@@ -61,10 +60,9 @@
 #' T6.1 No error when `data` is a `data.frame`.
 #' T6.2 The returned object is of type `gt_tbl`.
 
+#' Requirement T1 ------------------------------------------------------------------------------------------------------
 
-# Requirement T1 ---------------------------------------------------------------
-
-testthat::context("render - T1. The function `render.tableone()` properly renders a `render.tableone` object.")
+context("render - T1. The function `render.tableone()` properly renders a `render.tableone` object.")
 
 testthat::test_that("T1.1 No error when `data` is a `tableone` object.", {
   
