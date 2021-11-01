@@ -16,7 +16,7 @@ testthat::context("CRAN_watchdog - T1. Our codebase doesn't violate CRAN style-g
 
 testthat::test_that("T1.1 TRUE/FALSE are used instead of T/F.",{
 
-  test_files <- get_visR_files(functions = TRUE,
+  test_files <- .get_visR_files(functions = TRUE,
                                tests = TRUE,
                                documentation = TRUE,
                                vignettes = TRUE)
@@ -45,7 +45,11 @@ testthat::test_that("T1.1 TRUE/FALSE are used instead of T/F.",{
     }
   }
 
-  if (base::nrow(CRAN_incompabilities) > 0) { cat(paste0(CRAN_incompabilities, collapse = ";")) }
+  if (base::nrow(CRAN_incompabilities) > 0) { 
+    
+    cat(paste0(CRAN_incompabilities, collapse = ";"))
+  
+    }
 
   testthat::expect_true(base::nrow(CRAN_incompabilities) == 0)
 
@@ -53,7 +57,7 @@ testthat::test_that("T1.1 TRUE/FALSE are used instead of T/F.",{
 
 testthat::test_that("T1.2 Each function documentation contains a \value{} tag.",{
 
-  test_files <- get_visR_files(documentation = TRUE)
+  test_files <- .get_visR_files(documentation = TRUE)
 
   # List of files in which we don't expect a return value.
   exceptions <- list("adtte.Rd",
@@ -97,10 +101,10 @@ testthat::test_that("T1.3 The existence of packages is not checked through 'inst
 
   # installed.packages might be slow on CRAN servers
 
-  test_files <- get_visR_files(functions = TRUE,
-                               tests = TRUE,
-                               documentation = TRUE,
-                               vignettes = TRUE)
+  test_files <- .get_visR_files(functions = TRUE,
+                                tests = TRUE,
+                                documentation = TRUE,
+                                vignettes = TRUE)
 
   CRAN_incompabilities <- data.frame()
 
@@ -125,7 +129,7 @@ testthat::test_that("T1.3 The existence of packages is not checked through 'inst
 
 testthat::test_that("T1.4 No \\dontrun{} tags unless the code actually takes a long time.",{
 
-  test_files <- get_visR_files(documentation = TRUE)
+  test_files <- .get_visR_files(documentation = TRUE)
 
   # List of files in which we don't expect a return value.
   exceptions <- list("adtte.Rd",
@@ -159,10 +163,10 @@ testthat::test_that("T1.4 No \\dontrun{} tags unless the code actually takes a l
 
 testthat::test_that("T1.5 The use of 'options()' is immediately preemptively reverted.",{
 
-  test_files <- get_visR_files(functions = TRUE,
-                               tests = TRUE,
-                               documentation = TRUE,
-                               vignettes = TRUE)
+  test_files <- .get_visR_files(functions = TRUE,
+                                tests = TRUE,
+                                documentation = TRUE,
+                                vignettes = TRUE)
 
   # List of files in which we don't expect a return value.
   exceptions <- list("Time_to_event_analysis.Rmd", "CDISC_ADaM.Rmd")

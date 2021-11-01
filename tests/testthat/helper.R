@@ -43,76 +43,57 @@ map_numbers_to_new_range <- function(numbers, lower, upper) {
 
 }
 
-#' A helper function to get all files in the ~/R/ folder
+#' A helper function that returns the full paths of the package files as a vector. 
+#' It is used as part of the watchdogs documented here at 
+#' https://github.com/openpharma/visR/wiki/Coding-principles#package-maintenance
 #' @keywords internal
 
-get_R_files <- function() {
+.get_visR_files <- function(functions = FALSE,
+                            tests = FALSE,
+                            documentation = FALSE,
+                            vignettes = FALSE,
+                            remove_watchdog = TRUE) {
 
-  R_files <- base::list.files(path = base::paste0(base::getwd(), "/../../R"),
-                                pattern = "*.R",
-                                full.names = TRUE)
-
-  return(unlist(R_files))
-
-}
-
-#' A helper function to get all files in the ~/tests/testthat/ folder
-#' @keywords internal
-
-get_test_files <- function() {
-
-  test_files <- base::list.files(path = base::getwd(),
-                                 pattern = "*.R",
-                                 full.names = TRUE)
-
-  return(unlist(test_files))
-
-}
-
-#' A helper function to get all files in the ~/man/ folder
-#' @keywords internal
-
-get_man_files <- function() {
-
-  man_files <- base::list.files(path = base::paste0(base::getwd(), "/../../man"),
-                                pattern = "*.Rd",
-                                full.names = TRUE)
-
-  return(unlist(man_files))
-
-}
-
-#' A helper function to get all files in the ~/vignettes/ folder
-#' @keywords internal
-
-get_vignette_files <- function() {
-
-  vignette_files <- base::list.files(path = base::paste0(base::getwd(), "/../../vignettes"),
-                                     pattern = "*.Rmd",
-                                     full.names = TRUE)
-
-  return(unlist(vignette_files))
-
-}
-
-#' A helper function to conditionally retrieve files of the package
-#' @keywords internal
-
-get_visR_files <- function(functions = FALSE,
-                           tests = FALSE,
-                           documentation = FALSE,
-                           vignettes = FALSE,
-                           remove_watchdog = TRUE) {
-  
   files <- list()
-  
-  if (functions)     {files <- c(files, get_R_files())}
-  if (tests)         {files <- c(files, get_test_files())}
-  if (documentation) {files <- c(files, get_man_files())}
-  if (vignettes)     {files <- c(files, get_vignette_files())}
-  
-  if (remove_watchdog) {files <- files[!grepl("test-CRAN_watchdog.R", files)] }
-  
+  wd <- getwd()
+
+  if (functions) {
+
+    R_files <- list.files(path = file.path(wd, "/../../R"), 
+                          pattern = "*.R", 
+                          full.names = TRUE)
+    files <- c(files, unlist(R_files))
+
+  }
+
+  if (tests) {
+
+    test_files <- list.files(path = wd,
+                             pattern = "*.R", 
+                             full.names = TRUE)
+    files <- c(files, unlist(test_files))
+
+  }
+
+  if (documentation) {
+
+    man_files <- list.files(path = file.path(wd, "/../../man"), 
+                            pattern = "*.Rd", 
+                            full.names = TRUE)
+    files <- c(files, unlist(man_files))
+  }
+
+  if (vignettes) {
+
+    vignette_files <- list.files(path = file.path(wd, "/../../vignettes"),
+                                 pattern = "*.Rmd", 
+                                 full.names = TRUE)
+    files <- c(files, unlist(vignette_files))
+
+  }
+
+  if (remove_watchdog) { files <- files[!grepl("test-CRAN_watchdog.R", files)] }
+
   return(unlist(files))
   
 }
