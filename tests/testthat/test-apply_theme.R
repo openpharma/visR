@@ -1,6 +1,6 @@
 #' @title Specifications test-apply_theme.R
 #' @section Last updated by: Tim Treis (tim.treis(at)outlook.de)
-#' @section Last update date: 2021-07-30 10:37:16
+#' @section Last update date: 2021-10-28 16:29:24
 #'
 #' @section List of tested specifications
 #' T1. The `define_theme()` function returns a `visR_theme` object can contain valid input parameters for `apply_theme()`.
@@ -45,9 +45,9 @@
 #' T2.14 The legend_position applied through `visR::apply_theme()` is used in the resulting `ggplot` object.
 #' T2.15 The legend_position defined in `visR::visr()` is correctly passed through to the resulting `ggplot` object.
 
-#' Requirement T1 ------------------------------------------------------------------------------------------------------
+# Requirement T1 ------------------------------------------------------------------------------------------------------
 
-context("apply_theme - T1. The `define_theme()` function returns a `visR_theme` object can contain valid input parameters for `apply_theme()`.")
+testthat::context("apply_theme - T1. The `define_theme()` function returns a `visR_theme` object can contain valid input parameters for `apply_theme()`.")
 
 testthat::test_that("T1.1 No error when no parameters are specified.", {
   
@@ -207,7 +207,7 @@ testthat::test_that("T1.24 The returned theme object is of class `visR_theme`.",
   
 })
 
-# Requirement T2 ---------------------------------------------------------------
+# Requirement T2 -------------------------------------------------------------------------------------------------------
 
 testthat::context("apply_theme - T2. The `apply_theme` function applies the specified changes to a `ggplot` object.")
 
@@ -512,5 +512,3 @@ testthat::test_that("T2.15 The legend_position defined in `visR::visr()` is corr
   testthat::expect_true("left"   %in% ggb_left$plot$theme$legend.position)
   
 })
-
-# END OF CODE ------------------------------------------------------------------

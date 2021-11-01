@@ -1,6 +1,6 @@
 #' @title Specifications test-visr_plot.R
 #' @section Last updated by: Tim Treis (tim.treis(at)outlook.de)
-#' @section Last update date: 2021-07-30 10:58:31
+#' @section Last update date: 2021-10-28 16:29:24
 #'
 #' @section List of tested specifications
 #' T1. visR::visr() only accepts `survfit` or `attrition`.
@@ -61,9 +61,9 @@
 #' T4.18 An error when `border` is a `character` string but not a valid colour.
 #' T4.19 An error when `border` is not a `character` string.
 
-#' Requirement T1 ------------------------------------------------------------------------------------------------------
+# Requirement T1 ------------------------------------------------------------------------------------------------------
 
-context("visr_plot - T1. visR::visr() only accepts `survfit` or `attrition`.")
+testthat::context("visr_plot - T1. visR::visr() only accepts `survfit` or `attrition`.")
 
 testthat::test_that("T1.1 No error when applied to a `survfit` object.", {
   
@@ -108,7 +108,7 @@ testthat::test_that("T1.3 An error when applied to an object that is not `survfi
   
 })
 
-# Requirement T2 ---------------------------------------------------------------
+# Requirement T2 -------------------------------------------------------------------------------------------------------
 
 testthat::context("visr_plot - T2. Invalid parameters are captured when applying `visR::visr()` to a `survfit` object and respective warnings/errors are thrown.")
 
@@ -453,7 +453,7 @@ testthat::test_that("T2.25 An error when an undefined option is passed to `legen
   
 })
 
-# Requirement T3 ---------------------------------------------------------------
+# Requirement T3 -------------------------------------------------------------------------------------------------------
 
 testthat::context("visr_plot - T3. The y-axis properties are correctly deducted from the provided `fun` when applying `visR::visr()` to a `survfit` object.")
 
@@ -521,7 +521,7 @@ testthat::test_that("T3.6 An error when `fun` is neither a `character` string no
   
 })
 
-# Requirement T4 ---------------------------------------------------------------
+# Requirement T4 -------------------------------------------------------------------------------------------------------
 
 testthat::context("visr_plot - T4. Invalid parameters are captured when applying `visR::visr()` to an `attrition` object and respective warnings/errors are thrown.")
 
@@ -910,5 +910,3 @@ testthat::test_that("T4.19 An error when `border` is not a `character` string.",
   testthat::expect_warning(attrition_object %>% visR::visr(border = list()))
   
 })
-
-# END --------------------------------------------------------------------------

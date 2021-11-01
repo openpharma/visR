@@ -1,6 +1,6 @@
 #' @title Specifications test-tidyme.R
-#' @section Last updated by: Tim Treis (tim.treis(at)roche.com)
-#' @section Last update date: 2021-10-11 10:53:11
+#' @section Last updated by: Tim Treis (tim.treis(at)outlook.de)
+#' @section Last update date: 2021-10-28 16:29:24
 #'
 #' @section List of tested specifications
 #' T1. The function accepts an S3 object
@@ -14,9 +14,9 @@
 #' T3.2 The S3 method, associated with a `survfit` object, has columns representing all list elements of the S3 object
 #' T3.3 The S3 method, associated with a `survfit` object, turns list elements that represent integer numbers into integers
 
-#' Requirement T1 ------------------------------------------------------------------------------------------------------
+# Requirement T1 ------------------------------------------------------------------------------------------------------
 
-context("tidyme - T1. The function accepts an S3 object")
+testthat::context("tidyme - T1. The function accepts an S3 object")
 
 testthat::test_that("T1.1 No error when a `survfit` object is passed to the function",{
 
@@ -42,9 +42,9 @@ testthat::test_that("T1.3 No error when a non-`survfit` S3 object is passed to t
 
 })
 
-# Requirement T2 ---------------------------------------------------------------
+# Requirement T2 -------------------------------------------------------------------------------------------------------
 
-context("tidyme - T2. The function tidies up an associated object")
+testthat::context("tidyme - T2. The function tidies up an associated object")
 
 testthat::test_that("T2.1 The default method throws a message to indicate it relies on broom::tidy",{
 
@@ -55,9 +55,9 @@ testthat::test_that("T2.1 The default method throws a message to indicate it rel
 })
 
 
-# Requirement T3 ---------------------------------------------------------------
+# Requirement T3 -------------------------------------------------------------------------------------------------------
 
-context("tidyme - T3. The S3 method, associated with a `survfit` object, outputs an extended tidied tibble")
+testthat::context("tidyme - T3. The S3 method, associated with a `survfit` object, outputs an extended tidied tibble")
 
 testthat::test_that("T3.1 The S3 method, associated with a `survfit` object, returns a tibble",{
 
@@ -118,5 +118,3 @@ testthat::test_that("T3.3 The S3 method, associated with a `survfit` object, tur
   testthat::expect_true(inherits(survfit_object_tidy[["n.strata"]], "integer"))
 
 })
-
-# END OF CODE ------------------------------------------------------------------

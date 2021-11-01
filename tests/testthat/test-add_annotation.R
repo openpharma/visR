@@ -1,6 +1,6 @@
 #' @title Specifications test-add_annotation.R
 #' @section Last updated by: Tim Treis (tim.treis(at)outlook.de)
-#' @section Last update date: 2021-06-10 16:23:56
+#' @section Last update date: 2021-10-28 16:29:24
 #'
 #' @section List of tested specifications
 #' T1. The function adds annotations to an object of class `ggplot`
@@ -29,9 +29,9 @@
 #' T6.2 The attribute components contains the annotation
 #' T6.3 The output has the same class as the original ggplot
 
-#' Requirement T1 ------------------------------------------------------------------------------------------------------
+# Requirement T1 ------------------------------------------------------------------------------------------------------
 
-context("add_annotation - T1. The function adds annotations to an object of class `ggplot`")
+testthat::context("add_annotation - T1. The function adds annotations to an object of class `ggplot`")
 
 testthat::test_that("T1.1 No error when a `ggplot` object is passed to the function in the presence of a label",{
 
@@ -58,7 +58,7 @@ testthat::test_that("T1.3 An error when NULL is passed to the function in the pr
 
 # Requirement T2 ----------------------------------------------------------
 
-context("add_annotation - T2. The function accepts a label of class `character`, `data.frame` or customized objects of class `gtable`")
+testthat::context("add_annotation - T2. The function accepts a label of class `character`, `data.frame` or customized objects of class `gtable`")
 
 testthat::test_that("T2.1 An error when a `ggplot` object is passed to the function in the absence of a label",{
 
@@ -96,7 +96,7 @@ testthat::test_that("T2.3 No error when label is of class `gtable`",{
 
 # Requirement T3 ----------------------------------------------------------
 
-context("add_annotation - T3. The annotation are representations of the actual label")
+testthat::context("add_annotation - T3. The annotation are representations of the actual label")
 
 testthat::test_that("T3.1 An object of type `character` passed to label is not affected by the transformation to an annotation",{
   
@@ -152,7 +152,7 @@ testthat::test_that("T3.3 The content of a `gtable` passed to label is not affec
 
 # Requirement T4 ----------------------------------------------------------
 
-context("add_annotation - T4. The annotation can be placed on the plot by specifying the coordinates")
+testthat::context("add_annotation - T4. The annotation can be placed on the plot by specifying the coordinates")
 
 testthat::test_that("T4.1 An error when one of the coordinates is not numeric",{
   
@@ -195,7 +195,7 @@ testthat::test_that("T4.3 The annotation can be moved on the plot by specifying 
 
 # Requirement T5 ----------------------------------------------------------
 
-context("add_annotation - T5. The layout of the annotation can be modified to a certain extend")
+testthat::context("add_annotation - T5. The layout of the annotation can be modified to a certain extend")
 
 testthat::test_that("T5.1 The annotation has bold columnheaders when the passed object is of class `data.frame`",{
   
@@ -247,7 +247,7 @@ testthat::test_that("T5.3 The font family can be chosen between 'sans', 'serif' 
 
 # Requirement T6 ----------------------------------------------------------
 
-context("add_annotation - T6. The output object has an additional attribute `components`")
+testthat::context("add_annotation - T6. The output object has an additional attribute `components`")
 
 testthat::test_that("T6.1 The attribute components[['visR_plot']] contains the plot used as input",{
   

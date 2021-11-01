@@ -1,6 +1,6 @@
 #' @title Specifications test-tableone.R
-#' @section Last updated by: James Black (james(at)epijim.uk)
-#' @section Last update date: 2021-07-29 13:57:27
+#' @section Last updated by: Tim Treis (tim.treis(at)outlook.de)
+#' @section Last update date: 2021-10-28 16:29:24
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a `data.frame` as the main `data` object.
@@ -14,9 +14,9 @@
 #' T2.5 No error when `overall` is a `logical`.
 #' T2.6 An error when `overall` is not a `logical`.
 
-#' Requirement T1 ------------------------------------------------------------------------------------------------------
+# Requirement T1 ------------------------------------------------------------------------------------------------------
 
-context("tableone - T1. The function accepts a `data.frame` as the main `data` object.")
+testthat::context("tableone - T1. The function accepts a `data.frame` as the main `data` object.")
 
 testthat::test_that("T1.1 No error when `data` is of class `data.frame`.", {
 
@@ -46,7 +46,9 @@ testthat::test_that("T1.2 An error when `data` is not of class `data.frame`.", {
 
 })
 
-context("tableone - T2. The function accepts additional parameters.")
+# Requirement T2 -------------------------------------------------------------------------------------------------------
+
+testthat::context("tableone - T2. The function accepts additional parameters.")
 
 testthat::test_that("T2.1 No error when `title` is not `NULL`.", {
 
@@ -123,5 +125,3 @@ testthat::test_that("T2.6 An error when `overall` is not a `logical`.", {
     testthat::expect_error()
 
 })
-
-# END --------------------------------------------------------------------------

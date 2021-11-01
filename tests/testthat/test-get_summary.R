@@ -1,6 +1,6 @@
 #' @title Specifications test-get_summary.R
-#' @section Last updated by: shaesen2 (haesendonckx.steven(at)gmail.com)
-#' @section Last update date: 2021-05-14 11:27:14
+#' @section Last updated by: Tim Treis (tim.treis(at)outlook.de)
+#' @section Last update date: 2021-10-28 16:29:24
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a survival object
@@ -25,9 +25,9 @@
 #' T2.12 An error when the confidence intervals are requested and not calculated in the survival object
 #' T2.13 Column name for confidence intervals changes for different confidence levels
 
-#' Requirement T1 ------------------------------------------------------------------------------------------------------
+# Requirement T1 ------------------------------------------------------------------------------------------------------
 
-context("get_summary - T1. The function accepts a survival object")
+testthat::context("get_summary - T1. The function accepts a survival object")
 
 testthat::test_that("T1.1 No error when `survfit_object` is a survfit object",{
   
@@ -71,9 +71,9 @@ testthat::test_that("T1.6 An error when `survfit_object` is NULL",{
   
 })
 
-# Requirement T2 ----------------------------------------------------------
+# Requirement T2 -------------------------------------------------------------------------------------------------------
 
-context("get_summary - T2. Correct info displayed for different statlists")
+testthat::context("get_summary - T2. Correct info displayed for different statlists")
 
 testthat::test_that("T2.1 An error when `statlist` is NULL",{
   
@@ -233,6 +233,3 @@ testthat::test_that("T2.13 Column name for confidence intervals changes for diff
   testthat::expect_equal("0.8CI", base::colnames(visR::get_summary(survfit_object, statlist = c("CI"))))
   
 })
-
-
-# END ---------------------------------------------------------------------
