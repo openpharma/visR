@@ -155,11 +155,8 @@ add_risktable.ggsurvfit <- function(
 
 # Align plot and table by adjusting width ---------------------------------
 
-  gglist <- list(gg) %>%
-    base::append(tbls)
-  
-  ggA <-  gglist %>%
-    align_plots()
+  gglist <- list(gg) %>% base::append(tbls)
+  ggA <-  gglist %>% .align_plots()
 
 # Create plot and add class -----------------------------------------------
 

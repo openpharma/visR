@@ -24,12 +24,12 @@
 #' cowplot::plot_grid(plotlist = list(p1,p2), align = "none", nrow=2)
 #'
 #' ## align_plots() takes into account legend width
-#' cowplot::plot_grid(plotlist = align_plots(pltlist = list(p1, p2)), align = "none", nrow=2)
+#' cowplot::plot_grid(plotlist = .align_plots(pltlist = list(p1, p2)), align = "none", nrow=2)
 #' }
 #' @export
 
 
-align_plots <- function(pltlist) {
+.align_plots <- function(pltlist) {
   
   if (missing(pltlist) | is.null(pltlist)) {
     
@@ -46,8 +46,7 @@ align_plots <- function(pltlist) {
     }
   }
   
-  .LegendWidth <- function(x)
-    x$grobs[[8]]$grobs[[1]]$widths[[4]]
+  .LegendWidth <- function(x) { x$grobs[[8]]$grobs[[1]]$widths[[4]] }
 
   plots.grobs <- lapply(pltlist, ggplot2::ggplotGrob)
   max.widths <-
@@ -61,6 +60,10 @@ align_plots <- function(pltlist) {
     x$widths <- max.widths
     x
   })
+  
+  # Move y-axis label back closer to the axis
+  strata_tick_width <- grid::convertUnit(plots.grobs.eq.widths[[2]]$grobs[[3]]$width, "cm")
+  plots.grobs.eq.widths[[1]]$grobs[[13]]$children[[1]]$x <- strata_tick_width - grid::unit(0.85, "cm")
 
   plots.grobs.eq.widths.aligned <-
     lapply(plots.grobs.eq.widths, function(x) {

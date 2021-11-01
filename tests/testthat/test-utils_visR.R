@@ -4,11 +4,11 @@
 
 # Specifications ---------------------------------------------------------------
 
-#' T1. `align_plots()` accepts a list of `ggplot` objects.
+#' T1. `.align_plots()` accepts a list of `ggplot` objects.
 #' T1.1 No error when a list of `ggplot` objects is passed.
 #' T1.2 An error when nothing or `NULL` is passed.
 #' T1.3 An error when a list containing non-`ggplot` objects is passed.
-#' T2. `align_plots()` aligns multiple `ggplot` objects, taking the legend into account.
+#' T2. `.align_plots()` aligns multiple `ggplot` objects, taking the legend into account.
 #' T2.1 No error when a list of ggplots is passed.
 #' T3. The function `legendopts()` translates the input to a `ggplot2`-compatible list.
 #' T3.1 No error when no arguments are specified.
@@ -50,7 +50,7 @@
 
 # Requirement T1 ---------------------------------------------------------------
 
-testthat::context("utils_visr - T1. `align_plots()` accepts a list of `ggplot` objects.")
+testthat::context("utils_visr - T1. `.align_plots()` accepts a list of `ggplot` objects.")
 
 testthat::test_that("T1.1 No error when a list of `ggplot` objects is passed.", {
   
@@ -64,14 +64,14 @@ testthat::test_that("T1.1 No error when a list of `ggplot` objects is passed.", 
   
   gg_list = list(gg_sex, gg_trtp)
   
-  testthat::expect_error(visR::align_plots(gg_list), NA)
+  testthat::expect_error(visR:::.align_plots(gg_list), NA)
   
 })
 
 testthat::test_that("T1.2 An error when nothing or `NULL` is passed.", {
   
-  testthat::expect_error(visR::align_plots())
-  testthat::expect_error(visR::align_plots(pltlist = NULL))
+  testthat::expect_error(visR:::.align_plots())
+  testthat::expect_error(visR:::.align_plots(pltlist = NULL))
   
 })
 
@@ -87,13 +87,13 @@ testthat::test_that("T1.3 An error when a list containing non-`ggplot` objects i
   
   gg_list = list(gg_sex, gg_trtp, 3)
   
-  testthat::expect_error(visR::align_plots(gg_list))
+  testthat::expect_error(visR:::.align_plots(gg_list))
   
 })
 
 # Requirement T2 ---------------------------------------------------------------
 
-testthat::context("utils_visr - T2. `align_plots()` aligns multiple `ggplot` objects, taking the legend into account.")
+testthat::context("utils_visr - T2. `.align_plots()` aligns multiple `ggplot` objects, taking the legend into account.")
 
 testthat::test_that("T2.1 No error when a list of ggplots is passed.", {
   
@@ -108,7 +108,7 @@ testthat::test_that("T2.1 No error when a list of ggplots is passed.", {
   # Legend widths are unequal
   testthat::expect_true(check_grob_width_equal(gg_sex, gg_trtp) != 0)
   
-  gg_list <- visR::align_plots(list(gg_sex, gg_trtp))
+  gg_list <- visR:::.align_plots(list(gg_sex, gg_trtp))
   
   testthat::skip_on_cran()
   cowplot::plot_grid(plotlist = gg_list, align = "none", nrow = 2) %>%
