@@ -1,6 +1,6 @@
 #' @title Specifications test-add_CNSR.R
-#' @section Last updated by: shaesen2 (haesendonckx.steven(at)gmail.com)
-#' @section Last update date: 2021-05-24 08:37:23
+#' @section Last updated by: Tim Treis (tim.treis(at)outlook.de)
+#' @section Last update date: 2021-10-28 16:29:24
 #'
 #' @section List of tested specifications
 #' T1. The output plots after adding confidence intervals don't differ from the reviewed plots
@@ -20,9 +20,9 @@
 #' T2.7 A ggplot warning when a non-matching vector for `size` is specified
 #' T2.8 A ggplot warning when a non-matching vector for `shape` is specified
 
-#' Requirement T1 ------------------------------------------------------------------------------------------------------
+# Requirement T1 ------------------------------------------------------------------------------------------------------
 
-context("add_CNSR - T1. The output plots after adding confidence intervals don't differ from the reviewed plots")
+testthat::context("add_CNSR - T1. The output plots after adding confidence intervals don't differ from the reviewed plots")
 
 testthat::test_that("T1.1 No error when censoring is plotted for one strata with default parameters",{
   
@@ -136,7 +136,7 @@ testthat::test_that("T1.6 No error when `size` is set to a numerical.",{
 
 # Requirement T2 ---------------------------------------------------------------
 
-context("add_CNSR - T2. Warnings/errors in case of missing data or weird arguments are thrown.")
+testthat::context("add_CNSR - T2. Warnings/errors in case of missing data or weird arguments are thrown.")
 
 testthat::test_that("T2.1 Error when object is not of class `ggsurvfit`.",{
   

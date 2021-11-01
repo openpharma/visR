@@ -1,13 +1,13 @@
 #' @title Specifications test-get_attrition.R
 #' @section Last updated by: Tim Treis (tim.treis(at)outlook.de)
-#' @section Last update date: 2021-06-10 17:14:24
+#' @section Last update date: 2021-10-28 16:29:24
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a `data.frame` `tibble` or `data.table`
-#' T1.1. No error when `data` is of class `data.frame`
-#' T1.2. No error when `data` is of class `tibble`
-#' T1.3. No error when `data` is of class `data.table`
-#' T1.4. An error when `data` is of class `list`
+#' T1.1 No error when `data` is of class `data.frame`
+#' T1.2 No error when `data` is of class `tibble`
+#' T1.3 No error when `data` is of class `data.table`
+#' T1.4 An error when `data` is of class `list`
 #' T1.5 An error when `data` is NULL
 #' T1.6 An error when `data` does not exist in the global environment
 #' T2. The function correctly handles arguments
@@ -26,21 +26,21 @@
 #' T3.1 Correct number of rows in the data.frame with `criteria_conditions`+1 rows
 #' T3.2 Correct number of columns in the data.frame
 #' T4. The function filters correctly when provided a vector of single filters
-#' testthat::test_that(# T4.1 Correct filtering string column
+#' T4.1 Correct filtering string column
 #' T4.2 Correct filtering integer column
 #' T4.3 Correct filtering factor column
-#' T4. The function filters correctly when provided a vector of single filters
+#' T5. The function filters correctly when provided a vector of single filters
 #' T5.1 Correct filtering using a combined filter containing logical `and` (`&`)
 #' T5.2 Correct filtering using a combined filter containing logical `or` (`|`)
 #' T6. The returned object is of correct class
 #' T6.1 The object is of class `data.frame`
 #' T6.2 The object is of class `attrition`
 
-#' Requirement T1 ------------------------------------------------------------------------------------------------------
+# Requirement T1 ------------------------------------------------------------------------------------------------------
 
-context("get_attrition - T1. The function accepts a `data.frame` `tibble` or `data.table`")
+testthat::context("get_attrition - T1. The function accepts a `data.frame` `tibble` or `data.table`")
 
-testthat::test_that("T1.1. No error when `data` is of class `data.frame`",{
+testthat::test_that("T1.1 No error when `data` is of class `data.frame`",{
 
     data <- adtte
     testthat::expect_error(
@@ -53,8 +53,7 @@ testthat::test_that("T1.1. No error when `data` is of class `data.frame`",{
 
 })
 
-
-testthat::test_that("T1.2. No error when `data` is of class `tibble`",{
+testthat::test_that("T1.2 No error when `data` is of class `tibble`",{
 
     data <- dplyr::as_tibble(adtte)
     testthat::expect_error(
@@ -66,7 +65,7 @@ testthat::test_that("T1.2. No error when `data` is of class `tibble`",{
     )
 })
 
-testthat::test_that("T1.3. No error when `data` is of class `data.table`",{
+testthat::test_that("T1.3 No error when `data` is of class `data.table`",{
 
     if (nzchar(find.package("data.table"))){
         data <- data.table::as.data.table(adtte)
@@ -80,7 +79,7 @@ testthat::test_that("T1.3. No error when `data` is of class `data.table`",{
     }
 })
 
-testthat::test_that("T1.4. An error when `data` is of class `list`",{
+testthat::test_that("T1.4 An error when `data` is of class `list`",{
 
     data <- base::as.list(adtte)
     testthat::expect_error(
@@ -116,7 +115,9 @@ testthat::test_that("T1.6 An error when `data` does not exist in the global envi
 
 })
 
-context("get_attrition - T2. The function correctly handles arguments")
+# Requirement T2 -------------------------------------------------------------------------------------------------------
+
+testthat::context("get_attrition - T2. The function correctly handles arguments")
 
 testthat::test_that("T2.1 No error when `criteria_descriptions` is a character vector",{
 
@@ -251,8 +252,10 @@ testthat::test_that("T2.11 An error when `criteria_descriptions` and `criteria_d
 
 })
 
+# Requirement T3 -------------------------------------------------------------------------------------------------------
 
-context("get_attrition - T3. The returned object is of correct shape")
+testthat::context("get_attrition - T3. The returned object is of correct shape")
+
 testthat::test_that("T3.1 Correct number of rows in the data.frame with `criteria_conditions`+1 rows",{
 
     cdesc <- c("1. Placebo Group", "2. Be 75 years of age or older.")
@@ -278,9 +281,11 @@ testthat::test_that("T3.2 Correct number of columns in the data.frame",{
 
 })
 
-#' T4. The function filters correctly when provided aa vector of single filters
-context("get_attrition - T4. The function filters correctly when provided a vector of single filters")
-testthat::test_that("# T4.1 Correct filtering string column",{
+# Requirement T4 -------------------------------------------------------------------------------------------------------
+
+testthat::context("get_attrition - T4. The function filters correctly when provided a vector of single filters")
+
+testthat::test_that("T4.1 Correct filtering string column",{
 
     ninit <- length(unique(adtte$USUBJID))
     filtered_data <- adtte %>% dplyr::filter(TRTP=='Placebo')
@@ -344,11 +349,10 @@ testthat::test_that("T4.3 Correct filtering factor column",{
 
 })
 
-context("get_attrition - T4. The function filters correctly when provided a vector of single filters")
+# Requirement T5 -------------------------------------------------------------------------------------------------------
 
-#' T5. The function filters correctly when provided a vector of combined filters
-#' T5.1 Correct filtering using a combined filter containing logical `and` (`&`)
-#' T5.2 Correct filtering using a combined filter containing logical `or` (`|`)
+testthat::context("get_attrition - T5. The function filters correctly when provided a vector of single filters")
+
 testthat::test_that("T5.1 Correct filtering using a combined filter containing logical `and` (`&`)",{
 
     ninit <- length(unique(adtte$USUBJID))
@@ -390,7 +394,6 @@ testthat::test_that("T5.1 Correct filtering using a combined filter containing l
 
 })
 
-#
 testthat::test_that("T5.2 Correct filtering using a combined filter containing logical `or` (`|`)",{
     ninit <- length(unique(adtte$USUBJID))
     outdf1 <- visR::get_attrition(adtte,
@@ -434,9 +437,9 @@ testthat::test_that("T5.2 Correct filtering using a combined filter containing l
 
 })
 
+# Requirement T6 -------------------------------------------------------------------------------------------------------
 
-
-context("get_attrition - T6. The returned object is of correct class")
+testthat::context("get_attrition - T6. The returned object is of correct class")
 
 testthat::test_that("T6.1 The object is of class `data.frame`",{
     outdf <- visR::get_attrition(adtte,
@@ -457,4 +460,3 @@ testthat::test_that("T6.2 The object is of class `attrition`",{
     testthat::expect_s3_class(outdf, "attrition")
 
 })
-

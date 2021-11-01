@@ -1,6 +1,6 @@
 #' @title Specifications test-get_tableone.R
-#' @section Last updated by: Mark Baillie (bailliem(at)gmail.com)
-#' @section Last update date: 2021-06-10 20:54:51
+#' @section Last updated by: Tim Treis (tim.treis(at)outlook.de)
+#' @section Last update date: 2021-10-28 16:29:24
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a `data.frame` `tibble` or `data.table`
@@ -25,9 +25,9 @@
 #' T4.4. An error when the `summary_function` is `summarize_long`
 #' T4.5. No error when the `summary_function` is `summarize_short`
 
-#' Requirement T1 ------------------------------------------------------------------------------------------------------
+# Requirement T1 ------------------------------------------------------------------------------------------------------
 
-context("get_tableone - T1. The function accepts a `data.frame` `tibble` or `data.table`")
+testthat::context("get_tableone - T1. The function accepts a `data.frame` `tibble` or `data.table`")
 
 testthat::test_that("T1.1. No error when `data` is of class `data.frame`",{
 
@@ -65,9 +65,9 @@ testthat::test_that("T1.5 An error when `data` is NULL",{
 
 })
 
-# Requirement T2 ----------------------------------------------------------
+# Requirement T2 -------------------------------------------------------------------------------------------------------
 
-context("get_tableone - T2. The function accepts a list of `colnames` in the `data` as `strata`")
+testthat::context("get_tableone - T2. The function accepts a list of `colnames` in the `data` as `strata`")
 
 testthat::test_that("T2.1. An error when `strata` is a number",{
 
@@ -99,9 +99,9 @@ testthat::test_that("T2.4. Additional colnames in the tableone are the crossprod
 
 })
 
-# Requirement T3 ----------------------------------------------------------
+# Requirement T3 -------------------------------------------------------------------------------------------------------
 
-context("get_tableone - T3. The tableone includes expected columnnames")
+testthat::context("get_tableone - T3. The tableone includes expected columnnames")
 
 testthat::test_that("T3.1. Tableone by default includes columns `variable`,  `statistic`, and `Total`", {
   data <- adtte
@@ -118,9 +118,9 @@ testthat::test_that("T3.3. Tableone does not include the colum `Total` if `overa
   testthat::expect_equal(colnames(visR::get_tableone(data = data, overall = FALSE, strata=c("TRTP"))), c("variable", "statistic", levels(data$TRTP)))
 })
 
-# Requirement T4 ----------------------------------------------------------
+# Requirement T4 -------------------------------------------------------------------------------------------------------
 
-context("get_tableone - T4. The function only accepts suitable summary functions")
+testthat::context("get_tableone - T4. The function only accepts suitable summary functions")
 
 testthat::test_that("T4.1. An error when the `summary_function` is NULL",{
 
@@ -157,5 +157,3 @@ testthat::test_that("T4.5. No error when the `summary_function` is `summarize_sh
   testthat::expect_error(visR::get_tableone(data = data, summary_function = summarize_short), NA)
 
 })
-
-# END ---------------------------------------------------------------------

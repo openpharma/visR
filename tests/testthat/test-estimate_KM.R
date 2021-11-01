@@ -1,6 +1,6 @@
 #' @title Specifications test-estimate_KM.R
-#' @section Last updated by: shaesen2 (haesendonckx.steven(at)gmail.com)
-#' @section Last update date: 2021-10-12 13:01:44
+#' @section Last updated by: Tim Treis (tim.treis(at)outlook.de)
+#' @section Last update date: 2021-10-28 16:29:24
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a `data.frame` `tibble` or `data.table`
@@ -36,9 +36,9 @@
 #' T7.1 The function updates call$data when magrittr pipe is used
 #' T7.2 The function prefixes the function call with survival
 
-#' Requirement T1 ------------------------------------------------------------------------------------------------------
+# Requirement T1 ------------------------------------------------------------------------------------------------------
 
-context("estimate_KM - T1. The function accepts a `data.frame` `tibble` or `data.table`")
+testthat::context("estimate_KM - T1. The function accepts a `data.frame` `tibble` or `data.table`")
 
 testthat::test_that("T1.1. No error when `data` is of class `data.frame`",{
 
@@ -76,9 +76,9 @@ testthat::test_that("T1.5 An error when `data` is NULL",{
 
 })
 
-# Requirement T2 ----------------------------------------------------------
+# Requirement T2 -------------------------------------------------------------------------------------------------------
 
-context("estimate_KM - T2. The function relies on the presence of two numeric variables, specified through `AVAL` and `CNSR`, to be present in `data`")
+testthat::context("estimate_KM - T2. The function relies on the presence of two numeric variables, specified through `AVAL` and `CNSR`, to be present in `data`")
 
 testthat::test_that("T2.1 An error when colname specified through `AVAL` is not present in `data`",{
 
@@ -135,9 +135,9 @@ testthat::test_that("T2.6 No error when the colname specified through `CNSR` is 
 
 })
 
-# Requirement T3 ----------------------------------------------------------
+# Requirement T3 -------------------------------------------------------------------------------------------------------
 
-context("estimate_KM - T3. The user can specify strata")
+testthat::context("estimate_KM - T3. The user can specify strata")
 
 testthat::test_that("T3.1 An error when the columns, specifying the strata are not available in `data`",{
 
@@ -180,10 +180,9 @@ testthat::test_that("T3.5 When more than 1 strata is specified, the stratum name
 
 })
 
+# Requirement T4 -------------------------------------------------------------------------------------------------------
 
-# Requirement T4 ----------------------------------------------------------
-
-context("estimate_KM - T4. The function removes all rows with NA values inside any of the strata, CNSR or AVAL")
+testthat::context("estimate_KM - T4. The function removes all rows with NA values inside any of the strata, CNSR or AVAL")
 
 testthat::test_that("T4.1 The function removes all rows with NA values inside any of the strata, CNSR or AVAL",{
 
@@ -203,9 +202,9 @@ testthat::test_that("T4.1 The function removes all rows with NA values inside an
 
 })
 
-# Requirement T5 ----------------------------------------------------------
+# Requirement T5 -------------------------------------------------------------------------------------------------------
 
-context("estimate_KM - T5. The function does not alter the calculation of survival::survfit")
+testthat::context("estimate_KM - T5. The function does not alter the calculation of survival::survfit")
 
 testthat::test_that("T5.1 The function gives the same results as survival::survfit",{
 
@@ -274,9 +273,9 @@ testthat::test_that("T5.4 The function returns an object of class `survfit`",{
 })
 
 
-# Requirement T6 ----------------------------------------------------------
+# Requirement T6 -------------------------------------------------------------------------------------------------------
 
-context("estimate_KM - T6. The function adds additional information to the survfit object when available")
+testthat::context("estimate_KM - T6. The function adds additional information to the survfit object when available")
 
 testthat::test_that("T6.1 The calculation is not affected by the addition of additional parameters",{
 
@@ -317,8 +316,9 @@ testthat::test_that("T6.2 The function add PARAM/PARAMCD when available",{
   testthat::expect_equal(list_visR[[1]], "Time to First Dermatologic Event")
 })
 
-# Requirement T7 ----------------------------------------------------------
-context("estimate_KM - T7. The function call supports traceability")
+# Requirement T7 -------------------------------------------------------------------------------------------------------
+
+testthat::context("estimate_KM - T7. The function call supports traceability")
 
 testthat::test_that("T7.1 The function updates call$data when magrittr pipe is used",{
 
@@ -328,12 +328,10 @@ testthat::test_that("T7.1 The function updates call$data when magrittr pipe is u
     survival::survfit0(start.time = 0)
   call_survival <- as.list(survobj_survival[["call"]])
 
-
   ## survival package
   survobj_visR <- adtte %>%
     visR::estimate_KM(data = ., strata = "SEX")
   call_visR <- as.list(survobj_visR[["call"]])
-
 
   testthat::expect_equal(call_visR[["data"]], as.symbol("adtte"))
 })
@@ -346,15 +344,10 @@ testthat::test_that("T7.2 The function prefixes the function call with survival"
     survival::survfit0(start.time = 0)
   call_survival <- as.list(survobj_survival[["call"]])
 
-
   ## survival package
   survobj_visR <- adtte %>%
     visR::estimate_KM(data = ., strata = "SEX")
   call_visR <- as.list(survobj_visR[["call"]])
 
-
   testthat::expect_equal(call_visR[[1]], quote(survival::survfit))
 })
-
-# END OF CODE ----------------------------------------------------------
-

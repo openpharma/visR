@@ -1,6 +1,6 @@
 #' @title Specifications test-get_pvalue.R
-#' @section Last updated by: shaesen2 (shaesen2(at)its.jnj.com)
-#' @section Last update date: 2021-09-28 04:27:19
+#' @section Last updated by: Tim Treis (tim.treis(at)outlook.de)
+#' @section Last update date: 2021-10-28 16:29:24
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a `survfit` object
@@ -28,11 +28,11 @@
 #' T4.3 Each test statistic and associated calculations are available via the rows of the output object
 #' T4.4 The statistical tests are ordered in line with the order defined in ptype
 #' T4.5 The associated calculations of the statistical tests are ordered in line with the order defined in the statlist
-#' The Chisq statistic has the same precision as the pvalue
+#' T4.6 The Chisq statistic has the same precision as the pvalue
 
-#' Requirement T1 ------------------------------------------------------------------------------------------------------
+# Requirement T1 ------------------------------------------------------------------------------------------------------
 
-context("get_pvalue - T1. The function accepts a `survfit` object")
+testthat::context("get_pvalue - T1. The function accepts a `survfit` object")
 
 testthat::test_that("T1.1. No error when a `survfit` object is passed to the function with at least 2 strata",{
 
@@ -53,10 +53,9 @@ testthat::test_that("TT1.3 An error when a non-`survfit` object is passed to the
   testthat::expect_error(visR::get_pvalue(survfit_object))
 })
 
+# Requirement T2 -------------------------------------------------------------------------------------------------------
 
-# Requirement T2 ----------------------------------------------------------
-
-context("get_pvalue - T2. The functions tests the null hypothesis of no difference between two or more survival curves using the G-rho family of tests")
+testthat::context("get_pvalue - T2. The functions tests the null hypothesis of no difference between two or more survival curves using the G-rho family of tests")
 
 testthat::test_that("T2.1 The function supports the Log-Rank test by setting ptype = 'Log-Rank'",{
 
@@ -112,9 +111,9 @@ testthat::test_that("T2.9 An error when a non-supported ptype is requested",{
   testthat::expect_error(visR::get_pvalue(survfit_object, ptype = "blah"))
 })
 
-# Requirement T3 ----------------------------------------------------------
+# Requirement T3 -------------------------------------------------------------------------------------------------------
 
-context("get_pvalue - T3. The functions returns the results of the test statistic, degrees of freedom and the p-value of the null hypothesis when requested")
+testthat::context("get_pvalue - T3. The functions returns the results of the test statistic, degrees of freedom and the p-value of the null hypothesis when requested")
 
 testthat::test_that("T3.1 No error when the test statistic is requested",{
 
@@ -140,9 +139,9 @@ testthat::test_that("T3.4 An error when an unsupported argument is used in statl
   testthat::expect_error(visR::get_pvalue(survfit_object, statlist = "blah"))
 })
 
-# Requirement T4 ----------------------------------------------------------
+# Requirement T4 -------------------------------------------------------------------------------------------------------
 
-context("get_pvalue - T4. The output object provides the requested information")
+testthat::context("get_pvalue - T4. The output object provides the requested information")
 
 testthat::test_that("T4.1 The output object is a data frame",{
 
@@ -174,7 +173,7 @@ testthat::test_that("T4.5 The associated calculations of the statistical tests a
   testthat::expect_identical(colnames(visR::get_pvalue(survfit_object, statlist = c("df", "test"))), c("df", "Equality across strata"))
 })
 
-testthat::test_that("The Chisq statistic has the same precision as the pvalue",{
+testthat::test_that("T4.6 The Chisq statistic has the same precision as the pvalue",{
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
   totest <- visR::get_pvalue(survfit_object, statlist = c("Chisq", "pvalue"))
@@ -188,6 +187,3 @@ testthat::test_that("The Chisq statistic has the same precision as the pvalue",{
   testthat::expect_identical( nchar(sapply(strsplit(as.character(totest[["p-value"]]), "\\."), "[[", 2))
                              ,nchar(sapply(strsplit(as.character(totest[["Chisq"]]), "\\."), "[[", 2)))
 })
-
-# END OF CODE ----------------------------------------------------------
-

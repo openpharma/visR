@@ -1,6 +1,6 @@
 #' @title Specifications test-render.R
 #' @section Last updated by: Tim Treis (tim.treis(at)outlook.de)
-#' @section Last update date: 2021-07-30 21:49:54
+#' @section Last update date: 2021-10-28 16:29:24
 #'
 #' @section List of tested specifications
 #' T1. The function `render.tableone()` properly renders a `render.tableone` object.
@@ -60,9 +60,9 @@
 #' T6.1 No error when `data` is a `data.frame`.
 #' T6.2 The returned object is of type `gt_tbl`.
 
-#' Requirement T1 ------------------------------------------------------------------------------------------------------
+# Requirement T1 ------------------------------------------------------------------------------------------------------
 
-context("render - T1. The function `render.tableone()` properly renders a `render.tableone` object.")
+testthat::context("render - T1. The function `render.tableone()` properly renders a `render.tableone` object.")
 
 testthat::test_that("T1.1 No error when `data` is a `tableone` object.", {
   
@@ -337,7 +337,7 @@ testthat::test_that("T1.18 A warning when `download_format` is not 'copy', 'csv'
   
 })
 
-# Requirement T2 ---------------------------------------------------------------
+# Requirement T2 -------------------------------------------------------------------------------------------------------
 
 testthat::context("render - T2. The function `render.risktable()` properly renders a `risktable` object.")
 
@@ -694,7 +694,7 @@ testthat::test_that("T2.19 The values of the evalutated metric are pivoted wide.
   
 })
 
-# Requirement T3 ---------------------------------------------------------------
+# Requirement T3 -------------------------------------------------------------------------------------------------------
 
 testthat::context("render - T3. The function `render.data.frame()` properly renders a `data.frame` object.")
 
@@ -736,7 +736,7 @@ testthat::test_that("T3.2 A warning when `engine` is 'dt', 'datatable' or 'datat
   
 })
 
-# Requirement T4 ---------------------------------------------------------------
+# Requirement T4 -------------------------------------------------------------------------------------------------------
 
 testthat::context("render - T4. The function `check_rendering_input()` only permits valid `output_format` and `engine` options.")
 
@@ -787,7 +787,7 @@ testthat::test_that("T4.4 An error when `engine` is not `kable`, `gt`, `dt`, `da
   
 })
 
-# Requirement T5 ---------------------------------------------------------------
+# Requirement T5 -------------------------------------------------------------------------------------------------------
 
 testthat::context("render - T5. The function `render_datatable.data.frame()` creates an `htmlwidget` of the table.")
 
@@ -862,7 +862,7 @@ testthat::test_that("T5.6 When `download_format` is `NULL`, no button is added."
   
 })
 
-# Requirement T6 ---------------------------------------------------------------
+# Requirement T6 -------------------------------------------------------------------------------------------------------
 
 testthat::context("render - T6. The function `get_gt.data.frame()` properly passes the input along to `gt::gt()`.")
 
@@ -882,5 +882,3 @@ testthat::test_that("T6.2 The returned object is of type `gt_tbl`.", {
   testthat::expect_true("gt_tbl" %in% class(tmp))
   
 })
-
-# END --------------------------------------------------------------------------

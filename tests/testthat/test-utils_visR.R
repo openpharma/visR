@@ -1,6 +1,6 @@
 #' @title Specifications test-utils_visR.R
 #' @section Last updated by: Tim Treis (tim.treis(at)outlook.de)
-#' @section Last update date: 2021-08-09 13:24:32
+#' @section Last update date: 2021-10-28 16:29:24
 #'
 #' @section List of tested specifications
 #' T1. `align_plots()` accepts a list of `ggplot` objects.
@@ -47,9 +47,9 @@
 #' T6.4 An error when `hex_color` is not a character string with length 9.
 #' T6.5 An error when `hex_color` is a character string with length 9 but doesn't have # at the first position.
 
-#' Requirement T1 ------------------------------------------------------------------------------------------------------
+# Requirement T1 ------------------------------------------------------------------------------------------------------
 
-context("utils_visr - T1. `align_plots()` accepts a list of `ggplot` objects.")
+testthat::context("utils_visr - T1. `align_plots()` accepts a list of `ggplot` objects.")
 
 testthat::test_that("T1.1 No error when a list of `ggplot` objects is passed.", {
   
@@ -90,7 +90,7 @@ testthat::test_that("T1.3 An error when a list containing non-`ggplot` objects i
   
 })
 
-# Requirement T2 ---------------------------------------------------------------
+# Requirement T2 -------------------------------------------------------------------------------------------------------
 
 testthat::context("utils_visr - T2. `align_plots()` aligns multiple `ggplot` objects, taking the legend into account.")
 
@@ -115,7 +115,7 @@ testthat::test_that("T2.1 No error when a list of ggplots is passed.", {
   
 })
 
-# Requirement T3 ---------------------------------------------------------------
+# Requirement T3 -------------------------------------------------------------------------------------------------------
 
 testthat::context("utils_visr - T3. The function `legendopts()` translates the input to a `ggplot2`-compatible list.")
 
@@ -237,7 +237,7 @@ testthat::test_that("T3.12 An error when `legend_position` is not a `character` 
 })
 
 
-# Requirement T4 ---------------------------------------------------------------
+# Requirement T4 -------------------------------------------------------------------------------------------------------
 
 testthat::context("utils_visr - T4. `convert_alpha` can convert hex-encoded alpha values between its two representations.")
 
@@ -334,7 +334,7 @@ testthat::test_that("T4.10 When `numeric_alpha` is `NULL` or `NA`, the hex-encod
   
 })
 
-# Requirement T5 ---------------------------------------------------------------
+# Requirement T5 -------------------------------------------------------------------------------------------------------
 
 testthat::context("utils_visr - T5. `replace_hex_alpha` modified the alpha value of a hex-encoded colour.")
 
@@ -407,7 +407,7 @@ testthat::test_that("T5.6 The function replaces the AA part #RRGGBBAA in `colour
   
 })
 
-# Requirement T6 ---------------------------------------------------------------
+# Requirement T6 -------------------------------------------------------------------------------------------------------
 
 testthat::context("utils_visr - T6. `get_alpha_from_hex_colour` extracts the numerical value of a hex-encoded colour.")
 
@@ -456,5 +456,3 @@ testthat::test_that("T6.5 An error when `hex_color` is a character string with l
     testthat::expect_error(expected_error)
   
 })
-
-# END --------------------------------------------------------------------------

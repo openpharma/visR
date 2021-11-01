@@ -1,6 +1,6 @@
 #' @title Specifications test-get_risktable.R
-#' @section Last updated by: shaesen2 (shaesen2(at)its.jnj.com)
-#' @section Last update date: 2021-10-20 03:57:58
+#' @section Last updated by: Tim Treis (tim.treis(at)outlook.de)
+#' @section Last update date: 2021-10-28 16:29:24
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a `survfit` object
@@ -46,9 +46,9 @@
 #' T7.3 The output dataset has the attribute `title` that specifies the labels used in downstream functions
 #' T7.4 The output dataset has the attribute `statlist` that reflects the ´group´ used
 
-#' Requirement T1 ------------------------------------------------------------------------------------------------------
+# Requirement T1 ------------------------------------------------------------------------------------------------------
 
-context("get_risktable.survfit - T1. The function accepts a `survfit` object")
+testthat::context("get_risktable.survfit - T1. The function accepts a `survfit` object")
 
 testthat::test_that("T1.1. No error when a `survfit` object is passed to the function",{
 
@@ -103,7 +103,7 @@ testthat::test_that("T1.7 When no strata were specified, an artificial strata is
 
 })
 
-# Requirement T2 ----------------------------------------------------------
+# Requirement T2 -------------------------------------------------------------------------------------------------------
 
 testthat::context("get_risktable.survfit - T2. The function accepts an argument that specifies the time at which the risk set is calculated")
 
@@ -132,7 +132,7 @@ testthat::test_that("T2.3 The function proposes 11 times which are equally space
 })
 
 
-# Requirement T3 ----------------------------------------------------------
+# Requirement T3 -------------------------------------------------------------------------------------------------------
 
 testthat::context("get_risktable.survfit - T3. The function accepts a `statlist` to be displayed for which labels can be specified")
 
@@ -175,7 +175,7 @@ testthat::test_that("T3.6 No error when the `label` is a factor",{
   testthat::expect_error(visR::get_risktable(survfit_object, label = label), NA)
 })
 
-# Requirement T4 ----------------------------------------------------------
+# Requirement T4 -------------------------------------------------------------------------------------------------------
 
 testthat::context("get_risktable.survfit - T4. The function matches the length of the `label` vector with that of the `statlist` vector")
 
@@ -201,7 +201,7 @@ testthat::test_that("T4.3 The function limits the length of the `label` vector t
   testthat::expect_equal(as.character(unique(unlist(risktable["y_values"]))), c("label 1", "label 2"))
 })
 
-# Requirement T5 ----------------------------------------------------------
+# Requirement T5 -------------------------------------------------------------------------------------------------------
 
 testthat::context("get_risktable.survfit - T5. The function groups the calculation by strata, by statlist or overall")
 
@@ -266,7 +266,7 @@ testthat::test_that("T5.7 The calculations are in agreement with what is expecte
   testthat::expect_equal(risktable_visR, risktable_ref)
 })
 
-# Requirement T6 ----------------------------------------------------------
+# Requirement T6 -------------------------------------------------------------------------------------------------------
 
 testthat::context("get_risktable.survfit - T6. The function allows the calculations to be grouped overall ")
 
@@ -325,7 +325,7 @@ testthat::test_that("T6.5 No error when there is only one strata available and c
   testthat::expect_error(visR::get_risktable(survfit_object, collapse = TRUE), NA)
 })
 
-# Requirement T7 ----------------------------------------------------------
+# Requirement T7 -------------------------------------------------------------------------------------------------------
 
 testthat::context("get_risktable.survfit - T7. The output dataset is a data.frame with attributes for downstream processing")
 
@@ -364,6 +364,3 @@ testthat::test_that("T7.4 The output dataset has the attribute `statlist` that r
   testthat::expect_equal(attr(risktable_bystat, "statlist"), "n.risk")
   testthat::expect_equal(attr(risktable_bystrat, "statlist"), base::sub('.*=', '', names(survfit_object$strata)))
 })
-
-# END OF CODE ----------------------------------------------------------
-

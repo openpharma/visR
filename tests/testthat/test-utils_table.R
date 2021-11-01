@@ -1,6 +1,6 @@
 #' @title Specifications test-utils_table.R
-#' @section Last updated by: charlotta fruechtenicht (charlotta.fruechtenicht(at)roche.com)
-#' @section Last update date: 2021-05-30 08:01:38
+#' @section Last updated by: Tim Treis (tim.treis(at)outlook.de)
+#' @section Last update date: 2021-10-28 16:29:24
 #'
 #' @section List of tested specifications
 #' NA
@@ -10,9 +10,9 @@
 #' T4. Correct values for summarize_short.numeric
 #' T5. Correct values for summarize_short.factor and summarize_short.string
 
-#' Requirement T1 ------------------------------------------------------------------------------------------------------
+# Requirement T1 ------------------------------------------------------------------------------------------------------
 
-context("utils_table - T1. Correct values for summarize_long.numeric")
+testthat::context("utils_table - T1. Correct values for summarize_long.numeric")
 
 test_that("T1.1. Correct mean values for numeric values", {
   values <- 1:5
@@ -61,9 +61,9 @@ test_that("T1.8. Integers as correctly dispatched to summarize_long.numeric", {
   testthat::expect_equal(visR::summarize_long(values), visR::summarize_long(as.integer(values)))
 })
 
-# Requirement T2 ----------------------------------------------------------
+# Requirement T2 -------------------------------------------------------------------------------------------------------
 
-context("utils_table - T2. Correct values for summarize_long.factors")
+testthat::context("utils_table - T2. Correct values for summarize_long.factors")
 
 test_that("T2.1. Correct count of factor values", {
   values <- base::as.factor(c("A", "A", "B"))
@@ -78,9 +78,9 @@ test_that("T2.2. Correct perentage of factor values", {
 })
 
 
-# Requirement T3 ----------------------------------------------------------
+# Requirement T3 -------------------------------------------------------------------------------------------------------
 
-context("utils_table - T3. Correct values for summarize_long.default")
+testthat::context("utils_table - T3. Correct values for summarize_long.default")
 
 test_that("T3.1. Correct count of unique values", {
   values <- c("A", "A", "B")
@@ -94,9 +94,9 @@ test_that("T3.1. Correct count of missing values", {
   testthat::expect_equal(summary[[1]]$nmiss, 0)
 })
 
-# Requirement T4 ----------------------------------------------------------
+# Requirement T3 -------------------------------------------------------------------------------------------------------
 
-context("utils_table - T4. Correct values for summarize_short.numeric")
+testthat::context("utils_table - T4. Correct values for summarize_short.numeric")
 
 test_that("T4.1. Correct mean values for numeric values in summarize_short", {
   values <- 1:5
@@ -137,9 +137,9 @@ test_that("T4.4. Correct missing values for numeric values in summarize_short", 
   testthat::expect_equal(summary[[1]]$Missing, num)
 })
 
-# Requirement T5 ----------------------------------------------------------
+# Requirement T5 -------------------------------------------------------------------------------------------------------
 
-context("utils_table - T5. Correct values for summarize_short.factor and summarize_short.string")
+testthat::context("utils_table - T5. Correct values for summarize_short.factor and summarize_short.string")
 
 test_that("T5.1. Correct value for factors in summarize_short", {
   values <- base::as.factor(c("A", "A", "B"))
@@ -154,7 +154,3 @@ test_that("T5.2. Correct default value in summarize_short", {
   num <- base::paste0(base::sum(values=="A"), " (", round(base::sum(values=="A")/base::length(values)*100, 1), "%)")
   testthat::expect_equal(summary[[1]]$`Unique values`, as.character(base::sum(values=="A")))
 })
-
-
-# END ---------------------------------------------------------------------
-

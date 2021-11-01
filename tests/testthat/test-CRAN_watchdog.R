@@ -1,8 +1,8 @@
-#' @title Specifications CRAN_watchdog
-#' @section Last updated by:
-#' @section Last update date:
-
-# Specifications ---------------------------------------------------------------
+#' @title Specifications test-CRAN_watchdog.R
+#' @section Last updated by: Tim Treis (tim.treis(at)outlook.de)
+#' @section Last update date: 2021-10-28 16:29:24
+#'
+#' @section List of tested specifications
 #' T1. Our codebase doesn't violate CRAN style-guidelines.
 #' T1.1 TRUE/FALSE are used instead of T/F.
 #' T1.2 Each function documentation contains a \value{} tag.
@@ -10,9 +10,9 @@
 #' T1.4 No \dontrun{} tags unless the code actually takes a long time.
 #' T1.5 The use of 'options()' is immediately preemptively reverted.
 
-# Requirement T1 ---------------------------------------------------------------
+# Requirement T1 -------------------------------------------------------------------------------------------------------
 
-context("CRAN_watchdog - T1. Our codebase doesn't violate CRAN style-guidelines.")
+testthat::context("CRAN_watchdog - T1. Our codebase doesn't violate CRAN style-guidelines.")
 
 testthat::test_that("T1.1 TRUE/FALSE are used instead of T/F.",{
 
@@ -191,5 +191,3 @@ testthat::test_that("T1.5 The use of 'options()' is immediately preemptively rev
   testthat::expect_true(base::nrow(CRAN_incompabilities) == 0)
 
 })
-
-# END OF CODE ------------------------------------------------------------------

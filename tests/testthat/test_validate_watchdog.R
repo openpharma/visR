@@ -1,17 +1,16 @@
-#' @title Specifications validate_watchdog
-#' @section Last updated by: Tim Treis
-#' @section Last update date: 27-OCTOBER-2021
-
-# Specifications ---------------------------------------------------------------
-#' 
+#' @title Specifications test-get_risktable.R
+#' @section Last updated by: Tim Treis (tim.treis(at)outlook.de)
+#' @section Last update date: 2021-10-28 16:29:24
+#'
+#' @section List of tested specifications
 #' T1. Details on last change for test files are recorded.
 #' T1.1 executed.
-#' 
-# Requirement T1 ---------------------------------------------------------------
+
+# Requirement T1 -------------------------------------------------------------------------------------------------------
 
 context("validate_watchdog - T1. Details on last change for test files are recorded.")
 
-testthat::test_that("T1.1 - executed.",{
+testthat::test_that("T1.1 executed.",{
 
   test_files <- get_visR_files(tests = TRUE)
   
@@ -41,7 +40,7 @@ testthat::test_that("T1.1 - executed.",{
     new_header <- paste0(new_header, "#' \\@section Last update date: ", x["last_edit_when"], "\n#'\n")
     new_header <- paste0(new_header, "#' \\@section List of tested specifications", "\n")
     new_header <- paste0(new_header, .get_test_TOC(x["full_path"]), "\n")
-    new_header <- paste0(new_header, "#' Requirement T1 ", paste0(rep("-", 102), collapse = ""), "\n\ncontext")
+    new_header <- paste0(new_header, "# Requirement T1 ", paste0(rep("-", 102), collapse = ""), "\n\ntestthat::context")
     
     file_content <- gsub(".*\\@title(.+?)\n.+?context", new_header, file_content)
 
@@ -52,6 +51,3 @@ testthat::test_that("T1.1 - executed.",{
   testthat::expect_true(TRUE)
 
 })
-
-
-# END OF CODE ------------------------------------------------------------------

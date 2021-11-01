@@ -1,6 +1,6 @@
 #' @title Specifications test-get_COX_HR.R
-#' @section Last updated by: shaesen2 (shaesen2(at)its.jnj.com)
-#' @section Last update date: 2021-04-21 09:18:21
+#' @section Last updated by: Tim Treis (tim.treis(at)outlook.de)
+#' @section Last update date: 2021-10-28 16:29:24
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a `survfit` object
@@ -14,9 +14,9 @@
 #' T3.1 No error when the update_formula argument is a `formula`
 #' T3.2 The function returns a tidied data frame 
 
-#' Requirement T1 ------------------------------------------------------------------------------------------------------
+# Requirement T1 ------------------------------------------------------------------------------------------------------
 
-context("get_COX_HR - T1. The function accepts a `survfit` object")
+testthat::context("get_COX_HR - T1. The function accepts a `survfit` object")
 
 testthat::test_that("T1.1 No error when the input is a `survfit` object",{
 
@@ -38,9 +38,9 @@ testthat::test_that("T1.3 An error when the input is NULL",{
   testthat::expect_error(visR::get_COX_HR(survfit_object))
 })
 
-# Requirement T2 ----------------------------------------------------------
+# Requirement T2 -------------------------------------------------------------------------------------------------------
 
-context("get_COX_HR - T1. The function accepts a `survfit` object")
+testthat::context("get_COX_HR - T1. The function accepts a `survfit` object")
 
 testthat::test_that("T2.1 No error when the update_formula argument is a `formula`",{
 
@@ -58,9 +58,9 @@ testthat::test_that("T2.2 An error when the update_formula argument is not a `fo
 
 })
 
-# Requirement T3 ----------------------------------------------------------
+# Requirement T3 -------------------------------------------------------------------------------------------------------
 
-context("get_COX_HR - T3. The function calculates the COX Hazard Ratio")
+testthat::context("get_COX_HR - T3. The function calculates the COX Hazard Ratio")
 
 testthat::test_that("T3.1 No error when the update_formula argument is a `formula`",{
 
@@ -83,6 +83,3 @@ testthat::test_that("T3.2 The function returns a tidied data frame ",{
   
   testthat::expect_true(inherits(tidy_coxph_visR, c("data.frame", "tbl_df", "tbl")))
 })
-
-# END OF CODE ----------------------------------------------------------
-
