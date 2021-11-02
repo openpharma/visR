@@ -1,6 +1,6 @@
 #' @title Specifications test-estimate_KM.R
 #' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2021-11-02 00:05:52
+#' @section Last update date: 2021-11-02 18:37:49
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a `data.frame` `tibble` or `data.table`
@@ -209,7 +209,8 @@ testthat::context("estimate_KM - T5. The function does not alter the calculation
 testthat::test_that("T5.1 The function gives the same results as survival::survfit", {
 
   ## survival package
-  survobj_survival <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX, data = adtte)
+  survobj_survival <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX, 
+                                        data = adtte)
   survobj_survival <- survival::survfit0(survobj_survival, start.time = 0)
 
   ## visR
@@ -306,7 +307,7 @@ testthat::test_that("T6.1 The calculation is not affected by the addition of add
   list_survival <- lapply(survobj_survival, "[")[Common_Nms]
   list_visR <- lapply(survobj_visR, "[")[Common_Nms]
 
-  ## calculation is not affected by addition of additional parameters. Same test as in requirement T5.
+  ## calculation is not affected by addition of parameters. Same as T5.
   testthat::expect_equal(list_survival, list_visR)
 })
 

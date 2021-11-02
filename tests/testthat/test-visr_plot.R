@@ -1,6 +1,6 @@
 #' @title Specifications test-visr_plot.R
 #' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2021-11-02 00:05:52
+#' @section Last update date: 2021-11-02 18:37:49
 #'
 #' @section List of tested specifications
 #' T1. visR::visr() only accepts `survfit` or `attrition`.
@@ -67,16 +67,16 @@ testthat::context("visr_plot - T1. visR::visr() only accepts `survfit` or `attri
 
 testthat::test_that("T1.1 No error when applied to a `survfit` object.", {
   
-  survfit_object <- adtte %>%
+  km_model <- adtte %>%
     visR::estimate_KM("SEX") 
   
-  testthat::expect_error(survfit_object %>% visR::visr(), NA)
+  testthat::expect_error(km_model %>% visR::visr(), NA)
   
 })
 
 testthat::test_that("T1.2 No error when applied to a `attrition` object.", {
   
-  attrition_object <- adtte %>%
+  attr_object <- adtte %>%
     visR::get_attrition(criteria_descriptions = c("1. Placebo Group", 
                                                   "2. Be 75 years of age or older.",
                                                   "3. White", 
@@ -87,7 +87,7 @@ testthat::test_that("T1.2 No error when applied to a `attrition` object.", {
                                                   "SITEID==709"),
                         subject_column_name   = 'USUBJID') 
   
-  testthat::expect_error(attrition_object %>% visR::visr("Criteria", "Remaining N"), NA)
+  testthat::expect_error(attr_object %>% visR::visr("Criteria", "Remaining N"), NA)
   
 })
 
@@ -108,143 +108,145 @@ testthat::test_that("T1.3 An error when applied to an object that is not `survfi
   
 })
 
-# Requirement T2 -------------------------------------------------------------------------------------------------------
+# Requirement T2 ---------------------------------------------------------------
 
 testthat::context("visr_plot - T2. Invalid parameters are captured when applying `visR::visr()` to a `survfit` object and respective warnings/errors are thrown.")
 
 testthat::test_that("T2.1 No error when `x_label` is `NULL`, a `character` string or an `expression`.", {
   
-  survfit_object <- adtte %>%
+  km_model <- adtte %>%
     visR::estimate_KM("SEX") 
   
-  testthat::expect_error(survfit_object %>% visR::visr(), NA) # Equal to x_label = NULL
-  testthat::expect_error(survfit_object %>% visR::visr(x_label = NULL), NA)
-  testthat::expect_error(survfit_object %>% visR::visr(x_label = "visR"), NA)
-  testthat::expect_error(survfit_object %>% visR::visr(x_label = expression(sum(x, a, b))), NA)
+  testthat::expect_error(km_model %>% visR::visr(), NA) # Equal to x_label = NULL
+  testthat::expect_error(km_model %>% visR::visr(x_label = NULL), NA)
+  testthat::expect_error(km_model %>% visR::visr(x_label = "visR"), NA)
+  testthat::expect_error(km_model %>% 
+                           visR::visr(x_label = expression(sum(x, a, b))), NA)
   
 })
 
 testthat::test_that("T2.2 No error when `y_label` is `NULL`, a `character` string or an `expression`.", {
   
-  survfit_object <- adtte %>%
+  km_model <- adtte %>%
     visR::estimate_KM("SEX") 
   
-  testthat::expect_error(survfit_object %>% visR::visr(), NA) # Equal to y_label = NULL
-  testthat::expect_error(survfit_object %>% visR::visr(y_label = NULL), NA)
-  testthat::expect_error(survfit_object %>% visR::visr(y_label = "visR"), NA)
-  testthat::expect_error(survfit_object %>% visR::visr(y_label = expression(sum(x, a, b))), NA)
+  testthat::expect_error(km_model %>% visR::visr(), NA) # Equal to y_label = NULL
+  testthat::expect_error(km_model %>% visR::visr(y_label = NULL), NA)
+  testthat::expect_error(km_model %>% visR::visr(y_label = "visR"), NA)
+  testthat::expect_error(km_model %>% visR::visr(y_label = expression(sum(x, a, b))), NA)
   
 })
 
 testthat::test_that("T2.3 No error when `x_units` is `NULL` or a `character` string.", {
   
-  survfit_object <- adtte %>%
+  km_model <- adtte %>%
     visR::estimate_KM("SEX") 
   
-  testthat::expect_error(survfit_object %>% visR::visr(), NA) # Equal to y_label = NULL
-  testthat::expect_error(survfit_object %>% visR::visr(x_units = NULL), NA)
-  testthat::expect_error(survfit_object %>% visR::visr(x_units = "visR"), NA)
+  testthat::expect_error(km_model %>% visR::visr(), NA) # Equal to y_label = NULL
+  testthat::expect_error(km_model %>% visR::visr(x_units = NULL), NA)
+  testthat::expect_error(km_model %>% visR::visr(x_units = "visR"), NA)
   
 })
 
 testthat::test_that("T2.4 No error when `x_ticks` is `NULL` or a `numeric` value.", {
   
-  survfit_object <- adtte %>%
+  km_model <- adtte %>%
     visR::estimate_KM("SEX") 
   
-  testthat::expect_error(survfit_object %>% visR::visr(), NA) # Equal to y_label = NULL
-  testthat::expect_error(survfit_object %>% visR::visr(x_ticks = NULL), NA)
-  testthat::expect_error(survfit_object %>% visR::visr(x_ticks = 1), NA)
-  testthat::expect_error(survfit_object %>% visR::visr(x_ticks = c(0, 100)), NA)
-  testthat::expect_error(survfit_object %>% visR::visr(x_ticks = seq(0, 100, 20)), NA)
+  testthat::expect_error(km_model %>% visR::visr(), NA) # Equal to y_label = NULL
+  testthat::expect_error(km_model %>% visR::visr(x_ticks = NULL), NA)
+  testthat::expect_error(km_model %>% visR::visr(x_ticks = 1), NA)
+  testthat::expect_error(km_model %>% visR::visr(x_ticks = c(0, 100)), NA)
+  testthat::expect_error(km_model %>% visR::visr(x_ticks = seq(0, 100, 20)), NA)
   
 })
 
 testthat::test_that("T2.5 No error when `y_ticks` is `NULL` or a `numeric` value.", {
   
-  survfit_object <- adtte %>%
+  km_model <- adtte %>%
     visR::estimate_KM("SEX") 
   
-  testthat::expect_error(survfit_object %>% visR::visr(), NA) # Equal to y_label = NULL
-  testthat::expect_error(survfit_object %>% visR::visr(y_ticks = NULL), NA)
-  testthat::expect_error(survfit_object %>% visR::visr(y_ticks = 1), NA)
-  testthat::expect_error(survfit_object %>% visR::visr(y_ticks = c(0, 100)), NA)
-  testthat::expect_error(survfit_object %>% visR::visr(y_ticks = seq(0, 100, 20)), NA)
+  testthat::expect_error(km_model %>% visR::visr(), NA) # Equal to y_label = NULL
+  testthat::expect_error(km_model %>% visR::visr(y_ticks = NULL), NA)
+  testthat::expect_error(km_model %>% visR::visr(y_ticks = 1), NA)
+  testthat::expect_error(km_model %>% visR::visr(y_ticks = c(0, 100)), NA)
+  testthat::expect_error(km_model %>% visR::visr(y_ticks = seq(0, 100, 20)), NA)
   
 })
 
 testthat::test_that("T2.6 No error when a valid option is passed to `legend_position`.", {
   
-  survfit_object <- adtte %>%
+  km_model <- adtte %>%
     visR::estimate_KM("SEX") 
   
-  testthat::expect_error(survfit_object %>% visR::visr(legend_position = "top"), NA)
-  testthat::expect_error(survfit_object %>% visR::visr(legend_position = "bottom"), NA)
-  testthat::expect_error(survfit_object %>% visR::visr(legend_position = "right"), NA)
-  testthat::expect_error(survfit_object %>% visR::visr(legend_position = "left"), NA)
-  testthat::expect_error(survfit_object %>% visR::visr(legend_position = "none"), NA)
-  testthat::expect_error(survfit_object %>% visR::visr(legend_position = c(0.5, 0.5)), NA)
+  testthat::expect_error(km_model %>% visR::visr(legend_position = "top"), NA)
+  testthat::expect_error(km_model %>% visR::visr(legend_position = "bottom"), NA)
+  testthat::expect_error(km_model %>% visR::visr(legend_position = "right"), NA)
+  testthat::expect_error(km_model %>% visR::visr(legend_position = "left"), NA)
+  testthat::expect_error(km_model %>% visR::visr(legend_position = "none"), NA)
+  testthat::expect_error(km_model %>% visR::visr(legend_position = c(0.5, 0.5)), NA)
   
 })
 
 testthat::test_that("T2.7 An error when `x_label` is not `NULL`, a `character` string or an `expression`.", {
   
-  survfit_object <- adtte %>%
+  km_model <- adtte %>%
     visR::estimate_KM("SEX") 
+  model <- stats::lm(AGE ~ TRTDUR, adtte)
   
-  testthat::expect_error(survfit_object %>% visR::visr(x_label = 1))
-  testthat::expect_error(survfit_object %>% visR::visr(x_label = NA))
-  testthat::expect_error(survfit_object %>% visR::visr(x_label = TRUE))
-  testthat::expect_error(survfit_object %>% visR::visr(x_label = list()))
-  testthat::expect_error(survfit_object %>% visR::visr(x_label = stats::lm(AGE ~ TRTDUR, adtte)))
+  testthat::expect_error(km_model %>% visR::visr(x_label = 1))
+  testthat::expect_error(km_model %>% visR::visr(x_label = NA))
+  testthat::expect_error(km_model %>% visR::visr(x_label = TRUE))
+  testthat::expect_error(km_model %>% visR::visr(x_label = list()))
+  testthat::expect_error(km_model %>% visR::visr(x_label = model))
   
 })
 
 testthat::test_that("T2.8 No warning when `x_label` is `NULL` and the `survfit` object has a `PARAM` and a `PARAMCD` column.", {
   
-  survfit_object <- adtte %>%
+  km_model <- adtte %>%
     visR::estimate_KM("SEX") 
   
-  testthat::expect_warning(survfit_object %>% visR::visr(x_label = NULL), NA)
+  testthat::expect_warning(km_model %>% visR::visr(x_label = NULL), NA)
   
 })
 
 testthat::test_that("T2.9 No warning when `x_label` is `NULL` and the `survfit` object has a `PARAM` but no `PARAMCD` column.", {
   
-  survfit_object <- adtte %>%
+  km_model <- adtte %>%
     dplyr::select(-PARAMCD) %>%
     visR::estimate_KM("SEX") 
   
-  testthat::expect_warning(survfit_object %>% visR::visr(x_label = NULL), NA)
+  testthat::expect_warning(km_model %>% visR::visr(x_label = NULL), NA)
   
 })
 
 testthat::test_that("T2.10 No warning when `x_label` is `NULL` and the `survfit` object has no `PARAM` but a `PARAMCD` column.", {
   
-  survfit_object <- adtte %>%
+  km_model <- adtte %>%
     dplyr::select(-PARAM) %>%
     visR::estimate_KM("SEX") 
   
-  testthat::expect_warning(survfit_object %>% visR::visr(x_label = NULL), NA)
+  testthat::expect_warning(km_model %>% visR::visr(x_label = NULL), NA)
   
 })
 
 testthat::test_that("T2.11 A warning when `x_label` is `NULL` and the `survfit` object has no `PARAM` and no `PARAMCD` column.", {
   
-  survfit_object <- adtte %>%
+  km_model <- adtte %>%
     dplyr::select(-c(PARAM, PARAMCD)) %>%
     visR::estimate_KM("SEX") 
   
-  testthat::expect_warning(survfit_object %>% visR::visr(x_label = NULL))
+  testthat::expect_warning(km_model %>% visR::visr(x_label = NULL))
   
 })
 
 testthat::test_that("T2.12 When `x_label` is `NULL` and the `survfit` object does have a `PARAM` column, the `x_label` is set to `PARAM`.", {
   
-  survfit_object <- adtte %>%
+  km_model <- adtte %>%
     visR::estimate_KM("SEX") 
   
-  gg <- survfit_object %>% visR::visr(x_label = NULL)
+  gg <- km_model %>% visR::visr(x_label = NULL)
   
   testthat::expect_true("Time to First Dermatologic Event" %in% gg$labels$x)
   
@@ -252,11 +254,11 @@ testthat::test_that("T2.12 When `x_label` is `NULL` and the `survfit` object doe
 
 testthat::test_that("T2.13 When `x_label` is `NULL` and the `survfit` object does not have a `PARAM` but a `PARAMCD` column, the `x_label` is set to `PARAMCD`.", {
   
-  survfit_object <- adtte %>%
+  km_model <- adtte %>%
     dplyr::select(-PARAM) %>%
     visR::estimate_KM("SEX") 
   
-  gg <- survfit_object %>% visR::visr(x_label = NULL)
+  gg <- km_model %>% visR::visr(x_label = NULL)
   
   testthat::expect_true("TTDE" %in% gg$labels$x)
   
@@ -264,11 +266,11 @@ testthat::test_that("T2.13 When `x_label` is `NULL` and the `survfit` object doe
 
 testthat::test_that("T2.14 When `x_label` is `NULL` and the `survfit` object does have a `PARAM` but no `PARAMCD` column, the `x_label` is set to `PARAM`.", {
   
-  survfit_object <- adtte %>%
+  km_model <- adtte %>%
     dplyr::select(-PARAMCD) %>%
     visR::estimate_KM("SEX") 
   
-  gg <- survfit_object %>% visR::visr(x_label = NULL)
+  gg <- km_model %>% visR::visr(x_label = NULL)
   
   testthat::expect_true("Time to First Dermatologic Event" %in% gg$labels$x)
   
@@ -276,11 +278,11 @@ testthat::test_that("T2.14 When `x_label` is `NULL` and the `survfit` object doe
 
 testthat::test_that("T2.15 When `x_label` is `NULL` and the `survfit` object does not have a `PARAM` or `PARAMCD` column, the `x_label` is `NULL`.", {
   
-  survfit_object <- adtte %>%
+  km_model <- adtte %>%
     dplyr::select(-c(PARAM, PARAMCD)) %>%
     visR::estimate_KM("SEX") 
   
-  suppressWarnings(gg <- survfit_object %>% visR::visr(x_label = NULL))
+  suppressWarnings(gg <- km_model %>% visR::visr(x_label = NULL))
   
   testthat::expect_true(is.null(gg$labels$x))
   
@@ -288,14 +290,14 @@ testthat::test_that("T2.15 When `x_label` is `NULL` and the `survfit` object doe
 
 testthat::test_that("T2.16 A warning when `x_label` is `NULL` and the `PARAM` column has more than one unique entry.", {
   
-  survfit_object <- adtte %>%
+  km_model <- adtte %>%
     visR::estimate_KM("SEX") 
   
-  survfit_object$PARAM <- rep(survfit_object$PARAM, length(survfit_object$surv)-1)
-  survfit_object$PARAM <- c(survfit_object$PARAM, "visR")
+  km_model$PARAM <- rep(km_model$PARAM, length(km_model$surv) - 1)
+  km_model$PARAM <- c(km_model$PARAM, "visR")
   
   expected_warning <- "More than one unique entry in 'PARAM'."
-  survfit_object %>% 
+  km_model %>% 
     visR::visr(x_label = NULL) %>%
     testthat::expect_warning(expected_warning)
   
@@ -303,15 +305,15 @@ testthat::test_that("T2.16 A warning when `x_label` is `NULL` and the `PARAM` co
 
 testthat::test_that("T2.17 A warning when `x_label` is `NULL` and the `PARAMCD` column has more than one unique entry.", {
   
-  survfit_object <- adtte %>%
+  km_model <- adtte %>%
     dplyr::select(-PARAM) %>%
     visR::estimate_KM("SEX") 
   
-  survfit_object$PARAMCD <- rep(survfit_object$PARAMCD, length(survfit_object$surv)-1)
-  survfit_object$PARAMCD <- c(survfit_object$PARAMCD, "visR")
+  km_model$PARAMCD <- rep(km_model$PARAMCD, length(km_model$surv) - 1)
+  km_model$PARAMCD <- c(km_model$PARAMCD, "visR")
   
   expected_warning <- "More than one unique entry in 'PARAMCD'."
-  survfit_object %>% 
+  km_model %>% 
     visR::visr(x_label = NULL) %>%
     testthat::expect_warning(expected_warning)
   
@@ -319,10 +321,10 @@ testthat::test_that("T2.17 A warning when `x_label` is `NULL` and the `PARAMCD` 
 
 testthat::test_that("T2.18 When `x_label` and `x_unit` are both defined, they are concatenated into the final `x_label`.", {
   
-  survfit_object <- adtte %>%
+  km_model <- adtte %>%
     visR::estimate_KM("SEX") 
   
-  gg <- survfit_object %>% visR::visr(x_label = "visR", x_unit = "Rsiv")
+  gg <- km_model %>% visR::visr(x_label = "visR", x_unit = "Rsiv")
   
   testthat::expect_equal(gg$labels$x, "visR (Rsiv)")
   
@@ -330,91 +332,95 @@ testthat::test_that("T2.18 When `x_label` and `x_unit` are both defined, they ar
 
 testthat::test_that("T2.19 An error when `y_label` is not `NULL`, a `character` string or an `expression`.", {
   
-  survfit_object <- adtte %>%
+  km_model <- adtte %>%
     visR::estimate_KM("SEX") 
+  model <- stats::lm(AGE ~ TRTDUR, adtte)
   
-  testthat::expect_error(survfit_object %>% visR::visr(y_label = 1))
-  testthat::expect_error(survfit_object %>% visR::visr(y_label = NA))
-  testthat::expect_error(survfit_object %>% visR::visr(y_label = TRUE))
-  testthat::expect_error(survfit_object %>% visR::visr(y_label = list()))
-  testthat::expect_error(survfit_object %>% visR::visr(y_label = stats::lm(AGE ~ TRTDUR, adtte)))
+  testthat::expect_error(km_model %>% visR::visr(y_label = 1))
+  testthat::expect_error(km_model %>% visR::visr(y_label = NA))
+  testthat::expect_error(km_model %>% visR::visr(y_label = TRUE))
+  testthat::expect_error(km_model %>% visR::visr(y_label = list()))
+  testthat::expect_error(km_model %>% visR::visr(y_label = model))
   
 })
 
 testthat::test_that("T2.20 An error when `x_units` is not `NULL` or a `character` string.", {
   
-  survfit_object <- adtte %>%
+  km_model <- adtte %>%
     visR::estimate_KM("SEX") 
+  model <- stats::lm(AGE ~ TRTDUR, adtte)
   
-  testthat::expect_error(survfit_object %>% visR::visr(x_units = 1))
-  testthat::expect_error(survfit_object %>% visR::visr(x_units = NA))
-  testthat::expect_error(survfit_object %>% visR::visr(x_units = TRUE))
-  testthat::expect_error(survfit_object %>% visR::visr(x_units = list()))
-  testthat::expect_error(survfit_object %>% visR::visr(x_units = stats::lm(AGE ~ TRTDUR, adtte)))
+  testthat::expect_error(km_model %>% visR::visr(x_units = 1))
+  testthat::expect_error(km_model %>% visR::visr(x_units = NA))
+  testthat::expect_error(km_model %>% visR::visr(x_units = TRUE))
+  testthat::expect_error(km_model %>% visR::visr(x_units = list()))
+  testthat::expect_error(km_model %>% visR::visr(x_units = model))
   
 })
 
 testthat::test_that("T2.21 An error when `x_ticks` is not `NULL` or a `numeric`.", {
   
-  survfit_object <- adtte %>%
+  km_model <- adtte %>%
     visR::estimate_KM("SEX") 
+  model <- stats::lm(AGE ~ TRTDUR, adtte)
   
-  testthat::expect_error(survfit_object %>% visR::visr(x_ticks = "visR"))
-  testthat::expect_error(survfit_object %>% visR::visr(x_ticks = NA))
-  testthat::expect_error(survfit_object %>% visR::visr(x_ticks = TRUE))
-  testthat::expect_error(survfit_object %>% visR::visr(x_ticks = list()))
-  testthat::expect_error(survfit_object %>% visR::visr(x_ticks = stats::lm(AGE ~ TRTDUR, adtte)))
+  testthat::expect_error(km_model %>% visR::visr(x_ticks = "visR"))
+  testthat::expect_error(km_model %>% visR::visr(x_ticks = NA))
+  testthat::expect_error(km_model %>% visR::visr(x_ticks = TRUE))
+  testthat::expect_error(km_model %>% visR::visr(x_ticks = list()))
+  testthat::expect_error(km_model %>% visR::visr(x_ticks = model))
   
 })
 
 testthat::test_that("T2.22 An error when `y_ticks` is not `NULL` or a `numeric`.", {
   
-  survfit_object <- adtte %>%
+  km_model <- adtte %>%
     visR::estimate_KM("SEX") 
+  model <- stats::lm(AGE ~ TRTDUR, adtte)
   
-  testthat::expect_error(survfit_object %>% visR::visr(y_ticks = "visR"))
-  testthat::expect_error(survfit_object %>% visR::visr(y_ticks = NA))
-  testthat::expect_error(survfit_object %>% visR::visr(y_ticks = TRUE))
-  testthat::expect_error(survfit_object %>% visR::visr(y_ticks = list()))
-  testthat::expect_error(survfit_object %>% visR::visr(y_ticks = stats::lm(AGE ~ TRTDUR, adtte)))
+  testthat::expect_error(km_model %>% visR::visr(y_ticks = "visR"))
+  testthat::expect_error(km_model %>% visR::visr(y_ticks = NA))
+  testthat::expect_error(km_model %>% visR::visr(y_ticks = TRUE))
+  testthat::expect_error(km_model %>% visR::visr(y_ticks = list()))
+  testthat::expect_error(km_model %>% visR::visr(y_ticks = model))
   
 })
 
 testthat::test_that("T2.23 No error when a valid option is passed to `legend_position`.", {
   
-  survfit_object <- adtte %>%
+  km_model <- adtte %>%
     visR::estimate_KM("SEX") 
   
-  testthat::expect_error(survfit_object %>% visR::visr(legend_position = "top"), NA)
-  testthat::expect_error(survfit_object %>% visR::visr(legend_position = "bottom"), NA)
-  testthat::expect_error(survfit_object %>% visR::visr(legend_position = "right"), NA)
-  testthat::expect_error(survfit_object %>% visR::visr(legend_position = "left"), NA)
-  testthat::expect_error(survfit_object %>% visR::visr(legend_position = "none"), NA)
-  testthat::expect_error(survfit_object %>% visR::visr(legend_position = c(0.5, 0.5)), NA)
+  testthat::expect_error(km_model %>% visR::visr(legend_position = "top"), NA)
+  testthat::expect_error(km_model %>% visR::visr(legend_position = "bottom"), NA)
+  testthat::expect_error(km_model %>% visR::visr(legend_position = "right"), NA)
+  testthat::expect_error(km_model %>% visR::visr(legend_position = "left"), NA)
+  testthat::expect_error(km_model %>% visR::visr(legend_position = "none"), NA)
+  testthat::expect_error(km_model %>% visR::visr(legend_position = c(0.5, 0.5)), NA)
   
 })
 
 testthat::test_that("T2.24 An error when the string is not amongst the valid options for `legend_position`.", {
   
-  survfit_object <- adtte %>%
+  km_model <- adtte %>%
     visR::estimate_KM("SEX") 
   
-  testthat::expect_error(survfit_object %>% visR::visr(legend_position = "visR"))
+  testthat::expect_error(km_model %>% visR::visr(legend_position = "visR"))
   
 })
 
 testthat::test_that("T2.25 An error when an undefined option is passed to `legend_position`.", {
   
-  survfit_object <- adtte %>%
+  km_model <- adtte %>%
     visR::estimate_KM("SEX") 
   
-  testthat::expect_error(survfit_object %>% visR::visr(legend_position = "visR"))
-  testthat::expect_error(survfit_object %>% visR::visr(legend_position = c(0)))
-  testthat::expect_error(survfit_object %>% visR::visr(legend_position = c(0.5, 0.5, 0.5)))
+  testthat::expect_error(km_model %>% visR::visr(legend_position = "visR"))
+  testthat::expect_error(km_model %>% visR::visr(legend_position = c(0)))
+  testthat::expect_error(km_model %>% visR::visr(legend_position = rep(0.5, 3)))
   
   could_set_to_NA <- tryCatch ({
     
-    tmp <- print(survfit_object %>% visR::visr(legend_position = NA))
+    tmp <- print(km_model %>% visR::visr(legend_position = NA))
     TRUE
     
   }, error=function(cond) {
@@ -427,7 +433,7 @@ testthat::test_that("T2.25 An error when an undefined option is passed to `legen
   
   could_set_to_bool <- tryCatch ({
     
-    tmp <- print(survfit_object %>% visR::visr(legend_position = TRUE))
+    tmp <- print(km_model %>% visR::visr(legend_position = TRUE))
     TRUE
     
   }, error=function(cond) {
@@ -440,7 +446,7 @@ testthat::test_that("T2.25 An error when an undefined option is passed to `legen
   
   could_set_to_list <- tryCatch ({
     
-    tmp <- print(survfit_object %>% visR::visr(legend_position = list()))
+    tmp <- print(km_model %>% visR::visr(legend_position = list()))
     TRUE
     
   }, error=function(cond) {
@@ -453,382 +459,382 @@ testthat::test_that("T2.25 An error when an undefined option is passed to `legen
   
 })
 
-# Requirement T3 -------------------------------------------------------------------------------------------------------
+# Requirement T3 ---------------------------------------------------------------
 
 testthat::context("visr_plot - T3. The y-axis properties are correctly deducted from the provided `fun` when applying `visR::visr()` to a `survfit` object.")
 
 testthat::test_that("T3.1 No error when `y_label` is `NULL` and `fun` is one of the valid string options.", {
   
-  survfit_object <- adtte %>%
+  km_model <- adtte %>%
     visR::estimate_KM("SEX") 
   
-  testthat::expect_error(survfit_object %>% visR::visr(y_label = NULL, fun = "surv"), NA)
-  testthat::expect_error(survfit_object %>% visR::visr(y_label = NULL, fun = "log"), NA)
-  testthat::expect_error(survfit_object %>% visR::visr(y_label = NULL, fun = "event"), NA)
-  testthat::expect_warning(survfit_object %>% visR::visr(y_label = NULL, fun = "cloglog")) # No error, but data causes introduction of NAs.
-  testthat::expect_error(survfit_object %>% visR::visr(y_label = NULL, fun = "pct"), NA)
-  testthat::expect_error(survfit_object %>% visR::visr(y_label = NULL, fun = "logpct"), NA)
-  testthat::expect_error(survfit_object %>% visR::visr(y_label = NULL, fun = "cumhaz"), NA)
+  testthat::expect_error(km_model %>% visR::visr(y_label = NULL, fun = "surv"), NA)
+  testthat::expect_error(km_model %>% visR::visr(y_label = NULL, fun = "log"), NA)
+  testthat::expect_error(km_model %>% visR::visr(y_label = NULL, fun = "event"), NA)
+  testthat::expect_warning(km_model %>% visR::visr(y_label = NULL, fun = "cloglog")) # No error, but data causes introduction of NAs.
+  testthat::expect_error(km_model %>% visR::visr(y_label = NULL, fun = "pct"), NA)
+  testthat::expect_error(km_model %>% visR::visr(y_label = NULL, fun = "logpct"), NA)
+  testthat::expect_error(km_model %>% visR::visr(y_label = NULL, fun = "cumhaz"), NA)
   
 })
 
 testthat::test_that("T3.2 An error when `y_label` is `NULL`, `fun` is a string but not one of the valid options.", {
   
-  survfit_object <- adtte %>%
+  km_model <- adtte %>%
     visR::estimate_KM("SEX") 
   
-  testthat::expect_error(survfit_object %>% visR::visr(y_label = NULL, fun = "visR"))
+  testthat::expect_error(km_model %>% visR::visr(y_label = NULL, fun = "visR"))
   
 })
 
 testthat::test_that("T3.3 No error when `y_label` is a string and `fun` is a function.", {
   
-  survfit_object <- adtte %>%
+  km_model <- adtte %>%
     visR::estimate_KM("SEX") 
   
-  testthat::expect_error(survfit_object %>% visR::visr(y_label = "visR", fun = log), NA)
+  testthat::expect_error(km_model %>% visR::visr(y_label = "visR", fun = log), NA)
   
 })
 
 testthat::test_that("T3.4 An error when `y_label` is `NULL` and `fun` is a function.", {
   
-  survfit_object <- adtte %>%
+  km_model <- adtte %>%
     visR::estimate_KM("SEX") 
   
-  testthat::expect_error(survfit_object %>% visR::visr(y_label = NULL, fun = log))
+  testthat::expect_error(km_model %>% visR::visr(y_label = NULL, fun = log))
   
 })
 
 testthat::test_that("T3.5 A warning when the provided function causes undefined values, f.e. log(-log(2)).", {
   
-  survfit_object <- adtte %>%
+  km_model <- adtte %>%
     visR::estimate_KM("SEX") 
   
-  testthat::expect_warning(survfit_object %>% visR::visr(y_label = NULL, fun = "cloglog"))
+  testthat::expect_warning(km_model %>% visR::visr(y_label = NULL, fun = "cloglog"))
   
 })
 
 testthat::test_that("T3.6 An error when `fun` is neither a `character` string nor a function.", {
   
-  survfit_object <- adtte %>%
+  km_model <- adtte %>%
     visR::estimate_KM("SEX") 
   
-  testthat::expect_error(survfit_object %>% visR::visr(fun = 1))
-  testthat::expect_error(survfit_object %>% visR::visr(fun = NULL))
-  testthat::expect_error(survfit_object %>% visR::visr(fun = NA))
-  testthat::expect_error(survfit_object %>% visR::visr(fun = TRUE))
-  testthat::expect_error(survfit_object %>% visR::visr(fun = list()))
+  testthat::expect_error(km_model %>% visR::visr(fun = 1))
+  testthat::expect_error(km_model %>% visR::visr(fun = NULL))
+  testthat::expect_error(km_model %>% visR::visr(fun = NA))
+  testthat::expect_error(km_model %>% visR::visr(fun = TRUE))
+  testthat::expect_error(km_model %>% visR::visr(fun = list()))
   
 })
 
-# Requirement T4 -------------------------------------------------------------------------------------------------------
+# Requirement T4 ---------------------------------------------------------------
 
 testthat::context("visr_plot - T4. Invalid parameters are captured when applying `visR::visr()` to an `attrition` object and respective warnings/errors are thrown.")
 
 testthat::test_that("T4.1 No error when `description_column_name` is a `character` string that is found in the colnames of the `attrition` object.", {
   
-  attrition_object <- adtte %>%
+  attr_object <- adtte %>%
     visR::get_attrition(criteria_descriptions = c("1. Placebo Group", 
                                                   "2. Be 75 years of age or older.",
                                                   "3. White", 
                                                   "4. Site 709"),
-                        criteria_conditions   = c("TRTP=='Placebo'",
-                                                  "AGE>=75",
-                                                  "RACE=='WHITE'", 
-                                                  "SITEID==709"),
-                        subject_column_name   = 'USUBJID') 
+                        criteria_conditions = c("TRTP == 'Placebo'",
+                                                "AGE >= 75",
+                                                "RACE == 'WHITE'",
+                                                "SITEID == 709"),
+                        subject_column_name = 'USUBJID') 
   
-  testthat::expect_error(attrition_object %>% visR::visr(description_column_name = "Criteria"), NA)
+  testthat::expect_error(attr_object %>% 
+                           visR::visr(description_column_name = "Criteria"), NA)
   
 })
 
 testthat::test_that("T4.2 No error when `value_column_name` is a `character` string that is found in the colnames of the `attrition` object.", {
   
-  attrition_object <- adtte %>%
+  attr_object <- adtte %>%
     visR::get_attrition(criteria_descriptions = c("1. Placebo Group", 
                                                   "2. Be 75 years of age or older.",
                                                   "3. White", 
                                                   "4. Site 709"),
-                        criteria_conditions   = c("TRTP=='Placebo'",
-                                                  "AGE>=75",
-                                                  "RACE=='WHITE'", 
-                                                  "SITEID==709"),
-                        subject_column_name   = 'USUBJID') 
+                        criteria_conditions = c("TRTP == 'Placebo'",
+                                                "AGE >= 75",
+                                                "RACE == 'WHITE'", 
+                                                "SITEID == 709"),
+                        subject_column_name = 'USUBJID') 
   
-  testthat::expect_error(attrition_object %>% visR::visr(value_column_name = "Remaining N"), NA)
+  testthat::expect_error(attr_object %>% 
+                           visR::visr(value_column_name = "Remaining N"), NA)
   
 })
 
 testthat::test_that("T4.3 No error when `complement_column_name` is a `character` string that is found in the colnames of the `attrition` object.", {
   
-  attrition_object <- adtte %>%
+  attr_object <- adtte %>%
     visR::get_attrition(criteria_descriptions = c("1. Placebo Group", 
                                                   "2. Be 75 years of age or older.",
                                                   "3. White", 
                                                   "4. Site 709"),
-                        criteria_conditions   = c("TRTP=='Placebo'",
-                                                  "AGE>=75",
-                                                  "RACE=='WHITE'", 
-                                                  "SITEID==709"),
-                        subject_column_name   = 'USUBJID') 
+                        criteria_conditions = c("TRTP == 'Placebo'",
+                                                "AGE >= 75",
+                                                "RACE == 'WHITE'", 
+                                                "SITEID == 709"),
+                        subject_column_name = 'USUBJID') 
   
-  attrition_object <- attrition_object %>%
+  attr_object <- attr_object %>%
     dplyr::bind_cols(Complement = c("", 
                                     "Treatment Group", 
                                     "Younger than 75 years of age", 
                                     "Non-White", 
                                     "Not Site 709"))
   
-  testthat::expect_error(attrition_object %>% visR::visr(complement_column_name = "Complement"), NA)
+  testthat::expect_error(attr_object %>% 
+                           visR::visr(complement_column_name = "Complement"), NA)
   
 })
 
 testthat::test_that("T4.4 No error when `box_width` is a `numeric` value.", {
   
-  attrition_object <- adtte %>%
+  attr_object <- adtte %>%
     visR::get_attrition(criteria_descriptions = c("1. Placebo Group", 
                                                   "2. Be 75 years of age or older.",
                                                   "3. White", 
                                                   "4. Site 709"),
-                        criteria_conditions   = c("TRTP=='Placebo'",
-                                                  "AGE>=75",
-                                                  "RACE=='WHITE'", 
-                                                  "SITEID==709"),
-                        subject_column_name   = 'USUBJID') 
+                        criteria_conditions = c("TRTP == 'Placebo'",
+                                                "AGE >= 75",
+                                                "RACE == 'WHITE'", 
+                                                "SITEID == 709"),
+                        subject_column_name = 'USUBJID') 
   
-  testthat::expect_error(attrition_object %>% visR::visr(box_width = 500), NA)
+  testthat::expect_error(attr_object %>% visR::visr(box_width = 500), NA)
   
 })
 
 testthat::test_that("T4.5 No error when `font_size` is a `numeric` value.", {
   
-  attrition_object <- adtte %>%
+  attr_object <- adtte %>%
     visR::get_attrition(criteria_descriptions = c("1. Placebo Group", 
                                                   "2. Be 75 years of age or older.",
                                                   "3. White", 
                                                   "4. Site 709"),
-                        criteria_conditions   = c("TRTP=='Placebo'",
-                                                  "AGE>=75",
-                                                  "RACE=='WHITE'", 
-                                                  "SITEID==709"),
-                        subject_column_name   = 'USUBJID') 
+                        criteria_conditions = c("TRTP == 'Placebo'",
+                                                "AGE >= 75",
+                                                "RACE == 'WHITE'", 
+                                                "SITEID == 709"),
+                        subject_column_name = 'USUBJID') 
   
-  testthat::expect_error(attrition_object %>% visR::visr(font_size = 13), NA)
+  testthat::expect_error(attr_object %>% visR::visr(font_size = 13), NA)
   
 })
 
 testthat::test_that("T4.6 No error when `fill` is a `character` string that is a valid colour.", {
   
-  attrition_object <- adtte %>%
+  attr_object <- adtte %>%
     visR::get_attrition(criteria_descriptions = c("1. Placebo Group", 
                                                   "2. Be 75 years of age or older.",
                                                   "3. White", 
                                                   "4. Site 709"),
-                        criteria_conditions   = c("TRTP=='Placebo'",
-                                                  "AGE>=75",
-                                                  "RACE=='WHITE'", 
-                                                  "SITEID==709"),
-                        subject_column_name   = 'USUBJID') 
+                        criteria_conditions = c("TRTP == 'Placebo'",
+                                                "AGE >= 75",
+                                                "RACE == 'WHITE'", 
+                                                "SITEID == 709"),
+                        subject_column_name = 'USUBJID') 
   
-  testthat::expect_error(attrition_object %>% visR::visr(fill = "grey"), NA)
+  testthat::expect_error(attr_object %>% visR::visr(fill = "grey"), NA)
   
 })
 
 testthat::test_that("T4.7 No error when `border` is a `character` string that is a valid colour.", {
   
-  attrition_object <- adtte %>%
+  attr_object <- adtte %>%
     visR::get_attrition(criteria_descriptions = c("1. Placebo Group", 
                                                   "2. Be 75 years of age or older.",
                                                   "3. White", 
                                                   "4. Site 709"),
-                        criteria_conditions   = c("TRTP=='Placebo'",
-                                                  "AGE>=75",
-                                                  "RACE=='WHITE'", 
-                                                  "SITEID==709"),
-                        subject_column_name   = 'USUBJID') 
+                        criteria_conditions = c("TRTP == 'Placebo'",
+                                                "AGE >= 75",
+                                                "RACE == 'WHITE'", 
+                                                "SITEID == 709"),
+                        subject_column_name = 'USUBJID') 
   
-  testthat::expect_error(attrition_object %>% visR::visr(border = "grey"), NA)
+  testthat::expect_error(attr_object %>% visR::visr(border = "grey"), NA)
   
 })
 
 testthat::test_that("T4.8 An error when `description_column_name` is a `character` string but is not found in the colnames of the `attrition` object.", {
   
-  attrition_object <- adtte %>%
+  attr_object <- adtte %>%
     visR::get_attrition(criteria_descriptions = c("1. Placebo Group", 
                                                   "2. Be 75 years of age or older.",
                                                   "3. White", 
                                                   "4. Site 709"),
-                        criteria_conditions   = c("TRTP=='Placebo'",
-                                                  "AGE>=75",
-                                                  "RACE=='WHITE'", 
-                                                  "SITEID==709"),
-                        subject_column_name   = 'USUBJID') 
+                        criteria_conditions = c("TRTP == 'Placebo'",
+                                                "AGE >= 75",
+                                                "RACE == 'WHITE'", 
+                                                "SITEID == 709"),
+                        subject_column_name = 'USUBJID') 
   
-  testthat::expect_error(attrition_object %>% visR::visr(description_column_name = "visR"))
+  testthat::expect_error(attr_object %>% 
+                           visR::visr(description_column_name = "visR"))
 
 })
 
 testthat::test_that("T4.9 An error when `description_column_name` is not `character` string.", {
   
-  attrition_object <- adtte %>%
+  attr_object <- adtte %>%
     visR::get_attrition(criteria_descriptions = c("1. Placebo Group", 
                                                   "2. Be 75 years of age or older.",
                                                   "3. White", 
                                                   "4. Site 709"),
-                        criteria_conditions   = c("TRTP=='Placebo'",
-                                                  "AGE>=75",
-                                                  "RACE=='WHITE'", 
-                                                  "SITEID==709"),
-                        subject_column_name   = 'USUBJID') 
+                        criteria_conditions = c("TRTP == 'Placebo'",
+                                                "AGE >= 75",
+                                                "RACE == 'WHITE'", 
+                                                "SITEID == 709"),
+                        subject_column_name = 'USUBJID') 
   
   
   
-  testthat::expect_error(attrition_object %>% visR::visr(description_column_name = 1))
-  testthat::expect_error(attrition_object %>% visR::visr(description_column_name = NA))
-  testthat::expect_error(attrition_object %>% visR::visr(description_column_name = NULL))
-  testthat::expect_error(attrition_object %>% visR::visr(description_column_name = TRUE))
-  testthat::expect_error(attrition_object %>% visR::visr(description_column_name = list()))
-  testthat::expect_error(attrition_object %>% visR::visr(description_column_name = stats::lm(AGE ~ TRTDUR, adtte) %>% visR::visr()))
-  
+  testthat::expect_error(attr_object %>% visR::visr(description_column_name = 1))
+  testthat::expect_error(attr_object %>% visR::visr(description_column_name = NA))
+  testthat::expect_error(attr_object %>% visR::visr(description_column_name = NULL))
+  testthat::expect_error(attr_object %>% visR::visr(description_column_name = TRUE))
+  testthat::expect_error(attr_object %>% visR::visr(description_column_name = list()))
   
 })
 
 testthat::test_that("T4.10 An error when `value_column_name` is a `character` string but is not found in the colnames of the `attrition` object.", {
   
-  attrition_object <- adtte %>%
+  attr_object <- adtte %>%
     visR::get_attrition(criteria_descriptions = c("1. Placebo Group", 
                                                   "2. Be 75 years of age or older.",
                                                   "3. White", 
                                                   "4. Site 709"),
-                        criteria_conditions   = c("TRTP=='Placebo'",
-                                                  "AGE>=75",
-                                                  "RACE=='WHITE'", 
-                                                  "SITEID==709"),
-                        subject_column_name   = 'USUBJID') 
+                        criteria_conditions = c("TRTP == 'Placebo'",
+                                                "AGE >= 75",
+                                                "RACE == 'WHITE'", 
+                                                "SITEID == 709"),
+                        subject_column_name = 'USUBJID') 
   
-  testthat::expect_error(attrition_object %>% visR::visr(value_column_name = "visR"))
+  testthat::expect_error(attr_object %>% visR::visr(value_column_name = "visR"))
   
 })
 
 testthat::test_that("T4.11 An error when `value_column_name` is not `character` string.", {
   
-  attrition_object <- adtte %>%
+  attr_object <- adtte %>%
     visR::get_attrition(criteria_descriptions = c("1. Placebo Group", 
                                                   "2. Be 75 years of age or older.",
                                                   "3. White", 
                                                   "4. Site 709"),
-                        criteria_conditions   = c("TRTP=='Placebo'",
-                                                  "AGE>=75",
-                                                  "RACE=='WHITE'", 
-                                                  "SITEID==709"),
-                        subject_column_name   = 'USUBJID') 
+                        criteria_conditions = c("TRTP == 'Placebo'",
+                                                "AGE >= 75",
+                                                "RACE == 'WHITE'", 
+                                                "SITEID == 709"),
+                        subject_column_name = 'USUBJID') 
   
-  testthat::expect_error(attrition_object %>% visR::visr(value_column_name = 1))
-  testthat::expect_error(attrition_object %>% visR::visr(value_column_name = NA))
-  testthat::expect_error(attrition_object %>% visR::visr(value_column_name = NULL))
-  testthat::expect_error(attrition_object %>% visR::visr(value_column_name = TRUE))
-  testthat::expect_error(attrition_object %>% visR::visr(value_column_name = list()))
-  testthat::expect_error(attrition_object %>% visR::visr(value_column_name = stats::lm(AGE ~ TRTDUR, adtte) %>% visR::visr()))
-  
+  testthat::expect_error(attr_object %>% visR::visr(value_column_name = 1))
+  testthat::expect_error(attr_object %>% visR::visr(value_column_name = NA))
+  testthat::expect_error(attr_object %>% visR::visr(value_column_name = NULL))
+  testthat::expect_error(attr_object %>% visR::visr(value_column_name = TRUE))
+  testthat::expect_error(attr_object %>% visR::visr(value_column_name = list()))
+
 })
 
 testthat::test_that("T4.12 An error when `complement_column_name` is a `character` string but is not found in the colnames of the `attrition` object.", {
   
-  attrition_object <- adtte %>%
+  attr_object <- adtte %>%
     visR::get_attrition(criteria_descriptions = c("1. Placebo Group", 
                                                   "2. Be 75 years of age or older.",
                                                   "3. White", 
                                                   "4. Site 709"),
-                        criteria_conditions   = c("TRTP=='Placebo'",
-                                                  "AGE>=75",
-                                                  "RACE=='WHITE'", 
-                                                  "SITEID==709"),
-                        subject_column_name   = 'USUBJID') 
+                        criteria_conditions = c("TRTP == 'Placebo'",
+                                                "AGE >= 75",
+                                                "RACE == 'WHITE'", 
+                                                "SITEID == 709"),
+                        subject_column_name = 'USUBJID') 
   
-  testthat::expect_error(attrition_object %>% visR::visr(complement_column_name = "visR"))
+  testthat::expect_error(attr_object %>% visR::visr(complement_column_name = "visR"))
   
 })
 
 testthat::test_that("T4.13 An error when `complement_column_name` is not `character` string.", {
   
-  attrition_object <- adtte %>%
+  attr_object <- adtte %>%
     visR::get_attrition(criteria_descriptions = c("1. Placebo Group", 
                                                   "2. Be 75 years of age or older.",
                                                   "3. White", 
                                                   "4. Site 709"),
-                        criteria_conditions   = c("TRTP=='Placebo'",
-                                                  "AGE>=75",
-                                                  "RACE=='WHITE'", 
-                                                  "SITEID==709"),
-                        subject_column_name   = 'USUBJID') 
+                        criteria_conditions = c("TRTP == 'Placebo'",
+                                                "AGE >= 75",
+                                                "RACE == 'WHITE'", 
+                                                "SITEID == 709"),
+                        subject_column_name = 'USUBJID') 
   
-  testthat::expect_error(attrition_object %>% visR::visr(complement_column_name = 1))
-  testthat::expect_error(attrition_object %>% visR::visr(complement_column_name = NA))
-  testthat::expect_error(attrition_object %>% visR::visr(complement_column_name = NULL))
-  testthat::expect_error(attrition_object %>% visR::visr(complement_column_name = TRUE))
-  testthat::expect_error(attrition_object %>% visR::visr(complement_column_name = list()))
-  testthat::expect_error(attrition_object %>% visR::visr(complement_column_name = stats::lm(AGE ~ TRTDUR, adtte) %>% visR::visr()))
-  
+  testthat::expect_error(attr_object %>% visR::visr(complement_column_name = 1))
+  testthat::expect_error(attr_object %>% visR::visr(complement_column_name = NA))
+  testthat::expect_error(attr_object %>% visR::visr(complement_column_name = NULL))
+  testthat::expect_error(attr_object %>% visR::visr(complement_column_name = TRUE))
+  testthat::expect_error(attr_object %>% visR::visr(complement_column_name = list()))
+
 })
 
 testthat::test_that("T4.14 A warning when `box_width` is not a `numeric` value.", {
   
-  attrition_object <- adtte %>%
+  attr_object <- adtte %>%
     visR::get_attrition(criteria_descriptions = c("1. Placebo Group", 
                                                   "2. Be 75 years of age or older.",
                                                   "3. White", 
                                                   "4. Site 709"),
-                        criteria_conditions   = c("TRTP=='Placebo'",
-                                                  "AGE>=75",
-                                                  "RACE=='WHITE'", 
-                                                  "SITEID==709"),
-                        subject_column_name   = 'USUBJID') 
+                        criteria_conditions = c("TRTP == 'Placebo'",
+                                                "AGE >= 75",
+                                                "RACE == 'WHITE'", 
+                                                "SITEID == 709"),
+                        subject_column_name = 'USUBJID') 
   
-  testthat::expect_warning(attrition_object %>% visR::visr(box_width = "visR"))
-  testthat::expect_warning(attrition_object %>% visR::visr(box_width = NA))
-  testthat::expect_warning(attrition_object %>% visR::visr(box_width = NULL))
-  testthat::expect_warning(attrition_object %>% visR::visr(box_width = TRUE))
-  testthat::expect_warning(attrition_object %>% visR::visr(box_width = list()))
+  testthat::expect_warning(attr_object %>% visR::visr(box_width = "visR"))
+  testthat::expect_warning(attr_object %>% visR::visr(box_width = NA))
+  testthat::expect_warning(attr_object %>% visR::visr(box_width = NULL))
+  testthat::expect_warning(attr_object %>% visR::visr(box_width = TRUE))
+  testthat::expect_warning(attr_object %>% visR::visr(box_width = list()))
   
 })
 
 testthat::test_that("T4.15 A warning when `font_size` is not a `numeric` value.", {
   
-  attrition_object <- adtte %>%
+  attr_object <- adtte %>%
     visR::get_attrition(criteria_descriptions = c("1. Placebo Group", 
                                                   "2. Be 75 years of age or older.",
                                                   "3. White", 
                                                   "4. Site 709"),
-                        criteria_conditions   = c("TRTP=='Placebo'",
-                                                  "AGE>=75",
-                                                  "RACE=='WHITE'", 
-                                                  "SITEID==709"),
+                        criteria_conditions = c("TRTP == 'Placebo'",
+                                                "AGE >= 75",
+                                                "RACE == 'WHITE'", 
+                                                "SITEID == 709"),
                         subject_column_name   = 'USUBJID') 
   
-  testthat::expect_warning(attrition_object %>% visR::visr(font_size = "visR"))
-  testthat::expect_warning(attrition_object %>% visR::visr(font_size = NA))
-  testthat::expect_warning(attrition_object %>% visR::visr(font_size = NULL))
-  testthat::expect_warning(attrition_object %>% visR::visr(font_size = TRUE))
-  testthat::expect_warning(attrition_object %>% visR::visr(font_size = list()))
+  testthat::expect_warning(attr_object %>% visR::visr(font_size = "visR"))
+  testthat::expect_warning(attr_object %>% visR::visr(font_size = NA))
+  testthat::expect_warning(attr_object %>% visR::visr(font_size = NULL))
+  testthat::expect_warning(attr_object %>% visR::visr(font_size = TRUE))
+  testthat::expect_warning(attr_object %>% visR::visr(font_size = list()))
   
 })
 
 testthat::test_that("T4.16 An error when `fill` is a `character` string but not a valid colour.", {
   
-  attrition_object <- adtte %>%
+  attr_object <- adtte %>%
     visR::get_attrition(criteria_descriptions = c("1. Placebo Group", 
                                                   "2. Be 75 years of age or older.",
                                                   "3. White", 
                                                   "4. Site 709"),
-                        criteria_conditions   = c("TRTP=='Placebo'",
-                                                  "AGE>=75",
-                                                  "RACE=='WHITE'", 
-                                                  "SITEID==709"),
-                        subject_column_name   = 'USUBJID') 
+                        criteria_conditions = c("TRTP == 'Placebo'",
+                                                "AGE >= 75",
+                                                "RACE == 'WHITE'", 
+                                                "SITEID == 709"),
+                        subject_column_name = 'USUBJID') 
   
   could_generate_plot <- tryCatch ({
     
-    tmp <- print(attrition_object %>% visR::visr(fill = "visR"))
+    tmp <- print(attr_object %>% visR::visr(fill = "visR"))
     TRUE
     
   }, error=function(cond) {
@@ -843,41 +849,41 @@ testthat::test_that("T4.16 An error when `fill` is a `character` string but not 
 
 testthat::test_that("T4.17 An error when `fill` is not a `character` string.", {
   
-  attrition_object <- adtte %>%
+  attr_object <- adtte %>%
     visR::get_attrition(criteria_descriptions = c("1. Placebo Group", 
                                                   "2. Be 75 years of age or older.",
                                                   "3. White", 
                                                   "4. Site 709"),
-                        criteria_conditions   = c("TRTP=='Placebo'",
-                                                  "AGE>=75",
-                                                  "RACE=='WHITE'", 
-                                                  "SITEID==709"),
-                        subject_column_name   = 'USUBJID') 
+                        criteria_conditions = c("TRTP == 'Placebo'",
+                                                "AGE >= 75",
+                                                "RACE == 'WHITE'", 
+                                                "SITEID == 709"),
+                        subject_column_name = 'USUBJID') 
   
-  testthat::expect_warning(attrition_object %>% visR::visr(fill = 1))
-  testthat::expect_warning(attrition_object %>% visR::visr(fill = NA))
-  testthat::expect_warning(attrition_object %>% visR::visr(fill = NULL))
-  testthat::expect_warning(attrition_object %>% visR::visr(fill = TRUE))
-  testthat::expect_warning(attrition_object %>% visR::visr(fill = list()))
+  testthat::expect_warning(attr_object %>% visR::visr(fill = 1))
+  testthat::expect_warning(attr_object %>% visR::visr(fill = NA))
+  testthat::expect_warning(attr_object %>% visR::visr(fill = NULL))
+  testthat::expect_warning(attr_object %>% visR::visr(fill = TRUE))
+  testthat::expect_warning(attr_object %>% visR::visr(fill = list()))
   
 })
 
 testthat::test_that("T4.18 An error when `border` is a `character` string but not a valid colour.", {
   
-  attrition_object <- adtte %>%
+  attr_object <- adtte %>%
     visR::get_attrition(criteria_descriptions = c("1. Placebo Group", 
                                                   "2. Be 75 years of age or older.",
                                                   "3. White", 
                                                   "4. Site 709"),
-                        criteria_conditions   = c("TRTP=='Placebo'",
-                                                  "AGE>=75",
-                                                  "RACE=='WHITE'", 
-                                                  "SITEID==709"),
-                        subject_column_name   = 'USUBJID') 
+                        criteria_conditions = c("TRTP == 'Placebo'",
+                                                "AGE >= 75",
+                                                "RACE == 'WHITE'", 
+                                                "SITEID == 709"),
+                        subject_column_name = 'USUBJID') 
   
   could_generate_plot <- tryCatch ({
     
-    tmp <- print(attrition_object %>% visR::visr(border = "border"))
+    tmp <- print(attr_object %>% visR::visr(border = "border"))
     TRUE
     
   }, error=function(cond) {
@@ -892,21 +898,21 @@ testthat::test_that("T4.18 An error when `border` is a `character` string but no
 
 testthat::test_that("T4.19 An error when `border` is not a `character` string.", {
   
-  attrition_object <- adtte %>%
+  attr_object <- adtte %>%
     visR::get_attrition(criteria_descriptions = c("1. Placebo Group", 
                                                   "2. Be 75 years of age or older.",
                                                   "3. White", 
                                                   "4. Site 709"),
-                        criteria_conditions   = c("TRTP=='Placebo'",
-                                                  "AGE>=75",
-                                                  "RACE=='WHITE'", 
-                                                  "SITEID==709"),
-                        subject_column_name   = 'USUBJID') 
+                        criteria_conditions = c("TRTP == 'Placebo'",
+                                                "AGE >= 75",
+                                                "RACE == 'WHITE'", 
+                                                "SITEID == 709"),
+                        subject_column_name = 'USUBJID') 
   
-  testthat::expect_warning(attrition_object %>% visR::visr(border = 1))
-  testthat::expect_warning(attrition_object %>% visR::visr(border = NA))
-  testthat::expect_warning(attrition_object %>% visR::visr(border = NULL))
-  testthat::expect_warning(attrition_object %>% visR::visr(border = TRUE))
-  testthat::expect_warning(attrition_object %>% visR::visr(border = list()))
+  testthat::expect_warning(attr_object %>% visR::visr(border = 1))
+  testthat::expect_warning(attr_object %>% visR::visr(border = NA))
+  testthat::expect_warning(attr_object %>% visR::visr(border = NULL))
+  testthat::expect_warning(attr_object %>% visR::visr(border = TRUE))
+  testthat::expect_warning(attr_object %>% visR::visr(border = list()))
   
 })

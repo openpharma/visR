@@ -1,6 +1,6 @@
 #' @title Specifications test-apply_theme.R
 #' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2021-11-02 00:05:52
+#' @section Last update date: 2021-11-02 18:37:49
 #'
 #' @section List of tested specifications
 #' T1. The `define_theme()` function returns a `visR_theme` object can contain valid input parameters for `apply_theme()`.
@@ -101,13 +101,13 @@ testthat::test_that("T1.8 A warning when `fontsizes` is an empty `list`.", {
 
 testthat::test_that("T1.9 A warning when `fontsizes` is an unnamed `list`.", {
   
-  testthat::expect_warning(visR::define_theme(fontsizes = list("v", "i", "s", "R")))
+  testthat::expect_warning(visR::define_theme(fontsizes = list("s", "R")))
   
 })
 
 testthat::test_that("T1.10 No warning when `fontsizes` is a named `list`.", {
   
-  testthat::expect_warning(visR::define_theme(fontsizes = list("visR" = "visR")), NA)
+  testthat::expect_warning(visR::define_theme(fontsizes = list("a" = "a")), NA)
   
 })
 
@@ -138,7 +138,7 @@ testthat::test_that("T1.14 A warning when `fontfamily` is an empty string.", {
 
 testthat::test_that("T1.15 A warning when `fontfamily` is a vector of strings.", {
   
-  testthat::expect_warning(visR::define_theme(fontfamily = c("Times", "Helvetica")))
+  testthat::expect_warning(visR::define_theme(fontfamily = c("a", "a")))
   
 })
 
@@ -474,10 +474,10 @@ testthat::test_that("T2.14 The legend_position applied through `visR::apply_them
   ggb_bottom <- ggplot2::ggplot_build(gg_bottom)
   ggb_left   <- ggplot2::ggplot_build(gg_left)
   
-  testthat::expect_equal(theme_top$legend_position,    ggb_top$plot$theme$legend.position)
-  testthat::expect_equal(theme_right$legend_position,  ggb_right$plot$theme$legend.position)
+  testthat::expect_equal(theme_top$legend_position, ggb_top$plot$theme$legend.position)
+  testthat::expect_equal(theme_right$legend_position, ggb_right$plot$theme$legend.position)
   testthat::expect_equal(theme_bottom$legend_position, ggb_bottom$plot$theme$legend.position)
-  testthat::expect_equal(theme_left$legend_position,   ggb_left$plot$theme$legend.position)
+  testthat::expect_equal(theme_left$legend_position, ggb_left$plot$theme$legend.position)
   
 })
 
@@ -506,9 +506,9 @@ testthat::test_that("T2.15 The legend_position defined in `visR::visr()` is corr
   ggb_bottom <- ggplot2::ggplot_build(gg_bottom)
   ggb_left   <- ggplot2::ggplot_build(gg_left)
   
-  testthat::expect_true("top"    %in% ggb_top$plot$theme$legend.position)
-  testthat::expect_true("right"  %in% ggb_right$plot$theme$legend.position)
+  testthat::expect_true("top" %in% ggb_top$plot$theme$legend.position)
+  testthat::expect_true("right" %in% ggb_right$plot$theme$legend.position)
   testthat::expect_true("bottom" %in% ggb_bottom$plot$theme$legend.position)
-  testthat::expect_true("left"   %in% ggb_left$plot$theme$legend.position)
+  testthat::expect_true("left" %in% ggb_left$plot$theme$legend.position)
   
 })

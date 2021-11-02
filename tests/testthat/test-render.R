@@ -1,6 +1,6 @@
 #' @title Specifications test-render.R
 #' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2021-11-02 00:05:52
+#' @section Last update date: 2021-11-02 18:37:49
 #'
 #' @section List of tested specifications
 #' T1. The function `render.tableone()` properly renders a `render.tableone` object.
@@ -150,16 +150,24 @@ testthat::test_that("T1.7 No error when `footnote` is defined.", {
   adtte_tableone <- adtte %>%
     visR::get_tableone() 
   
-  adtte_tableone %>% visR:::render.tableone(title = NULL, datasource = NULL, footnote = NULL) %>%
+  adtte_tableone %>% visR:::render.tableone(title = NULL, 
+                                            datasource = NULL, 
+                                            footnote = NULL) %>%
     testthat::expect_error(NA)
   
-  adtte_tableone %>% visR:::render.tableone(title = NULL, datasource = NULL, footnote = 1) %>%
+  adtte_tableone %>% visR:::render.tableone(title = NULL, 
+                                            datasource = NULL, 
+                                            footnote = 1) %>%
     testthat::expect_error(NA)
   
-  adtte_tableone %>% visR:::render.tableone(title = NULL, datasource = NULL, footnote = "visR") %>%
+  adtte_tableone %>% visR:::render.tableone(title = NULL, 
+                                            datasource = NULL, 
+                                            footnote = "visR") %>%
     testthat::expect_error(NA)
   
-  adtte_tableone %>% visR:::render.tableone(title = NULL, datasource = NULL, footnote = c(1, 2, 3)) %>%
+  adtte_tableone %>% visR:::render.tableone(title = NULL, 
+                                            datasource = NULL, 
+                                            footnote = c(1, 2, 3)) %>%
     testthat::expect_error(NA)
   
 })
@@ -278,7 +286,10 @@ testthat::test_that("T1.14 No error when `output_format` is 'latex' and `engine`
   adtte_tableone <- adtte %>%
     visR::get_tableone() 
   
-  adtte_tableone %>% visR:::render.tableone(title = NULL, datasource = NULL, output_format = "latex", engine = "kable") %>%
+  adtte_tableone %>% visR:::render.tableone(title = NULL, 
+                                            datasource = NULL, 
+                                            output_format = "latex", 
+                                            engine = "kable") %>%
     testthat::expect_error(NA)
   
 })
@@ -292,10 +303,11 @@ testthat::test_that("T1.16 No error when `engine` is in ['dt', 'datatable', 'dat
     
     for (download_format in c("copy", "csv", "excel")) {
       
-      adtte_tableone %>% visR:::render.tableone(title = NULL, 
-                                                datasource = NULL, 
-                                                engine = engine, 
-                                                download_format = download_format) %>%
+      adtte_tableone %>% 
+        visR:::render.tableone(title = NULL,
+                               datasource = NULL, 
+                               engine = engine, 
+                               download_format = download_format) %>%
         testthat::expect_error(NA)
       
     }
@@ -312,10 +324,11 @@ testthat::test_that("T1.17 A warning when `engine` is not in ['dt', 'datatable',
     
     for (download_format in c("copy", "csv", "excel")) {
       
-      adtte_tableone %>% visR:::render.tableone(title = NULL, 
-                                                datasource = NULL, 
-                                                engine = engine, 
-                                                download_format = download_format) %>%
+      adtte_tableone %>% 
+        visR:::render.tableone(title = NULL,
+                               datasource = NULL, 
+                               engine = engine, 
+                               download_format = download_format) %>%
         testthat::expect_warning()
       
     }
@@ -337,7 +350,7 @@ testthat::test_that("T1.18 A warning when `download_format` is not 'copy', 'csv'
   
 })
 
-# Requirement T2 -------------------------------------------------------------------------------------------------------
+# Requirement T2 ---------------------------------------------------------------
 
 testthat::context("render - T2. The function `render.risktable()` properly renders a `risktable` object.")
 
@@ -384,16 +397,20 @@ testthat::test_that("T2.4 No error when `title` is defined.", {
     visR::estimate_KM("SEX") %>%
     visR::get_risktable()
   
-  adtte_risktable %>% visR:::render.risktable(title = NULL, datasource = NULL) %>%
+  adtte_risktable %>% visR:::render.risktable(title = NULL, 
+                                              datasource = NULL) %>%
     testthat::expect_error(NA)
   
-  adtte_risktable %>% visR:::render.risktable(title = 1, datasource = NULL) %>%
+  adtte_risktable %>% visR:::render.risktable(title = 1, 
+                                              datasource = NULL) %>%
     testthat::expect_error(NA)
   
-  adtte_risktable %>% visR:::render.risktable(title = "visR", datasource = NULL) %>%
+  adtte_risktable %>% visR:::render.risktable(title = "visR", 
+                                              datasource = NULL) %>%
     testthat::expect_error(NA)
   
-  adtte_risktable %>% visR:::render.risktable(title = c(1, 2, 3), datasource = NULL) %>%
+  adtte_risktable %>% visR:::render.risktable(title = c(1, 2, 3),
+                                              datasource = NULL) %>%
     testthat::expect_error(NA)
   
 })
@@ -415,16 +432,20 @@ testthat::test_that("T2.6 No error when `datasource` is defined.", {
     visR::estimate_KM("SEX") %>%
     visR::get_risktable()
   
-  adtte_risktable %>% visR:::render.risktable(title = NULL, datasource = NULL) %>%
+  adtte_risktable %>% visR:::render.risktable(title = NULL, 
+                                              datasource = NULL) %>%
     testthat::expect_error(NA)
   
-  adtte_risktable %>% visR:::render.risktable(title = NULL, datasource = 1) %>%
+  adtte_risktable %>% visR:::render.risktable(title = NULL, 
+                                              datasource = 1) %>%
     testthat::expect_error(NA)
   
-  adtte_risktable %>% visR:::render.risktable(title = NULL, datasource = "visR") %>%
+  adtte_risktable %>% visR:::render.risktable(title = NULL, 
+                                              datasource = "visR") %>%
     testthat::expect_error(NA)
   
-  adtte_risktable %>% visR:::render.risktable(title = NULL, datasource = c(1, 2, 3)) %>%
+  adtte_risktable %>% visR:::render.risktable(title = NULL, 
+                                              datasource = c(1, 2, 3)) %>%
     testthat::expect_error(NA)
   
 })
@@ -435,16 +456,24 @@ testthat::test_that("T2.7 No error when `footnote` is defined.", {
     visR::estimate_KM("SEX") %>%
     visR::get_risktable()
   
-  adtte_risktable %>% visR:::render.risktable(title = NULL, datasource = NULL, footnote = NULL) %>%
+  adtte_risktable %>% visR:::render.risktable(title = NULL, 
+                                              datasource = NULL, 
+                                              footnote = NULL) %>%
     testthat::expect_error(NA)
   
-  adtte_risktable %>% visR:::render.risktable(title = NULL, datasource = NULL, footnote = 1) %>%
+  adtte_risktable %>% visR:::render.risktable(title = NULL, 
+                                              datasource = NULL, 
+                                              footnote = 1) %>%
     testthat::expect_error(NA)
   
-  adtte_risktable %>% visR:::render.risktable(title = NULL, datasource = NULL, footnote = "visR") %>%
+  adtte_risktable %>% visR:::render.risktable(title = NULL, 
+                                              datasource = NULL, 
+                                              footnote = "visR") %>%
     testthat::expect_error(NA)
   
-  adtte_risktable %>% visR:::render.risktable(title = NULL, datasource = NULL, footnote = c(1, 2, 3)) %>%
+  adtte_risktable %>% visR:::render.risktable(title = NULL, 
+                                              datasource = NULL, 
+                                              footnote = c(1, 2, 3)) %>%
     testthat::expect_error(NA)
   
 })
@@ -599,10 +628,11 @@ testthat::test_that("T2.15 No error when `engine` is in ['dt', 'datatable', 'dat
     
     for (download_format in c("copy", "csv", "excel")) {
       
-      adtte_risktable %>% visR:::render.risktable(title = NULL, 
-                                                  datasource = NULL, 
-                                                  engine = engine, 
-                                                  download_format = download_format) %>%
+      adtte_risktable %>% 
+        visR:::render.risktable(title = NULL, 
+                                datasource = NULL,
+                                engine = engine, 
+                                download_format = download_format) %>%
         testthat::expect_error(NA)
       
     }
@@ -620,10 +650,11 @@ testthat::test_that("T2.16 A warning when `engine` is not in ['dt', 'datatable',
     
     for (download_format in c("copy", "csv", "excel")) {
       
-      adtte_risktable %>% visR:::render.risktable(title = NULL, 
-                                                  datasource = NULL, 
-                                                  engine = engine, 
-                                                  download_format = download_format) %>%
+      adtte_risktable %>% 
+        visR:::render.risktable(title = NULL, 
+                                datasource = NULL, 
+                                engine = engine, 
+                                download_format = download_format) %>%
         testthat::expect_warning()
       
     }
@@ -637,12 +668,13 @@ testthat::test_that("T2.17 The strata-colnames of the `risktable` object are use
     visR::estimate_KM("SEX") %>%
     visR::get_risktable()
   
-  gg <- adtte_risktable %>% visR:::render.risktable(title = NULL, datasource = NULL)
+  gg <- adtte_risktable %>% 
+    visR:::render.risktable(title = NULL, datasource = NULL)
   gg_data <- gg["_data"] %>% as.data.frame()
   
-  risktable_strata_names <- colnames(adtte_risktable)[3:length(colnames(adtte_risktable))]
+  strata_names <- colnames(adtte_risktable)[3:length(colnames(adtte_risktable))]
   
-  testthat::expect_identical(risktable_strata_names, gg_data[,1])
+  testthat::expect_identical(strata_names, gg_data[,1])
   
 })
 
@@ -684,7 +716,8 @@ testthat::test_that("T2.19 The values of the evalutated metric are pivoted wide.
     visR::estimate_KM("SEX") %>%
     visR::get_risktable()
   
-  gg <- adtte_risktable %>% visR:::render.risktable(title = NULL, datasource = NULL)
+  gg <- adtte_risktable %>% 
+    visR:::render.risktable(title = NULL, datasource = NULL)
   gg_data <- gg["_data"] %>% as.data.frame()
   female_vals <- as.numeric(t(gg_data)[3:length(gg_data),1])
   male_vals <- as.numeric(t(gg_data)[3:length(gg_data),2])
@@ -694,7 +727,7 @@ testthat::test_that("T2.19 The values of the evalutated metric are pivoted wide.
   
 })
 
-# Requirement T3 -------------------------------------------------------------------------------------------------------
+# Requirement T3 ---------------------------------------------------------------
 
 testthat::context("render - T3. The function `render.data.frame()` properly renders a `data.frame` object.")
 
@@ -736,7 +769,7 @@ testthat::test_that("T3.2 A warning when `engine` is 'dt', 'datatable' or 'datat
   
 })
 
-# Requirement T4 -------------------------------------------------------------------------------------------------------
+# Requirement T4 ---------------------------------------------------------------
 
 testthat::context("render - T4. The function `check_rendering_input()` only permits valid `output_format` and `engine` options.")
 
@@ -757,17 +790,24 @@ testthat::test_that("T4.1 No error when `output_format` is `html` or `latex` and
 testthat::test_that("T4.2 An error when `output_format` and/or `engine` are missing, `NULL` or `NA`.", {
   
   arg_missing_waring <- "Please provide an output_format and an engine."
-  visR:::check_rendering_input(output_format = "visR") %>% testthat::expect_error(arg_missing_waring)
-  visR:::check_rendering_input(engine = "visR") %>% testthat::expect_error(arg_missing_waring)
-  visR:::check_rendering_input(output_format = "html", engine = NULL) %>% testthat::expect_error(arg_missing_waring)
-  visR:::check_rendering_input(engine = "kable", output_format = NULL) %>% testthat::expect_error(arg_missing_waring)
-  visR:::check_rendering_input(engine = NULL, output_format = NULL) %>% testthat::expect_error(arg_missing_waring)
+  visR:::check_rendering_input(output_format = "visR") %>% 
+    testthat::expect_error(arg_missing_waring)
+  visR:::check_rendering_input(engine = "visR") %>% 
+    testthat::expect_error(arg_missing_waring)
+  visR:::check_rendering_input(output_format = "html", engine = NULL) %>% 
+    testthat::expect_error(arg_missing_waring)
+  visR:::check_rendering_input(engine = "kable", output_format = NULL) %>% 
+    testthat::expect_error(arg_missing_waring)
+  visR:::check_rendering_input(engine = NULL, output_format = NULL) %>% 
+    testthat::expect_error(arg_missing_waring)
   
   expected_error <- "Currently implemented output engines are kable, gt and jquery datatables \\(DT\\). NA is not yet supported."
-  visR:::check_rendering_input(output_format = "html", engine = NA) %>% testthat::expect_error(expected_error)
+  visR:::check_rendering_input(output_format = "html", engine = NA) %>% 
+    testthat::expect_error(expected_error)
   
   expected_error <- "Currently supported output formats are html and latex. NA is not yet supported."
-  visR:::check_rendering_input(engine = "kable", output_format = NA) %>% testthat::expect_error()
+  visR:::check_rendering_input(engine = "kable", output_format = NA) %>% 
+    testthat::expect_error()
   
 })
 
@@ -787,7 +827,7 @@ testthat::test_that("T4.4 An error when `engine` is not `kable`, `gt`, `dt`, `da
   
 })
 
-# Requirement T5 -------------------------------------------------------------------------------------------------------
+# Requirement T5 ---------------------------------------------------------------
 
 testthat::context("render - T5. The function `render_datatable.data.frame()` creates an `htmlwidget` of the table.")
 
@@ -862,7 +902,7 @@ testthat::test_that("T5.6 When `download_format` is `NULL`, no button is added."
   
 })
 
-# Requirement T6 -------------------------------------------------------------------------------------------------------
+# Requirement T6 ---------------------------------------------------------------
 
 testthat::context("render - T6. The function `get_gt.data.frame()` properly passes the input along to `gt::gt()`.")
 
