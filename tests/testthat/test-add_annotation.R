@@ -1,6 +1,6 @@
 #' @title Specifications test-add_annotation.R
-#' @section Last updated by: Tim Treis (tim.treis(at)outlook.de)
-#' @section Last update date: 2021-10-28 16:29:24
+#' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
+#' @section Last update date: 2021-11-02 00:05:52
 #'
 #' @section List of tested specifications
 #' T1. The function adds annotations to an object of class `ggplot`
@@ -29,7 +29,7 @@
 #' T6.2 The attribute components contains the annotation
 #' T6.3 The output has the same class as the original ggplot
 
-# Requirement T1 ------------------------------------------------------------------------------------------------------
+# Requirement T1 ---------------------------------------------------------------
 
 testthat::context("add_annotation - T1. The function adds annotations to an object of class `ggplot`")
 

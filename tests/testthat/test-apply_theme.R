@@ -1,6 +1,6 @@
 #' @title Specifications test-apply_theme.R
-#' @section Last updated by: Tim Treis (tim.treis(at)outlook.de)
-#' @section Last update date: 2021-10-28 16:29:24
+#' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
+#' @section Last update date: 2021-11-02 00:05:52
 #'
 #' @section List of tested specifications
 #' T1. The `define_theme()` function returns a `visR_theme` object can contain valid input parameters for `apply_theme()`.
@@ -45,7 +45,7 @@
 #' T2.14 The legend_position applied through `visR::apply_theme()` is used in the resulting `ggplot` object.
 #' T2.15 The legend_position defined in `visR::visr()` is correctly passed through to the resulting `ggplot` object.
 
-# Requirement T1 ------------------------------------------------------------------------------------------------------
+# Requirement T1 ---------------------------------------------------------------
 
 testthat::context("apply_theme - T1. The `define_theme()` function returns a `visR_theme` object can contain valid input parameters for `apply_theme()`.")
 

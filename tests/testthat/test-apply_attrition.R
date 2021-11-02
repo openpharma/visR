@@ -1,6 +1,6 @@
 #' @title Specifications test-apply_attrition.R
-#' @section Last updated by: Tim Treis (tim.treis(at)outlook.de)
-#' @section Last update date: 2021-06-10 17:14:24
+#' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
+#' @section Last update date: 2021-11-02 00:05:52
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a `data.frame` `tibble` or `data.table`
@@ -18,7 +18,7 @@
 #' T2.4 An error when `data` is missing.
 #' T2.5 An error when `criteria_conditions` is missing.
 #' T3. The function filters correctly when provided a vector of single filters
-#' testthat::test_that(# T3.1 Correct filtering string column
+#' T3.1 Correct filtering string column
 #' T3.2 Correct filtering integer column
 #' T3.3 Correct filtering factor column
 #' T4. The function filters correctly when provided a vector of combined filters
@@ -27,7 +27,7 @@
 #' T5. The returned object is of correct class
 #' T5.1 The object is of class `data.frame`
 
-# Requirement T1 ------------------------------------------------------------------------------------------------------
+# Requirement T1 ---------------------------------------------------------------
 
 testthat::context("apply_attrition - T1. The function accepts a `data.frame` `tibble` or `data.table`")
 
@@ -98,7 +98,7 @@ testthat::test_that("T1.7 An error when `data` does not exist in the global envi
     
 })
 
-# Requirement T2 -------------------------------------------------------------------------------------------------------
+# Requirement T2 ---------------------------------------------------------------
 
 testthat::context("apply_attrition - T2. The function correctly handles arguments")
 
@@ -145,11 +145,11 @@ testthat::test_that("T2.5 An error when `criteria_conditions` is missing.",{
   
 })
 
-# Requirement T3 -------------------------------------------------------------------------------------------------------
+# Requirement T3 ---------------------------------------------------------------
 
 testthat::context("apply_attrition - T3. The function filters correctly when provided a vector of single filters")
 
-testthat::test_that("# T3.1 Correct filtering string column",{
+testthat::test_that("T3.1 Correct filtering string column",{
     
     testthat::expect_equal(
         visR::apply_attrition(adtte, criteria_conditions   = c("TRTP=='Placebo'")
@@ -176,7 +176,7 @@ testthat::test_that("T3.3 Correct filtering factor column",{
     
 })
 
-# Requirement T4 -------------------------------------------------------------------------------------------------------
+# Requirement T4 ---------------------------------------------------------------
 
 testthat::context("apply_attrition - T4. The function filters correctly when provided a vector of combined filters")
 
@@ -231,7 +231,7 @@ testthat::test_that("T4.2 Correct filtering using a combined filter containing l
     
 })
 
-# Requirement T5 -------------------------------------------------------------------------------------------------------
+# Requirement T5 ---------------------------------------------------------------
 
 testthat::context("apply_attrition - T5. The returned object is of correct class")
 

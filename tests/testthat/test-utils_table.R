@@ -1,6 +1,6 @@
 #' @title Specifications test-utils_table.R
-#' @section Last updated by: Tim Treis (tim.treis(at)outlook.de)
-#' @section Last update date: 2021-10-28 16:29:24
+#' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
+#' @section Last update date: 2021-11-02 00:05:52
 #'
 #' @section List of tested specifications
 #' NA
@@ -10,7 +10,7 @@
 #' T4. Correct values for summarize_short.numeric
 #' T5. Correct values for summarize_short.factor and summarize_short.string
 
-# Requirement T1 ------------------------------------------------------------------------------------------------------
+# Requirement T1 ---------------------------------------------------------------
 
 testthat::context("utils_table - T1. Correct values for summarize_long.numeric")
 
