@@ -1,6 +1,6 @@
 #' @title Specifications test-get_quantile.R
 #' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2021-11-02 00:05:52
+#' @section Last update date: 2021-11-02 18:37:49
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a `survfit` object
@@ -67,48 +67,51 @@ testthat::test_that("T2.1 An error when the tolerance is not numeric",{
 testthat::test_that("T2.2 No error when the tolerance is numeric",{
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
-  testthat::expect_error(visR::get_quantile(survfit_object, tolerance = 0.0000000000000000000000001), NA)
+  testthat::expect_error(visR::get_quantile(survfit_object, 
+                                            tolerance = 0.000000000001), NA)
 })
 
 # Requirement T3 ---------------------------------------------------------------
 
 testthat::context("get_pvalue - T3. The function accepts a numeric vector specifying the probabilities")
 
-testthat::test_that("T3.1 No error when the probability vector is numeric and contains values below or equal to 1",{
+testthat::test_that("T3.1 No error when the probability vector is numeric and contains values below or equal to 1", {
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
-  testthat::expect_error(visR::get_quantile(survfit_object, probs = c(0.50, 0.10)), NA)
+  testthat::expect_error(visR::get_quantile(survfit_object, 
+                                            probs = c(0.50, 0.10)), NA)
 })
 
-testthat::test_that("T3.2 An error when the probabilities are not numeric",{
+testthat::test_that("T3.2 An error when the probabilities are not numeric", {
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
   testthat::expect_error(visR::get_quantile(survfit_object, probs = "blah"))
 })
 
-testthat::test_that("T3.3 An error when the probabilities requested are above 1",{
+testthat::test_that("T3.3 An error when the probabilities requested are above 1", {
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
-  testthat::expect_error(visR::get_quantile(survfit_object, probs = c(0.50, 1.00, 3.00)))
+  testthat::expect_error(visR::get_quantile(survfit_object, 
+                                            probs = c(0.50, 1.00, 3.00)))
 })
 
 # Requirement T4 ---------------------------------------------------------------
 
 testthat::context("get_pvalue - T4. The function accepts a logical argument to request for the confidence intervals of the quantiles")
 
-testthat::test_that("T4.1 No error when the argument to request confidence intervals is logical",{
+testthat::test_that("T4.1 No error when the argument to request confidence intervals is logical", {
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
   testthat::expect_error(visR::get_quantile(survfit_object, conf.int = TRUE), NA)
 })
 
-testthat::test_that("T4.2 An error when the argument to request confidence intervals is not logical",{
+testthat::test_that("T4.2 An error when the argument to request confidence intervals is not logical", {
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
   testthat::expect_error(visR::get_quantile(survfit_object, conf.int = "blah"))
 })
 
-testthat::test_that("T4.3 An error when the confidence intervals are requested, but not estimated in the `survfit` object",{
+testthat::test_that("T4.3 An error when the confidence intervals are requested, but not estimated in the `survfit` object", {
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA", conf.int = FALSE)
   testthat::expect_error(visR::get_quantile(survfit_object))
@@ -118,7 +121,7 @@ testthat::test_that("T4.3 An error when the confidence intervals are requested, 
 
 testthat::context("get_pvalue - T5. The function is a wrapper around quantile method for `survfit` objects")
 
-testthat::test_that("T5.1 The get_quantiles provides the same information as get_quantiles",{
+testthat::test_that("T5.1 The get_quantiles provides the same information as get_quantiles", {
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
   quant_surv <- quantile(survfit_object) 

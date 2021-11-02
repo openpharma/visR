@@ -1,13 +1,13 @@
 #' @title Specifications test-get_tableone.R
 #' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2021-11-02 00:05:52
+#' @section Last update date: 2021-11-02 18:37:49
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a `data.frame` `tibble` or `data.table`
 #' T1.1. No error when `data` is of class `data.frame`
 #' T1.2. No error when `data` is of class `tibble`
 #' T1.3 No error when `data` is of class `data.table`
-#' T1.4. An error when `data` is of class `list`
+#' T1.4 An error when `data` is of class `list`
 #' T1.5 An error when `data` is NULL
 #' T2. The function accepts a list of `colnames` in the `data` as `strata`
 #' T2.1 An error when `strata` is a number

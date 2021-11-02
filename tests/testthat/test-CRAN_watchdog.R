@@ -10,11 +10,11 @@
 #' T1.4 No \dontrun{} tags unless the code actually takes a long time.
 #' T1.5 The use of 'options()' is immediately preemptively reverted.
 
-# Requirement T1 -------------------------------------------------------------------------------------------------------
+# Requirement T1 ---------------------------------------------------------------
 
 testthat::context("CRAN_watchdog - T1. Our codebase doesn't violate CRAN style-guidelines.")
 
-testthat::test_that("T1.1 TRUE/FALSE are used instead of T/F.",{
+testthat::test_that("T1.1 TRUE/FALSE are used instead of T/F.", {
 
   test_files <- .get_visR_files(functions = TRUE,
                                tests = TRUE,
@@ -55,7 +55,7 @@ testthat::test_that("T1.1 TRUE/FALSE are used instead of T/F.",{
 
 })
 
-testthat::test_that("T1.2 Each function documentation contains a \value{} tag.",{
+testthat::test_that("T1.2 Each function documentation contains a \value{} tag.", {
 
   test_files <- .get_visR_files(documentation = TRUE)
 
@@ -97,7 +97,7 @@ testthat::test_that("T1.2 Each function documentation contains a \value{} tag.",
 
 })
 
-testthat::test_that("T1.3 The existence of packages is not checked through 'installed.packages()'.",{
+testthat::test_that("T1.3 The existence of packages is not checked through 'installed.packages()'.", {
 
   # installed.packages might be slow on CRAN servers
 
@@ -110,7 +110,8 @@ testthat::test_that("T1.3 The existence of packages is not checked through 'inst
 
   for (test_file in test_files) {
 
-    hits <- base::grep("\\\\installed.packages", base::readLines(test_file, warn = FALSE))
+    hits <- base::grep("\\\\installed.packages", 
+                       base::readLines(test_file, warn = FALSE))
 
     if (length(hits) > 0) {
 
@@ -127,7 +128,7 @@ testthat::test_that("T1.3 The existence of packages is not checked through 'inst
 
 })
 
-testthat::test_that("T1.4 No \\dontrun{} tags unless the code actually takes a long time.",{
+testthat::test_that("T1.4 No \\dontrun{} tags unless the code actually takes a long time.", {
 
   test_files <- .get_visR_files(documentation = TRUE)
 
@@ -143,7 +144,8 @@ testthat::test_that("T1.4 No \\dontrun{} tags unless the code actually takes a l
 
     if (sum(grepl(exceptions_collapsed, test_file)) == 0) {
 
-      hits <- base::grep("\\\\dontrun\\{", base::readLines(test_file, warn = FALSE))
+      hits <- base::grep("\\\\dontrun\\{", 
+                         base::readLines(test_file, warn = FALSE))
 
       if (length(hits) > 0) {
 
@@ -161,7 +163,7 @@ testthat::test_that("T1.4 No \\dontrun{} tags unless the code actually takes a l
 
 })
 
-testthat::test_that("T1.5 The use of 'options()' is immediately preemptively reverted.",{
+testthat::test_that("T1.5 The use of 'options()' is immediately preemptively reverted.", {
 
   test_files <- .get_visR_files(functions = TRUE,
                                 tests = TRUE,

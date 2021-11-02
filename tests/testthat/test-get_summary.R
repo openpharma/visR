@@ -1,6 +1,6 @@
 #' @title Specifications test-get_summary.R
 #' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2021-11-02 00:05:52
+#' @section Last update date: 2021-11-02 18:37:49
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a survival object
@@ -110,7 +110,8 @@ testthat::test_that("T2.4 The values in the column `strata` are the same as the 
 
 testthat::test_that("T2.5. The values in the column `strata` contain 'Overall' when no strata are present in the `survfit` object",{
   
-  survfit_object <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ 1, data = adtte)
+  survfit_object <- survival::survfit(survival::Surv(AVAL, 1 - CNSR) ~ 1, 
+                                      data = adtte)
   strata <- unlist(visR::get_summary(survfit_object, statlist = c("strata")))
   
   testthat::expect_equal("Overall", unname(strata))
@@ -129,9 +130,10 @@ testthat::test_that("T2.6 The values in the column `No. of subjects` are the sam
 testthat::test_that("T2.7 The values in the column `No. of events` are the same as the events in the `survfit` object",{
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTP")
-  df <- data.frame(`n.events` = survfit_object$n.event,
-                   strata = rep(names(survfit_object$strata),
-                                survfit_object$strata))
+  df <- data.frame(
+    `n.events` = survfit_object$n.event,
+    strata = rep(names(survfit_object$strata), survfit_object$strata)
+  )
   aggregated_events <- stats::aggregate(n.events ~ strata, data = df, sum)$n.events
   strata <- unlist(visR::get_summary(survfit_object, statlist = c("events")))
   
@@ -143,9 +145,11 @@ testthat::test_that("T2.8 The values in the column `Median(surv.time)` are the s
   
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTP")
   
-  df <- data.frame(surv = survfit_object$surv,
-                   time = survfit_object$time,
-                   strata = rep(names(survfit_object$strata), survfit_object$strata))
+  df <- data.frame(
+    surv = survfit_object$surv,
+    time = survfit_object$time,
+    strata = rep(names(survfit_object$strata), survfit_object$strata)
+  )
   
   suppressWarnings(
     inds <- stats::aggregate(surv ~ strata, data = df, function(x) { 
@@ -167,9 +171,11 @@ testthat::test_that("T2.9 The values in the column `0.95LCL` are the same as the
   
   survfit_object <-  visR::estimate_KM(adtte, strata = "TRTP")
   
-  df <- data.frame(lower = survfit_object$lower,
-                   time = survfit_object$time, 
-                   strata = rep(names(survfit_object$strata), survfit_object$strata))
+  df <- data.frame(
+    lower = survfit_object$lower,
+    time = survfit_object$time, 
+    strata = rep(names(survfit_object$strata), survfit_object$strata)
+  )
   
   suppressWarnings(
     inds <- stats::aggregate(lower ~ strata, data = df, function(x) { 
@@ -191,9 +197,11 @@ testthat::test_that("T2.10 The values in the column `0.95UCL` are the same as th
   
   survfit_object <-  visR::estimate_KM(adtte, strata = "TRTP")
   
-  df <- data.frame(surv = survfit_object$upper,
-                   time = survfit_object$time,
-                   strata = rep(names(survfit_object$strata), survfit_object$strata))
+  df <- data.frame(
+    surv = survfit_object$upper,
+    time = survfit_object$time,
+    strata = rep(names(survfit_object$strata), survfit_object$strata)
+  )
   
   suppressWarnings(
     inds <- stats::aggregate(surv ~ strata, data = df, function(x) { 
@@ -215,10 +223,12 @@ testthat::test_that("T2.11 The values in the column `0.95CI` are the same as the
   
   survfit_object <-  visR::estimate_KM(adtte, strata = "TRTP")
   
-  df <- data.frame(lower = survfit_object$lower,
-                   upper = survfit_object$upper,
-                   time = survfit_object$time,
-                   strata = rep(names(survfit_object$strata), survfit_object$strata))
+  df <- data.frame(
+    lower = survfit_object$lower,
+    upper = survfit_object$upper,
+    time = survfit_object$time,
+    strata = rep(names(survfit_object$strata), survfit_object$strata)
+  )
   
   suppressWarnings(
     inds <- stats::aggregate(upper ~ strata, data = df, function(x) { 

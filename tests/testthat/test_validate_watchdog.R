@@ -6,7 +6,7 @@
 #' T1. Details on last change for test files are recorded.
 #' T1.1 executed.
 
-# Requirement T1 -------------------------------------------------------------------------------------------------------
+# Requirement T1 ---------------------------------------------------------------
 
 context("validate_watchdog - T1. Details on last change for test files are recorded.")
 
@@ -30,7 +30,7 @@ testthat::test_that("T1.1 executed.",{
   })
   
   last_change_df <- last_change_df %>% 
-    tidyr::separate(log, into = c("last_edit_by", "last_edit_when"), sep = ";") %>%
+    tidyr::separate(log, into = c("last_edit_by", "last_edit_when"), ";") %>%
     dplyr::mutate(last_edit_by = gsub("\\@", "\\@\\@", last_edit_by))
   
   apply(last_change_df, 1, function(x) {
@@ -55,7 +55,9 @@ testthat::test_that("T1.1 executed.",{
                          paste0(rep("-", 63), collapse = ""), 
                          "\n\ntestthat::context")
     
-    file_content <- gsub(".*\\@title(.+?)\n.+?context", new_header, file_content)
+    file_content <- gsub(pattern = ".*\\@title(.+?)\n.+?context", 
+                         replacement = new_header, 
+                         x = file_content)
 
     cat(file_content, file = x["full_path"])
     
