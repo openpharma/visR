@@ -1,6 +1,6 @@
 #' @title Specifications test-tidyme.R
-#' @section Last updated by: Tim Treis (tim.treis(at)outlook.de)
-#' @section Last update date: 2021-10-28 16:29:24
+#' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
+#' @section Last update date: 2021-11-02 00:05:52
 #'
 #' @section List of tested specifications
 #' T1. The function accepts an S3 object
@@ -14,7 +14,7 @@
 #' T3.2 The S3 method, associated with a `survfit` object, has columns representing all list elements of the S3 object
 #' T3.3 The S3 method, associated with a `survfit` object, turns list elements that represent integer numbers into integers
 
-# Requirement T1 ------------------------------------------------------------------------------------------------------
+# Requirement T1 ---------------------------------------------------------------
 
 testthat::context("tidyme - T1. The function accepts an S3 object")
 
@@ -42,7 +42,7 @@ testthat::test_that("T1.3 No error when a non-`survfit` S3 object is passed to t
 
 })
 
-# Requirement T2 -------------------------------------------------------------------------------------------------------
+# Requirement T2 ---------------------------------------------------------------
 
 testthat::context("tidyme - T2. The function tidies up an associated object")
 
@@ -55,7 +55,7 @@ testthat::test_that("T2.1 The default method throws a message to indicate it rel
 })
 
 
-# Requirement T3 -------------------------------------------------------------------------------------------------------
+# Requirement T3 ---------------------------------------------------------------
 
 testthat::context("tidyme - T3. The S3 method, associated with a `survfit` object, outputs an extended tidied tibble")
 
@@ -63,7 +63,7 @@ testthat::test_that("T3.1 The S3 method, associated with a `survfit` object, ret
 
   survfit_object <- visR::estimate_KM(data = adtte, strata = "TRTA")
   survfit_object_tidy <- tidyme(survfit_object)
-  testthat::expect_true(inherits(survfit_object_tidy, c("data.frame", "tbl", "tbl_df")))
+  testthat::expect_true(inherits(survfit_object_tidy, c("tbl", "tbl_df")))
 
 })
 
@@ -72,30 +72,34 @@ testthat::test_that("T3.2 The S3 method, associated with a `survfit` object, has
   survfit_object <- visR::estimate_KM(data = adtte, strata = "TRTA")
   survfit_object_tidy <- tidyme(survfit_object)
 
-  surv_object_df <- base::with(survfit_object, data.frame(
-                                                       time = as.integer(time),
-                                                       n.risk = as.integer(n.risk),
-                                                       n.event = as.integer(n.event),
-                                                       n.censor = as.integer(n.censor),
-                                                       surv,
-                                                       std.err,
-                                                       cumhaz,
-                                                       std.chaz,
-                                                       type,
-                                                       logse,
-                                                       conf.int,
-                                                       conf.type,
-                                                       lower,
-                                                       upper,
-                                                       stringsAsFactors = FALSE
-                                                       ))
+  surv_object_df <- base::with(survfit_object, 
+                               data.frame(time = as.integer(time),
+                                          n.risk = as.integer(n.risk),
+                                          n.event = as.integer(n.event),
+                                          n.censor = as.integer(n.censor),
+                                          surv,
+                                          std.err,
+                                          cumhaz,
+                                          std.chaz,
+                                          type,
+                                          logse,
+                                          conf.int,
+                                          conf.type,
+                                          lower,
+                                          upper,
+                                          stringsAsFactors = FALSE))
 
   surv_object_df <- surv_object_df %>%
-    dplyr::mutate(call = rep(list(survfit_object[["call"]]), sum(survfit_object[["strata"]])))
-  surv_object_df["strata"] <- rep(names(survfit_object[["strata"]]), survfit_object[["strata"]])
-  surv_object_df["n.strata"] <- rep(survfit_object[["n"]], survfit_object[["strata"]])
-  surv_object_df["PARAM"] <- rep(survfit_object[["PARAM"]], sum(survfit_object[["strata"]]))
-  surv_object_df["PARAMCD"] <- rep(survfit_object[["PARAMCD"]], sum(survfit_object[["strata"]]))
+    dplyr::mutate(call = rep(list(survfit_object[["call"]]), 
+                             sum(survfit_object[["strata"]])))
+  surv_object_df["strata"] <- rep(names(survfit_object[["strata"]]), 
+                                  survfit_object[["strata"]])
+  surv_object_df["n.strata"] <- rep(survfit_object[["n"]], 
+                                    survfit_object[["strata"]])
+  surv_object_df["PARAM"] <- rep(survfit_object[["PARAM"]], 
+                                 sum(survfit_object[["strata"]]))
+  surv_object_df["PARAMCD"] <- rep(survfit_object[["PARAMCD"]], 
+                                   sum(survfit_object[["strata"]]))
 
   surv_object_df <- surv_object_df %>% dplyr::as_tibble()
 

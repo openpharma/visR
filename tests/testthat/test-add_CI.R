@@ -1,6 +1,6 @@
 #' @title Specifications test-add_CI.R
-#' @section Last updated by: Tim Treis (tim.treis(at)outlook.de)
-#' @section Last update date: 2021-10-28 16:29:24
+#' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
+#' @section Last update date: 2021-11-02 00:05:52
 #'
 #' @section List of tested specifications
 #' T1. No errors when confidence intervals are added to the plots.
@@ -11,13 +11,13 @@
 #' T2. No errors when different amount of strata are used.
 #' T2.1 No error when only 1 strata is present.
 #' T2.2 No error when 2 or more strata are present
-#' T3.  Warnings in case of missing data or weird arguments are thrown.
+#' T3.  Warnings in case of missing data or unexpected arguments are thrown.
 #' T3.1 Error when `est.lower` and `est.upper` are not present.
 #' T3.2 Warning when no valid style was provided.
 #' T3.3 Warning when `alpha` is not in [0, 1].
 #' T3.4 Warning when `style` is `ribbon` but a `linetype` was specified.
 
-# Requirement T1 ------------------------------------------------------------------------------------------------------
+# Requirement T1 ---------------------------------------------------------------
 
 testthat::context("add_CI - T1. No errors when confidence intervals are added to the plots.")
 
@@ -158,7 +158,7 @@ testthat::test_that("T2.2 No error when 2 or more strata are present",{
 
 # Requirement T3 ---------------------------------------------------------------
 
-testthat::context("add_CI - T3.  Warnings in case of missing data or weird arguments are thrown.")
+testthat::context("add_CI - T3.  Warnings in case of missing data or unexpected arguments are thrown.")
 
 testthat::test_that("T3.1 Error when `est.lower` and `est.upper` are not present.",{
   

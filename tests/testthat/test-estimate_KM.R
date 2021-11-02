@@ -1,13 +1,13 @@
 #' @title Specifications test-estimate_KM.R
-#' @section Last updated by: Tim Treis (tim.treis(at)outlook.de)
-#' @section Last update date: 2021-10-28 16:29:24
+#' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
+#' @section Last update date: 2021-11-02 00:05:52
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a `data.frame` `tibble` or `data.table`
-#' T1.1. No error when `data` is of class `data.frame`
-#' T1.2. No error when `data` is of class `tibble`
-#' T1.3. No error when `data` is of class `data.table`
-#' T1.4. An error when `data` is of class `list`
+#' T1.1 No error when `data` is of class `data.frame`
+#' T1.2 No error when `data` is of class `tibble`
+#' T1.3 No error when `data` is of class `data.table`
+#' T1.4 An error when `data` is of an unexpected class, eg `list`
 #' T1.5 An error when `data` is NULL
 #' T2. The function relies on the presence of two numeric variables, specified through `AVAL` and `CNSR`, to be present in `data`
 #' T2.1 An error when colname specified through `AVAL` is not present in `data`
@@ -36,11 +36,11 @@
 #' T7.1 The function updates call$data when magrittr pipe is used
 #' T7.2 The function prefixes the function call with survival
 
-# Requirement T1 ------------------------------------------------------------------------------------------------------
+# Requirement T1 ---------------------------------------------------------------
 
 testthat::context("estimate_KM - T1. The function accepts a `data.frame` `tibble` or `data.table`")
 
-testthat::test_that("T1.1. No error when `data` is of class `data.frame`",{
+testthat::test_that("T1.1 No error when `data` is of class `data.frame`", {
 
   data <- adtte
   testthat::expect_error(visR::estimate_KM(data = data), NA)
@@ -48,14 +48,14 @@ testthat::test_that("T1.1. No error when `data` is of class `data.frame`",{
 })
 
 
-testthat::test_that("T1.2. No error when `data` is of class `tibble`",{
+testthat::test_that("T1.2 No error when `data` is of class `tibble`", {
 
   data <- dplyr::as_tibble(adtte)
   testthat::expect_error(visR::estimate_KM(data = data), NA)
 
 })
 
-testthat::test_that("T1.3. No error when `data` is of class `data.table`",{
+testthat::test_that("T1.3 No error when `data` is of class `data.table`", {
 
   if (nzchar(find.package("data.table"))){
     data <- data.table::as.data.table(adtte)
@@ -63,24 +63,24 @@ testthat::test_that("T1.3. No error when `data` is of class `data.table`",{
   }
 })
 
-testthat::test_that("T1.4. An error when `data` is of class `list`",{
+testthat::test_that("T1.4 An error when `data` is of an unexpected class, eg `list`", {
 
   data <- base::as.list(adtte)
   testthat::expect_error(visR::estimate_KM(data = data))
 
 })
 
-testthat::test_that("T1.5 An error when `data` is NULL",{
+testthat::test_that("T1.5 An error when `data` is NULL", {
 
   testthat::expect_error(visR::estimate_KM(data = NULL))
 
 })
 
-# Requirement T2 -------------------------------------------------------------------------------------------------------
+# Requirement T2 ---------------------------------------------------------------
 
 testthat::context("estimate_KM - T2. The function relies on the presence of two numeric variables, specified through `AVAL` and `CNSR`, to be present in `data`")
 
-testthat::test_that("T2.1 An error when colname specified through `AVAL` is not present in `data`",{
+testthat::test_that("T2.1 An error when colname specified through `AVAL` is not present in `data`", {
 
   data <- adtte[,-which(colnames(adtte) == "AVAL")]
 
@@ -88,7 +88,7 @@ testthat::test_that("T2.1 An error when colname specified through `AVAL` is not 
 
 })
 
-testthat::test_that("T2.2 An error when colname specified through `AVAL` is not numeric",{
+testthat::test_that("T2.2 An error when colname specified through `AVAL` is not numeric", {
 
   data <- adtte
   data[["AVAL"]] <- as.character(data[["AVAL"]])
@@ -97,7 +97,7 @@ testthat::test_that("T2.2 An error when colname specified through `AVAL` is not 
 
 })
 
-testthat::test_that("T2.3 No error when the colname specified through `AVAL` is not the proposed default",{
+testthat::test_that("T2.3 No error when the colname specified through `AVAL` is not the proposed default", {
 
   data <- adtte
   data$AVAL2 <- data$AVAL
@@ -107,7 +107,7 @@ testthat::test_that("T2.3 No error when the colname specified through `AVAL` is 
 
 })
 
-testthat::test_that("T2.4 An error when the colname specified through `CNSR` is not present in `data`",{
+testthat::test_that("T2.4 An error when the colname specified through `CNSR` is not present in `data`", {
 
 
   data <- adtte[,-which(colnames(adtte) == "CNSR")]
@@ -116,7 +116,7 @@ testthat::test_that("T2.4 An error when the colname specified through `CNSR` is 
 
 })
 
-testthat::test_that("T2.5 An error when the colname specified through `CNSR` is not numeric",{
+testthat::test_that("T2.5 An error when the colname specified through `CNSR` is not numeric", {
 
   data <- adtte
   data[["CNSR"]] <- as.character(data[["CNSR"]])
@@ -125,7 +125,7 @@ testthat::test_that("T2.5 An error when the colname specified through `CNSR` is 
 
 })
 
-testthat::test_that("T2.6 No error when the colname specified through `CNSR` is not the proposed default",{
+testthat::test_that("T2.6 No error when the colname specified through `CNSR` is not the proposed default", {
 
   data <- adtte
   data$CNSR2 <- data$CNSR
@@ -135,11 +135,11 @@ testthat::test_that("T2.6 No error when the colname specified through `CNSR` is 
 
 })
 
-# Requirement T3 -------------------------------------------------------------------------------------------------------
+# Requirement T3 ---------------------------------------------------------------
 
 testthat::context("estimate_KM - T3. The user can specify strata")
 
-testthat::test_that("T3.1 An error when the columns, specifying the strata are not available in `data`",{
+testthat::test_that("T3.1 An error when the columns, specifying the strata are not available in `data`", {
 
   data <- adtte
   testthat::expect_error(visR::estimate_KM(data = data, strata = "blah"))
@@ -153,7 +153,7 @@ testthat::test_that("T3.2 No error when strata is NULL",{
 
 })
 
-testthat::test_that("T3.3 When no strata are specified, an artificial strata is created 'Overall'",{
+testthat::test_that("T3.3 When no strata are specified, an artificial strata is created 'Overall'", {
 
   data <- adtte
   survobj <- visR::estimate_KM(data = data, strata = NULL)
@@ -162,7 +162,7 @@ testthat::test_that("T3.3 When no strata are specified, an artificial strata is 
 
 })
 
-testthat::test_that("T3.4 When only 1 stratum is specified, the stratum names are added to the `names` attribute'",{
+testthat::test_that("T3.4 When only 1 stratum is specified, the stratum names are added to the `names` attribute'", {
 
   data <- adtte
   survobj <- visR::estimate_KM(data = data, strata = "STUDYID")
@@ -171,7 +171,7 @@ testthat::test_that("T3.4 When only 1 stratum is specified, the stratum names ar
 
 })
 
-testthat::test_that("T3.5 When more than 1 strata is specified, the stratum names are available in the `names` attribute",{
+testthat::test_that("T3.5 When more than 1 strata is specified, the stratum names are available in the `names` attribute", {
 
   data <- adtte
   survobj <- visR::estimate_KM(data = data, strata = "SEX")
@@ -180,11 +180,11 @@ testthat::test_that("T3.5 When more than 1 strata is specified, the stratum name
 
 })
 
-# Requirement T4 -------------------------------------------------------------------------------------------------------
+# Requirement T4 ---------------------------------------------------------------
 
 testthat::context("estimate_KM - T4. The function removes all rows with NA values inside any of the strata, CNSR or AVAL")
 
-testthat::test_that("T4.1 The function removes all rows with NA values inside any of the strata, CNSR or AVAL",{
+testthat::test_that("T4.1 The function removes all rows with NA values inside any of the strata, CNSR or AVAL", {
 
   data <- adtte
   data[1:10,"SEX"] <- NA
@@ -202,11 +202,11 @@ testthat::test_that("T4.1 The function removes all rows with NA values inside an
 
 })
 
-# Requirement T5 -------------------------------------------------------------------------------------------------------
+# Requirement T5 ---------------------------------------------------------------
 
 testthat::context("estimate_KM - T5. The function does not alter the calculation of survival::survfit")
 
-testthat::test_that("T5.1 The function gives the same results as survival::survfit",{
+testthat::test_that("T5.1 The function gives the same results as survival::survfit", {
 
   ## survival package
   survobj_survival <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX, data = adtte)
@@ -228,7 +228,8 @@ testthat::test_that("T5.1 The function gives the same results as survival::survf
 testthat::test_that("T5.2 The function adds timepoint = 0",{
 
   ## survival package
-  survobj_survival <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX, data = adtte)
+  survobj_survival <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX, 
+                                        data = adtte)
   survobj_survival <- survival::survfit0(survobj_survival, start.time = 0)
 
   ## visR
@@ -245,14 +246,20 @@ testthat::test_that("T5.2 The function adds timepoint = 0",{
   testthat::expect_equal(list_survival, list_visR)
 })
 
-testthat::test_that("T5.3 The function allows additional arguments to be passed, specific for survival::survfit",{
+testthat::test_that("T5.3 The function allows additional arguments to be passed, specific for survival::survfit", {
 
   ## survival package
-  survobj_survival <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX, data = adtte, ctype = 2, conf.type = "plain")
+  survobj_survival <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX, 
+                                        data = adtte, 
+                                        ctype = 2, 
+                                        conf.type = "plain")
   survobj_survival <- survival::survfit0(survobj_survival, start.time = 0)
 
   ## visR
-  survobj_visR <- visR::estimate_KM(data = adtte, strata = "SEX", ctype = 2, conf.type = "plain")
+  survobj_visR <- visR::estimate_KM(data = adtte, 
+                                    strata = "SEX", 
+                                    ctype = 2, 
+                                    conf.type = "plain")
 
   ## Compare common elements
   Common_Nms <- base::intersect(names(survobj_survival), names(survobj_visR))
@@ -264,23 +271,27 @@ testthat::test_that("T5.3 The function allows additional arguments to be passed,
   testthat::expect_equal(list_survival, list_visR)
 })
 
-testthat::test_that("T5.4 The function returns an object of class `survfit`",{
+testthat::test_that("T5.4 The function returns an object of class `survfit`", {
 
   ## visR
-  survobj_visR <- visR::estimate_KM(data = adtte, strata = "SEX", ctype = 2, conf.type = "plain")
+  survobj_visR <- visR::estimate_KM(data = adtte, 
+                                    strata = "SEX", 
+                                    ctype = 2, 
+                                    conf.type = "plain")
 
   testthat::expect_true(inherits(survobj_visR, "survfit"))
 })
 
 
-# Requirement T6 -------------------------------------------------------------------------------------------------------
+# Requirement T6 ---------------------------------------------------------------
 
 testthat::context("estimate_KM - T6. The function adds additional information to the survfit object when available")
 
-testthat::test_that("T6.1 The calculation is not affected by the addition of additional parameters",{
+testthat::test_that("T6.1 The calculation is not affected by the addition of additional parameters", {
 
   ## survival package
-  survobj_survival <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX, data = adtte)
+  survobj_survival <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX, 
+                                        data = adtte)
   survobj_survival <- survival::survfit0(survobj_survival, start.time = 0)
 
   ## visR
@@ -299,10 +310,11 @@ testthat::test_that("T6.1 The calculation is not affected by the addition of add
   testthat::expect_equal(list_survival, list_visR)
 })
 
-testthat::test_that("T6.2 The function add PARAM/PARAMCD when available",{
+testthat::test_that("T6.2 The function add PARAM/PARAMCD when available", {
 
   ## survival package
-  survobj_survival <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX, data = adtte)
+  survobj_survival <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX, 
+                                        data = adtte)
   survobj_survival <- survival::survfit0(survobj_survival, start.time = 0)
 
   ## visR
@@ -316,11 +328,11 @@ testthat::test_that("T6.2 The function add PARAM/PARAMCD when available",{
   testthat::expect_equal(list_visR[[1]], "Time to First Dermatologic Event")
 })
 
-# Requirement T7 -------------------------------------------------------------------------------------------------------
+# Requirement T7 ---------------------------------------------------------------
 
 testthat::context("estimate_KM - T7. The function call supports traceability")
 
-testthat::test_that("T7.1 The function updates call$data when magrittr pipe is used",{
+testthat::test_that("T7.1 The function updates call$data when magrittr pipe is used", {
 
   ## survival package
   survobj_survival <- adtte %>%
@@ -336,7 +348,7 @@ testthat::test_that("T7.1 The function updates call$data when magrittr pipe is u
   testthat::expect_equal(call_visR[["data"]], as.symbol("adtte"))
 })
 
-testthat::test_that("T7.2 The function prefixes the function call with survival",{
+testthat::test_that("T7.2 The function prefixes the function call with survival", {
 
   ## survival package
   survobj_survival <- adtte %>%

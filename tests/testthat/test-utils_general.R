@@ -1,6 +1,6 @@
 #' @title Specifications test-utils_general.R
-#' @section Last updated by: Tim Treis (tim.treis(at)outlook.de)
-#' @section Last update date: 2021-10-28 16:29:24
+#' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
+#' @section Last update date: 2021-11-02 00:05:52
 #'
 #' @section List of tested specifications
 #' T1. The input number is correctly formatted.
@@ -8,7 +8,7 @@
 #' T1.2 Numbers greater than 0.999 return the string 
 #' T1.3 A number in \[0.001, 0.999\] is rounded to a precision of 3 with a total width of 6 characters.
 
-# Requirement T1 ------------------------------------------------------------------------------------------------------
+# Requirement T1 ---------------------------------------------------------------
 
 testthat::context("utils_general - T1. The input number is correctly formatted.")
 

@@ -1,6 +1,6 @@
 #' @title Specifications test-get_pvalue.R
-#' @section Last updated by: Tim Treis (tim.treis(at)outlook.de)
-#' @section Last update date: 2021-10-28 16:29:24
+#' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
+#' @section Last update date: 2021-11-02 00:05:52
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a `survfit` object
@@ -23,14 +23,14 @@
 #' T3.3 No error when the p-value is requested
 #' T3.4 An error when an unsupported argument is used in statlist
 #' T4. The output object provides the requested information
-#' T4.1 The output object is a data frame
-#' T4.2 The calculated information is available via the columns of the output object
+#' T4.1 The output object is a data.frame
+#' T4.2 The summary statistics are available via the columns of the output object
 #' T4.3 Each test statistic and associated calculations are available via the rows of the output object
 #' T4.4 The statistical tests are ordered in line with the order defined in ptype
 #' T4.5 The associated calculations of the statistical tests are ordered in line with the order defined in the statlist
 #' T4.6 The Chisq statistic has the same precision as the pvalue
 
-# Requirement T1 ------------------------------------------------------------------------------------------------------
+# Requirement T1 ---------------------------------------------------------------
 
 testthat::context("get_pvalue - T1. The function accepts a `survfit` object")
 
@@ -53,7 +53,7 @@ testthat::test_that("TT1.3 An error when a non-`survfit` object is passed to the
   testthat::expect_error(visR::get_pvalue(survfit_object))
 })
 
-# Requirement T2 -------------------------------------------------------------------------------------------------------
+# Requirement T2 ---------------------------------------------------------------
 
 testthat::context("get_pvalue - T2. The functions tests the null hypothesis of no difference between two or more survival curves using the G-rho family of tests")
 
@@ -111,7 +111,7 @@ testthat::test_that("T2.9 An error when a non-supported ptype is requested",{
   testthat::expect_error(visR::get_pvalue(survfit_object, ptype = "blah"))
 })
 
-# Requirement T3 -------------------------------------------------------------------------------------------------------
+# Requirement T3 ---------------------------------------------------------------
 
 testthat::context("get_pvalue - T3. The functions returns the results of the test statistic, degrees of freedom and the p-value of the null hypothesis when requested")
 
@@ -139,17 +139,17 @@ testthat::test_that("T3.4 An error when an unsupported argument is used in statl
   testthat::expect_error(visR::get_pvalue(survfit_object, statlist = "blah"))
 })
 
-# Requirement T4 -------------------------------------------------------------------------------------------------------
+# Requirement T4 ---------------------------------------------------------------
 
 testthat::context("get_pvalue - T4. The output object provides the requested information")
 
-testthat::test_that("T4.1 The output object is a data frame",{
+testthat::test_that("T4.1 The output object is a data.frame",{
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
   testthat::expect_identical(class(visR::get_pvalue(survfit_object, statlist = "test")), "data.frame")
 })
 
-testthat::test_that("T4.2 The calculated information is available via the columns of the output object",{
+testthat::test_that("T4.2 The summary statistics are available via the columns of the output object",{
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
   testthat::expect_identical(colnames(visR::get_pvalue(survfit_object, statlist = c("test", "df"))), c("Equality across strata", "df"))

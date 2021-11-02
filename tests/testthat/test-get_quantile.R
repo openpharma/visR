@@ -1,12 +1,12 @@
 #' @title Specifications test-get_quantile.R
-#' @section Last updated by: Tim Treis (tim.treis(at)outlook.de)
-#' @section Last update date: 2021-10-28 16:29:24
+#' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
+#' @section Last update date: 2021-11-02 00:05:52
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a `survfit` object
 #' T1.1 No error when a `survfit` object is passed to the function with at least 2 strata
 #' T1.2 An error when a `survfit` object is passed to the function with 1 strata
-#' testthat::test_that(An error when a non-`survfit` object is passed to the function
+#' T1.3 An error when a non-`survfit` object is passed to the function
 #' T1.4 An error when `survfit_object` does not exist in the global environment
 #' T2. The function accepts a tolerance limit
 #' T2.1 An error when the tolerance is not numeric
@@ -27,7 +27,7 @@
 #' T6.3 The output contains a column with the quantities
 #' T6.4 The output contains columns with the requested quantiles
 
-# Requirement T1 ------------------------------------------------------------------------------------------------------
+# Requirement T1 ---------------------------------------------------------------
 
 testthat::context("get_pvalue - T1. The function accepts a `survfit` object")
 
@@ -43,7 +43,7 @@ testthat::test_that("T1.2 An error when a `survfit` object is passed to the func
   testthat::expect_error(visR::get_quantile(survfit_object), NA)
 })
 
-testthat::test_that("An error when a non-`survfit` object is passed to the function",{
+testthat::test_that("T1.3 An error when a non-`survfit` object is passed to the function",{
 
   testthat::expect_error(visR::get_quantile(adtte))
 })
@@ -54,7 +54,7 @@ testthat::test_that("T1.4 An error when `survfit_object` does not exist in the g
   testthat::expect_error(visR::get_quantile(survfit_object = blah))
 })
 
-# Requirement T2 -------------------------------------------------------------------------------------------------------
+# Requirement T2 ---------------------------------------------------------------
 
 testthat::context("get_pvalue - T2. The function accepts a tolerance limit")
 
@@ -70,7 +70,7 @@ testthat::test_that("T2.2 No error when the tolerance is numeric",{
   testthat::expect_error(visR::get_quantile(survfit_object, tolerance = 0.0000000000000000000000001), NA)
 })
 
-# Requirement T3 -------------------------------------------------------------------------------------------------------
+# Requirement T3 ---------------------------------------------------------------
 
 testthat::context("get_pvalue - T3. The function accepts a numeric vector specifying the probabilities")
 
@@ -92,7 +92,7 @@ testthat::test_that("T3.3 An error when the probabilities requested are above 1"
   testthat::expect_error(visR::get_quantile(survfit_object, probs = c(0.50, 1.00, 3.00)))
 })
 
-# Requirement T4 -------------------------------------------------------------------------------------------------------
+# Requirement T4 ---------------------------------------------------------------
 
 testthat::context("get_pvalue - T4. The function accepts a logical argument to request for the confidence intervals of the quantiles")
 
@@ -114,7 +114,7 @@ testthat::test_that("T4.3 An error when the confidence intervals are requested, 
   testthat::expect_error(visR::get_quantile(survfit_object))
 })
 
-# Requirement T5 -------------------------------------------------------------------------------------------------------
+# Requirement T5 ---------------------------------------------------------------
 
 testthat::context("get_pvalue - T5. The function is a wrapper around quantile method for `survfit` objects")
 
@@ -139,7 +139,7 @@ testthat::test_that("T5.1 The get_quantiles provides the same information as get
   testthat::expect_equal(visR::get_quantile(survfit_object), final)
 })
 
-# Requirement T6 -------------------------------------------------------------------------------------------------------
+# Requirement T6 ---------------------------------------------------------------
 
 testthat::context("get_pvalue - T6. The function returns a dataframe with the requested information")
 
