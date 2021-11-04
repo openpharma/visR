@@ -3,15 +3,15 @@
 \name{add_quantiles}
 \alias{add_quantiles}
 \alias{add_quantiles.ggsurvfit}
-\title{Add lines indicating the survival quantiles to a survival plot}
+\title{Add quantile indicators to visR plot}
 \usage{
 add_quantiles(gg, ...)
 
 \method{add_quantiles}{ggsurvfit}(
   gg,
   quantiles = 0.5,
-  linetype = "mixed",
-  linecolour = "strata",
+  linetype = "dashed",
+  linecolour = "grey50",
   alpha = 1,
   ...
 )
@@ -21,13 +21,13 @@ add_quantiles(gg, ...)
 
 \item{...}{other arguments passed on to the method to modify \code{\link[ggplot2]{geom_line}}}
 
-\item{quantiles}{y-axis values for which to draw the lines (default: 0.5)}
+\item{quantiles}{vector of quantiles to be displayed on the probability scale, default: 0.5}
 
-\item{linetype}{aesthetic of ggplot2 \code{\link[ggplot2]{geom_line}} (default: dashed)}
+\item{linetype}{string indicating the linetype as described in the aesthetics of ggplot2 \code{\link[ggplot2]{geom_line}}, default: dashed (also supports "mixed" -> horizontal lines are solid, vertical ones are dashed)}
 
-\item{linecolour}{aesthetic of ggplot2 \code{\link[ggplot2]{geom_line}} (default: black)}
+\item{linecolour}{string indicating the linetype as described in the aesthetics of ggplot2 \code{\link[ggplot2]{geom_line}}, default: grey, (also supports "strata" -> horizontal lines are grey50, vertical ones are the same colour as the respective strata)}
 
-\item{alpha}{aesthetic of ggplot2 \code{\link[ggplot2]{geom_line}} (default: 0.8)}
+\item{alpha}{numeric value between 0 and 1 as described in the aesthetics of ggplot2 \code{\link[ggplot2]{geom_line}}, default: 1}
 }
 \value{
 Lines indicating the quantiles overlayed on a visR ggplot
