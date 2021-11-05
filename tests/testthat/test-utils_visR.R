@@ -458,4 +458,13 @@ testthat::test_that("T6.5 An error when `hex_color` is a character string with l
   
 })
 
+# Requirement T7 ---------------------------------------------------------------
+
+testthat::context("utils_visr - T7. `.inclusive_pretty` mimics `base::pretty` but respects the value range.")
+
+testthat::test_that("T7.1 ", {
+  
+})
+
+
 # END --------------------------------------------------------------------------

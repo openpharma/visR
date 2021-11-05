@@ -461,3 +461,23 @@ replace_hex_alpha <- function(colour, new_alpha) {
     }
   }
 }
+
+#' @title tbd
+#'
+#' @description tbd
+#'
+#' @param x vector with min and max of value range
+#' @param n suggested n, might slightly derivate from it 
+#'
+#' @return A vector of equally spaced values that contains all of `x`
+#'
+#' @keywords internal
+
+.inclusive_pretty <- function(x, n) {
+
+  # calculate the normal function base::pretty(x, n)
+  # check if ymin/ymax are in value range of base::pretty output
+  # If not, add another value with same spacing to the proper "side"
+  # Should return c(-1.2, -1.0, -0.8, -0.6, -0.4, -0.2, 0) for x = c(-1.1, 0)
+  
+}
