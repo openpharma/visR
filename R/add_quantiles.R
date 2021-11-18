@@ -17,12 +17,25 @@
 #' adtte %>%
 #'   estimate_KM("SEX") %>%
 #'   visr() %>%
-#'   add_quantiles(c(0.25, 0.50, 0.75)) 
+#'   add_quantiles(quantiles = c(0.25, 0.50)) 
 #' 
 #' adtte %>%
 #'   estimate_KM("SEX") %>%
 #'   visr() %>%
-#'   add_quantiles(c(0.25, 0.50, 0.75)) 
+#'   add_quantiles(
+#'     quantiles = c(0.25, 0.50),
+#'     linetype = "solid",
+#'     linecolour = "grey"
+#'  ) 
+#' 
+#' adtte %>%
+#'   estimate_KM("SEX") %>%
+#'   visr() %>%
+#'   add_quantiles(
+#'     quantiles = c(0.25, 0.50),
+#'     linetype = "mixed",
+#'     linecolour = "strata"
+#'  ) 
 #'
 #' @return Lines indicating the quantiles overlayed on a visR ggplot
 #'
@@ -51,6 +64,9 @@ add_quantiles.ggsurvfit <- function(gg,
                                     linecolour = "grey50",
                                     alpha = 1, 
                                     ...) {
+  
+  # no visible binding for global variable fix
+  name <- n <- group <- NULL
   
   if (!is.numeric(quantiles)) {
     

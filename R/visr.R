@@ -168,7 +168,7 @@ visr.survfit <- function(
 # Y-label ----------------------------------------------------------------------
 
   if (is.null(y_label) & is.character(fun)){
-    y_label <- base::switch(
+    y_label <- switch(
       fun,
       surv = "survival probability",
       log = "log(survival probability)",
@@ -183,18 +183,18 @@ visr.survfit <- function(
     stop("No Y label defined. No default label is available when `fun` is a function.")
   }
   
-  if (is.character(fun)){
-    .transfun <- base::switch(
+  if (is.character(fun)) {
+    .transfun <- switch(
       fun,
       surv = function(y) y,
       log = function(y) log(y),
       event = function(y) 1 - y,
       cloglog = function(y) log(-log(y)),
       pct = function(y) y * 100,
-      logpct = function(y) log(y *100),
+      logpct = function(y) log(y * 100),
       # survfit object contains an estimate for Cumhaz and SE based on Nelson-Aalen with or without correction for ties
       # However, no CI is calculated automatically. For plotting, the MLE estimator is used for convenience.
-      cumhaz = function(y) - log(y)
+      cumhaz = function(y) -log(y)
     )
   } else if (is.function(fun)) {
     .transfun <- function(y) fun(y)
@@ -211,7 +211,8 @@ visr.survfit <- function(
     tidy_object[["est"]] <- .transfun(tidy_object[["surv"]])
     correctme <- c(correctme, "est")
   }
-  if (base::all(c("upper", "lower") %in% colnames(tidy_object))) {
+  
+  if (all(c("upper", "lower") %in% colnames(tidy_object))) {
     tidy_object[["est.upper"]] <- .transfun(tidy_object[["upper"]])
     tidy_object[["est.lower"]] <- .transfun(tidy_object[["lower"]])
     correctme <- c(correctme, "est.lower", "est.upper")
@@ -235,35 +236,35 @@ visr.survfit <- function(
 
 # Obtain X-asis label ----------------------------------------------------------
 
-  if (base::is.null(x_label)){
+  if (is.null(x_label)) {
     
-    if ("PARAM" %in% base::names(x)) {
+    if ("PARAM" %in% names(x)) {
       
-      if (base::length(base::unique(x[["PARAM"]])) == 1) { 
+      if (length(unique(x[["PARAM"]])) == 1) { 
         
         x_label <- as.character(x[["PARAM"]][[1]])
         
       } else {
         
-        base::warning("More than one unique entry in 'PARAM'.")
+        warning("More than one unique entry in 'PARAM'.")
         
       }
       
-    } else if ("PARAMCD" %in% base::names(x)) {
+    } else if ("PARAMCD" %in% names(x)) {
       
-      if (base::length(base::unique(x[["PARAMCD"]])) == 1) { 
+      if (length(unique(x[["PARAMCD"]])) == 1) { 
         
         x_label <- as.character(x[["PARAMCD"]][[1]])
         
       } else {
         
-        base::warning("More than one unique entry in 'PARAMCD'.")
+        warning("More than one unique entry in 'PARAMCD'.")
         
       }
       
     } else {
       
-      base::warning("The x-axis label was not specified and could also not be automatically determined due to absence of 'PARAM' and 'PARAMCD'.")
+      warning("The x-axis label was not specified and could also not be automatically determined due to absence of 'PARAM' and 'PARAMCD'.")
       
     }
     
@@ -279,21 +280,21 @@ visr.survfit <- function(
 
 # Obtain Y-asis label ----------------------------------------------------------
 
-  if (is.null(y_ticks) & is.character(fun)){
-    y_ticks <- base::switch(
+  if (is.null(y_ticks) & is.character(fun)) {
+    y_ticks <- switch(
       fun,
       surv = pretty(c(0, 1), 5),
-      log =  pretty(round(c(ymin, ymax), 0), 5),
+      log = pretty(c(ymin, ymax), 5),
       event = pretty(c(0, 1), 5),
-      cloglog = pretty(round(c(ymin, ymax), 0), 5),
+      cloglog = pretty(c(ymin, ymax), 5),
       pct = pretty(c(0, 100), 5),
       logpct = pretty(c(0, 5), 5),
-      cumhaz =  pretty(round(c(ymin, ymax), 0), 5),
+      cumhaz = pretty(c(ymin, ymax), 5),
       stop("Unrecognized fun argument")
     )
   } else if (is.null(y_ticks) & is.function(fun)) {
     
-    y_ticks = pretty(round(c(ymin, ymax), 0), 5)
+    y_ticks = pretty(c(ymin, ymax), 5)
     
   }
   
@@ -316,6 +317,19 @@ visr.survfit <- function(
     ggplot2::theme(legend.key = ggplot2::element_blank()) +
     NULL
   
+  # Save applied function so that we don't have to guess later on
+  if (is.primitive(fun)) {
+    # Prevent special case of log being a .Primitive from breaking add_quantiles
+    primitive_call <- utils::capture.output(fun)
+    if (grepl("log", primitive_call)) {
+      attr(gg, "fun") <- function(y) log(y)
+    }
+  } else if (is.function(fun)) {
+    attr(gg, "fun") <- function(y) fun(y)
+  } else {
+    attr(gg, "fun") <- .transfun
+  }
+
   class(gg) <- append(class(gg), "ggsurvfit")
   
   return(gg)
