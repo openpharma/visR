@@ -17,7 +17,9 @@
 #' T1.10 An error when `linecolour` is NULL or not a string.
 #' T2. The quantile lines are y-axis-transformation dependent.
 #' T2.1 No error when the default `surv` option is used.
-#' T2.2 No error when any other implemented function is used.
+#' T2.2 No error when a function is passed as a string.
+#' T2.3 No error when a `.Primitive` function is used.
+#' T2.4 No error when a custom function is used.
 
 # Requirement T1 ---------------------------------------------------------------
 
@@ -167,23 +169,15 @@ testthat::context("add_quantiles - T2. The quantile lines are y-axis-transformat
 
 testthat::test_that("T2.1 No error when the default `surv` option is used.", {
   
-  gg <- adtte %>%
+  adtte %>%
     visR::estimate_KM() %>%
-    visR::visr() # defaults to fun = "surv"
-  
-  gg %>% 
+    visR::visr() %>% # defaults to fun = "surv" 
     visR::add_quantiles() %>%
     testthat::expect_error(NA) 
   
 })
 
-testthat::test_that("T2.2 No error when any other implemented function is used.", {
-  
-  adtte %>%
-    visR::estimate_KM() %>%
-    visR::visr(fun = log, y_label = "neded_since_fun_not_string") %>% 
-    visR::add_quantiles() %>%
-    testthat::expect_error(NA) 
+testthat::test_that("T2.2 No error when a function is passed as a string.", {
   
   adtte %>%
     visR::estimate_KM() %>%
@@ -220,6 +214,29 @@ testthat::test_that("T2.2 No error when any other implemented function is used."
   adtte %>%
     visR::estimate_KM() %>%
     visR::visr(fun = "cumhaz") %>% 
+    visR::add_quantiles() %>%
+    testthat::expect_error(NA) 
+  
+})
+
+testthat::test_that("T2.3 No error when a `.Primitive` function is used.", {
+  
+  adtte %>%
+    visR::estimate_KM() %>%
+    visR::visr(fun = log, y_label = "neded_since_fun_not_string") %>% 
+    visR::add_quantiles() %>%
+    testthat::expect_error(NA) 
+  
+})
+
+testthat::test_that("T2.4 No error when a custom function is used.", {
+  
+  suppressWarnings(
+    adtte %>%
+      visR::estimate_KM() %>%
+      visR::visr(fun = function(x) log(-log(x)), 
+                 y_label = "neded_since_fun_not_string") 
+  ) %>% 
     visR::add_quantiles() %>%
     testthat::expect_error(NA) 
   

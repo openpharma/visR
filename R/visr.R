@@ -167,8 +167,8 @@ visr.survfit <- function(
 
 # Y-label ----------------------------------------------------------------------
 
-  if (is.null(y_label) & is.character(fun)){
-    y_label <- switch(
+  if (is.null(y_label) & is.character(fun)) {
+    y_label <- base::switch(
       fun,
       surv = "survival probability",
       log = "log(survival probability)",
@@ -184,7 +184,7 @@ visr.survfit <- function(
   }
   
   if (is.character(fun)) {
-    .transfun <- switch(
+    .transfun <- base::switch(
       fun,
       surv = function(y) y,
       log = function(y) log(y),
@@ -318,18 +318,20 @@ visr.survfit <- function(
     NULL
   
   # Save applied function so that we don't have to guess later on
-  if (is.primitive(fun)) {
-    # Prevent special case of log being a .Primitive from breaking add_quantiles
-    primitive_call <- utils::capture.output(fun)
-    if (grepl("log", primitive_call)) {
-      attr(gg, "fun") <- function(y) log(y)
-    }
-  } else if (is.function(fun)) {
-    attr(gg, "fun") <- function(y) fun(y)
-  } else {
+  if (is.character(fun)) {
     attr(gg, "fun") <- .transfun
+  } else {
+    fun_call <- utils::capture.output(fun)
+    if (grepl("rimitive", fun_call[1])) {
+      fun_call_fun <- regmatches(fun_call, regexpr("\".*\"", fun_call))
+      fun_call_fun <- gsub("\"", "", fun_call_fun)
+      fun_call_fun <- paste0("function(x) ", fun_call_fun, "(x)")
+      attr(gg, "fun") <- eval(parse(text = fun_call_fun))
+    } else if (is.function(fun)) {
+      attr(gg, "fun") <- fun
+    }
   }
-
+  
   class(gg) <- append(class(gg), "ggsurvfit")
   
   return(gg)
