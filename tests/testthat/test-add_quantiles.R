@@ -8,18 +8,20 @@
 #' T1.1 No error when the default parameters are used.
 #' T1.2 No error when `quantiles` is a single number.
 #' T1.3 No error when `quantiles` is a numeric vector.
-#' T1.4 An error when quantiles is NULL or not a numeric.
-#' T1.5 No error when `linetype` is a non-default character string.
-#' T1.6 No error when `linetype` is `mixed`.
-#' T1.7 An error when `linetype` is NULL or not a string.
-#' T1.8 No error when `linecolour` is a non-default character string.
-#' T1.9 No error when `linecolour` is `strata`.
-#' T1.10 An error when `linecolour` is NULL or not a string.
+#' T1.4 No error when `linetype` is a non-default character string.
+#' T1.5 No error when `linetype` is `mixed`.
+#' T1.6 No error when `linecolour` is a non-default character string.
+#' T1.7 No error when `linecolour` is `strata`.
 #' T2. The quantile lines are y-axis-transformation dependent.
 #' T2.1 No error when the default `surv` option is used.
 #' T2.2 No error when a function is passed as a string.
 #' T2.3 No error when a `.Primitive` function is used.
 #' T2.4 No error when a custom function is used.
+#' T3. If any parameter is specified incorrectly, defaults are used instead.
+#' T3.1 A warning if `quantiles` is not a numeric or vector of numerics.
+#' T3.2 A warning if `linetype` is not a character string.
+#' T3.3 A warning if `linecolour` is not a character string.
+#' T3.4 A warning if `alpha` is not a character string or outside [0, 1].
 
 # Requirement T1 ---------------------------------------------------------------
 
@@ -61,27 +63,7 @@ testthat::test_that("T1.3 No error when `quantiles` is a numeric vector.", {
   
 })
 
-testthat::test_that("T1.4 An error when quantiles is NULL or not a numeric.", {
-  
-  gg <- adtte %>%
-    visR::estimate_KM() %>%
-    visR::visr() 
-  
-  gg %>% 
-    visR::add_quantiles(quantiles = c()) %>%
-    testthat::expect_error() 
-  
-  gg %>% 
-    visR::add_quantiles(quantiles = "visR") %>%
-    testthat::expect_error() 
-  
-  gg %>% 
-    visR::add_quantiles(quantiles = NULL) %>%
-    testthat::expect_error() 
-  
-})
-
-testthat::test_that("T1.5 No error when `linetype` is a non-default character string.", {
+testthat::test_that("T1.4 No error when `linetype` is a non-default character string.", {
   
   gg <- adtte %>%
     visR::estimate_KM() %>%
@@ -94,7 +76,7 @@ testthat::test_that("T1.5 No error when `linetype` is a non-default character st
   
 })
 
-testthat::test_that("T1.6 No error when `linetype` is `mixed`.", {
+testthat::test_that("T1.5 No error when `linetype` is `mixed`.", {
   
   gg <- adtte %>%
     visR::estimate_KM() %>%
@@ -107,23 +89,7 @@ testthat::test_that("T1.6 No error when `linetype` is `mixed`.", {
   
 })
 
-testthat::test_that("T1.7 An error when `linetype` is NULL or not a string.", {
-  
-  gg <- adtte %>%
-    visR::estimate_KM() %>%
-    visR::visr() 
-  
-  gg %>% 
-    visR::add_quantiles(linetype = NULL) %>%
-    testthat::expect_error() 
-  
-  gg %>% 
-    visR::add_quantiles(linetype = 2) %>%
-    testthat::expect_error() 
-  
-})
-
-testthat::test_that("T1.8 No error when `linecolour` is a non-default character string.", {
+testthat::test_that("T1.6 No error when `linecolour` is a non-default character string.", {
   
   gg <- adtte %>%
     visR::estimate_KM() %>%
@@ -137,7 +103,7 @@ testthat::test_that("T1.8 No error when `linecolour` is a non-default character 
   
 })
 
-testthat::test_that("T1.9 No error when `linecolour` is `strata`.", {
+testthat::test_that("T1.7 No error when `linecolour` is `strata`.", {
   
   gg <- adtte %>%
     visR::estimate_KM() %>%
@@ -148,18 +114,6 @@ testthat::test_that("T1.9 No error when `linecolour` is `strata`.", {
                         linetype = "solid",
                         linecolour = "strata") %>%
     testthat::expect_error(NA) 
-  
-})
-
-testthat::test_that("T1.10 An error when `linecolour` is NULL or not a string.", {
-  
-  gg <- adtte %>%
-    visR::estimate_KM() %>%
-    visR::visr() 
-  
-  gg %>% 
-    visR::add_quantiles(linecolour = NULL) %>%
-    testthat::expect_error() 
   
 })
 
@@ -239,5 +193,89 @@ testthat::test_that("T2.4 No error when a custom function is used.", {
   ) %>% 
     visR::add_quantiles() %>%
     testthat::expect_error(NA) 
+  
+})
+
+# Requirement T3 ---------------------------------------------------------------
+
+testthat::context("add_quantiles - T3. If any parameter is specified incorrectly, defaults are used instead.")
+
+testthat::test_that("T3.1 A warning if `quantiles` is not a numeric or vector of numerics.", {
+  
+  gg <- adtte %>%
+    visR::estimate_KM() %>%
+    visR::visr()
+  
+  expected_warning <- "Invalid argument for `quantiles`, must be numeric. Setting it to 0.5."
+  
+  gg %>%
+    visR::add_quantiles(quantiles = NULL) %>%
+    testthat::expect_warning(expected_warning) 
+  
+  gg %>%
+    visR::add_quantiles(quantiles = "visR") %>%
+    testthat::expect_warning(expected_warning) 
+  
+  gg %>%
+    visR::add_quantiles(quantiles = c(0.2, "visR", 0.5)) %>%
+    testthat::expect_warning(expected_warning) 
+  
+})
+
+testthat::test_that("T3.2 A warning if `linetype` is not a character string.", {
+  
+  gg <- adtte %>%
+    visR::estimate_KM() %>%
+    visR::visr()
+  
+  expected_warning <- "Invalid argument for `linetype`, must be a character string. Setting it to default 'dashed'."
+  
+  gg %>%
+    visR::add_quantiles(linetype = NULL) %>%
+    testthat::expect_warning(expected_warning) 
+  
+  gg %>%
+    visR::add_quantiles(linetype = 1) %>%
+    testthat::expect_warning(expected_warning) 
+  
+})
+
+testthat::test_that("T3.3 A warning if `linecolour` is not a character string.", {
+  
+  gg <- adtte %>%
+    visR::estimate_KM() %>%
+    visR::visr()
+  
+  expected_warning <- "Invalid argument for `linecolour`, must be a character string. Setting it to default 'grey50'."
+  
+  gg %>%
+    visR::add_quantiles(linecolour = NULL) %>%
+    testthat::expect_warning(expected_warning) 
+  
+  gg %>%
+    visR::add_quantiles(linecolour = 1) %>%
+    testthat::expect_warning(expected_warning) 
+  
+})
+
+testthat::test_that("T3.4 A warning if `alpha` is not a character string or outside [0, 1].", {
+  
+  gg <- adtte %>%
+    visR::estimate_KM() %>%
+    visR::visr()
+  
+  expected_warning <- "Invalid `alpha` argument, must be between 0 and 1. Setting it to 1.0."
+  
+  gg %>%
+    visR::add_quantiles(alpha = "visR") %>%
+    testthat::expect_warning(expected_warning) 
+  
+  gg %>%
+    visR::add_quantiles(alpha = -1) %>%
+    testthat::expect_warning(expected_warning) 
+  
+  gg %>%
+    visR::add_quantiles(alpha = 10) %>%
+    testthat::expect_warning(expected_warning) 
   
 })
