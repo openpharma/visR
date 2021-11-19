@@ -123,19 +123,9 @@ add_quantiles.ggsurvfit <- function(gg,
     dplyr::select(-quantity)
   
   # Extract fun potentially applied to y-axis and use for quantiles
-  func_call <- as.character(attr(attr(gg, "fun"), "srcref"))
-  if (func_call != "function(y) y") {
-    
-    .fun <- eval(parse(text = func_call))
-    quantiles_long <- quantiles_long %>%
-      dplyr::mutate(surv = .fun(1 - (as.numeric(quantile) / 100)))
-    
-  } else {
-    
-    quantiles_long <- quantiles_long %>%
-      dplyr::mutate(surv = 1 - (as.numeric(quantile))/100)
-    
-  }
+  .fun <- attr(gg, "fun")
+  quantiles_long <- quantiles_long %>%
+    dplyr::mutate(surv = .fun(1 - (as.numeric(quantile) / 100)))
   
   horizontal_helper <- quantiles_long %>%
     dplyr::mutate(n = 0)
