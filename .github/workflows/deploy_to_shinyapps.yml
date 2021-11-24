@@ -24,4 +24,4 @@ jobs:
       - uses: r-lib/actions/setup-r@master
       - name: Install shiny
         run: |
-          Rscript -e  "rsconnect::setAccountInfo(name='visr', token=${{secrets.SHINYAPPS_TOKEN}}, secret=${{secrets.SHINYAPPS_SECRET}}); rsconnect::deployApp(appName = 'tte-tutorial')"
+          Rscript -e  "library(rsconnect); setAccountInfo(name='visr', token=${{secrets.SHINYAPPS_TOKEN}}, secret=${{secrets.SHINYAPPS_SECRET}}); deployApp(appName = 'tte-tutorial')"
