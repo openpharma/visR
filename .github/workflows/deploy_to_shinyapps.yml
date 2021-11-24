@@ -20,12 +20,13 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-
+      - uses: r-lib/actions/setup-r@master
+      - name: Install shiny
+        run: |
+          Rscript -e  "install.packages(c('shiny', 'rsconnect'))"
       # Runs a single command using the runners shell
       - name: Push to shiny.io
         run: |
-          Rscript -e  "install.packages(c('shiny', 'rsconnect'))"
           Rscript -e "rsconnect::setAccountInfo(name='visr', token=${{secrets.SHINYAPPS_TOKEN}}, secret=${{secrets.SHINYAPPS_SECRET}})"
           Rscript -e "rsconnect::deployApp(appName = 'tte-tutorial')" 
