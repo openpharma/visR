@@ -24,9 +24,4 @@ jobs:
       - uses: r-lib/actions/setup-r@master
       - name: Install shiny
         run: |
-          Rscript -e  "install.packages(c('shiny', 'rsconnect'))"
-      # Runs a single command using the runners shell
-      - name: Push to shiny.io
-        run: |
-          Rscript -e "rsconnect::setAccountInfo(name='visr', token=${{secrets.SHINYAPPS_TOKEN}}, secret=${{secrets.SHINYAPPS_SECRET}})"
-          Rscript -e "rsconnect::deployApp(appName = 'tte-tutorial')" 
+          Rscript -e  "install.packages(c('shiny', 'rsconnect')); rsconnect::setAccountInfo(name='visr', token=${{secrets.SHINYAPPS_TOKEN}}, secret=${{secrets.SHINYAPPS_SECRET}}); rsconnect::deployApp(appName = 'tte-tutorial')"
