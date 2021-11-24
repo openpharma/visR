@@ -19,9 +19,46 @@ jobs:
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      - uses: actions/checkout@v2
-      - uses: r-lib/actions/setup-r@master
-      - name: Install shiny
-        run: |
+    steps:      
+    - name: Checkout repo
+      uses: actions/checkout@v2
+
+    - name: Setup R
+      uses: r-lib/actions/setup-r@v1
+
+    - name: Query R dependencies
+      run: |
+        install.packages('remotes')
+        saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+        writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+      shell: Rscript {0}
+
+    - name: Cache R packages
+      uses: actions/cache@v2
+      with:
+        path: ${{ env.R_LIBS_USER }}
+        key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
+        restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+
+    - name: Install system dependencies
+      run: |
+        while read -r cmd
+        do
+          eval sudo $cmd
+        done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "20.04"))')
+
+    - name: Install R dependencies
+      run: |
+        remotes::install_deps(dependencies = TRUE)
+        remotes::install_cran("rcmdcheck")
+      shell: Rscript {0}
+
+    - name: Check package
+      run: |
+        options(crayon.enabled = TRUE) # enable colorful R CMD check output
+        rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "warning")
+      shell: Rscript {0}
+
+    - name: Deploy to shinyapps.io
+      run: |
           Rscript -e  "library('rsconnect'); setAccountInfo(name='visr', token=${{secrets.SHINYAPPS_TOKEN}}, secret=${{secrets.SHINYAPPS_SECRET}}); deployApp(appName = 'tte-tutorial')"
