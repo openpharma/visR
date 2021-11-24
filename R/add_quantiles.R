@@ -1,6 +1,6 @@
 #' @title Add quantile indicators to visR plot
 #'
-#' @description Method to add lines indicating the specified quantiles of the survival curve.
+#' @description Method to add quantile lines to a plot.
 #'
 #' @param gg visR object
 #' @param ... other arguments passed on to the method to modify \code{\link[ggplot2]{geom_line}}
@@ -70,21 +70,21 @@ add_quantiles.ggsurvfit <- function(gg,
   
   if (!is.numeric(quantiles)) {
     
-    stop("Invalid argument for `quantiles`, must be numeric. Setting it to 0.5.")
+    warning("Invalid argument for `quantiles`, must be numeric. Setting it to 0.5.")
     quantiles <- 0.5
     
   }
   
   if (!is.character(linetype)) {
     
-    stop("Invalid argument for `linetype`, must be a character string. Setting it to default 'dashed'.")
+    warning("Invalid argument for `linetype`, must be a character string. Setting it to default 'dashed'.")
     linetype <- "dashed"
     
   }
   
   if (!is.character(linecolour)) {
     
-    stop("Invalid argument for `linecolour`, must be a character string. Setting it to default 'grey50'.")
+    warning("Invalid argument for `linecolour`, must be a character string. Setting it to default 'grey50'.")
     linecolour <- "grey50"
     
   }

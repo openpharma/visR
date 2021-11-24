@@ -33,7 +33,7 @@ add_quantiles(gg, ...)
 Lines indicating the quantiles overlayed on a visR ggplot
 }
 \description{
-Method to add lines indicating the specified quantiles of the survival curve.
+Method to add quantile lines to a plot.
 }
 \examples{
 
