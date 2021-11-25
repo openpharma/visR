@@ -46,19 +46,13 @@ jobs:
         do
           eval sudo $cmd
         done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "20.04"))')
-
-    - name: Install R dependencies
-      run: |
-        remotes::install_deps(dependencies = TRUE)
-        remotes::install_cran("rcmdcheck")
-      shell: Rscript {0}
-
-    - name: Check package
-      run: |
-        options(crayon.enabled = TRUE) # enable colorful R CMD check output
-        rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "warning")
-      shell: Rscript {0}
-
+      
     - name: Deploy to shinyapps.io
       run: |
-          Rscript -e  "install.packages(c('learnr', 'rsconnect'); library('rsconnect'); setAccountInfo(name='visr', token=${{secrets.SHINYAPPS_TOKEN}}, secret=${{secrets.SHINYAPPS_SECRET}}); deployApp(appName = 'tte-tutorial', appDir = 'vignettes/interactive_tte_tutorial')"
+        remotes::install_deps(dependencies = TRUE)
+        remotes::install_cran("learnr")
+        remotes::install_cran("rsconnect")
+        library('rsconnect');
+        setAccountInfo(name='visr', token=${{secrets.SHINYAPPS_TOKEN}}, secret=${{secrets.SHINYAPPS_SECRET}})
+        deployApp(appName = 'tte-tutorial', appDir = 'vignettes/interactive_tte_tutorial')
+      shell: Rscript {0}
