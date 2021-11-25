@@ -129,7 +129,7 @@ stay_densityplot = data %>%
 age_stay_scatterplot = data %>%
   ggplot2::ggplot(ggplot2::aes(x = Age,
                                y = Stay)) + 
-    ggplot2::geom_hex(bins = 40) +
+    ggplot2::geom_bin2d(bins = c(50,25)) +
     ggplot2::ylab("Length of hospital stay (days)") + 
     ggplot2::xlab("Age (years)") + 
     ggplot2::scale_fill_continuous(type = "viridis")
