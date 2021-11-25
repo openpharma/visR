@@ -61,4 +61,4 @@ jobs:
 
     - name: Deploy to shinyapps.io
       run: |
-          Rscript -e  "library('rsconnect'); setAccountInfo(name='visr', token=${{secrets.SHINYAPPS_TOKEN}}, secret=${{secrets.SHINYAPPS_SECRET}}); deployApp(appName = 'tte-tutorial', appFiles = 'vignettes/interactive_tte-tutorial.Rmd')"
+          Rscript -e  "library('rsconnect'); setAccountInfo(name='visr', token=${{secrets.SHINYAPPS_TOKEN}}, secret=${{secrets.SHINYAPPS_SECRET}}); deployApp(appName = 'tte-tutorial', appDir = 'vignettes/interactive_tte_tutorial')"
