@@ -15,7 +15,6 @@ library("learnr")
 library("visR")
 library("ggplot2")
 library("dplyr")
-library("hexbin")
 tutorial_options(exercise.timelimit = 120)
 
 # Do all the prep work in one chunk as well so we can always reference this one as 
@@ -61,13 +60,13 @@ The [`visR`](https://openpharma.github.io/visR/) package implements a simple-to-
 
 ### Overview
 
-![](images/package_architecture_overview.png)
+![](package_architecture_overview.png)
 
 In principle, `extimate_XXX` functions allow to estimate statistical models from the data (e.g. `estimate_KM` estimates a survival model), `get_XXX` functions are getters for all kinds of summary statistics (e.g. `get_tableone` or `get_pvalue`), `render` and `visr` display plots and tables, and `add_XXX` functions add specific information to a plot or table (e.g. `add_CI` adds confidence intervals to a plot.)
 
 ### Example
 
-![](images/package_architecture_example.png){width=90%}
+![](package_architecture_example.png){width=90%}
 
 ### Outline
 This tutorial will walk you through a basic survival analysis show-casing some principles and features of [`visR`](https://openpharma.github.io/visR/).
@@ -129,7 +128,7 @@ stay_densityplot = data %>%
 age_stay_scatterplot = data %>%
   ggplot2::ggplot(ggplot2::aes(x = Age,
                                y = Stay)) + 
-    ggplot2::geom_bin2d(bins = c(50,25)) +
+    ggplot2::geom_bin2d() +
     ggplot2::ylab("Length of hospital stay (days)") + 
     ggplot2::xlab("Age (years)") + 
     ggplot2::scale_fill_continuous(type = "viridis")
@@ -380,7 +379,7 @@ gg + ggplot2::theme_dark()
 
 **Exercise 1**: Try to recreate the Figure 5 of the [Indian Covid data publication](http://proceedings.mlr.press/v146/bankar21a.html) as close as possible using what you learned until now. Alternatively, you can create a more visually pleasing variant.
 
-![](images/figure5.png)
+![](figure5.png)
 
 
 ```{r survival-plot-exercise-6, exercise=TRUE, exercise.setup = "setup", exercise.startover=FALSE, exercise.eval=FALSE}
@@ -533,9 +532,9 @@ A second release of [`visR`](https://openpharma.github.io/visR/) to CRAN is plan
 
 * `add_highlight()` -> Adjusts the transparency of strata in the survival plots to highlight specific ones.
 
-![](images/add_highlight.png)
+![](add_highlight.png)
 
 
 * `tabletwo()` -> A set of functions to generate Table 2 statistics with forest plots.
 
-![](images/table_two.png){width=90%}
+![](table_two.png){width=90%}
