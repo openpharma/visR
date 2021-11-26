@@ -51,6 +51,15 @@ jobs:
       run: |
         remotes::install_deps(dependencies = TRUE)
         remotes::install_cran("learnr")
+        remotes::install_cran("MatrixModels")
+        remotes::install_cran("ModelMetrics")
+        remotes::install_cran("RcppArmadillo")
+        remotes::install_cran("RcppEigen")
+        remotes::install_cran("SparseM")
+        remotes::install_cran("abind")
+        remotes::install_cran("car")
+        remotes::install_cran("carData")
+        remotes::install_cran("caret")
         remotes::install_cran("rsconnect")
         library('rsconnect');
         setAccountInfo(name='visr', token=${{secrets.SHINYAPPS_TOKEN}}, secret=${{secrets.SHINYAPPS_SECRET}})
