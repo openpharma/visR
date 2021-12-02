@@ -33,7 +33,7 @@
 #' visR::estimate_cox(data = adtte, main = c("TRTP", "SEX"))
 #'
 #' ## Stratified Cox model (strata with one level)
-#' visR::estimate_cox(data = adtte, main = c("AGE", "survival::strata(PARAMCD)"))
+#' visR::estimate_cox(data = adtte, main = c("AGE", "survival::strata(RACE)"))
 #'
 #' ## Null model on subset of adtte
 #' visR::estimate_cox(data = adtte[adtte$SEX == "F", ])
