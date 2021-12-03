@@ -1,6 +1,6 @@
 #' @title Specifications test-add_highlight.R
 #' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2021-11-02 18:37:49
+#' @section Last update date: 2021-11-02 20:06:22
 #'
 #' @section List of tested specifications
 #' T1. The function modifies a `ggsurvfit` object and returns it.
@@ -372,7 +372,7 @@ testthat::test_that("T4.2 The function also reduces the alpha value of the confi
   gg_CI_fills_numeric <- gsub("#[A-Z0-9]{6}", "", gg_CI_fills) %>%
     sapply(function(s) {
 
-      visR:::.convert_alpha(hex_alpha = s)
+      .convert_alpha(hex_alpha = s)
 
     }) %>% as.vector()
 
@@ -381,7 +381,7 @@ testthat::test_that("T4.2 The function also reduces the alpha value of the confi
                                              x = gg_with_highlight_CI_fills) %>%
     sapply(function(s) {
 
-      visR:::.convert_alpha(hex_alpha = s)
+      .convert_alpha(hex_alpha = s)
 
     }) %>% as.vector()
 

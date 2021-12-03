@@ -1,6 +1,6 @@
 #' @title Specifications test-add_annotation.R
 #' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2021-11-02 18:37:49
+#' @section Last update date: 2021-11-02 20:06:22
 #'
 #' @section List of tested specifications
 #' T1. The function adds annotations to an object of class `ggplot`
@@ -208,7 +208,7 @@ testthat::test_that("T5.1 The annotation has bold columnheaders when the passed 
     visR::visr() %>% 
     visR::add_annotation(label = anno)
   
-  extracted_lbl <- unlist(lapply(visR_plot$components$grobs, function(x) {
+  extracted_lbl <- unlist(base::lapply(visR_plot$components$grobs, function(x) {
     x$label
   }))
 

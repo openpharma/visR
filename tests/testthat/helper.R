@@ -3,7 +3,7 @@
 #' A helper function for catching errors in the ggplot2 traceback stack
 #' @keywords internal
 
-check_traceback_stack_for_ggplot_aesthetics_warning <- function() {
+.check_traceback_stack_for_ggplot_aesthetics_warning <- function() {
 
   # ggplot returns its errors for aesthetics as overloaded arguments to the
   # a print call (I think?) which makes them non-catchable through testthat.
@@ -27,7 +27,7 @@ check_traceback_stack_for_ggplot_aesthetics_warning <- function() {
 #' A helper function for map numbers to an arbitrary range
 #' @keywords internal
 
-map_numbers_to_new_range <- function(numbers, lower, upper) {
+.map_numbers_to_new_range <- function(numbers, lower, upper) {
 
   # Used to artificially generated a set amount of strata for testing
   # https://stackoverflow.com/a/18303620/10169453
@@ -95,6 +95,86 @@ map_numbers_to_new_range <- function(numbers, lower, upper) {
   if (remove_watchdog) { files <- files[!grepl("test-CRAN_watchdog.R", files)] }
 
   return(unlist(files))
+  
+}
+
+#' A helper function that returns a formatted table containing a table of 
+#' content based on the `testthat` context and name info given in the file.  
+#' @keywords internal
+
+.get_test_TOC <- function(path_to_file) {
+  
+  txt <- paste(readLines(path_to_file, warn = FALSE), collapse = "\n")
+  tests <- gregexpr("testthat::test_that\\(\\\"(.+?)\"", txt)
+  contexts <- gregexpr("context\\(\\\"(.+?)\"", txt)
+  
+  context_df <- data.frame("pos" = unlist(contexts))
+  context_df["match.length"] <- attributes(contexts[[1]])$match.length  
+  context_df["index.type"] <- attributes(contexts[[1]])$index.type
+  context_df["useBytes"] <- attributes(contexts[[1]])$useBytes
+  context_df["type"] = "context"
+  context_df["content"] <- regmatches(txt, contexts)
+  
+  context_df$content <- base::lapply(context_df$content, function(c) {
+    c <- gsub(pattern = "context\\(\"(.+?)T", replacement = "T", x = c)
+    c <- gsub(pattern = "\"", replacement = "", x = c)
+    c
+  }) %>% unlist()
+  
+  test_df <- data.frame("pos" = unlist(tests))
+  test_df["match.length"] <- attributes(tests[[1]])$match.length  
+  test_df["index.type"] <- attributes(tests[[1]])$index.type
+  test_df["useBytes"] <- attributes(tests[[1]])$useBytes
+  test_df["type"] <- "test"
+  test_df["content"] <- regmatches(txt, tests)
+  
+  test_df$content <- base::lapply(test_df$content, function(c) {
+    c <- gsub(pattern = "testthat::test_that\\(\\\"T", replacement = "T", x = c)
+    c <- gsub(pattern = "\"", replacement = "", x = c)
+    c
+  }) %>% unlist()
+  
+  matches <- rbind(context_df, test_df)
+  matches <- matches[order(matches$pos),]
+  
+  
+  toc <- ""
+  toc <- base::lapply(matches$content, function(line) {
+    toc <- paste0(toc, "#' ", line, "\n")
+  }) %>% unlist() %>% paste0(collapse = "")
+  
+  return(toc)
+  
+}
+
+#' A helper function that compares the width of the grobs comprising the two given ggplot objects
+#' @keywords internal
+
+.check_grob_width_equal <- function(gg_A, gg_B) {
+
+  gg_A_grob <- ggplot2::ggplotGrob(gg_A)
+  gg_B_grob <- ggplot2::ggplotGrob(gg_B)
+
+  gg_A_grob_widths <- gg_A_grob$widths
+  gg_B_grob_widths <- gg_B_grob$widths
+
+  widths <- cbind(as.character(gg_A_grob_widths), as.character(gg_B_grob_widths))
+  tmp <- c()
+
+  for (i in 1:nrow(widths)) {
+
+    if (widths[i, 1] == widths[i, 2]) {
+
+      tmp <- c(tmp, TRUE)
+
+    } else {
+
+      tmp <- c(tmp, FALSE)
+
+    }
+  }
+
+  return(length(tmp[tmp != TRUE]))
 
 }
 
