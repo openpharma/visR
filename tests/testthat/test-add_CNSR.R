@@ -1,6 +1,6 @@
 #' @title Specifications test-add_CNSR.R
 #' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2021-11-02 18:37:49
+#' @section Last update date: 2021-11-02 20:06:22
 #'
 #' @section List of tested specifications
 #' T1. The output plots after adding confidence intervals don't differ from the reviewed plots

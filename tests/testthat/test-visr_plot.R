@@ -1,6 +1,6 @@
 #' @title Specifications test-visr_plot.R
 #' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2021-11-02 18:37:49
+#' @section Last update date: 2021-11-02 20:06:22
 #'
 #' @section List of tested specifications
 #' T1. visR::visr() only accepts `survfit` or `attrition`.

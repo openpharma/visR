@@ -1,6 +1,6 @@
 #' @title Specifications test-utils_table.R
 #' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2021-11-02 18:37:49
+#' @section Last update date: 2021-11-02 20:06:22
 #'
 #' @section List of tested specifications
 #' NA
