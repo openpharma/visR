@@ -5,7 +5,7 @@
 \alias{render.tableone}
 \alias{render.risktable}
 \alias{render.data.frame}
-\title{Render a dataframe or tibble}
+\title{Render a data.frame or tibble}
 \usage{
 render(
   data,
@@ -48,16 +48,15 @@ render(
 )
 }
 \arguments{
-\item{data}{The dataframe or tibble to visualise}
+\item{data}{The data.frame or tibble to visualize}
 
 \item{title}{Table title to include in the rendered table}
 
-\item{datasource}{String specifying the datasource underlying the data set}
+\item{datasource}{String specifying the data source underlying the data set}
 
 \item{footnote}{String specifying additional information to be displayed in the table note alongside the data source and specifications of statistical tests.}
 
-\item{output_format}{If TRUE, the summary statistics for the overall dataset
-are also calculated}
+\item{output_format}{Type of output that is returned, can be html or latex}
 
 \item{engine}{If html is selected as output format, one can chose between
 using kable, gt and DT as engine to create the output table}
@@ -74,6 +73,6 @@ A table-like data structure, possibly interactive depending on the choice of the
 A table-like data structure, possibly interactive depending on the choice of the engine
 }
 \description{
-Render a previously created dataframe to html,
+Render a previously created data.frame to html,
 rtf or latex
 }

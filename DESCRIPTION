@@ -38,23 +38,22 @@ Suggests:
     forcats,
     glue,
     tibble,
-    data.table
+    data.table,
+    DT,
+    gt (>= 0.1.0)
 RoxygenNote: 7.1.1
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 biocViews:
 Imports: 
     broom,
-    DT,
     survival,
     magrittr,
     ggplot2,
     tidyr,
     dplyr,
     kableExtra,
-    gt (>= 0.1.0),
     tidyselect,
-    parcats (>= 0.0.1),
     cowplot,
     gtable,
     gridExtra,
