@@ -63,13 +63,13 @@ the default will do a proposal based on the \code{fun} argument.}
 \item{fun}{Change the scale of the estimate.
 The current options are:
 \itemize{
-\item{\code{surv}}{is the survival probability. This is the default.}
-\item{\code{log}}{is log of the survival probability}
-\item{\code{event}}{is the failure probability}
-\item{\code{cloglog}}{is log(-log(survival probability))}
-\item{\code{pct}}{is survival as a percentage}
-\item{\code{logpct}}{is log survival as a percentage}
-\item{\code{cumhaz}}{is the cumulative hazard}
+\item{\code{surv}}{ is the survival probability. This is the default.}
+\item{\code{log}}{ is log of the survival probability}
+\item{\code{event}}{ is the failure probability}
+\item{\code{cloglog}}{ is log(-log(survival probability))}
+\item{\code{pct}}{ is survival as a percentage}
+\item{\code{logpct}}{ is log survival as a percentage}
+\item{\code{cumhaz}}{ is the cumulative hazard}
 }}
 
 \item{legend_position}{Specifies the legend position in the plot.
@@ -111,7 +111,7 @@ similar to base plot function.
 \examples{
 
 # fit KM 
-km_fit <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ TRTP, data=adtte)
+km_fit <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ TRTP, data = adtte)
 
 # plot curves using survival plot function
 plot(km_fit)
