@@ -46,34 +46,67 @@ align_plots <- function(pltlist) {
     }
   }
   
-  .LegendWidth <- function(x)
-    x$grobs[[8]]$grobs[[1]]$widths[[4]]
-
   plots.grobs <- lapply(pltlist, ggplot2::ggplotGrob)
-  max.widths <-
-    do.call(grid::unit.pmax, lapply(plots.grobs, "[[", "widths"))
-  legends.widths <- lapply(plots.grobs, .LegendWidth)
   
-  max.legends.width <-
-    base::suppressWarnings(do.call(max, legends.widths))
+  ncols <- lapply(plots.grobs, function(x) dim(x)[[2]])
+  maxcols <- max(unlist(ncols))
   
-  plots.grobs.eq.widths <- lapply(plots.grobs, function(x) {
-    x$widths <- max.widths
-    x
-  })
-
-  plots.grobs.eq.widths.aligned <-
-    lapply(plots.grobs.eq.widths, function(x) {
-      if (gtable::is.gtable(x$grobs[[8]])) {
-        x$grobs[[8]] <-
-          gtable::gtable_add_cols(x$grobs[[8]], unit(abs(diff(
-            c(LegendWidth(x), max.legends.width)
-          )), "mm"))
+  .addcols <- function(x){
+    
+    diffcols <- maxcols - dim(x)[[2]]
+    
+    if (diffcols>0){
+      
+      for(i in seq(1:diffcols)){
+        x <- gtable::gtable_add_cols(x, widths=grid::unit(1, "null"), pos=8)
       }
-      x
-    })
+      
+    }
+    
+    x
+  }
+  
+  plots.grobs.xcols <- lapply(plots.grobs, .addcols)
+  
+  ## assign max length to ensure alignment
+  maxWidth <- do.call(grid::unit.pmax, lapply(plots.grobs.xcols, "[[", "widths"))
+  for (i in seq(1,length(plots.grobs.xcols))){plots.grobs.xcols[[i]]$widths <- maxWidth} #lapply did not work well
 
-  plots.grobs.eq.widths.aligned
+  # ## layout
+  # layout <- cbind(seq(1:length(pltlist)))
+  # 
+  # gridExtra::grid.arrange(grobs = plots.grobs.xcols, layout_matrix=layout)
+
+  plots.grobs.xcols
+ 
+  # .LegendWidth <- function(x)
+  #   x$grobs[[8]]$grobs[[1]]$widths[[4]]
+  # 
+  # plots.grobs <- lapply(pltlist, ggplot2::ggplotGrob)
+  # max.widths <-
+  #   do.call(grid::unit.pmax, lapply(plots.grobs, "[[", "widths"))
+  # legends.widths <- lapply(plots.grobs, .LegendWidth)
+  # 
+  # max.legends.width <-
+  #   base::suppressWarnings(do.call(max, legends.widths))
+  # 
+  # plots.grobs.eq.widths <- lapply(plots.grobs, function(x) {
+  #   x$widths <- max.widths
+  #   x
+  # })
+  # 
+  # plots.grobs.eq.widths.aligned <-
+  #   lapply(plots.grobs.eq.widths, function(x) {
+  #     if (gtable::is.gtable(x$grobs[[8]])) {
+  #       x$grobs[[8]] <-
+  #         gtable::gtable_add_cols(x$grobs[[8]], unit(abs(diff(
+  #           c(LegendWidth(x), max.legends.width)
+  #         )), "mm"))
+  #     }
+  #     x
+  #   })
+  # 
+  # plots.grobs.eq.widths.aligned
 }
 
 #' @title Get strata level combinations 
