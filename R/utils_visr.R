@@ -46,6 +46,7 @@ align_plots <- function(pltlist) {
     }
   }
   
+  ### turn into grobs and investigate amount of columns
   plots.grobs <- lapply(pltlist, ggplot2::ggplotGrob)
   
   ncols <- lapply(plots.grobs, function(x) dim(x)[[2]])
@@ -66,19 +67,38 @@ align_plots <- function(pltlist) {
     x
   }
   
+  ## TableGrob 1 has 11 columns while the others have only 9 because lacking legend+spacer => add two columns and then resize
   plots.grobs.xcols <- lapply(plots.grobs, .addcols)
   
   ## assign max length to ensure alignment
   maxWidth <- do.call(grid::unit.pmax, lapply(plots.grobs.xcols, "[[", "widths"))
   for (i in seq(1,length(plots.grobs.xcols))){plots.grobs.xcols[[i]]$widths <- maxWidth} #lapply did not work well
+  
+  # ## The grob of the graph shrinks, but the Y-label inside a different grob remains at same location => move
+  # grid.draw(plots.grobs[[1]])
+  # grid.draw(plots.grobs.xcols[[1]]) 
+  # 
+  # # Grob with graph is shronken and label does not move with it because it is in another grob
+  # # Investigate which is the relative distance the panel moved so we can move the label equally
+  # # TableGrob has 11 columns, each with a width
+  # plots.grobs[[1]] # at row 7 we have 4 grobs before we see grid background
+  # plots.grobs[[1]]$widths
+ 
+  x <- grid::convertWidth(plots.grobs.xcols[[1]]$widths, "cm", valueOnly=F)[[4]] - grid::convertWidth(plots.grobs[[1]]$widths, "cm", valueOnly=F)[[4]]
 
-  # ## layout
+  plots.grobs.xcols[[1]]$grobs[[13]]$children[[1]]$x <- grid::unit(x,"cm")
+
+  # grid.draw(plots.grobs.xcols[[1]])
+
+  
+  return(plots.grobs.xcols)
+  
+  # ## layout without cowplot
   # layout <- cbind(seq(1:length(pltlist)))
   # 
   # gridExtra::grid.arrange(grobs = plots.grobs.xcols, layout_matrix=layout)
 
-  plots.grobs.xcols
- 
+  # ## old code
   # .LegendWidth <- function(x)
   #   x$grobs[[8]]$grobs[[1]]$widths[[4]]
   # 

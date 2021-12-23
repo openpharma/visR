@@ -159,9 +159,9 @@ add_risktable.ggsurvfit <- function(
   gglist <- list(gg) %>%
     base::append(tbls)
   
-  ggA <-  gglist %>%
+  ggA <- gglist %>%
     align_plots()
-
+  
 # Create plot and add class -----------------------------------------------
 
   ## cowplot allows to align according to an axis (+left) and change the heigth
