@@ -98,7 +98,7 @@ testthat::test_that("T1.3 An error when a list containing non-`ggplot` objects i
 
 testthat::context("utils_visr - T2. `align_plots()` aligns multiple `ggplot` objects, taking the legend into account.")
 
-testthat::test_that("T2.1 No error wen columns are added to the grob-converted plot.", {
+testthat::test_that("T2.1 Columns are added to the grob-converted plot.", {
   
   gg_sex <- adtte %>%
     visR::estimate_KM("SEX") %>%
@@ -127,7 +127,7 @@ testthat::test_that("T2.2 Equal widths are assigned to all grob-converted plots.
   
   gg_trtp <- adtte %>%
     visR::estimate_KM("TRTP") %>%
-    visR::visr(legend="none")
+    visR::visr(legend = "none")
 
   
   pltlist <- list(gg_sex, gg_trtp) %>%
@@ -140,28 +140,26 @@ testthat::test_that("T2.2 Equal widths are assigned to all grob-converted plots.
 testthat::test_that("T2.3 The y-axis label of the main plot is aligned to the y-axis label.", {
  
   gg_sex_trtp <- adtte %>%
-    visR::estimate_KM(strata = c("SEX","TRTP")) %>%
-    visR::visr() %>%
+    visR::estimate_KM(strata = c("SEX", "TRTP")) %>%
+    visR::visr(legend_position = "none") %>%
     add_risktable(group = "statlist")
   
-  # testthat::skip_on_cran()
-  # 
-  # cowplot::plot_grid(plotlist = gg_list, align = "none", nrow = 2) %>%
-  #   vdiffr::expect_doppelganger(title = "utils_visr_T2_1_aligns_legends_of_plots")  
+  testthat::skip_on_cran()
+  gg_sex_trtp %>%
+    vdiffr::expect_doppelganger(title = "utils_visr_T2_3_yaxis_labels_aligned_when_no_legend") 
 
 })
 
 testthat::test_that("T2.4 The final plot shows aligned plots taking the legend into account.", {
  
   gg_sex_trtp <- adtte %>%
-    visR::estimate_KM(strata = c("SEX","TRTP")) %>%
+    visR::estimate_KM(strata = c("SEX", "TRTP")) %>%
     visR::visr() %>%
     add_risktable(group = "statlist")
   
-  # testthat::skip_on_cran()
-  # cowplot::plot_grid(plotlist = gg_list, align = "none", nrow = 2) %>%
-  #   vdiffr::expect_doppelganger(title = "utils_visr_T2_1_aligns_legends_of_plots")  
-
+  testthat::skip_on_cran()
+  gg_sex_trtp %>%
+    vdiffr::expect_doppelganger(title = "utils_visr_T2_4_yaxis_labels_aligned_when_legend") 
 
 })
 
