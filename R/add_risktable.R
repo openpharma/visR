@@ -83,7 +83,7 @@ add_risktable.ggsurvfit <- function(
   #Since this call is using survival instead of visR, some characteristics are missing eg strata = "Overall" when no strata present
   main <- base::trimws(base::sub(".*~", "", call[[2]]), which = "both")
   
-  if (is.null(survfit_object$strata) && main == "1"){
+  if (is.null(survfit_object$strata) && main == "1") {
     survfit_object$strata <- as.vector(length(survfit_object$time))
     attr(survfit_object$strata, "names") <- "Overall"
   }
