@@ -98,37 +98,6 @@ map_numbers_to_new_range <- function(numbers, lower, upper) {
 
 }
 
-#' A helper function that compares the width of the grobs comprising the two given ggplot objects
-#' @keywords internal
-
-check_grob_width_equal <- function(gg_A, gg_B) {
-
-  gg_A_grob <- ggplot2::ggplotGrob(gg_A)
-  gg_B_grob <- ggplot2::ggplotGrob(gg_B)
-
-  gg_A_grob_widths <- gg_A_grob$widths
-  gg_B_grob_widths <- gg_B_grob$widths
-
-  widths <- cbind(as.character(gg_A_grob_widths), as.character(gg_B_grob_widths))
-  tmp <- c()
-
-  for (i in 1:nrow(widths)) {
-
-    if (widths[i, 1] == widths[i, 2]) {
-
-      tmp <- c(tmp, TRUE)
-
-    } else {
-
-      tmp <- c(tmp, FALSE)
-
-    }
-  }
-
-  return(length(tmp[tmp != TRUE]))
-
-}
-
 # get_pvalue - Results to compare against ---------------------------------
 
 ref1 <- survival::survdiff(formula = survival::Surv(AVAL, 1 - CNSR) ~ TRTA, data = adtte, rho=0)

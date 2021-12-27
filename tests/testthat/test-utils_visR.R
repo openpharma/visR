@@ -1,15 +1,18 @@
 #' @title Specifications utils_visr
-#' @section Last updated by: Tim Treis
-#' @section Last update date: 30-JULY-2021
+#' @section Last updated by: Steven Haesendonckx
+#' @section Last update date: 24DEC2021
 
 # Specifications ---------------------------------------------------------------
 
 #' T1. `align_plots()` accepts a list of `ggplot` objects.
 #' T1.1 No error when a list of `ggplot` objects is passed.
-#' T1.2 An error when nothing or `NULL` is passed.
+#' T1.2 An error when `NULL` is passed.
 #' T1.3 An error when a list containing non-`ggplot` objects is passed.
 #' T2. `align_plots()` aligns multiple `ggplot` objects, taking the legend into account.
-#' T2.1 No error when a list of ggplots is passed.
+#' T2.1 Columns are added to the grob-converted plot
+#' T2.2 Equal widths are assigned to all grob-converted plots
+#' T2.3 The y-axis label of the main plot is aligned to the y-axis label
+#' T2.4 The final plot shows aligned plots taking the legend into account
 #' T3. The function `legendopts()` translates the input to a `ggplot2`-compatible list.
 #' T3.1 No error when no arguments are specified.
 #' T3.2 A list is returned when no arguments are specified.
@@ -68,7 +71,7 @@ testthat::test_that("T1.1 No error when a list of `ggplot` objects is passed.", 
   
 })
 
-testthat::test_that("T1.2 An error when nothing or `NULL` is passed.", {
+testthat::test_that("T1.2 An error when `NULL` is passed.", {
   
   testthat::expect_error(visR::align_plots())
   testthat::expect_error(visR::align_plots(pltlist = NULL))
@@ -95,7 +98,7 @@ testthat::test_that("T1.3 An error when a list containing non-`ggplot` objects i
 
 testthat::context("utils_visr - T2. `align_plots()` aligns multiple `ggplot` objects, taking the legend into account.")
 
-testthat::test_that("T2.1 No error when a list of ggplots is passed.", {
+testthat::test_that("T2.1 Columns are added to the grob-converted plot.", {
   
   gg_sex <- adtte %>%
     visR::estimate_KM("SEX") %>%
@@ -103,17 +106,61 @@ testthat::test_that("T2.1 No error when a list of ggplots is passed.", {
   
   gg_trtp <- adtte %>%
     visR::estimate_KM("TRTP") %>%
-    visR::visr()
+    visR::visr(legend = "none")
+
   
-  # Legend widths are unequal
-  testthat::expect_true(check_grob_width_equal(gg_sex, gg_trtp) != 0)
+  pltlist <- list(gg_sex, gg_trtp) %>%
+    visR::align_plots()
   
-  gg_list <- visR::align_plots(list(gg_sex, gg_trtp))
+  grob_orig <- ggplot2::ggplotGrob(gg_trtp)
+ 
+  testthat::expect_false(dim(grob_orig)[2] == dim(pltlist[[2]])[2])
+  testthat::expect_true(dim(pltlist[[1]])[2] == dim(pltlist[[2]])[2])
+  
+})
+
+testthat::test_that("T2.2 Equal widths are assigned to all grob-converted plots.", {
+  
+  gg_sex <- adtte %>%
+    visR::estimate_KM("SEX") %>%
+    visR::visr() 
+  
+  gg_trtp <- adtte %>%
+    visR::estimate_KM("TRTP") %>%
+    visR::visr(legend = "none")
+
+  
+  pltlist <- list(gg_sex, gg_trtp) %>%
+    visR::align_plots()
+  
+  testthat::expect_true(identical(pltlist[[1]]$widths, pltlist[[2]]$widths))
+  
+})
+
+testthat::test_that("T2.3 The y-axis label of the main plot is aligned to the y-axis label.", {
+ 
+  gg_sex_trtp <- adtte %>%
+    visR::estimate_KM(strata = c("SEX", "TRTP")) %>%
+    visR::visr(legend_position = "none") %>%
+    add_risktable(group = "statlist")
   
   testthat::skip_on_cran()
-  cowplot::plot_grid(plotlist = gg_list, align = "none", nrow = 2) %>%
-    vdiffr::expect_doppelganger(title = "utils_visr_T2_1_aligns_legends_of_plots")  
+  gg_sex_trtp %>%
+    vdiffr::expect_doppelganger(title = "utils_visr_T2_3_yaxis_labels_aligned_when_no_legend") 
+
+})
+
+testthat::test_that("T2.4 The final plot shows aligned plots taking the legend into account.", {
+ 
+  gg_sex_trtp <- adtte %>%
+    visR::estimate_KM(strata = c("SEX", "TRTP")) %>%
+    visR::visr() %>%
+    add_risktable(group = "statlist")
   
+  testthat::skip_on_cran()
+  gg_sex_trtp %>%
+    vdiffr::expect_doppelganger(title = "utils_visr_T2_4_yaxis_labels_aligned_when_legend") 
+
 })
 
 # Requirement T3 ---------------------------------------------------------------

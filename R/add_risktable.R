@@ -136,7 +136,8 @@ add_risktable.ggsurvfit <- function(
                      axis.ticks = ggplot2::element_blank(),
                      axis.text.y = ggplot2::element_text(size = 8, colour = "black", face = "plain"),
                      plot.margin = ggplot2::unit(c(1, 0, 0, 0), "lines"),
-                     plot.title = ggplot2::element_text(hjust = 0, vjust = 0)
+                     plot.title = ggplot2::element_text(hjust = 0, vjust = 0),
+                     legend.position = "none"
                     ) +
       ggplot2::xlab(NULL) +
       ggplot2::ylab(NULL)
@@ -158,9 +159,9 @@ add_risktable.ggsurvfit <- function(
   gglist <- list(gg) %>%
     base::append(tbls)
   
-  ggA <-  gglist %>%
+  ggA <- gglist %>%
     align_plots()
-
+  
 # Create plot and add class -----------------------------------------------
 
   ## cowplot allows to align according to an axis (+left) and change the heigth

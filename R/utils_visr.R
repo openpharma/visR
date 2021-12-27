@@ -10,9 +10,6 @@
 #'
 #' @examples
 #' \donttest{
-#' library(ggplot2)
-#' library(gtable)
-#' library(cowplot)
 #'
 #' ## create 2 graphs
 #' p1 <- ggplot2::ggplot(adtte, ggplot2::aes(x = as.numeric(AGE), fill = "Age")) +
@@ -24,7 +21,7 @@
 #' cowplot::plot_grid(plotlist = list(p1,p2), align = "none", nrow=2)
 #'
 #' ## align_plots() takes into account legend width
-#' cowplot::plot_grid(plotlist = align_plots(pltlist = list(p1, p2)), align = "none", nrow=2)
+#' cowplot::plot_grid(plotlist = visR::align_plots(pltlist = list(p1, p2)), align = "none", nrow=2)
 #' }
 #' @export
 
@@ -46,34 +43,94 @@ align_plots <- function(pltlist) {
     }
   }
   
-  .LegendWidth <- function(x)
-    x$grobs[[8]]$grobs[[1]]$widths[[4]]
-
-  plots.grobs <- lapply(pltlist, ggplot2::ggplotGrob)
-  max.widths <-
-    do.call(grid::unit.pmax, lapply(plots.grobs, "[[", "widths"))
-  legends.widths <- lapply(plots.grobs, .LegendWidth)
+  ### turn plots into grobs and determine amount of columns
+  plots_grobs <- lapply(pltlist, ggplot2::ggplotGrob)
   
-  max.legends.width <-
-    base::suppressWarnings(do.call(max, legends.widths))
+  ncols <- lapply(plots_grobs, function(x) dim(x)[[2]])
+  maxcols <- max(unlist(ncols))
   
-  plots.grobs.eq.widths <- lapply(plots.grobs, function(x) {
-    x$widths <- max.widths
-    x
-  })
-
-  plots.grobs.eq.widths.aligned <-
-    lapply(plots.grobs.eq.widths, function(x) {
-      if (gtable::is.gtable(x$grobs[[8]])) {
-        x$grobs[[8]] <-
-          gtable::gtable_add_cols(x$grobs[[8]], unit(abs(diff(
-            c(LegendWidth(x), max.legends.width)
-          )), "mm"))
+  ### Function to add more columns to compensate for eg missing legend
+  .addcols <- function(x){
+    
+    diffcols <- maxcols - dim(x)[[2]]
+    
+    if (diffcols>0){
+      
+      for(i in seq(1:diffcols)){
+        x <- gtable::gtable_add_cols(x, widths=grid::unit(1, "null"), pos=8)
       }
-      x
-    })
+      
+    }
+    
+    x
+  }
+  
+  ### TableGrob 1 has 11 columns while the others have only 9 because lacking legend+spacer 
+   ## => add two columns and then resize
+  plots_grobs_xcols <- lapply(plots_grobs, .addcols)
+  
+  ### assign max length to ensure alignment
+  max_width <- do.call(grid::unit.pmax, lapply(plots_grobs_xcols, "[[", "widths"))
+  for (i in seq(1,length(plots_grobs_xcols))) {
+    plots_grobs_xcols[[i]]$widths <- max_width
+  } 
+  
+  # ## The grob of the graph shrinks, but the Y-label inside a different grob remains at same location => move
+  # grid.draw(plots.grobs[[1]])
+  # grid.draw(plots.grobs.xcols[[1]]) 
+  # 
+  # # Grob with graph is shronken and label does not move with it because it is in another grob
+  # # Investigate which is the relative distance the graphgrob moved so we can move the label equally
+  # # Key = spacer that broadened
+  # # TableGrob has 11 columns, each with a width
+  # plots.grobs[[1]] # at row 7 we have 4 grobs before we see grid background
+  # plots.grobs[[1]]$widths
+ 
+  xcol_widths <- grid::convertWidth(plots_grobs_xcols[[1]]$widths, "cm", valueOnly = F)
+  grob_widths <- grid::convertWidth(plots_grobs[[1]]$widths, "cm", valueOnly = F)
+  x <- xcol_widths[[4]] - grob_widths[[4]]
 
-  plots.grobs.eq.widths.aligned
+  plots_grobs_xcols[[1]]$grobs[[13]]$children[[1]]$x <- grid::unit(x, "cm")
+
+  # grid.draw(plots.grobs.xcols[[1]])
+
+  
+  return(plots_grobs_xcols)
+  
+  # ## layout without cowplot: rel. length is challenging to get right
+  # layout <- cbind(seq(1:length(pltlist)))
+  # 
+  # gridExtra::grid.arrange(grobs = plots.grobs.xcols, layout_matrix=layout)
+
+  # ### old code
+  # .LegendWidth <- function(x)
+  #   x$grobs[[8]]$grobs[[1]]$widths[[4]]
+  # 
+  # plots.grobs <- lapply(pltlist, ggplot2::ggplotGrob)
+  # max.widths <-
+  #   do.call(grid::unit.pmax, lapply(plots.grobs, "[[", "widths"))
+  # legends.widths <- lapply(plots.grobs, .LegendWidth)
+  # 
+  # max.legends.width <-
+  #   base::suppressWarnings(do.call(max, legends.widths))
+  # 
+  # plots.grobs.eq.widths <- lapply(plots.grobs, function(x) {
+  #   x$widths <- max.widths
+  #   x
+  # })
+  # 
+  # plots.grobs.eq.widths.aligned <-
+  #   lapply(plots.grobs.eq.widths, function(x) {
+  #     if (gtable::is.gtable(x$grobs[[8]])) {
+  #       x$grobs[[8]] <-
+  #         gtable::gtable_add_cols(x$grobs[[8]], unit(abs(diff(
+  #           c(LegendWidth(x), max.legends.width)
+  #         )), "mm"))
+  #     }
+  #     x
+  #   })
+  # 
+  # plots.grobs.eq.widths.aligned
 }
 
 #' @title Get strata level combinations 
