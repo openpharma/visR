@@ -101,7 +101,7 @@ testthat::test_that("T1.4 No error when a custom function is used.", {
   
 })
 
-# Requirement T3 ---------------------------------------------------------------
+# Requirement T2 ---------------------------------------------------------------
 
 testthat::context("add_quantiles - T2. If any parameter is specified incorrectly, defaults are used instead.")
 

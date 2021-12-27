@@ -1,9 +1,7 @@
 #' @title Plot a supported S3 object
 #'
-#' @description Method to display a `ggplot` directly from an object 
-#'   through an S3 method. 
-#'   S3 method for creating plots directly from objects using `ggplot2`, 
-#'   similar to base plot function.
+#' @description S3 method for creating plots directly from objects using `ggplot2`, 
+#'   similar to base::plot function.
 #' 
 #' @seealso \code{\link[ggplot2]{ggplot}}
 #'
@@ -23,24 +21,18 @@ visr <- function(x, ...){
 #' @export
 
 visr.default <- function(x, ...){
-  
-  if (length(class(x)) > 1) {
-    stop("Objects of type `",
-         paste0(class(x), collapse = "` / `"),
-         "` not supported by visr.")
-  } else if (length(class(x)) == 1) {
-    stop(paste0("Objects of type `", class(x), "` not supported by visr."))
-  }
-  
+  base::plot(x)
 }
 
 #' @param x Object of class `survfit`
 #' @param x_label \code{character} Label for the x-asis. When not specified, 
 #'   the algorithm will look for "PARAM" information inside the list structure 
-#'   of the `survfit` object.
-#'   Note that this information is automatically added when using 
-#'   visR::estimate_KM and when the input data has the variable "PARAM". 
-#'   If no "PARAM" information is available "time" is used as label.
+#'   of the `survfit` object. 
+#'   If no "PARAM" information is available, the algorithm will look for "PARAMCD"
+#'   information inside the list structure.
+#'   If both "PARAM" and "PARAMCD" are missing then "time" is used as label.
+#'   Note that "PARAM"/"PARAMCD" information is automatically added when using 
+#'   visR::estimate_KM if the input data follows ADaM data model structure.
 #' @param y_label \code{character} Label for the y-axis. When not specified, 
 #'   the default will do a proposal, depending on the `fun` argument.
 #' @param x_units Unit to be added to the x_label (x_label (x_unit)). 
@@ -49,7 +41,7 @@ visr.default <- function(x, ...){
 #'   do a proposal.
 #' @param y_ticks Ticks for the y-axis. When not specified, 
 #'   the default will do a proposal based on the `fun` argument.
-#' @param fun Change the scale of the estimate. 
+#' @param fun Function that represents the scale of the estimate. 
 #'   The current options are:
 #'   \itemize{
 #'   \item{`surv`}{ is the survival probability. This is the default.}
@@ -266,6 +258,7 @@ visr.survfit <- function(
       
       warning("The x-axis label was not specified and could also not be automatically determined due to absence of 'PARAM' and 'PARAMCD'.")
       
+      x_label <- "Time"
     }
     
     if (!is.null(x_units)) { x_label = paste0(x_label, " (", x_units, ")") }
@@ -337,7 +330,6 @@ visr.survfit <- function(
   return(gg)
 
 }
-
 
 #' @param x Object of class `attritiontable` with each row corresponding to an 
 #'   inclusion step in the cohort and minimally a description and a count column
@@ -517,7 +509,3 @@ visr.attrition <- function(x,
   return(gg)
 
 }
-
-
-
-
