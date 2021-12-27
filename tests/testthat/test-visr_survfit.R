@@ -78,18 +78,25 @@ testthat::test_that("T1.2 No error when applied to a `attrition` object.", {
 
 testthat::test_that("T1.3 An error when applied to an object that is not `survfit` or `attrition`.", {
   
-  testthat::expect_error("visR" %>% visR::visr())
-  testthat::expect_error(1 %>% visR::visr())
-  testthat::expect_error(NA %>% visR::visr())
-  testthat::expect_error(TRUE %>% visR::visr())
-  testthat::expect_error(list() %>% visR::visr())
-  
   fit <- stats::lm(AGE ~ TRTDUR, adtte)
   fit_with_more_classes <- fit
   class(fit_with_more_classes) <- c(class(fit_with_more_classes), "visR")
   
-  testthat::expect_error(fit %>% visR::visr())
-  testthat::expect_error(fit_with_more_classes %>% visR::visr())
+  testthat::expect_error("visR" %>% visR::visr.survfit())
+  testthat::expect_error(1 %>% visR::visr.survfit())
+  testthat::expect_error(NA %>% visR::visr.survfit())
+  testthat::expect_error(TRUE %>% visR::visr.survfit())
+  testthat::expect_error(list() %>% visR::visr.survfit())
+  testthat::expect_error(fit %>% visR::visr.survfit())
+  testthat::expect_error(fit_with_more_classes %>% visR::visr.survfit())
+  
+  testthat::expect_error("visR" %>% visR::visr.attrition())
+  testthat::expect_error(1 %>% visR::visr.attrition())
+  testthat::expect_error(NA %>% visR::visr.attrition())
+  testthat::expect_error(TRUE %>% visR::visr.attrition())
+  testthat::expect_error(list() %>% visR::visr.attrition())
+  testthat::expect_error(fit %>% visR::visr.attrition())
+  testthat::expect_error(fit_with_more_classes %>% visR::visr.attrition())
   
 })
 
