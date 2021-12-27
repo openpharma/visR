@@ -44,9 +44,9 @@ align_plots <- function(pltlist) {
   }
   
   ### turn plots into grobs and determine amount of columns
-  plots.grobs <- lapply(pltlist, ggplot2::ggplotGrob)
+  plots_grobs <- lapply(pltlist, ggplot2::ggplotGrob)
   
-  ncols <- lapply(plots.grobs, function(x) dim(x)[[2]])
+  ncols <- lapply(plots_grobs, function(x) dim(x)[[2]])
   maxcols <- max(unlist(ncols))
   
   ### Function to add more columns to compensate for eg missing legend
@@ -67,11 +67,13 @@ align_plots <- function(pltlist) {
   
   ### TableGrob 1 has 11 columns while the others have only 9 because lacking legend+spacer 
    ## => add two columns and then resize
-  plots.grobs.xcols <- lapply(plots.grobs, .addcols)
+  plots_grobs_xcols <- lapply(plots_grobs, .addcols)
   
   ### assign max length to ensure alignment
-  maxWidth <- do.call(grid::unit.pmax, lapply(plots.grobs.xcols, "[[", "widths"))
-  for (i in seq(1,length(plots.grobs.xcols))){plots.grobs.xcols[[i]]$widths <- maxWidth} #lapply did not work well
+  max_width <- do.call(grid::unit.pmax, lapply(plots_grobs_xcols, "[[", "widths"))
+  for (i in seq(1,length(plots_grobs_xcols))) {
+    plots_grobs_xcols[[i]]$widths <- max_width
+  } 
   
   # ## The grob of the graph shrinks, but the Y-label inside a different grob remains at same location => move
   # grid.draw(plots.grobs[[1]])
@@ -84,14 +86,16 @@ align_plots <- function(pltlist) {
   # plots.grobs[[1]] # at row 7 we have 4 grobs before we see grid background
   # plots.grobs[[1]]$widths
  
-  x <- grid::convertWidth(plots.grobs.xcols[[1]]$widths, "cm", valueOnly=F)[[4]] - grid::convertWidth(plots.grobs[[1]]$widths, "cm", valueOnly=F)[[4]]
+  xcol_widths <- grid::convertWidth(plots_grobs_xcols[[1]]$widths, "cm", valueOnly = F)
+  grob_widths <- grid::convertWidth(plots_grobs[[1]]$widths, "cm", valueOnly = F)
+  x <- xcol_widths[[4]] - grob_widths[[4]]
 
-  plots.grobs.xcols[[1]]$grobs[[13]]$children[[1]]$x <- grid::unit(x,"cm")
+  plots_grobs_xcols[[1]]$grobs[[13]]$children[[1]]$x <- grid::unit(x, "cm")
 
   # grid.draw(plots.grobs.xcols[[1]])
 
   
-  return(plots.grobs.xcols)
+  return(plots_grobs_xcols)
   
   # ## layout without cowplot: rel. length is challenging to get right
   # layout <- cbind(seq(1:length(pltlist)))

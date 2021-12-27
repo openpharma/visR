@@ -98,7 +98,7 @@ testthat::test_that("T1.3 An error when a list containing non-`ggplot` objects i
 
 testthat::context("utils_visr - T2. `align_plots()` aligns multiple `ggplot` objects, taking the legend into account.")
 
-testthat::test_that("T2.1 Columns are added to the grob-converted plot.", {
+testthat::test_that("T2.1 No error wen columns are added to the grob-converted plot.", {
   
   gg_sex <- adtte %>%
     visR::estimate_KM("SEX") %>%
@@ -106,7 +106,7 @@ testthat::test_that("T2.1 Columns are added to the grob-converted plot.", {
   
   gg_trtp <- adtte %>%
     visR::estimate_KM("TRTP") %>%
-    visR::visr(legend="none")
+    visR::visr(legend = "none")
 
   
   pltlist <- list(gg_sex, gg_trtp) %>%
