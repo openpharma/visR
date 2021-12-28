@@ -54,10 +54,10 @@ align_plots <- function(pltlist) {
     
     diffcols <- maxcols - dim(x)[[2]]
     
-    if (diffcols>0){
+    if (diffcols > 0){
       
-      for(i in seq(1:diffcols)){
-        x <- gtable::gtable_add_cols(x, widths=grid::unit(1, "null"), pos=8)
+      for (i in seq(1:diffcols)) {
+        x <- gtable::gtable_add_cols(x, widths = grid::unit(1, "null"), pos = 8)
       }
       
     }
@@ -86,8 +86,16 @@ align_plots <- function(pltlist) {
   # plots.grobs[[1]] # at row 7 we have 4 grobs before we see grid background
   # plots.grobs[[1]]$widths
  
-  xcol_widths <- grid::convertWidth(plots_grobs_xcols[[1]]$widths, "cm", valueOnly = F)
-  grob_widths <- grid::convertWidth(plots_grobs[[1]]$widths, "cm", valueOnly = F)
+  xcol_widths <- grid::convertWidth(
+    plots_grobs_xcols[[1]]$widths, 
+    unitTo = "cm", 
+    valueOnly = FALSE
+  )
+  grob_widths <- grid::convertWidth(
+    plots_grobs[[1]]$widths, 
+    unitTo = "cm", 
+    valueOnly = FALSE
+  )
   x <- xcol_widths[[4]] - grob_widths[[4]]
 
   plots_grobs_xcols[[1]]$grobs[[13]]$children[[1]]$x <- grid::unit(x, "cm")
@@ -148,7 +156,7 @@ align_plots <- function(pltlist) {
   x1 <- base::strsplit(as.character(strata), ",")
   x2 <- lapply(x1, FUN = function(x) base::sub('.*=', '', x))
   x3 <- base::lapply(x2, FUN = function(x) base::paste0(x, collapse = ", "))
-  x4 <- base::unlist(trimws(x3, which="both"))
+  x4 <- base::unlist(trimws(x3, which = "both"))
   
   return(x4)
 }

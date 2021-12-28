@@ -44,9 +44,11 @@ inclusion step in the cohort and minimally a description and a count column}
 \item{x_label}{\code{character} Label for the x-asis. When not specified,
 the algorithm will look for "PARAM" information inside the list structure
 of the \code{survfit} object.
-Note that this information is automatically added when using
-visR::estimate_KM and when the input data has the variable "PARAM".
-If no "PARAM" information is available "time" is used as label.}
+If no "PARAM" information is available, the algorithm will look for "PARAMCD"
+information inside the list structure.
+If both "PARAM" and "PARAMCD" are missing then "time" is used as label.
+Note that "PARAM"/"PARAMCD" information is automatically added when using
+visR::estimate_KM if the input data follows ADaM data model structure.}
 
 \item{y_label}{\code{character} Label for the y-axis. When not specified,
 the default will do a proposal, depending on the \code{fun} argument.}
@@ -60,7 +62,7 @@ do a proposal.}
 \item{y_ticks}{Ticks for the y-axis. When not specified,
 the default will do a proposal based on the \code{fun} argument.}
 
-\item{fun}{Change the scale of the estimate.
+\item{fun}{Function that represents the scale of the estimate.
 The current options are:
 \itemize{
 \item{\code{surv}}{ is the survival probability. This is the default.}
@@ -103,10 +105,8 @@ Object of class \code{ggplot}  \code{ggsurvplot}.
 Object of class \code{ggplot}.
 }
 \description{
-Method to display a \code{ggplot} directly from an object
-through an S3 method.
 S3 method for creating plots directly from objects using \code{ggplot2},
-similar to base plot function.
+similar to base::plot function.
 }
 \examples{
 

@@ -283,7 +283,7 @@ testthat::test_that("T2.16 A warning when `x_label` is `NULL` and the `PARAM` co
   survfit_object <- adtte %>%
     visR::estimate_KM("SEX") 
   
-  survfit_object$PARAM <- rep(survfit_object$PARAM, length(survfit_object$surv)-1)
+  survfit_object$PARAM <- rep(survfit_object$PARAM, length(survfit_object$surv) - 1)
   survfit_object$PARAM <- c(survfit_object$PARAM, "visR")
   
   expected_warning <- "More than one unique entry in 'PARAM'."
@@ -299,7 +299,7 @@ testthat::test_that("T2.17 A warning when `x_label` is `NULL` and the `PARAMCD` 
     dplyr::select(-PARAM) %>%
     visR::estimate_KM("SEX") 
   
-  survfit_object$PARAMCD <- rep(survfit_object$PARAMCD, length(survfit_object$surv)-1)
+  survfit_object$PARAMCD <- rep(survfit_object$PARAMCD, length(survfit_object$surv) - 1)
   survfit_object$PARAMCD <- c(survfit_object$PARAMCD, "visR")
   
   expected_warning <- "More than one unique entry in 'PARAMCD'."
@@ -404,12 +404,12 @@ testthat::test_that("T2.25 An error when an undefined option is passed to `legen
   testthat::expect_error(survfit_object %>% visR::visr(legend_position = c(0)))
   testthat::expect_error(survfit_object %>% visR::visr(legend_position = c(0.5, 0.5, 0.5)))
   
-  could_set_to_NA <- tryCatch ({
+  could_set_to_NA <- tryCatch({
     
     tmp <- print(survfit_object %>% visR::visr(legend_position = NA))
     TRUE
     
-  }, error=function(cond) {
+  }, error = function(cond) {
     
     FALSE
     
@@ -417,12 +417,12 @@ testthat::test_that("T2.25 An error when an undefined option is passed to `legen
   
   testthat::expect_false(could_set_to_NA)
   
-  could_set_to_bool <- tryCatch ({
+  could_set_to_bool <- tryCatch({
     
     tmp <- print(survfit_object %>% visR::visr(legend_position = TRUE))
     TRUE
     
-  }, error=function(cond) {
+  }, error = function(cond) {
     
     FALSE
     
@@ -430,12 +430,12 @@ testthat::test_that("T2.25 An error when an undefined option is passed to `legen
   
   testthat::expect_false(could_set_to_bool)
   
-  could_set_to_list <- tryCatch ({
+  could_set_to_list <- tryCatch({
     
     tmp <- print(survfit_object %>% visR::visr(legend_position = list()))
     TRUE
     
-  }, error=function(cond) {
+  }, error = function(cond) {
     
     FALSE
     
@@ -517,7 +517,7 @@ testthat::test_that("T3.7 The `fun` argument is stored in the final object as at
   
   survfit_plot <- adtte %>%
     visR::estimate_KM("SEX") %>%
-    visr(fun='log')
+    visr(fun = 'log')
   
   testthat::expect_true(class(attr(survfit_plot, "fun")) == "function")
   
@@ -531,7 +531,7 @@ testthat::test_that("T4.1 The final object is a ggplot of class `ggplot`.", {
   
   survfit_plot <- adtte %>%
     visR::estimate_KM("SEX") %>%
-    visr(fun='log')
+    visr(fun = 'log')
   
   testthat::expect_true("ggplot" %in% class(survfit_plot))
 
@@ -541,10 +541,11 @@ testthat::test_that("T4.2 The final object is a ggplot of class `ggsurvfit`.", {
   
   survfit_plot <- adtte %>%
     visR::estimate_KM("SEX") %>%
-    visr(fun='log')
+    visr(fun = 'log')
   
   testthat::expect_true("ggsurvfit" %in% class(survfit_plot))
 
 })
 
 # END --------------------------------------------------------------------------
+

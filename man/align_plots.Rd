@@ -17,9 +17,6 @@ This function aligns multiple \code{ggplot} graphs by making them the same width
 }
 \examples{
 \donttest{
-library(ggplot2)
-library(gtable)
-library(cowplot)
 
 ## create 2 graphs
 p1 <- ggplot2::ggplot(adtte, ggplot2::aes(x = as.numeric(AGE), fill = "Age")) +
@@ -31,7 +28,7 @@ p2 <- ggplot2::ggplot(adtte, ggplot2::aes(x = as.numeric(AGE))) +
 cowplot::plot_grid(plotlist = list(p1,p2), align = "none", nrow=2)
 
 ## align_plots() takes into account legend width
-cowplot::plot_grid(plotlist = align_plots(pltlist = list(p1, p2)), align = "none", nrow=2)
+cowplot::plot_grid(plotlist = visR::align_plots(pltlist = list(p1, p2)), align = "none", nrow=2)
 }
 }
 \references{
