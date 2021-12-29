@@ -40,8 +40,12 @@ Suggests:
     tibble,
     data.table,
     DT,
-    gt (>= 0.1.0)
-RoxygenNote: 7.1.1
+    gt (>= 0.1.0),
+    tidycmprsk
+Remotes: 
+    MSKCC-Epi-Bio/tidycmprsk, 
+    r-lib/rlang
+RoxygenNote: 7.1.2
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 biocViews:
@@ -57,5 +61,5 @@ Imports:
     cowplot,
     gtable,
     gridExtra,
-    rlang
+    rlang (>= 0.99)
 VignetteBuilder: knitr
