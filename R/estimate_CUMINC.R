@@ -164,7 +164,7 @@ get_risktable.ggtidycuminc <- function(x
 
   tidycmprsk::tidy(attr(x, "tidycuminc"), times = times) %>%
     dplyr::filter(.data$outcome %in% names(attr(x, "tidycuminc")$failcode)[1]) %>%
-    dplyr::select(time, strata, n.risk, n.event = cumulative.event, n.censor = cumulative.censor) %>%
+    dplyr::select(time, strata, n.risk, n.event, cumulative.event, n.censor, cumulative.censor) %>%
     tidyr::pivot_longer(cols = -c(time, strata)) %>%
     tidyr::pivot_wider(
       id_cols = c(time, name),
