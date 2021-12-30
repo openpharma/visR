@@ -6,12 +6,12 @@
 #'
 #' @param data The name of the dataset for the Cox model is based on the Analysis Data Model (ADaM) principles. The dataset is expected to have
 #'    one record per subject per analysis parameter. Rows in which the analysis variable (AVAL) or the sensor variable (CNSR) contain NA, are removed during analysis.
-#' @param main Character vector, representing the covariates used at the Cox model. When NULL, the baseline (null) model is fit.
+#' @param equation Character vector, representing the covariates used at the Cox model. When NULL, the baseline (null) model is fit.
 #'    Default is NULL.
 #' @param AVAL Analysis value for the Cox model. Default is "AVAL", as per CDISC ADaM guiding principles.
 #' @param CNSR Censor for the Cox model. Default is "CNSR", as per CDISC ADaM guiding principles.
 #' @param conf.int Confidence intervals used for the estimation.
-#' @param ... additional arguments passed on to the ellipsis of the call \code{survival::coxph(data = data, formula = survival::Surv(AVAL, 1-CNSR) ~ main), ...)} .
+#' @param ... additional arguments passed on to the ellipsis of the call \code{survival::coxph(data = data, formula = survival::Surv(AVAL, 1-CNSR) ~ equation), ...)} .
 #'    Use \code{?survival::coxph} and \code{?survival::summary.coxph} for more information.
 #'
 #' @return a summarized coxph model
@@ -27,19 +27,19 @@
 #'
 #' ## Univariate Cox regression model using the covariate: `TRTP`
 #' # Stratified Kaplan-Meier analysis by `TRTP`
-#' visR::estimate_cox(data = adtte, main = "TRTP")
+#' visR::estimate_cox(data = adtte, equation = "TRTP")
 #'
 #' ## Multivariate Cox regression model using the covariates: `TRTP` and `SEX`
-#' visR::estimate_cox(data = adtte, main = c("TRTP", "SEX"))
+#' visR::estimate_cox(data = adtte, equation = c("TRTP", "SEX"))
 #'
 #' ## Stratified Cox model (strata with one level)
-#' visR::estimate_cox(data = adtte, main = c("AGE", "survival::strata(RACE)"))
+#' visR::estimate_cox(data = adtte, equation = c("AGE", "survival::strata(RACE)"))
 #'
 #' ## Null model on subset of adtte
 #' visR::estimate_cox(data = adtte[adtte$SEX == "F", ])
 #'
 #' ## Modify the default analysis by using the ellipsis
-#' visR::estimate_cox(data = adtte, main = c( "SEX", "survival::cluster(USUBJID)"),
+#' visR::estimate_cox(data = adtte, equation = c( "SEX", "survival::cluster(USUBJID)"),
 #'   tier = "breslow", conf.int = 0.9)
 #'
 #' ## Example working with non CDISC data
@@ -52,13 +52,13 @@
 #'                CNSR = dplyr::if_else(status == 1, 0, 1)
 #'  )
 #'
-#' visR::estimate_cox(data = veteran_adam, main = c("trt", "diagtime"))
+#' visR::estimate_cox(data = veteran_adam, equation = c("trt", "diagtime"))
 
 
 
 estimate_cox <- function(
   data = NULL
-  ,main = NULL
+  ,equation = NULL
   ,CNSR = "CNSR"
   ,AVAL = "AVAL"
   ,conf.int = 0.95
@@ -94,11 +94,20 @@ estimate_cox <- function(
 
   # Validate columns --------------------------------------------------------
 
-  reqcols <- c(main, CNSR, AVAL)
+  reqcols <- c(equation, CNSR, AVAL)
+  ss <- c("strata", "tt", "frailty", "ridge", "pspline", "cluster", "I", "factor")
 
-  # if (! all(reqcols %in% colnames(data))){
-  #   stop(paste0("Following columns are missing from `data`: ", paste(setdiff(reqcols, colnames(data)), collapse = " "), "."))
-  # }
+  column_names <- gsub("\\([^()]*\\)", "", reqcols) 
+  column_names <- column_names[!column_names %in% ss]
+  column_names_special <- gsub("\\(([^()]*)\\)|.", "\\1", reqcols, perl=T)
+  column_names_special <- column_names_special[column_names_special!=""]
+  
+  reqcols_fin <- c(column_names, column_names_special)
+ 
+  # Make sure all variables are in dataset
+  if (! all(reqcols_fin %in% colnames(data))){
+    stop(paste0("Following columns are missing from `data`: ", paste(setdiff(reqcols_fin, colnames(data)), collapse = " "), "."))
+  }
 
   if (!is.numeric(data[[AVAL]])) {
     stop("Analysis variable (AVAL) is not numeric.")
@@ -117,27 +126,20 @@ estimate_cox <- function(
 
   # Ensure the presence of at least one strata -----------------------------
 
-  if (is.null(main)) {
-    main <- "1"
+  if (is.null(equation)) {
+    equation <- "1"
   } else {
-    main <- paste(main, collapse = " + ")
+    equation <- paste(equation, collapse = " + ")
   }
 
 
-
-  # Calculate survival and add time = 0 to survfit object -------------------
-
   ## Reverse censoring: see ADaM guidelines versus R survival KM analysis
-
-  formula <- stats::as.formula(glue::glue(paste0("survival::Surv(", AVAL, ", 1-", CNSR, ") ~ {main}")))
+  library(survival)
+  formula <- stats::as.formula(glue::glue(paste0("survival::Surv(", AVAL, ", 1-", CNSR, ") ~ {equation}")))
 
   survfit_object <- survival::coxph(
     formula, data = data, ...
   )
-
-  # survfit_object <- survival::survfit0(
-  #   survfit_object, start.time = 0
-  # )
 
 
   # Update Call with original info and dots, similar as update.default ------
@@ -156,12 +158,12 @@ estimate_cox <- function(
 
   # Add additional metadata -------------------------------------------------
 
-  if ("PARAM" %in% colnames(data) && length(setdiff(c("PARAMCD", "PARAM"), main)) == 2) {
+  if ("PARAM" %in% colnames(data) && length(setdiff(c("PARAMCD", "PARAM"), equation)) == 2) {
     # we expect only one unique value => catch mistakes
     survfit_object[["PARAM"]] <- paste(unique(data[["PARAM"]]), collapse = ", ")
   }
 
-  if ("PARAMCD" %in% colnames(data) && length(setdiff(c("PARAMCD", "PARAM"), main)) == 2) {
+  if ("PARAMCD" %in% colnames(data) && length(setdiff(c("PARAMCD", "PARAM"), equation)) == 2) {
     # we expect only one unique value => catch mistakes
     survfit_object[["PARAMCD"]] <- paste(unique(data[["PARAMCD"]]), collapse = ", ")
   }
@@ -172,22 +174,6 @@ estimate_cox <- function(
 
   summary_cox <- summary(survfit_object, conf.int = conf.int)
 
- # res1 <- c(
- #   `Likelihood ratio test` = summary_cox$logtest
- # )
- #
- #    cbind(summary_cox$coefficients,   matrix(summary_cox$conf.int[,"lower .95"],dimnames = list(names(summary_cox$conf.int[,"lower .95"]), c("lower CI"))),
- #        matrix(summary_cox$conf.int[,"lower .95"],dimnames = list(names(summary_cox$conf.int[,"upper .95"]), c("upper CI")))
- # )
- #
- # res2 <- cbind(c("Likelihood ratio test","Wald test", "Score (logrank) test"),
- #               rbind( summary_cox$logtest, summary_cox$waldtest, summary_cox$sctest))
- #
- #
- # list( summary_cox$call, res1, res2)
- #
- #
- #
 
   return(summary_cox)
 
