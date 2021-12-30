@@ -6,9 +6,10 @@
 \alias{add_CI.ggtidycuminc}
 \alias{get_risktable.ggtidycuminc}
 \alias{add_risktable.ggtidycuminc}
+\alias{add_CNSR.ggtidycuminc}
 \title{Competing Events Cumulative Incidence}
 \usage{
-estimate_CUMINC(data, strata = NULL, CNSR, AVAL, ...)
+estimate_CUMINC(data, strata = NULL, CNSR, AVAL, conf.int = 0.95, ...)
 
 \method{visr}{tidycuminc}(
   x = NULL,
@@ -37,11 +38,13 @@ estimate_CUMINC(data, strata = NULL, CNSR, AVAL, ...)
   gg,
   times = NULL,
   statlist = c("n.risk"),
-  label = "At risk",
+  label = NULL,
   group = "strata",
   collapse = FALSE,
   ...
 )
+
+\method{add_CNSR}{ggtidycuminc}(gg, shape = 3, size = 2, ...)
 }
 \arguments{
 \item{data}{The name of the dataset for Time-to-Event analysis based on the Analysis Data Model (ADaM) principles. The dataset is expected to have
@@ -134,5 +137,6 @@ estimate_CUMINC(
   AVAL = "ttdeath"
 ) \%>\%
   visr() \%>\%
+  add_CI() \%>\%
   add_risktable()
 }

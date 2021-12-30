@@ -20,6 +20,7 @@
 #'   AVAL = "ttdeath"
 #' ) %>%
 #'   visr() %>%
+#'   add_CI() %>%
 #'   add_risktable()
 NULL
 
@@ -29,9 +30,10 @@ estimate_CUMINC <- function(data
                             ,strata = NULL
                             ,CNSR
                             ,AVAL
+                            ,conf.int = 0.95
                             ,...){
   # check for installation of tidycmprsk package
-  rlang::check_installed(pkg = "tidycmprsk", version = "0.1.0.9002")
+  rlang::check_installed(pkg = "tidycmprsk", version = "0.1.0.9003")
   rlang::check_installed(pkg = "glue")
   if (packageVersion("hardhat") <= "0.1.6") {
     message("`estimate_CUMINC()` requires >v0.1.6 of the {hardhat} pcakage.")
@@ -46,8 +48,19 @@ estimate_CUMINC <- function(data
     tidycmprsk::cuminc(
       formula = as.formula(glue::glue("survival::Surv({AVAL}, {CNSR}) ~ {strata}")),
       data = data,
+      conf.level = conf.int,
       ...
     )
+
+  # only keeping outcome of interest
+  cuminc$tidy <-
+    cuminc$tidy %>%
+    dplyr::filter(.data$outcome %in% names(cuminc$failcode)[1])
+
+  # adding strata column if not already present
+  if (!"strata" %in% names(cuminc$tidy)) {
+    cuminc$tidy <- dplyr::mutate(cuminc$tidy, strata = "Overall")
+  }
 
   cuminc
 }
@@ -63,24 +76,16 @@ visr.tidycuminc <- function(x = NULL
                             ,y_ticks = pretty(c(0, 1), 5)
                             ,legend_position = "right"
                             ,...){
-
-  tidy_object <-
-    x$tidy %>%
-    dplyr::rename(est = .data$estimate,
-                  est.upper = .data$conf.high,
-                  est.lower = .data$conf.low)
-
   if (!is.null(x_units)) {
     x_label <- paste0(x_label, " (", x_units, ")")
   }
 
   # Plotit -----------------------------------------------------
-
   yscaleFUN <- function(x) sprintf("%.2f", x)
 
   gg <-
-    tidy_object %>%
-    dplyr::filter(.data$outcome %in% names(x$failcode)[1]) %>%
+    x$tidy %>%
+    dplyr::rename(est = estimate) %>%
     ggplot2::ggplot(ggplot2::aes(x = time,
                                  group = strata,
                                  fill = strata)) +
@@ -118,8 +123,8 @@ add_CI.ggtidycuminc <- function(gg,
     gg <-
       gg +
       ggplot2::geom_ribbon(
-        ggplot2::aes(ymin = est.lower,
-                     ymax = est.upper),
+        ggplot2::aes(ymin = conf.low,
+                     ymax = conf.high),
         na.rm = TRUE,
         show.legend = FALSE) +
       ggplot2::scale_fill_manual(values = ggplot2::alpha(strata_colours, alpha))
@@ -129,8 +134,8 @@ add_CI.ggtidycuminc <- function(gg,
     gg <-
       gg +
       ggplot2::geom_ribbon(
-        ggplot2::aes(ymin   = est.lower,
-                     ymax   = est.upper,
+        ggplot2::aes(ymin   = conf.low,
+                     ymax   = conf.high,
                      colour = strata),
         outline.type = "both",
         linetype = linetype,
@@ -158,12 +163,17 @@ get_risktable.ggtidycuminc <- function(x
   }
   else {
     lst_stat_labels_default <-
-      list(n.risk = "At Risk", n.event = "N Event", n.censor = "N Censored")
+      list(n.risk = "At Risk",
+           n.event = "N Event",
+           n.censor = "N Censored",
+           cumulative.event = "Cum. N Event",
+           cumulative.censor = "Cum. N Censored")
     lst_stat_labels <- lst_stat_labels_default[statlist]
   }
 
-  tidycmprsk::tidy(attr(x, "tidycuminc"), times = times) %>%
-    dplyr::filter(.data$outcome %in% names(attr(x, "tidycuminc")$failcode)[1]) %>%
+  tidycmprsk::tidy(attr(x, "tidycuminc"), times = times)  %>%
+    # dplyr::mutate(strata = ifelse("strata" %in% names(.), strata, "Overall")) %>%
+    # dplyr::filter(.data$outcome %in% names(attr(x, "tidycuminc")$failcode)[1]) %>%
     dplyr::select(time, strata, n.risk, n.event, cumulative.event, n.censor, cumulative.censor) %>%
     tidyr::pivot_longer(cols = -c(time, strata)) %>%
     tidyr::pivot_wider(
@@ -204,18 +214,17 @@ add_risktable.ggtidycuminc <- function(gg
                          ,group
                          ,collapse)
 
-  statlist <- names(final) %>% setdiff(c("time", "y_values"))
-  title <- names(final) %>% setdiff(c("time", "y_values"))
+  level_title <- names(final) %>% setdiff(c("time", "y_values"))
 
   # Plot requested tables below using list approach with map function -------
   tbls <-
     base::Map(
-      function(statlist, title = NA) {
+      function(level_title) {
         ggrisk <- ggplot2::ggplot(final,
                                   ggplot2::aes(
                                     x = time,
                                     y = stats::reorder(y_values, dplyr::desc(y_values)),
-                                    label = format(get(statlist), nsmall = 0) # = value columns
+                                    label = format(get(level_title), nsmall = 0) # = value columns
                                   )
         ) +
           ggplot2::geom_text(size = 3.0, hjust = 0.5, vjust = 0.5, angle = 0, show.legend = FALSE) +
@@ -240,16 +249,15 @@ add_risktable.ggtidycuminc <- function(gg
           ggplot2::xlab(NULL) +
           ggplot2::ylab(NULL)
 
-        if (!is.na(title) && !is.null(title)){
+        if (!is.na(level_title) && !is.null(level_title)){
           ggrisk <- ggrisk +
-            ggplot2::ggtitle(title) +
+            ggplot2::ggtitle(level_title) +
             ggplot2::theme(plot.title = ggplot2::element_text(size = 10))
         }
 
         return(ggrisk)
       },
-      statlist = as.list(statlist),
-      title = as.list(title)
+      level_title = as.list(level_title)
     )
 
   # Align plot and table by adjusting width ---------------------------------
@@ -282,5 +290,9 @@ add_risktable.ggtidycuminc <- function(gg
 
   return(ggB)
 }
+
+#' @export
+#' @rdname estimate_CUMINC
+add_CNSR.ggtidycuminc <- add_CNSR.ggsurvfit
 
 `%||%` <- function (x, y) if (rlang::is_null(x)) y else x

@@ -3,6 +3,7 @@
 S3method(add_CI,ggsurvfit)
 S3method(add_CI,ggtidycuminc)
 S3method(add_CNSR,ggsurvfit)
+S3method(add_CNSR,ggtidycuminc)
 S3method(add_highlight,ggsurvfit)
 S3method(add_quantiles,ggsurvfit)
 S3method(add_risktable,ggsurvfit)
