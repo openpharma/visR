@@ -60,6 +60,8 @@ competing events.}
 
 \item{AVAL}{Analysis value for Time-to-Event analysis. Default is "AVAL", as per CDISC ADaM guiding principles.}
 
+\item{conf.int}{Confidence internal level. Default is 0.95.}
+
 \item{...}{additional arguments passed on to the ellipsis of the call \code{survival::survfit.formula(data = data, formula = Surv(AVAL, 1-CNSR) ~ strata), ...)} .
 Use \code{?survival::survfit.formula} and \code{?survival::survfitCI} for more information.}
 
@@ -122,9 +124,8 @@ Default is "strata".}
 
 \item{collapse}{Boolean, indicates whether to present the data overall.
 Default is FALSE.}
-}
-\value{
 
+\item{shape, size}{Update this later}
 }
 \description{
 Competing Events Cumulative Incidence

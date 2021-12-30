@@ -4,13 +4,17 @@
 #' Column must be a factor and the first level indicates censoring, the
 #' next level is the outcome of interest, and the remaining levels are the
 #' competing events.
+#' @param conf.int Confidence internal level. Default is 0.95.
+#' @param shape,size Update this later
 #' @inheritParams estimate_KM
 #' @inheritParams visr
 #' @inheritParams add_CI.ggsurvfit
 #' @inheritParams add_risktable.ggsurvfit
 #' @inheritParams get_risktable
-#' @return
+#'
 #' @name estimate_CUMINC
+#' @importFrom rlang .data .env
+#' @importFrom survival Surv
 #'
 #' @examples
 #' estimate_CUMINC(
@@ -35,7 +39,7 @@ estimate_CUMINC <- function(data
   # check for installation of tidycmprsk package
   rlang::check_installed(pkg = "tidycmprsk", version = "0.1.0.9003")
   rlang::check_installed(pkg = "glue")
-  if (packageVersion("hardhat") <= "0.1.6") {
+  if (utils::packageVersion("hardhat") <= "0.1.6") {
     message("`estimate_CUMINC()` requires >v0.1.6 of the {hardhat} pcakage.")
     message("Install with `devtools::install_github('tidymodels/hardhat')`")
     return(invisible())
@@ -46,7 +50,7 @@ estimate_CUMINC <- function(data
 
   cuminc <-
     tidycmprsk::cuminc(
-      formula = as.formula(glue::glue("survival::Surv({AVAL}, {CNSR}) ~ {strata}")),
+      formula = stats::as.formula(glue::glue("survival::Surv({AVAL}, {CNSR}) ~ {strata}")),
       data = data,
       conf.level = conf.int,
       ...
@@ -55,7 +59,9 @@ estimate_CUMINC <- function(data
   # only keeping outcome of interest
   cuminc$tidy <-
     cuminc$tidy %>%
-    dplyr::filter(.data$outcome %in% names(cuminc$failcode)[1])
+    dplyr::filter(.data$outcome %in% names(cuminc$failcode)[1]) %>%
+    # renaming to match column name in the survfit equivalent of these functions
+    dplyr::mutate(est = .data$estimate)
 
   # adding strata column if not already present
   if (!"strata" %in% names(cuminc$tidy)) {
@@ -85,7 +91,6 @@ visr.tidycuminc <- function(x = NULL
 
   gg <-
     x$tidy %>%
-    dplyr::rename(est = estimate) %>%
     ggplot2::ggplot(ggplot2::aes(x = time,
                                  group = strata,
                                  fill = strata)) +
@@ -123,8 +128,8 @@ add_CI.ggtidycuminc <- function(gg,
     gg <-
       gg +
       ggplot2::geom_ribbon(
-        ggplot2::aes(ymin = conf.low,
-                     ymax = conf.high),
+        ggplot2::aes(ymin = .data$conf.low,
+                     ymax = .data$conf.high),
         na.rm = TRUE,
         show.legend = FALSE) +
       ggplot2::scale_fill_manual(values = ggplot2::alpha(strata_colours, alpha))
@@ -134,9 +139,9 @@ add_CI.ggtidycuminc <- function(gg,
     gg <-
       gg +
       ggplot2::geom_ribbon(
-        ggplot2::aes(ymin   = conf.low,
-                     ymax   = conf.high,
-                     colour = strata),
+        ggplot2::aes(ymin   = .data$conf.low,
+                     ymax   = .data$conf.high,
+                     colour = .data$strata),
         outline.type = "both",
         linetype = linetype,
         show.legend = FALSE,
@@ -156,7 +161,6 @@ get_risktable.ggtidycuminc <- function(x
                                        ,group = "strata"
                                        ,collapse = FALSE
                                        ,...) {
-
   # list of statistics and their labels
   if (!is.null(label)) {
     lst_stat_labels <- as.list(label) %>% stats::setNames(statlist)
@@ -172,20 +176,19 @@ get_risktable.ggtidycuminc <- function(x
   }
 
   tidycmprsk::tidy(attr(x, "tidycuminc"), times = times)  %>%
-    # dplyr::mutate(strata = ifelse("strata" %in% names(.), strata, "Overall")) %>%
-    # dplyr::filter(.data$outcome %in% names(attr(x, "tidycuminc")$failcode)[1]) %>%
-    dplyr::select(time, strata, n.risk, n.event, cumulative.event, n.censor, cumulative.censor) %>%
-    tidyr::pivot_longer(cols = -c(time, strata)) %>%
+    dplyr::select(dplyr::any_of(c("time", "strata", "n.risk", "n.event",
+                                  "cumulative.event", "n.censor", "cumulative.censor"))) %>%
+    tidyr::pivot_longer(cols = -c(.data$time, .data$strata)) %>%
     tidyr::pivot_wider(
-      id_cols = c(time, name),
+      id_cols = c(.data$time, .data$name),
       values_from = "value",
       names_from = "strata"
     ) %>%
     dplyr::mutate(
-      y_values = dplyr::recode(name, !!!lst_stat_labels)
+      y_values = dplyr::recode(.data$name, !!!lst_stat_labels)
     ) %>%
     dplyr::filter(.data$name %in% .env$statlist) %>%
-    dplyr::select(time, y_values, dplyr::everything(), -name)
+    dplyr::select(.data$time, .data$y_values, dplyr::everything(), -.data$name)
 }
 
 #' @export
@@ -285,7 +288,7 @@ add_risktable.ggtidycuminc <- function(gg
   # Add individual components -----------------------------------------------
 
   components <- append(list(gg), tbls)
-  names(components) = c("visR_plot", title)
+  names(components) = c("visR_plot", level_title)
   ggB[["components"]] <- components
 
   return(ggB)
