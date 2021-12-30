@@ -41,7 +41,7 @@ Suggests:
     data.table,
     DT,
     gt (>= 0.1.0)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 biocViews:

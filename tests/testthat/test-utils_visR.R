@@ -1,6 +1,6 @@
 #' @title Specifications test-utils_visR.R
 #' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2021-11-02 20:06:22
+#' @section Last update date: 2021-12-03 09:32:51
 #'
 #' @section List of tested specifications
 #' T1. `align_plots()` accepts a list of `ggplot` objects.
@@ -8,10 +8,10 @@
 #' T1.2 An error when `NULL` is passed.
 #' T1.3 An error when a list containing non-`ggplot` objects is passed.
 #' T2. `align_plots()` aligns multiple `ggplot` objects, taking the legend into account.
-#' T2.1 Columns are added to the grob-converted plot
-#' T2.2 Equal widths are assigned to all grob-converted plots
-#' T2.3 The y-axis label of the main plot is aligned to the y-axis label
-#' T2.4 The final plot shows aligned plots taking the legend into account
+#' T2.1 Columns are added to the grob-converted plot.
+#' T2.2 Equal widths are assigned to all grob-converted plots.
+#' T2.3 The y-axis label of the main plot is aligned to the y-axis label.
+#' T2.4 The final plot shows aligned plots taking the legend into account.
 #' T3. The function `legendopts()` translates the input to a `ggplot2`-compatible list.
 #' T3.1 No error when no arguments are specified.
 #' T3.2 A list is returned when no arguments are specified.

@@ -92,7 +92,7 @@
     
   }
   
-  if (remove_watchdog) { files <- files[!grepl("test-CRAN_watchdog.R", files)] }
+  if (remove_watchdog) { files <- files[!grepl("test-watchdog_CRAN.R", files)] }
   
   return(unlist(files))
   

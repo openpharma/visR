@@ -1,13 +1,12 @@
-#' @title Specifications visr_plot
-#' @section Last updated by: Steven Haesendonckx
-#' @section Last update date: 27DEC2021
-
-# Specifications ---------------------------------------------------------------
-
+#' @title Specifications test-visr_survfit.R
+#' @section Last updated by: Tim Treis (tim.treis@@stud.uni-heidelberg.de)
+#' @section Last update date: 2021-12-28 17:51:37
+#'
+#' @section List of tested specifications
 #' T1. visR::visr() only accepts `survfit` or `attrition`.
 #' T1.1 No error when applied to a `survfit` object.
 #' T1.2 No error when applied to a `attrition` object.
-#' T1.3 An error when applied to an object that is not `survfit` or `attrition`.
+#' T1.3 An error when applied to an object that is not `survfit`.
 #' T2. Invalid parameters are captured when applying `visR::visr()` to a `survfit` object and respective warnings/errors are thrown.
 #' T2.1 No error when `x_label` is `NULL`, a `character` string or an `expression`.
 #' T2.2 No error when `y_label` is `NULL`, a `character` string or an `expression`.
@@ -23,7 +22,7 @@
 #' T2.12 When `x_label` is `NULL` and the `survfit` object does have a `PARAM` column, the `x_label` is set to `PARAM`.
 #' T2.13 When `x_label` is `NULL` and the `survfit` object does not have a `PARAM` but a `PARAMCD` column, the `x_label` is set to `PARAMCD`.
 #' T2.14 When `x_label` is `NULL` and the `survfit` object does have a `PARAM` but no `PARAMCD` column, the `x_label` is set to `PARAM`.
-#' T2.15 When `x_label` is `NULL` and the `survfit` object does not have a `PARAM` or `PARAMCD` column, the `x_label` is set to 'time'.
+#' T2.15 When `x_label` is `NULL` and the `survfit` object does not have a `PARAM` or `PARAMCD` column, the `x_label` is `NULL`.
 #' T2.16 A warning when `x_label` is `NULL` and the `PARAM` column has more than one unique entry.
 #' T2.17 A warning when `x_label` is `NULL` and the `PARAMCD` column has more than one unique entry.
 #' T2.18 When `x_label` and `x_unit` are both defined, they are concatenated into the final `x_label`.

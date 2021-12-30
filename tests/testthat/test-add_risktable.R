@@ -1,6 +1,6 @@
 #' @title Specifications test-add_risktable.R
 #' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2021-11-02 20:06:22
+#' @section Last update date: 2021-12-03 09:32:51
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a `ggsurvfit` object.

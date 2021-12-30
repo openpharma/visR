@@ -1,9 +1,8 @@
-#' @title Specifications visr_attrition
-#' @section Last updated by: Steven Haesendonckx
-#' @section Last update date: 27DEC2021
-
-# Specifications ---------------------------------------------------------------
-
+#' @title Specifications test-visr_attrition.R
+#' @section Last updated by: shaesen2 (haesendonckx.steven@@gmail.com)
+#' @section Last update date: 2021-12-27 10:09:57
+#'
+#' @section List of tested specifications
 #' T1. Invalid parameters are captured when applying `visR::visr()` to an `attrition` object and respective warnings/errors are thrown.
 #' T1.1 No error when `description_column_name` is a `character` string that is found in the colnames of the `attrition` object.
 #' T1.2 No error when `value_column_name` is a `character` string that is found in the colnames of the `attrition` object.
