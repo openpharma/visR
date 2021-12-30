@@ -57,15 +57,15 @@ estimate_CUMINC <- function(data
     )
 
   # only keeping outcome of interest
-  cuminc$tidy <-
+  cuminc$tidy_subset <-
     cuminc$tidy %>%
     dplyr::filter(.data$outcome %in% names(cuminc$failcode)[1]) %>%
     # renaming to match column name in the survfit equivalent of these functions
     dplyr::mutate(est = .data$estimate)
 
   # adding strata column if not already present
-  if (!"strata" %in% names(cuminc$tidy)) {
-    cuminc$tidy <- dplyr::mutate(cuminc$tidy, strata = "Overall")
+  if (!"strata" %in% names(cuminc$tidy_subset)) {
+    cuminc$tidy_subset <- dplyr::mutate(cuminc$tidy_subset, strata = "Overall")
   }
 
   cuminc
@@ -90,7 +90,7 @@ visr.tidycuminc <- function(x = NULL
   yscaleFUN <- function(x) sprintf("%.2f", x)
 
   gg <-
-    x$tidy %>%
+    x$tidy_subset %>%
     ggplot2::ggplot(ggplot2::aes(x = time,
                                  group = strata,
                                  fill = strata)) +
@@ -175,7 +175,19 @@ get_risktable.ggtidycuminc <- function(x
     lst_stat_labels <- lst_stat_labels_default[statlist]
   }
 
-  tidycmprsk::tidy(attr(x, "tidycuminc"), times = times)  %>%
+  tidy <-
+    tidycmprsk::tidy(attr(x, "tidycuminc"), times = times) %>%
+    dplyr::filter(.data$outcome %in% names(x$failcode)[1]) %>%
+    # renaming to match column name in the survfit equivalent of these functions
+    dplyr::mutate(est = .data$estimate)
+
+  # adding strata column if not already present
+  if (!"strata" %in% names(tidy)) {
+    tidy <- dplyr::mutate(tidy, strata = "Overall")
+  }
+
+
+  tidy %>%
     dplyr::select(dplyr::any_of(c("time", "strata", "n.risk", "n.event",
                                   "cumulative.event", "n.censor", "cumulative.censor"))) %>%
     tidyr::pivot_longer(cols = -c(.data$time, .data$strata)) %>%
