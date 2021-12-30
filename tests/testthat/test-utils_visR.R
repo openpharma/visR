@@ -104,9 +104,6 @@ testthat::test_that("T2.1 No error when a list of ggplots is passed.", {
     visR::estimate_KM("TRTP") %>%
     visR::visr()
   
-  # Legend widths are unequal
-  testthat::expect_true(.check_grob_width_equal(gg_sex, gg_trtp) != 0)
-  
   gg_list <- visR::align_plots(list(gg_sex, gg_trtp))
   
   testthat::skip_on_cran()
