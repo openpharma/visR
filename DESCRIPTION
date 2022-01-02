@@ -40,11 +40,9 @@ Suggests:
     tibble,
     data.table,
     DT,
-    gt (>= 0.1.0),
-    tidycmprsk
+    gt (>= 0.1.0)
 Remotes: 
-    MSKCC-Epi-Bio/tidycmprsk, 
-    r-lib/rlang
+    MSKCC-Epi-Bio/tidycmprsk
 RoxygenNote: 7.1.2
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -61,5 +59,6 @@ Imports:
     cowplot,
     gtable,
     gridExtra,
-    rlang (>= 0.99)
+    rlang,
+    tidycmprsk
 VignetteBuilder: knitr

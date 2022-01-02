@@ -139,5 +139,5 @@ estimate_CUMINC(
 ) \%>\%
   visr() \%>\%
   add_CI() \%>\%
-  add_risktable()
+  add_risktable(statlist = c("n.risk", "cumulative.event"))
 }

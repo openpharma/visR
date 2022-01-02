@@ -14,7 +14,6 @@
 #'
 #' @name estimate_CUMINC
 #' @importFrom rlang .data .env
-#' @importFrom survival Surv
 #'
 #' @examples
 #' estimate_CUMINC(
@@ -25,7 +24,7 @@
 #' ) %>%
 #'   visr() %>%
 #'   add_CI() %>%
-#'   add_risktable()
+#'   add_risktable(statlist = c("n.risk", "cumulative.event"))
 NULL
 
 #' @export
@@ -37,12 +36,20 @@ estimate_CUMINC <- function(data
                             ,conf.int = 0.95
                             ,...){
   # check for installation of tidycmprsk package
-  rlang::check_installed(pkg = "tidycmprsk", version = "0.1.0.9003")
-  rlang::check_installed(pkg = "glue")
-  if (utils::packageVersion("hardhat") <= "0.1.6") {
-    message("`estimate_CUMINC()` requires >v0.1.6 of the {hardhat} pcakage.")
-    message("Install with `devtools::install_github('tidymodels/hardhat')`")
-    return(invisible())
+  if (!"tidycmprsk" %in% rownames(utils::installed.packages()) ||
+      utils::packageVersion("tidycmprsk") < "0.1.0.9003") {
+    stop("Install updated version of 'tidycmprsk' with `devtools::install_github('MSKCC-Epi-Bio/tidycmprsk')`")
+  }
+  if (!"hardhat" %in% rownames(utils::installed.packages()) ||
+      utils::packageVersion("hardhat") <= "0.1.6") {
+    stop("Install updated version of 'hardhat' with `devtools::install_github('tidymodels/hardhat')`")
+  }
+  if (!"broom" %in% rownames(utils::installed.packages()) ||
+      utils::packageVersion("broom") < "0.7.10.9000") {
+    stop("Install updated version of 'broom' with `devtools::install_github('tidymodels/broom')`")
+  }
+  if (!"glue" %in% rownames(utils::installed.packages())) {
+    stop("Install updated version of 'glue' with `install.packages('glue')`")
   }
 
   # checking/prepping inputs ---------------------------------------------------
@@ -51,6 +58,7 @@ estimate_CUMINC <- function(data
   cuminc <-
     tidycmprsk::cuminc(
       formula = stats::as.formula(glue::glue("survival::Surv({AVAL}, {CNSR}) ~ {strata}")),
+      # formula = stats::as.formula(glue::glue("survival::Surv({AVAL}, {CNSR}) ~ {strata}")),
       data = data,
       conf.level = conf.int,
       ...
@@ -161,6 +169,9 @@ get_risktable.ggtidycuminc <- function(x
                                        ,group = "strata"
                                        ,collapse = FALSE
                                        ,...) {
+  # extract cuminc object
+  cuminc <- attr(x, "tidycuminc")
+
   # list of statistics and their labels
   if (!is.null(label)) {
     lst_stat_labels <- as.list(label) %>% stats::setNames(statlist)
@@ -176,8 +187,8 @@ get_risktable.ggtidycuminc <- function(x
   }
 
   tidy <-
-    tidycmprsk::tidy(attr(x, "tidycuminc"), times = times) %>%
-    dplyr::filter(.data$outcome %in% names(x$failcode)[1]) %>%
+    tidycmprsk::tidy(cuminc, times = times) %>%
+    dplyr::filter(.data$outcome %in% names(cuminc$failcode)[1]) %>%
     # renaming to match column name in the survfit equivalent of these functions
     dplyr::mutate(est = .data$estimate)
 
