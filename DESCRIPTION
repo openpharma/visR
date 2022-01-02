@@ -43,6 +43,7 @@ Suggests:
     gt (>= 0.1.0)
 Remotes: 
     MSKCC-Epi-Bio/tidycmprsk,
+    tidymodels/broom,
     tidymodels/hardhat
 RoxygenNote: 7.1.2
 Encoding: UTF-8
