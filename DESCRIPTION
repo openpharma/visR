@@ -1,66 +1,67 @@
-Package: visR
 Type: Package
+Package: visR
 Title: Clinical Graphs and Tables Adhering to Graphical Principles
-Description: To enable fit-for-purpose, reusable clinical and medical research 
-  focused visualizations and tables with sensible defaults and based on 
-  graphical principles as described in: 
-  "Vandemeulebroecke et al. (2018)" <doi:10.1002/pst.1912>, 
-  "Vandemeulebroecke et al. (2019)" <doi:10.1002/psp4.12455>, and 
-  "Morris et al. (2019)" <doi:10.1136/bmjopen-2019-030215>.
 Version: 0.2.0
-Date: 2021-06-11
-LazyData: true
 Authors@R: c(
-   person("Diego", "Saldana", , "diego.saldana@roche.com", "aut"),
-   person("Charlotta", "Fruechtenicht", , "charlotta.fruechtenicht@roche.com", "aut"),
-   person("Mark", "Baillie", , "bailliem@gmail.com", c("aut", "cre")),
-   person("Marc", "Vandemeulebroecke", , "marc.vandemeulebroecke@novartis.com", "aut"),
-   person("Thanos", "Siadimas", , "thanos.siadimas@roche.com", "aut"),
-   person("Pawel", "Kawski", , "pawel.kawski@contractors.roche.com>", "aut"),
-   person("Steven", "Haesendonckx", , "shaesen2@its.jnj.com", "aut"),
-   person("James", "Black", , "james.black.jb2@roche.com", "aut"),
-   person("Pelagia", "Alexandra Papadopoulou", , "PPapadop@its.jnj.com", "aut"),
-   person("Tim", "Treis", , "tim.treis@outlook.de", "aut"),
-   person("Rebecca", "Albrecht", , "rebecca.albrecht.dietsch@gmail.com", "aut"))
+    person("Diego", "Saldana", , "diego.saldana@roche.com", role = "aut"),
+    person("Charlotta", "Fruechtenicht", , "charlotta.fruechtenicht@roche.com", role = "aut"),
+    person("Mark", "Baillie", , "bailliem@gmail.com", role = c("aut", "cre")),
+    person("Marc", "Vandemeulebroecke", , "marc.vandemeulebroecke@novartis.com", role = "aut"),
+    person("Thanos", "Siadimas", , "thanos.siadimas@roche.com", role = "aut"),
+    person("Pawel", "Kawski", , "pawel.kawski@contractors.roche.com>", role = "aut"),
+    person("Steven", "Haesendonckx", , "shaesen2@its.jnj.com", role = "aut"),
+    person("James", "Black", , "james.black.jb2@roche.com", role = "aut"),
+    person("Pelagia", "Alexandra Papadopoulou", , "PPapadop@its.jnj.com", role = "aut"),
+    person("Tim", "Treis", , "tim.treis@outlook.de", role = "aut"),
+    person("Rebecca", "Albrecht", , "rebecca.albrecht.dietsch@gmail.com", role = "aut")
+  )
 Maintainer: Mark Baillie <bailliem@gmail.com>
+Description: To enable fit-for-purpose, reusable clinical and medical
+    research focused visualizations and tables with sensible defaults and
+    based on graphical principles as described in: "Vandemeulebroecke et
+    al. (2018)" <doi:10.1002/pst.1912>, "Vandemeulebroecke et al. (2019)"
+    <doi:10.1002/psp4.12455>, and "Morris et al. (2019)"
+    <doi:10.1136/bmjopen-2019-030215>.
+License: MIT + file LICENSE
 URL: https://github.com/openpharma/visR
 BugReports: https://github.com/openpharma/visR/issues
-License: MIT + file LICENSE
 Depends:
     R (>= 3.0.0)
+Imports: 
+    broom,
+    cowplot,
+    dplyr,
+    ggplot2,
+    gridExtra,
+    gtable,
+    kableExtra,
+    magrittr,
+    rlang,
+    survival,
+    tidycmprsk,
+    tidyr,
+    tidyselect
 Suggests:
     covr,
-    testthat (>= 2.1.0),
-    vdiffr,
-    knitr,
-    rmarkdown,
-    hexbin,
-    forcats,
-    glue,
-    tibble,
     data.table,
     DT,
-    gt (>= 0.1.0)
+    forcats,
+    glue,
+    gt (>= 0.1.0),
+    hexbin,
+    knitr,
+    rmarkdown,
+    testthat (>= 2.1.0),
+    tibble,
+    vdiffr
+VignetteBuilder: 
+    knitr
 Remotes: 
     MSKCC-Epi-Bio/tidycmprsk,
     tidymodels/broom,
     tidymodels/hardhat
-RoxygenNote: 7.1.2
-Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
 biocViews:
-Imports: 
-    broom,
-    survival,
-    magrittr,
-    ggplot2,
-    tidyr,
-    dplyr,
-    kableExtra,
-    tidyselect,
-    cowplot,
-    gtable,
-    gridExtra,
-    rlang,
-    tidycmprsk
-VignetteBuilder: knitr
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
