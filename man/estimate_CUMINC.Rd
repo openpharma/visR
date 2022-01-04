@@ -4,7 +4,7 @@
 \alias{estimate_CUMINC}
 \alias{visr.tidycuminc}
 \alias{add_CI.ggtidycuminc}
-\alias{get_risktable.ggtidycuminc}
+\alias{get_risktable.tidycuminc}
 \alias{add_risktable.ggtidycuminc}
 \alias{add_CNSR.ggtidycuminc}
 \title{Competing Events Cumulative Incidence}
@@ -24,7 +24,7 @@ estimate_CUMINC(data, strata = NULL, CNSR, AVAL, conf.int = 0.95, ...)
 
 \method{add_CI}{ggtidycuminc}(gg, alpha = 0.1, style = c("ribbon", "step"), linetype = 2, ...)
 
-\method{get_risktable}{ggtidycuminc}(
+\method{get_risktable}{tidycuminc}(
   x,
   times = NULL,
   statlist = c("n.risk"),

@@ -162,16 +162,13 @@ add_CI.ggtidycuminc <- function(gg,
 
 #' @export
 #' @rdname estimate_CUMINC
-get_risktable.ggtidycuminc <- function(x
-                                       ,times = NULL
-                                       ,statlist = c("n.risk")
-                                       ,label = NULL
-                                       ,group = "strata"
-                                       ,collapse = FALSE
-                                       ,...) {
-  # extract cuminc object
-  cuminc <- attr(x, "tidycuminc")
-
+get_risktable.tidycuminc <- function(x
+                                     ,times = NULL
+                                     ,statlist = c("n.risk")
+                                     ,label = NULL
+                                     ,group = "strata"
+                                     ,collapse = FALSE
+                                     ,...) {
   # list of statistics and their labels
   if (!is.null(label)) {
     lst_stat_labels <- as.list(label) %>% stats::setNames(statlist)
@@ -187,8 +184,8 @@ get_risktable.ggtidycuminc <- function(x
   }
 
   tidy <-
-    tidycmprsk::tidy(cuminc, times = times) %>%
-    dplyr::filter(.data$outcome %in% names(cuminc$failcode)[1]) %>%
+    tidycmprsk::tidy(x, times = times) %>%
+    dplyr::filter(.data$outcome %in% names(x$failcode)[1]) %>%
     # renaming to match column name in the survfit equivalent of these functions
     dplyr::mutate(est = .data$estimate)
 
@@ -211,7 +208,8 @@ get_risktable.ggtidycuminc <- function(x
       y_values = dplyr::recode(.data$name, !!!lst_stat_labels)
     ) %>%
     dplyr::filter(.data$name %in% .env$statlist) %>%
-    dplyr::select(.data$time, .data$y_values, dplyr::everything(), -.data$name)
+    dplyr::select(.data$time, .data$y_values, dplyr::everything(), -.data$name) %>%
+    as.data.frame()
 }
 
 #' @export
@@ -233,7 +231,7 @@ add_risktable.ggtidycuminc <- function(gg
   graphtimes <- as.numeric(ggbld$layout$panel_params[[1]]$x$get_labels())
   times <- times %||% graphtimes
 
-  final <- get_risktable(gg
+  final <- get_risktable(cuminc_object
                          ,times
                          ,statlist
                          ,label
