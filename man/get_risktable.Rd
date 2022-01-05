@@ -35,7 +35,7 @@ get_risktable(x, ...)
 \item{times}{Numeric vector indicating the times at which the risk set, censored subjects, events are calculated.}
 
 \item{statlist}{Character vector indicating which summary data to present. Current choices are "n.risk" "n.event" "n.censor".
-Default is "n.risk".}
+Default is "n.risk". Competing risk models also have the option of "cumulative.event" and "cumulative.censor"}
 
 \item{label}{Character vector with labels for the statlist. Default matches "n.risk" with "At risk", "n.event" with "Events" and "n.censor"
 with "Censored".}
