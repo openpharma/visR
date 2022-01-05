@@ -22,8 +22,7 @@ competing events.}
 
 \item{conf.int}{Confidence internal level. Default is 0.95.}
 
-\item{...}{additional arguments passed on to the ellipsis of the call \code{survival::survfit.formula(data = data, formula = Surv(AVAL, 1-CNSR) ~ strata), ...)} .
-Use \code{?survival::survfit.formula} and \code{?survival::survfitCI} for more information.}
+\item{...}{Additional argument passed to \code{tidycmprsk::cuminc()}}
 }
 \description{
 Competing Events Cumulative Incidence

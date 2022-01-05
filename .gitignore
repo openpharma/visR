@@ -37,3 +37,4 @@ vignettes/*.pdf
 .Renviron
 inst/doc
 README.html
+docs/

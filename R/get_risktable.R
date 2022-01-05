@@ -231,7 +231,7 @@ get_risktable.tidycuminc <- function(x
                                      ,times = NULL
                                      ,statlist = c("n.risk")
                                      ,label = NULL
-                                     ,group = "strata"
+                                     # ,group = "strata" # i am not sure what statlist is
                                      ,collapse = FALSE
                                      ,...) {
   # list of statistics and their labels

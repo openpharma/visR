@@ -23,7 +23,6 @@ get_risktable(x, ...)
   times = NULL,
   statlist = c("n.risk"),
   label = NULL,
-  group = "strata",
   collapse = FALSE,
   ...
 )

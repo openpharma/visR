@@ -5,6 +5,7 @@
 #' next level is the outcome of interest, and the remaining levels are the
 #' competing events.
 #' @param conf.int Confidence internal level. Default is 0.95.
+#' @param ... Additional argument passed to `tidycmprsk::cuminc()`
 #' @inheritParams estimate_KM
 #' @inheritParams visr
 #' @inheritParams add_CI.ggsurvfit
