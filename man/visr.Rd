@@ -5,6 +5,7 @@
 \alias{visr.default}
 \alias{visr.survfit}
 \alias{visr.attrition}
+\alias{visr.tidycuminc}
 \title{Plot a supported S3 object}
 \usage{
 visr(x, ...)
@@ -32,6 +33,17 @@ visr(x, ...)
   font_size = 12,
   fill = "white",
   border = "black",
+  ...
+)
+
+\method{visr}{tidycuminc}(
+  x = NULL,
+  x_label = "Time",
+  y_label = "Cumulative Incidence",
+  x_units = NULL,
+  x_ticks = pretty(x$tidy$time, 10),
+  y_ticks = pretty(c(0, 1), 5),
+  legend_position = "right",
   ...
 )
 }
@@ -110,7 +122,7 @@ similar to base::plot function.
 }
 \examples{
 
-# fit KM 
+# fit KM
 km_fit <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ TRTP, data = adtte)
 
 # plot curves using survival plot function
@@ -130,7 +142,7 @@ visR::visr(survfit_object, fun = "pct")
 
 # Plot cumulative hazard
 visR::visr(survfit_object, fun = "cloglog")
- 
+
 attrition <- visR::get_attrition(adtte,
     criteria_descriptions = c("1. Not in Placebo Group",
                               "2. Be 75 years of age or older.",

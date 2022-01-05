@@ -16,9 +16,9 @@
 #'
 #' @param gg visR plot of class `ggsurvfit`
 #' @param ... other arguments passed on to the method add_risktable
-#' 
+#'
 #' @rdname add_risktable
-#' 
+#'
 #' @export
 
 add_risktable <- function(gg, ...){
@@ -26,9 +26,9 @@ add_risktable <- function(gg, ...){
 }
 
 #' @inheritParams get_risktable
-#' 
+#'
 #' @seealso \code{\link[cowplot]{plot_grid}}
-#' 
+#'
 #' @examples
 #'
 #' ## Display 2 risk tables, 1 per statlist
@@ -49,7 +49,7 @@ add_risktable <- function(gg, ...){
 #'                       ,collapse = TRUE
 #'                       ,times = c(0,20,40,60)
 #'                      )
-#'                      
+#'
 #' ## Add risk set as specified times
 #' adtte %>%
 #'   visR::estimate_KM(strata = "TRTP") %>%
@@ -73,28 +73,28 @@ add_risktable.ggsurvfit <- function(
 ){
 
 # Obtain the relevant table -----------------------------------------------
-  
+
   tidy_object <- gg$data
-  
+
   call <- as.character(gg$data$call[[1]])
-  
-  survfit_object <- eval(gg$data$call[[1]]) 
-  
+
+  survfit_object <- eval(gg$data$call[[1]])
+
   #Since this call is using survival instead of visR, some characteristics are missing eg strata = "Overall" when no strata present
   main <- base::trimws(base::sub(".*~", "", call[[2]]), which = "both")
-  
+
   if (is.null(survfit_object$strata) && main == "1") {
     survfit_object$strata <- as.vector(length(survfit_object$time))
     attr(survfit_object$strata, "names") <- "Overall"
   }
-  
+
   ggbld <- ggplot2::ggplot_build(gg)
-  
+
   graphtimes <- as.numeric(ggbld$layout$panel_params[[1]]$x$get_labels())
-  
+
   if (is.null(times)) times <- graphtimes
 
-  final <- get_risktable( 
+  final <- get_risktable(
               survfit_object
              ,times
              ,statlist
@@ -105,7 +105,7 @@ add_risktable.ggsurvfit <- function(
   times <- as.numeric(unique(final$time))
   statlist <- attributes(final)$statlist
   title <- attributes(final)$title
-  
+
   attr(final, "time_ticks") <- NULL
   attr(final, "statlist") <- NULL
   attr(final, "title") <- NULL
@@ -158,10 +158,10 @@ add_risktable.ggsurvfit <- function(
 
   gglist <- list(gg) %>%
     base::append(tbls)
-  
+
   ggA <- gglist %>%
     align_plots()
-  
+
 # Create plot and add class -----------------------------------------------
 
   ## cowplot allows to align according to an axis (+left) and change the heigth
@@ -170,14 +170,118 @@ add_risktable.ggsurvfit <- function(
                             nrow = length(ggA),
                             rel_heights = c(1-(8/50 * (length(ggA)-1)), rep(8/50, length(ggA)-1))
                           )
-  
+
   class(ggB) <- c(class(ggB), "ggsurvfit")
 
 # Add individual components -----------------------------------------------
-  
+
   components <- append(list(gg), tbls)
   names(components) = c("visR_plot", title)
   ggB[["components"]] <- components
-  
+
   return(ggB)
 }
+
+#' @rdname add_risktable
+#' @export
+add_risktable.ggtidycuminc <- function(gg
+                                       ,times = NULL
+                                       ,statlist = c("n.risk")
+                                       ,label = NULL
+                                       ,group = "strata"
+                                       ,collapse = FALSE
+                                       ,...){
+
+  # Obtain the relevant table -----------------------------------------------
+  tidy_object <- gg$data
+  cuminc_object <- attr(gg, "tidycuminc")
+
+  ggbld <- ggplot2::ggplot_build(gg)
+
+  graphtimes <- as.numeric(ggbld$layout$panel_params[[1]]$x$get_labels())
+  times <- times %||% graphtimes
+
+  final <- get_risktable(cuminc_object
+                         ,times
+                         ,statlist
+                         ,label
+                         ,group
+                         ,collapse)
+
+  level_title <- names(final) %>% setdiff(c("time", "y_values"))
+
+  # Plot requested tables below using list approach with map function -------
+  tbls <-
+    base::Map(
+      function(level_title) {
+        ggrisk <- ggplot2::ggplot(final,
+                                  ggplot2::aes(
+                                    x = time,
+                                    y = stats::reorder(y_values, dplyr::desc(y_values)),
+                                    label = format(get(level_title), nsmall = 0) # = value columns
+                                  )
+        ) +
+          ggplot2::geom_text(size = 3.0, hjust = 0.5, vjust = 0.5, angle = 0, show.legend = FALSE) +
+          ggplot2::theme_bw() +
+          ggplot2::scale_x_continuous(breaks = graphtimes,
+                                      limits = c(min(graphtimes), max(graphtimes))) +
+
+          ggplot2::theme(axis.title.x = ggplot2::element_text(size = 8,
+                                                              vjust = 1,
+                                                              hjust = 1),
+                         panel.grid.major = ggplot2::element_blank(),
+                         panel.grid.minor = ggplot2::element_blank(),
+                         panel.border = ggplot2::element_blank(),
+                         axis.line = ggplot2::element_blank(),
+                         axis.text.x = ggplot2::element_blank(),
+                         axis.ticks = ggplot2::element_blank(),
+                         axis.text.y = ggplot2::element_text(size = 8, colour = "black", face = "plain"),
+                         plot.margin = ggplot2::unit(c(1, 0, 0, 0), "lines"),
+                         plot.title = ggplot2::element_text(hjust = 0, vjust = 0),
+                         legend.position = "none"
+          ) +
+          ggplot2::xlab(NULL) +
+          ggplot2::ylab(NULL)
+
+        if (!is.na(level_title) && !is.null(level_title)){
+          ggrisk <- ggrisk +
+            ggplot2::ggtitle(level_title) +
+            ggplot2::theme(plot.title = ggplot2::element_text(size = 10))
+        }
+
+        return(ggrisk)
+      },
+      level_title = as.list(level_title)
+    )
+
+  # Align plot and table by adjusting width ---------------------------------
+
+  gglist <-
+    list(gg) %>%
+    base::append(tbls)
+
+  ggA <-
+    gglist %>%
+    align_plots()
+
+  # Create plot and add class -----------------------------------------------
+
+  ## cowplot allows to align according to an axis (+left) and change the height
+  ggB <-
+    cowplot::plot_grid(plotlist = ggA,
+                       align = "none",
+                       nrow = length(ggA),
+                       rel_heights = c(1-(8/50 * (length(ggA)-1)), rep(8/50, length(ggA)-1))
+    )
+
+  class(ggB) <- c(class(ggB), "ggtidycuminc")
+
+  # Add individual components -----------------------------------------------
+
+  components <- append(list(gg), tbls)
+  names(components) = c("visR_plot", level_title)
+  ggB[["components"]] <- components
+
+  return(ggB)
+}
+

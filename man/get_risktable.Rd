@@ -3,11 +3,22 @@
 \name{get_risktable}
 \alias{get_risktable}
 \alias{get_risktable.survfit}
+\alias{get_risktable.tidycuminc}
 \title{Obtain risk tables for tables and plots}
 \usage{
 get_risktable(x, ...)
 
 \method{get_risktable}{survfit}(
+  x,
+  times = NULL,
+  statlist = c("n.risk"),
+  label = NULL,
+  group = "strata",
+  collapse = FALSE,
+  ...
+)
+
+\method{get_risktable}{tidycuminc}(
   x,
   times = NULL,
   statlist = c("n.risk"),

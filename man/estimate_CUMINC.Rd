@@ -2,49 +2,9 @@
 % Please edit documentation in R/estimate_CUMINC.R
 \name{estimate_CUMINC}
 \alias{estimate_CUMINC}
-\alias{visr.tidycuminc}
-\alias{add_CI.ggtidycuminc}
-\alias{get_risktable.tidycuminc}
-\alias{add_risktable.ggtidycuminc}
-\alias{add_CNSR.ggtidycuminc}
 \title{Competing Events Cumulative Incidence}
 \usage{
 estimate_CUMINC(data, strata = NULL, CNSR, AVAL, conf.int = 0.95, ...)
-
-\method{visr}{tidycuminc}(
-  x = NULL,
-  x_label = "Time",
-  y_label = "Cumulative Incidence",
-  x_units = NULL,
-  x_ticks = pretty(x$tidy$time, 10),
-  y_ticks = pretty(c(0, 1), 5),
-  legend_position = "right",
-  ...
-)
-
-\method{add_CI}{ggtidycuminc}(gg, alpha = 0.1, style = c("ribbon", "step"), linetype = 2, ...)
-
-\method{get_risktable}{tidycuminc}(
-  x,
-  times = NULL,
-  statlist = c("n.risk"),
-  label = NULL,
-  group = "strata",
-  collapse = FALSE,
-  ...
-)
-
-\method{add_risktable}{ggtidycuminc}(
-  gg,
-  times = NULL,
-  statlist = c("n.risk"),
-  label = NULL,
-  group = "strata",
-  collapse = FALSE,
-  ...
-)
-
-\method{add_CNSR}{ggtidycuminc}(gg, shape = 3, size = 2, ...)
 }
 \arguments{
 \item{data}{The name of the dataset for Time-to-Event analysis based on the Analysis Data Model (ADaM) principles. The dataset is expected to have
@@ -64,68 +24,6 @@ competing events.}
 
 \item{...}{additional arguments passed on to the ellipsis of the call \code{survival::survfit.formula(data = data, formula = Surv(AVAL, 1-CNSR) ~ strata), ...)} .
 Use \code{?survival::survfit.formula} and \code{?survival::survfitCI} for more information.}
-
-\item{x}{Object of class \code{attritiontable} with each row corresponding to an
-inclusion step in the cohort and minimally a description and a count column}
-
-\item{x_label}{\code{character} Label for the x-asis. When not specified,
-the algorithm will look for "PARAM" information inside the list structure
-of the \code{survfit} object.
-If no "PARAM" information is available, the algorithm will look for "PARAMCD"
-information inside the list structure.
-If both "PARAM" and "PARAMCD" are missing then "time" is used as label.
-Note that "PARAM"/"PARAMCD" information is automatically added when using
-visR::estimate_KM if the input data follows ADaM data model structure.}
-
-\item{y_label}{\code{character} Label for the y-axis. When not specified,
-the default will do a proposal, depending on the \code{fun} argument.}
-
-\item{x_units}{Unit to be added to the x_label (x_label (x_unit)).
-Default is NULL.}
-
-\item{x_ticks}{Ticks for the x-axis. When not specified, the default will
-do a proposal.}
-
-\item{y_ticks}{Ticks for the y-axis. When not specified,
-the default will do a proposal based on the \code{fun} argument.}
-
-\item{legend_position}{Specifies the legend position in the plot.
-Character values allowed are "top" "left" "bottom" "right".
-Numeric coordinates are also allowed.
-Default is "right".}
-
-\item{gg}{A ggplot created with visR}
-
-\item{alpha}{aesthetic of ggplot2 \code{\link[ggplot2]{geom_ribbon}}. Default is 0.1.}
-
-\item{style}{aesthetic of ggplot2 \code{\link[ggplot2]{geom_ribbon}}. Default is "ribbon". An alternative option is "step" that uses a line to display interval bounds.}
-
-\item{linetype}{aesthetic of ggplot2 \code{\link[ggplot2]{geom_ribbon}}.}
-
-\item{times}{Numeric vector indicating the times at which the risk set, censored subjects, events are calculated.}
-
-\item{statlist}{Character vector indicating which summary data to present. Current choices are "n.risk" "n.event" "n.censor".
-Default is "n.risk".}
-
-\item{label}{Character vector with labels for the statlist. Default matches "n.risk" with "At risk", "n.event" with "Events" and "n.censor"
-with "Censored".}
-
-\item{group}{String indicating the grouping variable for the risk tables.
-Current options are:
-\itemize{
-\item{"strata": groups the risk tables per stratum.
-The \code{label} specifies the label within each risk table. The strata levels
-are used for the titles of the risk tables. This is the default}
-\item{"statlist": groups the risk tables per statlist.
-The \code{label} specifies the title for each risk table. The strata levels
-are used for labeling within each risk table.}
-}
-Default is "strata".}
-
-\item{collapse}{Boolean, indicates whether to present the data overall.
-Default is FALSE.}
-
-\item{shape, size}{Update this later}
 }
 \description{
 Competing Events Cumulative Incidence

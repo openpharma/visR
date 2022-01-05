@@ -3,6 +3,7 @@
 \name{add_risktable}
 \alias{add_risktable}
 \alias{add_risktable.ggsurvfit}
+\alias{add_risktable.ggtidycuminc}
 \title{Add risk tables to visR plots through an S3 method}
 \usage{
 add_risktable(gg, ...)
@@ -12,6 +13,16 @@ add_risktable(gg, ...)
   times = NULL,
   statlist = c("n.risk"),
   label = "At risk",
+  group = "strata",
+  collapse = FALSE,
+  ...
+)
+
+\method{add_risktable}{ggtidycuminc}(
+  gg,
+  times = NULL,
+  statlist = c("n.risk"),
+  label = NULL,
   group = "strata",
   collapse = FALSE,
   ...
@@ -83,7 +94,7 @@ adtte \%>\%
                       ,collapse = TRUE
                       ,times = c(0,20,40,60)
                      )
-                     
+
 ## Add risk set as specified times
 adtte \%>\%
   visR::estimate_KM(strata = "TRTP") \%>\%

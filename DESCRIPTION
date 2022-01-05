@@ -28,7 +28,7 @@ BugReports: https://github.com/openpharma/visR/issues
 Depends:
     R (>= 3.0.0)
 Imports: 
-    broom,
+    broom (>= 0.7.11),
     cowplot,
     dplyr,
     ggplot2,

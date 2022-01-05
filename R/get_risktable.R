@@ -1,21 +1,21 @@
 #' @title Obtain risk tables for tables and plots
 #'
-#' @description Create a risk table from an object using an S3 method. 
+#' @description Create a risk table from an object using an S3 method.
 #'   Currently, no default method is defined.
-#' 
+#'
 #' @seealso \code{\link[survival]{summary.survfit}}
-#' 
+#'
 #' @param x object to be passed on to the method
 #' @param ... other arguments passed on to the method
-#' @return return list of attributes the form the risk table i.e. 
-#'   number of patients at risk per strata 
+#' @return return list of attributes the form the risk table i.e.
+#'   number of patients at risk per strata
 #' @rdname get_risktable
-#' 
+#'
 #' @export
 
 get_risktable <- function(x, ...){
   UseMethod("get_risktable")
-} 
+}
 
 #' @param x an object of class `survfit`
 #' @param times Numeric vector indicating the times at which the risk set, censored subjects, events are calculated.
@@ -23,23 +23,23 @@ get_risktable <- function(x, ...){
 #'   Default is "n.risk".
 #' @param label Character vector with labels for the statlist. Default matches "n.risk" with "At risk", "n.event" with "Events" and "n.censor"
 #'   with "Censored".
-#' @param group String indicating the grouping variable for the risk tables. 
+#' @param group String indicating the grouping variable for the risk tables.
 #'   Current options are:
 #'     \itemize{
-#'     \item{"strata": groups the risk tables per stratum. 
-#'       The `label` specifies the label within each risk table. The strata levels 
+#'     \item{"strata": groups the risk tables per stratum.
+#'       The `label` specifies the label within each risk table. The strata levels
 #'       are used for the titles of the risk tables. This is the default}
-#'     \item{"statlist": groups the risk tables per statlist. 
+#'     \item{"statlist": groups the risk tables per statlist.
 #'       The `label` specifies the title for each risk table. The strata levels
 #'       are used for labeling within each risk table.}
-#'     } 
+#'     }
 #'   Default is "strata".
 #' @param collapse Boolean, indicates whether to present the data overall.
 #'   Default is FALSE.
 #' @param ... other arguments passed on to the method
-#' @return return list of attributes the form the risk table i.e. 
-#'   number of patients at risk per strata 
-#'   
+#' @return return list of attributes the form the risk table i.e.
+#'   number of patients at risk per strata
+#'
 #' @rdname get_risktable
 #' @method get_risktable survfit
 #' @export
@@ -58,35 +58,35 @@ get_risktable.survfit <- function(
 
   if (!base::all(statlist %in% c("n.risk", "n.censor", "n.event")))
     stop("statlist argument not valid. Current options are n.risk, n.censor and n.event.")
-  
+
   if (!is.null(label) & !base::all(is.character(label)) & !base::inherits(label, "factor"))
     stop("label arguments should be of class `character` or `factor`.")
-  
+
   if (!base::is.logical(collapse))
     stop("Error in get_risktable: collapse is expected to be boolean.")
 
   if (base::any(times < 0))
     stop("Negative times are not valid.")
-  
+
   if (length(group)>1 | !(base::all(group %in% c("statlist", "strata"))))
     stop("group should equal statlist or strata.")
-  
+
   # if (min_at_risk > max(x$n.risk)){
   #   tidy_object <- tidyme(x)
-  # 
-  #   max_at_risk <- tidy_object %>% 
+  #
+  #   max_at_risk <- tidy_object %>%
   #     dplyr::group_by(strata) %>%
   #     dplyr::summarize(risk = max(n.risk))
-  #   
+  #
   #   stop(paste0("min_at_risk larger than the risk available in any strata. Maximum at risk is ", max(max_at_risk[["risk"]]), " in stratum ", max_at_risk[which(max_at_risk["risk"] == max(max_at_risk[["risk"]])), "strata"] ,"."))
   # }
-  
+
 # Clean input ------------------------------------------------------------
 
   tidy_object <- tidyme(x)
-  
+
   statlist <- unique(statlist)
-  
+
   if (length(label) <= length(statlist)) {
     vlookup <- data.frame( statlist = c("n.risk", "n.censor", "n.event")
                           ,label = c("At risk", "Censored", "Events")
@@ -110,9 +110,9 @@ get_risktable.survfit <- function(
   if (length(label) > length(statlist))
     label <- label[1:length(statlist)]
 
-  
+
 # # Pull out the max time to consider ---------------------------------------
-# 
+#
 #   max_time <-
 #     tidy_object %>%
 #     dplyr::filter(n.risk >= min_at_risk) %>%
@@ -121,12 +121,12 @@ get_risktable.survfit <- function(
 #     dplyr::ungroup() %>%
 #     dplyr::summarize(max_time = max(max_time)) %>%
 #     dplyr::pull(max_time)
-  
+
 # Generate time ticks ----------------------------------------------------
 
   if (is.null(times)) {
     times <- pretty(x$time, 10)
-  } 
+  }
 
   # if (max_time %in% times)
   #   times <- times[0 <= times & times <= max_time]
@@ -140,7 +140,7 @@ get_risktable.survfit <- function(
 # Risk table per statlist -------------------------------------------------
 
   ## labels of risk table are strata, titles are specifified through `label
- 
+
   per_statlist <- data.frame(
     time = survfit_summary$time,
     strata = base::factor(.get_strata(survfit_summary[["strata"]]), levels = unique(.get_strata(survfit_summary[["strata"]]))),
@@ -219,7 +219,51 @@ get_risktable.survfit <- function(
   }
 
   class(final) <- c("risktable", class(final))
-  
+
   return(final)
+}
+
+
+#' @rdname get_risktable
+#' @method get_risktable tidycuminc
+#' @export
+get_risktable.tidycuminc <- function(x
+                                     ,times = NULL
+                                     ,statlist = c("n.risk")
+                                     ,label = NULL
+                                     ,group = "strata"
+                                     ,collapse = FALSE
+                                     ,...) {
+  # list of statistics and their labels
+  if (!is.null(label)) {
+    lst_stat_labels <- as.list(label) %>% stats::setNames(statlist)
+  }
+  else {
+    lst_stat_labels_default <-
+      list(n.risk = "At Risk",
+           n.event = "N Event",
+           n.censor = "N Censored",
+           cumulative.event = "Cum. N Event",
+           cumulative.censor = "Cum. N Censored")
+    lst_stat_labels <- lst_stat_labels_default[statlist]
+  }
+
+  tidy <- visr_tidy_tidycuminc(x, times = times)
+
+  tidy %>%
+    dplyr::select(dplyr::any_of(c("time", "strata", "n.risk", "n.event",
+                                  "cumulative.event", "n.censor", "cumulative.censor"))) %>%
+    tidyr::pivot_longer(cols = -c(.data$time, .data$strata)) %>%
+    tidyr::pivot_wider(
+      id_cols = c(.data$time, .data$name),
+      values_from = "value",
+      names_from = "strata"
+    ) %>%
+    dplyr::mutate(
+      y_values = dplyr::recode(.data$name, !!!lst_stat_labels)
+    ) %>%
+    dplyr::filter(.data$name %in% .env$statlist) %>%
+    dplyr::select(.data$time, .data$y_values, dplyr::everything(), -.data$name) %>%
+    as.data.frame()
 }
 
