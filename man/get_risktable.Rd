@@ -20,9 +20,10 @@ get_risktable(x, ...)
 
 \method{get_risktable}{tidycuminc}(
   x,
-  times = NULL,
+  times = pretty(x$tidy$time, 10),
   statlist = c("n.risk"),
   label = NULL,
+  group = "strata",
   collapse = FALSE,
   ...
 )

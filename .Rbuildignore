@@ -18,4 +18,4 @@
 ^README\.md$
 ^CRAN-RELEASE$
 ^cran-comments\.md$
-^docs$
+^tests/testthat/_snaps$

@@ -38,3 +38,4 @@ vignettes/*.pdf
 inst/doc
 README.html
 docs/
+tests/testthat/_snaps/

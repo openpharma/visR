@@ -535,7 +535,7 @@ visr.tidycuminc <- function(x = NULL
   yscaleFUN <- function(x) sprintf("%.2f", x)
 
   gg <-
-    x$tidy_subset %>%
+    visr_tidy_tidycuminc(x) %>%
     ggplot2::ggplot(ggplot2::aes(x = time,
                                  group = strata,
                                  fill = strata)) +

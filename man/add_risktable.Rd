@@ -12,7 +12,7 @@ add_risktable(gg, ...)
   gg,
   times = NULL,
   statlist = c("n.risk"),
-  label = "At risk",
+  label = NULL,
   group = "strata",
   collapse = FALSE,
   ...

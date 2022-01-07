@@ -44,10 +44,6 @@ estimate_CUMINC <- function(data
       utils::packageVersion("hardhat") <= "0.1.6") {
     stop("Install updated version of 'hardhat' with `devtools::install_github('tidymodels/hardhat')`")
   }
-  if (!"broom" %in% rownames(utils::installed.packages()) ||
-      utils::packageVersion("broom") < "0.7.10.9000") {
-    stop("Install updated version of 'broom' with `devtools::install_github('tidymodels/broom')`")
-  }
   if (!"glue" %in% rownames(utils::installed.packages())) {
     stop("Install updated version of 'glue' with `install.packages('glue')`")
   }
@@ -58,14 +54,10 @@ estimate_CUMINC <- function(data
   cuminc <-
     tidycmprsk::cuminc(
       formula = stats::as.formula(glue::glue("survival::Surv({AVAL}, {CNSR}) ~ {strata}")),
-      # formula = stats::as.formula(glue::glue("survival::Surv({AVAL}, {CNSR}) ~ {strata}")),
       data = data,
       conf.level = conf.int,
       ...
     )
-
-  # only keeping outcome of interest
-  cuminc$tidy_subset <- visr_tidy_tidycuminc(cuminc)
 
   cuminc
 }

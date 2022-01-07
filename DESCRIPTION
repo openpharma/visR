@@ -58,7 +58,6 @@ VignetteBuilder:
     knitr
 Remotes: 
     MSKCC-Epi-Bio/tidycmprsk,
-    tidymodels/broom,
     tidymodels/hardhat
 biocViews:
 Encoding: UTF-8
