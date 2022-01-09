@@ -1,5 +1,14 @@
 test_that("estimate_CUMINC() works", {
   expect_error(
+    estimate_CUMINC(tidycmprsk::trial, CNSR = "death_cr", AVAL = "ttdeath") %>%
+      visr() %>%
+      add_CI() %>%
+      add_CNSR() %>%
+      add_risktable(),
+    NA
+  )
+
+  expect_error(
     cuminc1 <-
       estimate_CUMINC(tidycmprsk::trial, strata = "trt", CNSR = "death_cr", AVAL = "ttdeath"),
     NA
