@@ -53,7 +53,7 @@ get_risktable.survfit <- function(
    ,collapse = FALSE
    ,...
 ){
-
+  
 # User input validation ---------------------------------------------------
 
   if (!base::all(statlist %in% c("n.risk", "n.censor", "n.event")))
@@ -71,67 +71,50 @@ get_risktable.survfit <- function(
   if (length(group)>1 | !(base::all(group %in% c("statlist", "strata"))))
     stop("group should equal statlist or strata.")
   
-  # if (min_at_risk > max(x$n.risk)){
-  #   tidy_object <- tidyme(x)
-  # 
-  #   max_at_risk <- tidy_object %>% 
-  #     dplyr::group_by(strata) %>%
-  #     dplyr::summarize(risk = max(n.risk))
-  #   
-  #   stop(paste0("min_at_risk larger than the risk available in any strata. Maximum at risk is ", max(max_at_risk[["risk"]]), " in stratum ", max_at_risk[which(max_at_risk["risk"] == max(max_at_risk[["risk"]])), "strata"] ,"."))
-  # }
-  
 # Clean input ------------------------------------------------------------
-
+browser()
+  
   tidy_object <- tidyme(x)
   
-  statlist <- unique(statlist)
+# Match amount of elements in label with statlist -------------------------
   
   if (length(label) <= length(statlist)) {
+    
     vlookup <- data.frame( statlist = c("n.risk", "n.censor", "n.event")
                           ,label = c("At risk", "Censored", "Events")
                           ,check.names = FALSE
                           ,stringsAsFactors = FALSE)
+    
 
     label <- c(label, rep(NA, length(statlist)-length(label)))
     have <- data.frame( cbind(label, statlist)
                        ,check.names = FALSE
-                       ,stringsAsFactors = FALSE)
-
+                       ,stringsAsFactors = TRUE)
+    
     label <- vlookup %>%
       dplyr::right_join(have, by = "statlist") %>%
       dplyr::mutate(label = dplyr::coalesce(label.y, label.x)) %>%
       dplyr::select(-label.x, -label.y) %>%
-      dplyr::pull(label)
+      as.data.frame()
 
-  }
-
-
-  if (length(label) > length(statlist))
+  } else if (length(label) > length(statlist)) {
+    
     label <- label[1:length(statlist)]
+    
+  }
+   
 
+# Ensure the order of the label corresponds to statlist order-------------
   
-# # Pull out the max time to consider ---------------------------------------
-# 
-#   max_time <-
-#     tidy_object %>%
-#     dplyr::filter(n.risk >= min_at_risk) %>%
-#     dplyr::group_by(strata) %>%
-#     dplyr::summarize(max_time = max(time)) %>%
-#     dplyr::ungroup() %>%
-#     dplyr::summarize(max_time = max(max_time)) %>%
-#     dplyr::pull(max_time)
-  
+
+  label_final <- factor(label[["statlist"]], levels = label[["statlist"]], labels = label[["label"]])
+
+
 # Generate time ticks ----------------------------------------------------
 
   if (is.null(times)) {
     times <- pretty(x$time, 10)
   } 
-
-  # if (max_time %in% times)
-  #   times <- times[0 <= times & times <= max_time]
-  # else #make sure the min at risk is shown eg when falls between 180 and 200
-  #   times <- unique(times[c(which(0 <= times & times <= max_time), min(length(times), max(which(0 <= times & times <= max_time))+1))])
 
 # Summary -----------------------------------------------------------------
 
@@ -159,10 +142,10 @@ get_risktable.survfit <- function(
     dplyr::rename(y_values = strata)%>%
     as.data.frame()
 
-  final <-  per_statlist
+  final <- per_statlist
 
   attr(final, 'time_ticks') <- times
-  attr(final, "title") <- label
+  attr(final, "title") <- levels(label_final)
   attr(final, "statlist") <- statlist
 
 # Organize the risk tables per strata => reorganize the data --------------
@@ -177,8 +160,8 @@ get_risktable.survfit <- function(
       dplyr::rename(y_values = statlist) %>%
       dplyr::filter(y_values %in% statlist)%>%
       as.data.frame()
-
-    per_strata[["y_values"]] <- factor(per_strata[["y_values"]], levels = statlist, labels = label)
+    
+    per_strata[["y_values"]] <- factor(per_strata[["y_values"]], levels = unique(statlist), labels = levels(label))
     title <- levels(per_statlist[["y_values"]])
 
     final <- per_strata
