@@ -38,7 +38,6 @@ Imports:
     magrittr,
     rlang,
     survival,
-    tidycmprsk,
     tidyr,
     tidyselect
 Suggests:
@@ -53,6 +52,7 @@ Suggests:
     rmarkdown,
     testthat (>= 2.1.0),
     tibble,
+    tidycmprsk,
     vdiffr
 VignetteBuilder: 
     knitr
