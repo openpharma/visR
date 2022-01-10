@@ -29,7 +29,7 @@ get_risktable(x, ...)
 )
 }
 \arguments{
-\item{x}{an object of class \code{survfit}}
+\item{x}{an object of class \code{survfit} or \code{tidycuminc}}
 
 \item{...}{other arguments passed on to the method}
 
