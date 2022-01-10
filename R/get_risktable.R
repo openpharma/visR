@@ -17,7 +17,7 @@ get_risktable <- function(x, ...){
   UseMethod("get_risktable")
 }
 
-#' @param x an object of class `survfit`
+#' @param x an object of class `survfit` or `tidycuminc`
 #' @param times Numeric vector indicating the times at which the risk set, censored subjects, events are calculated.
 #' @param statlist Character vector indicating which summary data to present. Current choices are "n.risk" "n.event" "n.censor".
 #'   Default is "n.risk". Competing risk models also have the option of "cumulative.event" and "cumulative.censor"

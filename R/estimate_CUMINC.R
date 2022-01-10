@@ -12,11 +12,10 @@
 #' @inheritParams add_risktable.ggsurvfit
 #' @inheritParams get_risktable
 #'
-#' @name estimate_CUMINC
-#' @importFrom rlang .data .env
+#' @export
 #'
 #' @examples
-#' estimate_CUMINC(
+#' estimate_cuminc(
 #'   tidycmprsk::trial,
 #'   strata = "trt",
 #'   CNSR = "death_cr",
@@ -25,11 +24,8 @@
 #'   visr() %>%
 #'   add_CI() %>%
 #'   add_risktable(statlist = c("n.risk", "cumulative.event"))
-NULL
 
-#' @export
-#' @rdname estimate_CUMINC
-estimate_CUMINC <- function(data
+estimate_cuminc <- function(data
                             ,strata = NULL
                             ,CNSR
                             ,AVAL
@@ -38,14 +34,17 @@ estimate_CUMINC <- function(data
   # check for installation of tidycmprsk package
   if (!"tidycmprsk" %in% rownames(utils::installed.packages()) ||
       utils::packageVersion("tidycmprsk") < "0.1.0.9003") {
-    stop("Install updated version of 'tidycmprsk' with `devtools::install_github('MSKCC-Epi-Bio/tidycmprsk')`")
+    message("Install updated version of 'tidycmprsk' with `devtools::install_github('MSKCC-Epi-Bio/tidycmprsk')`")
+    return(invisible())
   }
   if (!"hardhat" %in% rownames(utils::installed.packages()) ||
       utils::packageVersion("hardhat") <= "0.1.6") {
-    stop("Install updated version of 'hardhat' with `devtools::install_github('tidymodels/hardhat')`")
+    message("Install updated version of 'hardhat' with `devtools::install_github('tidymodels/hardhat')`")
+    return(invisible())
   }
   if (!"glue" %in% rownames(utils::installed.packages())) {
     stop("Install updated version of 'glue' with `install.packages('glue')`")
+    return(invisible())
   }
 
   # checking/prepping inputs ---------------------------------------------------

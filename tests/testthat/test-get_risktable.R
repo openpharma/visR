@@ -17,7 +17,7 @@
 #' T2. The function accepts an argument that specifies the time at which the risk set is calculated
 #' T2.1 An error when the times specified are negative
 #' T2.2 The function orders the times argument internally to avoid errors
-#' T2.3 The function proposes 11 times which are equally spaced when no times are specified 
+#' T2.3 The function proposes 11 times which are equally spaced when no times are specified
 #' T3. The function accepts a `statlist` to be displayed for which labels can be specified
 #' T3.1 No error when the `statlist` contains allowed strings
 #' T3.2 An error when the `statlist` contains non-allowed strings eg "blah"
@@ -26,7 +26,7 @@
 #' T3.5 No error when the `label` is a character vector
 #' T3.6 No error when the `label` is a factor
 #' T4. The function matches the length of the `label` vector with that of the `statlist` vector
-#' T4.1 The function supplies defaults to increase the length of the `label` vector to same length as the `statlist` vector 
+#' T4.1 The function supplies defaults to increase the length of the `label` vector to same length as the `statlist` vector
 #' T4.2 The supplied defaults for the `label` vector match the arguments specified in the `statlist`
 #' T4.3 The function limits the length of the `label` vector to the length of the `statlist` vector
 #' T5. The function groups the calculation by strata, by statlist or overall
@@ -37,7 +37,7 @@
 #' T5.5 The calculations are grouped by strata when group = `strata`
 #' T5.6 The calculations are grouped by statlist when group = `statlist`
 #' T5.7 The calculations are in agreement with expectations
-#' T6. The function allows the calculations to be grouped overall 
+#' T6. The function allows the calculations to be grouped overall
 #' T6.1 An error when the argument collapse is not boolean
 #' T6.2 No error when the argument collapse is boolean
 #' T6.3 The calculations are grouped overall when collapse = TRUE
@@ -56,7 +56,7 @@ testthat::context("get_risktable.survfit - T1. The function accepts a `survfit` 
 testthat::test_that("T1.1. No error when a `survfit` object is passed to the function",{
 
   survfit_object <- survival::survfit(formula = survival::Surv(AVAL, 1 - CNSR) ~ TRTA, data = adtte)
-  
+
   testthat::expect_error(visR::get_risktable(survfit_object), NA)
 
 })
@@ -129,7 +129,7 @@ testthat::test_that("T2.3 The function proposes 11 times which are equally space
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
   risktable <- visR::get_risktable(survfit_object)
-  
+
   testthat::expect_equal(length(risktable[["time"]]), 11)
   testthat::expect_equal(risktable[["time"]], seq(0, 200, 20))
 })
@@ -254,18 +254,18 @@ testthat::test_that("T5.7 The calculations are in agreement with what is expecte
   attr(risktable_visR, "time_ticks") <- NULL
   attr(risktable_visR, "title") <- NULL
   attr(risktable_visR, "statlist") <- NULL
-  
+
   risktable_ref <-  data.frame(
-  `time` = seq(0, 200, 20),
-  `y_values` = structure(c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L), .Label = "At risk", class = "factor"),
-  `Placebo` = c(86, 75, 65, 59, 50, 47, 45, 42, 40, 35, 0),
-  `Xanomeline High Dose` = c(84, 48, 31, 14, 7, 4, 4, 4, 4, 3, 0),
-  `Xanomeline Low Dose` = c(84, 58, 31, 20, 14, 12, 8, 6, 6, 5, 0),
-  stringsAsFactors = FALSE,
-  check.names = FALSE)
-  
+    `time` = seq(0, 200, 20),
+    `y_values` = structure(c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L), .Label = "At risk", class = "factor"),
+    `Placebo` = c(86, 75, 65, 59, 50, 47, 45, 42, 40, 35, 0),
+    `Xanomeline High Dose` = c(84, 48, 31, 14, 7, 4, 4, 4, 4, 3, 0),
+    `Xanomeline Low Dose` = c(84, 58, 31, 20, 14, 12, 8, 6, 6, 5, 0),
+    stringsAsFactors = FALSE,
+    check.names = FALSE)
+
   class(risktable_ref) <- c("risktable", class(risktable_ref))
-  
+
   testthat::expect_equal(risktable_visR, risktable_ref)
 })
 
@@ -297,7 +297,7 @@ testthat::test_that("T6.3 The calculations are grouped overall when collapse = T
   risktable_test <- risktable_ungroup
   risktable_test[["Overall"]] <- base::rowSums(risktable_test[,3:length(colnames(risktable_test))])
   risktable_test <- risktable_test[,c("time", "y_values", "Overall")]
-    
+
   testthat::expect_equal(risktable_test, risktable_group)
 })
 
@@ -308,16 +308,16 @@ testthat::test_that("T6.4 The calculations are in agreement with expectations wh
   attr(risktable_visR, "time_ticks") <- NULL
   attr(risktable_visR, "title") <- NULL
   attr(risktable_visR, "statlist") <- NULL
-  
+
   risktable_ref <-  data.frame(
-  `time` = seq(0, 200, 20),
-  `y_values` = structure(c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L), .Label = "At risk", class = "factor"),
-  `Overall` = c(254, 181, 127, 93, 71, 63, 57, 52, 50, 43, 0),
-  stringsAsFactors = FALSE,
-  check.names = FALSE)
-  
+    `time` = seq(0, 200, 20),
+    `y_values` = structure(c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L), .Label = "At risk", class = "factor"),
+    `Overall` = c(254, 181, 127, 93, 71, 63, 57, 52, 50, 43, 0),
+    stringsAsFactors = FALSE,
+    check.names = FALSE)
+
   class(risktable_ref) <- c("risktable", class(risktable_ref))
-  
+
   testthat::expect_equal(risktable_visR, risktable_ref)
 })
 
@@ -352,7 +352,7 @@ testthat::test_that("T7.3 The output dataset has the attribute `title` that spec
 
   risktable_bystat <- visR::get_risktable(survfit_object, group = "statlist")
   risktable_bystrat <- visR::get_risktable(survfit_object, group = "strata")
-  
+
   testthat::expect_equal(attr(risktable_bystat, "title"), "At risk")
   testthat::expect_equal(attr(risktable_bystrat, "title"), base::sub('.*=', '', names(survfit_object$strata)))
 })
@@ -363,10 +363,37 @@ testthat::test_that("T7.4 The output dataset has the attribute `statlist` that r
 
   risktable_bystat <- visR::get_risktable(survfit_object, group = "statlist")
   risktable_bystrat <- visR::get_risktable(survfit_object, group = "strata")
-  
+
   testthat::expect_equal(attr(risktable_bystat, "statlist"), "n.risk")
   testthat::expect_equal(attr(risktable_bystrat, "statlist"), base::sub('.*=', '', names(survfit_object$strata)))
 })
 
 # END OF CODE ----------------------------------------------------------
 
+# adding test for `get_risktable.tidycuminc()`
+cuminc <-
+  estimate_cuminc(
+    tidycmprsk::trial,
+    AVAL = "ttdeath",
+    CNSR = "death_cr"
+  )
+
+expect_equal(
+  cuminc %>%
+    get_risktable(times = 12, statlist = c("n.risk", "n.event", "n.censor")),
+  cuminc %>%
+    tidycmprsk::tidy(times = 12) %>%
+    dplyr::filter(outcome %in% "death from cancer") %>%
+    dplyr::select(time, n.risk, n.event, n.censor) %>%
+    tidyr::pivot_longer(cols = c(n.risk, n.event, n.censor)) %>%
+    dplyr::mutate(
+      name = dplyr::recode(name,
+                           n.risk = "At Risk",
+                           n.event = "N Event",
+                           n.censor = "N Censored")
+    ) %>%
+    rlang::set_names(c("time", "y_values", "Overall")) %>%
+    as.data.frame(),
+  ignore_attr = TRUE,
+  check.attributes = FALSE
+)
