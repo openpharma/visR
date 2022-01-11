@@ -235,16 +235,16 @@ testthat::test_that("T5.4 No error when the `group` arguments is `statlist`",{
 testthat::test_that("T5.5 The calculations are grouped by strata when group = `strata`",{
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
-  risktable <- visR::get_risktable(survfit_object, group = "strata")
+  risktable <- visR::get_risktable(survfit_object, group = "strata", statlist=c("n.risk", "n.censor", "n.event"))
   testthat::expect_equal(colnames(risktable[3:length(colnames(risktable))]) , gsub("^.*=", "", names(survfit_object$strata)))
 })
 
 testthat::test_that("T5.6 The calculations are grouped by statlist when group = `statlist`",{
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
-  risktable <- visR::get_risktable(survfit_object, group = "statlist")
+  risktable <- visR::get_risktable(survfit_object, group = "statlist", statlist=c("n.risk", "n.censor", "n.event"))
   testthat::expect_equal(levels(risktable[["y_values"]]) , gsub("^.*=", "", names(survfit_object$strata)))
-  testthat::expect_equal(colnames(risktable[3:length(colnames(risktable))]), c("n.risk", "n.event", "n.censor"))
+  testthat::expect_equal(colnames(risktable[3:length(colnames(risktable))]), c("n.risk", "n.censor", "n.event"))
 })
 
 testthat::test_that("T5.7 The calculations are in agreement with what is expected",{
