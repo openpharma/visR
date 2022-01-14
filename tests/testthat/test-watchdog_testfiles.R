@@ -52,13 +52,31 @@ testthat::test_that("T1.1 executed.",{
     new_header <- paste0(new_header, .get_test_TOC(x["full_path"]), "\n")
     new_header <- paste0(new_header, 
                          "# Requirement T1 ", 
-                         paste0(rep("-", 63), collapse = ""), 
+                         paste0(rep("-", 58), collapse = ""), 
                          "\n\ntestthat::context")
     
     file_content <- gsub(pattern = ".*\\@title(.+?)\n.+?context", 
                          replacement = new_header, 
                          x = file_content)
 
+    # Capture everything after the last test's })
+    leftovers = regmatches(
+      x = file_content, 
+      m = gregexpr("}\\)(?!(.|\n)*test)(.|\n)*\\Z", file_content, perl = TRUE)
+    )[[1]]
+    
+    # Format replacement section
+    eoc_section <- paste0(
+      "})\n\n",
+      "# END OF CODE ", 
+      paste0(rep("-", 61), collapse = ""),
+      "\n"
+    )
+    
+    file_content <- gsub(pattern = leftovers, 
+                         replacement = eoc_section, 
+                         x = file_content)
+    
     cat(file_content, file = x["full_path"])
     
   })
