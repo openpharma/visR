@@ -1,6 +1,6 @@
 #' @title Specifications test-utils_general.R
 #' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2021-12-30 13:59:49
+#' @section Last update date: 2022-01-14T13:56:53
 #'
 #' @section List of tested specifications
 #' T1. The input number is correctly formatted.

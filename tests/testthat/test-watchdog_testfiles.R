@@ -23,7 +23,7 @@ testthat::test_that("T1.1 executed.",{
   # Get information from last commit that changed the respective file
   cmd <- "git log -1" # Get only last edit
   cmd <- paste0(cmd, " --pretty=format:'%an (%ae);%ad'") # name-mail-date
-  cmd <- paste0(cmd, " --date=format:'%Y-%m-%d %H:%M:%S' ")
+  cmd <- paste0(cmd, " --date=format:'%Y-%m-%dT%H:%M:%S' ")
   
   last_change_df["log"] <- sapply(last_change_df$full_path, function(x) {
     system(paste0(cmd, x), intern = TRUE)
