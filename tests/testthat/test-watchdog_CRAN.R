@@ -1,10 +1,8 @@
-#' @title Specifications CRAN_watchdog
-#' @section Last updated by:
-#' Tim Treis
-#' @section Last update date:
-#' 06-JULY-2021
-
-# Specifications ---------------------------------------------------------------
+#' @title Specifications test-CRAN_watchdog.R
+#' @section Last updated by: Tim Treis (tim.treis(at)outlook.de)
+#' @section Last update date: 2021-10-28 16:29:24
+#'
+#' @section List of tested specifications
 #' T1. Our codebase doesn't violate CRAN style-guidelines.
 #' T1.1 TRUE/FALSE are used instead of T/F.
 #' T1.2 Each function documentation contains a \value{} tag.
@@ -14,9 +12,9 @@
 
 # Requirement T1 ---------------------------------------------------------------
 
-context("CRAN_watchdog - T1. Our codebase doesn't violate CRAN style-guidelines.")
+testthat::context("CRAN_watchdog - T1. Our codebase doesn't violate CRAN style-guidelines.")
 
-testthat::test_that("T1.1 TRUE/FALSE are used instead of T/F.",{
+testthat::test_that("T1.1 TRUE/FALSE are used instead of T/F.", {
 
   test_files <- .get_visR_files(functions = TRUE,
                                tests = TRUE,
@@ -57,7 +55,7 @@ testthat::test_that("T1.1 TRUE/FALSE are used instead of T/F.",{
 
 })
 
-testthat::test_that("T1.2 Each function documentation contains a \value{} tag.",{
+testthat::test_that("T1.2 Each function documentation contains a \value{} tag.", {
 
   test_files <- .get_visR_files(documentation = TRUE)
 
@@ -99,7 +97,7 @@ testthat::test_that("T1.2 Each function documentation contains a \value{} tag.",
 
 })
 
-testthat::test_that("T1.3 The existence of packages is not checked through 'installed.packages()'.",{
+testthat::test_that("T1.3 The existence of packages is not checked through 'installed.packages()'.", {
 
   # installed.packages might be slow on CRAN servers
 
@@ -112,7 +110,8 @@ testthat::test_that("T1.3 The existence of packages is not checked through 'inst
 
   for (test_file in test_files) {
 
-    hits <- base::grep("\\\\installed.packages", base::readLines(test_file, warn = FALSE))
+    hits <- base::grep("\\\\installed.packages", 
+                       base::readLines(test_file, warn = FALSE))
 
     if (length(hits) > 0) {
 
@@ -129,7 +128,7 @@ testthat::test_that("T1.3 The existence of packages is not checked through 'inst
 
 })
 
-testthat::test_that("T1.4 No \\dontrun{} tags unless the code actually takes a long time.",{
+testthat::test_that("T1.4 No \\dontrun{} tags unless the code actually takes a long time.", {
 
   test_files <- .get_visR_files(documentation = TRUE)
 
@@ -145,7 +144,8 @@ testthat::test_that("T1.4 No \\dontrun{} tags unless the code actually takes a l
 
     if (sum(grepl(exceptions_collapsed, test_file)) == 0) {
 
-      hits <- base::grep("\\\\dontrun\\{", base::readLines(test_file, warn = FALSE))
+      hits <- base::grep("\\\\dontrun\\{", 
+                         base::readLines(test_file, warn = FALSE))
 
       if (length(hits) > 0) {
 
@@ -163,7 +163,7 @@ testthat::test_that("T1.4 No \\dontrun{} tags unless the code actually takes a l
 
 })
 
-testthat::test_that("T1.5 The use of 'options()' is immediately preemptively reverted.",{
+testthat::test_that("T1.5 The use of 'options()' is immediately preemptively reverted.", {
 
   test_files <- .get_visR_files(functions = TRUE,
                                 tests = TRUE,
@@ -197,5 +197,3 @@ testthat::test_that("T1.5 The use of 'options()' is immediately preemptively rev
   testthat::expect_true(base::nrow(CRAN_incompabilities) == 0)
 
 })
-
-# END OF CODE ------------------------------------------------------------------

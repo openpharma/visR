@@ -37,7 +37,7 @@ tidyme <- function(x, ...){
 tidyme.default <- function(x, ...){
 
   base::message("tidyme S3 default method (broom::tidy) used.")
-  return(broom::tidy(x))
+  return(as.data.frame(broom::tidy(x)))
 }
 
 #' @rdname tidyme
@@ -63,7 +63,7 @@ tidyme.survfit <- function(x, ...) {
     }
 
     ## Cleanit: strata will always be filled out based off the estimation function from which it is called
-    retme <- dplyr::bind_rows(base::lapply(x[names(x) %in% c("n", "strata", "call", "na.action") == FALSE], cleaner))%>%
+    retme <- dplyr::bind_rows(base::lapply(x[names(x) %in% c("n", "strata", "call", "na.action") == FALSE], cleaner)) %>%
       dplyr::mutate( time = time
              ,n.risk = as.integer(n.risk)
              ,n.event = as.integer(n.event)
@@ -76,7 +76,6 @@ tidyme.survfit <- function(x, ...) {
       retme$n.strata <- rep(x$n, x$strata)
     }
   }
-
-
-  return(retme)
+  
+  return(as.data.frame(retme))
 }

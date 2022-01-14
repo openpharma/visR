@@ -1,20 +1,18 @@
-#' @title Specifications utils_general
-#' @section Last updated by: Tim Treis
-#' @section Last update date: 21-JULY-2021
-
-# Specifications ---------------------------------------------------------------
-
+#' @title Specifications test-utils_general.R
+#' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
+#' @section Last update date: 2022-01-14T13:56:53
+#'
+#' @section List of tested specifications
 #' T1. The input number is correctly formatted.
-#' T1.1 Numbers smaller than 0.001 return the string \"<0.001\".
-#' T1.2 Numbers greater than 0.999 return the string \">0.999\".
+#' T1.1 Numbers smaller than 0.001 return the string '<0.001'.
+#' T1.2 Numbers greater than 0.999 return the string '>0.999'.
 #' T1.3 A number in \[0.001, 0.999\] is rounded to a precision of 3 with a total width of 6 characters.
 
+# Requirement T1 ----------------------------------------------------------
 
-# Requirement T1 ---------------------------------------------------------------
+testthat::context("utils_general - T1. The input number is correctly formatted.")
 
-context("utils_general - T1. The input number is correctly formatted.")
-
-testthat::test_that("T1.1 Numbers smaller than 0.001 return the string \"<0.001\".", {
+testthat::test_that("T1.1 Numbers smaller than 0.001 return the string '<0.001'.", {
   
   input <- 0.0001
   output <- visR:::.pvalformat(input)
@@ -22,7 +20,7 @@ testthat::test_that("T1.1 Numbers smaller than 0.001 return the string \"<0.001\
   
 })
 
-testthat::test_that("T1.2 Numbers greater than 0.999 return the string \">0.999\".", {
+testthat::test_that("T1.2 Numbers greater than 0.999 return the string '>0.999'.", {
   
   input <- 0.9999
   output <- visR:::.pvalformat(input)
@@ -43,5 +41,4 @@ testthat::test_that("T1.3 A number in \\[0.001, 0.999\\] is rounded to a precisi
   
 })
 
-# END --------------------------------------------------------------------------
-
+# END OF CODE -------------------------------------------------------------
