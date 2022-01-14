@@ -1,6 +1,6 @@
 #' @title Specifications test-visr_survfit.R
-#' @section Last updated by: Tim Treis (tim.treis@@stud.uni-heidelberg.de)
-#' @section Last update date: 2021-12-28 17:51:37
+#' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
+#' @section Last update date: 2021-12-30 13:59:49
 #'
 #' @section List of tested specifications
 #' T1. visR::visr() only accepts `survfit` or `attrition`.
@@ -45,7 +45,7 @@
 #' T4.1 The final object is a ggplot of class `ggplot`.
 #' T4.2 The final object is a ggplot of class `ggsurvfit`.
 
-# Requirement T1 ---------------------------------------------------------------
+# Requirement T1 ----------------------------------------------------------
 
 testthat::context("visr_plot - T1. visR::visr() only accepts `survfit` or `attrition`.")
 
@@ -532,5 +532,4 @@ testthat::test_that("T4.2 The final object is a ggplot of class `ggsurvfit`.", {
 
 })
 
-# END --------------------------------------------------------------------------
-
+# END OF CODE -------------------------------------------------------------

@@ -1,6 +1,6 @@
 #' @title Specifications test-utils_table.R
 #' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2021-12-03 09:32:51
+#' @section Last update date: 2021-12-30 13:59:49
 #'
 #' @section List of tested specifications
 #' NA
@@ -10,7 +10,7 @@
 #' T4. Correct values for summarize_short.numeric
 #' T5. Correct values for summarize_short.factor and summarize_short.string
 
-# Requirement T1 ---------------------------------------------------------------
+# Requirement T1 ----------------------------------------------------------
 
 testthat::context("utils_table - T1. Correct values for summarize_long.numeric")
 
@@ -160,3 +160,5 @@ test_that("T5.2. Correct default value in summarize_short", {
   testthat::expect_equal(summary[[1]]$`Unique values`, 
                          as.character(sum(values=="A")))
 })
+
+# END OF CODE -------------------------------------------------------------

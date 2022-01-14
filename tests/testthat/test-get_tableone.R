@@ -1,6 +1,6 @@
 #' @title Specifications test-get_tableone.R
 #' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2021-12-03 09:32:51
+#' @section Last update date: 2021-12-30 13:59:49
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a `data.frame` `tibble` or `data.table`
@@ -25,7 +25,7 @@
 #' T4.4 An error when the `summary_function` is `summarize_long`
 #' T4.5 No error when the `summary_function` is `summarize_short`
 
-# Requirement T1 ---------------------------------------------------------------
+# Requirement T1 ----------------------------------------------------------
 
 testthat::context("get_tableone - T1. The function accepts a `data.frame` `tibble` or `data.table`")
 
@@ -172,3 +172,5 @@ testthat::test_that("T4.5 No error when the `summary_function` is `summarize_sho
                                             summary_function = summarize_short), NA)
 
 })
+
+# END OF CODE -------------------------------------------------------------

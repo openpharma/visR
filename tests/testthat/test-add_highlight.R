@@ -1,6 +1,6 @@
 #' @title Specifications test-add_highlight.R
 #' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2021-12-03 09:32:51
+#' @section Last update date: 2021-12-30 13:59:49
 #'
 #' @section List of tested specifications
 #' T1. The function modifies a `ggsurvfit` object and returns it.
@@ -27,7 +27,7 @@
 #' T4.1 The function adds the alpha channel to the hex-encoded colour.
 #' T4.2 The function also reduces the alpha value of the confidence intervals introduced by `add_CI`.
 
-# Requirement T1 ---------------------------------------------------------------
+# Requirement T1 ----------------------------------------------------------
 
 testthat::context("add_highlight - T1. The function modifies a `ggsurvfit` object and returns it.")
 
@@ -171,7 +171,7 @@ testthat::test_that("T2.4 No error when `strata` is a `list` or `vector` of char
 
   gg %>%
     visR::add_highlight(strata = strata_vector) %>%
-    vdiffr::expect_doppelganger(title = "add_highlight_T2_4_no_error_when_strata_is_string_vector")
+    vdiffr::expect_doppelganger(title = "add_highlight_T2_4_no_error_when_strata_is_string_vec") # 'vector' shortened because of tarball size
 
 })
 
@@ -395,3 +395,5 @@ testthat::test_that("T4.2 The function also reduces the alpha value of the confi
   testthat::expect_equal(gg_with_highlight_CI_fills_numeric[3], ci_alpha*bg_alpha)
 
 })
+
+# END OF CODE -------------------------------------------------------------

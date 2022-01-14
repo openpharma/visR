@@ -1,6 +1,6 @@
 #' @title Specifications test-add_annotation.R
 #' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2021-12-03 09:32:51
+#' @section Last update date: 2021-12-30 13:59:49
 #'
 #' @section List of tested specifications
 #' T1. The function adds annotations to an object of class `ggplot`
@@ -29,7 +29,7 @@
 #' T6.2 The attribute components contains the annotation
 #' T6.3 The output has the same class as the original ggplot
 
-# Requirement T1 ---------------------------------------------------------------
+# Requirement T1 ----------------------------------------------------------
 
 testthat::context("add_annotation - T1. The function adds annotations to an object of class `ggplot`")
 
@@ -129,13 +129,13 @@ testthat::test_that("T3.2 The content of a `data.frame` passed to label is not a
   }))
   
   cN <- extracted_lbl[1:length(colnames(anno))]
-  bD <- extracted_lbl[(length(cN)+1):length(extracted_lbl)]
+  bD <- extracted_lbl[(length(cN) + 1):length(extracted_lbl)]
 
   d <- as.data.frame(matrix(bD, ncol = length(cN), byrow = FALSE), 
                      stringsAsFactors = FALSE)
   colnames(d) <- cN
   
-  lbl <- data.frame(lapply(anno, as.character), stringsAsFactors=FALSE)
+  lbl <- data.frame(lapply(anno, as.character), stringsAsFactors = FALSE)
 
   testthat::expect_equal(d, lbl, check.attributes = FALSE) 
 })
@@ -288,3 +288,5 @@ testthat::test_that("T6.3 The output has the same class as the original ggplot",
   
   testthat::expect_equal(class(visR_plot), class(visR_plot2)) 
 })
+
+# END OF CODE -------------------------------------------------------------

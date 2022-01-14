@@ -1,6 +1,6 @@
 #' @title Specifications test-add_CI.R
 #' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2021-12-03 09:32:51
+#' @section Last update date: 2021-12-30 13:59:49
 #'
 #' @section List of tested specifications
 #' T1. No errors when confidence intervals are added to the plots.
@@ -17,7 +17,7 @@
 #' T3.3 Warning when `alpha` is not in [0, 1].
 #' T3.4 Warning when `style` is `ribbon` but a `linetype` was specified.
 
-# Requirement T1 ---------------------------------------------------------------
+# Requirement T1 ----------------------------------------------------------
 
 testthat::context("add_CI - T1. No errors when confidence intervals are added to the plots.")
 
@@ -220,3 +220,5 @@ testthat::test_that("T3.4 Warning when `style` is `ribbon` but a `linetype` was 
                            warning_message)
   
 })
+
+# END OF CODE -------------------------------------------------------------

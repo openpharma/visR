@@ -1,6 +1,6 @@
 #' @title Specifications test-get_attrition.R
 #' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2021-12-03 09:32:51
+#' @section Last update date: 2021-12-30 13:59:49
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a `data.frame` `tibble` or `data.table`
@@ -36,7 +36,7 @@
 #' T6.1 The object is of class `data.frame`
 #' T6.2 The object is of class `attrition`
 
-# Requirement T1 ---------------------------------------------------------------
+# Requirement T1 ----------------------------------------------------------
 
 testthat::context("get_attrition - T1. The function accepts a `data.frame` `tibble` or `data.table`")
 
@@ -502,3 +502,5 @@ testthat::test_that("T6.2 The object is of class `attrition`", {
     testthat::expect_s3_class(outdf, "attrition")
 
 })
+
+# END OF CODE -------------------------------------------------------------

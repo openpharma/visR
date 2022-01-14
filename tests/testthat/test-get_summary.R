@@ -1,6 +1,6 @@
 #' @title Specifications test-get_summary.R
 #' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2021-12-03 09:32:51
+#' @section Last update date: 2021-12-30 13:59:49
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a survival object
@@ -25,7 +25,7 @@
 #' T2.12 An error when the confidence intervals are requested and not calculated in the survival object
 #' T2.13 Column name for confidence intervals changes for different confidence levels
 
-# Requirement T1 ---------------------------------------------------------------
+# Requirement T1 ----------------------------------------------------------
 
 testthat::context("get_summary - T1. The function accepts a survival object")
 
@@ -274,3 +274,5 @@ testthat::test_that("T2.13 Column name for confidence intervals changes for diff
   testthat::expect_equal("0.8CI", ci_colnames)
   
 })
+
+# END OF CODE -------------------------------------------------------------

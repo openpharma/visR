@@ -1,6 +1,6 @@
 #' @title Specifications test-add_risktable.R
 #' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2021-12-03 09:32:51
+#' @section Last update date: 2021-12-30 13:59:49
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a `ggsurvfit` object.
@@ -17,7 +17,7 @@
 #' T3.3 The attribute components contains the risktables, identified through the risktable titles.
 #' T3.4 The output has class `ggsurvfit`.
 
-# Requirement T1 ---------------------------------------------------------------
+# Requirement T1 ----------------------------------------------------------
 
 testthat::context("add_risktable.survfit - T1. The function accepts a `ggsurvfit` object.")
 
@@ -160,3 +160,5 @@ testthat::test_that("T3.4 The output has class `ggsurvfit`.",{
   testthat::expect_true(inherits(visR_plot, "ggsurvfit"))
   
 })
+
+# END OF CODE -------------------------------------------------------------

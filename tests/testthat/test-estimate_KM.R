@@ -1,6 +1,6 @@
 #' @title Specifications test-estimate_KM.R
 #' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2021-12-03 09:32:51
+#' @section Last update date: 2021-12-30 13:59:49
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a `data.frame` `tibble` or `data.table`
@@ -36,7 +36,7 @@
 #' T7.1 The function updates call$data when magrittr pipe is used
 #' T7.2 The function prefixes the function call with survival
 
-# Requirement T1 ---------------------------------------------------------------
+# Requirement T1 ----------------------------------------------------------
 
 testthat::context("estimate_KM - T1. The function accepts a `data.frame` `tibble` or `data.table`")
 
@@ -364,3 +364,5 @@ testthat::test_that("T7.2 The function prefixes the function call with survival"
 
   testthat::expect_equal(call_visR[[1]], quote(survival::survfit))
 })
+
+# END OF CODE -------------------------------------------------------------

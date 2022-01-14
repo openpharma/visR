@@ -1,6 +1,6 @@
 #' @title Specifications test-get_quantile.R
 #' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2021-12-03 09:32:51
+#' @section Last update date: 2021-12-30 13:59:49
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a `survfit` object
@@ -27,7 +27,7 @@
 #' T6.3 The output contains a column with the quantities
 #' T6.4 The output contains columns with the requested quantiles
 
-# Requirement T1 ---------------------------------------------------------------
+# Requirement T1 ----------------------------------------------------------
 
 testthat::context("get_pvalue - T1. The function accepts a `survfit` object")
 
@@ -184,3 +184,5 @@ testthat::test_that("T6.4 The output contains columns with the requested quantil
   
   testthat::expect_true(base::all(as.character(probs*100) %in% colNm))
 })
+
+# END OF CODE -------------------------------------------------------------

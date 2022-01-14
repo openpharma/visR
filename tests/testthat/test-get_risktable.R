@@ -1,6 +1,6 @@
 #' @title Specifications test-get_risktable.R
 #' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2021-12-03 09:32:51
+#' @section Last update date: 2021-12-30 13:59:49
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a `survfit` object
@@ -46,7 +46,7 @@
 #' T7.3 The output dataset has the attribute `title` that specifies the labels used in downstream functions
 #' T7.4 The output dataset has the attribute `statlist` that reflects the ´group´ used
 
-# Requirement T1 ---------------------------------------------------------------
+# Requirement T1 ----------------------------------------------------------
 
 testthat::context("get_risktable.survfit - T1. The function accepts a `survfit` object")
 
@@ -390,3 +390,5 @@ testthat::test_that("T7.4 The output dataset has the attribute `statlist` that r
   testthat::expect_equal(attr(risktable_bystrat, "statlist"), 
                          sub('.*=', '', names(survfit_object$strata)))
 })
+
+# END OF CODE -------------------------------------------------------------

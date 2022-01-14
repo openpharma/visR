@@ -1,6 +1,6 @@
 #' @title Specifications test-utils_visR.R
 #' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2021-12-03 09:32:51
+#' @section Last update date: 2021-12-30 13:59:49
 #'
 #' @section List of tested specifications
 #' T1. `align_plots()` accepts a list of `ggplot` objects.
@@ -50,7 +50,7 @@
 #' T6.4 An error when `hex_color` is not a character string with length 9.
 #' T6.5 An error when `hex_color` is a character string with length 9 but doesn't have # at the first position.
 
-# Requirement T1 ---------------------------------------------------------------
+# Requirement T1 ----------------------------------------------------------
 
 testthat::context("utils_visr - T1. `align_plots()` accepts a list of `ggplot` objects.")
 
@@ -509,3 +509,5 @@ testthat::test_that("T6.5 An error when `hex_color` is a character string with l
     testthat::expect_error(expected_error)
   
 })
+
+# END OF CODE -------------------------------------------------------------

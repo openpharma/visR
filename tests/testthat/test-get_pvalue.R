@@ -1,6 +1,6 @@
 #' @title Specifications test-get_pvalue.R
 #' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2021-12-03 09:32:51
+#' @section Last update date: 2021-12-30 13:59:49
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a `survfit` object
@@ -30,7 +30,7 @@
 #' T4.5 The associated calculations of the statistical tests are ordered in line with the order defined in the statlist
 #' T4.6 The Chisq statistic has the same precision as the pvalue
 
-# Requirement T1 ---------------------------------------------------------------
+# Requirement T1 ----------------------------------------------------------
 
 testthat::context("get_pvalue - T1. The function accepts a `survfit` object")
 
@@ -215,3 +215,5 @@ testthat::test_that("T4.6 The Chisq statistic has the same precision as the pval
   
   testthat::expect_identical(pvals_nchar_after_dot, chisq_nchar_after_dot)
 })
+
+# END OF CODE -------------------------------------------------------------

@@ -1,6 +1,6 @@
 #' @title Specifications test-add_CNSR.R
 #' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2021-12-03 09:32:51
+#' @section Last update date: 2021-12-30 13:59:49
 #'
 #' @section List of tested specifications
 #' T1. The output plots after adding confidence intervals don't differ from the reviewed plots
@@ -20,7 +20,7 @@
 #' T2.7 A ggplot warning when a non-matching vector for `size` is specified
 #' T2.8 A ggplot warning when a non-matching vector for `shape` is specified
 
-# Requirement T1 ---------------------------------------------------------------
+# Requirement T1 ----------------------------------------------------------
 
 testthat::context("add_CNSR - T1. The output plots after adding confidence intervals don't differ from the reviewed plots")
 
@@ -242,3 +242,5 @@ testthat::test_that("T2.8 A ggplot warning when a non-matching vector for `shape
   testthat::expect_match(abortive_warning, ggplot_error)
   
 })
+
+# END OF CODE -------------------------------------------------------------

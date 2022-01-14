@@ -1,6 +1,6 @@
 #' @title Specifications test-tidyme.R
 #' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2021-12-03 09:32:51
+#' @section Last update date: 2021-12-30 13:59:49
 #'
 #' @section List of tested specifications
 #' T1. The function accepts an S3 object
@@ -9,12 +9,12 @@
 #' T1.3 No error when a non-`survfit` S3 object is passed to the function
 #' T2. The function tidies up an associated object
 #' T2.1 The default method throws a message to indicate it relies on broom::tidy
-#' T3. The S3 method, associated with a `survfit` object, outputs an extended tidied tibble
-#' T3.1 The S3 method, associated with a `survfit` object, returns a tibble
+#' T3. The S3 method, associated with a `survfit` object, outputs an extended tidied data.frame
+#' T3.1 The S3 method, associated with a `survfit` object, returns a data.frame
 #' T3.2 The S3 method, associated with a `survfit` object, has columns representing all list elements of the S3 object
 #' T3.3 The S3 method, associated with a `survfit` object, turns list elements that represent integer numbers into integers
 
-# Requirement T1 ---------------------------------------------------------------
+# Requirement T1 ----------------------------------------------------------
 
 testthat::context("tidyme - T1. The function accepts an S3 object")
 
@@ -57,13 +57,13 @@ testthat::test_that("T2.1 The default method throws a message to indicate it rel
 
 # Requirement T3 ---------------------------------------------------------------
 
-testthat::context("tidyme - T3. The S3 method, associated with a `survfit` object, outputs an extended tidied tibble")
+testthat::context("tidyme - T3. The S3 method, associated with a `survfit` object, outputs an extended tidied data.frame")
 
-testthat::test_that("T3.1 The S3 method, associated with a `survfit` object, returns a tibble",{
+testthat::test_that("T3.1 The S3 method, associated with a `survfit` object, returns a data.frame",{
 
   survfit_object <- visR::estimate_KM(data = adtte, strata = "TRTA")
   survfit_object_tidy <- tidyme(survfit_object)
-  testthat::expect_true(inherits(survfit_object_tidy, c("tbl", "tbl_df")))
+  testthat::expect_true(inherits(survfit_object_tidy, "data.frame"))
 
 })
 
@@ -101,11 +101,9 @@ testthat::test_that("T3.2 The S3 method, associated with a `survfit` object, has
   surv_object_df["PARAMCD"] <- rep(survfit_object[["PARAMCD"]], 
                                    sum(survfit_object[["strata"]]))
 
-  surv_object_df <- surv_object_df %>% dplyr::as_tibble()
-
   cn <- colnames(survfit_object_tidy)
 
-  for (i in 1:length(cn)){
+  for (i in 1:length(cn)) {
     testthat::expect_equal(surv_object_df[,cn[i]], survfit_object_tidy[,cn[i]])
   }
 
@@ -122,3 +120,5 @@ testthat::test_that("T3.3 The S3 method, associated with a `survfit` object, tur
   testthat::expect_true(inherits(survfit_object_tidy[["n.strata"]], "integer"))
 
 })
+
+# END OF CODE -------------------------------------------------------------

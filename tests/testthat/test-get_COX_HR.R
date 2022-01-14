@@ -1,6 +1,6 @@
 #' @title Specifications test-get_COX_HR.R
 #' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2021-12-03 09:32:51
+#' @section Last update date: 2021-12-30 13:59:49
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a `survfit` object
@@ -12,9 +12,9 @@
 #' T2.2 An error when the update_formula argument is not a `formula`
 #' T3. The function calculates the COX Hazard Ratio
 #' T3.1 No error when the update_formula argument is a `formula`
-#' T3.2 The function returns a tibble
+#' T3.2 The function returns a data.frame
 
-# Requirement T1 ---------------------------------------------------------------
+# Requirement T1 ----------------------------------------------------------
 
 testthat::context("get_COX_HR - T1. The function accepts a `survfit` object")
 
@@ -72,17 +72,19 @@ testthat::test_that("T3.1 No error when the update_formula argument is a `formul
   
   coxph <- survival::coxph(formula = survival::Surv(AVAL, 1 - CNSR) ~ TRTA + SEX, 
                            data = adtte)
-  tidy_coxph_traditional <- broom::tidy(coxph)
+  tidy_coxph_traditional <- as.data.frame(broom::tidy(coxph))
   
   testthat::expect_equal(tidy_coxph_traditional, tidy_coxph_visR)
 
 })
 
-testthat::test_that("T3.2 The function returns a tibble", {
+testthat::test_that("T3.2 The function returns a data.frame", {
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
   formula <- ". ~ . + SEX"
   tidy_coxph_visR <- visR::get_COX_HR(survfit_object, update_formula = formula)
   
-  testthat::expect_true(inherits(tidy_coxph_visR, c("tbl_df", "tbl")))
+  testthat::expect_true(inherits(tidy_coxph_visR, "data.frame"))
 })
+
+# END OF CODE -------------------------------------------------------------

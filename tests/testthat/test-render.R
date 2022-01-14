@@ -1,6 +1,6 @@
 #' @title Specifications test-render.R
 #' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2021-12-03 09:32:51
+#' @section Last update date: 2021-12-30 13:59:49
 #'
 #' @section List of tested specifications
 #' T1. The function `render.tableone()` properly renders a `render.tableone` object.
@@ -60,7 +60,7 @@
 #' T6.1 No error when `data` is a `data.frame`.
 #' T6.2 The returned object is of type `gt_tbl`.
 
-# Requirement T1 ---------------------------------------------------------------
+# Requirement T1 ----------------------------------------------------------
 
 testthat::context("render - T1. The function `render.tableone()` properly renders a `render.tableone` object.")
 
@@ -922,3 +922,5 @@ testthat::test_that("T6.2 The returned object is of type `gt_tbl`.", {
   testthat::expect_true("gt_tbl" %in% class(tmp))
   
 })
+
+# END OF CODE -------------------------------------------------------------

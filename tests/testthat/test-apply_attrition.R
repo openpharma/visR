@@ -1,6 +1,6 @@
 #' @title Specifications test-apply_attrition.R
 #' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2021-12-03 09:32:51
+#' @section Last update date: 2021-12-30 13:59:49
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a `data.frame` `tibble` or `data.table`
@@ -27,7 +27,7 @@
 #' T5. The returned object is of correct class
 #' T5.1 The object is of class `data.frame`
 
-# Requirement T1 ---------------------------------------------------------------
+# Requirement T1 ----------------------------------------------------------
 
 testthat::context("apply_attrition - T1. The function accepts a `data.frame` `tibble` or `data.table`")
 
@@ -273,3 +273,5 @@ testthat::test_that("T5.1 The object is of class `data.frame`",{
     testthat::expect_s3_class(outdf, "data.frame")
     
 })
+
+# END OF CODE -------------------------------------------------------------
