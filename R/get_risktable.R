@@ -161,7 +161,8 @@ get_risktable.survfit <- function(
       as.data.frame()
     
     per_strata[["y_values"]] <- factor(per_strata[["y_values"]], levels = levels(label_lookup[["statlist"]]), labels = label_lookup[["label"]])
-   
+    per_strata <- per_strata[order(per_strata[["y_values"]]), ]
+    
     title <- levels(per_statlist[["y_values"]])
 
     final <- per_strata

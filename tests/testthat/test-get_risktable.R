@@ -12,7 +12,7 @@
 #' T1.3 No error when no strata is present in the `survfit` object
 #' T1.4 No error when one strata is present in the `survfit` object
 #' T1.5 No error when multiple strata are present in the `survfit` object
-#' T1.6 Only the levels of the strata combinations are used, while the strata themselves are not mentioned
+#' T1.6 The strata combinations are used, not the individual strata
 #' T1.7 When no strata were specified, an artificial strata is created 'Overall'
 #' T2. The function accepts an argument that specifies the time at which the risk set is calculated
 #' T2.1 An error when the times specified are negative
@@ -90,7 +90,7 @@ testthat::test_that("T1.5 No error when multiple strata are present in the `surv
 
 })
 
-testthat::test_that("T1.6 Only the levels of the strata combinations are used, while the strata themselves are not mentioned",{
+testthat::test_that("T1.6 The strata combinations are used, not the individual strata",{
 
   survfit_object <- visR::estimate_KM(adtte, strata = c("SEX", "TRTP"))
   risktable <- visR::get_risktable(survfit_object, group = "statlist")
@@ -134,6 +134,14 @@ testthat::test_that("T2.3 The function proposes 11 times which are equally space
   testthat::expect_equal(risktable[["time"]], seq(0, 200, 20))
 })
 
+testthat::test_that("T2.4 The risktable is correctly calculated when only 1 timepoint is used",{
+
+  survfit_object <- visR::estimate_KM(adtte)
+  risktable <- visR::get_risktable(survfit_object, times = 20, statlist = c("n.risk", "n.event", "n.censor"))
+  
+  expect <- c(summary(survfit_object, times=20)[["n.risk"]], summary(survfit_object, times=20)[["n.event"]], summary(survfit_object, times=20)[["n.censor"]])
+  testthat::expect_equal(risktable[["Overall"]], expect)
+})
 
 # Requirement T3 ----------------------------------------------------------
 
@@ -249,6 +257,7 @@ testthat::test_that("T5.6 The calculations are grouped by statlist when group = 
 
 testthat::test_that("T5.7 The calculations are in agreement with what is expected",{
 
+  ## test for strata
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
   risktable_visR <- visR::get_risktable(survfit_object, group = "strata")
   attr(risktable_visR, "time_ticks") <- NULL
@@ -267,6 +276,27 @@ testthat::test_that("T5.7 The calculations are in agreement with what is expecte
   class(risktable_ref) <- c("risktable", class(risktable_ref))
   
   testthat::expect_equal(risktable_visR, risktable_ref)
+  
+  ## test for statlist
+  survfit_object <- visR::estimate_KM(adtte)
+  risktable_visR <- visR::get_risktable(survfit_object, times = c(0,20), statlist = c("n.censor", "n.risk", "n.event"))
+  attr(risktable_visR, "time_ticks") <- NULL
+  attr(risktable_visR, "title") <- NULL
+  attr(risktable_visR, "statlist") <- NULL
+  
+  risktable_ref <-  structure(
+    list(time = c(0, 20, 0, 20, 0, 20),
+         y_values = structure(c(1L,1L, 2L, 2L, 3L, 3L), .Label = c("Censored", "At risk", "Events"), class = "factor"),
+         Overall = c(0, 19, 254, 181, 0, 57)
+        ),
+    row.names = c(2L, 5L, 1L, 4L, 3L, 6L),
+    class = c("risktable", "data.frame")
+  )
+  
+  testthat::expect_equal(risktable_visR, risktable_ref)
+  
+  attributes(risktable_ref)
+
 })
 
 # Requirement T6 ----------------------------------------------------------
@@ -309,14 +339,18 @@ testthat::test_that("T6.4 The calculations are in agreement with expectations wh
   attr(risktable_visR, "title") <- NULL
   attr(risktable_visR, "statlist") <- NULL
   
-  risktable_ref <-  data.frame(
-  `time` = seq(0, 200, 20),
-  `y_values` = structure(c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L), .Label = "At risk", class = "factor"),
-  `Overall` = c(254, 181, 127, 93, 71, 63, 57, 52, 50, 43, 0),
-  stringsAsFactors = FALSE,
-  check.names = FALSE)
-  
-  class(risktable_ref) <- c("risktable", class(risktable_ref))
+  risktable_ref <-  structure(
+    list(time = c(0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200),
+         n.event = c(0, 57, 41, 27, 13, 8, 4, 1, 0, 1, 0), 
+         n.censor = c(0, 19, 10, 8, 9, 0, 1, 4, 2, 8, 41), 
+         y_values = structure(c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L),
+         .Label = "At risk",
+         class = "factor"),
+         Overall = c(254, 181, 127, 93, 71, 63, 57, 52, 50, 43, 0)
+        ),
+    row.names = c(NA, -11L),
+    class = c("risktable", "data.frame")
+  )
   
   testthat::expect_equal(risktable_visR, risktable_ref)
 })
