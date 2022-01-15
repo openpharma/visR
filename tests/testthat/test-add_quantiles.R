@@ -1,9 +1,8 @@
-#' @title Specifications add_quantiles.R
-#' @section Last updated by: Tim Treis
-#' @section Last update date: 16-Nov-2021
-
-# Specifications ---------------------------------------------------------------
-
+#' @title Specifications test-add_quantiles.R
+#' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
+#' @section Last update date: 2022-01-14T13:56:53
+#'
+#' @section List of tested specifications
 #' T1. The quantile lines are y-axis-transformation dependent.
 #' T1.1 No error when the default `surv` option is used.
 #' T1.2 No error when a function is passed as a string.
@@ -22,7 +21,7 @@
 #' T2.10 No error when `linecolour` is a non-default character string.
 #' T2.11 No error when `linecolour` is `strata`.
 
-# Requirement T1---------------------------------------------------------------
+# Requirement T1 ----------------------------------------------------------
 
 testthat::context("add_quantiles - T1. The quantile lines are y-axis-transformation dependent.")
 
@@ -275,3 +274,5 @@ testthat::test_that("T2.11 No error when `linecolour` is `strata`.", {
     testthat::expect_error(NA) 
   
 })
+
+# END OF CODE -------------------------------------------------------------
