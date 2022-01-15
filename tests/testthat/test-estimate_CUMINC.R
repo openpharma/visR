@@ -1,4 +1,20 @@
-test_that("estimate_cuminc() works", {
+#' @title Specifications estimate_cuminc
+#' @section Last updated by:
+#' Daniel Sjoberg
+#' @section Last update date:
+#' 01-JAN-2022
+
+# Specifications ----------------------------------------------------------
+
+#' T1. The function wraps `tidycmprsk::cuminc()` appropriately
+#' T1.1 No errors `estimate_cuminc()`
+#' T1.2 No errors `estimate_cuminc()` sister functions
+
+# Requirement T1 ----------------------------------------------------------
+
+context("estimate_cuminc - T1. The function wraps `tidycmprsk::cuminc()` appropriately")
+
+testthat::test_that("T1.1. No errors `estimate_cuminc()`", {
   expect_error(
     estimate_cuminc(tidycmprsk::trial, CNSR = "death_cr", AVAL = "ttdeath") %>%
       visr() %>%
@@ -16,8 +32,12 @@ test_that("estimate_cuminc() works", {
 
   expect_equal(
     cuminc1[c("failcode", "cmprsk", "conf.level", "tidy")],
-    tidycmprsk::cuminc(tidycmprsk::Surv(ttdeath, death_cr) ~ trt, tidycmprsk::trial)[c("failcode", "cmprsk", "conf.level", "tidy")]
+    tidycmprsk::cuminc(tidycmprsk::Surv(ttdeath, death_cr) ~ trt,
+                       tidycmprsk::trial)[c("failcode", "cmprsk", "conf.level", "tidy")]
   )
+})
+
+testthat::test_that("T1.2. No errors `estimate_cuminc()` sister functions", {
 
   expect_error(cuminc1_visr <- visr(cuminc1), NA)
 
@@ -74,3 +94,6 @@ test_that("estimate_cuminc() works", {
     NA
   )
 })
+
+# END OF CODE ----------------------------------------------------------
+

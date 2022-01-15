@@ -175,25 +175,3 @@ add_risktable.ggsurvfit <- function(
 #' @export
 add_risktable.ggtidycuminc <- add_risktable.ggsurvfit
 
-
-# this function extracts the survift or tidycmprsk object from the ggplot objects
-.extract_estimate_object <- function(gg) {
-  if (inherits(gg, "ggsurvfit")) {
-    call <- as.character(gg$data$call[[1]])
-
-    survfit_object <- eval(gg$data$call[[1]])
-
-    #Since this call is using survival instead of visR, some characteristics are missing eg strata = "Overall" when no strata present
-    main <- base::trimws(base::sub(".*~", "", call[[2]]), which = "both")
-
-    if (is.null(survfit_object$strata) && main == "1") {
-      survfit_object$strata <- as.vector(length(survfit_object$time))
-      attr(survfit_object$strata, "names") <- "Overall"
-    }
-    return(survfit_object)
-  }
-  else if (inherits(gg, "ggtidycuminc")) {
-    return(attr(gg, "tidycuminc"))
-  }
-}
-

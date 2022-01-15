@@ -1,9 +1,12 @@
-#' Competing Events Cumulative Incidence
+#' @title Competing Events Cumulative Incidence
+#'
+#' @description Function creates a cumulative incidence object using the
+#' `tidycmprsk::cuminc()` function.
 #'
 #' @param CNSR Column name indicating the outcome and censoring statuses.
 #' Column must be a factor and the first level indicates censoring, the
 #' next level is the outcome of interest, and the remaining levels are the
-#' competing events.
+#' competing events. Default is `"CNSR"`
 #' @param conf.int Confidence internal level. Default is 0.95.
 #' @param ... Additional argument passed to `tidycmprsk::cuminc()`
 #' @inheritParams estimate_KM
@@ -27,8 +30,8 @@
 
 estimate_cuminc <- function(data
                             ,strata = NULL
-                            ,CNSR
-                            ,AVAL
+                            ,CNSR = "CNSR"
+                            ,AVAL = "AVAL"
                             ,conf.int = 0.95
                             ,...){
   # check for installation of tidycmprsk package
@@ -42,17 +45,13 @@ estimate_cuminc <- function(data
     message("Install updated version of 'hardhat' with `devtools::install_github('tidymodels/hardhat')`")
     return(invisible())
   }
-  if (!"glue" %in% rownames(utils::installed.packages())) {
-    stop("Install updated version of 'glue' with `install.packages('glue')`")
-    return(invisible())
-  }
 
   # checking/prepping inputs ---------------------------------------------------
   strata <- strata %||% "1" %>% paste(collapse = " + ")
 
   cuminc <-
     tidycmprsk::cuminc(
-      formula = stats::as.formula(glue::glue("survival::Surv({AVAL}, {CNSR}) ~ {strata}")),
+      formula = stats::as.formula(paste0("survival::Surv(", AVAL, ", ", CNSR, ") ~ ", strata)),
       data = data,
       conf.level = conf.int,
       ...
@@ -81,9 +80,7 @@ visr_tidy_tidycuminc <- function(x, times = NULL) {
     df_visr_tidy <- dplyr::mutate(df_visr_tidy, strata = "Overall")
   }
 
-  df_visr_tidy
+  as.data.frame(df_visr_tidy)
 }
 
-# copy of purrr::`%||%` operator
-`%||%` <- function (x, y) if (rlang::is_null(x)) y else x
 
