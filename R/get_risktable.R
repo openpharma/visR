@@ -185,7 +185,7 @@ get_risktable.survfit <- function(
       ) %>%
       dplyr::ungroup() %>%
       dplyr::select(-strata) %>%
-      tidyr::pivot_longer( cols = statlist
+      tidyr::pivot_longer( cols = c("n.risk", "n.censor", "n.event")
                            ,names_to = "y_values"
                            ,values_to = "Overall") %>%
       dplyr::filter(y_values %in% statlist) %>%

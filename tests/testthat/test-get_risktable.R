@@ -320,39 +320,26 @@ testthat::test_that("T6.3 The calculations are grouped overall when collapse = T
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
   risktable_ungroup <- visR::get_risktable(survfit_object, collapse = FALSE)
   risktable_group <- visR::get_risktable(survfit_object, collapse = TRUE)
-  attr(risktable_group, "time_ticks") <- NULL
-  attr(risktable_group, "title") <- NULL
-  attr(risktable_group, "statlist") <- NULL
 
   risktable_test <- risktable_ungroup
   risktable_test[["Overall"]] <- base::rowSums(risktable_test[,3:length(colnames(risktable_test))])
   risktable_test <- risktable_test[,c("time", "y_values", "Overall")]
+  
+  attributes(risktable_group) <- NULL
+  attributes(risktable_test) <- NULL
     
   testthat::expect_equal(risktable_test, risktable_group)
 })
 
 testthat::test_that("T6.4 The calculations are in agreement with expectations when grouped overall",{
 
-  survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
-  risktable_visR <- visR::get_risktable(survfit_object, group = "strata", collapse = TRUE)
-  attr(risktable_visR, "time_ticks") <- NULL
-  attr(risktable_visR, "title") <- NULL
-  attr(risktable_visR, "statlist") <- NULL
+  survfit_object_trt <- visR::estimate_KM(adtte, strata = "TRTA")
+  survfit_object_all <- visR::estimate_KM(adtte)
   
-  risktable_ref <-  structure(
-    list(time = c(0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200),
-         n.event = c(0, 57, 41, 27, 13, 8, 4, 1, 0, 1, 0), 
-         n.censor = c(0, 19, 10, 8, 9, 0, 1, 4, 2, 8, 41), 
-         y_values = structure(c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L),
-         .Label = "At risk",
-         class = "factor"),
-         Overall = c(254, 181, 127, 93, 71, 63, 57, 52, 50, 43, 0)
-        ),
-    row.names = c(NA, -11L),
-    class = c("risktable", "data.frame")
-  )
-  
-  testthat::expect_equal(risktable_visR, risktable_ref)
+  risktable_visR_trt <- visR::get_risktable(survfit_object_trt, group = "strata", collapse = TRUE)
+  risktable_visR_all <- visR::get_risktable(survfit_object_all, group = "strata")
+
+  testthat::expect_equal(risktable_visR_trt, risktable_visR_all)
 })
 
 testthat::test_that("T6.5 No error when there is only one strata available and collapse = TRUE",{
