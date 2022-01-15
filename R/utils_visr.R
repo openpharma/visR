@@ -368,7 +368,7 @@ legendopts <- function(legend_position = "right",
 #'
 #' @keywords internal
 
-get_alpha_from_hex_colour <- function(hex_colour = NULL) {
+.get_alpha_from_hex_colour <- function(hex_colour = NULL) {
 
   if (missing(hex_colour) | !is.character(hex_colour)) {
 
@@ -410,7 +410,7 @@ get_alpha_from_hex_colour <- function(hex_colour = NULL) {
 #'
 #' @keywords internal
 
-convert_alpha <- function(numeric_alpha = NULL, hex_alpha = NULL) {
+.convert_alpha <- function(numeric_alpha = NULL, hex_alpha = NULL) {
 
   if (missing(numeric_alpha) & missing(hex_alpha)) {
 
@@ -479,7 +479,7 @@ convert_alpha <- function(numeric_alpha = NULL, hex_alpha = NULL) {
 #'
 #' @keywords internal
 
-replace_hex_alpha <- function(colour, new_alpha) {
+.replace_hex_alpha <- function(colour, new_alpha) {
 
   if (missing(colour) | missing(new_alpha)) {
 

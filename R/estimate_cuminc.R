@@ -1,7 +1,7 @@
 #' @title Competing Events Cumulative Incidence
 #'
 #' @description Function creates a cumulative incidence object using the
-#' `tidycmprsk::cuminc()` function.
+#'     `tidycmprsk::cuminc()` function.
 #'
 #' @param CNSR Column name indicating the outcome and censoring statuses.
 #' Column must be a factor and the first level indicates censoring, the
