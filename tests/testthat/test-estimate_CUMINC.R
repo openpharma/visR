@@ -38,6 +38,9 @@ testthat::test_that("T1.1. No errors `estimate_cuminc()`", {
 })
 
 testthat::test_that("T1.2. No errors `estimate_cuminc()` sister functions", {
+  cuminc1 <-
+    estimate_cuminc(tidycmprsk::trial, strata = "trt",
+                    CNSR = "death_cr", AVAL = "ttdeath")
 
   expect_error(cuminc1_visr <- visr(cuminc1), NA)
 
