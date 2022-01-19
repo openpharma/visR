@@ -36,7 +36,6 @@ Suggests:
     rmarkdown,
     hexbin,
     forcats,
-    glue,
     tibble,
     data.table,
     DT,
