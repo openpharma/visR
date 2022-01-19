@@ -1,9 +1,8 @@
-#' @title Specifications visr_attrition
-#' @section Last updated by: Steven Haesendonckx
-#' @section Last update date: 27DEC2021
-
-# Specifications ---------------------------------------------------------------
-
+#' @title Specifications test-visr_attrition.R
+#' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
+#' @section Last update date: 2022-01-14T13:56:53
+#'
+#' @section List of tested specifications
 #' T1. Invalid parameters are captured when applying `visR::visr()` to an `attrition` object and respective warnings/errors are thrown.
 #' T1.1 No error when `description_column_name` is a `character` string that is found in the colnames of the `attrition` object.
 #' T1.2 No error when `value_column_name` is a `character` string that is found in the colnames of the `attrition` object.
@@ -25,7 +24,7 @@
 #' T1.18 An error when `border` is a `character` string but not a valid colour.
 #' T1.19 An error when `border` is not a `character` string.
 
-# Requirement T1 ---------------------------------------------------------------
+# Requirement T1 ----------------------------------------------------------
 
 testthat::context("visr_plot - T1. Invalid parameters are captured when applying `visR::visr()` to an `attrition` object and respective warnings/errors are thrown.")
 
@@ -415,4 +414,4 @@ testthat::test_that("T1.19 An error when `border` is not a `character` string.",
   
 })
 
-# END --------------------------------------------------------------------------
+# END OF CODE -------------------------------------------------------------
