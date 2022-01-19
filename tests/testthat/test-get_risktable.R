@@ -273,7 +273,7 @@ testthat::test_that("T5.6 The calculations are grouped by statlist when group = 
   risktable <- visR::get_risktable(
     survfit_object, 
     group = "statlist", 
-    statlist=c("n.risk", "n.censor", "n.event")
+    statlist = c("n.risk", "n.censor", "n.event")
   )
   
   testthat::expect_equal(
@@ -282,7 +282,7 @@ testthat::test_that("T5.6 The calculations are grouped by statlist when group = 
   )
   testthat::expect_equal(
     object = colnames(risktable[3:length(colnames(risktable))]), 
-    expected = c("n.risk", "n.event", "n.censor")
+    expected = c("n.risk", "n.censor", "n.event")
   )
 
 })
