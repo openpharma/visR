@@ -33,8 +33,6 @@ jobs:
         shell: Rscript {0}
       - name: Render README
         run: |
-          pwd
-          dir
           Rscript -e 'rmarkdown::render("README.Rmd")'
       - name: Commit results
         run: |
