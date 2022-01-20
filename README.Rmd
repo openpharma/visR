@@ -228,6 +228,7 @@ local_repo %>%
 Last time readme built.
 
 ```{r check-coverage}
+print(list.files(path = getwd(), full.names = TRUE))
 # Circumventing covr's native behaviour because of https://github.com/r-lib/covr/issues/487
 covr::package_coverage(type = "none", code = "testthat::test_package('visR')")
 
