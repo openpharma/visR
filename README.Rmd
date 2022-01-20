@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 library(magrittr)
 library(riskmetric)
 library(dplyr)
+library(covr)
 
 riskmetric_score <- "visR" %>%
   riskmetric::pkg_ref() %>%
