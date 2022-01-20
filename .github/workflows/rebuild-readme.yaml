@@ -34,6 +34,7 @@ jobs:
       - name: Render README
         run: |
           Rscript -e 'rmarkdown::render("README.Rmd")'
+          cat README.html
       - name: Commit results
         run: |
           git config --local user.email "actions@github.com"
