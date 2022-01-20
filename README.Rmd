@@ -227,12 +227,9 @@ local_repo %>%
 
 Last time readme built.
 
-```{r build-package, echo=FALSE, results="hide", message=FALSE, warning=FALSE}
-# https://github.com/r-lib/covr/issues/354
-devtools::build(path = ".")
-```
-
 ```{r check-coverage}
-covr::package_coverage(path = ".", quiet = FALSE)
+# Circumventing covr's native behaviour because of https://github.com/r-lib/covr/issues/487
+covr::package_coverage(type = "none", code = "testthat::test_package('visR')")
+
 ```
 
