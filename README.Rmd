@@ -200,27 +200,6 @@ local_repo %>%
   ) + theme(legend.position = "none")
 ```
 
-```{r, echo=FALSE, warning=FALSE, message = FALSE}
-# lines <- local_repo %>%
-#   unnest_log() %>%
-#   set_changed_file_to_latest_name() %>%
-#   add_line_history()
-
-#r_files <- grep("^R/", lines$changed_file, value = TRUE)
-
-#glimpse(r_files)
-
-# to_plot <- lines %>%
-#   filter(changed_file %in% r_files) %>%
-#   add_n_times_changed_file() %>%
-#   filter(n_times_changed_file >= 10)
-# ggplot(to_plot, aes(x = date, y = current_lines)) + 
-#   geom_step() + 
-#   scale_y_continuous(name = "Number of Lines", limits = c(0, NA)) + 
-#   facet_wrap(~changed_file, scales = "free_y", ncol = 4) +
-#   ggthemes::theme_hc()
-```
-
 ## Code coverage 
 
 Last time readme built.
