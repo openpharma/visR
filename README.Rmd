@@ -233,6 +233,6 @@ devtools::build(path = ".")
 ```
 
 ```{r check-coverage}
-covr::package_coverage(path = ".")
+covr::package_coverage(path = ".", quiet = FALSE)
 ```
 
