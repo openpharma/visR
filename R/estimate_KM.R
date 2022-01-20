@@ -133,8 +133,8 @@ estimate_KM <- function(
 # Calculate survival and add time = 0 to survfit object -------------------
 
  ## Reverse censoring: see ADaM guidelines versus R survival KM analysis
-
-  formula <- stats::as.formula(glue::glue(paste0("survival::Surv(", AVAL, ", 1-", CNSR, ") ~ {main}")))
+  
+  formula <- stats::as.formula(paste0("survival::Surv(", AVAL, ", 1-", CNSR, ") ~ ", main))
 
   survfit_object <- survival::survfit(
     formula, data = data, ...
