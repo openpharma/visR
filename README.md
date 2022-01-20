@@ -112,7 +112,7 @@ agree to abide by its terms.
 Last time readme built.
 
 ``` r
-covr::package_coverage()
+covr::package_coverage(type = "none", code = "tools::testInstalledPackage(pkg = 'visR', types = c('tests'))", quiet = FALSE)
 #> visR Coverage: 99.93%
 #> R/visr.R: 99.51%
 #> R/add_annotation.R: 100.00%
