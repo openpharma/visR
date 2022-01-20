@@ -361,28 +361,19 @@ testthat::test_that("T6.3 The calculations are grouped overall when collapse = T
 })
 
 testthat::test_that("T6.4 The calculations are in agreement with expectations when grouped overall", {
-
+  
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
-  risktable_visR <- visR::get_risktable(survfit_object, 
-                                        group = "strata", 
-                                        collapse = TRUE)
-  attr(risktable_visR, "time_ticks") <- NULL
-  attr(risktable_visR, "title") <- NULL
-  attr(risktable_visR, "statlist") <- NULL
-  
-  risktable_ref <- data.frame(
-  `time` = seq(0, 200, 20),
-  `y_values` = structure(c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L), 
-                         .Label = "At risk", 
-                         class = "factor"),
-  `Overall` = c(254, 181, 127, 93, 71, 63, 57, 52, 50, 43, 0),
-  stringsAsFactors = FALSE,
-  check.names = FALSE)
-  
-  class(risktable_ref) <- c("risktable", class(risktable_ref))
-  
-  testthat::expect_equal(risktable_visR, risktable_ref)
+  risktable_ungroup <- visR::get_risktable(survfit_object, collapse = FALSE)
+  risktable_group <- visR::get_risktable(survfit_object, collapse = TRUE)
 
+  risktable_test <- risktable_ungroup
+  risktable_test[["Overall"]] <- rowSums(risktable_test[,3:length(colnames(risktable_test))])
+  risktable_test <- risktable_test[,c("time", "y_values", "Overall")]
+
+  attributes(risktable_group) <- NULL
+  attributes(risktable_test) <- NULL
+    
+  testthat::expect_equal(risktable_test, risktable_group)
 })
 
 testthat::test_that("T6.5 No error when there is only one strata available and collapse = TRUE", {
