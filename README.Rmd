@@ -205,5 +205,9 @@ local_repo %>%
 Last time readme built.
 
 ```{r}
-covr::package_coverage(type = "none", code = "tools::testInstalledPackage(pkg = 'visR', types = c('tests'))", quiet = FALSE)
+covr::package_coverage(
+  type = "none", 
+  code = "tools::testInstalledPackage(pkg = 'visR', types = c('tests'))", 
+  quiet = FALSE
+)
 ```
