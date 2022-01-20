@@ -1,6 +1,6 @@
 #' @title Specifications test-get_risktable.R
-#' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2022-01-14T13:56:53
+#' @section Last updated by: shaesen2 (shaesen2@@its.jnj.com)
+#' @section Last update date: 2022-01-20T00:19:21
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a `survfit` object
@@ -15,6 +15,7 @@
 #' T2.1 An error when the times specified are negative
 #' T2.2 The function orders the times argument internally to avoid errors
 #' T2.3 The function proposes 11 times which are equally spaces when no times are specified
+#' T2.4 The risktable is correctly calculated when only 1 timepoint is used
 #' T3. The function accepts a `statlist` to be displayed for which labels can be specified
 #' T3.1 No error when the `statlist` contains allowed strings
 #' T3.2 An error when the `statlist` contains non-allowed strings eg 'blah'
