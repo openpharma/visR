@@ -37,3 +37,5 @@ vignettes/*.pdf
 .Renviron
 inst/doc
 README.html
+docs/
+tests/testthat/_snaps/

@@ -3,6 +3,7 @@
 \name{add_risktable}
 \alias{add_risktable}
 \alias{add_risktable.ggsurvfit}
+\alias{add_risktable.ggtidycuminc}
 \title{Add risk tables to visR plots through an S3 method}
 \usage{
 add_risktable(gg, ...)
@@ -11,21 +12,31 @@ add_risktable(gg, ...)
   gg,
   times = NULL,
   statlist = c("n.risk"),
-  label = "At risk",
+  label = NULL,
+  group = "strata",
+  collapse = FALSE,
+  ...
+)
+
+\method{add_risktable}{ggtidycuminc}(
+  gg,
+  times = NULL,
+  statlist = c("n.risk"),
+  label = NULL,
   group = "strata",
   collapse = FALSE,
   ...
 )
 }
 \arguments{
-\item{gg}{visR plot of class \code{ggsurvfit}}
+\item{gg}{visR plot of class \code{ggsurvfit} or \code{ggtidycmprsk}}
 
 \item{...}{other arguments passed on to the method add_risktable}
 
 \item{times}{Numeric vector indicating the times at which the risk set, censored subjects, events are calculated.}
 
 \item{statlist}{Character vector indicating which summary data to present. Current choices are "n.risk" "n.event" "n.censor".
-Default is "n.risk".}
+Default is "n.risk". Competing risk models also have the option of "cumulative.event" and "cumulative.censor"}
 
 \item{label}{Character vector with labels for the statlist. Default matches "n.risk" with "At risk", "n.event" with "Events" and "n.censor"
 with "Censored".}
@@ -83,7 +94,7 @@ adtte \%>\%
                       ,collapse = TRUE
                       ,times = c(0,20,40,60)
                      )
-                     
+
 ## Add risk set as specified times
 adtte \%>\%
   visR::estimate_KM(strata = "TRTP") \%>\%

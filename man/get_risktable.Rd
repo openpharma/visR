@@ -3,6 +3,7 @@
 \name{get_risktable}
 \alias{get_risktable}
 \alias{get_risktable.survfit}
+\alias{get_risktable.tidycuminc}
 \title{Obtain risk tables for tables and plots}
 \usage{
 get_risktable(x, ...)
@@ -16,16 +17,26 @@ get_risktable(x, ...)
   collapse = FALSE,
   ...
 )
+
+\method{get_risktable}{tidycuminc}(
+  x,
+  times = pretty(x$tidy$time, 10),
+  statlist = c("n.risk"),
+  label = NULL,
+  group = "strata",
+  collapse = FALSE,
+  ...
+)
 }
 \arguments{
-\item{x}{an object of class \code{survfit}}
+\item{x}{an object of class \code{survfit} or \code{tidycuminc}}
 
 \item{...}{other arguments passed on to the method}
 
 \item{times}{Numeric vector indicating the times at which the risk set, censored subjects, events are calculated.}
 
 \item{statlist}{Character vector indicating which summary data to present. Current choices are "n.risk" "n.event" "n.censor".
-Default is "n.risk".}
+Default is "n.risk". Competing risk models also have the option of "cumulative.event" and "cumulative.censor"}
 
 \item{label}{Character vector with labels for the statlist. Default matches "n.risk" with "At risk", "n.event" with "Events" and "n.censor"
 with "Censored".}
