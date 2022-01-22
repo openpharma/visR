@@ -45,7 +45,6 @@ Suggests:
     data.table,
     DT,
     forcats,
-    glue,
     gt (>= 0.1.0),
     hexbin,
     knitr,

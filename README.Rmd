@@ -111,7 +111,6 @@ Please note that the `visR` project is released with a [Contributor Code of Cond
 
 ```{r getcontributions, echo=FALSE, warning=FALSE, message = FALSE}
 library(dplyr)
-library(glue)
 library(ggplot2)
 #library(GithubMetrics) #remotes::install_github("openpharma/GithubMetrics")
 library(gitsum) #remotes::install_github("lorenzwalthert/gitsum")
@@ -145,13 +144,13 @@ local_repo <- parse_log_detailed()
 #   mutate(
 #     blog = case_when(
 #       blog == "" ~ "",
-#       TRUE ~ as.character(glue('<a href="{blog}">link</a>'))
+#       TRUE ~ as.character(paste0('<a href="', blog, '">link</a>'))
 #       ),
 #     author = case_when(
 #       !is.na(name) ~ paste0(name,"(",author,")"),
 #       TRUE ~ author
 #     ),
-#     author = glue('<img src="{avatar}" alt="" height="30"> {author}')
+#     author = paste0('<img src="', avatar, '" alt="" height="30"> ', author)
 #     ) %>%
 #   select(author,commits_all,commits_6months,company,location,blog) %>%
 #   knitr::kable()
@@ -201,32 +200,14 @@ local_repo %>%
   ) + theme(legend.position = "none")
 ```
 
-```{r, echo=FALSE, warning=FALSE, message = FALSE}
-# lines <- local_repo %>%
-#   unnest_log() %>%
-#   set_changed_file_to_latest_name() %>%
-#   add_line_history()
-
-#r_files <- grep("^R/", lines$changed_file, value = TRUE)
-
-#glimpse(r_files)
-
-# to_plot <- lines %>%
-#   filter(changed_file %in% r_files) %>%
-#   add_n_times_changed_file() %>%
-#   filter(n_times_changed_file >= 10)
-# ggplot(to_plot, aes(x = date, y = current_lines)) + 
-#   geom_step() + 
-#   scale_y_continuous(name = "Number of Lines", limits = c(0, NA)) + 
-#   facet_wrap(~changed_file, scales = "free_y", ncol = 4) +
-#   ggthemes::theme_hc()
-```
-
 ## Code coverage 
 
 Last time readme built.
 
 ```{r}
-covr::package_coverage()
+covr::package_coverage(
+  type = "none", 
+  code = "tools::testInstalledPackage(pkg = 'visR', types = c('tests'))", 
+  quiet = FALSE
+)
 ```
-

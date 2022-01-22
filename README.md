@@ -43,7 +43,7 @@ current focus on developing a stable API.
 | [![R-CMD-check](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml/badge.svg?branch=main)](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml) | `main` branch                                                                |
 | [![pkgdown](https://github.com/openpharma/visR/actions/workflows/makedocs.yml/badge.svg)](https://github.com/openpharma/visR/actions/workflows/makedocs.yml)                               | Documentation building to [Github pages](https://openpharma.github.io/visR/) |
 | [![CRAN status](https://www.r-pkg.org/badges/version/visR)](https://CRAN.R-project.org/package=visR)                                                                                       | Latest CRAN release                                                          |
-| <a href=https://github.com/pharmaR/riskmetric><img src=https://img.shields.io/badge/riskmetric--1.15-green></img></a>                                                                      | `riskmetric` score                                                           |
+| <a href=https://github.com/pharmaR/riskmetric><img src=https://img.shields.io/badge/riskmetric--1.03-green></img></a>                                                                      | `riskmetric` score                                                           |
 
 <!-- badges: end -->
 
@@ -112,13 +112,14 @@ agree to abide by its terms.
 Last time readme built.
 
 ``` r
-covr::package_coverage()
-#> visR Coverage: 99.72%
-#> R/utils_visr.R: 97.67%
+covr::package_coverage(type = "none", code = "tools::testInstalledPackage(pkg = 'visR', types = c('tests'))", quiet = FALSE)
+#> visR Coverage: 99.93%
+#> R/visr.R: 99.51%
 #> R/add_annotation.R: 100.00%
 #> R/add_CI.R: 100.00%
 #> R/add_CNSR.R: 100.00%
 #> R/add_highlight.R: 100.00%
+#> R/add_quantiles.R: 100.00%
 #> R/add_risktable.R: 100.00%
 #> R/apply_attrition.R: 100.00%
 #> R/apply_theme.R: 100.00%
@@ -136,5 +137,5 @@ covr::package_coverage()
 #> R/utils_general.R: 100.00%
 #> R/utils_pipe.R: 100.00%
 #> R/utils_table.R: 100.00%
-#> R/visr.R: 100.00%
+#> R/utils_visr.R: 100.00%
 ```
