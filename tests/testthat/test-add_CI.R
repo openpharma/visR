@@ -7,7 +7,7 @@
 #' T1.1 No error when the default parameters are used
 #' T1.2 No error when `alpha` is a numerical value between [0, 1].
 #' T1.3 No error when `style` is `ribbon` or `step`.
-#' T1.3 No error when `linetype` is one of the valid ggplot choices.
+#' T1.4 No error when `linetype` is one of the valid ggplot choices.
 #' T2. No errors when different amount of strata are used.
 #' T2.1 No error when only 1 strata is present.
 #' T2.2 No error when 2 or more strata are present
@@ -77,7 +77,7 @@ testthat::test_that("T1.3 No error when `style` is `ribbon` or `step`.", {
   
 })
 
-testthat::test_that("T1.3 No error when `linetype` is one of the valid ggplot choices.", {
+testthat::test_that("T1.4 No error when `linetype` is one of the valid ggplot choices.", {
   
   linetypes <- c("blank",   "solid",    "dashed", "dotted", 
                  "dotdash", "longdash", "twodash")
