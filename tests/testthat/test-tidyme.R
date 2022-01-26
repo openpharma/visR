@@ -13,6 +13,7 @@
 #' T3.1 The S3 method, associated with a `survfit` object, returns a data.frame
 #' T3.2 The S3 method, associated with a `survfit` object, has columns representing all list elements of the S3 object
 #' T3.3 The S3 method, associated with a `survfit` object, turns list elements that represent integer numbers into integers
+#' T3.4 The S3 method, assocated with a `survfit` object, turns the strata into a factor
 
 # Requirement T1 ----------------------------------------------------------
 
@@ -89,24 +90,26 @@ testthat::test_that("T3.2 The S3 method, associated with a `survfit` object, has
                                           upper,
                                           stringsAsFactors = FALSE))
 
-  surv_object_df <- surv_object_df %>%
-    dplyr::mutate(call = rep(list(survfit_object[["call"]]), 
-                             sum(survfit_object[["strata"]])))
-  surv_object_df["strata"] <- rep(names(survfit_object[["strata"]]), 
-                                  survfit_object[["strata"]])
-  surv_object_df["n.strata"] <- rep(survfit_object[["n"]], 
-                                    survfit_object[["strata"]])
   surv_object_df["PARAM"] <- rep(survfit_object[["PARAM"]], 
                                  sum(survfit_object[["strata"]]))
   surv_object_df["PARAMCD"] <- rep(survfit_object[["PARAMCD"]], 
                                    sum(survfit_object[["strata"]]))
 
-  cn <- colnames(survfit_object_tidy)
+  surv_object_df <- surv_object_df %>%
+    dplyr::mutate(call = rep(list(survfit_object[["call"]]), 
+                             sum(survfit_object[["strata"]])))
+  
+  surv_object_df["strata"] <- rep(names(survfit_object[["strata"]]), 
+                                  survfit_object[["strata"]])
+  
+  surv_object_df["strata"] <- factor(surv_object_df[["strata"]], levels = unique(surv_object_df[["strata"]]))
+                                  
+  surv_object_df["n.strata"] <- rep(survfit_object[["n"]], 
+                                    survfit_object[["strata"]])
 
-  for (i in 1:length(cn)) {
-    testthat::expect_equal(surv_object_df[,cn[i]], survfit_object_tidy[,cn[i]])
-  }
 
+  testthat::expect_equal(surv_object_df, survfit_object_tidy)
+  
 })
 
 testthat::test_that("T3.3 The S3 method, associated with a `survfit` object, turns list elements that represent integer numbers into integers",{
@@ -118,6 +121,20 @@ testthat::test_that("T3.3 The S3 method, associated with a `survfit` object, tur
   testthat::expect_true(inherits(survfit_object_tidy[["n.censor"]], "integer"))
   testthat::expect_true(inherits(survfit_object_tidy[["n.event"]], "integer"))
   testthat::expect_true(inherits(survfit_object_tidy[["n.strata"]], "integer"))
+
+})
+
+ 
+testthat::test_that("T3.4 The S3 method, assocated with a `survfit` object, turns the strata into a factor",{
+  
+  dt <- adtte
+  dt[["TRTA"]] <- factor(dt[["TRTA"]], levels = c("Placebo", "Xanomeline Low Dose", "Xanomeline High Dose"))
+
+  survfit_object <- visR::estimate_KM(data = dt, strata = "TRTA")
+  survfit_object_tidy <- tidyme(survfit_object)
+  
+  testthat::expect_true(inherits(survfit_object_tidy[["strata"]], "factor"))
+  testthat::expect_equal(levels(survfit_object_tidy[["strata"]]), paste0("TRTA=", levels(dt$TRTA)))
 
 })
 

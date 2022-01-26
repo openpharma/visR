@@ -41,9 +41,11 @@
 #' T3.5 A warning when the provided function causes undefined values, f.e. log(-log(2)).
 #' T3.6 An error when `fun` is neither a `character` string nor a function.
 #' T3.7 The `fun` argument is stored in the final object as attribute `fun`.
-#' T4. The final object is a ggplot of class `ggsurvfit`.
-#' T4.1 The final object is a ggplot of class `ggplot`.
-#' T4.2 The final object is a ggplot of class `ggsurvfit`.
+#' T4. The legend follows the model strata labels
+#' T4.1 The legend follows the model strata labels
+#' T5. The final object is a ggplot of class `ggsurvfit`.
+#' T5.1 The final object is a ggplot of class `ggplot`.
+#' T5.2 The final object is a ggplot of class `ggsurvfit`.
 
 # Requirement T1 ----------------------------------------------------------
 
@@ -502,7 +504,7 @@ testthat::test_that("T3.7 The `fun` argument is stored in the final object as at
   
   survfit_plot <- adtte %>%
     visR::estimate_KM("SEX") %>%
-    visr(fun = 'log')
+    visR::visr(fun = 'log')
   
   testthat::expect_true(class(attr(survfit_plot, "fun")) == "function")
   
@@ -510,23 +512,42 @@ testthat::test_that("T3.7 The `fun` argument is stored in the final object as at
 
 # Requirement T4 ---------------------------------------------------------------
 
-testthat::context("visr_plot - T4. The final object is a ggplot of class `ggsurvfit`.")
+testthat::context("visr_plot - T4. The legend follows the model strata labels.")
 
-testthat::test_that("T4.1 The final object is a ggplot of class `ggplot`.", {
+testthat::test_that("T4.1 The legend follows the model strata labels.", {
+  
+  dt <- adtte
+  dt[["TRTA"]] <- factor(dt[["TRTA"]], levels = c("Placebo", "Xanomeline Low Dose", "Xanomeline High Dose"))
+  
+  survfit_plot <- visR::estimate_KM(dt, strata="TRTA") %>%
+    visR::visr(fun = 'log')
+  
+  leg <- ggplot2::ggplot_build(survfit_plot)
+  labs <- leg$plot$scales$scales[[4]]$get_labels()
+  
+  testthat::expect_equal(paste0("TRTA=", levels(dt$TRTA)), labs)
+
+})
+
+# Requirement T5 ---------------------------------------------------------------
+
+testthat::context("visr_plot - T5. The final object is a ggplot of class `ggsurvfit`.")
+
+testthat::test_that("T5.1 The final object is a ggplot of class `ggplot`.", {
   
   survfit_plot <- adtte %>%
     visR::estimate_KM("SEX") %>%
-    visr(fun = 'log')
+    visR::visr(fun = 'log')
   
   testthat::expect_true("ggplot" %in% class(survfit_plot))
 
 })
 
-testthat::test_that("T4.2 The final object is a ggplot of class `ggsurvfit`.", {
+testthat::test_that("T5.2 The final object is a ggplot of class `ggsurvfit`.", {
   
   survfit_plot <- adtte %>%
     visR::estimate_KM("SEX") %>%
-    visr(fun = 'log')
+    visR::visr(fun = 'log')
   
   testthat::expect_true("ggsurvfit" %in% class(survfit_plot))
 
