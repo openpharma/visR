@@ -141,9 +141,9 @@ testthat::test_that("T2.3 The function proposes 11 times which are equally space
 testthat::test_that("T2.4 The risktable is correctly calculated when only 1 timepoint is used",{
 
   survfit_object <- visR::estimate_KM(adtte)
-  risktable <- visR::get_risktable(survfit_object, times = 20, statlist = c("n.risk", "n.event", "n.censor"))
-  
-  expect <- c(summary(survfit_object, times=20)[["n.risk"]], summary(survfit_object, times=20)[["n.event"]], summary(survfit_object, times=20)[["n.censor"]])
+  risktable <- visR::get_risktable(survfit_object, times = 20, statlist = c("n.risk", "n.event", "n.censor", "cumulative.event", "cumulative.censor"))
+
+  expect <- c(summary(survfit_object, times=20)[["n.risk"]], summary(survfit_object, times=20)[["n.event"]], summary(survfit_object, times=20)[["n.censor"]], summary(survfit_object, times=20)[["n.event"]], summary(survfit_object, times=20)[["n.censor"]])
   testthat::expect_equal(risktable[["Overall"]], expect)
 })
 
@@ -259,12 +259,12 @@ testthat::test_that("T5.5 The calculations are grouped by strata when group = `s
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
   risktable <- visR::get_risktable(
-    survfit_object, 
-    group = "strata", 
+    survfit_object,
+    group = "strata",
     statlist=c("n.risk", "n.censor", "n.event")
   )
   testthat::expect_equal(
-    object = colnames(risktable[3:length(colnames(risktable))]), 
+    object = colnames(risktable[3:length(colnames(risktable))]),
     expected = gsub("^.*=", "", names(survfit_object$strata))
   )
 
@@ -273,20 +273,20 @@ testthat::test_that("T5.5 The calculations are grouped by strata when group = `s
 testthat::test_that("T5.6 The calculations are grouped by statlist when group = `statlist`", {
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
-  
+
   risktable <- visR::get_risktable(
-    survfit_object, 
-    group = "statlist", 
-    statlist = c("n.risk", "n.censor", "n.event")
+    survfit_object,
+    group = "statlist",
+    statlist = c("n.risk", "n.censor", "n.event", "cumulative.censor", "cumulative.event")
   )
-  
+
   testthat::expect_equal(
-    object = levels(risktable[["y_values"]]), 
+    object = levels(risktable[["y_values"]]),
     expected = gsub("^.*=", "", names(survfit_object$strata))
   )
   testthat::expect_equal(
-    object = colnames(risktable[3:length(colnames(risktable))]), 
-    expected = c("n.risk", "n.censor", "n.event")
+    object = colnames(risktable[3:length(colnames(risktable))]),
+    expected = c("n.risk", "n.censor", "n.event", "cumulative.censor", "cumulative.event")
   )
 })
 
@@ -313,25 +313,26 @@ testthat::test_that("T5.7 The calculations are in agreement with what is expecte
   class(risktable_ref) <- c("risktable", class(risktable_ref))
 
   testthat::expect_equal(risktable_visR, risktable_ref)
-  
+
   ## test for statlist
   survfit_object <- visR::estimate_KM(adtte)
-  risktable_visR <- visR::get_risktable(survfit_object, times = c(0,20), statlist = c("n.censor", "n.risk", "n.event"))
+  risktable_visR <- visR::get_risktable(survfit_object, times = c(0,20),
+                                        statlist = c("n.censor", "n.risk", "n.event", "cumulative.censor", "cumulative.event"))
   attr(risktable_visR, "time_ticks") <- NULL
   attr(risktable_visR, "title") <- NULL
   attr(risktable_visR, "statlist") <- NULL
-  
-  risktable_ref <-  structure(
-    list(time = c(0, 20, 0, 20, 0, 20),
-         y_values = structure(c(1L,1L, 2L, 2L, 3L, 3L), .Label = c("Censored", "At risk", "Events"), class = "factor"),
-         Overall = c(0, 19, 254, 181, 0, 57)
+
+  risktable_ref <- structure(
+    list(time = c(0, 20, 0, 20, 0, 20, 0, 20, 0, 20),
+         y_values = structure(c(1L,1L, 2L, 2L, 3L, 3L, 4L, 4L, 5L, 5L), .Label = c("Censored", "At risk", "Events", "Cum. Censored", "Cum. Events"), class = "factor"),
+         Overall = c(0, 19, 254, 181, 0, 57, 0, 19, 0, 57)
         ),
-    row.names = c(2L, 5L, 1L, 4L, 3L, 6L),
+    row.names = c(2L, 7L, 1L, 6L, 3L, 8L, 4L, 9L, 5L, 10L),
     class = c("risktable", "data.frame")
   )
-  
+
   testthat::expect_equal(risktable_visR, risktable_ref)
-  
+
   attributes(risktable_ref)
 
 })
@@ -356,15 +357,15 @@ testthat::test_that("T6.3 The calculations are grouped overall when collapse = T
 
   survfit_object_trt <- visR::estimate_KM(adtte, strata = "TRTA")
   survfit_object_all <- visR::estimate_KM(adtte)
-  
+
   risktable_visR_trt <- visR::get_risktable(survfit_object_trt, group = "strata", collapse = TRUE)
   risktable_visR_all <- visR::get_risktable(survfit_object_all, group = "strata")
-  
+
   testthat::expect_equal(risktable_visR_trt, risktable_visR_all)
 })
 
 testthat::test_that("T6.4 The calculations are in agreement with expectations when grouped overall", {
-  
+
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
   risktable_ungroup <- visR::get_risktable(survfit_object, collapse = FALSE)
   risktable_group <- visR::get_risktable(survfit_object, collapse = TRUE)
@@ -375,7 +376,7 @@ testthat::test_that("T6.4 The calculations are in agreement with expectations wh
 
   attributes(risktable_group) <- NULL
   attributes(risktable_test) <- NULL
-    
+
   testthat::expect_equal(risktable_test, risktable_group)
 })
 
