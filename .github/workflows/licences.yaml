@@ -1,0 +1,23 @@
+name: License Compliance Check
+
+on:
+  push: 
+      branches:
+      - epijim-patch-1
+  pull_request:
+    branches: develop
+
+jobs:
+  license-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: License Report
+        uses: insightsengineering/r-license-report@main
+        with:
+          # R package root path, in case your R package is within a subdirectory of the repo
+          path: "."
+          # A regular expression that can be used for matching and flagging non-compliant licenses
+          regex: "^GPL.*"
+          # Fail the action if 1 or more matching non-compliant licenses are found
+          fail: false
