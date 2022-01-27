@@ -2,8 +2,3 @@
 #' @export
 #' @importFrom dplyr %>%
 dplyr::`%>%`
-
-# rlang ------------------------------------------------------------------------
-#' @export
-#' @importFrom rlang %||%
-rlang::`%||%`

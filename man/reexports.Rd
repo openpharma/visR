@@ -4,7 +4,6 @@
 \name{reexports}
 \alias{reexports}
 \alias{\%>\%}
-\alias{\%||\%}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -13,7 +12,5 @@ below to see their documentation.
 
 \describe{
   \item{dplyr}{\code{\link[dplyr:reexports]{\%>\%}}}
-
-  \item{rlang}{\code{\link[rlang:op-null-default]{\%||\%}}}
 }}
 
