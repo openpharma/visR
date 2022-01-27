@@ -38,8 +38,7 @@ Imports:
     magrittr,
     rlang,
     survival,
-    tidyr,
-    tidyselect
+    tidyr
 Suggests:
     covr,
     data.table,
