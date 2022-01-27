@@ -35,11 +35,9 @@ Imports:
     gridExtra,
     gtable,
     kableExtra,
-    magrittr,
     rlang,
     survival,
-    tidyr,
-    tidyselect
+    tidyr
 Suggests:
     covr,
     data.table,
