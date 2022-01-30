@@ -139,15 +139,15 @@ get_risktable.survfit <- function(
       strata =
         base::factor(.get_strata(survfit_summary[["strata"]]),
                      levels = unique(.get_strata(survfit_summary[["strata"]]))),
-      n.risk = survfit_summary$n.risk,
-      n.event = survfit_summary$n.event,
-      n.censor = survfit_summary$n.censor
+      n.risk = survfit_summary[["n.risk"]],
+      n.event = survfit_summary[["n.event"]],
+      n.censor = survfit_summary[["n.censor"]]
     ) %>%
     dplyr::arrange(strata, time) %>%
-    dplyr::group_by(.data$strata) %>%
+    dplyr::group_by(.data[["strata"]]) %>%
     dplyr::mutate(
-      cumulative.event = cumsum(.data$n.event),
-      cumulative.censor = cumsum(.data$n.censor)
+      cumulative.event = cumsum(.data[["n.event"]]),
+      cumulative.censor = cumsum(.data[["n.censor"]])
     ) %>%
     dplyr::ungroup() %>%
     dplyr::rename(y_values = strata) %>%
