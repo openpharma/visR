@@ -14,7 +14,7 @@
 #' @param strata Stratifying/Grouping variable name(s) as character vector. If NULL, only overall results are returned
 #' @param overall If TRUE, the summary statistics for the overall dataset are also calculated
 #' @param summary_function A function defining summary statistics for numeric and categorical values
-#' @return A list of data specified summaries for all input variables. 
+#' @return A list of data specified summaries for all input variables.
 #' @details It is possible to provide your own summary function. Please have a loot at summary for inspiration.
 #'
 #' @note All columns in the table will be summarized. If only some columns shall be used, please select only those
@@ -78,8 +78,8 @@ get_tableone <- function(data, strata = NULL, overall=TRUE, summary_function = s
 
 #' @rdname get_tableone
 #' @method get_tableone default
-#' @return object of class tableone. That is a list of data specified summaries 
-#'   for all input variables.  
+#' @return object of class tableone. That is a list of data specified summaries
+#'   for all input variables.
 #' @export
 get_tableone.default <- function(data, strata = NULL, overall=TRUE, summary_function = summarize_short){
 
@@ -104,7 +104,7 @@ get_tableone.default <- function(data, strata = NULL, overall=TRUE, summary_func
 
   data_ns <- data %>%
     dplyr::summarise(summary = dplyr::n()) %>%
-    tidyr::pivot_wider(names_from = tidyselect::any_of(strata), values_from = "summary") %>%
+    tidyr::pivot_wider(names_from = dplyr::any_of(strata), values_from = "summary") %>%
     dplyr::mutate(variable = "Sample", summary_id = "N")
 
   data_summary <- data %>%
@@ -112,7 +112,7 @@ get_tableone.default <- function(data, strata = NULL, overall=TRUE, summary_func
     dplyr::ungroup() %>%
     tidyr::pivot_longer(cols = setdiff(names(.), strata), names_to = "variable", values_to = "summary") %>%
     tidyr::unnest_longer(summary) %>%
-    tidyr::pivot_wider(names_from = tidyselect::any_of(strata), values_from = "summary")
+    tidyr::pivot_wider(names_from = dplyr::any_of(strata), values_from = "summary")
 
   data_table1 <- rbind(data_ns, data_summary) %>%
     dplyr::rename(statistic = summary_id) %>%
