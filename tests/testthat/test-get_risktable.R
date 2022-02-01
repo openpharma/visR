@@ -141,7 +141,7 @@ testthat::test_that("T2.3 The function proposes 11 times which are equally space
 testthat::test_that("T2.4 The risktable is correctly calculated when only 1 timepoint is used",{
 
   survfit_object <- visR::estimate_KM(adtte)
-  risktable <- visR::get_risktable(survfit_object, times = 20, statlist = c("n.risk", "n.event", "n.censor", "cumulative.event", "cumulative.censor"))
+  risktable <- visR::get_risktable(survfit_object, times = 20, statlist = c("n.risk", "n.event", "n.censor", "cum.event", "cum.censor"))
 
   expect <- c(summary(survfit_object, times=20)[["n.risk"]], summary(survfit_object, times=20)[["n.event"]], summary(survfit_object, times=20)[["n.censor"]], summary(survfit_object, times=20)[["n.event"]], summary(survfit_object, times=20)[["n.censor"]])
   testthat::expect_equal(risktable[["Overall"]], expect)
@@ -277,7 +277,7 @@ testthat::test_that("T5.6 The calculations are grouped by statlist when group = 
   risktable <- visR::get_risktable(
     survfit_object,
     group = "statlist",
-    statlist = c("n.risk", "n.censor", "n.event", "cumulative.censor", "cumulative.event")
+    statlist = c("n.risk", "n.censor", "n.event", "cum.censor", "cum.event")
   )
 
   testthat::expect_equal(
@@ -286,7 +286,7 @@ testthat::test_that("T5.6 The calculations are grouped by statlist when group = 
   )
   testthat::expect_equal(
     object = colnames(risktable[3:length(colnames(risktable))]),
-    expected = c("n.risk", "n.censor", "n.event", "cumulative.censor", "cumulative.event")
+    expected = c("n.risk", "n.censor", "n.event", "cum.censor", "cum.event")
   )
 })
 
@@ -317,7 +317,7 @@ testthat::test_that("T5.7 The calculations are in agreement with what is expecte
   ## test for statlist
   survfit_object <- visR::estimate_KM(adtte)
   risktable_visR <- visR::get_risktable(survfit_object, times = c(0,20),
-                                        statlist = c("n.censor", "n.risk", "n.event", "cumulative.censor", "cumulative.event"))
+                                        statlist = c("n.censor", "n.risk", "n.event", "cum.censor", "cum.event"))
   attr(risktable_visR, "time_ticks") <- NULL
   attr(risktable_visR, "title") <- NULL
   attr(risktable_visR, "statlist") <- NULL

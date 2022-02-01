@@ -26,7 +26,7 @@
 #' ) %>%
 #'   visr() %>%
 #'   add_CI() %>%
-#'   add_risktable(statlist = c("n.risk", "cumulative.event"))
+#'   add_risktable(statlist = c("n.risk", "cum.event"))
 
 estimate_cuminc <- function(data
                             ,strata = NULL

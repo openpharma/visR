@@ -19,10 +19,10 @@ get_risktable <- function(x, ...){
 
 #' @param x an object of class `survfit` or `tidycuminc`
 #' @param times Numeric vector indicating the times at which the risk set, censored subjects, events are calculated.
-#' @param statlist Character vector indicating which summary data to present. Current choices are "n.risk" "n.event" "n.censor", "cumulative.event", "cumulative.censor".
-#'   Default is "n.risk". Competing risk models also have the option of "cumulative.event" and "cumulative.censor"
+#' @param statlist Character vector indicating which summary data to present. Current choices are "n.risk" "n.event" "n.censor", "cum.event", "cum.censor".
+#'   Default is "n.risk". Competing risk models also have the option of "cum.event" and "cum.censor"
 #' @param label Character vector with labels for the statlist. Default matches "n.risk" with "At risk", "n.event" with "Events", "n.censor"
-#'   with "Censored", "cumulative.event" with "Cum. Event", and "cumulative.censor" with "Cum. Censor".
+#'   with "Censored", "cum.event" with "Cum. Event", and "cum.censor" with "Cum. Censor".
 #' @param group String indicating the grouping variable for the risk tables.
 #'   Current options are:
 #'     \itemize{
@@ -57,7 +57,7 @@ get_risktable.survfit <- function(
 # User input validation ---------------------------------------------------
 
   if (!base::all(statlist %in% c("n.risk", "n.censor", "n.event",
-                                 "cumulative.censor", "cumulative.event")))
+                                 "cum.censor", "cum.event")))
     stop("statlist argument not valid. Current options are n.risk, n.censor and n.event.")
 
   if (!is.null(label) & !base::all(is.character(label)) & !base::inherits(label, "factor"))
@@ -82,7 +82,7 @@ get_risktable.survfit <- function(
   if (length(label) <= length(statlist)) {
 
     vlookup <- data.frame(statlist = c("n.risk", "n.censor", "n.event",
-                                       "cumulative.censor", "cumulative.event")
+                                       "cum.censor", "cum.event")
                           ,label = c("At risk", "Censored", "Events",
                                      "Cum. Censored", "Cum. Events")
                           ,check.names = FALSE
@@ -146,8 +146,8 @@ get_risktable.survfit <- function(
     dplyr::arrange(strata, time) %>%
     dplyr::group_by(.data[["strata"]]) %>%
     dplyr::mutate(
-      cumulative.event = cumsum(.data[["n.event"]]),
-      cumulative.censor = cumsum(.data[["n.censor"]])
+      cum.event = cumsum(.data[["n.event"]]),
+      cum.censor = cumsum(.data[["n.censor"]])
     ) %>%
     dplyr::ungroup() %>%
     dplyr::rename(y_values = strata) %>%
@@ -165,7 +165,7 @@ get_risktable.survfit <- function(
     per_strata <- per_statlist %>%
       dplyr::arrange(time) %>%
       tidyr::pivot_longer( cols = c("n.risk", "n.censor", "n.event",
-                                    "cumulative.censor", "cumulative.event")
+                                    "cum.censor", "cum.event")
                           ,names_to = "statlist"
                           ,values_to = "values") %>%
       tidyr::pivot_wider(names_from = "y_values", values_from = values) %>%
@@ -198,13 +198,13 @@ get_risktable.survfit <- function(
         n.risk = sum(n.risk)
         ,n.event = sum(n.event)
         ,n.censor = sum(n.censor)
-        ,cumulative.event = sum(.data$cumulative.event)
-        ,cumulative.censor = sum(.data$cumulative.censor)
+        ,cum.event = sum(.data$cum.event)
+        ,cum.censor = sum(.data$cum.censor)
       ) %>%
       dplyr::ungroup() %>%
       dplyr::select(-strata) %>%
       tidyr::pivot_longer( cols = c("n.risk", "n.censor", "n.event",
-                                    "cumulative.censor", "cumulative.event")
+                                    "cum.censor", "cum.event")
                            ,names_to = "y_values"
                            ,values_to = "Overall") %>%
       dplyr::filter(y_values %in% statlist) %>%
@@ -242,8 +242,8 @@ get_risktable.tidycuminc <- function(x
     list(n.risk = "At Risk",
          n.event = "N Event",
          n.censor = "N Censored",
-         cumulative.event = "Cum. N Event",
-         cumulative.censor = "Cum. N Censored")
+         cum.event = "Cum. N Event",
+         cum.censor = "Cum. N Censored")
 
   label <-
     .reconcile_statlist_and_labels(
@@ -266,8 +266,8 @@ get_risktable.tidycuminc <- function(x
       dplyr::group_by(dplyr::across(dplyr::any_of(c("time", "outcome", "strata")))) %>%
       dplyr::mutate(
         dplyr::across(
-          dplyr::any_of(c("n.risk", "n.event", "cumulative.event",
-                          "n.censor", "cumulative.censor")),
+          dplyr::any_of(c("n.risk", "n.event", "cum.event",
+                          "n.censor", "cum.censor")),
           ~sum(., na.rm = TRUE))
       ) %>%
       dplyr::filter(dplyr::row_number() == 1L) %>%
@@ -278,7 +278,7 @@ get_risktable.tidycuminc <- function(x
     result <-
       tidy %>%
       dplyr::select(dplyr::any_of(c("time", "strata", "n.risk", "n.event",
-                                    "cumulative.event", "n.censor", "cumulative.censor"))) %>%
+                                    "cum.event", "n.censor", "cum.censor"))) %>%
       tidyr::pivot_longer(cols = -c(.data$time, .data$strata)) %>%
       tidyr::pivot_wider(
         id_cols = c(.data$time, .data$name),
@@ -299,8 +299,8 @@ get_risktable.tidycuminc <- function(x
       tidy %>%
       dplyr::select(.data$time, y_values = .data$strata,
                     dplyr::any_of(c("n.risk",
-                                    "n.event", "cumulative.event",
-                                    "n.censor", "cumulative.censor"))) %>%
+                                    "n.event", "cum.event",
+                                    "n.censor", "cum.censor"))) %>%
       as.data.frame()
 
     attr(result, "statlist") <- names(lst_stat_labels_default[statlist])
