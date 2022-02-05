@@ -1,17 +1,63 @@
 #' @title Specifications estimate_cuminc
-#' @section Last updated by:
-#' Daniel Sjoberg
-#' @section Last update date:
-#' 01-JAN-2022
+#' @section Last updated by: Joana Barros
+#' @section Last update date: 05-FEB-2022
 
 # Specifications ----------------------------------------------------------
 
+#' @section List of tested specifications
+#' T1. The function accepts a `data.frame` `tibble` or `data.table`
+#' T1.1 No error when `data` is of class `data.frame`
+#' T1.2 No error when `data` is of class `tibble`
+#' T1.3 No error when `data` is of class `data.table`
+#' T1.4 An error when `data` is of an unexpected class, eg `list`
+#' 
+#' 
+
+# ------------------------------------------------------------- 
 #' T1. The function wraps `tidycmprsk::cuminc()` appropriately
 #' T1.1 No errors `estimate_cuminc()`
 #' T1.2 No errors `estimate_cuminc()` sister functions
 
 # Requirement T1 ----------------------------------------------------------
 
+testthat::context("estimate_cuminc - T1. The function accepts a `data.frame` `tibble` or `data.table`")
+
+testthat::test_that("T1.1 No error when `data` is of class `data.frame`", {
+  
+  data <- tidycmprsk::trial
+  testthat::expect_error(
+    visR::estimate_cuminc(data, CNSR = "death_cr", AVAL = "ttdeath"), NA)
+  
+})
+
+testthat::test_that("T1.2 No error when `data` is of class `tibble`", {
+  
+  data <- dplyr::as_tibble(tidycmprsk::trial)
+  testthat::expect_error(
+    visR::estimate_cuminc(data, CNSR = "death_cr", AVAL = "ttdeath"), NA)
+  
+})
+
+testthat::test_that("T1.3 No error when `data` is of class `data.table`", {
+  
+  if (nzchar(find.package("data.table"))){
+    data <- data.table::as.data.table(tidycmprsk::trial)
+    testthat::expect_error(
+      visR::estimate_cuminc(data, CNSR = "death_cr", AVAL = "ttdeath"), NA)
+  }
+  
+})
+
+testthat::test_that("T1.4 An error when `data` is of an unexpected class, eg `list`", {
+  
+  data <- base::as.list(tidycmprsk::trial)
+  testthat::expect_error(
+    visR::estimate_cuminc(data, CNSR = "death_cr", AVAL = "ttdeath"))
+  
+})
+
+
+# ------------------------------------------------------------- 
 context("estimate_cuminc - T1. The function wraps `tidycmprsk::cuminc()` appropriately")
 
 testthat::test_that("T1.1. No errors `estimate_cuminc()`", {
