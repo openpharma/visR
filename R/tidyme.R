@@ -1,7 +1,9 @@
 #' @title Extended tidy cleaning of selected objects using S3 method
 #'
-#' @description S3 method for extended tidying of selected model outputs.
-#'     The default method relies on \code{broom::tidy} to return a tidied object
+#' @description S3 method for extended tidying of selected model outputs. Note
+#'   that the visR method retains the original nomenclature of the objects,
+#'   and adds the one of broom::tidy to ensure compatibility with tidy workflows. 
+#'   The default method relies on \code{broom::tidy} to return a tidied object
 #'
 #' @seealso \code{\link[broom]{tidy}}
 #'
@@ -46,6 +48,9 @@ tidyme.default <- function(x, ...){
 
 tidyme.survfit <- function(x, ...) {
   if (inherits(x, "survfit")) {
+    
+    ## keep source
+    survfit_object <- x
 
     ## Change class to perform list manipulations. The survfit class was throwing errors.
     class(x) <-  ("list")
@@ -68,14 +73,20 @@ tidyme.survfit <- function(x, ...) {
              ,n.risk = as.integer(n.risk)
              ,n.event = as.integer(n.event)
              ,n.censor = as.integer(n.censor)
-             ,call = list(x$call)
+             ,call = list(x[["call"]])
+             ,estimate=surv
+             ,std.error = std.err
+             ,conf.low = lower
+             ,conf.high = upper
             )
 
-    if (!is.null(x$strata)) {
-      retme[["strata"]] <- rep(names(x$strata), x$strata)
-      retme$n.strata <- rep(x$n, x$strata)
+    if (!is.null(x[["strata"]])) {
+      retme[["strata"]] <- rep(names(x[["strata"]]), x[["strata"]])
+      retme[["n.strata"]] <- rep(x[["n"]], x[["strata"]])
     }
   }
   
+  attr(retme, "survfit_object") <- survfit_object
+
   return(as.data.frame(retme))
 }
