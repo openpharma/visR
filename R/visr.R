@@ -210,15 +210,15 @@ visr.survfit <- function(
     correctme <- c(correctme, "est")
   }
 
-  if (all(c("conf.upper", "conf.lower") %in% colnames(tidy_object))) {
-    tidy_object[["est.upper"]] <- .transfun(tidy_object[["conf.upper"]])
-    tidy_object[["est.lower"]] <- .transfun(tidy_object[["conf.lower"]])
+  if (all(c("conf.high", "conf.low") %in% colnames(tidy_object))) {
+    tidy_object[["est.upper"]] <- .transfun(tidy_object[["conf.high"]])
+    tidy_object[["est.lower"]] <- .transfun(tidy_object[["conf.low"]])
     correctme <- c(correctme, "est.lower", "est.upper")
   }
 
 # Adjust -Inf to minimal value -------------------------------------------------
 
-  if (nrow(tidy_object[tidy_object$est == "-Inf",]) > 0) {
+  if (nrow(tidy_object[tidy_object[["est"]] == "-Inf",]) > 0) {
     warning("NAs introduced by y-axis transformation.")
   }
 
