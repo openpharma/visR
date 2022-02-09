@@ -1,6 +1,6 @@
 #' @title Specifications test-tidyme.R
-#' @section Last updated by: Steven Haesendonckx (shaesen2@@its.jnj.com)
-#' @section Last update date: 2022-02-06T14:55:00
+#' @section Last updated by: shaesen2 (shaesen2@@its.jnj.com)
+#' @section Last update date: 2022-02-06T08:56:54
 #'
 #' @section List of tested specifications
 #' T1. The function accepts an S3 object
@@ -13,7 +13,7 @@
 #' T3.1 The S3 method, associated with a `survfit` object, returns a data.frame
 #' T3.2 The S3 method, associated with a `survfit` object, has columns representing all list elements of the S3 object
 #' T3.3 The S3 method, associated with a `survfit` object, turns list elements that represent integer numbers into integers
-#' T3.4 The S3 method, associated with a `survfit` object, add the original object as an attribute to the tidied object
+#' The S3 method, associated with a `survfit` object, add the original object as an attribute to the tidied object
 #' T4 The S3 method, associated with a `survfit` object ensures compatibility with broom-dependent workflows
 #' T4.1 The S3 method, associated with a `survfit` object, copies content to columns with the nomenclature used in broom::tidy
 
@@ -157,6 +157,5 @@ testthat::test_that("T4.1 The S3 method, associated with a `survfit` object, cop
   testthat::expect_equal(visr_tidy[["upper"]], visr_tidy[["conf.high"]], broom_tidy[["conf.high"]])
  
 })
-
 
 # END OF CODE -------------------------------------------------------------

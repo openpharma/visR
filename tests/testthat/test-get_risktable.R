@@ -1,6 +1,6 @@
 #' @title Specifications test-get_risktable.R
-#' @section Last updated by: shaesen2 (shaesen2@@its.jnj.com)
-#' @section Last update date: 2022-01-20T00:19:21
+#' @section Last updated by: Steven Haesendonckx (47894155+SHAESEN2@@users.noreply.github.com)
+#' @section Last update date: 2022-01-22T13:32:27
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a `survfit` object
@@ -35,7 +35,7 @@
 #' T5.5 The calculations are grouped by strata when group = `strata`
 #' T5.6 The calculations are grouped by statlist when group = `statlist`
 #' T5.7 The calculations are in agreement with what is expected
-#' T6. The function allows the calculations to be grouped overall
+#' T6. The function allows the calculations to be grouped overall 
 #' T6.1 An error when the argument collapse is not boolean
 #' T6.2 No error when the argument collapse is boolean
 #' T6.3 The calculations are grouped overall when collapse = TRUE
@@ -46,7 +46,7 @@
 #' T7.2 The output dataset has the attribute `time_ticks` that specifies the times
 #' T7.3 The output dataset has the attribute `title` that specifies the labels used in downstream functions
 #' T7.4 The output dataset has the attribute `statlist` that reflects the ´group´ used
-#' T7. Tests for `get_risktable.tidycmprsk()`
+#' Tests for `get_risktable.tidycmprsk()`
 #' T7.1 Results are accurate without error
 
 # Requirement T1 ----------------------------------------------------------
