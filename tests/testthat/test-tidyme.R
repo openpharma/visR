@@ -161,7 +161,7 @@ testthat::test_that("T4.1 The S3 method, associated with a `survfit` object, cop
     dplyr::rowwise() %>%
     dplyr::mutate(rowwise_sd = sd(dplyr::c_across(A:C)))
 
-  testthat::expect_true(sum(test_df$rowwise_sd) == 0)
+  testthat::expect_true(all(test_df$rowwise_sd == 0))
  
 })
 

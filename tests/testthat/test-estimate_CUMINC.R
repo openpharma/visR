@@ -4,14 +4,14 @@
 #'
 #' @section List of tested specifications
 #' T1. The function wraps `tidycmprsk::cuminc()` appropriately
-#' T1.1. No errors `estimate_cuminc()`
-#' T1.2. No errors `estimate_cuminc()` sister functions
+#' T1.1 No errors `estimate_cuminc()`
+#' T1.2 No errors `estimate_cuminc()` sister functions
 
 # Requirement T1 ----------------------------------------------------------
 
 testthat::context("estimate_cuminc - T1. The function wraps `tidycmprsk::cuminc()` appropriately")
 
-testthat::test_that("T1.1. No errors `estimate_cuminc()`", {
+testthat::test_that("T1.1 No errors `estimate_cuminc()`", {
   expect_error(
     estimate_cuminc(tidycmprsk::trial, CNSR = "death_cr", AVAL = "ttdeath") %>%
       visr() %>%
@@ -34,7 +34,7 @@ testthat::test_that("T1.1. No errors `estimate_cuminc()`", {
   )
 })
 
-testthat::test_that("T1.2. No errors `estimate_cuminc()` sister functions", {
+testthat::test_that("T1.2 No errors `estimate_cuminc()` sister functions", {
   cuminc1 <-
     estimate_cuminc(tidycmprsk::trial, strata = "trt",
                     CNSR = "death_cr", AVAL = "ttdeath")
