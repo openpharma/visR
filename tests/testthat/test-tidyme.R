@@ -145,8 +145,8 @@ testthat::context("tidyme - T4 The S3 method, associated with a `survfit` object
 testthat::test_that("T4.1 The S3 method, associated with a `survfit` object, copies content to columns with the nomenclature used in broom::tidy",{
 
   survobj <- visR::estimate_KM(adtte, strata = "TRTA")
-  visr_tidy <- visR::tidyme(x)
-  broom_tidy <- as.data.frame(broom::tidy(x))
+  visr_tidy <- visR::tidyme(survobj)
+  broom_tidy <- as.data.frame(broom::tidy(survobj))
   have <- names(visr_tidy)
   want <- names(broom_tidy)
   
