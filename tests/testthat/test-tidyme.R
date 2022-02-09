@@ -151,10 +151,17 @@ testthat::test_that("T4.1 The S3 method, associated with a `survfit` object, cop
   want <- names(broom_tidy)
   
   testthat::expect_true(any(want %in% have))
-  testthat::expect_equal(visr_tidy[["std.err"]], visr_tidy[["std.error"]], broom_tidy[["std.error"]])
-  testthat::expect_equal(visr_tidy[["surv"]], visr_tidy[["estimate"]], broom_tidy[["estimate"]])
-  testthat::expect_equal(visr_tidy[["lower"]], visr_tidy[["conf.low"]], broom_tidy[["conf.low"]])
-  testthat::expect_equal(visr_tidy[["upper"]], visr_tidy[["conf.high"]], broom_tidy[["conf.high"]])
+  
+  # construct df for testthat check
+  test_df <- data.frame(
+    A = c(visr_tidy[["std.err"]], visr_tidy[["surv"]], visr_tidy[["lower"]], visr_tidy[["upper"]]),
+    B = c(visr_tidy[["std.error"]], visr_tidy[["estimate"]], visr_tidy[["conf.low"]], visr_tidy[["conf.high"]]),
+    C = c(broom_tidy[["std.error"]], broom_tidy[["estimate"]], broom_tidy[["conf.low"]], broom_tidy[["conf.high"]])
+  ) %>%
+    dplyr::rowwise() %>%
+    dplyr::mutate(rowwise_sd = sd(dplyr::c_across(A:C)))
+
+  testthat::expect_true(sum(test_df$rowwise_sd) == 0)
  
 })
 
