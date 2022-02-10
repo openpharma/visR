@@ -27,6 +27,7 @@ if (getRversion() >= "2.15.1")
       "statistic",
       "quantile",
       "surv",
+      "std.err",
       "lower",
       "upper",
       "variable",

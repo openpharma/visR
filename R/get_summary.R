@@ -21,7 +21,7 @@ get_summary <- function(x, ...){
 #'
 #'  @examples
 #'
-#' survfit_object <- survival::survfit(data = adtte, Surv(AVAL, 1-CNSR) ~ TRTP)
+#' survfit_object <- survival::survfit(data = adtte, survival::Surv(AVAL, 1-CNSR) ~ TRTP)
 #' get_summary(survfit_object)
 #'
 #' @return A data frame with summary measures from a `survfit` object

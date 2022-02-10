@@ -1,6 +1,6 @@
 #' @title Specifications test-tidyme.R
-#' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2022-01-14T13:56:53
+#' @section Last updated by: shaesen2 (shaesen2@@its.jnj.com)
+#' @section Last update date: 2022-02-06T08:56:54
 #'
 #' @section List of tested specifications
 #' T1. The function accepts an S3 object
@@ -13,6 +13,9 @@
 #' T3.1 The S3 method, associated with a `survfit` object, returns a data.frame
 #' T3.2 The S3 method, associated with a `survfit` object, has columns representing all list elements of the S3 object
 #' T3.3 The S3 method, associated with a `survfit` object, turns list elements that represent integer numbers into integers
+#' The S3 method, associated with a `survfit` object, add the original object as an attribute to the tidied object
+#' T4 The S3 method, associated with a `survfit` object ensures compatibility with broom-dependent workflows
+#' T4.1 The S3 method, associated with a `survfit` object, copies content to columns with the nomenclature used in broom::tidy
 
 # Requirement T1 ----------------------------------------------------------
 
@@ -100,6 +103,11 @@ testthat::test_that("T3.2 The S3 method, associated with a `survfit` object, has
                                  sum(survfit_object[["strata"]]))
   surv_object_df["PARAMCD"] <- rep(survfit_object[["PARAMCD"]], 
                                    sum(survfit_object[["strata"]]))
+  
+  surv_object_df[["std.error"]] <- surv_object_df[["std.err"]]
+  surv_object_df[["estimate"]] <- surv_object_df[["surv"]]
+  surv_object_df[["conf.low"]] <- surv_object_df[["lower"]]
+  surv_object_df[["conf.high"]] <- surv_object_df[["upper"]]
 
   cn <- colnames(survfit_object_tidy)
 
@@ -119,6 +127,42 @@ testthat::test_that("T3.3 The S3 method, associated with a `survfit` object, tur
   testthat::expect_true(inherits(survfit_object_tidy[["n.event"]], "integer"))
   testthat::expect_true(inherits(survfit_object_tidy[["n.strata"]], "integer"))
 
+})
+
+testthat::test_that("The S3 method, associated with a `survfit` object, add the original object as an attribute to the tidied object",{
+  
+  survobj <- visR::estimate_KM(adtte, strata = "TRTA")
+  visr_tidy <- visR::tidyme(survobj)
+
+  testthat::expect_equal(attributes(visr_tidy)[["survfit_object"]], survobj)
+
+})
+
+# Requirement T4 ---------------------------------------------------------------
+
+testthat::context("tidyme - T4 The S3 method, associated with a `survfit` object ensures compatibility with broom-dependent workflows")
+
+testthat::test_that("T4.1 The S3 method, associated with a `survfit` object, copies content to columns with the nomenclature used in broom::tidy",{
+
+  survobj <- visR::estimate_KM(adtte, strata = "TRTA")
+  visr_tidy <- visR::tidyme(survobj)
+  broom_tidy <- as.data.frame(broom::tidy(survobj))
+  have <- names(visr_tidy)
+  want <- names(broom_tidy)
+  
+  testthat::expect_true(any(want %in% have))
+  
+  # construct df for testthat check
+  test_df <- data.frame(
+    A = c(visr_tidy[["std.err"]], visr_tidy[["surv"]], visr_tidy[["lower"]], visr_tidy[["upper"]]),
+    B = c(visr_tidy[["std.error"]], visr_tidy[["estimate"]], visr_tidy[["conf.low"]], visr_tidy[["conf.high"]]),
+    C = c(broom_tidy[["std.error"]], broom_tidy[["estimate"]], broom_tidy[["conf.low"]], broom_tidy[["conf.high"]])
+  ) %>%
+    dplyr::rowwise() %>%
+    dplyr::mutate(rowwise_sd = sd(dplyr::c_across(A:C)))
+
+  testthat::expect_true(all(test_df$rowwise_sd == 0))
+ 
 })
 
 # END OF CODE -------------------------------------------------------------

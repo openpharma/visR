@@ -55,14 +55,16 @@ testthat::test_that("T1.1 TRUE/FALSE are used instead of T/F.", {
 
 })
 
-testthat::test_that("T1.2 Each function documentation contains a \value{} tag.", {
+testthat::test_that("T1.2 Each function documentation contains a \\value{} tag.", {
 
   test_files <- .get_visR_files(documentation = TRUE)
 
   # List of files in which we don't expect a return value.
   exceptions <- list("adtte.Rd",
                      "brca_cohort.Rd",
-                     "visR-Global.Rd")
+                     "visR-Global.Rd",
+                     "visR-package.Rd",
+                     "reexports.Rd")
   exceptions_collapsed <- paste(exceptions, collapse = "|")
 
   CRAN_incompabilities <- data.frame()

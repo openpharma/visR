@@ -146,12 +146,12 @@ estimate_KM <- function(
 
 
 # Update Call with original info and dots, similar as update.default ------
-
+  
   survfit_object$call[[1]] <- quote(survival::survfit)
   survfit_object$call[["formula"]] <- formula
-  survfit_object$call[["data"]] <- Call$data
+  survfit_object$call[["data"]] <- Call[["data"]]
   if (length(dots) > 0){
-    names(survfit_object$call)
+    names(survfit_object[["call"]])
     names(dots)
     for (i in seq_along(dots)){
       survfit_object$call[[names(dots)[i]]] <- unlist(dots[i], use.names = FALSE)
@@ -172,15 +172,15 @@ estimate_KM <- function(
 
 # Artificial strata for easy downstream processing when strata=NULL ------
 
-  if (is.null(survfit_object$strata)){
-    survfit_object$strata <- as.vector(length(survfit_object$time))
+  if (is.null(survfit_object[["strata"]])){
+    survfit_object[["strata"]] <- as.vector(length(survfit_object[["time"]]))
 
     if (main == "1"){
       # overall analysis
-      attr(survfit_object$strata, "names") <- "Overall"
+      attr(survfit_object[["strata"]], "names") <- "Overall"
     } else {
       # ~ x with One level in variable present
-      attr(survfit_object$strata, "names") <- as.character(paste0(strata, "=", data[1, main]))
+      attr(survfit_object[["strata"]], "names") <- as.character(paste0(strata, "=", data[1, main]))
     }
   }
 
