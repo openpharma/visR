@@ -82,6 +82,7 @@ tidyme.survfit <- function(x, ...) {
 
     if (!is.null(x[["strata"]])) {
       retme[["strata"]] <- rep(names(x[["strata"]]), x[["strata"]])
+
       retme[["n.strata"]] <- rep(x[["n"]], x[["strata"]])
     }
   }
