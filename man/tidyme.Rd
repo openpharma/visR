@@ -21,7 +21,9 @@ tidyme(x, ...)
 Tibble containing all list elements of the S3 object as columns
 }
 \description{
-S3 method for extended tidying of selected model outputs.
+S3 method for extended tidying of selected model outputs. Note
+that the visR method retains the original nomenclature of the objects,
+and adds the one of broom::tidy to ensure compatibility with tidy workflows.
 The default method relies on \code{broom::tidy} to return a tidied object
 }
 \examples{

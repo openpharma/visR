@@ -1,6 +1,6 @@
 #' @title Specifications test-visr_attrition.R
 #' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2022-01-14T13:56:53
+#' @section Last update date: 2022-01-14T14:20:44
 #'
 #' @section List of tested specifications
 #' T1. Invalid parameters are captured when applying `visR::visr()` to an `attrition` object and respective warnings/errors are thrown.

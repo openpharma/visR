@@ -13,9 +13,6 @@ Left-hand sided symbol as string in the magrittr pipe.
 This function finds the left-hand sided symbol in a magrittr pipe and returns it as a character.
 }
 \examples{
-library(magrittr)
-
-## example
 blah <- function(x) the_lhs()
 adtte \%>\%
   blah()

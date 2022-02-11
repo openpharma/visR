@@ -197,7 +197,7 @@ visr.survfit <- function(
   } else if (is.function(fun)) {
     .transfun <- function(y) fun(y)
   } else {
-    stop("Error in visr: fun should be a character or a user-defined function.")
+    stop("fun should be a character or a user-defined function.")
   }
 
 # Extended tidy of survfit class + transformation + remove NA after transfo ----
@@ -205,20 +205,20 @@ visr.survfit <- function(
   correctme <- NULL
   tidy_object <- tidyme(x)
 
-  if ("surv" %in% colnames(tidy_object)) {
-    tidy_object[["est"]] <- .transfun(tidy_object[["surv"]])
+  if ("estimate" %in% colnames(tidy_object)) {
+    tidy_object[["est"]] <- .transfun(tidy_object[["estimate"]])
     correctme <- c(correctme, "est")
   }
 
-  if (all(c("upper", "lower") %in% colnames(tidy_object))) {
-    tidy_object[["est.upper"]] <- .transfun(tidy_object[["upper"]])
-    tidy_object[["est.lower"]] <- .transfun(tidy_object[["lower"]])
+  if (all(c("conf.high", "conf.low") %in% colnames(tidy_object))) {
+    tidy_object[["est.upper"]] <- .transfun(tidy_object[["conf.high"]])
+    tidy_object[["est.lower"]] <- .transfun(tidy_object[["conf.low"]])
     correctme <- c(correctme, "est.lower", "est.upper")
   }
 
 # Adjust -Inf to minimal value -------------------------------------------------
 
-  if (nrow(tidy_object[tidy_object$est == "-Inf",]) > 0) {
+  if (nrow(tidy_object[tidy_object[["est"]] == "-Inf",]) > 0) {
     warning("NAs introduced by y-axis transformation.")
   }
 

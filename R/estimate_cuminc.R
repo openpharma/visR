@@ -15,6 +15,8 @@
 #' @inheritParams add_risktable.ggsurvfit
 #' @inheritParams get_risktable
 #'
+#' @return A cumulative incidence object as explained at https://mskcc-epi-bio.github.io/tidycmprsk/reference/cuminc.html
+#'
 #' @export
 #'
 #' @examples
