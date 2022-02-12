@@ -50,7 +50,7 @@ get_risktable.survfit <- function(
   ,times = NULL
   ,statlist = c("n.risk")
   ,label = NULL
-  ,group = "strata"
+  ,group = c("strata", "group")
   ,collapse = FALSE
   ,...
 ){
@@ -73,6 +73,8 @@ get_risktable.survfit <- function(
 
   if (length(group)>1 | !(base::all(group %in% c("statlist", "strata"))))
     stop("group should equal statlist or strata.")
+  
+  group <- match.arg(group)
 
 # Clean input ------------------------------------------------------------
 
@@ -236,16 +238,19 @@ get_risktable.tidycuminc <- function(x
                                      ,times = pretty(x$tidy$time, 10)
                                      ,statlist = c("n.risk")
                                      ,label = NULL
-                                     ,group = "strata"
+                                     ,group = c("strata", "statlist")
                                      ,collapse = FALSE
                                      ,...) {
+  
+  group <- match.arg(group)
+  
   # list of statistics and their default labels
   lst_stat_labels_default <-
     list(n.risk = "At Risk",
-         n.event = "N Event",
-         n.censor = "N Censored",
-         cumulative.event = "Cum. N Event",
-         cumulative.censor = "Cum. N Censored")
+         n.event = "Events",
+         n.censor = "Censored",
+         cumulative.event = "Cum. Events",
+         cumulative.censor = "Cum. Censored")
 
   label <-
     .reconcile_statlist_and_labels(
@@ -276,7 +281,7 @@ get_risktable.tidycuminc <- function(x
       dplyr::ungroup()
   }
 
-  if (group %in% "strata" || isTRUE(collapse)) {
+  if (group == "strata" || isTRUE(collapse)) {
     result <-
       tidy %>%
       dplyr::select(dplyr::any_of(c("time", "strata", "n.risk", "n.event",
@@ -296,7 +301,7 @@ get_risktable.tidycuminc <- function(x
     attr(result, "title") <- names(result) %>% setdiff(c("time", "y_values"))
     attr(result, "statlist") <- names(result) %>% setdiff(c("time", "y_values"))
   }
-  else if (group %in% "statlist") {
+  else if (group == "statlist") {
     result <-
       tidy %>%
       dplyr::select(.data$time, y_values = .data$strata,
