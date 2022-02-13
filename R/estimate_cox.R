@@ -6,7 +6,7 @@
 #'
 #' @param data The name of the dataset for the Cox model is based on the Analysis Data Model (ADaM) principles. The dataset is expected to have
 #'    one record per subject per analysis parameter. Rows in which the analysis variable (AVAL) or the sensor variable (CNSR) contain NA, are removed during analysis.
-#' @param equation Character vector, representing the covariates used at the Cox model. When NULL, the baseline (null) model is fit.
+#' @param equation Character vector, representing the formula to be estimated with the Cox model. When NULL, the baseline (null) model is fit.
 #'    Default is NULL.
 #' @param AVAL Analysis value for the Cox model. Default is "AVAL", as per CDISC ADaM guiding principles.
 #' @param CNSR Censor for the Cox model. Default is "CNSR", as per CDISC ADaM guiding principles.
@@ -25,22 +25,22 @@
 #' ## Null model
 #' visR::estimate_cox(data = adtte)
 #'
-#' ## Univariate Cox regression model using the covariate: `TRTP`
+#' ## Univariate Cox model using the covariate: `TRTP`
 #' # Stratified Kaplan-Meier analysis by `TRTP`
 #' visR::estimate_cox(data = adtte, equation = "TRTP")
 #'
-#' ## Multivariate Cox regression model using the covariates: `TRTP` and `SEX`
-#' visR::estimate_cox(data = adtte, equation = c("TRTP", "SEX"))
+#' ## Multivariate Cox model using the covariates: `TRTP` and `SEX`
+#' visR::estimate_cox(data = adtte, equation = "TRTP + SEX")
 #'
-#' ## Stratified Cox model (strata with one level)
-#' visR::estimate_cox(data = adtte, equation = c("AGE", "survival::strata(RACE)"))
+#' ## Stratified Cox model (strata with three levels)
+#' visR::estimate_cox(data = adtte, equation = "AGE + strata(RACE)")
 #'
 #' ## Null model on subset of adtte
 #' visR::estimate_cox(data = adtte[adtte$SEX == "F", ])
 #'
-#' ## Modify the default analysis by using the ellipsis
-#' visR::estimate_cox(data = adtte, equation = c( "SEX", "survival::cluster(USUBJID)"),
-#'   tier = "breslow", conf.int = 0.9)
+#' ## Cox model with cluster and different tie
+#' visR::estimate_cox(data = adtte, equation = "SEX + cluster(USUBJID)",
+#'   ties = "breslow", conf.int = 0.9)
 #'
 #' ## Example working with non CDISC data
 #' head(survival::veteran)
@@ -52,7 +52,7 @@
 #'                CNSR = dplyr::if_else(status == 1, 0, 1)
 #'  )
 #'
-#' visR::estimate_cox(data = veteran_adam, equation = c("trt", "diagtime"))
+#' visR::estimate_cox(data = veteran_adam, equation = "trt + diagtime")
 
 
 
@@ -93,22 +93,7 @@ estimate_cox <- function(
   data <- as.data.frame(data)
 
   # Validate columns --------------------------------------------------------
-
-  reqcols <- c(equation, CNSR, AVAL)
-  ss <- c("strata", "tt", "frailty", "ridge", "pspline", "cluster", "I", "factor")
-
-  column_names <- gsub("\\([^()]*\\)", "", reqcols) 
-  column_names <- column_names[!column_names %in% ss]
-  column_names_special <- gsub("\\(([^()]*)\\)|.", "\\1", reqcols, perl=T)
-  column_names_special <- column_names_special[column_names_special!=""]
-  
-  reqcols_fin <- c(column_names, column_names_special)
  
-  # Make sure all variables are in dataset
-  if (! all(reqcols_fin %in% colnames(data))){
-    stop(paste0("Following columns are missing from `data`: ", paste(setdiff(reqcols_fin, colnames(data)), collapse = " "), "."))
-  }
-
   if (!is.numeric(data[[AVAL]])) {
     stop("Analysis variable (AVAL) is not numeric.")
   }
@@ -129,7 +114,7 @@ estimate_cox <- function(
   if (is.null(equation)) {
     equation <- "1"
   } else {
-    equation <- paste(equation, collapse = " + ")
+    equation <- equation
   }
 
 
