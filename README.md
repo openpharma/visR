@@ -43,7 +43,7 @@ current focus on developing a stable API.
 | [![R-CMD-check](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml/badge.svg?branch=main)](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml) | `main` branch                                                                |
 | [![pkgdown](https://github.com/openpharma/visR/actions/workflows/makedocs.yml/badge.svg)](https://github.com/openpharma/visR/actions/workflows/makedocs.yml)                               | Documentation building to [Github pages](https://openpharma.github.io/visR/) |
 | [![CRAN status](https://www.r-pkg.org/badges/version/visR)](https://CRAN.R-project.org/package=visR)                                                                                       | Latest CRAN release                                                          |
-| <a href=https://github.com/pharmaR/riskmetric><img src=https://img.shields.io/badge/riskmetric--1.06-green></img></a>                                                                      | `riskmetric` score                                                           |
+| <a href=https://github.com/pharmaR/riskmetric><img src=https://img.shields.io/badge/riskmetric--1.1-green></img></a>                                                                       | `riskmetric` score                                                           |
 
 <!-- badges: end -->
 
@@ -117,10 +117,7 @@ covr::package_coverage(
   code = "tools::testInstalledPackage(pkg = 'visR', types = c('tests'))", 
   quiet = FALSE
 )
-#> visR Coverage: 97.51%
-#> R/render.R: 81.44%
-#> R/estimate_cuminc.R: 85.71%
-#> R/get_risktable.R: 97.38%
+#> visR Coverage: 99.88%
 #> R/visr.R: 99.12%
 #> R/add_annotation.R: 100.00%
 #> R/add_CI.R: 100.00%
@@ -130,13 +127,16 @@ covr::package_coverage(
 #> R/add_risktable.R: 100.00%
 #> R/apply_attrition.R: 100.00%
 #> R/apply_theme.R: 100.00%
+#> R/estimate_cuminc.R: 100.00%
 #> R/estimate_KM.R: 100.00%
 #> R/get_attrition.R: 100.00%
 #> R/get_COX_HR.R: 100.00%
 #> R/get_pvalue.R: 100.00%
 #> R/get_quantile.R: 100.00%
+#> R/get_risktable.R: 100.00%
 #> R/get_summary.R: 100.00%
 #> R/get_tableone.R: 100.00%
+#> R/render.R: 100.00%
 #> R/tableone.R: 100.00%
 #> R/tidyme.R: 100.00%
 #> R/utils_general.R: 100.00%
