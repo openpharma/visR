@@ -527,6 +527,9 @@ visr.tidycuminc <- function(x = NULL
                             ,y_ticks = pretty(c(0, 1), 5)
                             ,legend_position = "right"
                             ,...){
+  # check for installation of tidycmprsk package
+  rlang::check_installed("tidycmprsk", version = "0.1.1")
+
   if (!is.null(x_units)) {
     x_label <- paste0(x_label, " (", x_units, ")")
   }

@@ -18,7 +18,9 @@ tidyme(x, ...)
 \item{...}{other arguments passed on to the method}
 }
 \value{
-Tibble containing all list elements of the S3 object as columns
+Tibble containing all list elements of the S3 object as columns.
+The column 'strata' is a factor to ensure that the strata are sorted
+in agreement with the order in the \code{survfit} object
 }
 \description{
 S3 method for extended tidying of selected model outputs. Note

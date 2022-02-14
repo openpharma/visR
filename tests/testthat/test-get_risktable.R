@@ -239,68 +239,68 @@ testthat::test_that("T4.3 The function limits the length of the `label` vector t
 testthat::context("get_risktable.survfit - T5. T5. The functions calculates requested summary across time")
 
 testthat::test_that("T5.1 The function is able to calculate the number of events from a `survfit` object",{
-  
+
   survobj <- survival::survfit.formula(data = adtte, formula = survival::Surv(AVAL, 1-CNSR) ~ 1)
   atrisk <- summary(survobj, times = c(0,20,40,60,80,100,120,140,160,180,200), extend = TRUE)[["n.risk"]]
-  
+
   atrisk_visr <- visR::estimate_KM(adtte) %>%
     visR::get_risktable(group = "statlist") %>%
     dplyr::pull(n.risk)
-  
+
   testthat::expect_equal(atrisk, atrisk_visr)
 
 })
 
 testthat::test_that("T5.2 The function is able to calculate the number of censored events from a `survfit` object",{
-  
+
   survobj <- survival::survfit.formula(data = adtte, formula = survival::Surv(AVAL, CNSR) ~ 1)
   censored <- summary(survobj, times = c(0,20,40,60,80,100,120,140,160,180,200), extend = TRUE)[["n.event"]]
-  
+
   censor_visr <- visR::estimate_KM(adtte) %>%
     visR::get_risktable(group = "statlist", statlist="n.censor") %>%
     dplyr::pull(n.censor)
-  
+
   testthat::expect_equal(censored, censor_visr)
 
 })
 
 testthat::test_that("T5.3 The function is able to calculate the number of at risk from a `survfit` object",{
-  
+
   survobj <- survival::survfit.formula(data = adtte, formula = survival::Surv(AVAL, 1-CNSR) ~ 1)
   events <- summary(survobj, times = c(0,20,40,60,80,100,120,140,160,180,200), extend = TRUE)[["n.event"]]
-  
+
   events_visr <- visR::estimate_KM(adtte) %>%
     visR::get_risktable(group = "statlist", statlist="n.event") %>%
     dplyr::pull(n.event)
-  
+
   testthat::expect_equal(events, events_visr)
 
 })
 
 testthat::test_that("T5.4 The function is able to calculate the cumulative number of censored events from a `survfit` object",{
-  
+
   survobj <- survival::survfit.formula(data = adtte, formula = survival::Surv(AVAL, CNSR) ~ 1)
   censored <- summary(survobj, times = c(0,20,40,60,80,100,120,140,160,180,200), extend = TRUE)[["n.event"]]
   cum.censor <- cumsum(censored)
-  
+
   cumcensor_visr <- visR::estimate_KM(adtte) %>%
     visR::get_risktable(group = "statlist", statlist="cum.censor") %>%
     dplyr::pull(cum.censor)
-  
+
   testthat::expect_equal(cum.censor, cumcensor_visr)
 
 })
 
 testthat::test_that("T5.5 The function is able to calculate the cumulative number of events from a `survfit` object",{
-  
+
   survobj <- survival::survfit.formula(data = adtte, formula = survival::Surv(AVAL, 1-CNSR) ~ 1)
   events <- summary(survobj, times = c(0,20,40,60,80,100,120,140,160,180,200), extend = TRUE)[["n.event"]]
   cum.events <- cumsum(events)
-  
+
   cumevents_visr <- visR::estimate_KM(adtte) %>%
     visR::get_risktable(group = "statlist", statlist="cum.event") %>%
     dplyr::pull(cum.event)
-  
+
   testthat::expect_equal(cum.events, cumevents_visr)
 
 })
@@ -523,24 +523,23 @@ testthat::test_that("T8.1 Results are accurate without error", {
 
   testthat::expect_equal(
     cuminc %>%
-      get_risktable(times = 12, statlist = c("n.risk", "n.event", "n.censor")),
+      get_risktable(times = 12, statlist = c("n.event", "n.risk", "n.censor")),
     cuminc %>%
       tidycmprsk::tidy(times = 12) %>%
       dplyr::filter(outcome %in% "death from cancer") %>%
       dplyr::select(time, n.risk, n.event, n.censor) %>%
       tidyr::pivot_longer(cols = c(n.risk, n.event, n.censor)) %>%
       dplyr::mutate(
-        name = dplyr::recode(name,
-                             n.risk = "At Risk",
-                             n.event = "N Event",
-                             n.censor = "N Censored")
+        name = factor(name,
+                      levels = c("n.event", "n.risk", "n.censor"),
+                      labels = c("Events", "At Risk", "Censored"))
       ) %>%
+      dplyr::arrange(.data$name) %>%
       rlang::set_names(c("time", "y_values", "Overall")) %>%
       as.data.frame(),
     ignore_attr = TRUE,
     check.attributes = FALSE
   )
-
 })
 
 # END OF CODE -------------------------------------------------------------

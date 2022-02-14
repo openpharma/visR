@@ -35,18 +35,9 @@ estimate_cuminc <- function(data
                             ,CNSR = "CNSR"
                             ,AVAL = "AVAL"
                             ,conf.int = 0.95
-                            ,...){
+                            ,...) {
   # check for installation of tidycmprsk package
-  if (!"tidycmprsk" %in% rownames(utils::installed.packages()) ||
-      utils::packageVersion("tidycmprsk") < "0.1.0.9003") {
-    message("Install updated version of 'tidycmprsk' with `devtools::install_github('MSKCC-Epi-Bio/tidycmprsk')`")
-    return(invisible())
-  }
-  if (!"hardhat" %in% rownames(utils::installed.packages()) ||
-      utils::packageVersion("hardhat") <= "0.1.6") {
-    message("Install updated version of 'hardhat' with `devtools::install_github('tidymodels/hardhat')`")
-    return(invisible())
-  }
+  rlang::check_installed("tidycmprsk", version = "0.1.1")
 
   # checking/prepping inputs ---------------------------------------------------
   strata <- strata %||% "1" %>% paste(collapse = " + ")

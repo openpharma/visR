@@ -48,14 +48,15 @@ get_risktable <- function(x, ...){
 get_risktable.survfit <- function(
   x
   ,times = NULL
-  ,statlist = c("n.risk")
+  ,statlist = "n.risk"
   ,label = NULL
-  ,group = c("strata", "group")
+  ,group = c("strata", "statlist")
   ,collapse = FALSE
   ,...
 ){
 
 # User input validation ---------------------------------------------------
+  group <- match.arg(group)
 
   if (!base::all(statlist %in% c("n.risk", "n.censor", "n.event",
                                  "cum.censor", "cum.event")))
@@ -70,11 +71,6 @@ get_risktable.survfit <- function(
 
   if (base::any(times < 0))
     stop("Negative times are not valid.")
-
-  if (length(group)>1 | !(base::all(group %in% c("statlist", "strata"))))
-    stop("group should equal statlist or strata.")
-  
-  group <- match.arg(group)
 
 # Clean input ------------------------------------------------------------
 
@@ -241,16 +237,17 @@ get_risktable.tidycuminc <- function(x
                                      ,group = c("strata", "statlist")
                                      ,collapse = FALSE
                                      ,...) {
-  
+  # check for installation of tidycmprsk package
+  rlang::check_installed("tidycmprsk", version = "0.1.1")
   group <- match.arg(group)
-  
+
   # list of statistics and their default labels
   lst_stat_labels_default <-
     list(n.risk = "At Risk",
          n.event = "Events",
          n.censor = "Censored",
-         cumulative.event = "Cum. Events",
-         cumulative.censor = "Cum. Censored")
+         cum.event = "Cum. Events",
+         cum.censor = "Cum. Censored")
 
   label <-
     .reconcile_statlist_and_labels(
@@ -273,8 +270,8 @@ get_risktable.tidycuminc <- function(x
       dplyr::group_by(dplyr::across(dplyr::any_of(c("time", "outcome", "strata")))) %>%
       dplyr::mutate(
         dplyr::across(
-          dplyr::any_of(c("n.risk", "n.event", "cumulative.event",
-                          "n.censor", "cumulative.censor")),
+          dplyr::any_of(c("n.risk", "n.event", "cum.event",
+                          "n.censor", "cum.censor")),
           ~sum(., na.rm = TRUE))
       ) %>%
       dplyr::filter(dplyr::row_number() == 1L) %>%
@@ -282,21 +279,26 @@ get_risktable.tidycuminc <- function(x
   }
 
   if (group == "strata" || isTRUE(collapse)) {
+    strata_levels <- unique(tidy[["strata"]]) %>% sort() %>% as.character()
+
     result <-
       tidy %>%
       dplyr::select(dplyr::any_of(c("time", "strata", "n.risk", "n.event",
-                                    "cumulative.event", "n.censor", "cumulative.censor"))) %>%
+                                    "cum.event", "n.censor", "cum.censor"))) %>%
       tidyr::pivot_longer(cols = -c(.data$time, .data$strata)) %>%
       tidyr::pivot_wider(
         id_cols = c(.data$time, .data$name),
         values_from = "value",
         names_from = "strata"
       ) %>%
+      dplyr::relocate(dplyr::any_of(strata_levels), .after = dplyr::last_col()) %>%
       dplyr::mutate(
         y_values = dplyr::recode(.data$name, !!!lst_stat_labels)
       ) %>%
       dplyr::filter(.data$name %in% .env$statlist) %>%
       dplyr::select(.data$time, .data$y_values, dplyr::everything(), -.data$name) %>%
+      dplyr::mutate(y_values = factor(.data[["y_values"]], levels = .env$label)) %>%
+      dplyr::arrange(.data[["y_values"]], .data[["time"]]) %>%
       as.data.frame()
     attr(result, "title") <- names(result) %>% setdiff(c("time", "y_values"))
     attr(result, "statlist") <- names(result) %>% setdiff(c("time", "y_values"))
@@ -306,8 +308,8 @@ get_risktable.tidycuminc <- function(x
       tidy %>%
       dplyr::select(.data$time, y_values = .data$strata,
                     dplyr::any_of(c("n.risk",
-                                    "n.event", "cumulative.event",
-                                    "n.censor", "cumulative.censor"))) %>%
+                                    "n.event", "cum.event",
+                                    "n.censor", "cum.censor"))) %>%
       as.data.frame()
 
     attr(result, "statlist") <- names(lst_stat_labels_default[statlist])

@@ -49,13 +49,10 @@ Suggests:
     rmarkdown,
     testthat (>= 2.1.0),
     tibble,
-    tidycmprsk,
+    tidycmprsk (>= 0.1.1),
     vdiffr
 VignetteBuilder: 
     knitr
-Remotes: 
-    MSKCC-Epi-Bio/tidycmprsk,
-    tidymodels/hardhat
 biocViews:
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

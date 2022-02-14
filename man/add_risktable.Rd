@@ -11,7 +11,7 @@ add_risktable(gg, ...)
 \method{add_risktable}{ggsurvfit}(
   gg,
   times = NULL,
-  statlist = c("n.risk"),
+  statlist = "n.risk",
   label = NULL,
   group = "strata",
   collapse = FALSE,
@@ -21,7 +21,7 @@ add_risktable(gg, ...)
 \method{add_risktable}{ggtidycuminc}(
   gg,
   times = NULL,
-  statlist = c("n.risk"),
+  statlist = "n.risk",
   label = NULL,
   group = "strata",
   collapse = FALSE,
@@ -35,11 +35,12 @@ add_risktable(gg, ...)
 
 \item{times}{Numeric vector indicating the times at which the risk set, censored subjects, events are calculated.}
 
-\item{statlist}{Character vector indicating which summary data to present. Current choices are "n.risk" "n.event" "n.censor", "cum.event", "cum.censor".
-Default is "n.risk". Competing risk models also have the option of "cum.event" and "cum.censor"}
+\item{statlist}{Character vector indicating which summary data to present. Current choices are "n.risk" "n.event"
+"n.censor", "cum.event", "cum.censor".
+Default is "n.risk".}
 
-\item{label}{Character vector with labels for the statlist. Default matches "n.risk" with "At risk", "n.event" with "Events", "n.censor"
-with "Censored", "cum.event" with "Cum. Event", and "cum.censor" with "Cum. Censor".}
+\item{label}{Character vector with labels for the statlist. Default matches "n.risk" with "At risk", "n.event" with
+"Events", "n.censor" with "Censored", "cum.event" with "Cum. Event", and "cum.censor" with "Cum. Censor".}
 
 \item{group}{String indicating the grouping variable for the risk tables.
 Current options are:
