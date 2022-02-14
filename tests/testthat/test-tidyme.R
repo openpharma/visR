@@ -102,6 +102,16 @@ testthat::test_that("T3.2 The S3 method, associated with a `survfit` object, has
     dplyr::mutate(call = rep(list(survfit_object[["call"]]), 
                              sum(survfit_object[["strata"]])))
   
+  surv_object_df["PARAM"] <- rep(survfit_object[["PARAM"]], 
+                                 sum(survfit_object[["strata"]]))
+  surv_object_df["PARAMCD"] <- rep(survfit_object[["PARAMCD"]], 
+                                   sum(survfit_object[["strata"]]))
+  
+  surv_object_df[["estimate"]] <- surv_object_df[["surv"]]
+  surv_object_df[["std.error"]] <- surv_object_df[["std.err"]]
+  surv_object_df[["conf.low"]] <- surv_object_df[["lower"]]
+  surv_object_df[["conf.high"]] <- surv_object_df[["upper"]]
+
   surv_object_df["strata"] <- rep(names(survfit_object[["strata"]]), 
                                   survfit_object[["strata"]])
   
@@ -110,19 +120,10 @@ testthat::test_that("T3.2 The S3 method, associated with a `survfit` object, has
   surv_object_df["n.strata"] <- rep(survfit_object[["n"]], 
                                     survfit_object[["strata"]])
 
-  surv_object_df["PARAM"] <- rep(survfit_object[["PARAM"]], 
-                                 sum(survfit_object[["strata"]]))
-  surv_object_df["PARAMCD"] <- rep(survfit_object[["PARAMCD"]], 
-                                   sum(survfit_object[["strata"]]))
+  colnames(survfit_object_tidy)
+  colnames(surv_object_df)
   
-  surv_object_df[["std.error"]] <- surv_object_df[["std.err"]]
-  surv_object_df[["estimate"]] <- surv_object_df[["surv"]]
-  surv_object_df[["conf.low"]] <- surv_object_df[["lower"]]
-  surv_object_df[["conf.high"]] <- surv_object_df[["upper"]]
-
-  cn <- colnames(survfit_object_tidy)
-
-  testthat::expect_equal(surv_object_df, survfit_object_tidy)
+  testthat::expect_equal(surv_object_df, survfit_object_tidy, check.attributes = FALSE)
   
 })
 
@@ -141,7 +142,7 @@ testthat::test_that("T3.3 The S3 method, associated with a `survfit` object, tur
 testthat::test_that("T3.4 The S3 method, assocated with a `survfit` object, turns the strata into a factor",{
   
   dt <- adtte
-  dt[["TRTA"]] <- factor(dt[["TRTA"]], levels = c("Placebo", "Xanomeline Low Dose", "Xanomeline High Dose"))
+  dt[["TRTA"]] <- factor(dt[["TRTA"]], levels = c("Xanomeline Low Dose", "Xanomeline High Dose", "Placebo"))
 
   survfit_object <- visR::estimate_KM(data = dt, strata = "TRTA")
   survfit_object_tidy <- tidyme(survfit_object)
