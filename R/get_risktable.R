@@ -143,8 +143,8 @@ get_risktable.survfit <- function(
       n.event = survfit_summary[["n.event"]],
       n.censor = survfit_summary[["n.censor"]]
     ) %>%
-    dplyr::arrange(strata, time) %>%
-    dplyr::group_by(.data$strata) %>%
+    dplyr::arrange(.data[["strata"]], .data[["time"]]) %>%
+    dplyr::group_by(.data[["strata"]]) %>%
     dplyr::mutate(
       cum.event = cumsum(.data[["n.event"]]),
       cum.censor = cumsum(.data[["n.censor"]])
@@ -285,19 +285,19 @@ get_risktable.tidycuminc <- function(x
       tidy %>%
       dplyr::select(dplyr::any_of(c("time", "strata", "n.risk", "n.event",
                                     "cum.event", "n.censor", "cum.censor"))) %>%
-      tidyr::pivot_longer(cols = -c(.data$time, .data$strata)) %>%
+      tidyr::pivot_longer(cols = -c(.data[["time"]], .data[["strata"]])) %>%
       tidyr::pivot_wider(
-        id_cols = c(.data$time, .data$name),
+        id_cols = c(.data[["time"]], .data[["name"]]),
         values_from = "value",
         names_from = "strata"
       ) %>%
       dplyr::relocate(dplyr::any_of(strata_levels), .after = dplyr::last_col()) %>%
       dplyr::mutate(
-        y_values = dplyr::recode(.data$name, !!!lst_stat_labels)
+        y_values = dplyr::recode(.data[["name"]], !!!lst_stat_labels)
       ) %>%
-      dplyr::filter(.data$name %in% .env$statlist) %>%
-      dplyr::select(.data$time, .data$y_values, dplyr::everything(), -.data$name) %>%
-      dplyr::mutate(y_values = factor(.data[["y_values"]], levels = .env$label)) %>%
+      dplyr::filter(.data[["name"]] %in% .env[["statlist"]]) %>%
+      dplyr::select(.data[["time"]], .data[["y_values"]], dplyr::everything(), -.data[["name"]]) %>%
+      dplyr::mutate(y_values = factor(.data[["y_values"]], levels = .env[["label"]])) %>%
       dplyr::arrange(.data[["y_values"]], .data[["time"]]) %>%
       as.data.frame()
     attr(result, "title") <- names(result) %>% setdiff(c("time", "y_values"))
@@ -306,7 +306,7 @@ get_risktable.tidycuminc <- function(x
   else if (group == "statlist") {
     result <-
       tidy %>%
-      dplyr::select(.data$time, y_values = .data$strata,
+      dplyr::select(.data[["time"]], y_values = .data[["strata"]],
                     dplyr::any_of(c("n.risk",
                                     "n.event", "cum.event",
                                     "n.censor", "cum.censor"))) %>%

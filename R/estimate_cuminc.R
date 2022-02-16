@@ -60,12 +60,12 @@ estimate_cuminc <- function(data
 visr_tidy_tidycuminc <- function(x, times = NULL) {
   df_visr_tidy <-
     tidycmprsk::tidy(x, times = times) %>%
-    dplyr::filter(.data$outcome %in% names(x$failcode)[1]) %>%
+    dplyr::filter(.data[["outcome"]] %in% names(x$failcode)[1]) %>%
     # renaming to match column name in the survfit equivalent of these functions
     dplyr::rename(
-      est = .data$estimate,
-      est.lower = .data$conf.low,
-      est.upper = .data$conf.high
+      est = .data[["estimate"]],
+      est.lower = .data[["conf.low"]],
+      est.upper = .data[["conf.high"]]
     )
 
   # adding strata column if not already present

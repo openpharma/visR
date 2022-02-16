@@ -534,7 +534,7 @@ testthat::test_that("T8.1 Results are accurate without error", {
                       levels = c("n.event", "n.risk", "n.censor"),
                       labels = c("Events", "At Risk", "Censored"))
       ) %>%
-      dplyr::arrange(.data$name) %>%
+      dplyr::arrange(.data[["name"]]) %>%
       rlang::set_names(c("time", "y_values", "Overall")) %>%
       as.data.frame(),
     ignore_attr = TRUE,
