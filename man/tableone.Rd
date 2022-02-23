@@ -44,6 +44,25 @@ A typical example of a summary table are "table one", the first table in an appl
 
 Calculate summary statistics and present them in a formatted table
 }
+\section{Example Output}{
+
+\if{html}{tableone(engine = "gt")}
+
+\if{html}{\figure{tableone_gt_ex.png}{options: width=65\%}}
+
+\if{html}{tableone(engine = "DT")}
+
+\if{html}{\figure{tableone_DT_ex.png}{options: width=65\%}}
+
+\if{html}{tableone(engine = "kable")}
+
+\if{html}{\figure{tableone_kable_html_ex.png}{options: width=65\%}}
+
+\if{html}{tableone(engine = "kable", output_format = "latex")}
+
+\if{html}{\figure{tableone_kable_latex_ex.png}{options: width=65\%}}
+}
+
 \examples{
 
 # metadata for table
@@ -52,8 +71,23 @@ t1_ds <- "ADaM Interim Dataset for Time-to-Event Analysis"
 t1_fn <- "My table one footnote"
 
 
+## table by treatment - without overall and render with GT
+tbl_gt <-
+  adtte \%>\%
+  dplyr::filter(SAFFL == "Y") \%>\%
+  dplyr::select(AGE, AGEGR1, SEX, EVNTDESC, TRTA) \%>\%
+  visR::tableone(
+     strata = "TRTA",
+     overall = FALSE,
+     title = t1_title,
+     datasource = t1_ds,
+     footnote = t1_fn,
+     engine = "gt"
+  )
+   
 ## table by treatment - without overall and render with DT
-adtte \%>\%
+tbl_DT <-
+   adtte \%>\%
    dplyr::filter(SAFFL == "Y") \%>\%
    dplyr::select(AGE, AGEGR1, SEX, EVNTDESC, TRTA) \%>\%
    visR::tableone(
@@ -65,21 +99,9 @@ adtte \%>\%
       engine = "DT"
    )
 
-## table by treatment - without overall and render with GT
-adtte \%>\%
-   dplyr::filter(SAFFL == "Y") \%>\%
-   dplyr::select(AGE, AGEGR1, SEX, EVNTDESC, TRTA) \%>\%
-   visR::tableone(
-      strata = "TRTA",
-      overall = FALSE,
-      title = t1_title,
-      datasource = t1_ds,
-      footnote = t1_fn,
-      engine = "gt"
-   )
-
 ## table by treatment - without overall and render with kable
-adtte \%>\%
+tbl_kable_html <-
+   adtte \%>\%
    dplyr::filter(SAFFL == "Y") \%>\%
    dplyr::select(AGE, AGEGR1, SEX, EVNTDESC, TRTA) \%>\%
    visR::tableone(
@@ -93,7 +115,8 @@ adtte \%>\%
 
 ## table by treatment - without overall and render with kable as
 ## a latex table format rather than html
-adtte \%>\%
+tbl_kable_latex <-
+   adtte \%>\%
    dplyr::filter(SAFFL == "Y") \%>\%
    dplyr::select(AGE, AGEGR1, SEX, EVNTDESC, TRTA) \%>\%
    visR::tableone(
