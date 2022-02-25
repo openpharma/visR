@@ -22,7 +22,9 @@
 #' lm_tidied <- visR::tidyme(lm_object)
 #' lm_tidied
 #'
-#' @return Tibble containing all list elements of the S3 object as columns
+#' @return Tibble containing all list elements of the S3 object as columns. 
+#'   The column 'strata' is a factor to ensure that the strata are sorted 
+#'   in agreement with the order in the `survfit` object
 #'
 #' @rdname tidyme
 #'
@@ -82,12 +84,12 @@ tidyme.survfit <- function(x, ...) {
 
     if (!is.null(x[["strata"]])) {
       retme[["strata"]] <- rep(names(x[["strata"]]), x[["strata"]])
-
       retme[["n.strata"]] <- rep(x[["n"]], x[["strata"]])
     }
   }
   
   attr(retme, "survfit_object") <- survfit_object
+  retme[["strata"]] <- factor(retme[["strata"]], levels = unique(retme[["strata"]]))
 
   return(as.data.frame(retme))
 }
