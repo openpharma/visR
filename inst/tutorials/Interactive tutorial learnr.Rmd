@@ -1,0 +1,198 @@
+---
+title: "visR Tutorial"
+output: learnr::tutorial
+runtime: shiny_prerendered
+---
+
+## Accelerating data to insights
+
+This tutorial illustrates a typical use case of visR in clinical development - the analysis of time to a certain event (e.g., death) in different groups. Typically, data obtained in randomized clinical trials (RCT) can be used to estimate the overall survival of patients in one group (e.g., treated with drug X) vs another group (e.g., treated with drug Y) and thus determine if there is a treatment difference.
+
+
+For this project, we first need to load the following packages:
+
+```{r message=FALSE, warning=FALSE, results='hide'}
+library(survival) # contains the data for this tutorial
+library(ggplot2)
+library(visR)
+```
+
+```{r setup, include=FALSE}
+if (!("learnr" %in% installed.packages())) install.packages("learnr")
+
+library(learnr)
+
+knitr::opts_chunk$set(
+	echo = FALSE,
+	message = FALSE,
+	warning = FALSE
+)
+# Metadata: Title
+label_dataset <- paste0("NCCTG Lung Cancer Dataset (from survival package ", 
+                  packageVersion("survival"), ")")
+
+# Save original options()
+old <- options()  
+
+# Global formatting options
+options(digits = 3)
+
+# Global ggplot settings
+theme_set(theme_bw())
+
+# Global table settings 
+options(DT.options = list(pageLength = 10, 
+                          language = list(search = 'Filter:'), 
+                          scrollX = TRUE))
+
+lung_cohort <- survival::lung
+
+# Change gender to be a factor and rename some variables to make output look nicer
+lung_cohort <- lung_cohort %>%  
+  dplyr::mutate(sex = as.factor(ifelse(sex == 1, "Male", "Female")))  %>%  
+  dplyr::rename(Age = "age", Sex = "sex", Status = "status", Days = "time")
+
+# Restore original options()
+options(old)
+```
+
+## The data
+
+We have preloaded the dataset `r label_dataset` into the object `lung_cohort`.
+
+```{r, echo=TRUE}
+lung_cohort
+```
+
+The dataset label has been saved into an object `label_dataset`.
+
+```{r, echo=TRUE}
+label_dataset
+```
+
+## Cohort Overview 
+
+Visualizing tables, like a table one or risk tables, is a two-step process in visR . First, a data.frame (or tibble) is created by a `get_XXX()` function (e.g. `get_tableone()`). Secondly, the data.frame can be displayed by calling the function `render()`. The advantage of this process is that data summaries can be created, used and adjusted throughout an analysis, while at every step data summaries can be displayed or even be downloaded.
+
+
+### Make a table 1 verbosely
+
+`get_tableone` creates a tibble that includes populations summaries, which you can then 
+print with `render()`. Please try below.
+
+
+```{r table1, exercise=TRUE}
+# Select variables of interest and change names to look nicer
+lung_cohort_tab1 <- lung_cohort %>%  
+  dplyr::select(Age, Sex) 
+
+# Create a table one
+
+
+# Render the tableone
+
+```
+
+```{r table1-hint}
+# Select variables of interest and change names to look nicer
+lung_cohort_tab1 <- lung_cohort %>%  
+  dplyr::select(Age, Sex) 
+
+# Create a table one
+tab1 <- get_tableone( )
+
+# Render the tableone
+render(tab1, title = "  ", datasource = label_dataset)
+```
+
+```{r table1-solution}
+# Select variables of interest and change names to look nicer
+lung_cohort_tab1 <- lung_cohort %>%  
+  dplyr::select(Age, Sex) 
+
+# Create a table one
+tab1 <- get_tableone(lung_cohort_tab1)
+
+# Render the tableone
+render(tab1, title = "Overview over Lung Cancer patients", datasource = label_dataset)
+```
+
+### Make a table 1 quickly
+
+The render function doesn't always need to be directly called. If you want to 
+build the table and render it one function call, you can use the 
+wrapper function `tableone()`.
+
+```{r table1quick, exercise=TRUE}
+# Use wrapper functionality to create and display a tableone
+tableone(lung_cohort_tab1, title = "Overview over Lung Cancer patients", datasource = label_dataset)
+```
+
+```{r table1quick-solution}
+# Use wrapper functionality to create and display a tableone
+tableone(lung_cohort_tab1, title = "Overview over Lung Cancer patients", datasource = label_dataset)
+```
+
+### Add strata
+
+We can also add a strata. To do this, add the optional parameter `strata = "Sex"`
+to the code below and run it. 
+
+You will see the strata variable is still in the table. You can also then remove 
+it by also adding `overall = FALSE`. 
+
+```{r strata, exercise=TRUE}
+# Use wrapper functionality to create and display a tableone
+tableone(
+  lung_cohort_tab1, 
+  title = "Overview over Lung Cancer patients", 
+  datasource = label_dataset)
+```
+
+```{r strata-solution}
+# Use wrapper functionality to create and display a tableone
+tableone(
+  lung_cohort_tab1, 
+  strata = "Sex", overall = FALSE,
+  title = "Overview over Lung Cancer patients", 
+  datasource = label_dataset)
+```
+
+### Use different engines
+
+You can also choose what engine to use for rendering. To this, add the 
+parameter `engine =`, with one of `gt` (default), `kable` and `DT`. 
+Try all three below.
+
+```{r engines, exercise=TRUE}
+# Use wrapper functionality to create and display a tableone
+tableone(
+  lung_cohort_tab1, 
+  title = "Overview over Lung Cancer patients", 
+  engine = "gt",
+  datasource = label_dataset)
+```
+
+## Quiz
+
+*You can include any number of single or multiple choice questions as a quiz. Use the `question` function to define a question and the `quiz` function for grouping multiple questions together.*
+
+Some questions to verify that you understand the purposes of various base and recommended R packages:
+
+```{r quiz}
+quiz(
+  question("Which package contains functions for installing other R packages?",
+    answer("base"),
+    answer("tools"),
+    answer("utils", correct = TRUE),
+    answer("codetools")
+  ),
+  question("Which of the R packages listed below are used to create plots?",
+    answer("lattice", correct = TRUE),
+    answer("tools"),
+    answer("stats"),
+    answer("grid", correct = TRUE)
+  )
+)
+```
+
