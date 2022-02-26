@@ -1,0 +1,19 @@
+---
+name: Bug report or feature request
+about: Describe a bug you've seen or make a case for a new feature
+---
+
+PLEASE DON'T USE GITHUB ISSUES FOR HELP REQUESTS.
+
+If you have a question, please don't use this form. Instead, ask on <https://stackoverflow.com/> or <https://community.rstudio.com/>.
+If an issue is identified, briefly describe the bug: what did you expect to happen and what actually happens.
+Please include a minimal reproducible example (AKA a reprex). If you've never heard of a [reprex](http://reprex.tidyverse.org/) before, start by reading <https://www.tidyverse.org/help/#reprex>.
+
+Brief description of the problem
+
+```r
+# insert reprex here
+```
+
+In case of a feature request, describe your idea for a the new feature. Please also include an of what the new feature will look like, what potential packages/functions could be used
+to make this plot and if you would be interested in implementing this yourself.
