@@ -1,7 +1,7 @@
 #' @title Plot a supported S3 object
 #'
 #' @description S3 method for creating plots directly from objects using `ggplot2`,
-#'   similar to base::plot function.
+#'   similar to the base R `plot()` function.
 #'
 #' @seealso \code{\link[ggplot2]{ggplot}}
 #'
@@ -21,7 +21,7 @@ visr <- function(x, ...){
 #' @export
 
 visr.default <- function(x, ...){
-  base::plot(x)
+  graphics::plot(x)
 }
 
 #' @param x Object of class `survfit`
