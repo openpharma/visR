@@ -1,6 +1,6 @@
 **What changes are proposed in this pull request and to which files do they relate?**
 
-**Are the requirements included in UAT testing?**
+**Did you include unit tests for the proposed change/bug fix (https://testthat.r-lib.org/)?**
 
 **If there is an GitHub issue associated with this pull request, please provide link.**
 
