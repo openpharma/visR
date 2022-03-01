@@ -1,31 +1,27 @@
-#' @title Specifications add_risktable.survfit
-#' @section Last updated by:
-#' Steven Haesendonckx
-#' @section Last update date:
-#' 20-OCT-2021
-
-# Specifications ----------------------------------------------------------
-
-#' T1. The function accepts a `ggsurvfit` object
-#' T1.1 No error when a `ggsurvfit` object is passed to the function
-#' T1.2 An error when a non-`ggsurvfit` object is passed to the function
-#' T2. The risktables are `ggplot` representations of the actual risktables
-#' T2.1 When no strata were specified, an artificial strata is displayed 'Overall'
-#' T2.2 The calculated values in the risktable are not affected by the transformation to a `ggplot`
-#' T2.3 The risktables are placed below the visR plot, in alignment with the x-axis of a visR plot without legend
-#' T2.4 The risktables are placed below the visR plot, in alignment with the x-axis of a visR plot with a legend
-#' T3. The output object is ggplot with additional class `ggsurvfit` and an attribute `components`
-#' T3.1 The output object has an additional attribute `components`
-#' T3.2 The attribute components[['visR_plot']] contains the plot used as input
-#' T3.3 The attribute components contains the risktables, identified through the risktable titles
-#' T3.4 The output has class `ggsurvfit`
-
+#' @title Specifications test-add_risktable.R
+#' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
+#' @section Last update date: 2022-01-14T14:20:44
+#'
+#' @section List of tested specifications
+#' T1. The function accepts a `ggsurvfit` object.
+#' T1.1 No error when a `ggsurvfit` object is passed to the function.
+#' T1.2 An error when a non-`ggsurvfit` object is passed to the function.
+#' T2. The risktables are `ggplot` representations of the actual risktables.
+#' T2.1 When no strata were specified, an artificial strata is displayed 'Overall'.
+#' T2.2 The calculated values in the risktable are not affected by the transformation to a `ggplot`.
+#' T2.3 The risktables are placed below the visR plot, in alignment with the x-axis of a visR plot without legend.
+#' T2.4 The risktables are placed below the visR plot, in alignment with the x-axis of a visR plot without legend.
+#' T3. The output object is ggplot with additional class `ggsurvfit` and attribute `components`.
+#' T3.1 The output object has an additional attribute `components`.
+#' T3.2 The attribute components[['visR_plot']] contains the plot used as input.
+#' T3.3 The attribute components contains the risktables, identified through the risktable titles.
+#' T3.4 The output has class `ggsurvfit`.
 
 # Requirement T1 ----------------------------------------------------------
 
-context("add_risktable.survfit - T1. The function accepts a `ggsurvfit` object")
+testthat::context("add_risktable.survfit - T1. The function accepts a `ggsurvfit` object.")
 
-testthat::test_that("T1.1 No error when a `ggsurvfit` object is passed to the function",{
+testthat::test_that("T1.1 No error when a `ggsurvfit` object is passed to the function.", {
 
   visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::visr()
   
@@ -33,7 +29,7 @@ testthat::test_that("T1.1 No error when a `ggsurvfit` object is passed to the fu
 
 })
 
-testthat::test_that("T1.2 An error when a non-`ggsurvfit` object is passed to the function",{
+testthat::test_that("T1.2 An error when a non-`ggsurvfit` object is passed to the function.", {
 
   survfit_object <- visR::estimate_KM(data = adtte, strata = "TRTA")
   
@@ -41,60 +37,73 @@ testthat::test_that("T1.2 An error when a non-`ggsurvfit` object is passed to th
 
 })
 
-# Requirement T2 ----------------------------------------------------------
+# Requirement T2 ---------------------------------------------------------------
 
-context("add_risktable.survfit - T2. The risktables are `ggplot` representations of the actual risktables")
+testthat::context("add_risktable.survfit - T2. The risktables are `ggplot` representations of the actual risktables.")
 
-testthat::test_that("T2.1 When no strata were specified, an artificial strata is displayed 'Overall'",{
+testthat::test_that("T2.1 When no strata were specified, an artificial strata is displayed 'Overall'.", {
 
-  visR_plot <- visR::estimate_KM(data = adtte) %>% visR::visr() %>% visR::add_risktable()
+  visR_plot <- adtte %>% 
+    visR::estimate_KM() %>% 
+    visR::visr() %>% 
+    visR::add_risktable()
   strata <- base::intersect("Overall", names(visR_plot$components))
                   
   testthat::expect_error(strata == "Overall", NA)
     
 })
 
-testthat::test_that("T2.2 The calculated values in the risktable are not affected by the transformation to a `ggplot`",{
-
-  visR_risk <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::get_risktable()
-  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::visr() %>% visR::add_risktable()
+testthat::test_that("T2.2 The calculated values in the risktable are not affected by the transformation to a `ggplot`.", {
+  
+  visR_risk <- adtte %>%
+    visR::estimate_KM(strata = "TRTA") %>% 
+    visR::get_risktable()
+  visR_plot <- adtte %>%
+    visR::estimate_KM(strata = "TRTA") %>% 
+    visR::visr() %>% 
+    visR::add_risktable()
   
   plot_risk <- visR_plot$components$Placebo$data
-
+  
   testthat::expect_equal(visR_risk, plot_risk, check.attributes = FALSE)
   
 })
 
+testthat::test_that("T2.3 The risktables are placed below the visR plot, in alignment with the x-axis of a visR plot without legend.", {
+  
+  visR_plot <- adtte %>%
+    visR::estimate_KM(strata = "TRTA") %>% 
+    visR::visr() +
+    ggplot2::theme(legend.position = "none")
+  
+  testthat::skip_on_cran()
+  visR_plot %>% 
+    visR::add_risktable() %>% 
+    vdiffr::expect_doppelganger(title = "add_risktable_T2_3_aligned_when_no_legend")  
+  
+})
 
+testthat::test_that("T2.4 The risktables are placed below the visR plot, in alignment with the x-axis of a visR plot without legend.", {
+  
+  visR_plot <- adtte %>%
+    visR::estimate_KM(strata = "TRTA") %>% 
+    visR::visr() %>% 
+    visR::add_risktable()
+  
+  testthat::skip_on_cran()
+  visR_plot %>% 
+    vdiffr::expect_doppelganger(title = "add_risktable_T2_4_aligned_when_legend")  
+  
+})
 
-# testthat::test_that("T2.3 The risktables are placed below the visR plot, in alignment with the x-axis of a visR plot without legend",{
-# 
-#   visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>%
-#     visR::visr(legend_position = "none") %>%
-#     visR::add_risktable()
-#  
-#   vdiffr::expect_doppelganger(title = "add_risktable_T2_1", visR_plot) 
-#   vdiffr::manage_cases()
-# })
-# 
-# testthat::test_that("T2.4 The risktables are placed below the visR plot, in alignment with the x-axis of a visR plot with legend",{
-# 
-#   visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>%
-#     visR::visr(legend_position = "right") %>%
-#     visR::add_risktable()
-#  
-#   vdiffr::expect_doppelganger(title = "add_risktable_T2_2", visR_plot) 
-#   vdiffr::manage_cases()
-#   
-# })
+# Requirement T3 ---------------------------------------------------------------
 
-# Requirement T3 ----------------------------------------------------------
+testthat::context("add_risktable.survfit - T3. The output object is ggplot with additional class `ggsurvfit` and attribute `components`.")
 
-context("add_risktable.survfit - The output object is ggplot with additional class `ggsurvfit` and attribute `components`")
+testthat::test_that("T3.1 The output object has an additional attribute `components`.", {
 
-testthat::test_that("T3.1 The output object has an additional attribute `components`",{
-
-  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% 
+  visR_plot <- adtte %>%
+    visR::estimate_KM(strata = "TRTA") %>% 
     visR::visr() %>%
     visR::add_risktable()
   
@@ -102,9 +111,10 @@ testthat::test_that("T3.1 The output object has an additional attribute `compone
   
 })
 
-testthat::test_that("T3.2 The attribute components[['visR_plot']] contains the plot used as input",{
+testthat::test_that("T3.2 The attribute components[['visR_plot']] contains the plot used as input.",{
 
-  visR_plot_base <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% 
+  visR_plot_base <- adtte %>% 
+    visR::estimate_KM(strata = "TRTA") %>% 
     visR::visr()
     
   visR_plot <- visR_plot_base %>%
@@ -114,26 +124,34 @@ testthat::test_that("T3.2 The attribute components[['visR_plot']] contains the p
   
 })
 
-testthat::test_that("T3.3 The attribute components contains the risktables, identified through the risktable titles",{
+testthat::test_that("T3.3 The attribute components contains the risktables, identified through the risktable titles.",{
 
-  visR_plot_base <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% 
+  visR_plot_base <- adtte %>%
+    visR::estimate_KM(strata = "TRTA") %>% 
     visR::visr()
     
   visR_plot <- visR_plot_base %>%
     visR::add_risktable()
   
-  risktable1 <- get_risktable( visR::estimate_KM(data = adtte, strata = "TRTA"))
+  risktable1 <- adtte %>%
+    visR::estimate_KM(strata = "TRTA") %>%
+    visR::get_risktable()
   
-  testthat::expect_equal(visR_plot$components$Placebo$data, risktable1, check.attributes = FALSE)
+  testthat::expect_equal(visR_plot$components$Placebo$data, 
+                         risktable1, 
+                         check.attributes = FALSE)
   
   risknames <- names(visR_plot$components)[2:4]
-  testthat::expect_equal(risknames, c("Placebo", "Xanomeline High Dose", "Xanomeline Low Dose"))
+  testthat::expect_equal(risknames, c("Placebo", 
+                                      "Xanomeline High Dose", 
+                                      "Xanomeline Low Dose"))
   
 })
 
-testthat::test_that("T3.4 The output has class `ggsurvfit`",{
+testthat::test_that("T3.4 The output has class `ggsurvfit`.",{
 
-  visR_plot_base <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% 
+  visR_plot_base <- adtte %>%
+    visR::estimate_KM(strata = "TRTA") %>% 
     visR::visr()
     
   visR_plot <- visR_plot_base %>%
@@ -143,5 +161,4 @@ testthat::test_that("T3.4 The output has class `ggsurvfit`",{
   
 })
 
-# END OF CODE ----------------------------------------------------------
-
+# END OF CODE -------------------------------------------------------------

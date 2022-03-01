@@ -1,9 +1,8 @@
-#' @title Specifications add_highlight
-#' @section Last updated by: Tim Treis
-#' @section Last update date: 06-Auust-2021
-
-# Specifications ---------------------------------------------------------------
-
+#' @title Specifications test-add_highlight.R
+#' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
+#' @section Last update date: 2022-01-14T14:20:44
+#'
+#' @section List of tested specifications
 #' T1. The function modifies a `ggsurvfit` object and returns it.
 #' T1.1 No error when `add_highlight` is called on a `ggsurvfit` object.
 #' T1.2 An error when `add_highlight` is called without a plot.
@@ -28,7 +27,7 @@
 #' T4.1 The function adds the alpha channel to the hex-encoded colour.
 #' T4.2 The function also reduces the alpha value of the confidence intervals introduced by `add_CI`.
 
-# Requirement T1 ---------------------------------------------------------------
+# Requirement T1 ----------------------------------------------------------
 
 testthat::context("add_highlight - T1. The function modifies a `ggsurvfit` object and returns it.")
 
@@ -172,7 +171,7 @@ testthat::test_that("T2.4 No error when `strata` is a `list` or `vector` of char
 
   gg %>%
     visR::add_highlight(strata = strata_vector) %>%
-    vdiffr::expect_doppelganger(title = "add_highlight_T2_4_no_error_when_strata_is_string_vector")
+    vdiffr::expect_doppelganger(title = "add_highlight_T2_4_no_error_when_strata_is_string_vec") # 'vector' shortened because of tarball size
 
 })
 
@@ -373,25 +372,28 @@ testthat::test_that("T4.2 The function also reduces the alpha value of the confi
   gg_CI_fills_numeric <- gsub("#[A-Z0-9]{6}", "", gg_CI_fills) %>%
     sapply(function(s) {
 
-      visR:::convert_alpha(hex_alpha = s)
+      .convert_alpha(hex_alpha = s)
 
     }) %>% as.vector()
 
-  gg_with_highlight_CI_fills_numeric <- gsub("#[A-Z0-9]{6}", "", gg_with_highlight_CI_fills) %>%
+  gg_with_highlight_CI_fills_numeric <- gsub(pattern = "#[A-Z0-9]{6}", 
+                                             replacement = "", 
+                                             x = gg_with_highlight_CI_fills) %>%
     sapply(function(s) {
 
-      visR:::convert_alpha(hex_alpha = s)
+      .convert_alpha(hex_alpha = s)
 
     }) %>% as.vector()
 
-  testthat::expect_equal(gg_CI_fills_numeric, rep(ci_alpha, length(gg_CI_fills_numeric)))
+  testthat::expect_equal(gg_CI_fills_numeric, 
+                         rep(ci_alpha, length(gg_CI_fills_numeric)))
 
-  # To not over-engineer the test here, we take for granted that the foreground strata
-  # is the first of the three in the evaluation order
+  # To not over-engineer the test here, we take for granted that the foreground 
+  # strata is the first of the three in the evaluation order
   testthat::expect_equal(gg_with_highlight_CI_fills_numeric[1], ci_alpha)
   testthat::expect_equal(gg_with_highlight_CI_fills_numeric[2], ci_alpha*bg_alpha)
   testthat::expect_equal(gg_with_highlight_CI_fills_numeric[3], ci_alpha*bg_alpha)
 
 })
 
-# END OF CODE ------------------------------------------------------------------
+# END OF CODE -------------------------------------------------------------
