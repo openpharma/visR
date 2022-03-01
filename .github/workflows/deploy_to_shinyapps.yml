@@ -1,0 +1,75 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Deploy interactive vignette to shinyapps.io
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the develop branch
+  push:
+    branches: [ develop ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:      
+    - name: Checkout repo
+      uses: actions/checkout@v2
+
+    - name: Setup R
+      uses: r-lib/actions/setup-r@v1
+
+    - name: Query R dependencies
+      run: |
+        install.packages('remotes')
+        saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+        writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+      shell: Rscript {0}
+
+    - name: Cache R packages
+      uses: actions/cache@v2
+      with:
+        path: ${{ env.R_LIBS_USER }}
+        key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
+        restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+
+    - name: Install system dependencies
+      run: |
+        while read -r cmd
+        do
+          eval sudo $cmd
+        done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "20.04"))')
+      
+    - name: Deploy to shinyapps.io
+      run: |
+        remotes::install_deps(dependencies = TRUE)
+        remotes::install_cran("learnr")
+        remotes::install_cran("MatrixModels")
+        remotes::install_cran("ModelMetrics")
+        remotes::install_cran("RcppArmadillo")
+        remotes::install_cran("RcppEigen")
+        remotes::install_cran("SparseM")
+        remotes::install_cran("abind")
+        remotes::install_cran("car")
+        remotes::install_cran("carData")
+        remotes::install_cran("caret")
+        remotes::install_cran("corrplot")
+        remotes::install_cran("ggpubr")
+        remotes::install_cran("ggrepel")
+        remotes::install_cran("ggsci")
+        remotes::install_cran("ggsignif")
+        remotes::install_cran("polynom")
+        remotes::install_cran("rstatix")
+        remotes::install_cran("visR")
+        remotes::install_cran("rsconnect")
+        library('rsconnect');
+        setAccountInfo(name='visr', token=${{secrets.SHINYAPPS_TOKEN}}, secret=${{secrets.SHINYAPPS_SECRET}})
+        deployApp(appName = 'tte-tutorial', appDir = 'vignettes/interactive_tte_tutorial')
+      shell: Rscript {0}
