@@ -22,9 +22,8 @@ knitr::opts_chunk$set(
 # Introduction
 
 ```{r libraries, include = TRUE}
-library(visR)
-library(survival)
 library(ggplot2)
+library(visR)
 ```
 
 
