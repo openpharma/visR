@@ -36,15 +36,14 @@ current focus on developing a stable API.
 
 <!-- badges: start -->
 
-
-| Badge                                                                                                                                                                                      | Description                                                                  |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------- |
-| [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)                                | Development stage                                                            |
-| [![Codecov test coverage](https://codecov.io/gh/openpharma/visR/branch/develop/graph/badge.svg)](https://codecov.io/gh/openpharma/visR?branch=main)                                        | Unit testing coverage - on `main`                                            |
-| [![R-CMD-check](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml/badge.svg?branch=main)](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml) | `main` branch                                                                |
-| [![pkgdown](https://github.com/openpharma/visR/actions/workflows/makedocs.yml/badge.svg)](https://github.com/openpharma/visR/actions/workflows/makedocs.yml)                               | Documentation building to [Github pages](https://openpharma.github.io/visR/) |
-| [![CRAN status](https://www.r-pkg.org/badges/version/visR)](https://CRAN.R-project.org/package=visR)                                                                                       | Latest CRAN release                                                          |
-| <a href=https://github.com/pharmaR/riskmetric><img src=https://img.shields.io/badge/riskmetric-0.47-green></img></a>                                                                       | `riskmetric` score                                                           |
+| Badge                                                                                                                                                        | Description                                                                  |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------- |
+| [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)  | Development stage                                                            |
+| [![Codecov test coverage](https://codecov.io/gh/openpharma/visR/branch/develop/graph/badge.svg)](https://codecov.io/gh/openpharma/visR?branch=main)          | Unit testing coverage - on `main`                                            |
+| [![R-CMD-check](https://github.com/openpharma/visR/workflows/R-CMD-check/badge.svg)](https://github.com/openpharma/visR/actions)                             | `main` branch                                                                |
+| [![pkgdown](https://github.com/openpharma/visR/actions/workflows/makedocs.yml/badge.svg)](https://github.com/openpharma/visR/actions/workflows/makedocs.yml) | Documentation building to [Github pages](https://openpharma.github.io/visR/) |
+| [![CRAN status](https://www.r-pkg.org/badges/version/visR)](https://CRAN.R-project.org/package=visR)                                                         | Latest CRAN release                                                          |
+| <a href=https://github.com/pharmaR/riskmetric><img src=https://img.shields.io/badge/riskmetric-0.46-green></img></a>                                         | `riskmetric` score                                                           |
 
 <!-- badges: end -->
 
