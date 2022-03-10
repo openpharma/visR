@@ -40,14 +40,16 @@ Imports:
     tidyr
 Suggests:
     covr,
+    knitr,
+    learnr,
+    rmarkdown,
+    rsconnect,
+    shiny,
+    gt (>= 0.1.0),
+    forcats,
+    testthat (>= 2.1.0),
     data.table,
     DT,
-    forcats,
-    gt (>= 0.1.0),
-    hexbin,
-    knitr,
-    rmarkdown,
-    testthat (>= 2.1.0),
     tibble,
     tidycmprsk (>= 0.1.1),
     vdiffr

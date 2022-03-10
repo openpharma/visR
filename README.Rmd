@@ -14,8 +14,8 @@ knitr::opts_chunk$set(
 )
 
 library(visR)
+library(riskmetric)
 
-#library(riskmetric)
 riskmetric_score <- "visR" %>%
   riskmetric::pkg_ref() %>%
   dplyr::as_tibble() %>%
