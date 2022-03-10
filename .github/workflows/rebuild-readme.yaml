@@ -1,6 +1,8 @@
 name: Render README
 
-on: [pull_request]
+on:
+  push:
+    branches: [main, master]
 
 jobs:
   render:
