@@ -2,7 +2,7 @@ name: Render README
 
 on:
   push:
-    branches: [main, master]
+    branches: [main, master, develop]
 
 jobs:
   render:
