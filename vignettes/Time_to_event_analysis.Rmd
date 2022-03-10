@@ -29,7 +29,7 @@ library(visR)
 
 ## Global Document Setup
 ```{r globalSetup}
-# Constants
+# Metadata Title
 DATASET <- paste0("NCCTG Lung Cancer Dataset (from survival package ", 
                   packageVersion("survival"), ")")
 

@@ -118,7 +118,7 @@ Object of class \code{ggplot}.
 }
 \description{
 S3 method for creating plots directly from objects using \code{ggplot2},
-similar to base::plot function.
+similar to the base R \code{plot()} function.
 }
 \examples{
 

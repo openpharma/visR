@@ -26,7 +26,7 @@ License: MIT + file LICENSE
 URL: https://github.com/openpharma/visR
 BugReports: https://github.com/openpharma/visR/issues
 Depends:
-    R (>= 3.0.0)
+    R (>= 3.5)
 Imports: 
     broom (>= 0.7.11),
     cowplot,

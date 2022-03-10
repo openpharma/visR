@@ -88,7 +88,7 @@ get_risktable.survfit <- function(
                           ,check.names = FALSE
                           ,stringsAsFactors = FALSE)
 
-
+    if (is.null(label)) label <- NA
     label <- c(label, rep(NA, length(statlist)-length(label)))
 
     have <- data.frame( cbind(label, statlist)
