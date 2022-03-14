@@ -1,2 +1,69 @@
-destination: docs
 url: https://openpharma.github.io/visR/
+
+template:
+  bootstrap: 5
+  bslib:
+    primary: "#a8c2ea"
+  bootswatch: simplex
+
+authors:
+  James Black:
+    href: "https://www.epijim.uk/"
+
+development:
+  mode: auto
+  version_label: default
+
+navbar:
+  bg: primary
+  structure:
+    left:  [reference, articles, news]
+    right: [search, github]
+
+reference:
+  - title: Visualizations
+  - contents:
+      - visR
+      - add_CI
+      - add_risktable
+      - add_CNSR
+      - add_highlight
+      - add_quantiles
+      - add_annotation
+      - apply_theme
+      - define_theme
+      - legendopts
+      - align_plots
+
+  - title: Survival Analysis
+  - contents:
+      - estimate_KM
+      - estimate_cuminc
+      - get_risktable
+      - get_pvalue
+      - get_quantile
+      - get_COX_HR
+
+  - title: Data Summary
+  - contents:
+      - tableone
+      - get_tableone
+      - get_summary
+
+  - title: Attrition Diagram
+  - contents:
+      - get_attrition
+      - apply_attrition
+
+  - title: Other Functions
+  - contents:
+      - render
+      - tidyme
+      - the_lhs
+      - starts_with("summarize_long")
+      - starts_with("summarize_short")
+
+  - title: Data
+  - contents:
+      - adtte
+      - brca_cohort
