@@ -2,6 +2,7 @@
 #'
 #' @docType package
 #' @name visR Global
+#' @keywords internal
 #'
 #' @description Set global variables
 NULL
