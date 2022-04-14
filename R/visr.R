@@ -312,6 +312,7 @@ visr.survfit <- function(
                                 labels = yscaleFUN,
                                 limits = c(min(y_ticks), max(y_ticks))) +
     ggplot2::ylab(y_label) +
+    ggplot2::labs(color = .construct_strata_label(x)) +
     ggplot2::theme(legend.position = legend_position) +
     ggplot2::theme(legend.key = ggplot2::element_blank()) +
     NULL
@@ -537,6 +538,7 @@ visr.tidycuminc <- function(x = NULL
   # Plotit -----------------------------------------------------
   yscaleFUN <- function(x) sprintf("%.2f", x)
 
+  browser()
   gg <-
     visr_tidy_tidycuminc(x) %>%
     ggplot2::ggplot(ggplot2::aes(x = time,
@@ -550,6 +552,7 @@ visr.tidycuminc <- function(x = NULL
                                 labels = yscaleFUN,
                                 limits = c(min(y_ticks), max(y_ticks))) +
     ggplot2::ylab(y_label) +
+    ggplot2::labs(color = " ") +
     ggplot2::theme(legend.position = legend_position) +
     ggplot2::theme(legend.key = ggplot2::element_blank()) +
     NULL

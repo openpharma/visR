@@ -35,7 +35,9 @@ Imports:
     gridExtra,
     gtable,
     kableExtra,
+    purrr,
     rlang,
+    stringr,
     survival,
     tidyr
 Suggests:

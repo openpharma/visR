@@ -2,7 +2,7 @@
 #'
 #' @description S3 method for extended tidying of selected model outputs. Note
 #'   that the visR method retains the original nomenclature of the objects,
-#'   and adds the one of broom::tidy to ensure compatibility with tidy workflows. 
+#'   and adds the one of broom::tidy to ensure compatibility with tidy workflows.
 #'   The default method relies on \code{broom::tidy} to return a tidied object
 #'
 #' @seealso \code{\link[broom]{tidy}}
@@ -22,8 +22,8 @@
 #' lm_tidied <- visR::tidyme(lm_object)
 #' lm_tidied
 #'
-#' @return Tibble containing all list elements of the S3 object as columns. 
-#'   The column 'strata' is a factor to ensure that the strata are sorted 
+#' @return Tibble containing all list elements of the S3 object as columns.
+#'   The column 'strata' is a factor to ensure that the strata are sorted
 #'   in agreement with the order in the `survfit` object
 #'
 #' @rdname tidyme
@@ -50,7 +50,7 @@ tidyme.default <- function(x, ...){
 
 tidyme.survfit <- function(x, ...) {
   if (inherits(x, "survfit")) {
-    
+
     ## keep source
     survfit_object <- x
 
@@ -70,7 +70,7 @@ tidyme.survfit <- function(x, ...) {
     }
 
     ## Cleanit: strata will always be filled out based off the estimation function from which it is called
-    retme <- dplyr::bind_rows(base::lapply(x[names(x) %in% c("n", "strata", "call", "na.action") == FALSE], cleaner)) %>%
+    retme <- dplyr::bind_rows(base::lapply(x[names(x) %in% c("n", "strata", "call", "na.action", "estimate_KM_args") == FALSE], cleaner)) %>%
       dplyr::mutate( time = time
              ,n.risk = as.integer(n.risk)
              ,n.event = as.integer(n.event)
@@ -87,8 +87,15 @@ tidyme.survfit <- function(x, ...) {
       retme[["n.strata"]] <- rep(x[["n"]], x[["strata"]])
     }
   }
-  
+
   attr(retme, "survfit_object") <- survfit_object
+  # modify strata label, removing ref to raw variable name
+  if (!is.null(purrr::pluck(survfit_object, "estimate_KM_args", "strata"))) {
+    for (stratum in purrr::pluck(survfit_object, "estimate_KM_args", "strata")) {
+      retme[["strata"]] <- stringr::str_remove(retme[["strata"]], stringr::fixed(paste0(stratum, "=")))
+    }
+  }
+
   retme[["strata"]] <- factor(retme[["strata"]], levels = unique(retme[["strata"]]))
 
   return(as.data.frame(retme))

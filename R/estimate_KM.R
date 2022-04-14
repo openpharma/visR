@@ -72,13 +72,14 @@ estimate_KM <- function(
 ){
 
 # Capture input to validate user input for data argument -----------------
+  dots <- rlang::dots_list(...)
+  estimate_KM_args <- as.list(environment())
 
  ## Get actual data name as symbol
  ### Magrittre pipe returns "." which inactivates recalls to survfit in downstream functions
  ### map passes .x as Call$data
  ### df: catch expressions that represent base R subsets
   Call <- as.list(match.call())
-  dots <- list(...)
   dfExpr <- Call[["data"]]
 
  ## Validate `data` and capture data name
@@ -133,7 +134,7 @@ estimate_KM <- function(
 # Calculate survival and add time = 0 to survfit object -------------------
 
  ## Reverse censoring: see ADaM guidelines versus R survival KM analysis
-  
+
   formula <- stats::as.formula(paste0("survival::Surv(", AVAL, ", 1-", CNSR, ") ~ ", main))
 
   survfit_object <- survival::survfit(
@@ -146,8 +147,9 @@ estimate_KM <- function(
 
 
 # Update Call with original info and dots, similar as update.default ------
-  
-  survfit_object$call[[1]] <- quote(survival::survfit)
+
+  survfit_object[["estimate_KM_args"]] <- estimate_KM_args
+    survfit_object$call[[1]] <- quote(survival::survfit)
   survfit_object$call[["formula"]] <- formula
   survfit_object$call[["data"]] <- Call[["data"]]
   if (length(dots) > 0){
@@ -187,4 +189,12 @@ estimate_KM <- function(
 # Return ------------------------------------------------------------------
 
   return(survfit_object)
+}
+
+.construct_strata_label <- function(x, sep = ", ") {
+  if (is.null(x$estimate_KM_args$strata)) return(" ")
+  purrr::pluck(x, "estimate_KM_args", "data") %>%
+    dplyr::select(dplyr::all_of(x$estimate_KM_args$strata)) %>%
+    purrr::imap_chr(~attr(.x, "label") %||% .y) %>%
+    paste(collapse = sep)
 }

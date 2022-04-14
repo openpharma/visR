@@ -193,10 +193,12 @@ testthat::test_that("T4.1 The function removes all rows with NA values inside an
 
   ## Keep NA
   survobj <- visR::estimate_KM(data = data, strata = "SEX")
+  survobj$estimate_KM_args$data <- NULL
 
   ## Drop NA
   data <- tidyr::drop_na(data, AVAL, CNSR, SEX)
   survobjNA   <- visR::estimate_KM(data = data, strata = "SEX")
+  survobjNA$estimate_KM_args$data <- NULL
 
   testthat::expect_equal(survobjNA, survobj)
 
@@ -209,7 +211,7 @@ testthat::context("estimate_KM - T5. The function does not alter the calculation
 testthat::test_that("T5.1 The function gives the same results as survival::survfit", {
 
   ## survival package
-  survobj_survival <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX, 
+  survobj_survival <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX,
                                         data = adtte)
   survobj_survival <- survival::survfit0(survobj_survival, start.time = 0)
 
@@ -229,7 +231,7 @@ testthat::test_that("T5.1 The function gives the same results as survival::survf
 testthat::test_that("T5.2 The function adds timepoint = 0",{
 
   ## survival package
-  survobj_survival <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX, 
+  survobj_survival <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX,
                                         data = adtte)
   survobj_survival <- survival::survfit0(survobj_survival, start.time = 0)
 
@@ -250,16 +252,16 @@ testthat::test_that("T5.2 The function adds timepoint = 0",{
 testthat::test_that("T5.3 The function allows additional arguments to be passed, specific for survival::survfit", {
 
   ## survival package
-  survobj_survival <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX, 
-                                        data = adtte, 
-                                        ctype = 2, 
+  survobj_survival <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX,
+                                        data = adtte,
+                                        ctype = 2,
                                         conf.type = "plain")
   survobj_survival <- survival::survfit0(survobj_survival, start.time = 0)
 
   ## visR
-  survobj_visR <- visR::estimate_KM(data = adtte, 
-                                    strata = "SEX", 
-                                    ctype = 2, 
+  survobj_visR <- visR::estimate_KM(data = adtte,
+                                    strata = "SEX",
+                                    ctype = 2,
                                     conf.type = "plain")
 
   ## Compare common elements
@@ -275,9 +277,9 @@ testthat::test_that("T5.3 The function allows additional arguments to be passed,
 testthat::test_that("T5.4 The function returns an object of class `survfit`", {
 
   ## visR
-  survobj_visR <- visR::estimate_KM(data = adtte, 
-                                    strata = "SEX", 
-                                    ctype = 2, 
+  survobj_visR <- visR::estimate_KM(data = adtte,
+                                    strata = "SEX",
+                                    ctype = 2,
                                     conf.type = "plain")
 
   testthat::expect_true(inherits(survobj_visR, "survfit"))
@@ -291,7 +293,7 @@ testthat::context("estimate_KM - T6. The function adds additional information to
 testthat::test_that("T6.1 The calculation is not affected by the addition of additional parameters", {
 
   ## survival package
-  survobj_survival <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX, 
+  survobj_survival <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX,
                                         data = adtte)
   survobj_survival <- survival::survfit0(survobj_survival, start.time = 0)
 
@@ -314,12 +316,13 @@ testthat::test_that("T6.1 The calculation is not affected by the addition of add
 testthat::test_that("T6.2 The function add PARAM/PARAMCD when available", {
 
   ## survival package
-  survobj_survival <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX, 
+  survobj_survival <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX,
                                         data = adtte)
   survobj_survival <- survival::survfit0(survobj_survival, start.time = 0)
 
   ## visR
   survobj_visR <- visR::estimate_KM(data = adtte, strata = "SEX")
+  survobj_visR$estimate_KM_args <- NULL
 
   ## Compare common elements
   Unique_Nms_visR <- base::setdiff(names(survobj_visR), names(survobj_survival))
