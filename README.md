@@ -118,7 +118,7 @@ covr::package_coverage(
   quiet = FALSE
 )
 #> visR Coverage: 99.88%
-#> R/visr.R: 99.12%
+#> R/visr.R: 99.15%
 #> R/add_annotation.R: 100.00%
 #> R/add_CI.R: 100.00%
 #> R/add_CNSR.R: 100.00%
