@@ -30,16 +30,16 @@ Depends:
 Imports: 
     broom (>= 0.7.11),
     cowplot,
-    dplyr,
+    dplyr (>= 1.0.0),
     ggplot2,
     gridExtra,
     gtable,
     kableExtra,
     purrr,
-    rlang,
+    rlang (>= 1.0.0),
     stringr,
     survival,
-    tidyr
+    tidyr (>= 1.0.0)
 Suggests:
     covr,
     knitr,
