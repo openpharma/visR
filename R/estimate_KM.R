@@ -190,11 +190,3 @@ estimate_KM <- function(
 
   return(survfit_object)
 }
-
-.construct_strata_label <- function(x, sep = ", ") {
-  if (is.null(x$estimate_KM_args$strata)) return(" ")
-  purrr::pluck(x, "estimate_KM_args", "data") %>%
-    dplyr::select(dplyr::all_of(x$estimate_KM_args$strata)) %>%
-    purrr::imap_chr(~attr(.x, "label") %||% .y) %>%
-    paste(collapse = sep)
-}
