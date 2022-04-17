@@ -11,6 +11,7 @@
 #'      \item{The cumulative hazard is estimated using the Nelson-Aalen estimator (ctype = 1): H.tilde = cumsum(x$n.event/x$n.risk).
 #'      The MLE (H.hat(t) = -log(S.hat(t))) can't be requested.}
 #'      \item{A two-sided pointwise 0.95 confidence interval is estimated using a log transformation (conf.type = "log").}
+#'      \item{A named list of strata (and their lables), if present}
 #'    }
 #'
 #' @seealso \code{\link[survival]{survfit.formula} \link[survival]{survfitCI}}
