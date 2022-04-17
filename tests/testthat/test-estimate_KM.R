@@ -22,6 +22,7 @@
 #' T3.3 When no strata are specified, an artificial strata is created 'Overall'
 #' T3.4 When only 1 stratum is specified, the stratum names are added to the `names` attribute'
 #' T3.5 When more than 1 strata is specified, the stratum names are available in the `names` attribute
+#' T3.6 The strata label is constructed correctly
 #' T4. The function removes all rows with NA values inside any of the strata, CNSR or AVAL
 #' T4.1 The function removes all rows with NA values inside any of the strata, CNSR or AVAL
 #' T5. The function does not alter the calculation of survival::survfit
@@ -177,6 +178,15 @@ testthat::test_that("T3.5 When more than 1 strata is specified, the stratum name
   survobj <- visR::estimate_KM(data = data, strata = "SEX")
 
   testthat::expect_equal(names(survobj[["strata"]]), c("SEX=F", "SEX=M"))
+
+})
+
+testthat::test_that("T3.6 The strata label is constructed correctly", {
+
+  data <- adtte
+  survobj <- visR::estimate_KM(data = data, strata = "SEX")
+
+  testthat::expect_equal(survobj$strata_lbls, list(SEX = "Sex"))
 
 })
 
