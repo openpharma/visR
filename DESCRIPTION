@@ -28,7 +28,8 @@ Authors@R: c(
            role = "aut",
            email = "pawel.kawski@contractors.roche.com"),
     person(given = "Steven",
-           family = "Haesendonckx", role = "aut"
+           family = "Haesendonckx",
+           role = "aut",
            email = "shaesen2@its.jnj.com"),
     person(given = "James",
            family = "Black",
