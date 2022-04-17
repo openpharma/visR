@@ -43,7 +43,7 @@ current focus on developing a stable API.
 | [![R-CMD-check](https://github.com/openpharma/visR/workflows/R-CMD-check/badge.svg)](https://github.com/openpharma/visR/actions)                             | `main` branch                                                                |
 | [![pkgdown](https://github.com/openpharma/visR/actions/workflows/makedocs.yml/badge.svg)](https://github.com/openpharma/visR/actions/workflows/makedocs.yml) | Documentation building to [Github pages](https://openpharma.github.io/visR/) |
 | [![CRAN status](https://www.r-pkg.org/badges/version/visR)](https://CRAN.R-project.org/package=visR)                                                         | Latest CRAN release                                                          |
-| <a href=https://github.com/pharmaR/riskmetric><img src=https://img.shields.io/badge/riskmetric-0.5-green></img></a>                                          | `riskmetric` score                                                           |
+| <a href=https://github.com/pharmaR/riskmetric><img src=https://img.shields.io/badge/riskmetric-0.46-green></img></a>                                         | `riskmetric` score                                                           |
 
 <!-- badges: end -->
 
@@ -117,8 +117,8 @@ covr::package_coverage(
   code = "tools::testInstalledPackage(pkg = 'visR', types = c('tests'))", 
   quiet = FALSE
 )
-#> visR Coverage: 99.88%
-#> R/visr.R: 99.15%
+#> visR Coverage: 99.89%
+#> R/visr.R: 99.27%
 #> R/add_annotation.R: 100.00%
 #> R/add_CI.R: 100.00%
 #> R/add_CNSR.R: 100.00%
