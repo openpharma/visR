@@ -14,7 +14,7 @@ Authors@R: c(
     person(given = "Charlotta",
            family = "Fruechtenicht",
            role = "aut",
-           email = "charlotta.fruechtenicht@roche.com",),
+           email = "charlotta.fruechtenicht@roche.com"),
     person(given = "Marc",
            family = "Vandemeulebroecke",
            role = "aut",
@@ -46,7 +46,7 @@ Authors@R: c(
     person(given = "Rebecca",
            family = "Albrecht",
            role = "aut", 
-           email = "rebecca.albrecht.dietsch@gmail.com")
+           email = "rebecca.albrecht.dietsch@gmail.com"),
     person(given = "Daniel D.",
            family = "Sjoberg",
            role = "aut",
