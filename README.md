@@ -103,44 +103,4 @@ Please note that the `visR` project is released with a [Contributor Code
 of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you
 agree to abide by its terms.
 
-<img src="man/figures/README-plotcontriuptake-1.png" width="100%" />
-
-<img src="man/figures/README-plotcontributions-1.png" width="100%" />
-
-## Code coverage
-
-Last time readme built.
-
-``` r
-covr::package_coverage(
-  type = "none", 
-  code = "tools::testInstalledPackage(pkg = 'visR', types = c('tests'))", 
-  quiet = FALSE
-)
-#> visR Coverage: 99.88%
-#> R/visr.R: 99.12%
-#> R/add_annotation.R: 100.00%
-#> R/add_CI.R: 100.00%
-#> R/add_CNSR.R: 100.00%
-#> R/add_highlight.R: 100.00%
-#> R/add_quantiles.R: 100.00%
-#> R/add_risktable.R: 100.00%
-#> R/apply_attrition.R: 100.00%
-#> R/apply_theme.R: 100.00%
-#> R/estimate_cuminc.R: 100.00%
-#> R/estimate_KM.R: 100.00%
-#> R/get_attrition.R: 100.00%
-#> R/get_COX_HR.R: 100.00%
-#> R/get_pvalue.R: 100.00%
-#> R/get_quantile.R: 100.00%
-#> R/get_risktable.R: 100.00%
-#> R/get_summary.R: 100.00%
-#> R/get_tableone.R: 100.00%
-#> R/render.R: 100.00%
-#> R/tableone.R: 100.00%
-#> R/tidyme.R: 100.00%
-#> R/utils_general.R: 100.00%
-#> R/utils_pipe.R: 100.00%
-#> R/utils_table.R: 100.00%
-#> R/utils_visr.R: 100.00%
-```
+usethis::use_tidy_thanks()
