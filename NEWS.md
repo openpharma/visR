@@ -1,4 +1,16 @@
+# visR 0.3.0
+
+
+### Utility functions
+* AlignPlots has been renamed to align_plots
+
+### New functions
+* Highlight specific strata in survival plots using add_highlight
+* Indicate quantiles in survival plots using add_quantiles
+* Estimation and Plotting of cumulative competing risks via estimate_cuminc and visr()
+
 # visR 0.2.0
+
 
 # visR 0.1.1.9004
 
