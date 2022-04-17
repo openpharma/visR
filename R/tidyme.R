@@ -70,7 +70,7 @@ tidyme.survfit <- function(x, ...) {
     }
 
     ## Cleanit: strata will always be filled out based off the estimation function from which it is called
-    retme <- dplyr::bind_rows(base::lapply(x[names(x) %in% c("n", "strata", "call", "na.action", "estimate_KM_args") == FALSE], cleaner)) %>%
+    retme <- dplyr::bind_rows(base::lapply(x[names(x) %in% c("n", "strata", "call", "na.action", "strata_lbls") == FALSE], cleaner)) %>%
       dplyr::mutate( time = time
              ,n.risk = as.integer(n.risk)
              ,n.event = as.integer(n.event)
@@ -89,10 +89,15 @@ tidyme.survfit <- function(x, ...) {
   }
 
   attr(retme, "survfit_object") <- survfit_object
+  strata <- .extract_strata_varlist(survfit_object)
   # modify strata label, removing ref to raw variable name
-  if (!is.null(purrr::pluck(survfit_object, "estimate_KM_args", "strata"))) {
-    for (stratum in purrr::pluck(survfit_object, "estimate_KM_args", "strata")) {
-      retme[["strata"]] <- stringr::str_remove(retme[["strata"]], stringr::fixed(paste0(stratum, "=")))
+  if (!is.null(strata)) {
+    for (stratum in strata) {
+      retme[["strata"]] <-
+        gsub(pattern = paste0(stratum, "="),
+             replacement = "",
+             x = retme[["strata"]],
+             fixed = TRUE)
     }
   }
 

@@ -74,8 +74,8 @@ testthat::test_that("T3.1 The S3 method, associated with a `survfit` object, ret
 testthat::test_that("T3.2 The S3 method, associated with a `survfit` object, has columns representing all list elements of the S3 object",{
 
   survfit_object <- visR::estimate_KM(data = adtte, strata = "TRTA")
-  survfit_object$estimate_KM_args <- NULL
   survfit_object_tidy <- tidyme(survfit_object)
+  survfit_object$strata_lbls <- NULL
 
   surv_object_df <- base::with(survfit_object,
                                data.frame(time = as.integer(time),
@@ -113,8 +113,10 @@ testthat::test_that("T3.2 The S3 method, associated with a `survfit` object, has
   surv_object_df[["conf.low"]] <- surv_object_df[["lower"]]
   surv_object_df[["conf.high"]] <- surv_object_df[["upper"]]
 
-  surv_object_df["strata"] <- rep(names(survfit_object[["strata"]]),
-                                  survfit_object[["strata"]])
+  surv_object_df["strata"] <-
+    rep(names(survfit_object[["strata"]]),
+        survfit_object[["strata"]]) %>%
+    {gsub(pattern = "TRTA=", replacement = "", x = ., fixed = TRUE)}
 
   surv_object_df["strata"] <- factor(surv_object_df[["strata"]], levels = unique(surv_object_df[["strata"]]))
 

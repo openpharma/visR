@@ -193,12 +193,10 @@ testthat::test_that("T4.1 The function removes all rows with NA values inside an
 
   ## Keep NA
   survobj <- visR::estimate_KM(data = data, strata = "SEX")
-  survobj$estimate_KM_args$data <- NULL
 
   ## Drop NA
   data <- tidyr::drop_na(data, AVAL, CNSR, SEX)
   survobjNA   <- visR::estimate_KM(data = data, strata = "SEX")
-  survobjNA$estimate_KM_args$data <- NULL
 
   testthat::expect_equal(survobjNA, survobj)
 
@@ -322,7 +320,7 @@ testthat::test_that("T6.2 The function add PARAM/PARAMCD when available", {
 
   ## visR
   survobj_visR <- visR::estimate_KM(data = adtte, strata = "SEX")
-  survobj_visR$estimate_KM_args <- NULL
+  survobj_visR$strata_lbls <- NULL
 
   ## Compare common elements
   Unique_Nms_visR <- base::setdiff(names(survobj_visR), names(survobj_survival))

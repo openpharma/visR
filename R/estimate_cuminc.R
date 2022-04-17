@@ -52,8 +52,7 @@ estimate_cuminc <- function(data
       ...
     )
 
-  cuminc %>%
-    purrr::list_modify(estimate_cuminc_args = estimate_cuminc_args)
+  cuminc
 }
 
 # this function runs `tidy()` and puts it in the visR format

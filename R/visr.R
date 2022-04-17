@@ -312,7 +312,7 @@ visr.survfit <- function(
                                 labels = yscaleFUN,
                                 limits = c(min(y_ticks), max(y_ticks))) +
     ggplot2::ylab(y_label) +
-    ggplot2::labs(color = .construct_strata_label(x[["estimate_KM_args"]])) +
+    ggplot2::labs(color = .construct_strata_label(x)) +
     ggplot2::theme(legend.position = legend_position) +
     ggplot2::theme(legend.key = ggplot2::element_blank()) +
     NULL
@@ -551,7 +551,7 @@ visr.tidycuminc <- function(x = NULL
                                 labels = yscaleFUN,
                                 limits = c(min(y_ticks), max(y_ticks))) +
     ggplot2::ylab(y_label) +
-    ggplot2::labs(color = .construct_strata_label(x[["estimate_cuminc_args"]])) +
+    ggplot2::labs(color = .construct_strata_label(x)) +
     ggplot2::theme(legend.position = legend_position) +
     ggplot2::theme(legend.key = ggplot2::element_blank()) +
     NULL
@@ -563,10 +563,65 @@ visr.tidycuminc <- function(x = NULL
 }
 
 
-.construct_strata_label <- function(estimate_args, sep = ", ") {
-  if (is.null(estimate_args[["strata"]])) return(" ")
-  purrr::pluck(estimate_args, "data") %>%
-    dplyr::select(dplyr::all_of(estimate_args[["strata"]])) %>%
-    purrr::imap_chr(~attr(.x, "label") %||% .y) %>%
-    paste(collapse = sep)
+.construct_strata_label <- function(x, sep = ", ") {
+  tryCatch({
+    if (inherits(x, "survfit") && is.null(x$strata_lbl)) {
+      strata_label <- " "
+    }
+    else if (inherits(x, "survfit")) {
+      strata_label <- unlist(x$strata_lbl) %>% paste(collapse = ", ")
+    }
+    if (inherits(x, "tidycuminc")) {
+      data<- x$data
+    }
+
+
+
+    # get the original data frame
+    if (inherits(x, "survfit")) {
+      data <- as.list(x$call)[["data"]] %>% eval()
+    }
+    else if (inherits(x, "tidycuminc")) {
+      data<- x$data
+    }
+
+    # get strata vars and return strata label
+    strata <- .extract_strata_varlist(x)
+    if (is.null(strata)) {
+      strata_label <-  " "
+    }
+    else {
+      strata_label <-
+        lapply(
+          as.list(strata),
+          function(x) attr(data[[x]], "label") %||% x
+        ) %>%
+        unlist() %>%
+        paste(collapse = ", ")
+    }
+    strata_label
+  },
+  error = function(e) return(" ")
+  )
+}
+
+.extract_strata_varlist <- function(x) {
+  if (inherits(x, "survfit")) {
+    return(names(x$strata_lbls))
+  }
+  if (inherits(x, "tidycuminc")) {
+    return(.formula_to_strata_varlist(x$formula, x$data))
+  }
+}
+
+.formula_to_strata_varlist <- function(formula, data) {
+  tryCatch({
+    strata <- stats::model.frame(formula, data = data)[, -1, drop = FALSE] %>% names()
+    if (rlang::is_empty(strata)) {
+      strata <- NULL
+    }
+    strata
+  },
+  error = function(e) return(NULL)
+  )
 }

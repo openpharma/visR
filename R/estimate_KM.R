@@ -73,7 +73,6 @@ estimate_KM <- function(
 
 # Capture input to validate user input for data argument -----------------
   dots <- rlang::dots_list(...)
-  estimate_KM_args <- as.list(environment())
 
  ## Get actual data name as symbol
  ### Magrittre pipe returns "." which inactivates recalls to survfit in downstream functions
@@ -148,8 +147,7 @@ estimate_KM <- function(
 
 # Update Call with original info and dots, similar as update.default ------
 
-  survfit_object[["estimate_KM_args"]] <- estimate_KM_args
-    survfit_object$call[[1]] <- quote(survival::survfit)
+  survfit_object$call[[1]] <- quote(survival::survfit)
   survfit_object$call[["formula"]] <- formula
   survfit_object$call[["data"]] <- Call[["data"]]
   if (length(dots) > 0){
@@ -185,6 +183,15 @@ estimate_KM <- function(
       attr(survfit_object[["strata"]], "names") <- as.character(paste0(strata, "=", data[1, main]))
     }
   }
+
+  # add strata labels ----------------------------------------------------------
+  if (!is.null(strata)) {
+    survfit_object[["strata_lbls"]] <-
+      lapply(as.list(strata), function(x) attr(data[[x]], "label") %||% x) %>%
+      rlang::set_names(strata)
+  }
+
+
 
 # Return ------------------------------------------------------------------
 
