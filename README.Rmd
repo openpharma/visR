@@ -16,7 +16,6 @@ knitr::opts_chunk$set(
 library(visR)
 library(riskmetric)
 library(usethis)
-library(glue)
 
 riskmetric_score <- "visR" %>%
   riskmetric::pkg_ref() %>%
@@ -109,7 +108,7 @@ adtte %>%
 ## Cite visR
 
 ```{text, comment="", eval = FALSE}
-citation("visR")
+> citation("visR")
 ```
 
 ## Contributing
@@ -117,7 +116,7 @@ citation("visR")
 Please note that the `visR` project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
 Thank you to all contributors:
 
-```{r}
+```{r warning=FALSE, echo=FALSE, message=FALSE}
 contr <- usethis::use_tidy_thanks("https://github.com/openpharma/visR")
-paste((paste0("[&#x0040",contr,"](https://github.com/", contr, ")")), collapse = ", ")
 ```
+`r paste((paste0("[&#x0040",contr,"](https://github.com/", contr, ")")), collapse = ", ")`
