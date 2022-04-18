@@ -119,4 +119,4 @@ Thank you to all contributors:
 ```{r warning=FALSE, echo=FALSE, message=FALSE}
 contr <- usethis::use_tidy_thanks("https://github.com/openpharma/visR")
 ```
-`r paste((paste0("[&#x0040",contr,"](https://github.com/", contr, ")")), collapse = ", ")`
+`r unique(c(paste((paste0("[&#x0040;",contr,"](https://github.com/", contr, ")")), collapse = ", "), "[&#x0040;cschaerfe ](https://github.com/cschaerfe)", "[&#x0040;AlexandraP-21 ](https://github.com/AlexandraP-21)"))`

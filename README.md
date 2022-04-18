@@ -1,6 +1,5 @@
 
 <!-- README.md is generated from README.Rmd as part of the CICD process. -->
-
 <!-- Please edit README.Rmd - but you do not need to build it! -->
 
 # visR <img src='man/figures/logo.png' align="right" height="131.5" />
@@ -18,9 +17,9 @@ By using a common package for visualising data analysis results in the
 clinical development process, we want to have a **positive influence**
 on
 
-  - **choice of visualisation** by making it easy explore different
+-   **choice of visualisation** by making it easy explore different
     visualisation and to use impactful visualisations fit-for-purpose
-  - effective visual communication by making it easy to **implement best
+-   effective visual communication by making it easy to **implement best
     practices**
 
 We are not judging on what visualisation you chose for your research
@@ -37,7 +36,7 @@ current focus on developing a stable API.
 <!-- badges: start -->
 
 | Badge                                                                                                                                                        | Description                                                                  |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------- |
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------|
 | [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)  | Development stage                                                            |
 | [![Codecov test coverage](https://codecov.io/gh/openpharma/visR/branch/develop/graph/badge.svg)](https://codecov.io/gh/openpharma/visR?branch=main)          | Unit testing coverage - on `main`                                            |
 | [![R-CMD-check](https://github.com/openpharma/visR/workflows/R-CMD-check/badge.svg)](https://github.com/openpharma/visR/actions)                             | `main` branch                                                                |
@@ -95,7 +94,7 @@ adtte %>%
   )
 ```
 
-<img src="man/figures/README-example-1.png" width="100%" />
+<img src="man/figures/README-example-1.svg" width="100%" />
 
 ## Cite visR
 
@@ -109,12 +108,14 @@ Please note that the `visR` project is released with a [Contributor Code
 of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you
 agree to abide by its terms. Thank you to all contributors:
 
-[&\#x0040bailliem](https://github.com/bailliem),
-[&\#x0040ddsjoberg](https://github.com/ddsjoberg),
-[&\#x0040epijim](https://github.com/epijim),
-[&\#x0040gdario](https://github.com/gdario),
-[&\#x0040lcomm](https://github.com/lcomm),
-[&\#x0040prabhushanmup](https://github.com/prabhushanmup),
-[&\#x0040rebecca-albrecht](https://github.com/rebecca-albrecht),
-[&\#x0040SHAESEN2](https://github.com/SHAESEN2),
-[&\#x0040timtreis](https://github.com/timtreis)
+[@bailliem](https://github.com/bailliem),
+[@ddsjoberg](https://github.com/ddsjoberg),
+[@epijim](https://github.com/epijim),
+[@gdario](https://github.com/gdario),
+[@lcomm](https://github.com/lcomm),
+[@prabhushanmup](https://github.com/prabhushanmup),
+[@rebecca-albrecht](https://github.com/rebecca-albrecht),
+[@SHAESEN2](https://github.com/SHAESEN2),
+[@timtreis](https://github.com/timtreis),
+[@cschaerfe](https://github.com/cschaerfe),
+[@AlexandraP-21](https://github.com/AlexandraP-21)
