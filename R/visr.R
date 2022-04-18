@@ -566,42 +566,25 @@ visr.tidycuminc <- function(x = NULL
 .construct_strata_label <- function(x, sep = ", ") {
   tryCatch({
     if (inherits(x, "survfit") && is.null(x$strata_lbl)) {
-      strata_label <- " "
+      strata_label <- ""
     }
     else if (inherits(x, "survfit")) {
       strata_label <- unlist(x$strata_lbl) %>% paste(collapse = ", ")
     }
-    if (inherits(x, "tidycuminc")) {
-      data<- x$data
-    }
-
-
-
-    # get the original data frame
-    if (inherits(x, "survfit")) {
-      data <- as.list(x$call)[["data"]] %>% eval()
-    }
     else if (inherits(x, "tidycuminc")) {
-      data<- x$data
-    }
-
-    # get strata vars and return strata label
-    strata <- .extract_strata_varlist(x)
-    if (is.null(strata)) {
-      strata_label <-  " "
-    }
-    else {
+      strata <- .extract_strata_varlist(x)
       strata_label <-
         lapply(
           as.list(strata),
-          function(x) attr(data[[x]], "label") %||% x
+          function(variable) attr(x$data[[variable]], "label") %||% x
         ) %>%
         unlist() %>%
         paste(collapse = ", ")
     }
+
     strata_label
   },
-  error = function(e) return(" ")
+  error = function(e) return("")
   )
 }
 

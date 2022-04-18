@@ -6,6 +6,8 @@
 #' T1. The function wraps `tidycmprsk::cuminc()` appropriately
 #' T1.1 No errors `estimate_cuminc()`
 #' T1.2 No errors `estimate_cuminc()` sister functions
+#' T2. The legend follows the model strata labels
+#' T2.2 The color legend title is accurate.
 
 # Requirement T1 ----------------------------------------------------------
 
@@ -92,6 +94,51 @@ testthat::test_that("T1.2 No errors `estimate_cuminc()` sister functions", {
                     label = c("No. at Risk", "No. Events"),
                     collapse = TRUE),
     NA
+  )
+})
+
+# Requirement T2 ----------------------------------------------------------
+
+testthat::test_that("T2.1 The color legend title is accurate.", {
+  cuminc_plot <-
+    tidycmprsk::trial %>%
+    visR::estimate_cuminc(
+      CNSR = "death_cr",
+      AVAL = "ttdeath",
+      strata = "grade"
+    ) %>%
+    visR::visr()
+
+  testthat::expect_equal(
+    cuminc_plot$labels$colour,
+    "Grade"
+  )
+
+  cuminc_plot <-
+    tidycmprsk::trial %>%
+    visR::estimate_cuminc(
+      CNSR = "death_cr",
+      AVAL = "ttdeath",
+      strata = c("grade", "stage")
+    ) %>%
+    visR::visr()
+
+  testthat::expect_equal(
+    cuminc_plot$labels$colour,
+    "Grade, T Stage"
+  )
+
+  cuminc_plot <-
+    tidycmprsk::trial %>%
+    visR::estimate_cuminc(
+      CNSR = "death_cr",
+      AVAL = "ttdeath"
+    ) %>%
+    visR::visr()
+
+  testthat::expect_equal(
+    cuminc_plot$labels$colour,
+    ""
   )
 })
 

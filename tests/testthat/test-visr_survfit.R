@@ -43,6 +43,7 @@
 #' T3.7 The `fun` argument is stored in the final object as attribute `fun`.
 #' T4. The legend follows the model strata labels
 #' T4.1 The legend follows the model strata labels
+#' T4.2 The color legend title is accurate.
 #' T5. The final object is a ggplot of class `ggsurvfit`.
 #' T5.1 The final object is a ggplot of class `ggplot`.
 #' T5.2 The final object is a ggplot of class `ggsurvfit`.
@@ -527,6 +528,38 @@ testthat::test_that("T4.1 The legend follows the model strata labels.", {
 
   testthat::expect_equal(paste0(levels(dt$TRTA)), labs)
 
+})
+
+testthat::test_that("T4.2 The color legend title is accurate.", {
+  survfit_plot <-
+    adtte %>%
+    visR::estimate_KM(strata = "TRTA") %>%
+    visR::visr()
+
+  testthat::expect_equal(
+    survfit_plot$labels$colour,
+    "Actual Treatment"
+  )
+
+  survfit_plot <-
+    adtte %>%
+    visR::estimate_KM(strata = c("TRTA", "SEX")) %>%
+    visR::visr()
+
+  testthat::expect_equal(
+    survfit_plot$labels$colour,
+    "Actual Treatment, Sex"
+  )
+
+  survfit_plot <-
+    adtte %>%
+    visR::estimate_KM() %>%
+    visR::visr()
+
+  testthat::expect_equal(
+    survfit_plot$labels$colour,
+    ""
+  )
 })
 
 # Requirement T5 ---------------------------------------------------------------
