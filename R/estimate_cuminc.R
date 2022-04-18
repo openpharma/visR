@@ -39,7 +39,6 @@ estimate_cuminc <- function(data
   # check for installation of tidycmprsk package
   rlang::check_installed("tidycmprsk", version = "0.1.1")
   dots <- rlang::dots_list(...)
-  estimate_cuminc_args <- as.list(environment())
 
   # checking/prepping inputs ---------------------------------------------------
   strata <- strata %||% "1" %>% paste(collapse = " + ")
