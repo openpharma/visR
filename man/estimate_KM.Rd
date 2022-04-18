@@ -29,13 +29,13 @@ The function expects that the data has been filtered on the parameter (PARAM/PAR
 argument are removed.
 Alternatively, PARAM/PARAMCD can be used in the \code{strata} argument. \cr
 The result is an object of class \code{survfit} which can be used in downstream functions and methods that rely on the \code{survfit} class.
+When stratum are present, the returned survfit object is supplemented with the a named list of the stratum and associated label, if present.
 By default:
 \itemize{
 \item{The Kaplan Meier estimate is estimated directly (stype = 1).}
 \item{The cumulative hazard is estimated using the Nelson-Aalen estimator (ctype = 1): H.tilde = cumsum(x$n.event/x$n.risk).
 The MLE (H.hat(t) = -log(S.hat(t))) can't be requested.}
 \item{A two-sided pointwise 0.95 confidence interval is estimated using a log transformation (conf.type = "log").}
-\item{A named list of strata (and their lables), if present}
 }
 }
 \examples{
