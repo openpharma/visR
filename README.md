@@ -117,8 +117,8 @@ covr::package_coverage(
   code = "tools::testInstalledPackage(pkg = 'visR', types = c('tests'))", 
   quiet = FALSE
 )
-#> visR Coverage: 99.89%
-#> R/visr.R: 99.27%
+#> visR Coverage: 99.88%
+#> R/visr.R: 99.24%
 #> R/add_annotation.R: 100.00%
 #> R/add_CI.R: 100.00%
 #> R/add_CNSR.R: 100.00%
