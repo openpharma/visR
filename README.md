@@ -45,7 +45,6 @@ coverage](https://codecov.io/gh/openpharma/visR/branch/develop/graph/badge.svg)]
 [![CRAN
 status](https://www.r-pkg.org/badges/version/visR)](https://CRAN.R-project.org/package=visR)
 <a href=https://github.com/pharmaR/riskmetric><img src=https://img.shields.io/badge/riskmetric-0.46-green></img></a>
-
 <!-- badges: end -->
 
 ## Installation
