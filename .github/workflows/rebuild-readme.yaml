@@ -1,18 +1,17 @@
-on:
-  push:
-    paths:
-      - 'README.Rmd'
-
 name: Render README
+
+on: [pull_request]
 
 jobs:
   render:
     name: Render README
     runs-on: macOS-latest
     env:
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+        with:
+              ref: ${{ github.ref }}
       - uses: r-lib/actions/setup-r@v1
       - uses: r-lib/actions/setup-pandoc@v1
       - name: Install rmarkdown, remotes, and the local package
@@ -23,12 +22,11 @@ jobs:
           remotes::install_cran("magrittr")
           remotes::install_cran("dplyr")
           remotes::install_cran("ggplot2")
-          remotes::install_cran("glue")
           remotes::install_cran("vdiffr")
           remotes::install_cran("data.table")
           remotes::install_cran("covr")
           remotes::install_github("lorenzwalthert/gitsum")
-          remotes::install_github("pharmaR/riskmetric")
+          remotes::install_github("pharmaR/riskmetric@v0.1.1")
           install.packages("ggthemes")
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
@@ -36,8 +34,11 @@ jobs:
         run: |
           Rscript -e 'rmarkdown::render("README.Rmd")'
       - name: Commit results
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
+          gh pr checkout ${{ github.event.pull_request.number }}
           git commit README.md -m 'Re-build README.Rmd' || echo "No changes to commit"
-          git push origin || echo "No changes to commit"
+          git push || echo "No changes to commit"

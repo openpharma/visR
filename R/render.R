@@ -1,17 +1,16 @@
-#' Render a dataframe or tibble
+#' Render a data.frame or tibble
 #'
-#' @description Render a previously created dataframe to html,
+#' @description Render a previously created data.frame to html,
 #' rtf or latex
 #'
-#' @param data The dataframe or tibble to visualise
+#' @param data The data.frame or tibble to visualize
 #' @param title Table title to include in the rendered table
-#' @param datasource String specifying the datasource underlying the data set
+#' @param datasource String specifying the data source underlying the data set
 #' @param footnote String specifying additional information to be displayed in the table note alongside the data source and specifications of statistical tests.
-#' @param output_format If TRUE, the summary statistics for the overall dataset
-#' are also calculated
+#' @param output_format Type of output that is returned, can be html or latex
 #' @param engine If html is selected as output format, one can chose between
 #' using kable, gt and DT as engine to create the output table
-#' @param download_format How can users download it
+#' @param download_format Options generated for downloading the data
 #' @return A table-like data structure, possibly interactive depending on the choice of the engine
 #' @rdname render
 #' 
@@ -97,7 +96,7 @@ render.tableone <- function(
     
   }
   
-  if(!("risktable" %in% class(data))){
+  if (!("risktable" %in% class(data))){
     
     sample <- data[data$variable == "Sample", ]
     sample <- sample[3:length(sample)]
@@ -120,12 +119,11 @@ render.tableone <- function(
                     download_format)
 }
 
-#' @param data The dataframe or tibble to visualise
+#' @param data The data.frame or tibble to visualize
 #' @param title Table title to include in the rendered table
-#' @param datasource String specifying the datasource underlying the data set
+#' @param datasource String specifying the data source underlying the data set
 #' @param footnote String specifying additional information to be displayed in the table note alongside the data source and specifications of statistical tests.
-#' @param output_format If TRUE, the summary statistics for the overall dataset
-#' are also calculated
+#' @param output_format Type of output that is returned, can be html or latex
 #' @param engine If html is selected as output format, one can chose between
 #' using kable, gt and DT as engine to create the output table
 #' @param download_format How can users download it
@@ -206,12 +204,11 @@ render.risktable <- function(
 }
 
 
-#' @param data The dataframe or tibble to visualise
+#' @param data The data.frame or tibble to visualize
 #' @param title Table title to include in the rendered table
-#' @param datasource String specifying the datasource underlying the data set
+#' @param datasource String specifying the data source underlying the data set
 #' @param footnote String specifying additional information to be displayed in the table note alongside the data source and specifications of statistical tests.
-#' @param output_format If TRUE, the summary statistics for the overall dataset
-#' are also calculated
+#' @param output_format Type of output that is returned, can be html or latex
 #' @param engine If html is selected as output format, one can chose between
 #' using kable, gt and DT as engine to create the output table
 #' @param download_format How can users download it
@@ -234,7 +231,6 @@ render.data.frame <- function(
   
   check_rendering_input(output_format, engine)
 
-  #--------------------
   # Kable output
   if(tolower(engine) == "kable"){
     if(tolower(output_format) %in% c("html", "latex")){
@@ -265,7 +261,8 @@ render.data.frame <- function(
 
   #--------------------
   # GT output
-  else if(tolower(engine) == "gt"){
+  else if (tolower(engine) == "gt") {
+    
     if (!tolower(output_format) %in% c("html", "latex")) {
       
       # Currently can't be triggered due to check_rendering_input()
@@ -284,8 +281,10 @@ render.data.frame <- function(
 
   #--------------------
   # jQuery DT output
-  else if(tolower(engine) %in% c("dt", "datatables", "datatable")){
-    if(!tolower(output_format) %in% c("html")){
+  else if (tolower(engine) %in% c("dt", "datatables", "datatable")) {
+    
+    if (!tolower(output_format) %in% c("html")) {
+      
       warning(paste("DT engine only supports html output and not", output_format,
                     "- falling back to html. Please pick a different engine to create other outputs"))
     }
@@ -320,8 +319,10 @@ render_datatable <- function(data, title, download_format, source_cap){
   UseMethod("render_datatable")
 }
 
-render_datatable.tableone <- function(data, title, download_format, source_cap){
-  if(is.null(download_format)){
+render_datatable.tableone <- function(data, title, download_format, source_cap) {
+  
+  if (is.null(download_format)) {
+    
     table_out <- data %>% 
       DT::datatable(caption = title,
                     filter = "none",
@@ -330,7 +331,9 @@ render_datatable.tableone <- function(data, title, download_format, source_cap){
                                    ordering = FALSE,
                                    info = FALSE,
                                    drawCallback = DT::JS(source_cap)))
+    
   } else {
+    
     table_out <- data %>% 
       DT::datatable(caption = title,
                     filter = "none",
@@ -343,23 +346,30 @@ render_datatable.tableone <- function(data, title, download_format, source_cap){
                                    dom = 'Bfrtip', 
                                    buttons = download_format))
   }
+  
   return(table_out)
 }
 
-render_datatable.data.frame <- function(data, title, download_format, source_cap){
-  if(is.null(download_format)){
+render_datatable.data.frame <- function(data, title, download_format, source_cap) {
+  
+  if (is.null(download_format)) {
+    
     table_out <- data %>%
       DT::datatable(caption = title,
                     options = list(
                     drawCallback = DT::JS(source_cap)))
+    
   } else {
+    
     table_out <- data %>%
       DT::datatable(caption = title,
                     extensions = 'Buttons',
                     options = list(drawCallback = DT::JS(source_cap),
                                    dom = 'Bfrtip',
                                    buttons = download_format))
+    
   }
+  
   return(table_out)
 }
 
@@ -374,7 +384,10 @@ render_gt <- function(data, title, datasource, footnote){
     gt::fmt_number(
       columns = numcols,
       decimals = 2
-    )%>% add_metadata_gt(title=title, datasource=datasource, footnote=footnote)
+    )%>% add_metadata_gt(title = title, 
+                         datasource = datasource, 
+                         footnote = footnote)
+  
   return(table_out)
 }
 
@@ -382,23 +395,30 @@ render_gt <- function(data, title, datasource, footnote){
 get_gt <- function(data, numcols){
   UseMethod("get_gt")
 }
-get_gt.tableone <- function(data, numcols){
+
+get_gt.tableone <- function(data, numcols) {
+  
   gt <- gt::gt(data, groupname_col = "variable",
-         rowname_col = "statistic")%>%
+         rowname_col = "statistic") %>%
          # no decimal points for sample count
          gt::fmt_number(
            columns = numcols,
            rows = grepl("^N$", statistic),
            decimals = 0)
+  
   return(gt)
 }
-get_gt.data.frame <- function(data, numcols){
+
+get_gt.data.frame <- function(data, numcols) {
+  
   gt <- gt::gt(data)
+  
   return(gt)
 }
 
 # add metadata to gt
-add_metadata_gt <- function(gt, title, datasource, footnote){
+add_metadata_gt <- function(gt, title, datasource, footnote) {
+  
   table_out <- gt %>% gt::tab_header(title = title)
   
   table_out <- table_out %>%
@@ -412,7 +432,7 @@ add_metadata_gt <- function(gt, title, datasource, footnote){
 }
 
 ### Check if the input works
-check_rendering_input <- function(output_format = NULL, engine = NULL){
+check_rendering_input <- function(output_format = NULL, engine = NULL) {
   
   if (missing(output_format) | is.null(output_format) | missing(engine) | is.null(engine)) {
     stop("Please provide an output_format and an engine.")

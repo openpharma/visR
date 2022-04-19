@@ -59,7 +59,7 @@ get_COX_HR.survfit <- function(
   
 # Update formula ----------------------------------------------------------
   
-  if (!is.null(update_formula)){
+  if (!is.null(update_formula)) {
     updated_object <- stats::update(x,  formula = eval(update_formula), evaluate = TRUE)
   } else updated_object <- x
   

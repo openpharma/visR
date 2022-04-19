@@ -2,6 +2,7 @@
 #'
 #' @docType package
 #' @name visR Global
+#' @keywords internal
 #'
 #' @description Set global variables
 NULL
@@ -27,6 +28,7 @@ if (getRversion() >= "2.15.1")
       "statistic",
       "quantile",
       "surv",
+      "std.err",
       "lower",
       "upper",
       "variable",

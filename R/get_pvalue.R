@@ -106,8 +106,8 @@ get_pvalue <- function(survfit_object,
     )),
     `Chisq`    = rlang::expr(unlist(
       lapply(survdifflist_eval, function(x)
-        x$chisq)
-    )),
+        format(round(x$chisq, 3), nsmall = 3, justify = "right", width = 6, scientific = FALSE)
+      ))),
     df        = rlang::expr(unlist(
       lapply(survdifflist_eval, function(x)
         length(x$n) - 1)
@@ -119,7 +119,6 @@ get_pvalue <- function(survfit_object,
         ))
     ))
   )[statlist]
-
 
 # Output to dataframe -----------------------------------------------------
 

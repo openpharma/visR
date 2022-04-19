@@ -3,9 +3,9 @@
 #' A helper function for catching errors in the ggplot2 traceback stack
 #' @keywords internal
 
-check_traceback_stack_for_ggplot_aesthetics_warning <- function() {
+.check_traceback_stack_for_ggplot_aesthetics_warning <- function() {
   
-  # ggplot returns its errors for aesthetics as overloaded arguments to the 
+  # ggplot returns its errors for aesthetics as overloaded arguments to the
   # a print call (I think?) which makes them non-catchable through testthat.
   # This part retrieves it anyway.
   
@@ -27,7 +27,7 @@ check_traceback_stack_for_ggplot_aesthetics_warning <- function() {
 #' A helper function for map numbers to an arbitrary range
 #' @keywords internal
 
-map_numbers_to_new_range <- function(numbers, lower, upper) {
+.map_numbers_to_new_range <- function(numbers, lower, upper) {
   
   # Used to artificially generated a set amount of strata for testing
   # https://stackoverflow.com/a/18303620/10169453
@@ -43,166 +43,165 @@ map_numbers_to_new_range <- function(numbers, lower, upper) {
   
 }
 
-#' A helper function to get all files in the ~/R/ folder
+#' A helper function that returns the full paths of the package files as a vector. 
+#' It is used as part of the watchdogs documented here at 
+#' https://github.com/openpharma/visR/wiki/Coding-principles#package-maintenance
 #' @keywords internal
 
-get_files_in_R_folder <- function() {
-  
-  R_files <- base::list.files(path = base::paste0(base::getwd(), "/../../R"), 
-                                pattern = "*.R", 
-                                full.names = TRUE)
-  
-  return(unlist(R_files))
-  
-}
-
-#' A helper function to get all files in the ~/tests/testthat/ folder
-#' @keywords internal
-
-get_files_in_test_folder <- function() {
-  
-  test_files <- base::list.files(path = base::getwd(), 
-                                 pattern = "*.R", 
-                                 full.names = TRUE)
-  
-  return(unlist(test_files))
-  
-}
-
-#' A helper function to get all files in the ~/man/ folder
-#' @keywords internal
-
-get_files_in_man_folder <- function() {
-  
-  man_files <- base::list.files(path = base::paste0(base::getwd(), "/../../man"), 
-                                pattern = "*.Rd", 
-                                full.names = TRUE)
-  
-  return(unlist(man_files))
-  
-}
-
-#' A helper function to get all files in the ~/vignettes/ folder
-#' @keywords internal
-
-get_files_in_vignettes_folder <- function() {
-  
-  vignette_files <- base::list.files(path = base::paste0(base::getwd(), "/../../vignettes"), 
-                                     pattern = "*.Rmd", 
-                                     full.names = TRUE)
-  
-  return(unlist(vignette_files))
-  
-}
-
-#' A helper function to conditionally retrieve files of the package
-#' @keywords internal
-
-get_visR_files <- function(functions = FALSE,
-                           tests = FALSE,
-                           documentation = FALSE,
-                           vignettes = FALSE,
-                           remove_watchdog = TRUE) {
+.get_visR_files <- function(functions = FALSE,
+                            tests = FALSE,
+                            documentation = FALSE,
+                            vignettes = FALSE,
+                            remove_watchdog = TRUE) {
   
   files <- list()
+  wd <- getwd()
   
-  if (functions)     {files <- c(files, get_files_in_R_folder())}
-  if (tests)         {files <- c(files, get_files_in_test_folder())}
-  if (documentation) {files <- c(files, get_files_in_man_folder())}
-  if (vignettes)     {files <- c(files, get_files_in_vignettes_folder())}
+  if (functions) {
+    
+    R_files <- list.files(path = file.path(wd, "/../../R"), 
+                          pattern = "*.R", 
+                          full.names = TRUE)
+    files <- c(files, unlist(R_files))
+    
+  }
   
-  if (remove_watchdog) {files <- files[!grepl("test-CRAN_watchdog.R", files)] }
+  if (tests) {
+    
+    test_files <- list.files(path = wd,
+                             pattern = "*.R", 
+                             full.names = TRUE)
+    files <- c(files, unlist(test_files))
+    
+  }
+  
+  if (documentation) {
+    
+    man_files <- list.files(path = file.path(wd, "/../../man"), 
+                            pattern = "*.Rd", 
+                            full.names = TRUE)
+    files <- c(files, unlist(man_files))
+  }
+  
+  if (vignettes) {
+    
+    vignette_files <- list.files(path = file.path(wd, "/../../vignettes"),
+                                 pattern = "*.Rmd", 
+                                 full.names = TRUE)
+    files <- c(files, unlist(vignette_files))
+    
+  }
+  
+  if (remove_watchdog) { files <- files[!grepl("test-watchdog_CRAN.R", files)] }
   
   return(unlist(files))
   
 }
 
-#' A helper function that compares the width of the grobs comprising the two given ggplot objects
+#' A helper function that returns a formatted table containing a table of 
+#' content based on the `testthat` context and name info given in the file.  
 #' @keywords internal
 
-check_grob_width_equal <- function(gg_A, gg_B) {
+.get_test_TOC <- function(path_to_file) {
   
-  gg_A_grob <- ggplot2::ggplotGrob(gg_A)
-  gg_B_grob <- ggplot2::ggplotGrob(gg_B)
+  txt <- paste(readLines(path_to_file, warn = FALSE), collapse = "\n")
+  tests <- gregexpr("testthat::test_that\\(\\\"(.+?)\"", txt)
+  contexts <- gregexpr("context\\(\\\"(.+?)\"", txt)
   
-  gg_A_grob_widths <- gg_A_grob$widths
-  gg_B_grob_widths <- gg_B_grob$widths
+  context_df <- data.frame("pos" = unlist(contexts))
+  context_df["match.length"] <- attributes(contexts[[1]])$match.length  
+  context_df["index.type"] <- attributes(contexts[[1]])$index.type
+  context_df["useBytes"] <- attributes(contexts[[1]])$useBytes
+  context_df["type"] = "context"
+  context_df["content"] <- regmatches(txt, contexts)
   
-  widths <- cbind(as.character(gg_A_grob_widths), as.character(gg_B_grob_widths))
-  tmp <- c()
+  context_df$content <- base::lapply(context_df$content, function(c) {
+    c <- gsub(pattern = "context\\(\"(.+?)T", replacement = "T", x = c)
+    c <- gsub(pattern = "\"", replacement = "", x = c)
+    c
+  }) %>% unlist()
   
-  for (i in 1:nrow(widths)) {
-    
-    if (widths[i, 1] == widths[i, 2]) {
-      
-      tmp <- c(tmp, TRUE)
-      
-    } else {
-      
-      tmp <- c(tmp, FALSE)
-      
-    }
-  }
+  test_df <- data.frame("pos" = unlist(tests))
+  test_df["match.length"] <- attributes(tests[[1]])$match.length  
+  test_df["index.type"] <- attributes(tests[[1]])$index.type
+  test_df["useBytes"] <- attributes(tests[[1]])$useBytes
+  test_df["type"] <- "test"
+  test_df["content"] <- regmatches(txt, tests)
   
-  return(length(tmp[tmp != TRUE]))
+  test_df$content <- base::lapply(test_df$content, function(c) {
+    c <- gsub(pattern = "testthat::test_that\\(\\\"T", replacement = "T", x = c)
+    c <- gsub(pattern = "\"", replacement = "", x = c)
+    c
+  }) %>% unlist()
+  
+  matches <- rbind(context_df, test_df)
+  matches <- matches[order(matches$pos),]
+  
+  
+  toc <- ""
+  toc <- base::lapply(matches$content, function(line) {
+    toc <- paste0(toc, "#' ", line, "\n")
+  }) %>% unlist() %>% paste0(collapse = "")
+  
+  return(toc)
   
 }
 
 # get_pvalue - Results to compare against ---------------------------------
 
-  ref1 <- survival::survdiff(formula = survival::Surv(AVAL, 1 - CNSR) ~ TRTA, data = adtte, rho=0)
-  ref2 <- survival::survdiff(formula = survival::Surv(AVAL, 1 - CNSR) ~ TRTA, data = adtte, rho=1)
-  ref3 <- survival::survdiff(formula = survival::Surv(AVAL, 1 - CNSR) ~ TRTA, data = adtte, rho=1.5)
-  ref4 <- survival::survdiff(formula = survival::Surv(AVAL, 1 - CNSR) ~ TRTA, data = adtte, rho=2.4)
+ref1 <- survival::survdiff(formula = survival::Surv(AVAL, 1 - CNSR) ~ TRTA, data = adtte, rho = 0)
+ref2 <- survival::survdiff(formula = survival::Surv(AVAL, 1 - CNSR) ~ TRTA, data = adtte, rho = 1)
+ref3 <- survival::survdiff(formula = survival::Surv(AVAL, 1 - CNSR) ~ TRTA, data = adtte, rho = 1.5)
+ref4 <- survival::survdiff(formula = survival::Surv(AVAL, 1 - CNSR) ~ TRTA, data = adtte, rho = 2.4)
 
-  get_pvalue_ref1 <- data.frame(
-    `Equality across strata` = "Log-Rank",
-    Chisq = ref1$chisq,
-    df = length(ref1$n)-1,
-    `p-value` = .pvalformat(stats::pchisq(ref1$chisq, length(ref1$n) - 1, lower.tail = FALSE)),
-    check.names = FALSE,
-    row.names = NULL,
-    stringsAsFactors = FALSE
-  )
-  get_pvalue_ref2 <- data.frame(
-    `Equality across strata` = "Wilcoxon",
-    Chisq = ref2$chisq,
-    df = length(ref2$n)-1,
-    `p-value` = .pvalformat(stats::pchisq(ref2$chisq, length(ref2$n) - 1, lower.tail = FALSE)),
-    check.names = FALSE,
-    row.names = NULL,
-    stringsAsFactors = FALSE
-  )
-  get_pvalue_ref3 <- data.frame(
-    `Equality across strata` = "Tarone-Ware",
-    Chisq = ref3$chisq,
-    df = length(ref3$n)-1,
-    `p-value` = .pvalformat(stats::pchisq(ref3$chisq, length(ref3$n) - 1, lower.tail = FALSE)),
-    check.names = FALSE,
-    row.names = NULL,
-    stringsAsFactors = FALSE
-  )
-  get_pvalue_ref4 <- data.frame(
-    `Equality across strata` = paste0("Harrington and Fleming test (rho = ", 2.4, ")"),
-    Chisq = ref4$chisq,
-    df = length(ref4$n)-1,
-    `p-value` = .pvalformat(stats::pchisq(ref4$chisq, length(ref4$n) - 1, lower.tail = FALSE)),
-    check.names = FALSE,
-    row.names = NULL,
-    stringsAsFactors = FALSE
-  )
+get_pvalue_ref1 <- data.frame(
+  `Equality across strata` = "Log-Rank",
+  Chisq = format(round(ref1$chisq,3), nsmall = 3, width = 6, justify = "right", scientific = FALSE),
+  df = length(ref1$n) - 1,
+  `p-value` = .pvalformat(stats::pchisq(ref1$chisq, length(ref1$n) - 1, lower.tail = FALSE)),
+  check.names = FALSE,
+  row.names = NULL,
+  stringsAsFactors = FALSE
+)
+get_pvalue_ref2 <- data.frame(
+  `Equality across strata` = "Wilcoxon",
+  Chisq = format(round(ref2$chisq,3), nsmall = 3, width = 6, justify = "right", scientific = FALSE),
+  df = length(ref2$n) - 1,
+  `p-value` = .pvalformat(stats::pchisq(ref2$chisq, length(ref2$n) - 1, lower.tail = FALSE)),
+  check.names = FALSE,
+  row.names = NULL,
+  stringsAsFactors = FALSE
+)
+get_pvalue_ref3 <- data.frame(
+  `Equality across strata` = "Tarone-Ware",
+  Chisq = format(round(ref3$chisq,3), nsmall = 3, width = 6, justify = "right", scientific = FALSE),
+  df = length(ref3$n) - 1,
+  `p-value` = .pvalformat(stats::pchisq(ref3$chisq, length(ref3$n) - 1, lower.tail = FALSE)),
+  check.names = FALSE,
+  row.names = NULL,
+  stringsAsFactors = FALSE
+)
+get_pvalue_ref4 <- data.frame(
+  `Equality across strata` = paste0("Harrington and Fleming test (rho = ", 2.4, ")"),
+  Chisq = format(round(ref4$chisq,3), nsmall = 3, width = 6, justify = "right", scientific = FALSE),
+  df = length(ref4$n) - 1,
+  `p-value` = .pvalformat(stats::pchisq(ref4$chisq, length(ref4$n) - 1, lower.tail = FALSE)),
+  check.names = FALSE,
+  row.names = NULL,
+  stringsAsFactors = FALSE
+)
 
-  get_pvalue_ref <- base::rbind.data.frame(
-    get_pvalue_ref1,
-    get_pvalue_ref2,
-    get_pvalue_ref3,
-    get_pvalue_ref4,
-    make.row.names = F
-  )
+get_pvalue_ref <- base::rbind.data.frame(
+  get_pvalue_ref1,
+  get_pvalue_ref2,
+  get_pvalue_ref3,
+  get_pvalue_ref4,
+  make.row.names = FALSE
+)
 
-  get_pvalue_ref134 <- base::rbind.data.frame(
-    get_pvalue_ref1,
-    get_pvalue_ref3,
-    get_pvalue_ref4,
-    make.row.names = F
-  )
+get_pvalue_ref134 <- base::rbind.data.frame(
+  get_pvalue_ref1,
+  get_pvalue_ref3,
+  get_pvalue_ref4,
+  make.row.names = FALSE
+)

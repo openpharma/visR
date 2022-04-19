@@ -1,7 +1,8 @@
 #' @title Wrapper for Kaplan Meier Time-to-Event analysis
 #'
 #' @description This function is a wrapper around \code{survival::survfit.formula} to perform a Kaplan-Meier analysis, assuming right-censored data.
-#'    The function expects that the data has been filtered on the parameter (PARAM/PARAMCD) of interest.
+#'    The function expects that the data has been filtered on the parameter (PARAM/PARAMCD) of interest. All NA values in the CNSR, AVAL and strata
+#'    argument are removed.
 #'    Alternatively, PARAM/PARAMCD can be used in the \code{strata} argument. \cr
 #'    The result is an object of class \code{survfit} which can be used in downstream functions and methods that rely on the \code{survfit} class.
 #'    By default:
@@ -15,7 +16,7 @@
 #' @seealso \code{\link[survival]{survfit.formula} \link[survival]{survfitCI}}
 #'
 #' @param data The name of the dataset for Time-to-Event analysis based on the Analysis Data Model (ADaM) principles. The dataset is expected to have
-#'    one record per subject per analysis parameter. Rows in which the analysis variable (AVAL) or the sensor variable (CNSR) contain NA, are removed during analysis.
+#'    one record per subject per analysis parameter. Rows in which the analysis variable (AVAL) or the censor variable (CNSR) contain NA, are removed during analysis.
 #' @param strata Character vector, representing the strata for Time-to-Event analysis. When NULL, an overall analysis is performed.
 #'    Default is NULL.
 #' @param AVAL Analysis value for Time-to-Event analysis. Default is "AVAL", as per CDISC ADaM guiding principles.
@@ -47,19 +48,19 @@
 #' visR::estimate_KM(data = adtte[adtte$SEX == "F", ])
 #'
 #' ## Modify the default analysis by using the ellipsis
-#' visR::estimate_KM(data = adtte, strata = NULL, 
+#' visR::estimate_KM(data = adtte, strata = NULL,
 #'   type = "kaplan-meier", conf.int = FALSE, timefix = TRUE)
-#' 
+#'
 #' ## Example working with non CDISC data
 #' head(survival::veteran)
-#' 
-#' # convert time and censoring data to ADaM variables 
+#'
+#' # convert time and censoring data to ADaM variables
 #' # convert censoring status to CDISC principles
 #' veteran_adam <- survival::veteran %>%
-#'  dplyr::mutate(AVAL = time, 
-#'                CNSR = dplyr::if_else(status == 1, 0, 1) 
+#'  dplyr::mutate(AVAL = time,
+#'                CNSR = dplyr::if_else(status == 1, 0, 1)
 #'  )
-#' 
+#'
 #' visR::estimate_KM(data = veteran_adam, strata = "trt")
 
 estimate_KM <- function(
@@ -122,7 +123,7 @@ estimate_KM <- function(
 # Remove NA from the analysis --------------------------------------------
 
   data <- as.data.frame(data)%>%
-    tidyr::drop_na(AVAL, CNSR)
+    tidyr::drop_na(AVAL, CNSR, strata)
 
   if (!is.null(strata)){
     data <- data%>%
@@ -132,8 +133,8 @@ estimate_KM <- function(
 # Calculate survival and add time = 0 to survfit object -------------------
 
  ## Reverse censoring: see ADaM guidelines versus R survival KM analysis
-
-  formula <- stats::as.formula(glue::glue(paste0("survival::Surv(", AVAL, ", 1-", CNSR, ") ~ {main}")))
+  
+  formula <- stats::as.formula(paste0("survival::Surv(", AVAL, ", 1-", CNSR, ") ~ ", main))
 
   survfit_object <- survival::survfit(
     formula, data = data, ...
@@ -145,12 +146,12 @@ estimate_KM <- function(
 
 
 # Update Call with original info and dots, similar as update.default ------
-
+  
   survfit_object$call[[1]] <- quote(survival::survfit)
   survfit_object$call[["formula"]] <- formula
-  survfit_object$call[["data"]] <- Call$data
+  survfit_object$call[["data"]] <- Call[["data"]]
   if (length(dots) > 0){
-    names(survfit_object$call)
+    names(survfit_object[["call"]])
     names(dots)
     for (i in seq_along(dots)){
       survfit_object$call[[names(dots)[i]]] <- unlist(dots[i], use.names = FALSE)
@@ -171,15 +172,15 @@ estimate_KM <- function(
 
 # Artificial strata for easy downstream processing when strata=NULL ------
 
-  if (is.null(survfit_object$strata)){
-    survfit_object$strata <- as.vector(length(survfit_object$time))
+  if (is.null(survfit_object[["strata"]])){
+    survfit_object[["strata"]] <- as.vector(length(survfit_object[["time"]]))
 
     if (main == "1"){
       # overall analysis
-      attr(survfit_object$strata, "names") <- "Overall"
+      attr(survfit_object[["strata"]], "names") <- "Overall"
     } else {
       # ~ x with One level in variable present
-      attr(survfit_object$strata, "names") <- as.character(paste0(strata, "=", data[1, main]))
+      attr(survfit_object[["strata"]], "names") <- as.character(paste0(strata, "=", data[1, main]))
     }
   }
 

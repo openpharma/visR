@@ -36,21 +36,20 @@ current focus on developing a stable API.
 
 <!-- badges: start -->
 
-| Badge                                                                                                                                                                                      | Description                                                                  |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------- |
-| [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)                                | Development stage                                                            |
-| [![Codecov test coverage](https://codecov.io/gh/openpharma/visR/branch/develop/graph/badge.svg)](https://codecov.io/gh/openpharma/visR?branch=main)                                        | Unit testing coverage - on `main`                                            |
-| [![R-CMD-check](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml/badge.svg?branch=main)](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml) | `main` branch                                                                |
-| [![pkgdown](https://github.com/openpharma/visR/actions/workflows/makedocs.yml/badge.svg)](https://github.com/openpharma/visR/actions/workflows/makedocs.yml)                               | Documentation building to [Github pages](https://openpharma.github.io/visR/) |
-| [![CRAN status](https://www.r-pkg.org/badges/version/visR)](https://CRAN.R-project.org/package=visR)                                                                                       | Latest CRAN release                                                          |
-| <img src=https://img.shields.io/badge/riskmetric-0.43-green></img>                                                                                                                         | `riskmetric` score                                                           |
-| <img src=https://cranlogs.r-pkg.org/badges/grand-total/visR></img>                                                                                                                         | CRAN downloads                                                          |
-
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![Codecov test
+coverage](https://codecov.io/gh/openpharma/visR/branch/develop/graph/badge.svg)](https://codecov.io/gh/openpharma/visR?branch=main)
+[![R-CMD-check](https://github.com/openpharma/visR/workflows/R-CMD-check/badge.svg)](https://github.com/openpharma/visR/actions)
+[![pkgdown](https://github.com/openpharma/visR/actions/workflows/makedocs.yml/badge.svg)](https://github.com/openpharma/visR/actions/workflows/makedocs.yml)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/visR)](https://CRAN.R-project.org/package=visR)
+<a href=https://github.com/pharmaR/riskmetric><img src=https://img.shields.io/badge/riskmetric-0.46-green></img></a>
 <!-- badges: end -->
 
 ## Installation
 
-The easiest way to get visR is to install from cran:
+The easiest way to get `visR` is to install from CRAN:
 
 ``` r
 install.packages("visR")
@@ -74,7 +73,7 @@ devtools::install_github("openpharma/visR", ref = "main")
 ## Example
 
 This is a basic example to demonstrate how the API can be used to add
-layers to a visualisation. In this example a time to event analysis. The
+layers to a visualization. In this example a time to event analysis. The
 example calculates stratified Kaplan-Meier by treatment and then plots.
 Additional functions can be used to add uncertainty intervals, censoring
 information and a risk table.
@@ -98,43 +97,26 @@ adtte %>%
 
 <img src="man/figures/README-example-1.png" width="100%" />
 
-## Contribution
+## Cite visR
+
+``` text
+> citation("visR")
+```
+
+## Contributing
 
 Please note that the `visR` project is released with a [Contributor Code
 of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you
-agree to abide by its terms.
+agree to abide by its terms. Thank you to all contributors:
 
-<img src="man/figures/README-plotcontriuptake-1.png" width="100%" />
-
-<img src="man/figures/README-plotcontributions-1.png" width="100%" />
-
-## Code coverage
-
-Last time readme built.
-
-``` r
-covr::package_coverage()
-#> visR Coverage: 82.94%
-#> R/render.R: 0.00%
-#> R/tableone.R: 0.00%
-#> R/utils_general.R: 22.22%
-#> R/utils_visr.R: 59.81%
-#> R/apply_theme.R: 87.50%
-#> R/visr.R: 98.96%
-#> R/add_annotation.R: 100.00%
-#> R/add_CI.R: 100.00%
-#> R/add_CNSR.R: 100.00%
-#> R/add_risktable.R: 100.00%
-#> R/apply_attrition.R: 100.00%
-#> R/estimate_KM.R: 100.00%
-#> R/get_attrition.R: 100.00%
-#> R/get_COX_HR.R: 100.00%
-#> R/get_pvalue.R: 100.00%
-#> R/get_quantile.R: 100.00%
-#> R/get_risktable.R: 100.00%
-#> R/get_summary.R: 100.00%
-#> R/get_tableone.R: 100.00%
-#> R/tidyme.R: 100.00%
-#> R/utils_pipe.R: 100.00%
-#> R/utils_table.R: 100.00%
-```
+[@bailliem](https://github.com/bailliem),
+[@ddsjoberg](https://github.com/ddsjoberg),
+[@epijim](https://github.com/epijim),
+[@gdario](https://github.com/gdario),
+[@lcomm](https://github.com/lcomm),
+[@prabhushanmup](https://github.com/prabhushanmup),
+[@rebecca-albrecht](https://github.com/rebecca-albrecht),
+[@SHAESEN2](https://github.com/SHAESEN2),
+[@timtreis](https://github.com/timtreis),
+[@cschaerfe](https://github.com/cschaerfe),
+[@AlexandraP-21](https://github.com/AlexandraP-21)

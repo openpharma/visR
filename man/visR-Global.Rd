@@ -7,3 +7,4 @@
 \description{
 Set global variables
 }
+\keyword{internal}

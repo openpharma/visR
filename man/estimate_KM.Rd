@@ -8,7 +8,7 @@ estimate_KM(data = NULL, strata = NULL, CNSR = "CNSR", AVAL = "AVAL", ...)
 }
 \arguments{
 \item{data}{The name of the dataset for Time-to-Event analysis based on the Analysis Data Model (ADaM) principles. The dataset is expected to have
-one record per subject per analysis parameter. Rows in which the analysis variable (AVAL) or the sensor variable (CNSR) contain NA, are removed during analysis.}
+one record per subject per analysis parameter. Rows in which the analysis variable (AVAL) or the censor variable (CNSR) contain NA, are removed during analysis.}
 
 \item{strata}{Character vector, representing the strata for Time-to-Event analysis. When NULL, an overall analysis is performed.
 Default is NULL.}
@@ -25,7 +25,8 @@ survfit object, extended by elements PARAM/PARAMCD, ready for downstream process
 }
 \description{
 This function is a wrapper around \code{survival::survfit.formula} to perform a Kaplan-Meier analysis, assuming right-censored data.
-The function expects that the data has been filtered on the parameter (PARAM/PARAMCD) of interest.
+The function expects that the data has been filtered on the parameter (PARAM/PARAMCD) of interest. All NA values in the CNSR, AVAL and strata
+argument are removed.
 Alternatively, PARAM/PARAMCD can be used in the \code{strata} argument. \cr
 The result is an object of class \code{survfit} which can be used in downstream functions and methods that rely on the \code{survfit} class.
 By default:
@@ -54,17 +55,17 @@ visR::estimate_KM(data = adtte, strata = "PARAMCD")
 visR::estimate_KM(data = adtte[adtte$SEX == "F", ])
 
 ## Modify the default analysis by using the ellipsis
-visR::estimate_KM(data = adtte, strata = NULL, 
+visR::estimate_KM(data = adtte, strata = NULL,
   type = "kaplan-meier", conf.int = FALSE, timefix = TRUE)
 
 ## Example working with non CDISC data
 head(survival::veteran)
 
-# convert time and censoring data to ADaM variables 
+# convert time and censoring data to ADaM variables
 # convert censoring status to CDISC principles
 veteran_adam <- survival::veteran \%>\%
- dplyr::mutate(AVAL = time, 
-               CNSR = dplyr::if_else(status == 1, 0, 1) 
+ dplyr::mutate(AVAL = time,
+               CNSR = dplyr::if_else(status == 1, 0, 1)
  )
 
 visR::estimate_KM(data = veteran_adam, strata = "trt")
