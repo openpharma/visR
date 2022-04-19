@@ -22,7 +22,7 @@
 #' lm_tidied <- visR::tidyme(lm_object)
 #' lm_tidied
 #'
-#' @return Tibble containing all list elements of the S3 object as columns.
+#' @return Data frame containing all list elements of the S3 object as columns.
 #'   The column 'strata' is a factor to ensure that the strata are sorted
 #'   in agreement with the order in the `survfit` object
 #'

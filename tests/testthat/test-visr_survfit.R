@@ -41,8 +41,8 @@
 #' T3.5 A warning when the provided function causes undefined values, f.e. log(-log(2)).
 #' T3.6 An error when `fun` is neither a `character` string nor a function.
 #' T3.7 The `fun` argument is stored in the final object as attribute `fun`.
-#' T4. The legend follows the model strata labels
-#' T4.1 The legend follows the model strata labels
+#' T4. The legend title in the figure accurately displays stratum labels
+#' T4.1 The legend title in the figure accurately displays stratum labels
 #' T4.2 The color legend title is accurate.
 #' T5. The final object is a ggplot of class `ggsurvfit`.
 #' T5.1 The final object is a ggplot of class `ggplot`.

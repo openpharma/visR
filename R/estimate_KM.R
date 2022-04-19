@@ -185,7 +185,9 @@ estimate_KM <- function(
     }
   }
 
-  # add strata labels ----------------------------------------------------------
+  # add strata labels
+  # these are the LABEL attributes of the stratifying variables (separate from above, which are the levels of the variables)
+  # is null, when no stratifying variables present
   if (!is.null(strata)) {
     survfit_object[["strata_lbls"]] <-
       lapply(as.list(strata), function(x) attr(data[[x]], "label") %||% x) %>%

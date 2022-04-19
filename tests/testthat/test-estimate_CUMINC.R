@@ -6,8 +6,8 @@
 #' T1. The function wraps `tidycmprsk::cuminc()` appropriately
 #' T1.1 No errors `estimate_cuminc()`
 #' T1.2 No errors `estimate_cuminc()` sister functions
-#' T2. The legend follows the model strata labels
-#' T2.2 The color legend title is accurate.
+#' T2. The legend title in the figure accurately displays stratum labels
+#' T2.2 The legend title in the figure accurately displays stratum labels
 
 # Requirement T1 ----------------------------------------------------------
 
@@ -98,8 +98,9 @@ testthat::test_that("T1.2 No errors `estimate_cuminc()` sister functions", {
 })
 
 # Requirement T2 ----------------------------------------------------------
+testthat::context("estimate_cuminc - T2. The legend title in the figure accurately displays stratum labels.")
 
-testthat::test_that("T2.1 The color legend title is accurate.", {
+testthat::test_that("T2.1 The legend title in the figure accurately displays stratum labels.", {
   cuminc_plot <-
     tidycmprsk::trial %>%
     visR::estimate_cuminc(
