@@ -181,7 +181,7 @@ testthat::test_that("T3.5 When more than 1 strata is specified, the stratum name
 
 })
 
-testthat::test_that("T3.6 The strata label is constructed correctly", {
+testthat::test_that("T3.6 The strata label is constructed correctly using the strata label attributes", {
 
   data <- adtte
   survobj <- visR::estimate_KM(data = data, strata = "SEX")

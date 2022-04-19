@@ -75,7 +75,6 @@ testthat::test_that("T3.2 The S3 method, associated with a `survfit` object, has
 
   survfit_object <- visR::estimate_KM(data = adtte, strata = "TRTA")
   survfit_object_tidy <- tidyme(survfit_object)
-  survfit_object$strata_lbls <- NULL
 
   surv_object_df <- base::with(survfit_object,
                                data.frame(time = as.integer(time),

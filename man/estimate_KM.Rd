@@ -29,7 +29,7 @@ The function expects that the data has been filtered on the parameter (PARAM/PAR
 argument are removed.
 Alternatively, PARAM/PARAMCD can be used in the \code{strata} argument. \cr
 The result is an object of class \code{survfit} which can be used in downstream functions and methods that rely on the \code{survfit} class.
-When stratum are present, the returned survfit object is supplemented with the a named list of the stratum and associated label, if present.
+When strata are present, the returned survfit object is supplemented with the a named list of the stratum and associated label, if present.
 By default:
 \itemize{
 \item{The Kaplan Meier estimate is estimated directly (stype = 1).}
