@@ -45,6 +45,7 @@ current focus on developing a stable API.
 | [![CRAN status](https://www.r-pkg.org/badges/version/visR)](https://CRAN.R-project.org/package=visR)                                                                                       | Latest CRAN release                                                          |
 | <a href=https://github.com/pharmaR/riskmetric><img src=https://img.shields.io/badge/riskmetric--1.57-green></img></a>                                                                      | `riskmetric` score                                                           |
 
+
 <!-- badges: end -->
 
 ## Installation
