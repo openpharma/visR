@@ -27,12 +27,13 @@ Authors:
   \item Charlotta Fruechtenicht \email{charlotta.fruechtenicht@roche.com}
   \item Marc Vandemeulebroecke \email{marc.vandemeulebroecke@novartis.com}
   \item Thanos Siadimas \email{thanos.siadimas@roche.com}
-  \item Pawel Kawski \email{pawel.kawski@contractors.roche.com>}
+  \item Pawel Kawski \email{pawel.kawski@contractors.roche.com}
   \item Steven Haesendonckx \email{shaesen2@its.jnj.com}
   \item James Black \email{james.black.jb2@roche.com}
   \item Pelagia Alexandra Papadopoulou \email{PPapadop@its.jnj.com}
   \item Tim Treis \email{tim.treis@outlook.de}
   \item Rebecca Albrecht \email{rebecca.albrecht.dietsch@gmail.com}
+  \item Daniel D. Sjoberg \email{danield.sjoberg@gmail.com} (\href{https://orcid.org/0000-0003-0862-2018}{ORCID})
 }
 
 }
