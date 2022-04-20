@@ -555,3 +555,71 @@ legendopts <- function(legend_position = "right",
   }
 }
 
+
+
+#' Construct strata label for visr legend title
+#'
+#' @param x a survfit or tidycuminc object
+#'
+#' @return string
+#' @noRd
+.construct_strata_label <- function(x, sep = ", ") {
+  tryCatch({
+    if (inherits(x, "survfit") && is.null(x$strata_lbl)) {
+      strata_label <- ""
+    }
+    else if (inherits(x, "survfit")) {
+      strata_label <- unlist(x$strata_lbl) %>% paste(collapse = ", ")
+    }
+    else if (inherits(x, "tidycuminc")) {
+      strata <- .extract_strata_varlist(x)
+      strata_label <-
+        lapply(
+          as.list(strata),
+          function(variable) attr(x$data[[variable]], "label") %||% x
+        ) %>%
+        unlist() %>%
+        paste(collapse = ", ")
+    }
+
+    strata_label
+  },
+  error = function(e) return("")
+  )
+}
+
+#' Extract the strata variable names
+#'
+#' @param x a survfit or tidycuminc object
+#'
+#' @return vector of variable names
+#' @noRd
+.extract_strata_varlist <- function(x) {
+  if (inherits(x, "survfit")) {
+    return(names(x$strata_lbls))
+  }
+  if (inherits(x, "tidycuminc")) {
+    return(.formula_to_strata_varlist(x$formula, x$data))
+  }
+}
+
+#' Extract the strata variable names from model formula
+#'
+#' @param formula a formula
+#' @param data a data frame
+#'
+#' @return vector of variable names
+#' @noRd
+.formula_to_strata_varlist <- function(formula, data) {
+  tryCatch({
+    strata <- stats::model.frame(formula, data = data)[, -1, drop = FALSE] %>% names()
+    if (rlang::is_empty(strata)) {
+      strata <- NULL
+    }
+    strata
+  },
+  error = function(e) return(NULL)
+  )
+}
+
+

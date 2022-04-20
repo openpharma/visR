@@ -103,7 +103,8 @@ add_CNSR.ggsurvfit <- function(gg, shape = 3, size = 2, ...){
                                      y = est,
                                      color = strata),
                         shape = shape,
-                        size = size)
+                        size = size,
+                        show.legend = FALSE)
 
   return(gg)
 }
