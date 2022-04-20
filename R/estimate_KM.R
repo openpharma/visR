@@ -185,9 +185,9 @@ estimate_KM <- function(
     }
   }
 
-  # add strata labels
+  # add strata labels - main goal is for populating legend in visR(): label -- level1 strata -- levelx strata
   # these are the LABEL attributes of the stratifying variables (separate from above, which are the levels of the variables)
-  # is null, when no stratifying variables present
+  # is null, when no stratifying variables present so legend title is not populated as Overall -- overall
   if (!is.null(strata)) {
     survfit_object[["strata_lbls"]] <-
       lapply(as.list(strata), function(x) attr(data[[x]], "label") %||% x) %>%
