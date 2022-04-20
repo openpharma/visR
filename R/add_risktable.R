@@ -26,7 +26,8 @@ add_risktable <- function(gg, ...){
 }
 
 #' @inheritParams get_risktable
-#'
+#' @param table.height A numeric value (in the range [0 - 1]) indicating the overall height of
+#'   all tables beneath the primary plot.
 #' @seealso \code{\link[cowplot]{plot_grid}}
 #'
 #' @examples
@@ -69,6 +70,7 @@ add_risktable.ggsurvfit <- function(
   ,label = NULL
   ,group = "strata"
   ,collapse = FALSE
+  ,table.height = .3
   ,...
 ){
 
@@ -157,7 +159,7 @@ add_risktable.ggsurvfit <- function(
   ggB <- cowplot::plot_grid(plotlist = ggA,
                             align = "none",
                             nrow = length(ggA),
-                            rel_heights = c(1-(8/50 * (length(ggA)-1)), rep(8/50, length(ggA)-1))
+                            rel_heights = c(1-(table.height), rep(table.height/(length(ggA)-1), length(ggA)-1))
   )
 
   class(ggB) <- c(class(ggB), intersect(class(gg), c("ggsurvfit", "ggtidycmprsk")))
