@@ -200,3 +200,26 @@ visR includes a wrapper function to create a risktable and then add it directly 
 gg %>% add_CI() %>% add_CNSR(shape = 3, size = 2) %>% add_risktable()
 ```
 
+## Competing Risks
+
+In addition to classic right-censored data, the {visR} package supports the estimation of time-to-event outcomes in the presence of competing events.
+The package wraps the [{tidycmprsk}](https://mskcc-epi-bio.github.io/tidycmprsk/) package, and exports functions for cumulative incidence estimation and visualization.
+
+The function `estimate_cuminc()` estimates the cumulative incidence of the competing event or outcome of interest.
+The syntax is nearly identical to `estimate_KM()`; however, the outcome status variable (passed to the `CNSR=` argument) must be a factor where the first level indicates censoring, the second level the competing event of interest, and subsequent levels are the other competing events. Visualization functions, `visr()`, `add_CI()`, `add_CNSR()`, and `add_risktable()` share the same syntax as the Kaplan-Meier variants.
+
+```{r cuminc_1}
+estimate_cuminc(
+  tidycmprsk::trial,
+  strata = "trt",
+  CNSR = "death_cr",
+  AVAL = "ttdeath"
+) %>%
+  visr(
+    legend_position = "bottom", 
+    x_label = "Months from Treatment",
+    y_label = "Risk of Death"
+  ) %>%
+  add_CI() %>%
+  add_risktable(statlist = c("n.risk", "cum.event"))
+```
