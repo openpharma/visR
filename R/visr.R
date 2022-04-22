@@ -101,12 +101,6 @@ visr.survfit <- function(
 
 # Minimal input validation  ----------------------------------------------------
 
-  if (!("survfit" %in% class(x))) {
-
-    stop("Can only be used with `survfit` objects.")
-
-  }
-
   if (!(is.null(x_label) | is.character(x_label) | is.expression(x_label))) {
 
     stop("Invalid `x_label` argument, must be either `character` or `expression`.")

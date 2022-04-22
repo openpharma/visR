@@ -8,7 +8,12 @@
 \description{
 \if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
 
-To enable fit-for-purpose, reusable clinical and medical research focused visualizations and tables with sensible defaults and based on graphical principles as described in: "Vandemeulebroecke et al. (2018)" <doi:10.1002/pst.1912>, "Vandemeulebroecke et al. (2019)" <doi:10.1002/psp4.12455>, and "Morris et al. (2019)" <doi:10.1136/bmjopen-2019-030215>.
+To enable fit-for-purpose, reusable clinical and medical
+    research focused visualizations and tables with sensible defaults and
+    based on graphical principles as described in: "Vandemeulebroecke et
+    al. (2018)" <doi:10.1002/pst.1912>, "Vandemeulebroecke et al. (2019)"
+    <doi:10.1002/psp4.12455>, and "Morris et al. (2019)"
+    <doi:10.1136/bmjopen-2019-030215>.
 }
 \seealso{
 Useful links:
