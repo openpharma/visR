@@ -48,8 +48,7 @@ visr(x, ...)
 )
 }
 \arguments{
-\item{x}{Object of class \code{attritiontable} with each row corresponding to an
-inclusion step in the cohort and minimally a description and a count column}
+\item{x}{Object of class \code{survfit}, \code{attritiontable} or \code{visr.tidycuminc}}
 
 \item{...}{other arguments passed on to the method}
 
@@ -158,9 +157,13 @@ attrition <- visR::get_attrition(adtte,
 attrition \%>\%
   visr("Criteria", "Remaining N")
 
-# Adding more detailed complement descriptions to the "exclusion" part of the CONSORT diagram
+# Add detailed complement descriptions to the "exclusion" part of the CONSORT diagram
 # Step 1. Add new column to attrition dataframe
-attrition$Complement <- c("NA", "Placebo Group", "Younger than 75 years", "Non-White", "Male")
+attrition$Complement <- c("NA",
+                          "Placebo Group",
+                          "Younger than 75 years",
+                          "Non-White",
+                          "Male")
 
 # Step 2. Define the name of the column in the call to the plotting function
 attrition \%>\%

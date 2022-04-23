@@ -2,7 +2,7 @@
 #'
 #' @description S3 method for highlighting a specific strata by lowering the opacity of all other strata.
 #'
-#' @param gg visR object
+#' @param gg A ggplot created with visR
 #' @param ... other arguments passed on to the method
 #'
 #' @examples
@@ -31,7 +31,6 @@ add_highlight <- function(gg, ...){
   UseMethod("add_highlight", gg)
 }
 
-#' @param gg A ggsurvfit, ideatlly created with visR
 #' @param strata String representing the name and value of the strata to be highlighted as shown in the legend.
 #' @param bg_alpha A numerical value between 0 and 1 that is used to decrease the opacity off all strata not chosen to be highlighted in `strata`. The other strata's existing alpha values are multiplied by `bg_alpha` to decrease their opacity, highlighting the target strata. This works on both `colour` and `fill` properties, as for example present after applying `visR::add_CI()`.
 #'

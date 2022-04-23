@@ -7,7 +7,7 @@
 #'
 #'   No default method is available at the moment.
 #'
-#' @param gg visR object
+#' @param gg A ggplot created with visR
 #' @param ... other arguments passed on to the method to modify \code{\link[ggplot2]{geom_ribbon}}
 #'
 #' @examples
@@ -43,7 +43,6 @@ add_CI <- function(gg, ...){
   UseMethod("add_CI", gg)
 }
 
-#' @param gg A ggplot created with visR
 #' @param alpha aesthetic of ggplot2 \code{\link[ggplot2]{geom_ribbon}}. Default is 0.1.
 #' @param style aesthetic of ggplot2 \code{\link[ggplot2]{geom_ribbon}}. Default is "ribbon". An alternative option is "step" that uses a line to display interval bounds.
 #' @param linetype aesthetic of ggplot2 \code{\link[ggplot2]{geom_ribbon}}.

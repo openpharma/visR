@@ -5,7 +5,7 @@
 #' 
 #' @seealso \code{\link[survival]{quantile.survfit}}
 #' 
-#' @param x S3 object
+#' @param x An object of class \code{survfit}
 #' @param ... other arguments passed on to the method
 #' 
 #' @examples

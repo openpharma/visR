@@ -6,7 +6,7 @@
 #'
 #'   No default method is available at the moment.
 #'
-#' @param gg visR object
+#' @param gg A ggplot created with visR
 #' @param ... other arguments passed on to the method to modify \code{\link[ggplot2]{geom_point}}
 #'
 #' @examples
@@ -39,7 +39,6 @@ add_CNSR <- function(gg, ...){
   UseMethod("add_CNSR", gg)
 }
 
-#' @param gg A ggplot created with visR
 #' @param shape aesthetic of ggplot2 \code{\link[ggplot2]{geom_point}}. Default is 3.
 #' @param size aesthetic of ggplot2 \code{\link[ggplot2]{geom_point}}. Default is 2.
 #'
