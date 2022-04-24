@@ -29,7 +29,7 @@ add_risktable(gg, ...)
 )
 }
 \arguments{
-\item{gg}{visR plot of class \code{ggsurvfit} or \code{ggtidycmprsk}}
+\item{gg}{A ggplot created with visR}
 
 \item{...}{other arguments passed on to the method add_risktable}
 

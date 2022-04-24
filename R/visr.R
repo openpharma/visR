@@ -5,26 +5,7 @@
 #'
 #' @seealso \code{\link[ggplot2]{ggplot}}
 #'
-#' @param x object to be passed on to the method
-#' @param ... other arguments passed on to the method
-#'
-#' @rdname visr
-#'
-#' @export
-
-visr <- function(x, ...){
-  UseMethod("visr", x)
-}
-
-#' @rdname visr
-#' @method visr default
-#' @export
-
-visr.default <- function(x, ...){
-  graphics::plot(x)
-}
-
-#' @param x Object of class `survfit`
+#' @param x Object of class `survfit`, `attritiontable` or `visr.tidycuminc`
 #' @param x_label \code{character} Label for the x-asis. When not specified,
 #'   the algorithm will look for "PARAM" information inside the list structure
 #'   of the `survfit` object.
@@ -56,8 +37,39 @@ visr.default <- function(x, ...){
 #'   Character values allowed are "top" "left" "bottom" "right".
 #'   Numeric coordinates are also allowed.
 #'   Default is "right".
+#' @param description_column_name \code{character} Name of the column containing
+#'   the inclusion descriptions
+#' @param value_column_name \code{character} Name of the column containing the
+#'   remaining sample counts
+#' @param complement_column_name \code{character} Optional: Name of the column
+#'   containing the exclusion descriptions
+#' @param box_width \code{character} The box width for each box in the flow
+#'   chart
+#' @param font_size \code{character} The fontsize in pt
+#' @param fill The color (string or hexcode) to use to fill the boxes in the
+#'   flowchart
+#' @param border The color (string or hexcode) to use for the borders of the
+#'   boxes in the flowchart
 #' @param ... other arguments passed on to the method
 #'
+#' @return Object of class \code{ggplot} and \code{ggsurvplot} for `survfit` objects.
+#' 
+#' @rdname visr
+#'
+#' @export
+
+visr <- function(x, ...){
+  UseMethod("visr", x)
+}
+
+#' @rdname visr
+#' @method visr default
+#' @export
+
+visr.default <- function(x, ...){
+  graphics::plot(x)
+}
+
 #' @examples
 #'
 #' # fit KM
@@ -80,8 +92,6 @@ visr.default <- function(x, ...){
 #'
 #' # Plot cumulative hazard
 #' visR::visr(survfit_object, fun = "cloglog")
-#'
-#' @return Object of class \code{ggplot}  \code{ggsurvplot}.
 #'
 #' @rdname visr
 #' @method visr survfit
@@ -332,24 +342,9 @@ visr.survfit <- function(
 
 }
 
-#' @param x Object of class `attritiontable` with each row corresponding to an
-#'   inclusion step in the cohort and minimally a description and a count column
-#' @param description_column_name \code{character} Name of the column containing
-#'   the inclusion descriptions
-#' @param value_column_name \code{character} Name of the column containing the
-#'   remaining sample counts
-#' @param complement_column_name \code{character} Optional: Name of the column
-#'   containing the exclusion descriptions
-#' @param box_width \code{character} The box width for each box in the flow
-#'   chart
-#' @param font_size \code{character} The fontsize in pt
-#' @param fill The color (string or hexcode) to use to fill the boxes in the
-#'   flowchart
-#' @param border The color (string or hexcode) to use for the borders of the
-#'   boxes in the flowchart
-#' @param ... other arguments passed on to the method
-#'
 #' @examples
+#' 
+#' ## Create attrition
 #' attrition <- visR::get_attrition(adtte,
 #'     criteria_descriptions = c("1. Not in Placebo Group",
 #'                               "2. Be 75 years of age or older.",
@@ -361,28 +356,30 @@ visr.survfit <- function(
 #'                               "SEX=='F'"),
 #'     subject_column_name   = "USUBJID")
 #'
-#' # Draw a CONSORT attrition chart without specifying extra text for the complement
+#' ## Draw a CONSORT attrition chart without specifying extra text for the complement
 #' attrition %>%
 #'   visr("Criteria", "Remaining N")
 #'
-#' # Adding more detailed complement descriptions to the "exclusion" part of the CONSORT diagram
+#' ## Add detailed complement descriptions to the "exclusion" part of the CONSORT diagram
 #' # Step 1. Add new column to attrition dataframe
-#' attrition$Complement <- c("NA", "Placebo Group", "Younger than 75 years", "Non-White", "Male")
+#' attrition$Complement <- c("NA",
+#'                           "Placebo Group",
+#'                           "Younger than 75 years",
+#'                           "Non-White",
+#'                           "Male")
 #'
 #' # Step 2. Define the name of the column in the call to the plotting function
 #' attrition %>%
 #'   visr("Criteria", "Remaining N", "Complement")
 #'
-#' # Styling the CONSORT flowchart
+#' ## Styling the CONSORT flowchart
 #' # Change the fill and outline of the boxes in the flowchart
 #' attrition %>%
 #'   visr("Criteria", "Remaining N", "Complement", fill = "lightblue", border="grey")
 #'
-#' # Adjust the font size in the boxes
+#' ## Adjust the font size in the boxes
 #' attrition %>%
 #'   visr("Criteria", "Remaining N", font_size = 10)
-#'
-#' @return Object of class \code{ggplot}.
 #'
 #' @rdname visr
 #' @method visr attrition

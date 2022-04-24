@@ -13,7 +13,7 @@ tidyme(x, ...)
 \method{tidyme}{survfit}(x, ...)
 }
 \arguments{
-\item{x}{S3 object}
+\item{x}{An S3 object}
 
 \item{...}{other arguments passed on to the method}
 }

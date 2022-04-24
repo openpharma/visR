@@ -11,6 +11,7 @@
 #' @param engine If html is selected as output format, one can chose between
 #' using kable, gt and DT as engine to create the output table
 #' @param download_format Options generated for downloading the data
+#'
 #' @return A table-like data structure, possibly interactive depending on the choice of the engine
 #' @rdname render
 #'
@@ -119,16 +120,6 @@ render.tableone <- function(
                     download_format)
 }
 
-#' @param data The data.frame or tibble to visualize
-#' @param title Table title to include in the rendered table
-#' @param datasource String specifying the data source underlying the data set
-#' @param footnote String specifying additional information to be displayed in the table note alongside the data source and specifications of statistical tests.
-#' @param output_format Type of output that is returned, can be html or latex
-#' @param engine If html is selected as output format, one can chose between
-#' using kable, gt and DT as engine to create the output table
-#' @param download_format How can users download it
-#' @return A table-like data structure, possibly interactive depending on the choice of the engine
-#'
 #' @rdname render
 #' @method render risktable
 #' @export
@@ -204,16 +195,6 @@ render.risktable <- function(
 }
 
 
-#' @param data The data.frame or tibble to visualize
-#' @param title Table title to include in the rendered table
-#' @param datasource String specifying the data source underlying the data set
-#' @param footnote String specifying additional information to be displayed in the table note alongside the data source and specifications of statistical tests.
-#' @param output_format Type of output that is returned, can be html or latex
-#' @param engine If html is selected as output format, one can chose between
-#' using kable, gt and DT as engine to create the output table
-#' @param download_format How can users download it
-#' @return A table-like data structure, possibly interactive depending on the choice of the engine
-#'
 #' @rdname render
 #' @method render data.frame
 #' @export
