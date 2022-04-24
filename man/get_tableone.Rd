@@ -29,8 +29,6 @@ get_tableone(
 \item{summary_function}{A function defining summary statistics for numeric and categorical values}
 }
 \value{
-A list of data specified summaries for all input variables.
-
 object of class tableone. That is a list of data specified summaries
 for all input variables.
 }

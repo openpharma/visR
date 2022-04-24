@@ -3,6 +3,10 @@
 #' @description Method to add quantile lines to a plot.
 #'
 #' @param gg A ggplot created with visR
+#' @param quantiles vector of quantiles to be displayed on the probability scale, default: 0.5
+#' @param linetype string indicating the linetype as described in the aesthetics of ggplot2 \code{\link[ggplot2]{geom_line}}, default: dashed (also supports "mixed" -> horizontal lines are solid, vertical ones are dashed)
+#' @param linecolour string indicating the linetype as described in the aesthetics of ggplot2 \code{\link[ggplot2]{geom_line}}, default: grey, (also supports "strata" -> horizontal lines are grey50, vertical ones are the same colour as the respective strata)
+#' @param alpha numeric value between 0 and 1 as described in the aesthetics of ggplot2 \code{\link[ggplot2]{geom_line}}, default: 1
 #' @param ... other arguments passed on to the method to modify \code{\link[ggplot2]{geom_line}}
 #'
 #' @examples
@@ -47,12 +51,6 @@ add_quantiles <- function(gg, ...){
   UseMethod("add_quantiles", gg)
 }
 
-#' @param quantiles vector of quantiles to be displayed on the probability scale, default: 0.5
-#' @param linetype string indicating the linetype as described in the aesthetics of ggplot2 \code{\link[ggplot2]{geom_line}}, default: dashed (also supports "mixed" -> horizontal lines are solid, vertical ones are dashed)
-#' @param linecolour string indicating the linetype as described in the aesthetics of ggplot2 \code{\link[ggplot2]{geom_line}}, default: grey, (also supports "strata" -> horizontal lines are grey50, vertical ones are the same colour as the respective strata)
-#' @param alpha numeric value between 0 and 1 as described in the aesthetics of ggplot2 \code{\link[ggplot2]{geom_line}}, default: 1
-#' @param ... other arguments passed on to the method to modify \code{\link[ggplot2]{geom_line}}
-#'
 #' @rdname add_quantiles
 #' @method add_quantiles ggsurvfit
 #' @export

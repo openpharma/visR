@@ -61,13 +61,9 @@ render(
 \item{engine}{If html is selected as output format, one can chose between
 using kable, gt and DT as engine to create the output table}
 
-\item{download_format}{How can users download it}
+\item{download_format}{Options generated for downloading the data}
 }
 \value{
-A table-like data structure, possibly interactive depending on the choice of the engine
-
-A table-like data structure, possibly interactive depending on the choice of the engine
-
 A table-like data structure, possibly interactive depending on the choice of the engine
 
 A table-like data structure, possibly interactive depending on the choice of the engine

@@ -6,17 +6,6 @@
 #' @seealso \code{\link[survival]{summary.survfit}}
 #'
 #' @param x an object of class `survfit` or `tidycuminc`
-#' @param ... other arguments passed on to the method
-#' @return return list of attributes the form the risk table i.e.
-#'   number of patients at risk per strata
-#' @rdname get_risktable
-#'
-#' @export
-
-get_risktable <- function(x, ...){
-  UseMethod("get_risktable")
-}
-
 #' @param times Numeric vector indicating the times at which the risk set, censored subjects, events are calculated.
 #' @param statlist Character vector indicating which summary data to present. Current choices are "n.risk" "n.event"
 #'   "n.censor", "cum.event", "cum.censor".
@@ -37,9 +26,17 @@ get_risktable <- function(x, ...){
 #' @param collapse Boolean, indicates whether to present the data overall.
 #'   Default is FALSE.
 #' @param ... other arguments passed on to the method
+#' 
 #' @return return list of attributes the form the risk table i.e.
 #'   number of patients at risk per strata
+#' @rdname get_risktable
 #'
+#' @export
+
+get_risktable <- function(x, ...){
+  UseMethod("get_risktable")
+}
+
 #' @rdname get_risktable
 #' @method get_risktable survfit
 #' @export
