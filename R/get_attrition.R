@@ -41,7 +41,7 @@ get_attrition <- function(
   criteria_conditions,
   subject_column_name){
 
-   if ( class(subject_column_name) != "character" | length(subject_column_name) > 1) {
+   if (!inherits(subject_column_name, "character") || length(subject_column_name) > 1) {
 
       stop("The 'subject_column_name' argument has to be a string. Please correct the 'subject_column_name' and re-run the function")
 

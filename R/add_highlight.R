@@ -48,10 +48,8 @@ add_highlight.ggsurvfit <- function(gg = NULL,
   # https://www.r-bloggers.com/2019/08/no-visible-binding-for-global-variable/#option-two
   alpha <- colour <- fill <- group <- NULL
 
-  if (!("ggplot" %in% class(gg))) {
-
+  if (!inherits(gg, "ggplot")) {
     stop("A 'ggplot' has to be specified for 'gg'.")
-
   }
 
   if (missing(strata) | length(strata) == 0) {
@@ -62,15 +60,15 @@ add_highlight.ggsurvfit <- function(gg = NULL,
 
   if (length(strata) == 1) {
 
-    if (class(strata) == "list") {
+    if (inherits(strata, "list")) {
 
-      if (class(strata[[1]]) != "character") {
+      if (!inherits(strata, "character")) {
 
         stop("A 'strata' must be either a single character string or a list of them.")
 
       }
 
-    } else if (!(class(strata) == "character")) {
+    } else if (!inherits(strata, "character")) {
 
       stop("A 'strata' must be either a single character string or a list of them.")
 
@@ -86,7 +84,7 @@ add_highlight.ggsurvfit <- function(gg = NULL,
 
     base::sapply(strata, function(s) {
 
-      if (class(s) != "character") {
+      if (!inherits(s, "character")) {
 
         stop("When 'strata' is a list, all elements must be character strings.")
 
