@@ -10,7 +10,7 @@ add_highlight(gg, ...)
 \method{add_highlight}{ggsurvfit}(gg = NULL, strata = NULL, bg_alpha = 0.2, ...)
 }
 \arguments{
-\item{gg}{A ggsurvfit, ideatlly created with visR}
+\item{gg}{A ggplot created with visR}
 
 \item{...}{other arguments passed on to the method}
 
