@@ -14,7 +14,7 @@
 #'        }
 #'     }
 #'
-#' @param gg visR plot of class `ggsurvfit` or `ggtidycmprsk`
+#' @param gg A ggplot created with visR
 #' @param ... other arguments passed on to the method add_risktable
 #'
 #' @rdname add_risktable
@@ -65,14 +65,14 @@ add_risktable <- function(gg, ...){
 add_risktable.ggsurvfit <- function(
   gg
   ,times = NULL
-  ,statlist = c("n.risk")
+  ,statlist = "n.risk"
   ,label = NULL
   ,group = "strata"
   ,collapse = FALSE
   ,...
 ){
 
-  # Obtain the relevant table -----------------------------------------------
+  # Obtain the relevant table --------------------------------------------------
   tidy_object <- gg$data
   estimate_object <- .extract_estimate_object(gg)
 

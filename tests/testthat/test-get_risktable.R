@@ -1,6 +1,6 @@
 #' @title Specifications test-get_risktable.R
-#' @section Last updated by: shaesen2 (shaesen2@@its.jnj.com)
-#' @section Last update date: 2022-01-20T00:19:21
+#' @section Last updated by: Steven Haesendonckx (47894155+SHAESEN2@@users.noreply.github.com)
+#' @section Last update date: 2022-01-22T13:32:27
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a `survfit` object
@@ -27,27 +27,33 @@
 #' T4.1 The function supplies defaults to increase the length of the `label` vector to same length as the `statlist` vector
 #' T4.2 The supplied defaults for the `label` vector match the arguments specified in the `statlist`
 #' T4.3 The function limits the length of the `label` vector to the length of the `statlist` vector
-#' T5. The function groups the calculation by strata, by statlist or overall
-#' T5.1 An error when the `group` argument is not equal to `strata` or `statlist`
-#' T5.2 An error when the `group` argument is not of length 1
-#' T5.3 No error when the `group` argument is `strata`
-#' T5.4 No error when the `group` arguments is `statlist`
-#' T5.5 The calculations are grouped by strata when group = `strata`
-#' T5.6 The calculations are grouped by statlist when group = `statlist`
-#' T5.7 The calculations are in agreement with what is expected
-#' T6. The function allows the calculations to be grouped overall
-#' T6.1 An error when the argument collapse is not boolean
-#' T6.2 No error when the argument collapse is boolean
-#' T6.3 The calculations are grouped overall when collapse = TRUE
-#' T6.4 The calculations are in agreement with expectations when grouped overall
-#' T6.5 No error when there is only one strata available and collapse = TRUE
-#' T7. The output dataset is a data.frame with attributes for downstream processing
-#' T7.1 The output dataset is a data.frame
-#' T7.2 The output dataset has the attribute `time_ticks` that specifies the times
-#' T7.3 The output dataset has the attribute `title` that specifies the labels used in downstream functions
-#' T7.4 The output dataset has the attribute `statlist` that reflects the ´group´ used
-#' T7. Tests for `get_risktable.tidycmprsk()`
-#' T7.1 Results are accurate without error
+#' T5. The functions calculates requested summary across time
+#' T5.1 The function is able to calculate the number of events from a `survfit` object
+#' T5.2 The function is able to calculate the number of censored events from a `survfit` object
+#' T5.3 The function is able to calculate the number of at risk from a `survfit` object
+#' T5.4 The function is able to calculate the cumulative number of censored events from a `survfit` object
+#' T5.5 The function is able to calculate the cumulative number of events from a `survfit` object
+#' T6. The function groups the calculation by strata, by statlist or overall
+#' T6.1 An error when the `group` argument is not equal to `strata` or `statlist`
+#' T6.2 An error when the `group` argument is not of length 1
+#' T6.3 No error when the `group` argument is `strata`
+#' T6.4 No error when the `group` arguments is `statlist`
+#' T6.5 The calculations are grouped by strata when group = `strata`
+#' T6.6 The calculations are grouped by statlist when group = `statlist`
+#' T6.7 The calculations are in agreement with what is expected
+#' T7. The function allows the calculations to be grouped overall
+#' T7.1 An error when the argument collapse is not boolean
+#' T7.2 No error when the argument collapse is boolean
+#' T7.3 The calculations are grouped overall when collapse = TRUE
+#' T7.4 The calculations are in agreement with expectations when grouped overall
+#' T7.5 No error when there is only one strata available and collapse = TRUE
+#' T8. The output dataset is a data.frame with attributes for downstream processing
+#' T8.1 The output dataset is a data.frame
+#' T8.2 The output dataset has the attribute `time_ticks` that specifies the times
+#' T8.3 The output dataset has the attribute `title` that specifies the labels used in downstream functions
+#' T8.4 The output dataset has the attribute `statlist` that reflects the ´group´ used
+#' T9. Tests for `get_risktable.tidycmprsk()`
+#' T9.1 Results are accurate without error
 
 # Requirement T1 ----------------------------------------------------------
 
@@ -109,7 +115,7 @@ testthat::test_that("T1.7 When no strata were specified, an artificial strata is
 
 })
 
-# Requirement T2 ---------------------------------------------------------------
+# Requirement T2 ----------------------------------------------------------
 
 testthat::context("get_risktable.survfit - T2. The function accepts an argument that specifies the time at which the risk set is calculated")
 
@@ -141,13 +147,15 @@ testthat::test_that("T2.3 The function proposes 11 times which are equally space
 testthat::test_that("T2.4 The risktable is correctly calculated when only 1 timepoint is used",{
 
   survfit_object <- visR::estimate_KM(adtte)
-  risktable <- visR::get_risktable(survfit_object, times = 20, statlist = c("n.risk", "n.event", "n.censor"))
-  
-  expect <- c(summary(survfit_object, times=20)[["n.risk"]], summary(survfit_object, times=20)[["n.event"]], summary(survfit_object, times=20)[["n.censor"]])
+
+  risktable <- visR::get_risktable(survfit_object, times = 20, statlist = c("n.risk", "n.event", "n.censor", "cum.event", "cum.censor"))
+
+  expect <- c(summary(survfit_object, times=20)[["n.risk"]], summary(survfit_object, times=20)[["n.event"]], summary(survfit_object, times=20)[["n.censor"]], summary(survfit_object, times=20)[["n.event"]], summary(survfit_object, times=20)[["n.censor"]])
+
   testthat::expect_equal(risktable[["Overall"]], expect)
 })
 
-# Requirement T3 ---------------------------------------------------------------
+# Requirement T3 ----------------------------------------------------------
 
 testthat::context("get_risktable.survfit - T3. The function accepts a `statlist` to be displayed for which labels can be specified")
 
@@ -194,7 +202,7 @@ testthat::test_that("T3.6 No error when the `label` is a factor",{
   testthat::expect_error(visR::get_risktable(survfit_object, label = label), NA)
 })
 
-# Requirement T4 ---------------------------------------------------------------
+# Requirement T4 ----------------------------------------------------------
 
 testthat::context("get_risktable.survfit - T4. The function matches the length of the `label` vector with that of the `statlist` vector")
 
@@ -226,71 +234,143 @@ testthat::test_that("T4.3 The function limits the length of the `label` vector t
                          c("label 1", "label 2"))
 })
 
-# Requirement T5 ---------------------------------------------------------------
+# Requirement T5 ----------------------------------------------------------
 
-testthat::context("get_risktable.survfit - T5. The function groups the calculation by strata, by statlist or overall")
+testthat::context("get_risktable.survfit - T5. T5. The functions calculates requested summary across time")
 
-testthat::test_that("T5.1 An error when the `group` argument is not equal to `strata` or `statlist`",{
+testthat::test_that("T5.1 The function is able to calculate the number of events from a `survfit` object",{
+
+  survobj <- survival::survfit.formula(data = adtte, formula = survival::Surv(AVAL, 1-CNSR) ~ 1)
+  atrisk <- summary(survobj, times = c(0,20,40,60,80,100,120,140,160,180,200), extend = TRUE)[["n.risk"]]
+
+  atrisk_visr <- visR::estimate_KM(adtte) %>%
+    visR::get_risktable(group = "statlist") %>%
+    dplyr::pull(n.risk)
+
+  testthat::expect_equal(atrisk, atrisk_visr)
+
+})
+
+testthat::test_that("T5.2 The function is able to calculate the number of censored events from a `survfit` object",{
+
+  survobj <- survival::survfit.formula(data = adtte, formula = survival::Surv(AVAL, CNSR) ~ 1)
+  censored <- summary(survobj, times = c(0,20,40,60,80,100,120,140,160,180,200), extend = TRUE)[["n.event"]]
+
+  censor_visr <- visR::estimate_KM(adtte) %>%
+    visR::get_risktable(group = "statlist", statlist="n.censor") %>%
+    dplyr::pull(n.censor)
+
+  testthat::expect_equal(censored, censor_visr)
+
+})
+
+testthat::test_that("T5.3 The function is able to calculate the number of at risk from a `survfit` object",{
+
+  survobj <- survival::survfit.formula(data = adtte, formula = survival::Surv(AVAL, 1-CNSR) ~ 1)
+  events <- summary(survobj, times = c(0,20,40,60,80,100,120,140,160,180,200), extend = TRUE)[["n.event"]]
+
+  events_visr <- visR::estimate_KM(adtte) %>%
+    visR::get_risktable(group = "statlist", statlist="n.event") %>%
+    dplyr::pull(n.event)
+
+  testthat::expect_equal(events, events_visr)
+
+})
+
+testthat::test_that("T5.4 The function is able to calculate the cumulative number of censored events from a `survfit` object",{
+
+  survobj <- survival::survfit.formula(data = adtte, formula = survival::Surv(AVAL, CNSR) ~ 1)
+  censored <- summary(survobj, times = c(0,20,40,60,80,100,120,140,160,180,200), extend = TRUE)[["n.event"]]
+  cum.censor <- cumsum(censored)
+
+  cumcensor_visr <- visR::estimate_KM(adtte) %>%
+    visR::get_risktable(group = "statlist", statlist="cum.censor") %>%
+    dplyr::pull(cum.censor)
+
+  testthat::expect_equal(cum.censor, cumcensor_visr)
+
+})
+
+testthat::test_that("T5.5 The function is able to calculate the cumulative number of events from a `survfit` object",{
+
+  survobj <- survival::survfit.formula(data = adtte, formula = survival::Surv(AVAL, 1-CNSR) ~ 1)
+  events <- summary(survobj, times = c(0,20,40,60,80,100,120,140,160,180,200), extend = TRUE)[["n.event"]]
+  cum.events <- cumsum(events)
+
+  cumevents_visr <- visR::estimate_KM(adtte) %>%
+    visR::get_risktable(group = "statlist", statlist="cum.event") %>%
+    dplyr::pull(cum.event)
+
+  testthat::expect_equal(cum.events, cumevents_visr)
+
+})
+
+# Requirement T6 ---------------------------------------------------------------
+
+testthat::context("get_risktable.survfit - T6. The function groups the calculation by strata, by statlist or overall")
+
+testthat::test_that("T6.1 An error when the `group` argument is not equal to `strata` or `statlist`",{
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
   testthat::expect_error(visR::get_risktable(survfit_object, group = "blah"))
 })
 
-testthat::test_that("T5.2 An error when the `group` argument is not of length 1", {
+testthat::test_that("T6.2 An error when the `group` argument is not of length 1", {
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
   testthat::expect_error(visR::get_risktable(survfit_object,
                                              group = c("statlist", "strata")))
 })
 
-testthat::test_that("T5.3 No error when the `group` argument is `strata`", {
+testthat::test_that("T6.3 No error when the `group` argument is `strata`", {
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
   testthat::expect_error(visR::get_risktable(survfit_object, group = "strata"), NA)
 })
 
-testthat::test_that("T5.4 No error when the `group` arguments is `statlist`", {
+testthat::test_that("T6.4 No error when the `group` arguments is `statlist`", {
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
   testthat::expect_error(visR::get_risktable(survfit_object, group = "statlist"), NA)
 })
 
-testthat::test_that("T5.5 The calculations are grouped by strata when group = `strata`", {
+testthat::test_that("T6.5 The calculations are grouped by strata when group = `strata`", {
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
   risktable <- visR::get_risktable(
-    survfit_object, 
-    group = "strata", 
+
+    survfit_object,
+    group = "strata",
     statlist=c("n.risk", "n.censor", "n.event")
   )
   testthat::expect_equal(
-    object = colnames(risktable[3:length(colnames(risktable))]), 
+    object = colnames(risktable[3:length(colnames(risktable))]),
     expected = gsub("^.*=", "", names(survfit_object$strata))
   )
 
 })
 
-testthat::test_that("T5.6 The calculations are grouped by statlist when group = `statlist`", {
+testthat::test_that("T6.6 The calculations are grouped by statlist when group = `statlist`", {
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
-  
+
   risktable <- visR::get_risktable(
-    survfit_object, 
-    group = "statlist", 
-    statlist = c("n.risk", "n.censor", "n.event")
+    survfit_object,
+    group = "statlist",
+    statlist = c("n.risk", "n.censor", "n.event", "cum.censor", "cum.event")
   )
-  
+
   testthat::expect_equal(
-    object = levels(risktable[["y_values"]]), 
+    object = levels(risktable[["y_values"]]),
     expected = gsub("^.*=", "", names(survfit_object$strata))
   )
   testthat::expect_equal(
-    object = colnames(risktable[3:length(colnames(risktable))]), 
-    expected = c("n.risk", "n.censor", "n.event")
+    object = colnames(risktable[3:length(colnames(risktable))]),
+    expected = c("n.risk", "n.censor", "n.event", "cum.censor", "cum.event")
   )
 })
 
-testthat::test_that("T5.7 The calculations are in agreement with what is expected", {
+testthat::test_that("T6.7 The calculations are in agreement with what is expected", {
 
   ## test for strata
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
@@ -313,58 +393,59 @@ testthat::test_that("T5.7 The calculations are in agreement with what is expecte
   class(risktable_ref) <- c("risktable", class(risktable_ref))
 
   testthat::expect_equal(risktable_visR, risktable_ref)
-  
+
   ## test for statlist
   survfit_object <- visR::estimate_KM(adtte)
-  risktable_visR <- visR::get_risktable(survfit_object, times = c(0,20), statlist = c("n.censor", "n.risk", "n.event"))
+  risktable_visR <- visR::get_risktable(survfit_object, times = c(0,20),
+                                        statlist = c("n.censor", "n.risk", "n.event", "cum.censor", "cum.event"))
   attr(risktable_visR, "time_ticks") <- NULL
   attr(risktable_visR, "title") <- NULL
   attr(risktable_visR, "statlist") <- NULL
-  
-  risktable_ref <-  structure(
-    list(time = c(0, 20, 0, 20, 0, 20),
-         y_values = structure(c(1L,1L, 2L, 2L, 3L, 3L), .Label = c("Censored", "At risk", "Events"), class = "factor"),
-         Overall = c(0, 19, 254, 181, 0, 57)
+
+  risktable_ref <- structure(
+    list(time = c(0, 20, 0, 20, 0, 20, 0, 20, 0, 20),
+         y_values = structure(c(1L,1L, 2L, 2L, 3L, 3L, 4L, 4L, 5L, 5L), .Label = c("Censored", "At risk", "Events", "Cum. Censored", "Cum. Events"), class = "factor"),
+         Overall = c(0, 19, 254, 181, 0, 57, 0, 19, 0, 57)
         ),
-    row.names = c(2L, 5L, 1L, 4L, 3L, 6L),
+    row.names = c(2L, 7L, 1L, 6L, 3L, 8L, 4L, 9L, 5L, 10L),
     class = c("risktable", "data.frame")
   )
-  
+
   testthat::expect_equal(risktable_visR, risktable_ref)
-  
+
   attributes(risktable_ref)
 
 })
 
-# Requirement T6 ---------------------------------------------------------------
+# Requirement T7 ---------------------------------------------------------------
 
-testthat::context("get_risktable.survfit - T6. The function allows the calculations to be grouped overall ")
+testthat::context("get_risktable.survfit - T7. The function allows the calculations to be grouped overall ")
 
-testthat::test_that("T6.1 An error when the argument collapse is not boolean", {
+testthat::test_that("T7.1 An error when the argument collapse is not boolean", {
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
   testthat::expect_error(visR::get_risktable(survfit_object, collapse = "blah"))
 })
 
-testthat::test_that("T6.2 No error when the argument collapse is boolean", {
+testthat::test_that("T7.2 No error when the argument collapse is boolean", {
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
   testthat::expect_error(visR::get_risktable(survfit_object, collapse = TRUE), NA)
 })
 
-testthat::test_that("T6.3 The calculations are grouped overall when collapse = TRUE", {
+testthat::test_that("T7.3 The calculations are grouped overall when collapse = TRUE", {
 
   survfit_object_trt <- visR::estimate_KM(adtte, strata = "TRTA")
   survfit_object_all <- visR::estimate_KM(adtte)
-  
+
   risktable_visR_trt <- visR::get_risktable(survfit_object_trt, group = "strata", collapse = TRUE)
   risktable_visR_all <- visR::get_risktable(survfit_object_all, group = "strata")
-  
+
   testthat::expect_equal(risktable_visR_trt, risktable_visR_all)
 })
 
-testthat::test_that("T6.4 The calculations are in agreement with expectations when grouped overall", {
-  
+testthat::test_that("T7.4 The calculations are in agreement with expectations when grouped overall", {
+
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
   risktable_ungroup <- visR::get_risktable(survfit_object, collapse = FALSE)
   risktable_group <- visR::get_risktable(survfit_object, collapse = TRUE)
@@ -375,18 +456,18 @@ testthat::test_that("T6.4 The calculations are in agreement with expectations wh
 
   attributes(risktable_group) <- NULL
   attributes(risktable_test) <- NULL
-    
+
   testthat::expect_equal(risktable_test, risktable_group)
 })
 
-testthat::test_that("T6.5 No error when there is only one strata available and collapse = TRUE", {
+testthat::test_that("T7.5 No error when there is only one strata available and collapse = TRUE", {
 
   survfit_object <- visR::estimate_KM(adtte)
   risktable_visR <- visR::get_risktable(survfit_object, collapse = TRUE)
   testthat::expect_error(visR::get_risktable(survfit_object, collapse = TRUE), NA)
 })
 
-# Requirement T7 ---------------------------------------------------------------
+# Requirement T7 ----------------------------------------------------------
 
 testthat::context("get_risktable.survfit - T7. The output dataset is a data.frame with attributes for downstream processing")
 
@@ -428,37 +509,37 @@ testthat::test_that("T7.4 The output dataset has the attribute `statlist` that r
                          sub('.*=', '', names(survfit_object$strata)))
 })
 
+# Requirement T8 ----------------------------------------------------------
 
-testthat::context("T7. Tests for `get_risktable.tidycmprsk()`")
+testthat::context("get_risktable.survfit - T8. Tests for `get_risktable.tidycmprsk()`")
 
-testthat::test_that("T7.1 Results are accurate without error", {
+testthat::test_that("T8.1 Results are accurate without error", {
   cuminc <-
-    estimate_cuminc(
+    visR::estimate_cuminc(
       tidycmprsk::trial,
       AVAL = "ttdeath",
       CNSR = "death_cr"
     )
 
-  expect_equal(
+  testthat::expect_equal(
     cuminc %>%
-      get_risktable(times = 12, statlist = c("n.risk", "n.event", "n.censor")),
+      get_risktable(times = 12, statlist = c("n.event", "n.risk", "n.censor")),
     cuminc %>%
       tidycmprsk::tidy(times = 12) %>%
       dplyr::filter(outcome %in% "death from cancer") %>%
       dplyr::select(time, n.risk, n.event, n.censor) %>%
       tidyr::pivot_longer(cols = c(n.risk, n.event, n.censor)) %>%
       dplyr::mutate(
-        name = dplyr::recode(name,
-                             n.risk = "At Risk",
-                             n.event = "N Event",
-                             n.censor = "N Censored")
+        name = factor(name,
+                      levels = c("n.event", "n.risk", "n.censor"),
+                      labels = c("Events", "At Risk", "Censored"))
       ) %>%
+      dplyr::arrange(.data[["name"]]) %>%
       rlang::set_names(c("time", "y_values", "Overall")) %>%
       as.data.frame(),
     ignore_attr = TRUE,
     check.attributes = FALSE
   )
-
 })
 
 # END OF CODE -------------------------------------------------------------

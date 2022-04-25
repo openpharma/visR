@@ -1,30 +1,11 @@
 #' @title Plot a supported S3 object
 #'
 #' @description S3 method for creating plots directly from objects using `ggplot2`,
-#'   similar to base::plot function.
+#'   similar to the base R `plot()` function.
 #'
 #' @seealso \code{\link[ggplot2]{ggplot}}
 #'
-#' @param x object to be passed on to the method
-#' @param ... other arguments passed on to the method
-#'
-#' @rdname visr
-#'
-#' @export
-
-visr <- function(x, ...){
-  UseMethod("visr", x)
-}
-
-#' @rdname visr
-#' @method visr default
-#' @export
-
-visr.default <- function(x, ...){
-  base::plot(x)
-}
-
-#' @param x Object of class `survfit`
+#' @param x Object of class `survfit`, `attritiontable` or `visr.tidycuminc`
 #' @param x_label \code{character} Label for the x-asis. When not specified,
 #'   the algorithm will look for "PARAM" information inside the list structure
 #'   of the `survfit` object.
@@ -56,8 +37,39 @@ visr.default <- function(x, ...){
 #'   Character values allowed are "top" "left" "bottom" "right".
 #'   Numeric coordinates are also allowed.
 #'   Default is "right".
+#' @param description_column_name \code{character} Name of the column containing
+#'   the inclusion descriptions
+#' @param value_column_name \code{character} Name of the column containing the
+#'   remaining sample counts
+#' @param complement_column_name \code{character} Optional: Name of the column
+#'   containing the exclusion descriptions
+#' @param box_width \code{character} The box width for each box in the flow
+#'   chart
+#' @param font_size \code{character} The fontsize in pt
+#' @param fill The color (string or hexcode) to use to fill the boxes in the
+#'   flowchart
+#' @param border The color (string or hexcode) to use for the borders of the
+#'   boxes in the flowchart
 #' @param ... other arguments passed on to the method
 #'
+#' @return Object of class \code{ggplot} and \code{ggsurvplot} for `survfit` objects.
+#' 
+#' @rdname visr
+#'
+#' @export
+
+visr <- function(x, ...){
+  UseMethod("visr", x)
+}
+
+#' @rdname visr
+#' @method visr default
+#' @export
+
+visr.default <- function(x, ...){
+  graphics::plot(x)
+}
+
 #' @examples
 #'
 #' # fit KM
@@ -81,8 +93,6 @@ visr.default <- function(x, ...){
 #' # Plot cumulative hazard
 #' visR::visr(survfit_object, fun = "cloglog")
 #'
-#' @return Object of class \code{ggplot}  \code{ggsurvplot}.
-#'
 #' @rdname visr
 #' @method visr survfit
 #' @export
@@ -100,12 +110,6 @@ visr.survfit <- function(
  ){
 
 # Minimal input validation  ----------------------------------------------------
-
-  if (!("survfit" %in% class(x))) {
-
-    stop("Can only be used with `survfit` objects.")
-
-  }
 
   if (!(is.null(x_label) | is.character(x_label) | is.expression(x_label))) {
 
@@ -197,7 +201,7 @@ visr.survfit <- function(
   } else if (is.function(fun)) {
     .transfun <- function(y) fun(y)
   } else {
-    stop("Error in visr: fun should be a character or a user-defined function.")
+    stop("fun should be a character or a user-defined function.")
   }
 
 # Extended tidy of survfit class + transformation + remove NA after transfo ----
@@ -205,20 +209,20 @@ visr.survfit <- function(
   correctme <- NULL
   tidy_object <- tidyme(x)
 
-  if ("surv" %in% colnames(tidy_object)) {
-    tidy_object[["est"]] <- .transfun(tidy_object[["surv"]])
+  if ("estimate" %in% colnames(tidy_object)) {
+    tidy_object[["est"]] <- .transfun(tidy_object[["estimate"]])
     correctme <- c(correctme, "est")
   }
 
-  if (all(c("upper", "lower") %in% colnames(tidy_object))) {
-    tidy_object[["est.upper"]] <- .transfun(tidy_object[["upper"]])
-    tidy_object[["est.lower"]] <- .transfun(tidy_object[["lower"]])
+  if (all(c("conf.high", "conf.low") %in% colnames(tidy_object))) {
+    tidy_object[["est.upper"]] <- .transfun(tidy_object[["conf.high"]])
+    tidy_object[["est.lower"]] <- .transfun(tidy_object[["conf.low"]])
     correctme <- c(correctme, "est.lower", "est.upper")
   }
 
 # Adjust -Inf to minimal value -------------------------------------------------
 
-  if (nrow(tidy_object[tidy_object$est == "-Inf",]) > 0) {
+  if (nrow(tidy_object[tidy_object[["est"]] == "-Inf",]) > 0) {
     warning("NAs introduced by y-axis transformation.")
   }
 
@@ -312,6 +316,7 @@ visr.survfit <- function(
                                 labels = yscaleFUN,
                                 limits = c(min(y_ticks), max(y_ticks))) +
     ggplot2::ylab(y_label) +
+    ggplot2::labs(color = .construct_strata_label(x)) +
     ggplot2::theme(legend.position = legend_position) +
     ggplot2::theme(legend.key = ggplot2::element_blank()) +
     NULL
@@ -337,24 +342,9 @@ visr.survfit <- function(
 
 }
 
-#' @param x Object of class `attritiontable` with each row corresponding to an
-#'   inclusion step in the cohort and minimally a description and a count column
-#' @param description_column_name \code{character} Name of the column containing
-#'   the inclusion descriptions
-#' @param value_column_name \code{character} Name of the column containing the
-#'   remaining sample counts
-#' @param complement_column_name \code{character} Optional: Name of the column
-#'   containing the exclusion descriptions
-#' @param box_width \code{character} The box width for each box in the flow
-#'   chart
-#' @param font_size \code{character} The fontsize in pt
-#' @param fill The color (string or hexcode) to use to fill the boxes in the
-#'   flowchart
-#' @param border The color (string or hexcode) to use for the borders of the
-#'   boxes in the flowchart
-#' @param ... other arguments passed on to the method
-#'
 #' @examples
+#' 
+#' ## Create attrition
 #' attrition <- visR::get_attrition(adtte,
 #'     criteria_descriptions = c("1. Not in Placebo Group",
 #'                               "2. Be 75 years of age or older.",
@@ -366,28 +356,30 @@ visr.survfit <- function(
 #'                               "SEX=='F'"),
 #'     subject_column_name   = "USUBJID")
 #'
-#' # Draw a CONSORT attrition chart without specifying extra text for the complement
+#' ## Draw a CONSORT attrition chart without specifying extra text for the complement
 #' attrition %>%
 #'   visr("Criteria", "Remaining N")
 #'
-#' # Adding more detailed complement descriptions to the "exclusion" part of the CONSORT diagram
+#' ## Add detailed complement descriptions to the "exclusion" part of the CONSORT diagram
 #' # Step 1. Add new column to attrition dataframe
-#' attrition$Complement <- c("NA", "Placebo Group", "Younger than 75 years", "Non-White", "Male")
+#' attrition$Complement <- c("NA",
+#'                           "Placebo Group",
+#'                           "Younger than 75 years",
+#'                           "Non-White",
+#'                           "Male")
 #'
 #' # Step 2. Define the name of the column in the call to the plotting function
 #' attrition %>%
 #'   visr("Criteria", "Remaining N", "Complement")
 #'
-#' # Styling the CONSORT flowchart
+#' ## Styling the CONSORT flowchart
 #' # Change the fill and outline of the boxes in the flowchart
 #' attrition %>%
 #'   visr("Criteria", "Remaining N", "Complement", fill = "lightblue", border="grey")
 #'
-#' # Adjust the font size in the boxes
+#' ## Adjust the font size in the boxes
 #' attrition %>%
 #'   visr("Criteria", "Remaining N", font_size = 10)
-#'
-#' @return Object of class \code{ggplot}.
 #'
 #' @rdname visr
 #' @method visr attrition
@@ -527,6 +519,9 @@ visr.tidycuminc <- function(x = NULL
                             ,y_ticks = pretty(c(0, 1), 5)
                             ,legend_position = "right"
                             ,...){
+  # check for installation of tidycmprsk package
+  rlang::check_installed("tidycmprsk", version = "0.1.1")
+
   if (!is.null(x_units)) {
     x_label <- paste0(x_label, " (", x_units, ")")
   }
@@ -547,6 +542,7 @@ visr.tidycuminc <- function(x = NULL
                                 labels = yscaleFUN,
                                 limits = c(min(y_ticks), max(y_ticks))) +
     ggplot2::ylab(y_label) +
+    ggplot2::labs(color = .construct_strata_label(x)) +
     ggplot2::theme(legend.position = legend_position) +
     ggplot2::theme(legend.key = ggplot2::element_blank()) +
     NULL

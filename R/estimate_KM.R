@@ -5,6 +5,7 @@
 #'    argument are removed.
 #'    Alternatively, PARAM/PARAMCD can be used in the \code{strata} argument. \cr
 #'    The result is an object of class \code{survfit} which can be used in downstream functions and methods that rely on the \code{survfit} class.
+#'    When strata are present, the returned survfit object is supplemented with the a named list of the stratum and associated label, if present.
 #'    By default:
 #'    \itemize{
 #'      \item{The Kaplan Meier estimate is estimated directly (stype = 1).}
@@ -72,13 +73,13 @@ estimate_KM <- function(
 ){
 
 # Capture input to validate user input for data argument -----------------
+  dots <- rlang::dots_list(...)
 
  ## Get actual data name as symbol
  ### Magrittre pipe returns "." which inactivates recalls to survfit in downstream functions
  ### map passes .x as Call$data
  ### df: catch expressions that represent base R subsets
   Call <- as.list(match.call())
-  dots <- list(...)
   dfExpr <- Call[["data"]]
 
  ## Validate `data` and capture data name
@@ -133,7 +134,7 @@ estimate_KM <- function(
 # Calculate survival and add time = 0 to survfit object -------------------
 
  ## Reverse censoring: see ADaM guidelines versus R survival KM analysis
-  
+
   formula <- stats::as.formula(paste0("survival::Surv(", AVAL, ", 1-", CNSR, ") ~ ", main))
 
   survfit_object <- survival::survfit(
@@ -149,9 +150,9 @@ estimate_KM <- function(
 
   survfit_object$call[[1]] <- quote(survival::survfit)
   survfit_object$call[["formula"]] <- formula
-  survfit_object$call[["data"]] <- Call$data
+  survfit_object$call[["data"]] <- Call[["data"]]
   if (length(dots) > 0){
-    names(survfit_object$call)
+    names(survfit_object[["call"]])
     names(dots)
     for (i in seq_along(dots)){
       survfit_object$call[[names(dots)[i]]] <- unlist(dots[i], use.names = FALSE)
@@ -172,17 +173,28 @@ estimate_KM <- function(
 
 # Artificial strata for easy downstream processing when strata=NULL ------
 
-  if (is.null(survfit_object$strata)){
-    survfit_object$strata <- as.vector(length(survfit_object$time))
+  if (is.null(survfit_object[["strata"]])){
+    survfit_object[["strata"]] <- as.vector(length(survfit_object[["time"]]))
 
     if (main == "1"){
       # overall analysis
-      attr(survfit_object$strata, "names") <- "Overall"
+      attr(survfit_object[["strata"]], "names") <- "Overall"
     } else {
       # ~ x with One level in variable present
-      attr(survfit_object$strata, "names") <- as.character(paste0(strata, "=", data[1, main]))
+      attr(survfit_object[["strata"]], "names") <- as.character(paste0(strata, "=", data[1, main]))
     }
   }
+
+  # add strata labels - main goal is for populating legend in visR(): label -- level1 strata -- levelx strata
+  # these are the LABEL attributes of the stratifying variables (separate from above, which are the levels of the variables)
+  # is null, when no stratifying variables present so legend title is not populated as Overall -- overall
+  if (!is.null(strata)) {
+    survfit_object[["strata_lbls"]] <-
+      lapply(as.list(strata), function(x) attr(data[[x]], "label") %||% x) %>%
+      rlang::set_names(strata)
+  }
+
+
 
 # Return ------------------------------------------------------------------
 

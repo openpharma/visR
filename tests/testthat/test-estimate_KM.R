@@ -1,6 +1,6 @@
 #' @title Specifications test-estimate_KM.R
-#' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2022-01-14T13:56:53
+#' @section Last updated by: Steven Haesendonckx
+#' @section Last update date: 2022-04-20
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a `data.frame` `tibble` or `data.table`
@@ -22,6 +22,8 @@
 #' T3.3 When no strata are specified, an artificial strata is created 'Overall'
 #' T3.4 When only 1 stratum is specified, the stratum names are added to the `names` attribute'
 #' T3.5 When more than 1 strata is specified, the stratum names are available in the `names` attribute
+#' T3.6 When only 1 stratum is specified, the stratum labels are added to the `strata_lbs` list element
+#' T3.7 When more than 1 strata is specified, the stratum labels are added to the `strata_lbs` list element
 #' T4. The function removes all rows with NA values inside any of the strata, CNSR or AVAL
 #' T4.1 The function removes all rows with NA values inside any of the strata, CNSR or AVAL
 #' T5. The function does not alter the calculation of survival::survfit
@@ -32,6 +34,8 @@
 #' T6. The function adds additional information to the survfit object when available
 #' T6.1 The calculation is not affected by the addition of additional parameters
 #' T6.2 The function add PARAM/PARAMCD when available
+#' T6.3 The function adds strata labels from the data when available
+#' T6.4 The function adds strata labels equal to the strata name when strata labels are not available from the data
 #' T7. The function call supports traceability
 #' T7.1 The function updates call$data when magrittr pipe is used
 #' T7.2 The function prefixes the function call with survival
@@ -180,6 +184,28 @@ testthat::test_that("T3.5 When more than 1 strata is specified, the stratum name
 
 })
 
+testthat::test_that("T3.6 When only 1 stratum is specified, the stratum labels are added to the `strata_lbs` list element", {
+
+  data <- adtte
+  survobj <- visR::estimate_KM(data = data, strata = NULL)
+
+  testthat::expect_true(is.null(survobj$strata_lbls))
+
+})
+
+testthat::test_that("T3.7 When more than 1 strata is specified, the stratum labels are added to the `strata_lbs` list element", {
+
+  data <- adtte
+  survobj <- visR::estimate_KM(data = data, strata = "SEX")
+
+  testthat::expect_equal(survobj$strata_lbls, list(SEX = "Sex"))
+  
+  survobj <- visR::estimate_KM(data = data, strata = c("RACE", "SEX"))
+
+  testthat::expect_equal(survobj$strata_lbls, list(RACE = "Race", SEX = "Sex"))
+
+})
+
 # Requirement T4 ---------------------------------------------------------------
 
 testthat::context("estimate_KM - T4. The function removes all rows with NA values inside any of the strata, CNSR or AVAL")
@@ -209,7 +235,7 @@ testthat::context("estimate_KM - T5. The function does not alter the calculation
 testthat::test_that("T5.1 The function gives the same results as survival::survfit", {
 
   ## survival package
-  survobj_survival <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX, 
+  survobj_survival <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX,
                                         data = adtte)
   survobj_survival <- survival::survfit0(survobj_survival, start.time = 0)
 
@@ -229,7 +255,7 @@ testthat::test_that("T5.1 The function gives the same results as survival::survf
 testthat::test_that("T5.2 The function adds timepoint = 0",{
 
   ## survival package
-  survobj_survival <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX, 
+  survobj_survival <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX,
                                         data = adtte)
   survobj_survival <- survival::survfit0(survobj_survival, start.time = 0)
 
@@ -250,16 +276,16 @@ testthat::test_that("T5.2 The function adds timepoint = 0",{
 testthat::test_that("T5.3 The function allows additional arguments to be passed, specific for survival::survfit", {
 
   ## survival package
-  survobj_survival <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX, 
-                                        data = adtte, 
-                                        ctype = 2, 
+  survobj_survival <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX,
+                                        data = adtte,
+                                        ctype = 2,
                                         conf.type = "plain")
   survobj_survival <- survival::survfit0(survobj_survival, start.time = 0)
 
   ## visR
-  survobj_visR <- visR::estimate_KM(data = adtte, 
-                                    strata = "SEX", 
-                                    ctype = 2, 
+  survobj_visR <- visR::estimate_KM(data = adtte,
+                                    strata = "SEX",
+                                    ctype = 2,
                                     conf.type = "plain")
 
   ## Compare common elements
@@ -275,9 +301,9 @@ testthat::test_that("T5.3 The function allows additional arguments to be passed,
 testthat::test_that("T5.4 The function returns an object of class `survfit`", {
 
   ## visR
-  survobj_visR <- visR::estimate_KM(data = adtte, 
-                                    strata = "SEX", 
-                                    ctype = 2, 
+  survobj_visR <- visR::estimate_KM(data = adtte,
+                                    strata = "SEX",
+                                    ctype = 2,
                                     conf.type = "plain")
 
   testthat::expect_true(inherits(survobj_visR, "survfit"))
@@ -291,7 +317,7 @@ testthat::context("estimate_KM - T6. The function adds additional information to
 testthat::test_that("T6.1 The calculation is not affected by the addition of additional parameters", {
 
   ## survival package
-  survobj_survival <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX, 
+  survobj_survival <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX,
                                         data = adtte)
   survobj_survival <- survival::survfit0(survobj_survival, start.time = 0)
 
@@ -311,15 +337,16 @@ testthat::test_that("T6.1 The calculation is not affected by the addition of add
   testthat::expect_equal(list_survival, list_visR)
 })
 
-testthat::test_that("T6.2 The function add PARAM/PARAMCD when available", {
+testthat::test_that("T6.2 The function adds PARAM/PARAMCD when available", {
 
   ## survival package
-  survobj_survival <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX, 
+  survobj_survival <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX,
                                         data = adtte)
   survobj_survival <- survival::survfit0(survobj_survival, start.time = 0)
 
   ## visR
   survobj_visR <- visR::estimate_KM(data = adtte, strata = "SEX")
+  survobj_visR$strata_lbls <- NULL
 
   ## Compare common elements
   Unique_Nms_visR <- base::setdiff(names(survobj_visR), names(survobj_survival))
@@ -328,6 +355,26 @@ testthat::test_that("T6.2 The function add PARAM/PARAMCD when available", {
   testthat::expect_equal(list_visR[[2]], "TTDE")
   testthat::expect_equal(list_visR[[1]], "Time to First Dermatologic Event")
 })
+
+testthat::test_that("T6.3 The function adds strata labels from the data when available", {
+
+  data <- adtte
+  survobj <- visR::estimate_KM(data = data, strata = "SEX")
+
+  testthat::expect_equal(survobj$strata_lbls, list(SEX = "Sex"))
+  
+})
+
+testthat::test_that("T6.4 The function adds strata labels equal to the strata name when strata labels are not available from the data", {
+
+  data <- adtte
+  attr(data[["SEX"]], "label") <- NULL
+  survobj <- visR::estimate_KM(data = data, strata = "SEX")
+
+  testthat::expect_equal(survobj$strata_lbls, list(SEX = "SEX"))
+
+})
+
 
 # Requirement T7 ---------------------------------------------------------------
 

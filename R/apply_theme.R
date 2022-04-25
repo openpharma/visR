@@ -13,20 +13,26 @@
 #'
 #' @examples
 #'
-#' theme <- visR::define_theme(strata = list("SEX" = list("F" = "red",
-#'                                                        "M" = "blue"),
-#'                                           "TRTA" = list("Placebo" = "cyan",
-#'                                                         "Xanomeline High Dose" = "purple",
-#'                                                         "Xanomeline Low Dose" = "brown")),
-#'                             fontsizes = list("axis" = 12,
-#'                                              "ticks" = 10,
-#'                                              "legend_title" = 10,
-#'                                              "legend_text" = 8),
-#'                             fontfamily = "Helvetica",
-#'                             grid = list("major" = FALSE,
-#'                                         "minor" = FALSE),
-#'                             bg = "transparent",
-#'                             legend_position = "top")
+#' theme <- visR::define_theme(
+#'   strata = list("SEX" = list("F" = "red",
+#'                              "M" = "blue"
+#'                            ),
+#'                "TRTA" = list("Placebo" = "cyan",
+#'                              "Xanomeline High Dose" = "purple",
+#'                              "Xanomeline Low Dose" = "brown"
+#'                            )
+#'             ),
+#'   fontsizes = list("axis" = 12,
+#'                    "ticks" = 10,
+#'                    "legend_title" = 10,
+#'                    "legend_text" = 8),
+#'   fontfamily = "Helvetica",
+#'   grid = list("major" = FALSE,
+#'               "minor" = FALSE
+#'              ),
+#'   bg = "transparent",
+#'   legend_position = "top"
+#')
 #'
 #' @export
 
@@ -37,134 +43,134 @@ define_theme <- function(strata = NULL,
                          bg = "transparent",
                          legend_position = NULL) {
   theme <- list()
-  
+
   if (!base::is.null(strata)) {
-    
+
     if (base::is.list(strata)) {
-      
+
       if (base::length(base::names(strata)) > 0) {
-        
+
         theme[["strata"]] <- strata
-      
+
       } else {
-        
+
         base::warning("Invalid argument for `strata`. Please provide a named list as described in the documentation. Setting strata to `NULL` (which results in no specific theming for stratification).")
         theme[["strata"]] <- NULL
-        
+
       }
     }
-  } 
-  
+  }
+
   if (!base::is.null(fontsizes)) {
-    
+
     if (base::is.list(fontsizes)) {
-      
+
       if (base::length(base::names(fontsizes)) > 0) {
-        
+
         theme[["fontsizes"]] <- fontsizes
-        
+
       } else {
-        
+
         base::warning("Invalid argument for `fontsizes`. Please provide a named list for the individual plot elements as described in the documentation. Setting fontsizes to `NULL`.")
         theme[["fontsizes"]] <- NULL
-        
+
       }
-      
+
     } else if (base::is.numeric(fontsizes)) {
-      
+
       base::message("Setting all fontsizes to the provided numeric value. It is recommended to use a named list as described in the documentation.")
       theme[["fontsizes"]] <- fontsizes
-      
+
     } else {
-      
+
       base::warning("Invalid argument for `fontsizes`. Please provide a named list as described in the documentation. Setting fontsizes to `NULL`.")
       theme[["fontsizes"]] <- NULL
-      
+
     }
-  } 
-  
+  }
+
   if (!base::is.character(fontfamily)) {
-    
+
     base::warning("Invalid argument for `fontfamily`. Please provide the name of a valid font family as a string. Setting to default `Helvetica`.")
     theme[["fontfamily"]] <- "Helvetica"
-    
+
   } else if (base::is.character(fontfamily) & (base::length(fontfamily) > 1)) {
-    
+
     base::warning(paste0("Invalid amount of arguments for `fontfamily`. Using the first one: ", fontfamily[[1]]))
     theme[["fontfamily"]] <- fontfamily[[1]]
-    
-  } else if (base::is.character(fontfamily) & 
-            (base::length(fontfamily) == 1) & 
+
+  } else if (base::is.character(fontfamily) &
+            (base::length(fontfamily) == 1) &
             (base::nchar(fontfamily) == 0)) {
-    
+
     base::warning("Invalid argument for `fontfamily`. Please provide the name of a valid font family as a string. Setting to default `Helvetica`.")
     theme[["fontfamily"]] <- "Helvetica"
-    
+
   } else {
-    
+
     theme[["fontfamily"]] <- fontfamily
-    
+
   }
-  
+
   if (base::is.logical(grid)) {
-    
+
     if (grid == TRUE) {
-      
+
       theme[["grid"]] <- list("major" = TRUE,
                               "minor" = FALSE)
-      
+
     } else {
-      
-      theme[["grid"]] <- grid 
-      
-    }
-    
-  } else if (is.list(grid)) {
-    
-    if (("major" %in% names(grid)) | ("minor" %in% names(grid))) {
-      
+
       theme[["grid"]] <- grid
-      
+
+    }
+
+  } else if (is.list(grid)) {
+
+    if (("major" %in% names(grid)) | ("minor" %in% names(grid))) {
+
+      theme[["grid"]] <- grid
+
     } else {
-      
+
       base::warning("Invalid argument for `grid`. Please use a boolean or a list to indicate whether you want a background grid. Setting to default `FALSE`.")
       theme[["grid"]] <- FALSE
-      
+
     }
-    
+
   } else {
-    
+
     base::warning("Invalid argument for `grid`. Please use a boolean or a list to indicate whether you want a background grid. Setting to default `FALSE`.")
     theme[["grid"]] <- FALSE
-    
+
   }
-  
+
   if (!base::is.character(bg)) {
-    
+
     base::warning("Invalid argument for `bg`. Please provide the name of a valid colour as a string. Setting to default `transparent`.")
     theme[["bg"]] <- "transparent"
-    
+
   } else {
-    
+
     theme[["bg"]] <- bg
-    
+
   }
-  
+
   if (base::is.null(legend_position) | base::is.character(legend_position)) {
-    
+
     theme[["legend_position"]] <- legend_position
-    
+
   } else {
-    
+
     base::warning("Invalid argument for `legend_position`. Setting it to default \"right\".")
     theme[["legend_position"]] <- "right"
-    
+
   }
-  
+
   base::class(theme) <- base::append(base::class(theme), "visR_theme")
-  
+
   return(theme)
-  
+
 }
 
 #' @title Applies a theme to a ggplot object.
@@ -205,7 +211,7 @@ define_theme <- function(strata = NULL,
 #' @export
 
 apply_theme <- function(gg, visR_theme_dict = NULL) {
-  
+
   # Manually define colour-blind friendly palette, taken from
   # http://mkweb.bcgsc.ca/biovis2012/krzywinski-visualizing-biological-data.pdf
   cols <- c(
@@ -218,7 +224,7 @@ apply_theme <- function(gg, visR_theme_dict = NULL) {
     grDevices::rgb(255, 182, 119, maxColorValue = 255),  #  5
     grDevices::rgb(182, 219, 255, maxColorValue = 255),  # 10
     grDevices::rgb(255, 255, 109, maxColorValue = 255),  # 15
-    
+
     grDevices::rgb(  0,  73,  73, maxColorValue = 255),  #  2
     grDevices::rgb(  0, 109, 219, maxColorValue = 255),  #  7
     grDevices::rgb(146,  73,   0, maxColorValue = 255),  # 12
@@ -226,17 +232,17 @@ apply_theme <- function(gg, visR_theme_dict = NULL) {
     grDevices::rgb(109, 182, 255, maxColorValue = 255),  #  9
     grDevices::rgb( 36, 255,  36, maxColorValue = 255)   # 14
   )
-  
+
   font_family <- ggplot2::element_text(family = "Helvetica")
-  
+
   legend_title <- ggplot2::element_text(size = 12)
   legend_text <- ggplot2::element_text(size = 10)
   legend_position <- NULL
-  
+
   axis_text <- ggplot2::element_text(size = 10)
   axis_title <- ggplot2::element_text(size = 12,
-                                      margin = ggplot2::margin(t = 6, 
-                                                               r = 6, 
+                                      margin = ggplot2::margin(t = 6,
+                                                               r = 6,
                                                                b = 6,
                                                                l = 6,
                                                                unit = "pt"))
@@ -244,199 +250,199 @@ apply_theme <- function(gg, visR_theme_dict = NULL) {
   panel_grid_major <- ggplot2::element_blank()
   panel_grid_minor <- ggplot2::element_blank()
   panel_background <- ggplot2::element_rect(fill = "transparent")
-  
+
   plot_background <- ggplot2::element_rect(fill = "transparent")
-  
+
   if (!is.null(visR_theme_dict)) {
-    
+
     if (!("visR_theme" %in% base::class(visR_theme_dict))) {
-      
+
       base::message("It is recommended to generate the theme object through `visR::define_theme`. Attempting to use the provided object anyway.")
-      
+
     }
-    
+
     if ("strata" %in% base::names(visR_theme_dict)) {
-      
+
       cols <- c()
       named_strata <- base::names(visR_theme_dict[["strata"]])
-      
+
       for (s in named_strata) {
         values <- visR_theme_dict[["strata"]][[s]]
-        
+
         for (v in names(values)) {
-          name <- paste0(s, "=", v)
+          name <- v
           cols[[name]] <- values[[v]]
         }
       }
-      
+
       cols <- unlist(cols)
-      
-    } 
-    
+
+    }
+
     # fonts and text -----------------------------------------------------------
-    
+
     if ("fontsizes" %in% base::names(visR_theme_dict)) {
-      
+
       if (is.numeric(visR_theme_dict[["fontsizes"]])) {
-        
+
         default_fontsize <- visR_theme_dict[["fontsizes"]]
         axis_margin <- base::floor(default_fontsize / 2)
         axis_title <- ggplot2::element_text(size = default_fontsize,
-                                            margin = ggplot2::margin(t = axis_margin, 
-                                                                     r = axis_margin, 
+                                            margin = ggplot2::margin(t = axis_margin,
+                                                                     r = axis_margin,
                                                                      b = axis_margin,
                                                                      l = axis_margin,
                                                                      unit = "pt"))
         axis_text <- ggplot2::element_text(size = default_fontsize)
         legend_title <- ggplot2::element_text(size = default_fontsize)
         legend_text <- ggplot2::element_text(size = default_fontsize)
-        
+
       } else if (is.list(visR_theme_dict[["fontsizes"]])) {
-        
+
         if ("axis" %in% names(visR_theme_dict[["fontsizes"]])) {
-          
+
           axis_title_fontsize <- visR_theme_dict[["fontsizes"]][["axis"]]
           axis_margin <- base::floor(axis_title_fontsize / 2)
           axis_title <- ggplot2::element_text(size = axis_title_fontsize,
-                                              margin = ggplot2::margin(t = axis_margin, 
-                                                                       r = axis_margin, 
+                                              margin = ggplot2::margin(t = axis_margin,
+                                                                       r = axis_margin,
                                                                        b = axis_margin,
                                                                        l = axis_margin,
                                                                        unit = "pt"))
-          
+
         }
-        
+
         if ("ticks" %in% names(visR_theme_dict[["fontsizes"]])) {
-          
+
           axis_text <- ggplot2::element_text(size = visR_theme_dict[["fontsizes"]][["ticks"]])
-          
+
         }
-        
+
         if ("legend_title" %in% names(visR_theme_dict[["fontsizes"]])) {
-          
+
           legend_title <- ggplot2::element_text(size = visR_theme_dict[["fontsizes"]][["legend_title"]])
-          
+
         }
-        
+
         if ("legend_text" %in% names(visR_theme_dict[["fontsizes"]])) {
-          
+
           legend_text <- ggplot2::element_text(size = visR_theme_dict[["fontsizes"]][["legend_text"]])
-          
+
         }
-      } 
+      }
     }
-    
+
     if ("fontfamily" %in% base::names(visR_theme_dict)) {
-      
+
       font_family <- ggplot2::element_text(family = visR_theme_dict[["fontfamily"]])
-      
+
     }
-    
+
     # grid ---------------------------------------------------------------------
-    
+
     if ("grid" %in% base::names(visR_theme_dict)) {
-      
+
       if (is.logical(visR_theme_dict[["grid"]])) {
-        
+
         if (visR_theme_dict[["grid"]] == FALSE) {
-          
+
           panel_grid_major <- ggplot2::element_blank()
           panel_grid_minor <- ggplot2::element_blank()
-          
+
         } else if (visR_theme_dict[["grid"]] == TRUE) {
-          
+
           panel_grid_major <- ggplot2::element_line()
           panel_grid_minor <- ggplot2::element_line()
-          
+
         }
-        
+
       } else if (is.list(visR_theme_dict[["grid"]])) {
-        
+
         if ("major" %in% base::names(visR_theme_dict[["grid"]])) {
-          
+
           if (visR_theme_dict[["grid"]][["major"]] == FALSE) {
-            
+
             panel_grid_major <- ggplot2::element_blank()
-            
+
           } else if (visR_theme_dict[["grid"]][["major"]] == TRUE) {
-            
+
             panel_grid_major <- ggplot2::element_line()
-            
+
           } else {
-            
+
             base::warning("Invalid argument for `theme[[\"grid\"]][[\"major\"]]`. Please use `TRUE` or `FALSE`. Setting to default `FALSE`.")
-            
+
           }
         }
-        
+
         if ("minor" %in% base::names(visR_theme_dict[["grid"]])) {
-          
+
           if (visR_theme_dict[["grid"]][["minor"]] == FALSE) {
-            
+
             panel_grid_minor = ggplot2::element_blank()
-            
+
           } else if (visR_theme_dict[["grid"]][["minor"]] == TRUE) {
-            
+
             panel_grid_minor = ggplot2::element_line()
-            
+
           } else {
-            
+
             base::warning("Invalid argument for `theme[[\"grid\"]][[\"minor\"]]`. Please use `TRUE` or `FALSE`. Setting to default `FALSE`.")
-            
+
           }
         }
-        
-        if (!("major" %in% base::names(visR_theme_dict[["grid"]])) & 
+
+        if (!("major" %in% base::names(visR_theme_dict[["grid"]])) &
             !("minor" %in% base::names(visR_theme_dict[["grid"]]))) {
-          
+
           base::warning("Could find neither `theme[[\"grid\"]][[\"major\"]]` nor `theme[[\"grid\"]][[\"minor\"]]`. Setting to default `FALSE`.")
           panel_grid_major = ggplot2::element_blank()
           panel_grid_minor = ggplot2::element_blank()
-          
+
         }
-        
+
       }
     } else {
-      
+
       panel_grid_major = ggplot2::element_blank()
       panel_grid_minor = ggplot2::element_blank()
-      
+
     }
-    
+
     # background ---------------------------------------------------------------
-    
+
     if ("bg" %in% base::names(visR_theme_dict)) {
-      
+
       bg_colour <- visR_theme_dict[["bg"]]
       panel_background <- ggplot2::element_rect(fill = bg_colour)
       plot_background <- ggplot2::element_rect(fill = bg_colour)
-      
+
     }
-    
+
     # legend position ----------------------------------------------------------
-    
+
     if ("legend_position" %in% base::names(visR_theme_dict)) {
-      
+
       legend_position <- visR_theme_dict[["legend_position"]]
-      
+
     } else {
-      
+
       ggb <- ggplot2::ggplot_build(gg)
       legend_position <- ggb$plot$theme$legend.position
-      
+
     }
   }
-  
+
   if (is.null(legend_position)) {
-    
+
     ggb <- ggplot2::ggplot_build(gg)
     legend_position <- ggb$plot$theme$legend.position
-    
+
   }
-  
+
   # Reset background
   gg <- gg + ggplot2::theme_minimal()
-  
+
   gg <- gg +
     ggplot2::scale_colour_manual(values = cols,
                                  aesthetics = c("colour", "fill")) +
@@ -453,7 +459,7 @@ apply_theme <- function(gg, visR_theme_dict = NULL) {
       plot.background = plot_background,
       legend.position = legend_position
     )
-  
+
   return(gg)
 }
 

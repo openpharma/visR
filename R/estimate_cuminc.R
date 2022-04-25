@@ -15,6 +15,8 @@
 #' @inheritParams add_risktable.ggsurvfit
 #' @inheritParams get_risktable
 #'
+#' @return A cumulative incidence object as explained at https://mskcc-epi-bio.github.io/tidycmprsk/reference/cuminc.html
+#'
 #' @export
 #'
 #' @examples
@@ -26,25 +28,17 @@
 #' ) %>%
 #'   visr() %>%
 #'   add_CI() %>%
-#'   add_risktable(statlist = c("n.risk", "cumulative.event"))
+#'   add_risktable(statlist = c("n.risk", "cum.event"))
 
 estimate_cuminc <- function(data
                             ,strata = NULL
                             ,CNSR = "CNSR"
                             ,AVAL = "AVAL"
                             ,conf.int = 0.95
-                            ,...){
+                            ,...) {
   # check for installation of tidycmprsk package
-  if (!"tidycmprsk" %in% rownames(utils::installed.packages()) ||
-      utils::packageVersion("tidycmprsk") < "0.1.0.9003") {
-    message("Install updated version of 'tidycmprsk' with `devtools::install_github('MSKCC-Epi-Bio/tidycmprsk')`")
-    return(invisible())
-  }
-  if (!"hardhat" %in% rownames(utils::installed.packages()) ||
-      utils::packageVersion("hardhat") <= "0.1.6") {
-    message("Install updated version of 'hardhat' with `devtools::install_github('tidymodels/hardhat')`")
-    return(invisible())
-  }
+  rlang::check_installed("tidycmprsk", version = "0.1.1")
+  dots <- rlang::dots_list(...)
 
   # checking/prepping inputs ---------------------------------------------------
   strata <- strata %||% "1" %>% paste(collapse = " + ")
@@ -67,12 +61,12 @@ estimate_cuminc <- function(data
 visr_tidy_tidycuminc <- function(x, times = NULL) {
   df_visr_tidy <-
     tidycmprsk::tidy(x, times = times) %>%
-    dplyr::filter(.data$outcome %in% names(x$failcode)[1]) %>%
+    dplyr::filter(.data[["outcome"]] %in% names(x$failcode)[1]) %>%
     # renaming to match column name in the survfit equivalent of these functions
     dplyr::rename(
-      est = .data$estimate,
-      est.lower = .data$conf.low,
-      est.upper = .data$conf.high
+      est = .data[["estimate"]],
+      est.lower = .data[["conf.low"]],
+      est.upper = .data[["conf.high"]]
     )
 
   # adding strata column if not already present

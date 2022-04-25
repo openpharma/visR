@@ -10,7 +10,7 @@ add_highlight(gg, ...)
 \method{add_highlight}{ggsurvfit}(gg = NULL, strata = NULL, bg_alpha = 0.2, ...)
 }
 \arguments{
-\item{gg}{A ggsurvfit, ideatlly created with visR}
+\item{gg}{A ggplot created with visR}
 
 \item{...}{other arguments passed on to the method}
 
@@ -30,9 +30,9 @@ adtte \%>\%
   visR::estimate_KM(strata = "SEX") \%>\%
   visR::visr() \%>\%
   visR::add_CI(alpha = 0.4) \%>\%
-  visR::add_highlight(strata = "SEX=M", bg_alpha = 0.2)
+  visR::add_highlight(strata = "M", bg_alpha = 0.2)
 
-strata = c("TRTP=Placebo", "TRTP=Xanomeline Low Dose")
+strata = c("Placebo", "Xanomeline Low Dose")
 
 adtte \%>\%
   visR::estimate_KM(strata = "TRTP") \%>\%

@@ -31,6 +31,9 @@ competing events. Default is \code{"CNSR"}}
 
 \item{...}{Additional argument passed to \code{tidycmprsk::cuminc()}}
 }
+\value{
+A cumulative incidence object as explained at https://mskcc-epi-bio.github.io/tidycmprsk/reference/cuminc.html
+}
 \description{
 Function creates a cumulative incidence object using the
 \code{tidycmprsk::cuminc()} function.
@@ -44,5 +47,5 @@ estimate_cuminc(
 ) \%>\%
   visr() \%>\%
   add_CI() \%>\%
-  add_risktable(statlist = c("n.risk", "cumulative.event"))
+  add_risktable(statlist = c("n.risk", "cum.event"))
 }

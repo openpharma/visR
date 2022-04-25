@@ -8,7 +8,12 @@
 \description{
 \if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
 
-To enable fit-for-purpose, reusable clinical and medical research focused visualizations and tables with sensible defaults and based on graphical principles as described in: "Vandemeulebroecke et al. (2018)" <doi:10.1002/pst.1912>, "Vandemeulebroecke et al. (2019)" <doi:10.1002/psp4.12455>, and "Morris et al. (2019)" <doi:10.1136/bmjopen-2019-030215>.
+To enable fit-for-purpose, reusable clinical and medical
+    research focused visualizations and tables with sensible defaults and
+    based on graphical principles as described in: "Vandemeulebroecke et
+    al. (2018)" <doi:10.1002/pst.1912>, "Vandemeulebroecke et al. (2019)"
+    <doi:10.1002/psp4.12455>, and "Morris et al. (2019)"
+    <doi:10.1136/bmjopen-2019-030215>.
 }
 \seealso{
 Useful links:
@@ -27,12 +32,13 @@ Authors:
   \item Charlotta Fruechtenicht \email{charlotta.fruechtenicht@roche.com}
   \item Marc Vandemeulebroecke \email{marc.vandemeulebroecke@novartis.com}
   \item Thanos Siadimas \email{thanos.siadimas@roche.com}
-  \item Pawel Kawski \email{pawel.kawski@contractors.roche.com>}
+  \item Pawel Kawski \email{pawel.kawski@contractors.roche.com}
   \item Steven Haesendonckx \email{shaesen2@its.jnj.com}
   \item James Black \email{james.black.jb2@roche.com}
   \item Pelagia Alexandra Papadopoulou \email{PPapadop@its.jnj.com}
   \item Tim Treis \email{tim.treis@outlook.de}
   \item Rebecca Albrecht \email{rebecca.albrecht.dietsch@gmail.com}
+  \item Daniel D. Sjoberg \email{danield.sjoberg@gmail.com} (\href{https://orcid.org/0000-0003-0862-2018}{ORCID})
 }
 
 }

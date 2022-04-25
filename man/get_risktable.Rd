@@ -11,9 +11,9 @@ get_risktable(x, ...)
 \method{get_risktable}{survfit}(
   x,
   times = NULL,
-  statlist = c("n.risk"),
+  statlist = "n.risk",
   label = NULL,
-  group = "strata",
+  group = c("strata", "statlist"),
   collapse = FALSE,
   ...
 )
@@ -23,7 +23,7 @@ get_risktable(x, ...)
   times = pretty(x$tidy$time, 10),
   statlist = c("n.risk"),
   label = NULL,
-  group = "strata",
+  group = c("strata", "statlist"),
   collapse = FALSE,
   ...
 )
@@ -35,11 +35,12 @@ get_risktable(x, ...)
 
 \item{times}{Numeric vector indicating the times at which the risk set, censored subjects, events are calculated.}
 
-\item{statlist}{Character vector indicating which summary data to present. Current choices are "n.risk" "n.event" "n.censor".
-Default is "n.risk". Competing risk models also have the option of "cumulative.event" and "cumulative.censor"}
+\item{statlist}{Character vector indicating which summary data to present. Current choices are "n.risk" "n.event"
+"n.censor", "cum.event", "cum.censor".
+Default is "n.risk".}
 
-\item{label}{Character vector with labels for the statlist. Default matches "n.risk" with "At risk", "n.event" with "Events" and "n.censor"
-with "Censored".}
+\item{label}{Character vector with labels for the statlist. Default matches "n.risk" with "At risk", "n.event" with
+"Events", "n.censor" with "Censored", "cum.event" with "Cum. Event", and "cum.censor" with "Cum. Censor".}
 
 \item{group}{String indicating the grouping variable for the risk tables.
 Current options are:
@@ -57,9 +58,6 @@ Default is "strata".}
 Default is FALSE.}
 }
 \value{
-return list of attributes the form the risk table i.e.
-number of patients at risk per strata
-
 return list of attributes the form the risk table i.e.
 number of patients at risk per strata
 }

@@ -48,8 +48,7 @@ visr(x, ...)
 )
 }
 \arguments{
-\item{x}{Object of class \code{attritiontable} with each row corresponding to an
-inclusion step in the cohort and minimally a description and a count column}
+\item{x}{Object of class \code{survfit}, \code{attritiontable} or \code{visr.tidycuminc}}
 
 \item{...}{other arguments passed on to the method}
 
@@ -112,13 +111,11 @@ flowchart}
 boxes in the flowchart}
 }
 \value{
-Object of class \code{ggplot}  \code{ggsurvplot}.
-
-Object of class \code{ggplot}.
+Object of class \code{ggplot} and \code{ggsurvplot} for \code{survfit} objects.
 }
 \description{
 S3 method for creating plots directly from objects using \code{ggplot2},
-similar to base::plot function.
+similar to the base R \code{plot()} function.
 }
 \examples{
 
@@ -143,6 +140,8 @@ visR::visr(survfit_object, fun = "pct")
 # Plot cumulative hazard
 visR::visr(survfit_object, fun = "cloglog")
 
+
+## Create attrition
 attrition <- visR::get_attrition(adtte,
     criteria_descriptions = c("1. Not in Placebo Group",
                               "2. Be 75 years of age or older.",
@@ -154,24 +153,28 @@ attrition <- visR::get_attrition(adtte,
                               "SEX=='F'"),
     subject_column_name   = "USUBJID")
 
-# Draw a CONSORT attrition chart without specifying extra text for the complement
+## Draw a CONSORT attrition chart without specifying extra text for the complement
 attrition \%>\%
   visr("Criteria", "Remaining N")
 
-# Adding more detailed complement descriptions to the "exclusion" part of the CONSORT diagram
+## Add detailed complement descriptions to the "exclusion" part of the CONSORT diagram
 # Step 1. Add new column to attrition dataframe
-attrition$Complement <- c("NA", "Placebo Group", "Younger than 75 years", "Non-White", "Male")
+attrition$Complement <- c("NA",
+                          "Placebo Group",
+                          "Younger than 75 years",
+                          "Non-White",
+                          "Male")
 
 # Step 2. Define the name of the column in the call to the plotting function
 attrition \%>\%
   visr("Criteria", "Remaining N", "Complement")
 
-# Styling the CONSORT flowchart
+## Styling the CONSORT flowchart
 # Change the fill and outline of the boxes in the flowchart
 attrition \%>\%
   visr("Criteria", "Remaining N", "Complement", fill = "lightblue", border="grey")
 
-# Adjust the font size in the boxes
+## Adjust the font size in the boxes
 attrition \%>\%
   visr("Criteria", "Remaining N", font_size = 10)
 

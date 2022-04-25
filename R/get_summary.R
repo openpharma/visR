@@ -3,7 +3,10 @@
 #' @description S3 method for extracting descriptive statistics across strata.
 #'     No default method is available at the moment.
 #'
-#' @param x S3 object
+#' @param x An object of class `survfit`
+#' @param statlist Character vector containing the desired information to be displayed. The order of the arguments determines the order in which
+#'    they are displayed in the final result. Default is the strata ("strata"), number of subjects ("records"), number of events ("events"),
+#'    the median survival time ("median"), the Confidence Interval ("CI"), the Lower Confidence Limit ("UCL") and the Upper Confidence Limit ("UCL").
 #' @param ... other arguments passed on to the method
 #'
 #' @rdname get_summary
@@ -14,14 +17,9 @@ get_summary <- function(x, ...){
   UseMethod("get_summary", x)
 }
 
-#' @param x An object of class `survfit`
-#' @param statlist Character vector containing the desired information to be displayed. The order of the arguments determines the order in which
-#'    they are displayed in the final result. Default is the strata ("strata"), number of subjects ("records"), number of events ("events"),
-#'    the median survival time ("median"), the Confidence Interval ("CI"), the Lower Confidence Limit ("UCL") and the Upper Confidence Limit ("UCL").
-#'
 #'  @examples
 #'
-#' survfit_object <- survival::survfit(data = adtte, Surv(AVAL, 1-CNSR) ~ TRTP)
+#' survfit_object <- survival::survfit(data = adtte, survival::Surv(AVAL, 1-CNSR) ~ TRTP)
 #' get_summary(survfit_object)
 #'
 #' @return A data frame with summary measures from a `survfit` object

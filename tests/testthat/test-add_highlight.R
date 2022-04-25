@@ -1,6 +1,6 @@
 #' @title Specifications test-add_highlight.R
 #' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2022-01-14T13:56:53
+#' @section Last update date: 2022-01-14T14:20:44
 #'
 #' @section List of tested specifications
 #' T1. The function modifies a `ggsurvfit` object and returns it.
@@ -40,7 +40,7 @@ testthat::test_that("T1.1 No error when `add_highlight` is called on a `ggsurvfi
   testthat::expect_true("ggsurvfit" %in% class(gg))
 
   gg %>%
-    visR::add_highlight(strata = "TRTP=Placebo") %>%
+    visR::add_highlight(strata = "Placebo") %>%
     testthat::expect_error(NA)
 
 })
@@ -91,7 +91,7 @@ testthat::test_that("T1.5 The function returns a modified object of type `ggsurv
 
   testthat::expect_true("ggsurvfit" %in% class(gg))
 
-  gg_with_highlight <- gg %>% add_highlight("TRTP=Placebo")
+  gg_with_highlight <- gg %>% add_highlight("Placebo")
 
   testthat::expect_true("ggsurvfit" %in% class(gg_with_highlight))
 
@@ -110,12 +110,12 @@ testthat::test_that("T2.1 No error when `strata` is a character string found in 
     visR::visr()
 
   gg %>%
-    visR::add_highlight(strata = "TRTP=Placebo") %>%
+    visR::add_highlight(strata = "Placebo") %>%
     testthat::expect_error(NA)
 
   testthat::skip_on_cran()
   gg %>%
-    visR::add_highlight(strata = "TRTP=Placebo") %>%
+    visR::add_highlight(strata = "Placebo") %>%
     vdiffr::expect_doppelganger(title = "add_highlight_T2_1_no_error_when_strata_is_string")
 
 })
@@ -126,7 +126,7 @@ testthat::test_that("T2.2 An error when `strata` is a character string not found
     visR::estimate_KM(strata = "TRTP") %>%
     visR::visr()
 
-  expected_error <- "The strata you specified has not been found in the provided plot.\n  Available strata: TRTP=Placebo, TRTP=Xanomeline High Dose, TRTP=Xanomeline Low Dose\n  Please adjust and rerun."
+  expected_error <- "The strata you specified has not been found in the provided plot.\n  Available strata: Placebo, Xanomeline High Dose, Xanomeline Low Dose\n  Please adjust and rerun."
 
   gg %>%
     visR::add_highlight(strata = "visR") %>%
@@ -148,8 +148,8 @@ testthat::test_that("T2.3 No error when `strata` is a `list` with a single non-c
 
 testthat::test_that("T2.4 No error when `strata` is a `list` or `vector` of character strings found in the plot strata.", {
 
-  strata_list <- list("TRTP=Placebo", "TRTP=Xanomeline Low Dose")
-  strata_vector <- c("TRTP=Placebo", "TRTP=Xanomeline Low Dose")
+  strata_list <- list("Placebo", "Xanomeline Low Dose")
+  strata_vector <- c("Placebo", "Xanomeline Low Dose")
 
   gg <- adtte %>%
     visR::estimate_KM(strata = "TRTP") %>%
@@ -254,7 +254,7 @@ testthat::test_that("T3.1 No error when `bg_alpha` is a `numberic`.", {
     visR::visr()
 
   gg %>%
-    visR::add_highlight(strata = "TRTP=Placebo",
+    visR::add_highlight(strata = "Placebo",
                         bg_alpha = 0.2) %>%
     testthat::expect_error(NA)
 
@@ -269,7 +269,7 @@ testthat::test_that("T3.2 An error when `bg_alpha` is a not a `numberic`.", {
   expected_error <- "The `bg_alpha` must be a `numeric`."
 
   gg %>%
-    visR::add_highlight(strata = "TRTP=Placebo",
+    visR::add_highlight(strata = "Placebo",
                         bg_alpha = "visR") %>%
     testthat::expect_error(expected_error)
 
@@ -284,12 +284,12 @@ testthat::test_that("T3.3 An error when `bg_alpha` is outside of [0, 1].", {
   expected_error <- "The `bg_alpha` must be a numeric value between 0 and 1."
 
   gg %>%
-    visR::add_highlight(strata = "TRTP=Placebo",
+    visR::add_highlight(strata = "Placebo",
                         bg_alpha = -1) %>%
     testthat::expect_error(expected_error)
 
   gg %>%
-    visR::add_highlight(strata = "TRTP=Placebo",
+    visR::add_highlight(strata = "Placebo",
                         bg_alpha = 2) %>%
     testthat::expect_error(expected_error)
 
@@ -304,17 +304,17 @@ testthat::test_that("T3.4 The alpha of the background strata changes with `bg_al
   testthat::skip_on_cran()
 
   gg %>%
-    visR::add_highlight(strata = "TRTP=Placebo",
+    visR::add_highlight(strata = "Placebo",
                         bg_alpha = 0) %>%
     vdiffr::expect_doppelganger(title = "add_highlight_T3_4_bg_alpha_is_0")
 
   gg %>%
-    visR::add_highlight(strata = "TRTP=Placebo",
+    visR::add_highlight(strata = "Placebo",
                         bg_alpha = 0.4) %>%
     vdiffr::expect_doppelganger(title = "add_highlight_T3_4_bg_alpha_is_0_4")
 
   gg %>%
-    visR::add_highlight(strata = "TRTP=Placebo",
+    visR::add_highlight(strata = "Placebo",
                         bg_alpha = 1.0) %>%
     vdiffr::expect_doppelganger(title = "add_highlight_T3_4_bg_alpha_is_1")
 
@@ -330,7 +330,7 @@ testthat::test_that("T4.1 The function adds the alpha channel to the hex-encoded
     visR::estimate_KM(strata = "TRTP") %>%
     visR::visr()
 
-  gg_with_highlight <- gg %>% visR::add_highlight(strata = "TRTP=Placebo")
+  gg_with_highlight <- gg %>% visR::add_highlight(strata = "Placebo")
 
   gg_data <- ggplot2::ggplot_build(gg)$data[[1]]
   gg_with_highlight_data <- ggplot2::ggplot_build(gg_with_highlight)$data[[1]]
@@ -360,7 +360,7 @@ testthat::test_that("T4.2 The function also reduces the alpha value of the confi
     visR::add_CI(alpha = ci_alpha)
 
   gg_with_highlight <- gg %>%
-    visR::add_highlight(strata = "TRTP=Placebo", bg_alpha = bg_alpha)
+    visR::add_highlight(strata = "Placebo", bg_alpha = bg_alpha)
 
   gg_CI_data <- ggplot2::ggplot_build(gg)$data[[2]]
   gg_with_highlight_CI_data <- ggplot2::ggplot_build(gg_with_highlight)$data[[2]]
@@ -376,8 +376,8 @@ testthat::test_that("T4.2 The function also reduces the alpha value of the confi
 
     }) %>% as.vector()
 
-  gg_with_highlight_CI_fills_numeric <- gsub(pattern = "#[A-Z0-9]{6}", 
-                                             replacement = "", 
+  gg_with_highlight_CI_fills_numeric <- gsub(pattern = "#[A-Z0-9]{6}",
+                                             replacement = "",
                                              x = gg_with_highlight_CI_fills) %>%
     sapply(function(s) {
 
@@ -385,10 +385,10 @@ testthat::test_that("T4.2 The function also reduces the alpha value of the confi
 
     }) %>% as.vector()
 
-  testthat::expect_equal(gg_CI_fills_numeric, 
+  testthat::expect_equal(gg_CI_fills_numeric,
                          rep(ci_alpha, length(gg_CI_fills_numeric)))
 
-  # To not over-engineer the test here, we take for granted that the foreground 
+  # To not over-engineer the test here, we take for granted that the foreground
   # strata is the first of the three in the evaluation order
   testthat::expect_equal(gg_with_highlight_CI_fills_numeric[1], ci_alpha)
   testthat::expect_equal(gg_with_highlight_CI_fills_numeric[2], ci_alpha*bg_alpha)

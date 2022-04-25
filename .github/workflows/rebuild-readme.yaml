@@ -9,7 +9,9 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+        with:
+              ref: ${{ github.ref }}
       - uses: r-lib/actions/setup-r@v1
       - uses: r-lib/actions/setup-pandoc@v1
       - name: Install rmarkdown, remotes, and the local package
@@ -24,7 +26,7 @@ jobs:
           remotes::install_cran("data.table")
           remotes::install_cran("covr")
           remotes::install_github("lorenzwalthert/gitsum")
-          remotes::install_github("pharmaR/riskmetric")
+          remotes::install_github("pharmaR/riskmetric@v0.1.1")
           install.packages("ggthemes")
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}

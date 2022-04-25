@@ -1,8 +1,8 @@
 ---
-title: "Survival Analysis with visR using CDISC ADaM standard"
+title: "Survival Analysis with visR using CDISC ADaM Time-To-Event Analysis Dataset (ADTTE)"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Survival Analysis with visR using CDISC ADaM standard}
+  %\VignetteIndexEntry{Survival Analysis with visR using CDISC ADaM Time-To-Event Analysis Dataset (ADTTE)}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -16,8 +16,7 @@ knitr::opts_chunk$set(
 
 ## Introduction
 
-
-This very short tutorial illustrates how a standard time-to-event analysis can be done very efficiently when the data set adheres to the [CDISC ADaM standard](https://www.cdisc.org/standards/foundational/adam/adam-basic-data-structure-bds-time-event-tte-analyses-v1-0). A more detailed time-to-event analysis with a more broad overview of visR's functionality is presented in another vignette.
+This tutorial illustrates how a standard time-to-event analysis can be done very efficiently when the data set adheres to the [CDISC ADaM standard](https://www.cdisc.org/standards/foundational/adam/adam-basic-data-structure-bds-time-event-tte-analyses-v1-0). A more detailed time-to-event analysis with a more broad overview of visR's functionality is presented in another vignette.
 
 
 ```{r imports, echo=TRUE, warning=FALSE, message=FALSE}
@@ -27,8 +26,8 @@ library(visR)
 
 ## Global Document Setup
 ```{r globalSetup}
-# Constants
-DATASET <- paste0("Analysis data - time to event")
+# Metadata Title
+DATASET <- paste0("Analyis Data Time-To-Event (ADTTE)")
 
 # Save original options()
 old <- options()  
@@ -44,7 +43,7 @@ options(DT.options = list(pageLength = 10,
                           language = list(search = 'Filter:'), 
                           scrollX = TRUE))
 
-# load data set adtte already adhering to the CDISC ADaM standard 
+# load ADTTE from CDISC pilot 
 data(adtte)
 
 # Restore original options()
@@ -59,29 +58,33 @@ visR includes a wrapper function to easily display summary tables (e.g. `tableon
 
 ```{r table1_get_default}
 # Display a summary table (e.g. tableone)
-tableone(adtte[,c("TRTP", "AGE")],
+visR::tableone(adtte[,c("TRTP", "AGE")],
          title = "Demographic summary" , datasource = DATASET)
 ```
 
-A wrapper function to estimate a Kaplan-Meier curve that is compatible with `%>%` and purrr::map functions without losing traceability of the dataset name is included in visR. If a data set adhere to the CDISC ADaM standard, only a stratifier needs to be specified.
+The wrapper function to estimate a Kaplan-Meier curve is compatible with `%>%` and purrr::map functions without losing traceability of the dataset name inside the call of the object. If a data set adheres to the CDISC ADaM standards, only a stratifier needs to be specified.
 
 ```{r km_est}
 # Estimate a survival object
-survfit_object <-  estimate_KM(adtte, strata = "TRTP")
+survfit_object <-  adtte %>%
+  visR::estimate_KM(data = ., strata = "TRTP")
 survfit_object
 ```
 
-Given a survival object visR includes several functions to easily to get additional information from the survival object (e.g. test statistics and p-values) and a general function to display a table (`render`).
+Given a survival object, visR includes several functions to quickly extract additional information from the survival object (e.g. test statistics and p-values) and a general function to display a table (`render`).
 
 ```{r km_tab_options_1}
 # Display test statistics associated with the survival estimate
-render(survfit_object  %>% get_pvalue(), title = "P-values", datasource = DATASET)
+
+visR::render(survfit_object %>% get_pvalue(), title = "P-values", datasource = DATASET)
 
 ```
 
 A survival object can be plotted using the visR function `visr`. Additional information like confidence intervals and a risktable can be added to the plot.
 
-```{r km_plot_1}
+```{r km_plot_1, fig.align='center', fig.width= 6, fig.height=4}
 # Create and display a Kaplan-Meier from the survival object and add a risktable
-visr(survfit_object) %>% add_CI() %>% add_risktable()
+visr(survfit_object) %>% 
+  visR::add_CI() %>%
+  visR::add_risktable()
 ```

@@ -14,8 +14,9 @@ knitr::opts_chunk$set(
 )
 
 library(visR)
+library(riskmetric)
+library(usethis)
 
-#library(riskmetric)
 riskmetric_score <- "visR" %>%
   riskmetric::pkg_ref() %>%
   dplyr::as_tibble() %>%
@@ -50,14 +51,12 @@ The package is still experimental and under active development with a current fo
 
 <!-- badges: start -->
 
-| Badge | Description
-|----------------------|-------------------|
-| [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)    | Development stage |
-| [![Codecov test coverage](https://codecov.io/gh/openpharma/visR/branch/develop/graph/badge.svg)](https://codecov.io/gh/openpharma/visR?branch=main) | Unit testing coverage - on `main` |
-| [![R-CMD-check](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml/badge.svg?branch=main)](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml) | `main` branch |
-| [![pkgdown](https://github.com/openpharma/visR/actions/workflows/makedocs.yml/badge.svg)](https://github.com/openpharma/visR/actions/workflows/makedocs.yml) | Documentation building to [Github pages](https://openpharma.github.io/visR/) |
-| [![CRAN status](https://www.r-pkg.org/badges/version/visR)](https://CRAN.R-project.org/package=visR)| Latest CRAN release |
-| <a href=https://github.com/pharmaR/riskmetric><img src=https://img.shields.io/badge/riskmetric-`r riskmetric_score`-green></img></a>| `riskmetric` score |
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![Codecov test coverage](https://codecov.io/gh/openpharma/visR/branch/develop/graph/badge.svg)](https://codecov.io/gh/openpharma/visR?branch=main)
+[![R-CMD-check](https://github.com/openpharma/visR/workflows/R-CMD-check/badge.svg)](https://github.com/openpharma/visR/actions)
+[![pkgdown](https://github.com/openpharma/visR/actions/workflows/makedocs.yml/badge.svg)](https://github.com/openpharma/visR/actions/workflows/makedocs.yml)
+[![CRAN status](https://www.r-pkg.org/badges/version/visR)](https://CRAN.R-project.org/package=visR)
+<a href=https://github.com/pharmaR/riskmetric><img src=https://img.shields.io/badge/riskmetric-`r riskmetric_score`-green></img></a>
 <!-- badges: end -->
 
 
@@ -104,110 +103,18 @@ adtte %>%
   )
 ```
 
+## Cite visR
 
-## Contribution 
+```{text, comment="", eval = FALSE}
+> citation("visR")
+```
+
+## Contributing
 
 Please note that the `visR` project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
+Thank you to all contributors:
 
-```{r getcontributions, echo=FALSE, warning=FALSE, message = FALSE}
-library(dplyr)
-library(ggplot2)
-#library(GithubMetrics) #remotes::install_github("openpharma/GithubMetrics")
-library(gitsum) #remotes::install_github("lorenzwalthert/gitsum")
-
-local_repo <- parse_log_detailed()
-
-# commits <- gh_commits_get(
-#   full_names = "openpharma/visR",
-#   days_back = 365*10,
-#   .token = Sys.getenv("GH_API_TOKEN_README")
-#   ) %>%
-#   mutate(date = as.Date(datetime)) %>%
-#   filter(!author %in% c(".gitconfig missing email","actions-user"))
-# 
-# left_join(
-#   commits %>%
-#     group_by(author) %>%
-#     summarise(commits_all = n()),
-#   commits %>%
-#     filter(date > Sys.Date() - 28*6) %>%
-#     group_by(author) %>%
-#     summarise(commits_6months = n())
-#   ) %>%
-#   arrange(-commits_6months) %>%
-#   left_join(
-#     gh_user_get(unique(commits$author),
-#     .token = Sys.getenv("GH_API_TOKEN_README")
-#     ),
-#     by = c("author"="username")
-#   ) %>%
-#   mutate(
-#     blog = case_when(
-#       blog == "" ~ "",
-#       TRUE ~ as.character(paste0('<a href="', blog, '">link</a>'))
-#       ),
-#     author = case_when(
-#       !is.na(name) ~ paste0(name,"(",author,")"),
-#       TRUE ~ author
-#     ),
-#     author = paste0('<img src="', avatar, '" alt="" height="30"> ', author)
-#     ) %>%
-#   select(author,commits_all,commits_6months,company,location,blog) %>%
-#   knitr::kable()
+```{r warning=FALSE, echo=FALSE, message=FALSE}
+contr <- usethis::use_tidy_thanks("https://github.com/openpharma/visR")
 ```
-
-```{r plotcontriuptake, echo=FALSE, warning=FALSE, message = FALSE}
-# plot
-local_repo %>%
-  arrange(
-    date
-  ) %>%
-  group_by(author_email) %>% 
-  slice(1) %>% ungroup %>%
-  ggplot(aes(x = date)) +
-  stat_bin(aes(y = cumsum(..count..)),geom = "step") +
-  theme_minimal() +
-  labs(
-    title = "Uptake in new contributors to visR",
-    subtitle = "Based email address attached to commits",
-    y = "Contributors",
-    x = "Date"
-  ) + theme(legend.position = "none")
-```
-
-
-```{r plotcontributions, echo=FALSE, warning=FALSE, message = FALSE}
-
-# plot
-local_repo %>%
-  mutate(date = gsub("([0-9]{4}\\-[0-9]{2})\\-.*","\\1", date)) %>%
-  mutate(date = as.POSIXct(paste0(date, "-01 UTC"), tz = "UTC")) %>%
-  group_by(
-    Month = date,
-    author_name
-    ) %>%
-  summarise(
-    Commits = n()
-  ) %>%
-  ggplot() +
-  geom_col(
-    aes(x = Month, y = Commits, fill = author_name)
-  ) +
-  theme_minimal() +
-  labs(
-    title = "Commit activity in openpharma/visR",
-    subtitle = "Colour = author (names hidden)"
-  ) + theme(legend.position = "none")
-```
-
-## Code coverage 
-
-Last time readme built.
-
-```{r}
-covr::package_coverage(
-  type = "none", 
-  code = "tools::testInstalledPackage(pkg = 'visR', types = c('tests'))", 
-  quiet = FALSE
-)
-```
+`r unique(c(paste((paste0("[&#x0040;",contr,"](https://github.com/", contr, ")")), collapse = ", "), "[&#x0040;cschaerfe ](https://github.com/cschaerfe)", "[&#x0040;AlexandraP-21 ](https://github.com/AlexandraP-21)"))`
