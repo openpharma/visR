@@ -1,6 +1,6 @@
 #' @title Specifications test-estimate_CUMINC.R
 #' @section Last updated by: joanacmbarros (joanamarquesbarros@@gmail.com)
-#' @section Last update date: 2022-02-12T14:08:32
+#' @section Last update date: 2022-04-25T14:21:53
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a `data.frame` `tibble` or `data.table`
@@ -41,6 +41,10 @@
 #' T5.7 No error when specifying add_risktable() `group` arguments
 #' T5.8 No error when specifying add_risktable() `label` arguments
 #' T5.9 No error when specifying add_risktable() `collapse` arguments
+#' T6. The function correctly displays the legend title
+#' T6.1 Correct display with one name
+#' T6.1 Correct display with two names
+#' T6.1 Correct display with empty legend title
 
 # Requirement T1 ----------------------------------------------------------
 
@@ -98,7 +102,7 @@ testthat::test_that("T2.2 An error when colname specified through `AVAL` is not 
   
   testthat::expect_error(
     visR::estimate_cuminc(data, CNSR = "death_cr", AVAL = "ttdeath", ...))
-
+  
   
 })
 
@@ -165,16 +169,16 @@ testthat::test_that("T3.1 The `failcode` attribute is present in the object", {
   
   data <- tidycmprsk::trial
   cumincobj <- visR::estimate_cuminc(data, CNSR = "death_cr", AVAL = "ttdeath")
-    
+  
   testthat::expect_true("failcode" %in% names(cumincobj))
-
+  
 })
 
 testthat::test_that("T3.2 The `cmprsk` attribute is present in the object", {
   
   data <- tidycmprsk::trial
   cumincobj <- visR::estimate_cuminc(data, CNSR = "death_cr", AVAL = "ttdeath")
-
+  
   testthat::expect_true("cmprsk" %in% names(cumincobj))
   
 })
@@ -184,7 +188,7 @@ testthat::test_that("T3.3 The `conf.level` attribute is present in the object", 
   
   data <- tidycmprsk::trial
   cumincobj <- visR::estimate_cuminc(data, CNSR = "death_cr", AVAL = "ttdeath")
-
+  
   testthat::expect_true("conf.level" %in% names(cumincobj))
   
 })
@@ -193,7 +197,7 @@ testthat::test_that("T3.4 The `tidy` attribute is present in the object", {
   
   data <- tidycmprsk::trial
   cumincobj <- visR::estimate_cuminc(data, CNSR = "death_cr", AVAL = "ttdeath")
-
+  
   testthat::expect_true("tidy" %in% names(cumincobj))
   
 })
@@ -202,7 +206,7 @@ testthat::test_that("T3.5 The `blueprint` attribute is present in the object", {
   
   data <- tidycmprsk::trial
   cumincobj <- visR::estimate_cuminc(data, CNSR = "death_cr", AVAL = "ttdeath")
-
+  
   testthat::expect_true("blueprint" %in% names(cumincobj))
   
 })
@@ -211,7 +215,7 @@ testthat::test_that("T3.6 The `formula` attribute is present in the object", {
   
   data <- tidycmprsk::trial
   cumincobj <- visR::estimate_cuminc(data, CNSR = "death_cr", AVAL = "ttdeath")
-
+  
   testthat::expect_true("formula" %in% names(cumincobj))
   
 })
@@ -280,18 +284,18 @@ testthat::test_that("T5.1 No error when used in visr() ", {
   data <- tidycmprsk::trial
   testthat::expect_error(
     visR::visr(visR::estimate_cuminc(data, CNSR = "death_cr", AVAL = "ttdeath", 
-                               strata = "trt")), NA) 
+                                     strata = "trt")), NA) 
   
 })
 
 
 testthat::test_that("T5.2 No error when followed by visr() ", {
-                      
+  
   data <- tidycmprsk::trial
   testthat::expect_error(
     visR::estimate_cuminc(data, CNSR = "death_cr", AVAL = "ttdeath", strata = "trt") %>%
       visR::visr(), NA) 
-                      
+  
 })
 
 testthat::test_that("T5.3 No error when followed by visr() and add_CI() ", {
@@ -370,6 +374,40 @@ testthat::test_that("T5.9 No error when specifying add_risktable() `collapse` ar
                            visR::add_risktable(statlist = c("n.risk", "n.event"),
                                                group = "statlist",
                                                collapse = TRUE), NA) 
+  
+})
+
+# Requirement T6 ----------------------------------------------------------
+testthat::context("estimate_cuminc - T6. The function correctly displays the legend title")
+
+testthat::test_that("T6.1 Correct display with one name", {
+  
+  data <- tidycmprsk::trial
+  cumincobj <- visR::estimate_cuminc(data, CNSR = "death_cr", AVAL = "ttdeath", strata = "grade") %>%
+    visR::visr() 
+  
+  testthat::expect_equal(cumincobj$labels$colour,"Grade") 
+  
+})
+
+testthat::test_that("T6.1 Correct display with two names", {
+  
+  data <- tidycmprsk::trial
+  cumincobj <- visR::estimate_cuminc(data, CNSR = "death_cr", AVAL = "ttdeath", strata = c("grade", "stage")) %>%
+    visR::visr() 
+  
+  testthat::expect_equal(cumincobj$labels$colour,"Grade, T Stage") 
+  
+})
+
+
+testthat::test_that("T6.1 Correct display with empty legend title", {
+  
+  data <- tidycmprsk::trial
+  cumincobj <- visR::estimate_cuminc(data, CNSR = "death_cr", AVAL = "ttdeath") %>%
+    visR::visr() 
+  
+  testthat::expect_equal(cumincobj$labels$colour,"") 
   
 })
 
