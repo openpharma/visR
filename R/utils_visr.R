@@ -42,7 +42,7 @@ align_plots <- function(pltlist) {
 
   for (plt in pltlist) {
 
-    if (!("ggplot" %in% class(plt))) {
+    if (!inherits(plt, "ggplot")) {
 
       base::stop("Not all elements of the provided list are `ggplot` objects.")
 

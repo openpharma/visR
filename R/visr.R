@@ -336,7 +336,7 @@ visr.survfit <- function(
     }
   }
 
-  class(gg) <- append(class(gg), "ggsurvfit")
+  class(gg) <- c("ggsurvfit", class(gg))
 
   return(gg)
 
@@ -547,7 +547,7 @@ visr.tidycuminc <- function(x = NULL
     ggplot2::theme(legend.key = ggplot2::element_blank()) +
     NULL
 
-  class(gg) <- append(class(gg), "ggtidycuminc")
+  class(gg) <- c("ggtidycuminc", class(gg))
   attr(gg, "tidycuminc") <- x
 
   gg

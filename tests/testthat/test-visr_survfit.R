@@ -507,7 +507,7 @@ testthat::test_that("T3.7 The `fun` argument is stored in the final object as at
     visR::estimate_KM("SEX") %>%
     visR::visr(fun = 'log')
 
-  testthat::expect_true(class(attr(survfit_plot, "fun")) == "function")
+  testthat::expect_true(inherits(attr(survfit_plot, "fun"), "function"))
 
 })
 
@@ -570,7 +570,7 @@ testthat::test_that("T5.1 The final object is a ggplot of class `ggplot`.", {
     visR::estimate_KM("SEX") %>%
     visR::visr(fun = 'log')
 
-  testthat::expect_true("ggplot" %in% class(survfit_plot))
+  testthat::expect_true(inherits(survfit_plot, "ggplot"))
 
 })
 
@@ -580,7 +580,7 @@ testthat::test_that("T5.2 The final object is a ggplot of class `ggsurvfit`.", {
     visR::estimate_KM("SEX") %>%
     visR::visr(fun = 'log')
 
-  testthat::expect_true("ggsurvfit" %in% class(survfit_plot))
+  testthat::expect_true(inherits(survfit_plot, "ggsurvfit"))
 
 })
 

@@ -11,10 +11,10 @@
 #' @param engine If html is selected as output format, one can chose between
 #' using kable, gt and DT as engine to create the output table
 #' @param download_format Options generated for downloading the data
-#' 
+#'
 #' @return A table-like data structure, possibly interactive depending on the choice of the engine
 #' @rdname render
-#' 
+#'
 #' @export
 render <- function(data,
                    title,
@@ -27,7 +27,7 @@ render <- function(data,
 }
 
 
- 
+
 #' @rdname render
 #' @method render tableone
 #' @return A table-like data structure, possibly interactive depending on the choice of the engine
@@ -40,83 +40,83 @@ render.tableone <- function(
   output_format = "html",
   engine = "gt",
   download_format = NULL) {
-  
-  if (!("tableone" %in% class(data))) {
-    
+
+  if (!inherits(data, "tableone")) {
+
     stop("Please provide a valid `tableone` object.")
-    
+
   }
-  
+
   if (missing(title)) {
-    
+
     stop("Please provide a valid `title`.")
-    
+
   }
-  
+
   if (missing(datasource)) {
-    
+
     stop("Please provide a valid `datasource`.")
-    
+
   }
-  
+
   if (!(output_format %in% c("html", "latex"))) {
-    
+
     stop("Invalid output_format. Currently, 'html' and 'latex' are supported.")
-    
+
   } else if (output_format == "latex" & !(engine %in% c("gt", "kable"))) {
-    
+
     stop("Currently, 'latex' output is only implemented with 'gt' or 'kable' as a table engine.")
-    
+
   }
-  
+
   download_formats <- c()
-  
+
   if (engine %in% c("dt", "datatable", "datatables")) {
-    
+
     if ("copy" %in% download_format)  { download_formats <- c(download_formats, "copy") }
     if ("csv" %in% download_format)   { download_formats <- c(download_formats, "csv") }
     if ("excel" %in% download_format) { download_formats <- c(download_formats, "excel") }
-    
+
     for (f in download_format) {
-      
+
       if (!(is.null(f)) & !(f %in% c("copy", "csv", "excel"))) {
-        
+
         warning("Currently, only 'copy', 'csv' and 'excel' are supported as 'download_format'.")
-        
+
       }
-      
+
     }
-    
+
   } else {
-    
+
     if (!is.null(download_format)) {
-      
+
       warning("Currently, 'download_format' is only supported for the following engines: dt, datatable, datatables.")
-      
+
     }
-    
+
   }
-  
-  if (!("risktable" %in% class(data))){
-    
+
+  if (!inherits(data, "risktable")) {
+
     sample <- data[data$variable == "Sample", ]
     sample <- sample[3:length(sample)]
     sample_names = colnames(sample)
     new_sample_names <- sapply(1:length(sample), function(i){
       vec = c(sample_names[i], " (N=", sample[i], ")")
-      paste(vec, collapse = "") 
+      paste(vec, collapse = "")
     })
     colnames(data) <- c(colnames(data)[1:2], new_sample_names)
     data <- data[data$variable != "Sample", ]
-    
+
   }
-  
-  render.data.frame(data, 
-                    title, 
-                    datasource, 
-                    footnote, 
-                    output_format, 
-                    engine, 
+
+  render.data.frame(data,
+                    title,
+                    datasource,
+                    footnote,
+                    output_format,
+                    engine,
                     download_format)
 }
 
@@ -131,59 +131,59 @@ render.risktable <- function(
   output_format = "html",
   engine = "gt",
   download_format = NULL) {
-  
-  if (!("risktable" %in% class(data))) {
-    
+
+  if (!inherits(data, "risktable")) {
+
     stop("Please provide a valid `risktable` object.")
-    
+
   } else {
-    
+
     # Many tidyr operations don't work on non-standard class objects. Therefore,
     # we remove the class and add it back later.
     class(data) <- class(data)[class(data) != "risktable"]
-    
+
   }
-  
+
   if (missing(title)) {
-    
+
     stop("Please provide a valid `title`.")
-    
+
   }
-  
+
   if (missing(datasource)) {
-    
+
     stop("Please provide a valid `datasource`.")
-    
+
   }
-  
+
   strata <- colnames(data)[3:ncol(data)]
-  
+
   if (!is.null(attributes(data)$title) & length(attributes(data)$title) == length(strata)){
-    
+
     data <- data %>% dplyr::rename_at(dplyr::vars(strata), ~ attributes(data)$title)
-    strata <- colnames(data)[3:ncol(data)]  
-    
+    strata <- colnames(data)[3:ncol(data)]
+
   }
-  
+
   y_lables <- unique(data$y_values)
   coln <- colnames(data)[1:2]
   complete_tab <- c()
-  
+
   for (s in strata) {
-    
-    tab <- data[c(coln, s)] %>% 
+
+    tab <- data[c(coln, s)] %>%
       tidyr::pivot_wider(names_from = "time", values_from=s)
     tab$variable <- s
     complete_tab <- rbind(complete_tab, tab)
-    
+
   }
-  
+
   colnames(complete_tab) <- c("statistic", colnames(tab)[2:ncol(tab)])
   class(complete_tab) <- c("tableone", class(complete_tab))
   class(complete_tab) <- c("risktable", class(complete_tab))
-  complete_tab <- complete_tab %>% 
+  complete_tab <- complete_tab %>%
     dplyr::select(variable, statistic, dplyr::everything())
-  
+
   render.tableone(complete_tab,
                   title,
                   datasource,
@@ -191,7 +191,7 @@ render.risktable <- function(
                   output_format,
                   engine,
                   download_format)
-  
+
 }
 
 
@@ -209,7 +209,7 @@ render.data.frame <- function(
   # TODO: add code for rtf output
   # TODO: do we need a routine for falling back on minimal?
   # TODO: do we need features to further specify styling of the table?
-  
+
   check_rendering_input(output_format, engine)
 
   # Kable output
@@ -221,21 +221,21 @@ render.data.frame <- function(
                      digits = 2,
                      booktabs = TRUE) %>%
         kableExtra::collapse_rows(valign="top") %>%
-        kableExtra::footnote(general = footnote, 
+        kableExtra::footnote(general = footnote,
                              general_title = "Additional Note:") %>%
         kableExtra::footnote(general = datasource,
-                             general_title = "Data Source:") 
-        
+                             general_title = "Data Source:")
+
     } else {
-      
+
       # Currently can't be triggered due to check_rendering_input()
-      # Uncommented for possible later use with rtf 
+      # Uncommented for possible later use with rtf
       # warning(paste("Supported output format of the kable engine are html and latex and not", output_format, " - falling back to html"))
-      # render(data = data, 
-      #        title = title, 
+      # render(data = data,
+      #        title = title,
       #        datasource = datasource,
-      #        output_format = "html", 
-      #        engine = engine, 
+      #        output_format = "html",
+      #        engine = engine,
       #        download_format = download_format)
     }
   }
@@ -243,13 +243,13 @@ render.data.frame <- function(
   #--------------------
   # GT output
   else if (tolower(engine) == "gt") {
-    
+
     if (!tolower(output_format) %in% c("html", "latex")) {
-      
+
       # Currently can't be triggered due to check_rendering_input()
-      # Uncommented for possible later use with rtf 
+      # Uncommented for possible later use with rtf
       # warning(paste("Supported output format of the gt engine are html and latex and not", output_format, " - falling back to html"))
-    
+
       }
 
     table_out <- render_gt(data=data, title=title, datasource=datasource, footnote=footnote)
@@ -263,13 +263,13 @@ render.data.frame <- function(
   #--------------------
   # jQuery DT output
   else if (tolower(engine) %in% c("dt", "datatables", "datatable")) {
-    
+
     if (!tolower(output_format) %in% c("html")) {
-      
+
       warning(paste("DT engine only supports html output and not", output_format,
                     "- falling back to html. Please pick a different engine to create other outputs"))
     }
-    
+
     # WIP: we may want to create a custom container to allow for stratification of more than one value and merge cells in the description
     # sketch = htmltools::withTags(table(
     #   DT::tableHeader(colnames(data)),
@@ -301,21 +301,21 @@ render_datatable <- function(data, title, download_format, source_cap){
 }
 
 render_datatable.tableone <- function(data, title, download_format, source_cap) {
-  
+
   if (is.null(download_format)) {
-    
-    table_out <- data %>% 
+
+    table_out <- data %>%
       DT::datatable(caption = title,
                     filter = "none",
                     # container = sketch,
-                    options = list(paging = FALSE, 
+                    options = list(paging = FALSE,
                                    ordering = FALSE,
                                    info = FALSE,
                                    drawCallback = DT::JS(source_cap)))
-    
+
   } else {
-    
-    table_out <- data %>% 
+
+    table_out <- data %>%
       DT::datatable(caption = title,
                     filter = "none",
                     # container = sketch,
@@ -324,33 +324,33 @@ render_datatable.tableone <- function(data, title, download_format, source_cap) 
                                    info = FALSE,
                                    ordering = FALSE,
                                    drawCallback = DT::JS(source_cap),
-                                   dom = 'Bfrtip', 
+                                   dom = 'Bfrtip',
                                    buttons = download_format))
   }
-  
+
   return(table_out)
 }
 
 render_datatable.data.frame <- function(data, title, download_format, source_cap) {
-  
+
   if (is.null(download_format)) {
-    
+
     table_out <- data %>%
       DT::datatable(caption = title,
                     options = list(
                     drawCallback = DT::JS(source_cap)))
-    
+
   } else {
-    
+
     table_out <- data %>%
       DT::datatable(caption = title,
                     extensions = 'Buttons',
                     options = list(drawCallback = DT::JS(source_cap),
                                    dom = 'Bfrtip',
                                    buttons = download_format))
-    
+
   }
-  
+
   return(table_out)
 }
 
@@ -365,10 +365,10 @@ render_gt <- function(data, title, datasource, footnote){
     gt::fmt_number(
       columns = numcols,
       decimals = 2
-    )%>% add_metadata_gt(title = title, 
-                         datasource = datasource, 
+    )%>% add_metadata_gt(title = title,
+                         datasource = datasource,
                          footnote = footnote)
-  
+
   return(table_out)
 }
 
@@ -378,7 +378,7 @@ get_gt <- function(data, numcols){
 }
 
 get_gt.tableone <- function(data, numcols) {
-  
+
   gt <- gt::gt(data, groupname_col = "variable",
          rowname_col = "statistic") %>%
          # no decimal points for sample count
@@ -386,44 +386,44 @@ get_gt.tableone <- function(data, numcols) {
            columns = numcols,
            rows = grepl("^N$", statistic),
            decimals = 0)
-  
+
   return(gt)
 }
 
 get_gt.data.frame <- function(data, numcols) {
-  
+
   gt <- gt::gt(data)
-  
+
   return(gt)
 }
 
 # add metadata to gt
 add_metadata_gt <- function(gt, title, datasource, footnote) {
-  
+
   table_out <- gt %>% gt::tab_header(title = title)
-  
+
   table_out <- table_out %>%
     # add metadata
     gt::tab_source_note(source_note = paste("Data Source:", datasource)) %>%
     gt::tab_source_note(source_note = footnote) %>%
     # add formatting
     gt::tab_options(data_row.padding = gt::px(4))
-  
+
   return(table_out)
 }
 
 ### Check if the input works
 check_rendering_input <- function(output_format = NULL, engine = NULL) {
-  
+
   if (missing(output_format) | is.null(output_format) | missing(engine) | is.null(engine)) {
     stop("Please provide an output_format and an engine.")
   }
-  
+
   # stop if output format is not supported
   if (!tolower(output_format) %in% c("html", "latex")) { #"rtf",
     stop(paste("Currently supported output formats are html and latex.", output_format, "is not yet supported."))
   }
-  
+
   # stop if engine format is not supported
   if (!tolower(engine) %in% c("kable", "gt", "dt", "datatables", "datatable")) {
     stop(paste("Currently implemented output engines are kable, gt and jquery datatables (DT).", engine, "is not yet supported."))
