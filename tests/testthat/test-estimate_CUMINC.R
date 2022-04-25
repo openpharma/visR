@@ -1,6 +1,6 @@
 #' @title Specifications test-estimate_CUMINC.R
-#' @section Last updated by: JoanaBarros
-#' @section Last update date: 2022-02-11
+#' @section Last updated by: joanacmbarros (joanamarquesbarros@@gmail.com)
+#' @section Last update date: 2022-02-12T14:08:32
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a `data.frame` `tibble` or `data.table`
@@ -87,7 +87,7 @@ testthat::test_that("T2.1 An error when colname specified through `AVAL` is not 
   
   data <- tidycmprsk::trial
   testthat::expect_error(
-    visR::estimate_cuminc(data, CNSR = "death_cr", AVAL = "test"))
+    visR::estimate_cuminc(data, CNSR = "death_cr", AVAL = "test", ...))
   
 })
 
@@ -97,7 +97,7 @@ testthat::test_that("T2.2 An error when colname specified through `AVAL` is not 
   data[["ttdeath"]] <- as.character(data[["ttdeath"]])
   
   testthat::expect_error(
-    visR::estimate_cuminc(data, CNSR = "death_cr", AVAL = "ttdeath"))
+    visR::estimate_cuminc(data, CNSR = "death_cr", AVAL = "ttdeath", ...))
 
   
 })
@@ -125,7 +125,7 @@ testthat::test_that("T2.5 An error when colname specified through `CNSR` is not 
   
   data <- tidycmprsk::trial
   testthat::expect_error(
-    visR::estimate_cuminc(data, CNSR = "test", AVAL = "ttdeath"))
+    visR::estimate_cuminc(data, CNSR = "test", AVAL = "ttdeath", ...))
   
 })
 
@@ -135,7 +135,7 @@ testthat::test_that("T2.6 An error when colname specified through `CNSR` is not 
   data[["death_cr"]] <- as.numeric(data[["death_cr"]])
   
   testthat::expect_error(
-    visR::estimate_cuminc(data, CNSR = "death_cr", AVAL = "ttdeath"))
+    visR::estimate_cuminc(data, CNSR = "death_cr", AVAL = "ttdeath", ...))
   
 })
 
@@ -223,14 +223,14 @@ testthat::test_that("T4.1 An error when `strata` is not part of `data`", {
   
   data <- tidycmprsk::trial
   testthat::expect_error(
-    visR::estimate_cuminc(data, CNSR = "test", AVAL = "ttdeath", strata = "test"))
+    visR::estimate_cuminc(data, CNSR = "test", AVAL = "ttdeath", strata = "test", ...))
 })
 
 testthat::test_that("T4.2 No error when `strata` is NULL", {
   
   data <- tidycmprsk::trial
   testthat::expect_error(
-    visR::estimate_cuminc(data, CNSR = "test", AVAL = "ttdeath", strata = NULL))
+    visR::estimate_cuminc(data, CNSR = "test", AVAL = "ttdeath", strata = NULL, ...))
   
 })
 
@@ -238,7 +238,7 @@ testthat::test_that("T4.3 No error when `strata` is NULL", {
   
   data <- tidycmprsk::trial
   testthat::expect_error(
-    visR::estimate_cuminc(data, CNSR = "test", AVAL = "ttdeath", strata = NULL))
+    visR::estimate_cuminc(data, CNSR = "test", AVAL = "ttdeath", strata = NULL, ...))
   
 })
 
