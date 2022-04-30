@@ -1,4 +1,4 @@
-#' @title Specifications test-estimate_CUMINC.R
+#' @title Specifications test-estimate_cuminc.R
 #' @section Last updated by: joanacmbarros (joanamarquesbarros@@gmail.com)
 #' @section Last update date: 2022-04-25T14:21:53
 #'

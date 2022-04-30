@@ -7,9 +7,11 @@
 #' Column must be a factor and the first level indicates censoring, the
 #' next level is the outcome of interest, and the remaining levels are the
 #' competing events. Default is `"CNSR"`
+#' @param data The name of the dataset for Time-to-Event analysis based on the Analysis Data Model (ADaM) principles. The dataset is expected to have
+#'   one record per subject per analysis parameter. Rows in which the analysis variable (AVAL) or the censor variable (CNSR) contain NA, are removed during analysis.
 #' @param conf.int Confidence internal level. Default is 0.95.
 #' @param ... Additional argument passed to `tidycmprsk::cuminc()`
-#' @inheritParams estimate_KM
+#' @inheritParams estimate_cuminc
 #' @inheritParams visr
 #' @inheritParams add_CI.ggsurvfit
 #' @inheritParams add_risktable.ggsurvfit
@@ -21,7 +23,7 @@
 #'
 #' @examples
 #' estimate_cuminc(
-#'   tidycmprsk::trial,
+#'   data = tidycmprsk::trial,
 #'   strata = "trt",
 #'   CNSR = "death_cr",
 #'   AVAL = "ttdeath"
@@ -30,7 +32,7 @@
 #'   add_CI() %>%
 #'   add_risktable(statlist = c("n.risk", "cum.event"))
 
-estimate_cuminc <- function(data
+estimate_cuminc <- function(data = NULL
                             ,strata = NULL
                             ,CNSR = "CNSR"
                             ,AVAL = "AVAL"
