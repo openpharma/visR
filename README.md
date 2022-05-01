@@ -45,7 +45,6 @@ coverage](https://codecov.io/gh/openpharma/visR/branch/develop/graph/badge.svg)]
 [![CRAN
 status](https://www.r-pkg.org/badges/version/visR)](https://CRAN.R-project.org/package=visR)
 <a href=https://github.com/pharmaR/riskmetric><img src=https://img.shields.io/badge/riskmetric-0.52-green></img></a>
-
 <!-- badges: end -->
 
 ## Installation
@@ -110,6 +109,7 @@ Please note that the `visR` project is released with a [Contributor Code
 of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you
 agree to abide by its terms. Thank you to all contributors:
 
+[@ardeeshany](https://github.com/ardeeshany),
 [@bailliem](https://github.com/bailliem),
 [@ddsjoberg](https://github.com/ddsjoberg),
 [@epijim](https://github.com/epijim),
