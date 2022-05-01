@@ -49,7 +49,7 @@ cuminc <-
 cuminc
 
 cuminc \%>\%
-  visr() \%>\%
-  add_CI() \%>\%
-  add_risktable(statlist = c("n.risk", "cum.event"))
+  visR::visr() \%>\%
+  visR::add_CI() \%>\%
+  visR::add_risktable(statlist = c("n.risk", "cum.event"))
 }
