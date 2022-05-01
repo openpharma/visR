@@ -20,34 +20,60 @@
 #' @export
 #'
 #' @examples
-#' estimate_cuminc(
-#'   tidycmprsk::trial,
+#' visR::estimate_cuminc(
+#'   data = tidycmprsk::trial,
 #'   strata = "trt",
 #'   CNSR = "death_cr",
 #'   AVAL = "ttdeath"
-#' ) %>%
-#'   visr() %>%
-#'   add_CI() %>%
-#'   add_risktable(statlist = c("n.risk", "cum.event"))
+#' )
 
-estimate_cuminc <- function(data
+estimate_cuminc <- function( data = NULL
                             ,strata = NULL
                             ,CNSR = "CNSR"
                             ,AVAL = "AVAL"
-                            ,conf.int = 0.95
                             ,...) {
-  # check for installation of tidycmprsk package
+  
+
+  # check for installation of tidycmprsk package -------------------------
   rlang::check_installed("tidycmprsk", version = "0.1.1")
   dots <- rlang::dots_list(...)
+ 
+  # Validate data --------------------------------------------------------
+  if (is.null(data)) stop(paste0("Data can't be NULL."))
 
-  # checking/prepping inputs ---------------------------------------------------
-  strata <- strata %||% "1" %>% paste(collapse = " + ")
+  # Validate columns -----------------------------------------------------
+  reqcols <- c(strata, CNSR, AVAL)
 
+  if (! all(reqcols %in% colnames(data))){
+    stop(paste0("Following columns are missing from `data`: ", paste(setdiff(reqcols, colnames(data)), collapse = " "), "."))
+  }
+
+  if (! is.numeric(data[[AVAL]])){
+    stop("Analysis variable (AVAL) is not numeric.")
+  }
+
+  if (! is.factor(data[[CNSR]])){
+    stop("Censor variable (CNSR) is not a factor")
+  }
+  
+  # Remove NA from the analysis ------------------------------------------
+
+  data <- data %>%
+    tidyr::drop_na(AVAL, CNSR)
+
+  if (!is.null(strata)){
+    data <- data %>%
+      tidyr::drop_na(any_of({{strata}}))
+  }
+
+  # Ensure the presence of at least one strata ---------------------------
+  strata <- ifelse(is.null(strata), 1, strata %>% paste(collapse = " + "))
+
+  # cuminc ---------------------------------------------------------------
   cuminc <-
     tidycmprsk::cuminc(
       formula = stats::as.formula(paste0("survival::Surv(", AVAL, ", ", CNSR, ") ~ ", strata)),
       data = data,
-      conf.level = conf.int,
       ...
     )
 
