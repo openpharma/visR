@@ -6,8 +6,7 @@
 #'
 #' @return List of \code{ggplot} with equal width.
 #'
-#' @references \url{https://stackoverflow.com/questions/26159495/align-multiple-ggplot-
-#'                  graphs-with-and-without-legends}
+#' @references \url{https://stackoverflow.com/questions/26159495}
 #'
 #' @examples
 #' \donttest{
@@ -15,7 +14,7 @@
 #' ## create 2 graphs
 #' p1 <- ggplot2::ggplot(adtte, ggplot2::aes(x = as.numeric(AGE), fill = "Age")) +
 #'   ggplot2::geom_histogram(bins = 15)
-#'   
+#'
 #' p2 <- ggplot2::ggplot(adtte, ggplot2::aes(x = as.numeric(AGE))) +
 #'  ggplot2::geom_histogram(bins = 15)
 #'

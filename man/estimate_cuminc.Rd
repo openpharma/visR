@@ -5,7 +5,7 @@
 \title{Competing Events Cumulative Incidence}
 \usage{
 estimate_cuminc(
-  data,
+  data = NULL,
   strata = NULL,
   CNSR = "CNSR",
   AVAL = "AVAL",
@@ -39,12 +39,16 @@ Function creates a cumulative incidence object using the
 \code{tidycmprsk::cuminc()} function.
 }
 \examples{
-estimate_cuminc(
-  tidycmprsk::trial,
-  strata = "trt",
-  CNSR = "death_cr",
-  AVAL = "ttdeath"
-) \%>\%
+cuminc <-
+  visR::estimate_cuminc(
+    data = tidycmprsk::trial,
+    strata = "trt",
+    CNSR = "death_cr",
+    AVAL = "ttdeath"
+  )
+cuminc
+
+cuminc \%>\%
   visr() \%>\%
   add_CI() \%>\%
   add_risktable(statlist = c("n.risk", "cum.event"))

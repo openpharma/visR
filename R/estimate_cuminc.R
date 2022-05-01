@@ -20,24 +20,32 @@
 #' @export
 #'
 #' @examples
-#' visR::estimate_cuminc(
-#'   data = tidycmprsk::trial,
-#'   strata = "trt",
-#'   CNSR = "death_cr",
-#'   AVAL = "ttdeath"
-#' )
+#' cuminc <-
+#'   visR::estimate_cuminc(
+#'     data = tidycmprsk::trial,
+#'     strata = "trt",
+#'     CNSR = "death_cr",
+#'     AVAL = "ttdeath"
+#'   )
+#' cuminc
+#'
+#' cuminc %>%
+#'   visr() %>%
+#'   add_CI() %>%
+#'   add_risktable(statlist = c("n.risk", "cum.event"))
 
 estimate_cuminc <- function( data = NULL
                             ,strata = NULL
                             ,CNSR = "CNSR"
                             ,AVAL = "AVAL"
+                            ,conf.int = 0.95
                             ,...) {
-  
+
 
   # check for installation of tidycmprsk package -------------------------
   rlang::check_installed("tidycmprsk", version = "0.1.1")
   dots <- rlang::dots_list(...)
- 
+
   # Validate data --------------------------------------------------------
   if (is.null(data)) stop(paste0("Data can't be NULL."))
 
@@ -55,7 +63,7 @@ estimate_cuminc <- function( data = NULL
   if (! is.factor(data[[CNSR]])){
     stop("Censor variable (CNSR) is not a factor")
   }
-  
+
   # Remove NA from the analysis ------------------------------------------
 
   data <- data %>%
@@ -74,6 +82,7 @@ estimate_cuminc <- function( data = NULL
     tidycmprsk::cuminc(
       formula = stats::as.formula(paste0("survival::Surv(", AVAL, ", ", CNSR, ") ~ ", strata)),
       data = data,
+      conf.level = conf.int,
       ...
     )
 
