@@ -74,6 +74,12 @@ add_risktable.ggsurvfit <- function(
   ,...
 ){
 
+
+  # User input validation ---------------------------------------------------
+
+  if (!(is.numeric(table.height) == TRUE) || (table.height < 0) || (table.height > 1))
+    stop("table.height should be a numeric value in range [0, 1]")
+
   # Obtain the relevant table --------------------------------------------------
   tidy_object <- gg$data
   estimate_object <- .extract_estimate_object(gg)
