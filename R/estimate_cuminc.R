@@ -7,7 +7,7 @@
 #' Column must be a factor and the first level indicates censoring, the
 #' next level is the outcome of interest, and the remaining levels are the
 #' competing events. Default is `"CNSR"`
-#' @param conf.int Confidence internal level. Default is 0.95.
+#' @param conf.int Confidence internal level. Default is 0.95. Parameter is passed to conf_level argument of `tidycmprsk::cuminc()`
 #' @param ... Additional argument passed to `tidycmprsk::cuminc()`
 #' @inheritParams estimate_KM
 #' @inheritParams visr
@@ -48,6 +48,8 @@ estimate_cuminc <- function( data = NULL
 
   # Validate data --------------------------------------------------------
   if (is.null(data)) stop(paste0("Data can't be NULL."))
+  if (!is.numeric(conf.int)) stop(paste0("conf.int needs to be numeric."))
+  if (!(0 <= conf.int & conf.int <= 1)) stop(paste0("conf.int needs to between 0 and 1."))
 
   # Validate columns -----------------------------------------------------
   reqcols <- c(strata, CNSR, AVAL)

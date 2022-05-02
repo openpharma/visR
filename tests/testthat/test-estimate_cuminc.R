@@ -20,10 +20,15 @@
 #' T3.1 An error when the columns, specifying the strata are not available in `data`
 #' T3.2 No error when strata is NULL
 #' T3.3 An error when `strata` is not part of `data`
-#' T4. The function removes all rows with NA values inside any of the strata, CNSR or AVAL
-#' T4.1 The function removes all rows with NA values inside any of the strata, CNSR or AVAL
-#' T5. The function does not alter the calculation of tidycmprsk::cuminc
-#' T5.1 The function gives the same results as tidycmprsk::cuminc
+#' T4. The user can specify conf.int
+#' T4.1 An error when the conf.int is not numeric
+#' T4.2 An error when the conf.int is numeric but not between 0 and 1
+#' T4.3 No error when the conf.int is numeric and between 0 and 1
+#' T4.4 A correct value for conf.int results in the resulting
+#' T5. The function removes all rows with NA values inside any of the strata, CNSR or AVAL
+#' T5.1 The function removes all rows with NA values inside any of the strata, CNSR or AVAL
+#' T6. The function does not alter the calculation of tidycmprsk::cuminc
+#' T6.1 The function gives the same results as tidycmprsk::cuminc
 
 # Requirement T1 ----------------------------------------------------------
 
@@ -159,9 +164,50 @@ testthat::test_that("T3.3 An error when `strata` is not part of `data`", {
 
 # Requirement T4 ----------------------------------------------------------
 
-testthat::context("estimate_cuminc - T4. The function removes all rows with NA values inside any of the strata, CNSR or AVAL")
+testthat::context("estimate_cuminc - T4. The user can specify conf.int")
 
-testthat::test_that("T4.1 The function removes all rows with NA values inside any of the strata, CNSR or AVAL", {
+testthat::test_that("T4.1 An error when the conf.int is not numeric", {
+  
+  data <- tidycmprsk::trial
+  testthat::expect_error(
+    visR::estimate_cuminc(data = data, CNSR = "death_cr", AVAL = "ttdeath", strata = "trt", conf.int = "blah"))
+  
+})
+
+testthat::test_that("T4.2 An error when the conf.int is numeric but not between 0 and 1", {
+  
+  data <- tidycmprsk::trial
+  testthat::expect_error(
+    visR::estimate_cuminc(data = data, CNSR = "death_cr", AVAL = "ttdeath", strata = "trt", conf.int = 2))
+  
+})
+
+testthat::test_that("T4.3 No error when the conf.int is numeric and between 0 and 1", {
+  
+  data <- tidycmprsk::trial
+  conf <- 0.60
+  testthat::expect_error(visR::estimate_cuminc(data = data, CNSR = "death_cr", AVAL = "ttdeath", strata = "trt", conf.int = conf), NA)
+  
+})
+
+testthat::test_that("T4.4 A correct value for conf.int results in the resulting", {
+  
+  data <- tidycmprsk::trial
+  conf <- 0.60
+  cuminc <- visR::estimate_cuminc(data = data, CNSR = "death_cr", AVAL = "ttdeath", strata = "trt", conf.int = conf)
+  testthat::expect_equal(conf, cuminc[["conf.level"]])
+  
+})
+
+
+
+
+
+# Requirement T5 ----------------------------------------------------------
+
+testthat::context("estimate_cuminc - T5. The function removes all rows with NA values inside any of the strata, CNSR or AVAL")
+
+testthat::test_that("T5.1 The function removes all rows with NA values inside any of the strata, CNSR or AVAL", {
   
   data <- tidycmprsk::trial
   data[1:10,"trt"] <- NA
@@ -179,11 +225,11 @@ testthat::test_that("T4.1 The function removes all rows with NA values inside an
 
 })
 
-# Requirement T5 ----------------------------------------------------------
+# Requirement T6 ----------------------------------------------------------
 
-testthat::context("estimate_cuminc - T5. The function does not alter the calculation of tidycmprsk::cuminc")
+testthat::context("estimate_cuminc - T6. The function does not alter the calculation of tidycmprsk::cuminc")
 
-testthat::test_that("T5.1 The function gives the same results as tidycmprsk::cuminc", {
+testthat::test_that("T6.1 The function gives the same results as tidycmprsk::cuminc", {
   
   data <- tidycmprsk::trial
   cumvisr <- visR::estimate_cuminc(data = data, CNSR = "death_cr", AVAL = "ttdeath", strata = "trt")
