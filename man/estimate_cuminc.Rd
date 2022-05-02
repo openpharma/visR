@@ -5,7 +5,7 @@
 \title{Competing Events Cumulative Incidence}
 \usage{
 estimate_cuminc(
-  data,
+  data = NULL,
   strata = NULL,
   CNSR = "CNSR",
   AVAL = "AVAL",
@@ -27,7 +27,7 @@ competing events. Default is \code{"CNSR"}}
 
 \item{AVAL}{Analysis value for Time-to-Event analysis. Default is "AVAL", as per CDISC ADaM guiding principles.}
 
-\item{conf.int}{Confidence internal level. Default is 0.95.}
+\item{conf.int}{Confidence internal level. Default is 0.95. Parameter is passed to \code{tidycmprsk::cuminc(conf.level=)}}
 
 \item{...}{Additional argument passed to \code{tidycmprsk::cuminc()}}
 }
@@ -39,13 +39,17 @@ Function creates a cumulative incidence object using the
 \code{tidycmprsk::cuminc()} function.
 }
 \examples{
-estimate_cuminc(
-  tidycmprsk::trial,
-  strata = "trt",
-  CNSR = "death_cr",
-  AVAL = "ttdeath"
-) \%>\%
-  visr() \%>\%
-  add_CI() \%>\%
-  add_risktable(statlist = c("n.risk", "cum.event"))
+cuminc <-
+  visR::estimate_cuminc(
+    data = tidycmprsk::trial,
+    strata = "trt",
+    CNSR = "death_cr",
+    AVAL = "ttdeath"
+  )
+cuminc
+
+cuminc \%>\%
+  visR::visr() \%>\%
+  visR::add_CI() \%>\%
+  visR::add_risktable(statlist = c("n.risk", "cum.event"))
 }
