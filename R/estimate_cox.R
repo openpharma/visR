@@ -121,7 +121,7 @@ estimate_cox <- function(
   ## Reverse censoring: see ADaM guidelines versus R survival KM analysis
   
   formula <- stats::as.formula(glue::glue(paste0("survival::Surv(", AVAL, ", 1-", CNSR, ") ~ {equation}")))
-  
+  library(survival)
   survfit_object <- survival::coxph(
     formula, data = data, ...
   )
