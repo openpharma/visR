@@ -151,7 +151,7 @@ testthat::test_that("T6.1 The function returns a dataframe",{
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
   quant <- visR::get_quantile(survfit_object, conf.int = TRUE)
   
-  testthat::expect_true(class(quant) == "data.frame")
+  testthat::expect_true(inherits(quant, "data.frame"))
 })
 
 testthat::test_that("T6.2 The output contains a column with the strata names",{

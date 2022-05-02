@@ -7,7 +7,7 @@
 align_plots(pltlist)
 }
 \arguments{
-\item{pltlist}{A list of plots (TODO: provide more detail)}
+\item{pltlist}{A list of plots}
 }
 \value{
 List of \code{ggplot} with equal width.
@@ -21,16 +21,21 @@ This function aligns multiple \code{ggplot} graphs by making them the same width
 ## create 2 graphs
 p1 <- ggplot2::ggplot(adtte, ggplot2::aes(x = as.numeric(AGE), fill = "Age")) +
   ggplot2::geom_histogram(bins = 15)
+
 p2 <- ggplot2::ggplot(adtte, ggplot2::aes(x = as.numeric(AGE))) +
  ggplot2::geom_histogram(bins = 15)
 
 ## default alignment does not take into account legend size
-cowplot::plot_grid(plotlist = list(p1,p2), align = "none", nrow=2)
+cowplot::plot_grid(plotlist = list(p1,p2),
+                   align = "none",
+                   nrow=2)
 
 ## align_plots() takes into account legend width
-cowplot::plot_grid(plotlist = visR::align_plots(pltlist = list(p1, p2)), align = "none", nrow=2)
+cowplot::plot_grid(plotlist = visR::align_plots(pltlist = list(p1, p2)),
+                   align = "none",
+                   nrow=2)
 }
 }
 \references{
-\url{https://stackoverflow.com/questions/26159495/align-multiple-ggplot-graphs-with-and-without-legends}
+\url{https://stackoverflow.com/questions/26159495}
 }

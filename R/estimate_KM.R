@@ -123,11 +123,11 @@ estimate_KM <- function(
 
 # Remove NA from the analysis --------------------------------------------
 
-  data <- as.data.frame(data)%>%
-    tidyr::drop_na(AVAL, CNSR, strata)
+  data <- as.data.frame(data) %>%
+    tidyr::drop_na(AVAL, CNSR)
 
   if (!is.null(strata)){
-    data <- data%>%
+    data <- data %>%
       tidyr::drop_na(any_of({{strata}}))
   }
 

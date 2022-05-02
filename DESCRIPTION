@@ -1,7 +1,7 @@
 Type: Package
 Package: visR
 Title: Clinical Graphs and Tables Adhering to Graphical Principles
-Version: 0.2.0
+Version: 0.2.0.9001
 Authors@R: c(
     person(given = "Mark",
            family = "Baillie", 
@@ -83,7 +83,7 @@ Suggests:
     rmarkdown,
     rsconnect,
     shiny,
-    gt (>= 0.1.0),
+    gt (>= 0.3.0),
     forcats,
     testthat (>= 2.1.0),
     data.table,

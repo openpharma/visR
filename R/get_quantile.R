@@ -5,7 +5,9 @@
 #' 
 #' @seealso \code{\link[survival]{quantile.survfit}}
 #' 
-#' @param x S3 object
+#' @param x An object of class \code{survfit}
+#' @param probs  probabilities Default = c(0.25,0.50,0.75)
+#' @inheritParams survival::quantile.survfit
 #' @param ... other arguments passed on to the method
 #' 
 #' @examples
@@ -29,11 +31,6 @@ get_quantile <- function(x, ...){
   UseMethod("get_quantile", x)
 } 
 
-#' @param x An object of class \code{survfit}
-#' @param ... other arguments passed on to the method
-#' @param probs  probabilities Default = c(0.25,0.50,0.75)
-#' @inheritParams survival::quantile.survfit
-#'
 #' @rdname get_quantile
 #' @method get_quantile survfit
 #' @export

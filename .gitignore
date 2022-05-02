@@ -2,7 +2,6 @@
 /notebooks/libs
 /notebooks/*.html
 .Rproj.user
-visR.Rproj
 .Rbuildignore
 inst/doc
 .Rhistory

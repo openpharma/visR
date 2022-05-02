@@ -13,20 +13,26 @@
 #'
 #' @examples
 #'
-#' theme <- visR::define_theme(strata = list("SEX" = list("F" = "red",
-#'                                                        "M" = "blue"),
-#'                                           "TRTA" = list("Placebo" = "cyan",
-#'                                                         "Xanomeline High Dose" = "purple",
-#'                                                         "Xanomeline Low Dose" = "brown")),
-#'                             fontsizes = list("axis" = 12,
-#'                                              "ticks" = 10,
-#'                                              "legend_title" = 10,
-#'                                              "legend_text" = 8),
-#'                             fontfamily = "Helvetica",
-#'                             grid = list("major" = FALSE,
-#'                                         "minor" = FALSE),
-#'                             bg = "transparent",
-#'                             legend_position = "top")
+#' theme <- visR::define_theme(
+#'   strata = list("SEX" = list("F" = "red",
+#'                              "M" = "blue"
+#'                            ),
+#'                "TRTA" = list("Placebo" = "cyan",
+#'                              "Xanomeline High Dose" = "purple",
+#'                              "Xanomeline Low Dose" = "brown"
+#'                            )
+#'             ),
+#'   fontsizes = list("axis" = 12,
+#'                    "ticks" = 10,
+#'                    "legend_title" = 10,
+#'                    "legend_text" = 8),
+#'   fontfamily = "Helvetica",
+#'   grid = list("major" = FALSE,
+#'               "minor" = FALSE
+#'              ),
+#'   bg = "transparent",
+#'   legend_position = "top"
+#')
 #'
 #' @export
 
@@ -161,7 +167,7 @@ define_theme <- function(strata = NULL,
 
   }
 
-  base::class(theme) <- base::append(base::class(theme), "visR_theme")
+  base::class(theme) <- c( "visR_theme", class(theme))
 
   return(theme)
 
@@ -249,7 +255,7 @@ apply_theme <- function(gg, visR_theme_dict = NULL) {
 
   if (!is.null(visR_theme_dict)) {
 
-    if (!("visR_theme" %in% base::class(visR_theme_dict))) {
+    if (!inherits(visR_theme_dict, "visR_theme")) {
 
       base::message("It is recommended to generate the theme object through `visR::define_theme`. Attempting to use the provided object anyway.")
 

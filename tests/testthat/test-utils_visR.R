@@ -176,7 +176,7 @@ testthat::test_that("T3.2 A list is returned when no arguments are specified.", 
   
   opts <- visR:::legendopts()
   
-  testthat::expect_true("list" %in% class(opts))
+  testthat::expect_true(inherits(opts, "list"))
   
 })
 
@@ -302,7 +302,7 @@ testthat::test_that("T4.1 A two-letter character string is returned when `numeri
   res <- visR:::.convert_alpha(numeric_alpha = 0.5) 
   
   testthat::expect_true(nchar(res) == 2)
-  testthat::expect_true("character" %in% class(res))
+  testthat::expect_true(inherits(res, "character"))
   
 })
 
@@ -311,7 +311,7 @@ testthat::test_that("T4.2 A numeric is returned when `numeric_alpha` is not spec
   visR:::.convert_alpha(hex_alpha = "FF") %>%
     testthat::expect_error(NA)
   
-  testthat::expect_true("numeric" %in% class(visR:::.convert_alpha(hex_alpha = "FF")))
+  testthat::expect_true(inherits(visR:::.convert_alpha(hex_alpha = "FF"), "numeric"))
   
 })
 
@@ -470,7 +470,7 @@ testthat::test_that("T6.1 A numerical value is returned when `hex_colour` is a #
     testthat::expect_error(NA)
   
   alpha <- visR:::.get_alpha_from_hex_colour(hex_colour = "#FFFFFF04")
-  testthat::expect_true("numeric" %in% class(alpha))
+  testthat::expect_true(inherits(alpha, "numeric")) 
   
 })
 

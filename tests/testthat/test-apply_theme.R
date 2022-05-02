@@ -203,7 +203,7 @@ testthat::test_that("T1.23 A warning when `legend_position` is not a `character`
 
 testthat::test_that("T1.24 The returned theme object is of class `visR_theme`.", {
   
-  testthat::expect_true("visR_theme" %in% class(visR::define_theme()))
+  testthat::expect_true(inherits(visR::define_theme(), "visR_theme"))
   
 })
 
@@ -367,11 +367,11 @@ testthat::test_that("T2.9 If `grid` is a single `logical`, it is used for both m
   ggb_grid_true  <- ggplot2::ggplot_build(gg_grid_true)
   ggb_grid_false <- ggplot2::ggplot_build(gg_grid_false)
   
-  testthat::expect_true(("element_line" %in% class(ggb_grid_true$plot$theme$panel.grid.major)) &
-                          ("element_line" %in% class(ggb_grid_true$plot$theme$panel.grid.minor)))
+  testthat::expect_true((inherits(ggb_grid_true$plot$theme$panel.grid.major, "element_line")) &
+                        (inherits(ggb_grid_true$plot$theme$panel.grid.minor, "element_line"))) 
   
-  testthat::expect_true(("element_blank" %in% class(ggb_grid_false$plot$theme$panel.grid.major)) &
-                          ("element_blank" %in% class(ggb_grid_false$plot$theme$panel.grid.minor)))
+  testthat::expect_true((inherits(ggb_grid_false$plot$theme$panel.grid.major, "element_blank")) &
+                        (inherits(ggb_grid_false$plot$theme$panel.grid.minor, "element_blank"))) 
   
 })
 
@@ -396,15 +396,15 @@ testthat::test_that("T2.10 If `grid` is a named list containing 'major' and/or '
   ggb_grid_only_minor      <- ggplot2::ggplot_build(gg_grid_only_minor)
   ggb_grid_minor_and_major <- ggplot2::ggplot_build(gg_grid_minor_and_major)
   
-  testthat::expect_true(("element_blank" %in% class(ggb_grid_none$plot$theme$panel.grid.major)) &
-                          ("element_blank" %in% class(ggb_grid_none$plot$theme$panel.grid.minor)))
+  testthat::expect_true((inherits(ggb_grid_none$plot$theme$panel.grid.major, "element_blank")) &
+                        (inherits(ggb_grid_none$plot$theme$panel.grid.minor, "element_blank"))) 
+
+  testthat::expect_true((inherits(ggb_grid_only_minor$plot$theme$panel.grid.major, "element_blank")) &
+                        (inherits(ggb_grid_only_minor$plot$theme$panel.grid.minor, "element_line"))) 
   
-  testthat::expect_true(("element_blank" %in% class(ggb_grid_only_minor$plot$theme$panel.grid.major)) &
-                          ("element_line" %in% class(ggb_grid_only_minor$plot$theme$panel.grid.minor)))
-  
-  testthat::expect_true(("element_line" %in% class(ggb_grid_minor_and_major$plot$theme$panel.grid.major)) &
-                          ("element_line" %in% class(ggb_grid_minor_and_major$plot$theme$panel.grid.minor)))
-  
+  testthat::expect_true((inherits(ggb_grid_minor_and_major$plot$theme$panel.grid.major, "element_line")) &
+                        (inherits(ggb_grid_minor_and_major$plot$theme$panel.grid.minor, "element_line"))) 
+
 })
 
 testthat::test_that("T2.11 A warning when `grid` is a named list containing 'major' and/or 'minor' that are not single `logical`s.", {

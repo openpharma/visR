@@ -58,7 +58,7 @@ visR includes a wrapper function to easily display summary tables (e.g. `tableon
 
 ```{r table1_get_default}
 # Display a summary table (e.g. tableone)
-tableone(adtte[,c("TRTP", "AGE")],
+visR::tableone(adtte[,c("TRTP", "AGE")],
          title = "Demographic summary" , datasource = DATASET)
 ```
 
@@ -76,15 +76,15 @@ Given a survival object, visR includes several functions to quickly extract addi
 ```{r km_tab_options_1}
 # Display test statistics associated with the survival estimate
 
-render(survfit_object %>% get_pvalue(), title = "P-values", datasource = DATASET)
+visR::render(survfit_object %>% get_pvalue(), title = "P-values", datasource = DATASET)
 
 ```
 
 A survival object can be plotted using the visR function `visr`. Additional information like confidence intervals and a risktable can be added to the plot.
 
-```{r km_plot_1}
+```{r km_plot_1, fig.align='center', fig.width= 6, fig.height=4}
 # Create and display a Kaplan-Meier from the survival object and add a risktable
 visr(survfit_object) %>% 
-  add_CI() %>%
-  add_risktable()
+  visR::add_CI() %>%
+  visR::add_risktable()
 ```

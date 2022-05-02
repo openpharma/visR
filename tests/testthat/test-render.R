@@ -69,7 +69,7 @@ testthat::test_that("T1.1 No error when `data` is a `tableone` object.", {
   adtte_tableone <- adtte %>%
     visR::get_tableone() 
   
-  testthat::expect_true("tableone" %in% class(adtte_tableone))
+  testthat::expect_true(inherits(adtte_tableone, "tableone"))
   adtte_tableone %>% visR:::render.tableone(title = NULL, datasource = NULL) 
 
 })
@@ -81,7 +81,7 @@ testthat::test_that("T1.2 An error when `data` is not a `tableone` object.", {
   
   class(adtte_tableone) <- class(adtte_tableone)[class(adtte_tableone) != "tableone"]
   
-  testthat::expect_false("tableone" %in% class(adtte_tableone))
+  testthat::expect_false(inherits(adtte_tableone,"tableone"))
   adtte_tableone %>% visR:::render.tableone(title = NULL, datasource = NULL) %>%
     testthat::expect_error()
   
@@ -360,7 +360,7 @@ testthat::test_that("T2.1 No error when `data` is a `risktable` object.", {
     visR::estimate_KM("SEX") %>%
     visR::get_risktable()
   
-  testthat::expect_true("risktable" %in% class(adtte_risktable))
+  testthat::expect_true(inherits(adtte_risktable, "risktable"))
   adtte_risktable %>% visR:::render.risktable(title = NULL, datasource = NULL) %>%
     testthat::expect_error(NA)
 
@@ -374,7 +374,7 @@ testthat::test_that("T2.2 An error when `data` is not a `risktable` object.", {
   
   class(adtte_risktable) <- class(adtte_risktable)[class(adtte_risktable) != "risktable"]
   
-  testthat::expect_false("risktable" %in% class(adtte_risktable))
+  testthat::expect_false(inherits(adtte_risktable, "risktable"))
   adtte_risktable %>% visR:::render.risktable(title = NULL, datasource = NULL) %>%
     testthat::expect_error()
   
@@ -739,7 +739,7 @@ testthat::test_that("T3.1 When `engine` is 'gt' and `output_format` is 'latex', 
                              engine = "gt",
                              output_format = "latex")
   
-  testthat::expect_true("knit_asis" %in% class(latex_table))
+  testthat::expect_true(inherits(latex_table, "knit_asis"))
   
 })
 
@@ -848,7 +848,7 @@ testthat::test_that("T5.2 The returned object is of type `htmlwidget`.", {
                                        download_format = "csv", 
                                        source_cap = "visR_source_cap")
   
-  testthat::expect_true("htmlwidget" %in% class(tmp))
+  testthat::expect_true(inherits(tmp, "htmlwidget"))
   
 })
 
@@ -919,7 +919,7 @@ testthat::test_that("T6.2 The returned object is of type `gt_tbl`.", {
   tmp <- adtte %>%
     visR:::get_gt.data.frame()
   
-  testthat::expect_true("gt_tbl" %in% class(tmp))
+  testthat::expect_true(inherits(tmp, "gt_tbl"))
   
 })
 

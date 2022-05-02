@@ -14,7 +14,7 @@
 #'        }
 #'     }
 #'
-#' @param gg visR plot of class `ggsurvfit` or `ggtidycmprsk`
+#' @param gg A ggplot created with visR
 #' @param ... other arguments passed on to the method add_risktable
 #'
 #' @rdname add_risktable

@@ -6,8 +6,12 @@
 * Estimation and Plotting of cumulative competing risks via `estimate_cuminc()` and `visr()`. (#293)
 
 ### Utility functions
-* AlignPlots has been renamed to `align_plots()`.
+* `AlignPlots()` has been renamed to `align_plots()`.
 
+### Other Updates
+* Stratifying variable names have been removed from legend in `visr.survfit()` figures, and the legend title now describes the stratifying variable(s). (#343)
+
+* Improved documentation for `visr()` and other generic functions. (#301)
 
 # visR 0.2.0
 

@@ -2,9 +2,11 @@
 #'
 #' @description S3 method for highlighting a specific strata by lowering the opacity of all other strata.
 #'
-#' @param gg visR object
+#' @param gg A ggplot created with visR
+#' @param strata String representing the name and value of the strata to be highlighted as shown in the legend.
+#' @param bg_alpha A numerical value between 0 and 1 that is used to decrease the opacity off all strata not chosen to be highlighted in `strata`. The other strata's existing alpha values are multiplied by `bg_alpha` to decrease their opacity, highlighting the target strata. This works on both `colour` and `fill` properties, as for example present after applying `visR::add_CI()`.
 #' @param ... other arguments passed on to the method
-#'
+#' 
 #' @examples
 #'
 #' adtte %>%
@@ -31,10 +33,6 @@ add_highlight <- function(gg, ...){
   UseMethod("add_highlight", gg)
 }
 
-#' @param gg A ggsurvfit, ideatlly created with visR
-#' @param strata String representing the name and value of the strata to be highlighted as shown in the legend.
-#' @param bg_alpha A numerical value between 0 and 1 that is used to decrease the opacity off all strata not chosen to be highlighted in `strata`. The other strata's existing alpha values are multiplied by `bg_alpha` to decrease their opacity, highlighting the target strata. This works on both `colour` and `fill` properties, as for example present after applying `visR::add_CI()`.
-#'
 #' @rdname add_highlight
 #' @method add_highlight ggsurvfit
 #' @export
@@ -48,10 +46,8 @@ add_highlight.ggsurvfit <- function(gg = NULL,
   # https://www.r-bloggers.com/2019/08/no-visible-binding-for-global-variable/#option-two
   alpha <- colour <- fill <- group <- NULL
 
-  if (!("ggplot" %in% class(gg))) {
-
+  if (!inherits(gg, "ggplot")) {
     stop("A 'ggplot' has to be specified for 'gg'.")
-
   }
 
   if (missing(strata) | length(strata) == 0) {
@@ -62,15 +58,15 @@ add_highlight.ggsurvfit <- function(gg = NULL,
 
   if (length(strata) == 1) {
 
-    if (class(strata) == "list") {
+    if (inherits(strata, "list")) {
 
-      if (class(strata[[1]]) != "character") {
+      if (!inherits(strata, "character")) {
 
         stop("A 'strata' must be either a single character string or a list of them.")
 
       }
 
-    } else if (!(class(strata) == "character")) {
+    } else if (!inherits(strata, "character")) {
 
       stop("A 'strata' must be either a single character string or a list of them.")
 
@@ -86,7 +82,7 @@ add_highlight.ggsurvfit <- function(gg = NULL,
 
     base::sapply(strata, function(s) {
 
-      if (class(s) != "character") {
+      if (!inherits(s, "character")) {
 
         stop("When 'strata' is a list, all elements must be character strings.")
 
