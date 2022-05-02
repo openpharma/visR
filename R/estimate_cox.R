@@ -2,7 +2,7 @@
 #'
 #' @description This function is a wrapper around \code{survival::coxph} to fit a Cox Proportional Hazards Regression model, assuming right-censored data.
 #'    The function expects that the data has been filtered on the parameter (PARAM/PARAMCD) of interest.
-#'    The result is an object of class \code{summary.coxph} which can be used in downstream functions and methods that rely on the \code{summary.coxph} class.
+#'    The result is an object of class \code{coxph} which can be used in downstream functions and methods that rely on the \code{coxph} class.
 #'
 #' @param data The name of the dataset for the Cox model is based on the Analysis Data Model (ADaM) principles. The dataset is expected to have
 #'    one record per subject per analysis parameter. Rows in which the analysis variable (AVAL) or the sensor variable (CNSR) contain NA, are removed during analysis.
@@ -14,7 +14,7 @@
 #' @param ... additional arguments passed on to the ellipsis of the call \code{survival::coxph(data = data, formula = survival::Surv(AVAL, 1-CNSR) ~ equation), ...)} .
 #'    Use \code{?survival::coxph} and \code{?survival::summary.coxph} for more information.
 #'
-#' @return a summarized coxph model
+#' @return a coxph model
 #'
 #' @references \url{https://github.com/therneau/survival}
 #'
@@ -119,7 +119,7 @@ estimate_cox <- function(
   
   
   ## Reverse censoring: see ADaM guidelines versus R survival KM analysis
-  library(survival)
+  
   formula <- stats::as.formula(glue::glue(paste0("survival::Surv(", AVAL, ", 1-", CNSR, ") ~ {equation}")))
   
   survfit_object <- survival::coxph(
@@ -154,13 +154,20 @@ estimate_cox <- function(
   }
   
   
-  # Return ------------------------------------------------------------------
-  
+  # Get values from summary ------------------------------------------------------------------
   
   summary_cox <- summary(survfit_object, conf.int = conf.int)
   
+  survfit_object[["conf.int"]]      <- summary_cox[["conf.int"]]
+  survfit_object[["logtest"]]       <- summary_cox[["logtest"]]
+  survfit_object[["sctest"]]        <- summary_cox[["sctest"]]
+  survfit_object[["rsq"]]           <- summary_cox[["rsq"]]
+  survfit_object[["waldtest"]]      <- summary_cox[["waldtest"]]
+  survfit_object[["used.robust"]]   <- summary_cox[["used.robust"]]
   
-  return(summary_cox)
+  
+  # Return ------------------------------------------------------------------
+  return(survfit_object)
   
   
 }
