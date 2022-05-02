@@ -25,8 +25,9 @@
 #' T4.1 The function removes all rows with NA values inside CNSR or AVAL
 #' T5. The function does not alter the calculation of survival::coxph
 #' T5.1 The function gives the same results as survival::coxph
-#' T5.2 The function allows additional arguments to be passed, specific for survival::coxph & summary(survival::coxph)
-#' T5.3 The function returns an object of class `coxph`
+#' T5.2 The function allows `conf.int` argument to be passed, specific for summary(survival::coxph)
+#' T5.3 The function allows additional arguments to be passed, specific for survival::coxph & summary(survival::coxph)
+#' T5.4 The function returns an object of class `coxph`
 #' T6. The function adds additional information to the survfit object when available
 #' T6.1 The calculation is not affected by the addition of additional parameters
 #' T6.2 The function add PARAM/PARAMCD when available
@@ -213,22 +214,18 @@ testthat::test_that("T5.1 The function gives the same results as survival::coxph
   testthat::expect_equal(list_survival, list_visR)
 })
 
-
-
-testthat::test_that("T5.2 The function allows additional arguments to be passed, specific for survival::coxph & summary(survival::coxph)", {
+testthat::test_that("T5.2 The function allows `conf.int` argument to be passed, specific for summary(survival::coxph)", {
   
   ## survival package
   survobj_survival <- survival::coxph(survival::Surv(AVAL, 1-CNSR) ~ SEX + AGE,
-                                        data = adtte,
-                                        ties = "breslow")
+                                      data = adtte)
   summary_survobj_survival <- summary(survobj_survival, conf.int = 0.9)
   
   survobj_survival["conf.int"] <- summary_survobj_survival["conf.int"]
   ## visR
   survobj_visR <- visR::estimate_cox(data = adtte,
-                                    equation = "SEX + AGE",
-                                    ties = "breslow",
-                                    conf.int = 0.9)
+                                     equation = "SEX + AGE",
+                                     conf.int = 0.9)
   
   ## Compare common elements
   Common_Nms <- base::intersect(names(survobj_survival), names(survobj_visR))
@@ -240,7 +237,30 @@ testthat::test_that("T5.2 The function allows additional arguments to be passed,
   testthat::expect_equal(list_survival, list_visR)
 })
 
-testthat::test_that("T5.3 The function returns an object of class `coxph`", {
+testthat::test_that("T5.3 The function allows additional arguments to be passed, specific for survival::coxph", {
+  
+  ## survival package
+  survobj_survival <- survival::coxph(survival::Surv(AVAL, 1-CNSR) ~ SEX + AGE,
+                                        data = adtte,
+                                        ties = "breslow")
+ 
+  
+  ## visR
+  survobj_visR <- visR::estimate_cox(data = adtte,
+                                    equation = "SEX + AGE",
+                                    ties = "breslow")
+  
+  ## Compare common elements
+  Common_Nms <- base::intersect(names(survobj_survival), names(survobj_visR))
+  Common_Nms <- Common_Nms[-which(Common_Nms == "call")]
+  
+  list_survival <- survobj_survival[Common_Nms]
+  list_visR     <- survobj_visR[Common_Nms]
+  
+  testthat::expect_equal(list_survival, list_visR)
+})
+
+testthat::test_that("T5.4 The function returns an object of class `coxph`", {
   
   ## visR
   survobj_visR <- visR::estimate_cox(data = adtte,
