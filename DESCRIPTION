@@ -83,7 +83,7 @@ Suggests:
     rmarkdown,
     rsconnect,
     shiny,
-    gt (>= 0.1.0),
+    gt (>= 0.3.0),
     forcats,
     testthat (>= 2.1.0),
     data.table,
