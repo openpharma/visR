@@ -4,6 +4,11 @@
 \name{reexports}
 \alias{reexports}
 \alias{\%>\%}
+\alias{strata}
+\alias{frailty}
+\alias{cluster}
+\alias{ridge}
+\alias{pspline}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -12,5 +17,7 @@ below to see their documentation.
 
 \describe{
   \item{dplyr}{\code{\link[dplyr:reexports]{\%>\%}}}
+
+  \item{survival}{\code{\link[survival]{cluster}}, \code{\link[survival]{frailty}}, \code{\link[survival]{pspline}}, \code{\link[survival]{ridge}}, \code{\link[survival]{strata}}}
 }}
 
