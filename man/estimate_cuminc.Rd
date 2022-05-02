@@ -27,7 +27,7 @@ competing events. Default is \code{"CNSR"}}
 
 \item{AVAL}{Analysis value for Time-to-Event analysis. Default is "AVAL", as per CDISC ADaM guiding principles.}
 
-\item{conf.int}{Confidence internal level. Default is 0.95.}
+\item{conf.int}{Confidence internal level. Default is 0.95. Parameter is passed to \code{tidycmprsk::cuminc(conf.level=)}}
 
 \item{...}{Additional argument passed to \code{tidycmprsk::cuminc()}}
 }

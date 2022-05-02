@@ -7,7 +7,7 @@
 #' Column must be a factor and the first level indicates censoring, the
 #' next level is the outcome of interest, and the remaining levels are the
 #' competing events. Default is `"CNSR"`
-#' @param conf.int Confidence internal level. Default is 0.95. Parameter is passed to conf_level argument of `tidycmprsk::cuminc()`
+#' @param conf.int Confidence internal level. Default is 0.95. Parameter is passed to `tidycmprsk::cuminc(conf.level=)`
 #' @param ... Additional argument passed to `tidycmprsk::cuminc()`
 #' @inheritParams estimate_KM
 #' @inheritParams visr
