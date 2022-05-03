@@ -69,35 +69,55 @@ testthat::context("add_annotation - T2. The function accepts a label of class `c
 
 testthat::test_that("T2.1 An error when a `ggplot` object is passed to the function in the absence of a label", {
 
-  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::visr()
+  visR_KM_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::visr()
 
-  testthat::expect_error(visR::add_annotation(visR_plot, label = NULL))
+  data <- tidycmprsk::trial
+  visR_cuminc_plot <- visR::estimate_cuminc(data = data, CNSR = "death_cr", AVAL = "ttdeath") %>%
+    visR::visr()
+
+  testthat::expect_error(visR::add_annotation(visR_KM_plot, label = NULL))
+  testthat::expect_error(visR::add_annotation(visR_cuminc_plot, label = NULL))
 
 })
 
 testthat::test_that("T2.2 No error when label is of class `character`", {
 
-  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::visr()
+  visR_KM_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::visr()
 
-  testthat::expect_error(visR::add_annotation(visR_plot, label = "blah"), NA)
+  data <- tidycmprsk::trial
+  visR_cuminc_plot <- visR::estimate_cuminc(data = data, CNSR = "death_cr", AVAL = "ttdeath") %>%
+    visR::visr()
+
+  testthat::expect_error(visR::add_annotation(visR_KM_plot, label = "blah"), NA)
+  testthat::expect_error(visR::add_annotation(visR_cuminc_plot, label = "blah"), NA)
 
 })
 
 testthat::test_that("T2.3 No error when label is of class `data.frame`", {
 
-  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::visr()
+  visR_KM_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::visr()
 
-  testthat::expect_error(visR::add_annotation(visR_plot, label = adtte[1:5,]), NA)
+  data <- tidycmprsk::trial
+  visR_cuminc_plot <- visR::estimate_cuminc(data = data, CNSR = "death_cr", AVAL = "ttdeath") %>%
+    visR::visr()
+
+  testthat::expect_error(visR::add_annotation(visR_KM_plot, label = adtte[1:5,]), NA)
+  testthat::expect_error(visR::add_annotation(visR_cuminc_plot, label = adtte[1:5,]), NA)
 
 })
 
 testthat::test_that("T2.3 No error when label is of class `gtable`", {
 
-  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::visr()
+  visR_KM_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::visr()
+
+  data <- tidycmprsk::trial
+  visR_cuminc_plot <- visR::estimate_cuminc(data = data, CNSR = "death_cr", AVAL = "ttdeath") %>%
+    visR::visr()
 
   lbl <- gridExtra::tableGrob(adtte[1:5,])
 
-  testthat::expect_error(visR::add_annotation(visR_plot, label = lbl), NA)
+  testthat::expect_error(visR::add_annotation(visR_KM_plot, label = lbl), NA)
+  testthat::expect_error(visR::add_annotation(visR_cuminc_plot, label = lbl), NA)
 
 })
 
