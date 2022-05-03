@@ -385,7 +385,13 @@ testthat::test_that("T6.1 The attribute components[['visR_plot']] contains the p
   visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::visr()
   visR_plot_anno <- visR_plot %>% visR::add_annotation(label = anno)
 
+  data <- tidycmprsk::trial
+  visR_cuminc_plot <- visR::estimate_cuminc(data = data, CNSR = "death_cr", AVAL = "ttdeath") %>%
+    visR::visr()
+  visR_cuminc_plot_anno <- visR_cuminc_plot %>% visR::add_annotation(label = anno)
+
   testthat::expect_equal(visR_plot, visR_plot_anno$components$visR_plot)
+  testthat::expect_equal(visR_cuminc_plot, visR_cuminc_plot_anno$components$visR_plot)
 })
 
 testthat::test_that("T6.2 The attribute components contains the annotation", {
@@ -396,7 +402,14 @@ testthat::test_that("T6.2 The attribute components contains the annotation", {
     visR::visr() %>%
     visR::add_annotation(label = anno)
 
+  data <- tidycmprsk::trial
+  visR_cuminc_plot <- visR::estimate_cuminc(data = data, CNSR = "death_cr", AVAL = "ttdeath") %>%
+    visR::visr() %>%
+    visR::add_annotation(label = anno)
+
   testthat::expect_equal(names(visR_plot$components)[[2]], "grobs")
+  testthat::expect_equal(names(visR_cuminc_plot$components)[[2]], "grobs")
+
 })
 
 testthat::test_that("T6.3 The output has the same class as the original ggplot", {
@@ -409,7 +422,15 @@ testthat::test_that("T6.3 The output has the same class as the original ggplot",
   visR_plot2 <- visR_plot %>%
     visR::add_annotation(label = anno)
 
+  data <- tidycmprsk::trial
+  visR_cuminc_plot <- visR::estimate_cuminc(data = data, CNSR = "death_cr", AVAL = "ttdeath") %>%
+    visR::visr()
+
+  visR_cuminc_plot2 <- visR_cuminc_plot %>%
+    visR::add_annotation(label = anno)
+
   testthat::expect_equal(class(visR_plot), class(visR_plot2))
+  testthat::expect_equal(class(visR_cuminc_plot), class(visR_cuminc_plot2))
 })
 
 # END OF CODE -------------------------------------------------------------
