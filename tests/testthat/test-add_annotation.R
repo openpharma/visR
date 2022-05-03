@@ -200,8 +200,7 @@ testthat::test_that("T3.3 The content of a `gtable` passed to label is not affec
 
   data <- tidycmprsk::trial
   visR_cuminc_plot <- visR::estimate_cuminc(data = data, CNSR = "death_cr", AVAL = "ttdeath") %>%
-    visR::visr() %>%
-    visR::add_annotation(label = lbl)
+    visR::visr()
 
   anno <- gridExtra::tableGrob(adtte[1:6,])
 
@@ -226,39 +225,65 @@ testthat::test_that("T4.1 An error when one of the coordinates is not numeric", 
 
   lbl <- "blah"
 
-  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::visr()
+  visR_KM_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::visr()
 
-  testthat::expect_error(visR_plot %>% visR::add_annotation(label = lbl, xmin = 'blah'))
+  data <- tidycmprsk::trial
+  visR_cuminc_plot <- visR::estimate_cuminc(data = data, CNSR = "death_cr", AVAL = "ttdeath") %>%
+    visR::visr()
+
+  testthat::expect_error(visR_KM_plot %>% visR::add_annotation(label = lbl, xmin = 'blah'))
+  testthat::expect_error(visR_cuminc_plot %>% visR::add_annotation(label = lbl, xmin = 'blah'))
 })
 
 testthat::test_that("T4.2 The annotation can be moved on the plot by specifying the x coordinates", {
 
   lbl <- "blah"
 
-  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>%
+  visR_KM_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>%
     visR::visr() %>%
     visR::add_annotation(label = lbl, xmin = 0, xmax = 99)
 
-  visR_plot2 <- visR::estimate_KM(data = adtte, strata = "TRTA") %>%
+  visR_KM_plot2 <- visR::estimate_KM(data = adtte, strata = "TRTA") %>%
     visR::visr() %>%
     visR::add_annotation(label = lbl)
 
-  testthat::expect_false(isTRUE(all.equal(visR_plot$layers, visR_plot2$layers)))
+  data <- tidycmprsk::trial
+  visR_cuminc_plot <- visR::estimate_cuminc(data = data, CNSR = "death_cr", AVAL = "ttdeath") %>%
+    visR::visr() %>%
+    visR::add_annotation(label = lbl, xmin = 0, xmax = 99)
+
+  visR_cuminc_plot2 <- visR::estimate_cuminc(data = data, CNSR = "death_cr", AVAL = "ttdeath") %>%
+    visR::visr() %>%
+    visR::add_annotation(label = lbl)
+
+  testthat::expect_false(isTRUE(all.equal(visR_KM_plot$layers, visR_KM_plot2$layers)))
+  testthat::expect_false(isTRUE(all.equal(visR_cuminc_plot$layers, visR_cuminc_plot2$layers)))
 })
 
 testthat::test_that("T4.3 The annotation can be moved on the plot by specifying the y coordinates", {
 
+
   lbl <- "blah"
 
-  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>%
+  visR_KM_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>%
     visR::visr() %>%
     visR::add_annotation(label = lbl, ymin = 1, ymax = 1)
 
-  visR_plot2 <- visR::estimate_KM(data = adtte, strata = "TRTA") %>%
+  visR_KM_plot2 <- visR::estimate_KM(data = adtte, strata = "TRTA") %>%
     visR::visr() %>%
     visR::add_annotation(label = lbl)
 
-  testthat::expect_false(isTRUE(all.equal(visR_plot$layers, visR_plot2$layers)))
+  data <- tidycmprsk::trial
+  visR_cuminc_plot <- visR::estimate_cuminc(data = data, CNSR = "death_cr", AVAL = "ttdeath") %>%
+    visR::visr() %>%
+    visR::add_annotation(label = lbl, ymin = 1, ymax = 1)
+
+  visR_cuminc_plot2 <- visR::estimate_cuminc(data = data, CNSR = "death_cr", AVAL = "ttdeath") %>%
+    visR::visr() %>%
+    visR::add_annotation(label = lbl)
+
+  testthat::expect_false(isTRUE(all.equal(visR_KM_plot$layers, visR_KM_plot2$layers)))
+  testthat::expect_false(isTRUE(all.equal(visR_cuminc_plot$layers, visR_cuminc_plot2$layers)))
 })
 
 # Requirement T5 ---------------------------------------------------------------
@@ -269,20 +294,28 @@ testthat::test_that("T5.1 The annotation has bold columnheaders when the passed 
 
   anno <- adtte[1:6, 1:5]
 
-  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>%
+  visR_KM_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>%
     visR::visr() %>%
     visR::add_annotation(label = anno)
 
-  extracted_lbl <- unlist(base::lapply(visR_plot$components$grobs, function(x) {
+  data <- tidycmprsk::trial
+  visR_cuminc_plot <- visR::estimate_cuminc(data = data, CNSR = "death_cr", AVAL = "ttdeath") %>%
+    visR::visr() %>%
+    visR::add_annotation(label = anno)
+
+  extracted_lbl_KM <- unlist(base::lapply(visR_KM_plot$components$grobs, function(x) {
     x$label
   }))
 
-  cN <- extracted_lbl[1:length(colnames(anno))]
+  extracted_lbl_cuminc <- unlist(base::lapply(visR_cuminc_plot$components$grobs, function(x) {
+    x$label
+  }))
 
-  unique(sub('\".*\"', "", cN))
+  cN_KM <- extracted_lbl_KM[1:length(colnames(anno))]
+  cN_cuminc <- extracted_lbl_cuminc[1:length(colnames(anno))]
 
-
-  testthat::expect_match(unique(sub('\".*\"', "", cN)), "bold()")
+  testthat::expect_match(unique(sub('\".*\"', "", cN_KM)), "bold()")
+  testthat::expect_match(unique(sub('\".*\"', "", cN_cuminc)), "bold()")
 })
 
 testthat::test_that("T5.2 The font size can be changed", {
@@ -297,7 +330,17 @@ testthat::test_that("T5.2 The font size can be changed", {
     visR::visr() %>%
     visR::add_annotation(label = lbl, base_size = 5)
 
+  data <- tidycmprsk::trial
+  visR_cuminc_plot <- visR::estimate_cuminc(data = data, CNSR = "death_cr", AVAL = "ttdeath") %>%
+    visR::visr() %>%
+    visR::add_annotation(label = lbl, base_size = 12)
+
+  visR_cuminc_plot2 <- visR::estimate_cuminc(data = data, CNSR = "death_cr", AVAL = "ttdeath") %>%
+    visR::visr() %>%
+    visR::add_annotation(label = lbl, base_size = 5)
+
   testthat::expect_false(isTRUE(all.equal(visR_plot$layers, visR_plot2$layers)))
+  testthat::expect_false(isTRUE(all.equal(visR_cuminc_plot$layers, visR_cuminc_plot2$layers)))
 })
 
 testthat::test_that("T5.3 The font family can be chosen between 'sans', 'serif' and 'mono'", {
@@ -306,13 +349,28 @@ testthat::test_that("T5.3 The font family can be chosen between 'sans', 'serif' 
 
   visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::visr()
 
+  data <- tidycmprsk::trial
+  visR_cuminc_plot <- visR::estimate_cuminc(data = data, CNSR = "death_cr", AVAL = "ttdeath") %>%
+    visR::visr()
+
   testthat::expect_error(visR_plot %>% visR::add_annotation(label = anno,
                                                             base_family = 'sans'), NA)
+  testthat::expect_error(visR_cuminc_plot %>% visR::add_annotation(label = anno,
+                                                            base_family = 'sans'), NA)
+
   testthat::expect_error(visR_plot %>% visR::add_annotation(label = anno,
                                                             base_family = 'serif'), NA)
+  testthat::expect_error(visR_cuminc_plot %>% visR::add_annotation(label = anno,
+                                                            base_family = 'serif'), NA)
+
   testthat::expect_error(visR_plot %>% visR::add_annotation(label = anno,
                                                             base_family = 'mono'), NA)
+  testthat::expect_error(visR_cuminc_plot %>% visR::add_annotation(label = anno,
+                                                            base_family = 'mono'), NA)
+
   testthat::expect_error(visR_plot %>% visR::add_annotation(label = anno,
+                                                            base_family = 'blah'))
+  testthat::expect_error(visR_cuminc_plot %>% visR::add_annotation(label = anno,
                                                             base_family = 'blah'))
 })
 
