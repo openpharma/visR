@@ -177,8 +177,8 @@ testthat::test_that("T3.2 The content of a `data.frame` passed to label is not a
   cN_KM <- extracted_lbl_KM[1:length(colnames(anno))]
   cN_cuminc <- extracted_lbl_cuminc[1:length(colnames(anno))]
 
-  bD_KM <- extracted_lbl[(length(cN_KM) + 1):length(extracted_lbl_KM)]
-  bD_cuminc <- extracted_lbl[(length(cN_cuminc) + 1):length(extracted_lbl_cuminc)]
+  bD_KM <- extracted_lbl_KM[(length(cN_KM) + 1):length(extracted_lbl_KM)]
+  bD_cuminc <- extracted_lbl_cuminc[(length(cN_cuminc) + 1):length(extracted_lbl_cuminc)]
 
   d_KM <- as.data.frame(matrix(bD_KM, ncol = length(cN_KM), byrow = FALSE),
                      stringsAsFactors = FALSE)
