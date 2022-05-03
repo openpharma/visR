@@ -129,22 +129,34 @@ testthat::test_that("T3.1 An object of type `character` passed to label is not a
 
   lbl <- "blah"
 
-  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>%
+  visR_KM_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>%
     visR::visr() %>%
     visR::add_annotation(label = lbl)
 
-  testthat::expect_equal(visR_plot$components$grobs[[1]]$label, lbl)
+  data <- tidycmprsk::trial
+  visR_cuminc_plot <- visR::estimate_cuminc(data = data, CNSR = "death_cr", AVAL = "ttdeath") %>%
+    visR::visr() %>%
+    visR::add_annotation(label = lbl)
+
+  testthat::expect_equal(visR_KM_plot$components$grobs[[1]]$label, lbl)
+  testthat::expect_equal(visR_cuminc_plot$components$grobs[[1]]$label, lbl)
+
 })
 
 testthat::test_that("T3.2 The content of a `data.frame` passed to label is not affected by the transformation to an annotation", {
 
   anno <- adtte[1:6, 1:5]
 
-  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>%
+  visR_KM_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>%
     visR::visr() %>%
     visR::add_annotation(label = anno)
 
-  extracted_lbl <- unlist(lapply(visR_plot$components$grobs, function(x) {
+  data <- tidycmprsk::trial
+  visR_cuminc_plot <- visR::estimate_cuminc(data = data, CNSR = "death_cr", AVAL = "ttdeath") %>%
+    visR::visr() %>%
+    visR::add_annotation(label = anno)
+
+  extracted_lbl_KM <- unlist(lapply(visR_KM_plot$components$grobs, function(x) {
     z <- x$label
     z <- gsub("bold(", "", z, fixed = TRUE)
     z <- gsub(")", "", z, fixed = TRUE)
@@ -153,29 +165,57 @@ testthat::test_that("T3.2 The content of a `data.frame` passed to label is not a
     z
   }))
 
-  cN <- extracted_lbl[1:length(colnames(anno))]
-  bD <- extracted_lbl[(length(cN) + 1):length(extracted_lbl)]
+  extracted_lbl_cuminc <- unlist(lapply(visR_cuminc_plot$components$grobs, function(x) {
+    z <- x$label
+    z <- gsub("bold(", "", z, fixed = TRUE)
+    z <- gsub(")", "", z, fixed = TRUE)
+    z <- gsub('\"', "", z, fixed = TRUE)
+    z <- gsub(' - ', "-", z, fixed = TRUE)
+    z
+  }))
 
-  d <- as.data.frame(matrix(bD, ncol = length(cN), byrow = FALSE),
+  cN_KM <- extracted_lbl_KM[1:length(colnames(anno))]
+  cN_cuminc <- extracted_lbl_cuminc[1:length(colnames(anno))]
+
+  bD_KM <- extracted_lbl[(length(cN_KM) + 1):length(extracted_lbl_KM)]
+  bD_cuminc <- extracted_lbl[(length(cN_cuminc) + 1):length(extracted_lbl_cuminc)]
+
+  d_KM <- as.data.frame(matrix(bD_KM, ncol = length(cN_KM), byrow = FALSE),
                      stringsAsFactors = FALSE)
-  colnames(d) <- cN
+  d_cuminc<- as.data.frame(matrix(bD_cuminc, ncol = length(cN_cuminc), byrow = FALSE),
+                        stringsAsFactors = FALSE)
+
+  colnames(d_KM) <- cN_KM
+  colnames(d_cuminc) <- cN_cuminc
 
   lbl <- data.frame(lapply(anno, as.character), stringsAsFactors = FALSE)
 
-  testthat::expect_equal(d, lbl, check.attributes = FALSE)
+  testthat::expect_equal(d_KM, lbl, check.attributes = FALSE)
+  testthat::expect_equal(d_cuminc, lbl, check.attributes = FALSE)
 })
 
 testthat::test_that("T3.3 The content of a `gtable` passed to label is not affected by the transformation to an annotation", {
 
-  visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::visr()
+  visR_KM_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::visr()
+
+  data <- tidycmprsk::trial
+  visR_cuminc_plot <- visR::estimate_cuminc(data = data, CNSR = "death_cr", AVAL = "ttdeath") %>%
+    visR::visr() %>%
+    visR::add_annotation(label = lbl)
+
   anno <- gridExtra::tableGrob(adtte[1:6,])
 
-  visR_plot <- visR_plot %>%  visR::add_annotation(label = anno)
-  visR_plot$components[[1]] <- NULL
+  visR_KM_plot <- visR_KM_plot %>%  visR::add_annotation(label = anno)
+  visR_KM_plot$components[[1]] <- NULL
+
+  visR_cuminc_plot <- visR_cuminc_plot %>%  visR::add_annotation(label = anno)
+  visR_cuminc_plot$components[[1]] <- NULL
 
   gtab <- append(anno, NULL) # Mimic gtable addition to structure
 
-  testthat::expect_equal(gtab, visR_plot$components)
+  testthat::expect_equal(gtab, visR_KM_plot$components)
+  testthat::expect_equal(gtab, visR_cuminc_plot$components)
+
 })
 
 # Requirement T4 ---------------------------------------------------------------
