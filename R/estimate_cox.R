@@ -10,11 +10,14 @@
 #'    Default is NULL.
 #' @param AVAL Analysis value for the Cox model. Default is "AVAL", as per CDISC ADaM guiding principles.
 #' @param CNSR Censor for the Cox model. Default is "CNSR", as per CDISC ADaM guiding principles.
-#' @param conf.int Confidence intervals used for the estimation.
-#' @param ... additional arguments passed on to the ellipsis of the call \code{survival::coxph(data = data, formula = survival::Surv(AVAL, 1-CNSR) ~ equation), ...)} .
+#' @param conf.int Confidence intervals used for the estimation. Conf.int argument is used from the \code{survival::summary.coxph}. The default is 0.95.
+#' @param ... additional arguments passed on to the ellipsis of the call \code{survival::coxph(data = data, formula = survival::Surv(AVAL, 1-CNSR) ~ equation), ...)}.
 #'    Use \code{?survival::coxph} and \code{?survival::summary.coxph} for more information.
 #'
-#' @return a coxph model
+#' @inheritParams survival::coxph
+#' @inheritParams survival::summary.coxph
+#'
+#' @return an object of coxph, with additional components of the class of\code{survival::summary.coxph}. Use \code{?survival::coxph} and \code{?survival::summary.coxph} for more information.
 #'
 #' @references \url{https://github.com/therneau/survival}
 #'
@@ -64,9 +67,9 @@ estimate_cox <- function(
   ,conf.int = 0.95
   ,...
 ){
-  
+
   # Capture input to validate user input for data argument -----------------
-  
+
   ## Get actual data name as symbol
   ### Magrittre pipe returns "." which inactivates recalls to survfit in downstream functions
   ### map passes .x as cox_ccall$data
@@ -74,61 +77,68 @@ estimate_cox <- function(
   cox_call <- as.list(match.call())
   dots <- list(...)
   df_expr <- cox_call[["data"]]
-  
+
   ## Validate `data` and capture data name
-  
+
   if (is.null(data)) stop(paste0("data can't be NULL."))
-  
+
   if (base::length(base::deparse(cox_call[["data"]])) == 1 && base::deparse(cox_call[["data"]]) %in% c(".", ".x")) {
     df <- the_lhs()
     cox_call[["data"]] <- as.symbol(df)
   } else {
     df <- as.character(sub("\\[.*$", "", deparse(df_expr))[1])
   }
-  
+
+  if ((conf.int > 1) | (conf.int < 0)) {
+
+    warning("Invalid `conf.int` argument, must be between 0 and 1. Setting it to 0.95.")
+    conf.int <- 0.95
+
+  }
+
   if (!(inherits(data, "data.frame") | inherits(data, "tibble") | inherits(data, "data.table"))) {
     stop(paste0("data can be of class `data.frame` or `tibble` or `data.table`."))
   }
-  
+
   data <- as.data.frame(data)
-  
+
   # Validate columns --------------------------------------------------------
-  
+
   if (!is.numeric(data[[AVAL]])) {
     stop("Analysis variable (AVAL) is not numeric.")
   }
-  
+
   if (!is.numeric(data[[CNSR]])) {
     stop("Censor variable (CNSR) is not numeric.")
   }
-  
-  
+
+
   # Remove NA from the analysis --------------------------------------------
-  
+
   data <- as.data.frame(data) %>%
     tidyr::drop_na(AVAL, CNSR)
-  
-  
+
+
   # Ensure the presence of at least one strata -----------------------------
-  
+
   if (is.null(equation)) {
     equation <- "1"
   } else {
     equation <- equation
   }
-  
-  
+
+
   ## Reverse censoring: see ADaM guidelines versus R survival KM analysis
-  
+
   formula <- stats::as.formula(paste0("survival::Surv(", AVAL, ", 1-", CNSR, ") ~ ", equation))
 
     survfit_object <- survival::coxph(
     formula, data = data, ...
   )
-  
-  
+
+
   # Update Call with original info and dots, similar as update.default ------
-  
+
   survfit_object$call[[1]] <- quote(survival::coxph)
   survfit_object$call[["formula"]] <- formula
   survfit_object$call[["data"]] <- cox_call$data
@@ -139,35 +149,38 @@ estimate_cox <- function(
       survfit_object$call[[names(dots)[i]]] <- unlist(dots[i], use.names = FALSE)
     }
   }
-  
-  
+
+
   # Add additional metadata -------------------------------------------------
-  
+
   if ("PARAM" %in% colnames(data) && length(setdiff(c("PARAMCD", "PARAM"), equation)) == 2) {
     # we expect only one unique value => catch mistakes
     survfit_object[["PARAM"]] <- paste(unique(data[["PARAM"]]), collapse = ", ")
   }
-  
+
   if ("PARAMCD" %in% colnames(data) && length(setdiff(c("PARAMCD", "PARAM"), equation)) == 2) {
     # we expect only one unique value => catch mistakes
     survfit_object[["PARAMCD"]] <- paste(unique(data[["PARAMCD"]]), collapse = ", ")
   }
-  
-  
+
+
   # Get values from summary ------------------------------------------------------------------
-  
+
   summary_cox <- summary(survfit_object, conf.int = conf.int)
-  
+
+  survfit_object[["coef.exp"]]      <- summary_cox[["coefficients"]]
   survfit_object[["conf.int"]]      <- summary_cox[["conf.int"]]
   survfit_object[["logtest"]]       <- summary_cox[["logtest"]]
   survfit_object[["sctest"]]        <- summary_cox[["sctest"]]
   survfit_object[["rsq"]]           <- summary_cox[["rsq"]]
   survfit_object[["waldtest"]]      <- summary_cox[["waldtest"]]
   survfit_object[["used.robust"]]   <- summary_cox[["used.robust"]]
-  
-  
+  survfit_object[["concor.se"]]     <- summary_cox[["concordance"]]
+
+
+
   # Return ------------------------------------------------------------------
   return(survfit_object)
-  
-  
+
+
 }

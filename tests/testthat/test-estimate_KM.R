@@ -37,7 +37,7 @@
 #' T6.3 The function adds strata labels from the data when available
 #' T6.4 The function adds strata labels equal to the strata name when strata labels are not available from the data
 #' T7. The function call supports traceability
-#' T7.1 The function updates call$data when magrittr pipe is used
+#' T7.1 The function updates call["data"] when magrittr pipe is used
 #' T7.2 The function prefixes the function call with survival
 
 # Requirement T1 ----------------------------------------------------------
@@ -199,7 +199,7 @@ testthat::test_that("T3.7 When more than 1 strata is specified, the stratum labe
   survobj <- visR::estimate_KM(data = data, strata = "SEX")
 
   testthat::expect_equal(survobj$strata_lbls, list(SEX = "Sex"))
-  
+
   survobj <- visR::estimate_KM(data = data, strata = c("RACE", "SEX"))
 
   testthat::expect_equal(survobj$strata_lbls, list(RACE = "Race", SEX = "Sex"))
@@ -362,7 +362,7 @@ testthat::test_that("T6.3 The function adds strata labels from the data when ava
   survobj <- visR::estimate_KM(data = data, strata = "SEX")
 
   testthat::expect_equal(survobj$strata_lbls, list(SEX = "Sex"))
-  
+
 })
 
 testthat::test_that("T6.4 The function adds strata labels equal to the strata name when strata labels are not available from the data", {
@@ -380,7 +380,7 @@ testthat::test_that("T6.4 The function adds strata labels equal to the strata na
 
 testthat::context("estimate_KM - T7. The function call supports traceability")
 
-testthat::test_that("T7.1 The function updates call$data when magrittr pipe is used", {
+testthat::test_that("T7.1 The function updates call[`data`] when magrittr pipe is used", {
 
   ## survival package
   survobj_survival <- adtte %>%
