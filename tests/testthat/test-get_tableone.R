@@ -185,8 +185,6 @@ testthat::test_that("T5.1 An error when the the table includes the strata variab
   strata <- c("SEX", "RACE")
 
   table <- adtte %>%
-    dplyr::filter(SAFFL == "Y") %>%
-    dplyr::select(RACE,SEX, AGEGR1) %>%
     visR::get_tableone(strata = strata,
                        na.rm = TRUE)
 
@@ -200,8 +198,6 @@ testthat::test_that("T5.2 An error when the the table does not include any of th
   strata <- c("SEX", "RACE")
 
   table <- adtte %>%
-    dplyr::filter(SAFFL == "Y") %>%
-    dplyr::select(RACE,SEX, AGEGR1) %>%
     visR::get_tableone(strata = strata,
                        na.rm = FALSE)
 
