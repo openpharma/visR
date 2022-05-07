@@ -49,14 +49,12 @@ get_COX_HR.survfit <- function(
 ){
 
 # Update formula ----------------------------------------------------------
+  updated_call <- rlang::quo_squash(x$call)
+  updated_call[["data"]] <- rlang::inject(!!updated_call[["data"]], env = attr(x$call, ".Environment"))
+  updated_object <- eval(updated_call, envir = attr(x$call, ".Environment"))
   if (!is.null(update_formula)) {
-    survfit_object <- rlang::eval_tidy(x$call)
     updated_object <-
-      stats::update(survfit_object, formula = eval(update_formula), evaluate = TRUE)
-  }
-  else {
-    updated_object <- x
-    updated_object[["call"]] <- rlang::quo_squash(updated_object[["call"]])
+      stats::update(updated_object, formula = stats::as.formula(update_formula), evaluate = TRUE)
   }
 
 # Change Call -------------------------------------------------------------
