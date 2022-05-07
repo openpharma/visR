@@ -15,6 +15,7 @@ add_risktable(gg, ...)
   label = NULL,
   group = "strata",
   collapse = FALSE,
+  rowgutter = 0.16,
   ...
 )
 
@@ -25,6 +26,7 @@ add_risktable(gg, ...)
   label = NULL,
   group = "strata",
   collapse = FALSE,
+  rowgutter = 0.16,
   ...
 )
 }
@@ -56,6 +58,8 @@ Default is "strata".}
 
 \item{collapse}{Boolean, indicates whether to present the data overall.
 Default is FALSE.}
+
+\item{rowgutter}{A numeric relative value between 0 and 1 indicates the height used by the table versus the height used by the plot, as described in cowplot \code{\link[cowplot]{rel_heights}}. The default is 0.16.}
 }
 \value{
 Object of class \code{ggplot} with added risk table.

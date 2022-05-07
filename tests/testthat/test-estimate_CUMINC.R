@@ -1,13 +1,13 @@
 #' @title Specifications test-estimate_CUMINC.R
 #' @section Last updated by: Daniel Sjoberg (danield.sjoberg@@gmail.com)
-#' @section Last update date: 2022-01-15T10:56:12
+#' @section Last update date: 2022-04-20T04:47:32
 #'
 #' @section List of tested specifications
 #' T1. The function wraps `tidycmprsk::cuminc()` appropriately
 #' T1.1 No errors `estimate_cuminc()`
 #' T1.2 No errors `estimate_cuminc()` sister functions
-#' T2. The legend title in the figure accurately displays stratum labels
-#' T2.2 The legend title in the figure accurately displays stratum labels
+#' T2. The legend title in the figure accurately displays stratum labels.
+#' T2.1 The legend title in the figure accurately displays stratum labels.
 
 # Requirement T1 ----------------------------------------------------------
 

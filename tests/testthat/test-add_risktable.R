@@ -1,6 +1,6 @@
 #' @title Specifications test-add_risktable.R
-#' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2022-01-14T14:20:44
+#' @section Last updated by: ardeeshany (ardeeshany@@gmail.com)
+#' @section Last update date: 2022-05-01T15:52:08
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a `ggsurvfit` object.
@@ -16,12 +16,13 @@
 #' T3.2 The attribute components[['visR_plot']] contains the plot used as input.
 #' T3.3 The attribute components contains the risktables, identified through the risktable titles.
 #' T3.4 The output has class `ggsurvfit`.
-#' T4. T4. The function accepts a numeric table.height value
-#' T4.1 An error when the table.height is not numeric
-#' T4.2 An error when the table.height is negative
-#' T4.3 An error when the table.height is larger than 1
-#' T4.4 No error when the table.height is numeric
-#' T4.5 No error when the default table.height is changed
+#' The function accepts a numeric rowgutter value
+#' T4.1 An error when the rowgutter is not numeric
+#' T4.2 An error when the rowgutter is negative
+#' T4.3 An error when the rowgutter is larger than 1
+#' T4.4 No error when the rowgutter is numeric between 0 and 1
+#' T4.5 No error when the default rowgutter is used
+#' T4.6 Changing rowgutter affects on the heights of the table and plot
 
 # Requirement T1 ----------------------------------------------------------
 
@@ -169,58 +170,89 @@ testthat::test_that("T3.4 The output has class `ggsurvfit`.",{
 
 
 # Requirement T4 ---------------------------------------------------------------
-testthat::context("T4. The function accepts a numeric table.height value")
+testthat::context("T4. The function accepts a numeric rowgutter value")
 
-testthat::test_that("T4.1 An error when the table.height is not numeric",{
-
-  visR_plot <- adtte %>%
-    visR::estimate_KM(strata = "TRTA") %>%
-    visr()
-
-  testthat::expect_error(visR::add_risktable(visR_plot, table.height = "blah"))
-
-})
-
-testthat::test_that("T4.2 An error when the table.height is negative",{
+testthat::test_that("T4.1 An error when the rowgutter is not numeric",{
 
   visR_plot <- adtte %>%
     visR::estimate_KM(strata = "TRTA") %>%
     visr()
 
-  testthat::expect_error(visR::add_risktable(visR_plot, table.height = -0.001))
+  testthat::expect_error(visR::add_risktable(visR_plot, rowgutter = "blah"))
 
 })
 
-testthat::test_that("T4.3 An error when the table.height is larger than 1",{
+testthat::test_that("T4.2 An error when the rowgutter is negative",{
 
   visR_plot <- adtte %>%
     visR::estimate_KM(strata = "TRTA") %>%
     visr()
 
-  testthat::expect_error(visR::add_risktable(visR_plot, table.height =1.001))
+  testthat::expect_error(visR::add_risktable(visR_plot, rowgutter = -0.001))
 
 })
 
-testthat::test_that("T4.4 No error when the table.height is numeric",{
+testthat::test_that("T4.3 An error when the rowgutter is larger than 1",{
 
   visR_plot <- adtte %>%
     visR::estimate_KM(strata = "TRTA") %>%
     visr()
 
-  testthat::expect_error(visR::add_risktable(visR_plot, table.height = 0.3), NA)
+  testthat::expect_error(visR::add_risktable(visR_plot, rowgutter =1.001))
 
 })
 
-
-
-testthat::test_that("T4.5 No error when the default table.height is changed",{
+testthat::test_that("T4.4 No error when the rowgutter is numeric between 0 and 1",{
 
   visR_plot <- adtte %>%
     visR::estimate_KM(strata = "TRTA") %>%
     visr()
 
-  testthat::expect_error(visR::add_risktable(visR_plot, table.height = 0.5), NA)
+  testthat::expect_error(visR::add_risktable(visR_plot, rowgutter = 0.2), NA)
 
 })
+
+
+
+testthat::test_that("T4.5 No error when the default rowgutter is used",{
+
+  visR_plot <- adtte %>%
+    visR::estimate_KM(strata = "TRTA") %>%
+    visr()
+
+  testthat::expect_error(visR::add_risktable(visR_plot), NA)
+
+  testthat::skip_on_cran()
+  visR::add_risktable(visR_plot) %>%
+    vdiffr::expect_doppelganger(title = "T4.No_error_when_the_default_rowgutter_is_used")
+
+})
+
+testthat::test_that("T4.6 Changing rowgutter affects on the heights of the table and plot",{
+
+  visR_plot <- adtte %>%
+    visR::estimate_KM(strata = "TRTA") %>%
+    visr()
+
+  testthat::skip_on_cran()
+  visR::add_risktable(visR_plot, rowgutter = 0.5) %>%
+  vdiffr::expect_doppelganger(title = "T4.6_Changing_rowgutter_affects_on_the_heights_of_the_table_and_plot")
+
+})
+
+
+# testthat::test_that("T1.1 No error when the default parameters are used", {
+#
+#   survfit_object <- adtte %>% visR::estimate_KM()
+#   p <- visR::visr(survfit_object)
+#
+#   testthat::expect_error(p %>% visR::add_CI(), NA)
+#
+#   testthat::skip_on_cran()
+#   p %>%
+#     visR::add_CI() %>%
+#     vdiffr::expect_doppelganger(title = "add_CI_T1_1_no_error_when_default_parameters_are_used")
+#
+# })
 
 # END OF CODE -------------------------------------------------------------

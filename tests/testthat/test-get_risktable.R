@@ -1,6 +1,6 @@
 #' @title Specifications test-get_risktable.R
-#' @section Last updated by: Steven Haesendonckx (47894155+SHAESEN2@@users.noreply.github.com)
-#' @section Last update date: 2022-01-22T13:32:27
+#' @section Last updated by: Daniel Sjoberg (danield.sjoberg@@gmail.com)
+#' @section Last update date: 2022-02-16T07:57:46
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a `survfit` object
@@ -27,7 +27,7 @@
 #' T4.1 The function supplies defaults to increase the length of the `label` vector to same length as the `statlist` vector
 #' T4.2 The supplied defaults for the `label` vector match the arguments specified in the `statlist`
 #' T4.3 The function limits the length of the `label` vector to the length of the `statlist` vector
-#' T5. The functions calculates requested summary across time
+#' T5. T5. The functions calculates requested summary across time
 #' T5.1 The function is able to calculate the number of events from a `survfit` object
 #' T5.2 The function is able to calculate the number of censored events from a `survfit` object
 #' T5.3 The function is able to calculate the number of at risk from a `survfit` object
@@ -41,19 +41,19 @@
 #' T6.5 The calculations are grouped by strata when group = `strata`
 #' T6.6 The calculations are grouped by statlist when group = `statlist`
 #' T6.7 The calculations are in agreement with what is expected
-#' T7. The function allows the calculations to be grouped overall
+#' T7. The function allows the calculations to be grouped overall 
 #' T7.1 An error when the argument collapse is not boolean
 #' T7.2 No error when the argument collapse is boolean
 #' T7.3 The calculations are grouped overall when collapse = TRUE
 #' T7.4 The calculations are in agreement with expectations when grouped overall
 #' T7.5 No error when there is only one strata available and collapse = TRUE
-#' T8. The output dataset is a data.frame with attributes for downstream processing
-#' T8.1 The output dataset is a data.frame
-#' T8.2 The output dataset has the attribute `time_ticks` that specifies the times
-#' T8.3 The output dataset has the attribute `title` that specifies the labels used in downstream functions
-#' T8.4 The output dataset has the attribute `statlist` that reflects the ´group´ used
-#' T9. Tests for `get_risktable.tidycmprsk()`
-#' T9.1 Results are accurate without error
+#' T7. The output dataset is a data.frame with attributes for downstream processing
+#' T7.1 The output dataset is a data.frame
+#' T7.2 The output dataset has the attribute `time_ticks` that specifies the times
+#' T7.3 The output dataset has the attribute `title` that specifies the labels used in downstream functions
+#' T7.4 The output dataset has the attribute `statlist` that reflects the ´group´ used
+#' T8. Tests for `get_risktable.tidycmprsk()`
+#' T8.1 Results are accurate without error
 
 # Requirement T1 ----------------------------------------------------------
 

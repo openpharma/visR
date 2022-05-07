@@ -26,8 +26,7 @@ add_risktable <- function(gg, ...){
 }
 
 #' @inheritParams get_risktable
-#' @param table.height A numeric value (in the range [0 - 1]) indicating the overall height of
-#'   all tables beneath the primary plot.
+#' @param rowgutter A numeric relative value between 0 and 1 indicates the height used by the table versus the height used by the plot, as described in cowplot \code{\link[cowplot]{rel_heights}}. The default is 0.16.
 #' @seealso \code{\link[cowplot]{plot_grid}}
 #'
 #' @examples
@@ -70,15 +69,15 @@ add_risktable.ggsurvfit <- function(
   ,label = NULL
   ,group = "strata"
   ,collapse = FALSE
-  ,table.height = .3
+  ,rowgutter = .3
   ,...
 ){
 
 
   # User input validation ---------------------------------------------------
 
-  if (!(is.numeric(table.height) == TRUE) || (table.height < 0) || (table.height > 1))
-    stop("table.height should be a numeric value in range [0, 1]")
+  if (!(is.numeric(rowgutter) == TRUE) || (rowgutter < 0) || (rowgutter > 1))
+    stop("rowgutter should be a numeric value in range [0, 1]")
 
   # Obtain the relevant table --------------------------------------------------
   tidy_object <- gg$data
@@ -165,7 +164,7 @@ add_risktable.ggsurvfit <- function(
   ggB <- cowplot::plot_grid(plotlist = ggA,
                             align = "none",
                             nrow = length(ggA),
-                            rel_heights = c(1-(table.height), rep(table.height/(length(ggA)-1), length(ggA)-1))
+                            rel_heights = c(1-(rowgutter), rep(rowgutter/(length(ggA)-1), length(ggA)-1))
   )
 
   class(ggB) <- c(class(ggB), intersect(class(gg), c("ggsurvfit", "ggtidycmprsk")))
