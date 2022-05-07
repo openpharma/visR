@@ -70,7 +70,9 @@ tidyme.survfit <- function(x, ...) {
     }
 
     ## Cleanit: strata will always be filled out based off the estimation function from which it is called
-    retme <- dplyr::bind_rows(base::lapply(x[names(x) %in% c("n", "strata", "call", "na.action", "strata_lbls") == FALSE], cleaner)) %>%
+    retme <-
+      lapply(x[names(x) %in% c("n", "strata", "call", "data_name", "na.action", "strata_lbls") == FALSE], cleaner) %>%
+      dplyr::bind_rows() %>%
       dplyr::mutate( time = time
              ,n.risk = as.integer(n.risk)
              ,n.event = as.integer(n.event)

@@ -12,7 +12,7 @@
 #'    they are displayed in the final result. Default is the test name ("test"), Chisquare test statistic ("Chisq"), degrees of freedom ("df") and
 #'    p-value ("pvalue").
 #' @param ... other arguments passed on to the method
-#' 
+#'
 #' @inheritParams survival::survdiff
 #'
 #' @return A data frame with summary measures for the Test of Equality Across Strata
@@ -60,7 +60,7 @@ get_pvalue <- function(survfit_object,
 
 # Re-use Call from survival object ----------------------------------------
 
-  Call <- as.list(survfit_object$call)
+  Call <- as.list(rlang::quo_squash(survfit_object$call))
   NewCall <- append(as.list(parse(text = "survival::survdiff")), Call[names(Call) %in% names(formals(survival::survdiff))])
 
   if ("All" %in% ptype) {
@@ -74,21 +74,22 @@ get_pvalue <- function(survfit_object,
 
   survdifflist <- list(
     `Log-Rank`    = rlang::expr(eval(as.call(
-      append(NewCall, list(rho = 0))
+      append(!!NewCall, list(rho = 0))
     ))),
     `Wilcoxon`    = rlang::expr(eval(as.call(
-      append(NewCall, list(rho = 1))
+      append(!!NewCall, list(rho = 1))
     ))),
     `Tarone-Ware` = rlang::expr(eval(as.call(
-      append(NewCall, list(rho = 1.5))
+      append(!!NewCall, list(rho = 1.5))
     ))),
     `Custom`      = rlang::expr(eval(as.call(
-      append(NewCall, list(rho = rho))
+      append(!!NewCall, list(rho = !!rho))
     )))
   )[ptype]
 
 
-  survdifflist_eval <- lapply(survdifflist, eval, env = environment())
+  survdifflist_eval <-
+    lapply(survdifflist, eval, envir = attr(survfit_object$call, ".Environment"))
 
 # Statlist ----------------------------------------------------------------
 

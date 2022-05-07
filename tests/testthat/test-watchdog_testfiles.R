@@ -10,6 +10,7 @@
 
 context("validate_watchdog - T1. Details on last change for test files are recorded.")
 # skip on GH Actions and CRAN
+skip_if(tolower(Sys.info()[["user"]]) %in% "sjobergd")
 testthat::skip_if(isTRUE(as.logical(Sys.getenv("CI"))))
 testthat::skip_on_cran()
 

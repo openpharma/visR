@@ -65,102 +65,56 @@
 #' visR::estimate_KM(data = veteran_adam, strata = "trt")
 
 estimate_KM <- function(
-   data = NULL
-  ,strata = NULL
-  ,CNSR = "CNSR"
-  ,AVAL = "AVAL"
-  ,...
+    data = NULL
+    ,strata = NULL
+    ,CNSR = "CNSR"
+    ,AVAL = "AVAL"
+    ,...
 ){
-
-# Capture input to validate user input for data argument -----------------
+  # Capture input to validate user input for data argument ---------------------
   dots <- rlang::dots_list(...)
 
- ## Get actual data name as symbol
- ### Magrittre pipe returns "." which inactivates recalls to survfit in downstream functions
- ### map passes .x as Call$data
- ### df: catch expressions that represent base R subsets
-  Call <- as.list(match.call())
-  dfExpr <- Call[["data"]]
-
- ## Validate `data` and capture data name
-
-  if (is.null(data)) stop(paste0("Data can't be NULL."))
-
-  if (base::length(base::deparse(Call[["data"]])) == 1 && base::deparse(Call[["data"]]) %in% c(".", ".x")){
-    df <- the_lhs()
-    Call[["data"]] <- as.symbol(df)
-  } else {
-     df <- as.character(sub("\\[.*$", "", deparse(dfExpr))[1])
-  }
-
-  if (!(inherits(data, "data.frame") | inherits(data, "tibble") | inherits(data, "data.table"))) stop(paste0("Data can be of `class` dataframe or tibble or data.table."))
-
-  data <- as.data.frame(data)
-
-# Validate columns --------------------------------------------------------
+  ## Validate argument inputs --------------------------------------------------
+  if (is.null(data))
+    stop(paste0("Data can't be NULL."))
+  if (!is.data.frame(data))
+    stop("Data can be of `class` dataframe or tibble or data.table.")
 
   reqcols <- c(strata, CNSR, AVAL)
-
   if (! all(reqcols %in% colnames(data))){
     stop(paste0("Following columns are missing from `data`: ", paste(setdiff(reqcols, colnames(data)), collapse = " "), "."))
   }
 
-  if (! is.numeric(data[[AVAL]])){
+  if (!is.numeric(data[[AVAL]])){
     stop("Analysis variable (AVAL) is not numeric.")
   }
 
-  if (! is.numeric(data[[CNSR]])){
+  if (!is.numeric(data[[CNSR]])){
     stop("Censor variable (CNSR) is not numeric.")
   }
 
-# Ensure the presence of at least one strata -----------------------------
+  # Remove NA from the analysis ------------------------------------------------
+  data <-
+    as.data.frame(data) %>%
+    tidyr::drop_na(any_of(c(AVAL, CNSR, strata)))
 
-  if (is.null(strata)){
-    main <- "1"
-  } else {
-    main <- paste(strata, collapse = " + ")
-  }
+  # construct survfit() call ---------------------------------------------------
+  formula_rhs <-
+    ifelse(is.null(strata), "1", paste(strata, collapse = " + "))
+  formula <- stats::as.formula(paste0("survival::Surv(", AVAL, ", 1-", CNSR, ") ~ ", formula_rhs))
 
-# Remove NA from the analysis --------------------------------------------
+  survfit_object <-
+    rlang::inject(survival::survfit(!!formula, data = data, !!!dots)) %>%
+    survival::survfit0(start.time = 0)
 
-  data <- as.data.frame(data) %>%
-    tidyr::drop_na(AVAL, CNSR)
+  # convert survfit() call to quo with attached envir --------------------------
+  survfit_object$call[[1]] <- rlang::expr(survival::survfit) # adding `survival::` prefix
+  survfit_object$call <- rlang::quo(!!survfit_object$call)
 
-  if (!is.null(strata)){
-    data <- data %>%
-      tidyr::drop_na(any_of({{strata}}))
-  }
+  # save dataset symbol/name ---------------------------------------------------
+  survfit_object$data_name <- .call_list_to_name(as.list(match.call()))
 
-# Calculate survival and add time = 0 to survfit object -------------------
-
- ## Reverse censoring: see ADaM guidelines versus R survival KM analysis
-
-  formula <- stats::as.formula(paste0("survival::Surv(", AVAL, ", 1-", CNSR, ") ~ ", main))
-
-  survfit_object <- survival::survfit(
-    formula, data = data, ...
-  )
-
-  survfit_object <- survival::survfit0(
-    survfit_object, start.time = 0
-  )
-
-
-# Update Call with original info and dots, similar as update.default ------
-
-  survfit_object$call[[1]] <- quote(survival::survfit)
-  survfit_object$call[["formula"]] <- formula
-  survfit_object$call[["data"]] <- Call[["data"]]
-  if (length(dots) > 0){
-    names(survfit_object[["call"]])
-    names(dots)
-    for (i in seq_along(dots)){
-      survfit_object$call[[names(dots)[i]]] <- unlist(dots[i], use.names = FALSE)
-    }
-  }
-
-# Add additional metadata -------------------------------------------------
-
+  # Add additional metadata ----------------------------------------------------
   if ("PARAM" %in% colnames(data) && length(setdiff(c("PARAMCD", "PARAM"), strata)) == 2){
     # we expect only one unique value => catch mistakes
     survfit_object[["PARAM"]] <- paste(unique(data[["PARAM"]]), collapse = ", ")
@@ -171,17 +125,17 @@ estimate_KM <- function(
     survfit_object[["PARAMCD"]] <- paste(unique(data[["PARAMCD"]]), collapse = ", ")
   }
 
-# Artificial strata for easy downstream processing when strata=NULL ------
-
-  if (is.null(survfit_object[["strata"]])){
+  # Artificial strata for easy downstream processing when strata=NULL ----------
+  if (is.null(survfit_object[["strata"]])) {
     survfit_object[["strata"]] <- as.vector(length(survfit_object[["time"]]))
 
-    if (main == "1"){
+    if (is.null(strata)){
       # overall analysis
       attr(survfit_object[["strata"]], "names") <- "Overall"
-    } else {
+    }
+    else {
       # ~ x with One level in variable present
-      attr(survfit_object[["strata"]], "names") <- as.character(paste0(strata, "=", data[1, main]))
+      attr(survfit_object[["strata"]], "names") <- as.character(paste0(strata, "=", data[1, formula_rhs]))
     }
   }
 
@@ -194,9 +148,18 @@ estimate_KM <- function(
       rlang::set_names(strata)
   }
 
+  # Return ------------------------------------------------------------------
+  survfit_object
+}
 
-
-# Return ------------------------------------------------------------------
-
-  return(survfit_object)
+.call_list_to_name <- function(call_list) {
+  call_list[["data"]]
+  if (length(base::deparse(call_list[["data"]])) == 1 &&
+      deparse(call_list[["data"]]) %in% c(".", ".x", "..1")) {
+    df <- the_lhs()
+    call_list[["data"]] <- as.symbol(df)
+  }
+  else {
+    df <- as.character(sub("\\[.*$", "", deparse(call_list[["data"]]))[1])
+  }
 }
