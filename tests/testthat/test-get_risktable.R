@@ -27,7 +27,7 @@
 #' T4.1 The function supplies defaults to increase the length of the `label` vector to same length as the `statlist` vector
 #' T4.2 The supplied defaults for the `label` vector match the arguments specified in the `statlist`
 #' T4.3 The function limits the length of the `label` vector to the length of the `statlist` vector
-#' T5. T5. The functions calculates requested summary across time
+#' T5. The functions calculates requested summary across time
 #' T5.1 The function is able to calculate the number of events from a `survfit` object
 #' T5.2 The function is able to calculate the number of censored events from a `survfit` object
 #' T5.3 The function is able to calculate the number of at risk from a `survfit` object
@@ -41,19 +41,19 @@
 #' T6.5 The calculations are grouped by strata when group = `strata`
 #' T6.6 The calculations are grouped by statlist when group = `statlist`
 #' T6.7 The calculations are in agreement with what is expected
-#' T7. The function allows the calculations to be grouped overall 
+#' T7. The function allows the calculations to be grouped overall
 #' T7.1 An error when the argument collapse is not boolean
 #' T7.2 No error when the argument collapse is boolean
 #' T7.3 The calculations are grouped overall when collapse = TRUE
 #' T7.4 The calculations are in agreement with expectations when grouped overall
 #' T7.5 No error when there is only one strata available and collapse = TRUE
-#' T7. The output dataset is a data.frame with attributes for downstream processing
-#' T7.1 The output dataset is a data.frame
-#' T7.2 The output dataset has the attribute `time_ticks` that specifies the times
-#' T7.3 The output dataset has the attribute `title` that specifies the labels used in downstream functions
-#' T7.4 The output dataset has the attribute `statlist` that reflects the ´group´ used
-#' T8. Tests for `get_risktable.tidycmprsk()`
-#' T8.1 Results are accurate without error
+#' T8. The output dataset is a data.frame with attributes for downstream processing
+#' T8.1 The output dataset is a data.frame
+#' T8.2 The output dataset has the attribute `time_ticks` that specifies the times
+#' T8.3 The output dataset has the attribute `title` that specifies the labels used in downstream functions
+#' T8.4 The output dataset has the attribute `statlist` that reflects the ´group´ used
+#' T9. Tests for `get_risktable.tidycmprsk()`
+#' T9.1 Results are accurate without error
 
 # Requirement T1 ----------------------------------------------------------
 
@@ -467,17 +467,17 @@ testthat::test_that("T7.5 No error when there is only one strata available and c
   testthat::expect_error(visR::get_risktable(survfit_object, collapse = TRUE), NA)
 })
 
-# Requirement T7 ----------------------------------------------------------
+# Requirement T8 ----------------------------------------------------------
 
-testthat::context("get_risktable.survfit - T7. The output dataset is a data.frame with attributes for downstream processing")
+testthat::context("get_risktable.survfit - T8. The output dataset is a data.frame with attributes for downstream processing")
 
-testthat::test_that("T7.1 The output dataset is a data.frame",{
+testthat::test_that("T8.1 The output dataset is a data.frame",{
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
   testthat::expect_true(inherits(visR::get_risktable(survfit_object), "data.frame"))
 })
 
-testthat::test_that("T7.2 The output dataset has the attribute `time_ticks` that specifies the times", {
+testthat::test_that("T8.2 The output dataset has the attribute `time_ticks` that specifies the times", {
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
   times <- c(20, 40, 80)
@@ -485,7 +485,7 @@ testthat::test_that("T7.2 The output dataset has the attribute `time_ticks` that
   testthat::expect_equal(attr(risktable, "time_ticks"), times)
 })
 
-testthat::test_that("T7.3 The output dataset has the attribute `title` that specifies the labels used in downstream functions", {
+testthat::test_that("T8.3 The output dataset has the attribute `title` that specifies the labels used in downstream functions", {
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
 
@@ -497,7 +497,7 @@ testthat::test_that("T7.3 The output dataset has the attribute `title` that spec
                          sub('.*=', '', names(survfit_object$strata)))
 })
 
-testthat::test_that("T7.4 The output dataset has the attribute `statlist` that reflects the ´group´ used", {
+testthat::test_that("T8.4 The output dataset has the attribute `statlist` that reflects the ´group´ used", {
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
 
@@ -509,11 +509,11 @@ testthat::test_that("T7.4 The output dataset has the attribute `statlist` that r
                          sub('.*=', '', names(survfit_object$strata)))
 })
 
-# Requirement T8 ----------------------------------------------------------
+# Requirement T9 ----------------------------------------------------------
 
-testthat::context("get_risktable.survfit - T8. Tests for `get_risktable.tidycmprsk()`")
+testthat::context("get_risktable.survfit - T9. Tests for `get_risktable.tidycmprsk()`")
 
-testthat::test_that("T8.1 Results are accurate without error", {
+testthat::test_that("T9.1 Results are accurate without error", {
   cuminc <-
     visR::estimate_cuminc(
       tidycmprsk::trial,

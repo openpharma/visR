@@ -15,6 +15,10 @@
 #'     }
 #'
 #' @param gg visR plot of class `ggsurvfit` or `ggtidycmprsk`
+#' @inheritParams get_risktable
+#' @param rowgutter A numeric relative value between 0 and 1 indicates the height used by the table versus the height
+#'  used by the plot, as described in cowplot \code{\link[cowplot]{rel_heights}}. The default is 0.16.
+#' @seealso \code{\link[cowplot]{plot_grid}}
 #' @param ... other arguments passed on to the method add_risktable
 #'
 #' @rdname add_risktable
@@ -25,10 +29,6 @@ add_risktable <- function(gg, ...){
   UseMethod("add_risktable", gg)
 }
 
-#' @inheritParams get_risktable
-#' @param rowgutter A numeric relative value between 0 and 1 indicates the height used by the table versus the height used by the plot, as described in cowplot \code{\link[cowplot]{rel_heights}}. The default is 0.16.
-#' @seealso \code{\link[cowplot]{plot_grid}}
-#'
 #' @examples
 #'
 #' ## Display 2 risk tables, 1 per statlist
@@ -36,7 +36,7 @@ add_risktable <- function(gg, ...){
 #'   visR::estimate_KM(strata = "TRTP") %>%
 #'   visR::visr() %>%
 #'   visR::add_risktable( label = c("Subjects at Risk", "Censored")
-#'                       ,statlist = c("n.risk", "n.censor")
+#'                       ,statlist = c("n.risk", "n.censor", "n.event")
 #'                       ,group = "statlist"
 #'                      )
 #'
@@ -69,7 +69,7 @@ add_risktable.ggsurvfit <- function(
   ,label = NULL
   ,group = "strata"
   ,collapse = FALSE
-  ,rowgutter = .3
+  ,rowgutter = .16
   ,...
 ){
 

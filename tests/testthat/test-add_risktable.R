@@ -16,7 +16,7 @@
 #' T3.2 The attribute components[['visR_plot']] contains the plot used as input.
 #' T3.3 The attribute components contains the risktables, identified through the risktable titles.
 #' T3.4 The output has class `ggsurvfit`.
-#' The function accepts a numeric rowgutter value
+#' T4. The function accepts a numeric rowgutter value
 #' T4.1 An error when the rowgutter is not numeric
 #' T4.2 An error when the rowgutter is negative
 #' T4.3 An error when the rowgutter is larger than 1
@@ -170,7 +170,8 @@ testthat::test_that("T3.4 The output has class `ggsurvfit`.",{
 
 
 # Requirement T4 ---------------------------------------------------------------
-testthat::context("T4. The function accepts a numeric rowgutter value")
+
+testthat::context("add_risktable.survfit - T4. The function accepts a numeric rowgutter value")
 
 testthat::test_that("T4.1 An error when the rowgutter is not numeric",{
 
@@ -235,24 +236,9 @@ testthat::test_that("T4.6 Changing rowgutter affects on the heights of the table
     visr()
 
   testthat::skip_on_cran()
-  visR::add_risktable(visR_plot, rowgutter = 0.5) %>%
+  visR::add_risktable(visR_plot, rowgutter = 0.3) %>%
   vdiffr::expect_doppelganger(title = "T4.6_Changing_rowgutter_affects_on_the_heights_of_the_table_and_plot")
 
 })
-
-
-# testthat::test_that("T1.1 No error when the default parameters are used", {
-#
-#   survfit_object <- adtte %>% visR::estimate_KM()
-#   p <- visR::visr(survfit_object)
-#
-#   testthat::expect_error(p %>% visR::add_CI(), NA)
-#
-#   testthat::skip_on_cran()
-#   p %>%
-#     visR::add_CI() %>%
-#     vdiffr::expect_doppelganger(title = "add_CI_T1_1_no_error_when_default_parameters_are_used")
-#
-# })
 
 # END OF CODE -------------------------------------------------------------
