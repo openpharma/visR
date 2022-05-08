@@ -9,10 +9,10 @@
 #'    "Custom" allows the user to specify the weights on the Kaplan-Meier estimates using the argument `rho`.
 #'    The default is "All" displaying all types possible. When `rho` is specified in context of "All", also a custom p-value is displayed.
 #' @param statlist Character vector containing the desired information to be displayed. The order of the arguments determines the order in which
-#'    they are displayed in the final result. Default is the test name ("test"), Chisquare test statistic ("Chisq"), degrees of freedom ("df") and
+#'    they are displayed in the final result. Default is the test name ("test"), Chi-squared test statistic ("Chisq"), degrees of freedom ("df") and
 #'    p-value ("pvalue").
 #' @param ... other arguments passed on to the method
-#' 
+#'
 #' @inheritParams survival::survdiff
 #'
 #' @return A data frame with summary measures for the Test of Equality Across Strata

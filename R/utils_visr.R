@@ -2,11 +2,11 @@
 #'
 #' @description This function aligns multiple \code{ggplot} graphs by making them the same width by taking into account the legend width.
 #'
-#' @param pltlist A list of plots (TODO: provide more detail)
+#' @param pltlist A list of plots
 #'
 #' @return List of \code{ggplot} with equal width.
 #'
-#' @references \url{https://stackoverflow.com/questions/26159495/align-multiple-ggplot-graphs-with-and-without-legends}
+#' @references \url{https://stackoverflow.com/questions/26159495}
 #'
 #' @examples
 #' \donttest{
@@ -14,14 +14,19 @@
 #' ## create 2 graphs
 #' p1 <- ggplot2::ggplot(adtte, ggplot2::aes(x = as.numeric(AGE), fill = "Age")) +
 #'   ggplot2::geom_histogram(bins = 15)
+#'
 #' p2 <- ggplot2::ggplot(adtte, ggplot2::aes(x = as.numeric(AGE))) +
 #'  ggplot2::geom_histogram(bins = 15)
 #'
 #' ## default alignment does not take into account legend size
-#' cowplot::plot_grid(plotlist = list(p1,p2), align = "none", nrow=2)
+#' cowplot::plot_grid(plotlist = list(p1,p2),
+#'                    align = "none",
+#'                    nrow=2)
 #'
 #' ## align_plots() takes into account legend width
-#' cowplot::plot_grid(plotlist = visR::align_plots(pltlist = list(p1, p2)), align = "none", nrow=2)
+#' cowplot::plot_grid(plotlist = visR::align_plots(pltlist = list(p1, p2)),
+#'                    align = "none",
+#'                    nrow=2)
 #' }
 #' @export
 
@@ -36,7 +41,7 @@ align_plots <- function(pltlist) {
 
   for (plt in pltlist) {
 
-    if (!("ggplot" %in% class(plt))) {
+    if (!inherits(plt, "ggplot")) {
 
       base::stop("Not all elements of the provided list are `ggplot` objects.")
 
@@ -554,4 +559,72 @@ legendopts <- function(legend_position = "right",
     return(attr(gg, "tidycuminc"))
   }
 }
+
+
+
+#' Construct strata label for visr legend title
+#'
+#' @param x a survfit or tidycuminc object
+#'
+#' @return string
+#' @noRd
+.construct_strata_label <- function(x, sep = ", ") {
+  tryCatch({
+    if (inherits(x, "survfit") && is.null(x$strata_lbl)) {
+      strata_label <- ""
+    }
+    else if (inherits(x, "survfit")) {
+      strata_label <- unlist(x$strata_lbl) %>% paste(collapse = ", ")
+    }
+    else if (inherits(x, "tidycuminc")) {
+      strata <- .extract_strata_varlist(x)
+      strata_label <-
+        lapply(
+          as.list(strata),
+          function(variable) attr(x$data[[variable]], "label") %||% x
+        ) %>%
+        unlist() %>%
+        paste(collapse = ", ")
+    }
+
+    strata_label
+  },
+  error = function(e) return("")
+  )
+}
+
+#' Extract the strata variable names
+#'
+#' @param x a survfit or tidycuminc object
+#'
+#' @return vector of variable names
+#' @noRd
+.extract_strata_varlist <- function(x) {
+  if (inherits(x, "survfit")) {
+    return(names(x$strata_lbls))
+  }
+  if (inherits(x, "tidycuminc")) {
+    return(.formula_to_strata_varlist(x$formula, x$data))
+  }
+}
+
+#' Extract the strata variable names from model formula
+#'
+#' @param formula a formula
+#' @param data a data frame
+#'
+#' @return vector of variable names
+#' @noRd
+.formula_to_strata_varlist <- function(formula, data) {
+  tryCatch({
+    strata <- stats::model.frame(formula, data = data)[, -1, drop = FALSE] %>% names()
+    if (rlang::is_empty(strata)) {
+      strata <- NULL
+    }
+    strata
+  },
+  error = function(e) return(NULL)
+  )
+}
+
 

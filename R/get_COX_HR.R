@@ -6,7 +6,7 @@
 #'
 #' @seealso \code{\link[survival]{coxph}} \code{\link[stats]{update.formula}}
 #'
-#' @param x S3 object
+#' @param x An object of class \code{survfit}
 #' @param ... other arguments passed on to the method survival::coxph
 #' 
 #' @rdname get_COX_HR
@@ -17,7 +17,6 @@ get_COX_HR <- function(x, ...){
 } 
 
 
-#' @param x An object of class \code{survfit}
 #' @param update_formula Template which specifies how to update the formula of the survfit object \code{\link[stats]{update.formula}}
 #' @param tidy Boolean indicating whether the output should be tidied up for easier extraction of the coefficients.
 #'

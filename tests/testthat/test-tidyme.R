@@ -76,7 +76,7 @@ testthat::test_that("T3.2 The S3 method, associated with a `survfit` object, has
   survfit_object <- visR::estimate_KM(data = adtte, strata = "TRTA")
   survfit_object_tidy <- tidyme(survfit_object)
 
-  surv_object_df <- base::with(survfit_object, 
+  surv_object_df <- base::with(survfit_object,
                                data.frame(time = as.integer(time),
                                           n.risk = as.integer(n.risk),
                                           n.event = as.integer(n.event),
@@ -93,38 +93,40 @@ testthat::test_that("T3.2 The S3 method, associated with a `survfit` object, has
                                           upper,
                                           stringsAsFactors = FALSE))
 
-  surv_object_df["PARAM"] <- rep(survfit_object[["PARAM"]], 
+  surv_object_df["PARAM"] <- rep(survfit_object[["PARAM"]],
                                  sum(survfit_object[["strata"]]))
-  surv_object_df["PARAMCD"] <- rep(survfit_object[["PARAMCD"]], 
+  surv_object_df["PARAMCD"] <- rep(survfit_object[["PARAMCD"]],
                                    sum(survfit_object[["strata"]]))
 
   surv_object_df <- surv_object_df %>%
-    dplyr::mutate(call = rep(list(survfit_object[["call"]]), 
+    dplyr::mutate(call = rep(list(survfit_object[["call"]]),
                              sum(survfit_object[["strata"]])))
-  
-  surv_object_df["PARAM"] <- rep(survfit_object[["PARAM"]], 
+
+  surv_object_df["PARAM"] <- rep(survfit_object[["PARAM"]],
                                  sum(survfit_object[["strata"]]))
-  surv_object_df["PARAMCD"] <- rep(survfit_object[["PARAMCD"]], 
+  surv_object_df["PARAMCD"] <- rep(survfit_object[["PARAMCD"]],
                                    sum(survfit_object[["strata"]]))
-  
+
   surv_object_df[["estimate"]] <- surv_object_df[["surv"]]
   surv_object_df[["std.error"]] <- surv_object_df[["std.err"]]
   surv_object_df[["conf.low"]] <- surv_object_df[["lower"]]
   surv_object_df[["conf.high"]] <- surv_object_df[["upper"]]
 
-  surv_object_df["strata"] <- rep(names(survfit_object[["strata"]]), 
-                                  survfit_object[["strata"]])
-  
+  surv_object_df["strata"] <-
+    rep(names(survfit_object[["strata"]]),
+        survfit_object[["strata"]]) %>%
+    {gsub(pattern = "TRTA=", replacement = "", x = ., fixed = TRUE)}
+
   surv_object_df["strata"] <- factor(surv_object_df[["strata"]], levels = unique(surv_object_df[["strata"]]))
-                                  
-  surv_object_df["n.strata"] <- rep(survfit_object[["n"]], 
+
+  surv_object_df["n.strata"] <- rep(survfit_object[["n"]],
                                     survfit_object[["strata"]])
 
   colnames(survfit_object_tidy)
   colnames(surv_object_df)
-  
+
   testthat::expect_equal(surv_object_df, survfit_object_tidy, check.attributes = FALSE)
-  
+
 })
 
 testthat::test_that("T3.3 The S3 method, associated with a `survfit` object, turns list elements that represent integer numbers into integers",{
@@ -138,22 +140,22 @@ testthat::test_that("T3.3 The S3 method, associated with a `survfit` object, tur
   testthat::expect_true(inherits(survfit_object_tidy[["n.strata"]], "integer"))
 
 })
- 
+
 testthat::test_that("T3.4 The S3 method, assocated with a `survfit` object, turns the strata into a factor",{
-  
+
   dt <- adtte
   dt[["TRTA"]] <- factor(dt[["TRTA"]], levels = c("Xanomeline Low Dose", "Xanomeline High Dose", "Placebo"))
 
   survfit_object <- visR::estimate_KM(data = dt, strata = "TRTA")
   survfit_object_tidy <- tidyme(survfit_object)
-  
+
   testthat::expect_true(inherits(survfit_object_tidy[["strata"]], "factor"))
-  testthat::expect_equal(levels(survfit_object_tidy[["strata"]]), paste0("TRTA=", levels(dt$TRTA)))
-  
+  testthat::expect_equal(levels(survfit_object_tidy[["strata"]]), paste0(levels(dt$TRTA)))
+
 })
 
 testthat::test_that(" T3.5 The S3 method, associated with a `survfit` object, add the original object as an attribute to the tidied object",{
-  
+
   survobj <- visR::estimate_KM(adtte, strata = "TRTA")
   visr_tidy <- visR::tidyme(survobj)
 
@@ -172,9 +174,9 @@ testthat::test_that("T4.1 The S3 method, associated with a `survfit` object, cop
   broom_tidy <- as.data.frame(broom::tidy(survobj))
   have <- names(visr_tidy)
   want <- names(broom_tidy)
-  
+
   testthat::expect_true(any(want %in% have))
-  
+
   # construct df for testthat check
   test_df <- data.frame(
     A = c(visr_tidy[["std.err"]], visr_tidy[["surv"]], visr_tidy[["lower"]], visr_tidy[["upper"]]),
@@ -185,7 +187,7 @@ testthat::test_that("T4.1 The S3 method, associated with a `survfit` object, cop
     dplyr::mutate(rowwise_sd = sd(dplyr::c_across(A:C)))
 
   testthat::expect_true(all(test_df$rowwise_sd == 0))
- 
+
 })
 
 # END OF CODE -------------------------------------------------------------

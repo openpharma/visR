@@ -27,7 +27,10 @@ library(visR)
 ```
 
 
-This tutorial illustrates the usage of the styling function that `visR` provides. By default, `visR::visr()` does not apply any form of visual changes to the generated survival plots. Therefore, the default output looks like you would expect from a standard `ggplot2::ggplot()` plot.
+This tutorial illustrates the usage of the styling function that `visR` provides.
+By default, `visR::visr()` does not apply any form of visual changes to the generated survival plots.
+Therefore, the default output looks like you would expect from a standard `ggplot2::ggplot()` plot.
+While the examples below visualize the results from `estimate_KM()`, these principles apply to competing risks cumulative incidence objects created with `estimate_cuminc()` as well.
 
 ## Preparation of the data
 

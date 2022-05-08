@@ -60,9 +60,6 @@ Default is FALSE.}
 \value{
 return list of attributes the form the risk table i.e.
 number of patients at risk per strata
-
-return list of attributes the form the risk table i.e.
-number of patients at risk per strata
 }
 \description{
 Create a risk table from an object using an S3 method.
