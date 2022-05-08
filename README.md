@@ -69,9 +69,9 @@ with:
 devtools::install_github("openpharma/visR", ref = "main")
 ```
 
-## Example
+## Examples
 
-### Visualization
+#### Visualization
 
 This is a basic example to demonstrate how the API can be used to add
 layers to a visualization. This example demonstrates a time-to-event
@@ -98,18 +98,11 @@ adtte %>%
 
 <img src="man/figures/README-example-1.png" width="100%" />
 
-### Summary Table
+#### Summary Table
 
-The `tableone` calculates and presents summary statistics in a table
-format. There are a few more customization options available, such as
-footnote and summary functions.
+The `tableone()` function presents summary statistics in a table format.
 
 ``` r
-library(visR)
-library(ggplot2)
-
-theme_set(theme_minimal())
-
 ## table by treatment - without overall and render with GT
 adtte %>%
   dplyr::select(AGE, SEX, TRTA) %>%
@@ -122,12 +115,12 @@ adtte %>%
   )
 ```
 
-<div id="xhujzwvhpr" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="ckhrnhgxqj" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#xhujzwvhpr .gt_table {
+#ckhrnhgxqj .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -152,7 +145,7 @@ adtte %>%
   border-left-color: #D3D3D3;
 }
 
-#xhujzwvhpr .gt_heading {
+#ckhrnhgxqj .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -164,7 +157,7 @@ adtte %>%
   border-right-color: #D3D3D3;
 }
 
-#xhujzwvhpr .gt_title {
+#ckhrnhgxqj .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -176,7 +169,7 @@ adtte %>%
   border-bottom-width: 0;
 }
 
-#xhujzwvhpr .gt_subtitle {
+#ckhrnhgxqj .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -188,13 +181,13 @@ adtte %>%
   border-top-width: 0;
 }
 
-#xhujzwvhpr .gt_bottom_border {
+#ckhrnhgxqj .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#xhujzwvhpr .gt_col_headings {
+#ckhrnhgxqj .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -209,7 +202,7 @@ adtte %>%
   border-right-color: #D3D3D3;
 }
 
-#xhujzwvhpr .gt_col_heading {
+#ckhrnhgxqj .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -229,7 +222,7 @@ adtte %>%
   overflow-x: hidden;
 }
 
-#xhujzwvhpr .gt_column_spanner_outer {
+#ckhrnhgxqj .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -241,15 +234,15 @@ adtte %>%
   padding-right: 4px;
 }
 
-#xhujzwvhpr .gt_column_spanner_outer:first-child {
+#ckhrnhgxqj .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#xhujzwvhpr .gt_column_spanner_outer:last-child {
+#ckhrnhgxqj .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#xhujzwvhpr .gt_column_spanner {
+#ckhrnhgxqj .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -261,7 +254,7 @@ adtte %>%
   width: 100%;
 }
 
-#xhujzwvhpr .gt_group_heading {
+#ckhrnhgxqj .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -286,7 +279,7 @@ adtte %>%
   vertical-align: middle;
 }
 
-#xhujzwvhpr .gt_empty_group_heading {
+#ckhrnhgxqj .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -301,15 +294,15 @@ adtte %>%
   vertical-align: middle;
 }
 
-#xhujzwvhpr .gt_from_md > :first-child {
+#ckhrnhgxqj .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#xhujzwvhpr .gt_from_md > :last-child {
+#ckhrnhgxqj .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#xhujzwvhpr .gt_row {
+#ckhrnhgxqj .gt_row {
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 5px;
@@ -328,7 +321,7 @@ adtte %>%
   overflow-x: hidden;
 }
 
-#xhujzwvhpr .gt_stub {
+#ckhrnhgxqj .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -341,7 +334,7 @@ adtte %>%
   padding-right: 5px;
 }
 
-#xhujzwvhpr .gt_stub_row_group {
+#ckhrnhgxqj .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -355,11 +348,11 @@ adtte %>%
   vertical-align: top;
 }
 
-#xhujzwvhpr .gt_row_group_first td {
+#ckhrnhgxqj .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#xhujzwvhpr .gt_summary_row {
+#ckhrnhgxqj .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -369,16 +362,16 @@ adtte %>%
   padding-right: 5px;
 }
 
-#xhujzwvhpr .gt_first_summary_row {
+#ckhrnhgxqj .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#xhujzwvhpr .gt_first_summary_row.thick {
+#ckhrnhgxqj .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#xhujzwvhpr .gt_last_summary_row {
+#ckhrnhgxqj .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -388,7 +381,7 @@ adtte %>%
   border-bottom-color: #D3D3D3;
 }
 
-#xhujzwvhpr .gt_grand_summary_row {
+#ckhrnhgxqj .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -398,7 +391,7 @@ adtte %>%
   padding-right: 5px;
 }
 
-#xhujzwvhpr .gt_first_grand_summary_row {
+#ckhrnhgxqj .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -408,11 +401,11 @@ adtte %>%
   border-top-color: #D3D3D3;
 }
 
-#xhujzwvhpr .gt_striped {
+#ckhrnhgxqj .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#xhujzwvhpr .gt_table_body {
+#ckhrnhgxqj .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -421,7 +414,7 @@ adtte %>%
   border-bottom-color: #D3D3D3;
 }
 
-#xhujzwvhpr .gt_footnotes {
+#ckhrnhgxqj .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -435,7 +428,7 @@ adtte %>%
   border-right-color: #D3D3D3;
 }
 
-#xhujzwvhpr .gt_footnote {
+#ckhrnhgxqj .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -444,7 +437,7 @@ adtte %>%
   padding-right: 5px;
 }
 
-#xhujzwvhpr .gt_sourcenotes {
+#ckhrnhgxqj .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -458,7 +451,7 @@ adtte %>%
   border-right-color: #D3D3D3;
 }
 
-#xhujzwvhpr .gt_sourcenote {
+#ckhrnhgxqj .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -466,36 +459,36 @@ adtte %>%
   padding-right: 5px;
 }
 
-#xhujzwvhpr .gt_left {
+#ckhrnhgxqj .gt_left {
   text-align: left;
 }
 
-#xhujzwvhpr .gt_center {
+#ckhrnhgxqj .gt_center {
   text-align: center;
 }
 
-#xhujzwvhpr .gt_right {
+#ckhrnhgxqj .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#xhujzwvhpr .gt_font_normal {
+#ckhrnhgxqj .gt_font_normal {
   font-weight: normal;
 }
 
-#xhujzwvhpr .gt_font_bold {
+#ckhrnhgxqj .gt_font_bold {
   font-weight: bold;
 }
 
-#xhujzwvhpr .gt_font_italic {
+#ckhrnhgxqj .gt_font_italic {
   font-style: italic;
 }
 
-#xhujzwvhpr .gt_super {
+#ckhrnhgxqj .gt_super {
   font-size: 65%;
 }
 
-#xhujzwvhpr .gt_two_val_uncert {
+#ckhrnhgxqj .gt_two_val_uncert {
   display: inline-block;
   line-height: 1em;
   text-align: right;
@@ -504,31 +497,31 @@ adtte %>%
   margin-left: 0.1em;
 }
 
-#xhujzwvhpr .gt_footnote_marks {
+#ckhrnhgxqj .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#xhujzwvhpr .gt_asterisk {
+#ckhrnhgxqj .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#xhujzwvhpr .gt_slash_mark {
+#ckhrnhgxqj .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#xhujzwvhpr .gt_fraction_numerator {
+#ckhrnhgxqj .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#xhujzwvhpr .gt_fraction_denominator {
+#ckhrnhgxqj .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
