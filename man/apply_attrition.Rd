@@ -9,7 +9,7 @@ apply_attrition(data, criteria_conditions)
 \arguments{
 \item{data}{\code{data.frame}. Data set to be filtered}
 
-\item{criteria_conditions}{\code{character} Dplyr-filter compatible conditions
+\item{criteria_conditions}{\code{character} dplyr-filter compatible conditions
 of the filtering criteria. These conditions will be applied to filter the input
 data set and obtain final analysis data set}
 }

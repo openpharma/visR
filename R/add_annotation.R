@@ -1,9 +1,9 @@
 #' @title Add annotations to a visR object
 #'
 #' @description Wrapper around ggplot2::annotation_custom for simplified annotation to ggplot2 plots.
-#' This function accepts a string, dataframe, data.table, tibble or customized 
-#' objects of class \code{gtable} and places them on the specified location on 
-#' the \code{ggplot}. The layout is fixed: bold columnheaders and plain body. 
+#' This function accepts a string, dataframe, data.table, tibble or customized
+#' objects of class \code{gtable} and places them on the specified location on
+#' the \code{ggplot}. The layout is fixed: bold column headers and plain body.
 #' Only the font size and type can be chosen.
 #' Both the initial plot as the individual annotation are stored as attribute `component`
 #' in the final object.
@@ -22,7 +22,7 @@
 #' @examples
 #' ## Estimate survival
 #' surv_object <- visR::estimate_KM(data = adtte, strata = "TRTP")
-#' 
+#'
 #' ## We want to annotate the survival KM plot with a simple string comment
 #' visR::visr(surv_object) %>%
 #'   visR::add_annotation(
@@ -33,9 +33,9 @@
 #'     xmax = 180,
 #'     ymin = 0.80
 #'   )
-#' 
+#'
 #' ## Currently, care needs to be taken on the x-y values relative
-#' ## to the plot data area. Here we are plotting outside of the data area. 
+#' ## to the plot data area. Here we are plotting outside of the data area.
 #' visR::visr(surv_object) %>%
 #'   visR::add_annotation(
 #'   label = "My simple comment",
@@ -45,20 +45,20 @@
 #'   xmax = 380,
 #'   ymin = 1.0
 #'   )
-#' 
-#' 
+#'
+#'
 #' ## We may also want to annotate a KM plot with information
 #' ## from additional tests or estimates. This example we annotate
-#' ## with p-values contained in a tibble 
-#' 
+#' ## with p-values contained in a tibble
+#'
 #' ## we calculate p-values for "Equality across strata"
 #' lbl <- visR::get_pvalue(surv_object,
 #'              statlist = c("test", "pvalue"),
 #'              type = "All")
-#' 
+#'
 #' ## display p-values
 #' lbl
-#' 
+#'
 #' ## Now annotate survival KM plot with the p-values
 #' visR::visr(surv_object) %>%
 #'   visR::add_annotation(
@@ -98,17 +98,17 @@ add_annotation <- function(
 
     gganno <- gg +
       ggplot2::annotation_custom(label, xmin = xmin, ymin = ymin, xmax = xmax, ymax = ymax)
-    
-    
+
+
     ### Add individual components
     components <- append(list(gg), label)                # Note: The append changes the structure of the gtable object
     names(components) = c("visR_plot", names(label))
     gganno[["components"]] <- components
-    
+
     return (gganno)
 
   } else {
-    
+
     ### Prepare label: turn into dataframe and avoid factors + add manual bolding to avoid parsing issues with `` in colnames
 
     df <- data.frame(lapply(label, as.character), stringsAsFactors = FALSE, check.names = FALSE) #as.character to protect leading zero in numeric
@@ -117,7 +117,7 @@ add_annotation <- function(
 
     ### Layout of gtable: access and modify options eg tt1$colhead
      ## First column to left, rest rightaligned
-    
+
     core_alignment_matrix <- matrix(rep(0, nrow(df)*dim(df)[2]), nrow = nrow(df), ncol = dim(df)[2])
     if (dim(core_alignment_matrix)[2] > 1) {core_alignment_matrix[,2:dim(core_alignment_matrix)[2]] <- 1}
     core_alignment_head <- rep(1, dim(core_alignment_matrix)[2])
@@ -143,7 +143,7 @@ add_annotation <- function(
       )
     )
 
-    
+
     if (inherits(label, "character")) {
       dfGrob <- gridExtra::tableGrob(df, rows = NULL, theme = tt1, cols = NULL)
     } else {
@@ -152,13 +152,13 @@ add_annotation <- function(
 
     gganno <- gg +
       ggplot2::annotation_custom(dfGrob, xmin = xmin, ymin = ymin, xmax = xmax, ymax = ymax)
-    
+
     ### Add individual components
-    
+
     components <- append(list(gg), dfGrob)               # Note: The append changes the structure of the tableGrob object
     names(components) = c("visR_plot", names(dfGrob))
     gganno[["components"]] <- components
-    
+
     return(gganno)
   }
 }

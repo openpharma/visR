@@ -90,7 +90,8 @@ Suggests:
     DT,
     tibble,
     tidycmprsk (>= 0.1.1),
-    vdiffr
+    vdiffr,
+    spelling
 VignetteBuilder: 
     knitr
 biocViews:
@@ -98,3 +99,4 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 LazyData: true
+Language: en-US

@@ -62,7 +62,7 @@ The [`visR`](https://openpharma.github.io/visR/) package implements a simple-to-
 
 ![](package_architecture_overview.png)
 
-In principle, `extimate_XXX` functions allow to estimate statistical models from the data (e.g. `estimate_KM` estimates a survival model), `get_XXX` functions are getters for all kinds of summary statistics (e.g. `get_tableone` or `get_pvalue`), `render` and `visr` display plots and tables, and `add_XXX` functions add specific information to a plot or table (e.g. `add_CI` adds confidence intervals to a plot.)
+In principle, `extimate_XXX` functions allow to estimate statistical models from the data (e.g. `estimate_KM` estimates a survival model), `get_XXX` functions get all kinds of summary statistics (e.g. `get_tableone` or `get_pvalue`), `render` and `visr` display plots and tables, and `add_XXX` functions add specific information to a plot or table (e.g. `add_CI` adds confidence intervals to a plot.)
 
 ### Example
 
@@ -244,7 +244,7 @@ data %>%
 
 ## Fitting survival models 
 
-As mentioned, [`visR`](https://openpharma.github.io/visR/) has defaults following the CDISC ADaM standard. If your data set uses these as well, estimating and plotting survival curves is particularily straightforward.
+As mentioned, [`visR`](https://openpharma.github.io/visR/) has defaults following the CDISC ADaM standard. If your data set uses these as well, estimating and plotting survival curves is particularly straightforward.
 
 ```{r cdisc-survival, exercise=TRUE, exercise.setup = "setup", exercise.startover=FALSE, exercise.eval=FALSE}
 
@@ -353,7 +353,7 @@ mod %>%
 
 ```
 
-**Exercise 1**: Add information about statistcal significance tests to a survival plot. (Hint: Combine `add_annotation()` and `get_pvalue()`).
+**Exercise 1**: Add information about statistical significance tests to a survival plot. (Hint: Combine `add_annotation()` and `get_pvalue()`).
 
 ```{r survival-plot-exercise-5, exercise=TRUE, exercise.setup = "setup", exercise.startover=FALSE, exercise.eval=FALSE}
 
@@ -528,7 +528,7 @@ m %>%
 
 ## Upcoming features
 
-A second release of [`visR`](https://openpharma.github.io/visR/) to CRAN is planned for October. It will include a few bugfixes and UX improvements. However, it will also add new features:
+A second release of [`visR`](https://openpharma.github.io/visR/) to CRAN is planned for October. It will include a few bug fixes and UX improvements. However, it will also add new features:
 
 * `add_highlight()` -> Adjusts the transparency of strata in the survival plots to highlight specific ones.
 
