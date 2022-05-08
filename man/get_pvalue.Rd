@@ -24,7 +24,7 @@ a scalar parameter that controls the type of test.
 }
 
 \item{statlist}{Character vector containing the desired information to be displayed. The order of the arguments determines the order in which
-they are displayed in the final result. Default is the test name ("test"), Chisquare test statistic ("Chisq"), degrees of freedom ("df") and
+they are displayed in the final result. Default is the test name ("test"), Chi-squared test statistic ("Chisq"), degrees of freedom ("df") and
 p-value ("pvalue").}
 
 \item{...}{other arguments passed on to the method}
