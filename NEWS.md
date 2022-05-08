@@ -13,6 +13,8 @@
 
 * Improved documentation for `visr()` and other generic functions. (#301)
 
+* The `README` page has been updated with additional examples. ()
+
 # visR 0.2.0
 
 * Initial CRAN release. 
