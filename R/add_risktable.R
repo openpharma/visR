@@ -17,7 +17,7 @@
 #' @param gg visR plot of class `ggsurvfit` or `ggtidycmprsk`
 #' @inheritParams get_risktable
 #' @param rowgutter A numeric relative value between 0 and 1 indicates the height used by the table versus the height
-#'  used by the plot, as described in cowplot \code{\link[cowplot]{rel_heights}}. The default is 0.16.
+#'  used by the plot, as described in `cowplot::plot_grid(rel_heights=)`. The default is 0.16.
 #' @seealso \code{\link[cowplot]{plot_grid}}
 #' @param ... other arguments passed on to the method add_risktable
 #'
