@@ -39,7 +39,7 @@ Object of class \code{ggplot} with added annotation with an object of class \cod
 Wrapper around ggplot2::annotation_custom for simplified annotation to ggplot2 plots.
 This function accepts a string, dataframe, data.table, tibble or customized
 objects of class \code{gtable} and places them on the specified location on
-the \code{ggplot}. The layout is fixed: bold columnheaders and plain body.
+the \code{ggplot}. The layout is fixed: bold column headers and plain body.
 Only the font size and type can be chosen.
 Both the initial plot as the individual annotation are stored as attribute \code{component}
 in the final object.
@@ -60,7 +60,7 @@ visR::visr(surv_object) \%>\%
   )
 
 ## Currently, care needs to be taken on the x-y values relative
-## to the plot data area. Here we are plotting outside of the data area. 
+## to the plot data area. Here we are plotting outside of the data area.
 visR::visr(surv_object) \%>\%
   visR::add_annotation(
   label = "My simple comment",
@@ -74,7 +74,7 @@ visR::visr(surv_object) \%>\%
 
 ## We may also want to annotate a KM plot with information
 ## from additional tests or estimates. This example we annotate
-## with p-values contained in a tibble 
+## with p-values contained in a tibble
 
 ## we calculate p-values for "Equality across strata"
 lbl <- visR::get_pvalue(surv_object,
