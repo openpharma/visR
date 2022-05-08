@@ -37,7 +37,7 @@ testthat::test_that("T1.1 No error when `add_highlight` is called on a `ggsurvfi
     visR::estimate_KM(strata = "TRTP") %>%
     visR::visr()
 
-  testthat::expect_true("ggsurvfit" %in% class(gg))
+  testthat::expect_true(inherits(gg, "ggsurvfit"))
 
   gg %>%
     visR::add_highlight(strata = "Placebo") %>%
@@ -76,8 +76,8 @@ testthat::test_that("T1.4 An error when `add_highlight` is called on a `ggplot` 
     ggplot2::ggplot(ggplot2::aes(x = AGE, y = TRTDUR)) +
     ggplot2::geom_point()
 
-  testthat::expect_true("ggplot" %in% class(gg))
-  testthat::expect_false("ggsurvfit" %in% class(gg))
+  testthat::expect_true(inherits(gg, "ggplot"))
+  testthat::expect_false(inherits(gg, "ggsurvfit"))
 
   gg %>% add_highlight() %>% testthat::expect_error()
 
@@ -89,11 +89,11 @@ testthat::test_that("T1.5 The function returns a modified object of type `ggsurv
     visR::estimate_KM(strata = "TRTP") %>%
     visR::visr()
 
-  testthat::expect_true("ggsurvfit" %in% class(gg))
+  testthat::expect_true(inherits(gg, "ggsurvfit"))
 
   gg_with_highlight <- gg %>% add_highlight("Placebo")
 
-  testthat::expect_true("ggsurvfit" %in% class(gg_with_highlight))
+  testthat::expect_true(inherits(gg_with_highlight, "ggsurvfit"))
 
   testthat::expect_false(base::identical(gg, gg_with_highlight))
 

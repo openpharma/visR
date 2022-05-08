@@ -43,7 +43,7 @@ Draw a CONSORT attrition chart without specifying extra text for the complement
 
 ```{r render1, fig.align='center', fig.width= 6, fig.height=6}
 attrition %>%
-  visr("Criteria", "Remaining N")
+  visR::visr("Criteria", "Remaining N")
 ```
 
 ## Adding more detail
@@ -64,7 +64,7 @@ Step 2. Define the name of the column in the call to the plotting function
 
 ```{r render2, fig.align='center', fig.width= 6, fig.height=6}
 attrition %>%
-  visr("Criteria", "Remaining N", "Complement")
+  visR::visr("Criteria", "Remaining N", "Complement")
 ```
 
 # Additional features 
@@ -74,8 +74,8 @@ attrition %>%
 Change the fill and outline of the boxes in the flowchart
 
 ```{r render3, fig.align='center', fig.width= 6, fig.height=6}
- attrition %>%
-   visr("Criteria", "Remaining N", "Complement", fill = "lightblue", border="grey")
+attrition %>%
+  visR::visr("Criteria", "Remaining N", "Complement", fill = "lightblue", border="grey")
 
 ```
 
@@ -84,7 +84,7 @@ Change the fill and outline of the boxes in the flowchart
 Adjust the font size in the boxes
 
 ```{r render4,  fig.align='center', fig.width= 6, fig.height=6}
- attrition %>%
-   visr("Criteria", "Remaining N", font_size = 10)
+attrition %>%
+ visR::visr("Criteria", "Remaining N", font_size = 10)
 ```
 

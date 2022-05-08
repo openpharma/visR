@@ -82,9 +82,11 @@ Install the *latest stable* version from [GitHub](https://github.com/) with:
 devtools::install_github("openpharma/visR", ref = "main")
 ```
 
-## Example
+## Examples
 
-This is a basic example to demonstrate how the API can be used to add layers to a visualization. In this example a time to event analysis. The example calculates stratified Kaplan-Meier by treatment and then plots. Additional functions can be used to add uncertainty intervals, censoring information and a risk table. 
+#### Visualization
+
+This is a basic example to demonstrate how the API can be used to add layers to a visualization. This example demonstrates a time-to-event analysis. The example calculates and then plots stratified Kaplan-Meier by treatment. It is possible to add uncertainty intervals, censoring information, and a risk table using additional functions.
 
 ```{r example, warning=FALSE, message = FALSE}
 library(visR)
@@ -102,6 +104,25 @@ adtte %>%
     label = c("At risk", "Event", "Censor")
   )
 ```
+
+
+#### Summary Table
+
+The `tableone()` function presents summary statistics in a table format.
+
+```{r table, warning=FALSE, message = FALSE}
+## table by treatment - without overall and render with GT
+adtte %>%
+  dplyr::select(AGE, SEX, TRTA) %>%
+  visR::tableone(
+     strata = "TRTA",
+     overall = TRUE,
+     title = "Cohort Summary",
+     datasource = "ADaM Interim Dataset for Time-to-Event Analysis",
+     engine = "gt"
+  )
+```
+
 
 ## Cite visR
 

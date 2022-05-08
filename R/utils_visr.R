@@ -2,11 +2,11 @@
 #'
 #' @description This function aligns multiple \code{ggplot} graphs by making them the same width by taking into account the legend width.
 #'
-#' @param pltlist A list of plots (TODO: provide more detail)
+#' @param pltlist A list of plots
 #'
 #' @return List of \code{ggplot} with equal width.
 #'
-#' @references \url{https://stackoverflow.com/questions/26159495/align-multiple-ggplot-graphs-with-and-without-legends}
+#' @references \url{https://stackoverflow.com/questions/26159495}
 #'
 #' @examples
 #' \donttest{
@@ -14,14 +14,19 @@
 #' ## create 2 graphs
 #' p1 <- ggplot2::ggplot(adtte, ggplot2::aes(x = as.numeric(AGE), fill = "Age")) +
 #'   ggplot2::geom_histogram(bins = 15)
+#'
 #' p2 <- ggplot2::ggplot(adtte, ggplot2::aes(x = as.numeric(AGE))) +
 #'  ggplot2::geom_histogram(bins = 15)
 #'
 #' ## default alignment does not take into account legend size
-#' cowplot::plot_grid(plotlist = list(p1,p2), align = "none", nrow=2)
+#' cowplot::plot_grid(plotlist = list(p1,p2),
+#'                    align = "none",
+#'                    nrow=2)
 #'
 #' ## align_plots() takes into account legend width
-#' cowplot::plot_grid(plotlist = visR::align_plots(pltlist = list(p1, p2)), align = "none", nrow=2)
+#' cowplot::plot_grid(plotlist = visR::align_plots(pltlist = list(p1, p2)),
+#'                    align = "none",
+#'                    nrow=2)
 #' }
 #' @export
 
@@ -36,7 +41,7 @@ align_plots <- function(pltlist) {
 
   for (plt in pltlist) {
 
-    if (!("ggplot" %in% class(plt))) {
+    if (!inherits(plt, "ggplot")) {
 
       base::stop("Not all elements of the provided list are `ggplot` objects.")
 

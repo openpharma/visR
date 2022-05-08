@@ -7,7 +7,7 @@
 #'
 #' @seealso \code{\link[broom]{tidy}}
 #'
-#' @param x S3 object
+#' @param x An S3 object
 #' @param ... other arguments passed on to the method
 #'
 #' @examples
