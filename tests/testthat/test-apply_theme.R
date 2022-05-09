@@ -1,6 +1,6 @@
 #' @title Specifications test-apply_theme.R
-#' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2022-01-14T14:20:44
+#' @section Last updated by: Daniel Sjoberg (danield.sjoberg@@gmail.com)
+#' @section Last update date: 2022-04-25T09:40:50
 #'
 #' @section List of tested specifications
 #' T1. The `define_theme()` function returns a `visR_theme` object can contain valid input parameters for `apply_theme()`.

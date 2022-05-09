@@ -1,6 +1,6 @@
 #' @title Specifications test-add_annotation.R
-#' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2022-01-14T14:20:44
+#' @section Last updated by: Joana M. Barros (94060211+joanacmbarros@@users.noreply.github.com)
+#' @section Last update date: 2022-05-05T08:40:00
 #'
 #' @section List of tested specifications
 #' T1. The function adds annotations to an object of class `ggplot`

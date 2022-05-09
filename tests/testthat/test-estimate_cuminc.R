@@ -1,6 +1,6 @@
 #' @title Specifications test-estimate_cuminc.R
-#' @section Last updated by: Steven Haesendonckx (haesendonckx.steven@@gmail.com)
-#' @section Last update date: 2022-05-01T14:21:53
+#' @section Last updated by: Steven Haesendonckx (47894155+SHAESEN2@@users.noreply.github.com)
+#' @section Last update date: 2022-05-02T17:16:44
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a `data.frame` `tibble` or `data.table`
@@ -13,7 +13,7 @@
 #' T2.1 An error when colname specified through `AVAL` is not present in `data`
 #' T2.2 An error when colname specified through `AVAL` is not numeric
 #' T2.3 No error when the colname specified through `AVAL` is not the proposed default
-#' T2.4 An error when the colname specified through `CNSR` is not present in `data`
+#' T2.4 An error when colname specified through `CNSR` is not present in `data`
 #' T2.5 An error when colname specified through `CNSR` is not a factor
 #' T2.6 No error when the colname specified through `CNSR` is not the proposed default
 #' T3. The user can specify strata
