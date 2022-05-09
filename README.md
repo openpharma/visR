@@ -1,5 +1,6 @@
 
 <!-- README.md is generated from README.Rmd as part of the CICD process. -->
+
 <!-- Please edit README.Rmd - but you do not need to build it! -->
 
 # visR <img src='man/figures/logo.png' align="right" height="131.5" />
@@ -17,9 +18,9 @@ By using a common package for visualising data analysis results in the
 clinical development process, we want to have a **positive influence**
 on
 
--   **choice of visualisation** by making it easy explore different
+  - **choice of visualisation** by making it easy explore different
     visualisation and to use impactful visualisations fit-for-purpose
--   effective visual communication by making it easy to **implement best
+  - effective visual communication by making it easy to **implement best
     practices**
 
 We are not judging on what visualisation you chose for your research
@@ -43,7 +44,7 @@ coverage](https://codecov.io/gh/openpharma/visR/branch/develop/graph/badge.svg)]
 [![pkgdown](https://github.com/openpharma/visR/actions/workflows/makedocs.yml/badge.svg)](https://github.com/openpharma/visR/actions/workflows/makedocs.yml)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/visR)](https://CRAN.R-project.org/package=visR)
-<a href=https://github.com/pharmaR/riskmetric><img src=https://img.shields.io/badge/riskmetric--1.24-green></img></a>
+<a href=https://github.com/pharmaR/riskmetric><img src=https://img.shields.io/badge/riskmetric-0.53-green></img></a>
 <!-- badges: end -->
 
 ## Installation
