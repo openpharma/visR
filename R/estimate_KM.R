@@ -71,14 +71,18 @@ estimate_KM <- function(
     ,AVAL = "AVAL"
     ,...
 ){
+
   # Capture input to validate user input for data argument ---------------------
+
   dots <- rlang::dots_list(...)
 
-  ## Validate argument inputs --------------------------------------------------
+  # Validate argument inputs ---------------------------------------------------
+
   if (is.null(data))
     stop(paste0("Data can't be NULL."))
+
   if (!is.data.frame(data))
-    stop("Data can be of `class` dataframe or tibble or data.table.")
+    stop("Data does not have class `data.frame`.")
 
   reqcols <- c(strata, CNSR, AVAL)
   if (! all(reqcols %in% colnames(data))){
@@ -94,27 +98,36 @@ estimate_KM <- function(
   }
 
   # Remove NA from the analysis ------------------------------------------------
+
   data <-
     as.data.frame(data) %>%
-    tidyr::drop_na(any_of(c(AVAL, CNSR, strata)))
+    tidyr::drop_na(any_of(c(AVAL, CNSR)))
 
-  # construct survfit() call ---------------------------------------------------
+  if (!is.null(strata)){
+    data <- data %>%
+      tidyr::drop_na(any_of({{strata}}))
+  }
+
+  # Ensure the presence of at least one strata -----------------------------
+
   formula_rhs <-
     ifelse(is.null(strata), "1", paste(strata, collapse = " + "))
+
+  # Calculate survival and add time = 0 to survfit object -------------------
+
   formula <- stats::as.formula(paste0("survival::Surv(", AVAL, ", 1-", CNSR, ") ~ ", formula_rhs))
 
   survfit_object <-
-    rlang::inject(survival::survfit(!!formula, data = data, !!!dots)) %>%
+    rlang::inject(survival::survfit(!!formula, data = data, !!!dots)) %>% # immediate resolves call arguments
     survival::survfit0(start.time = 0)
 
   # convert survfit() call to quo with attached envir --------------------------
+
   survfit_object$call[[1]] <- rlang::expr(survival::survfit) # adding `survival::` prefix
   survfit_object$call <- rlang::quo(!!survfit_object$call)
 
-  # save dataset symbol/name ---------------------------------------------------
-  survfit_object$data_name <- .call_list_to_name(as.list(match.call()))
-
   # Add additional metadata ----------------------------------------------------
+
   if ("PARAM" %in% colnames(data) && length(setdiff(c("PARAMCD", "PARAM"), strata)) == 2){
     # we expect only one unique value => catch mistakes
     survfit_object[["PARAM"]] <- paste(unique(data[["PARAM"]]), collapse = ", ")
@@ -125,7 +138,10 @@ estimate_KM <- function(
     survfit_object[["PARAMCD"]] <- paste(unique(data[["PARAMCD"]]), collapse = ", ")
   }
 
+  survfit_object$data_name <- .call_list_to_name(as.list(match.call()))
+
   # Artificial strata for easy downstream processing when strata=NULL ----------
+
   if (is.null(survfit_object[["strata"]])) {
     survfit_object[["strata"]] <- as.vector(length(survfit_object[["time"]]))
 
@@ -142,6 +158,7 @@ estimate_KM <- function(
   # add strata labels - main goal is for populating legend in visR(): label -- level1 strata -- levelx strata
   # these are the LABEL attributes of the stratifying variables (separate from above, which are the levels of the variables)
   # is null, when no stratifying variables present so legend title is not populated as Overall -- overall
+
   if (!is.null(strata)) {
     survfit_object[["strata_lbls"]] <-
       lapply(as.list(strata), function(x) attr(data[[x]], "label") %||% x) %>%
@@ -149,17 +166,6 @@ estimate_KM <- function(
   }
 
   # Return ------------------------------------------------------------------
-  survfit_object
-}
 
-.call_list_to_name <- function(call_list) {
-  call_list[["data"]]
-  if (length(base::deparse(call_list[["data"]])) == 1 &&
-      deparse(call_list[["data"]]) %in% c(".", ".x", "..1")) {
-    df <- the_lhs()
-    call_list[["data"]] <- as.symbol(df)
-  }
-  else {
-    df <- as.character(sub("\\[.*$", "", deparse(call_list[["data"]]))[1])
-  }
+  survfit_object
 }
