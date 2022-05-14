@@ -32,6 +32,7 @@ the_lhs <- function() {
 #' @description This function returns character that represents the data argument in a call list.
 #'
 #' @return Character representing the data.
+#' @noRd
 
 .call_list_to_name <- function(call_list) {
   call_list[["data"]]

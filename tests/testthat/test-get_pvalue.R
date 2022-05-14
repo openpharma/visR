@@ -29,6 +29,8 @@
 #' T4.4 The statistical tests are ordered in line with the order defined in ptype
 #' T4.5 The associated calculations of the statistical tests are ordered in line with the order defined in the statlist
 #' T4.6 The Chisq statistic has the same precision as the pvalue
+#' T5. Piped datasets still return accurate results
+#' T5.1 P-values are accurate when a filtered data frame is piped
 
 # Requirement T1 ----------------------------------------------------------
 
@@ -38,24 +40,6 @@ testthat::test_that("T1.1. No error when a `survfit` object is passed to the fun
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
   testthat::expect_error(visR::get_pvalue(survfit_object), NA)
-
-  # testing the p-value is correct when filtered data is piped to estimate_KM()
-  survfit_p <-
-    adtte %>%
-    dplyr::filter(SEX == "F", AGE < 60) %>%
-    visR::estimate_KM(strata = "TRTA") %>%
-    get_pvalue(ptype = "Log-Rank") %>%
-    dplyr::pull(`p-value`)
-  survdiff_p <-
-    survival::survdiff(
-      survival::Surv(AVAL, 1 - CNSR) ~ TRTA,
-      data =
-        adtte %>%
-        dplyr::filter(SEX == "F", AGE < 60)
-    ) %>%
-    {pchisq(.$chisq, length(.$n) - 1, lower.tail = FALSE)} %>%
-    visR:::.pvalformat()
-  expect_equal(survfit_p, survdiff_p)
 })
 
 testthat::test_that("TT1.2 An error when a `survfit` object is passed to the function with 1 strata", {
@@ -232,6 +216,31 @@ testthat::test_that("T4.6 The Chisq statistic has the same precision as the pval
   chisq_nchar_after_dot <- gsub(".+?\\.", "", totest[["Chisq"]]) %>% nchar()
 
   testthat::expect_identical(pvals_nchar_after_dot, chisq_nchar_after_dot)
+})
+
+# Requirement T5 ---------------------------------------------------------------
+
+testthat::context("get_pvalue - T5. Piped datasets still return accurate results")
+
+testthat::test_that("T5.1 P-values are accurate when a filtered data frame is piped",{
+
+  # testing the p-value is correct when filtered data is piped to estimate_KM()
+  survfit_p <-
+    adtte %>%
+    dplyr::filter(SEX == "F", AGE < 60) %>%
+    visR::estimate_KM(strata = "TRTA") %>%
+    get_pvalue(ptype = "Log-Rank") %>%
+    dplyr::pull(`p-value`)
+  survdiff_p <-
+    survival::survdiff(
+      survival::Surv(AVAL, 1 - CNSR) ~ TRTA,
+      data =
+        adtte %>%
+        dplyr::filter(SEX == "F", AGE < 60)
+    ) %>%
+    {pchisq(.$chisq, length(.$n) - 1, lower.tail = FALSE)} %>%
+    visR:::.pvalformat()
+  expect_equal(survfit_p, survdiff_p)
 })
 
 # END OF CODE -------------------------------------------------------------

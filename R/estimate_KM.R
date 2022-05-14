@@ -105,7 +105,7 @@ estimate_KM <- function(
 
   if (!is.null(strata)){
     data <- data %>%
-      tidyr::drop_na(any_of({{strata}}))
+      tidyr::drop_na(any_of(strata))
   }
 
   # Ensure the presence of at least one strata -----------------------------

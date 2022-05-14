@@ -39,6 +39,8 @@
 #' T7. The function call supports traceability
 #' T7.1 The function updates .$data_name when magrittr pipe is used
 #' T7.2 The function prefixes the function call with survival
+#' T8. Piped datasets still return accurate results
+#' T8.1 Piped datasets still return accurate results
 
 # Requirement T1 ----------------------------------------------------------
 
@@ -404,4 +406,35 @@ testthat::test_that("T7.2 The function prefixes the function call with survival"
   testthat::expect_equal(call_visR[[1]], quote(survival::survfit))
 })
 
+# Requirement T8 ---------------------------------------------------------------
+
+testthat::context("estimate_KM - T8. Piped datasets still return accurate results")
+
+testthat::test_that("T8.1 Piped datasets still return accurate results",{
+  estimate_KM <-
+    adtte %>%
+    dplyr::filter(SEX == "F", AGE < 60) %>%
+    visR::estimate_KM(strata = "TRTA")
+  survfit <-
+    survival::survfit(
+      survival::Surv(AVAL, 1 - CNSR) ~ TRTA,
+      data =
+        adtte %>%
+        dplyr::filter(SEX == "F", AGE < 60)
+    ) %>%
+    survival::survfit0()
+  vals_to_check <- names(survfit) %>% setdiff(c("strata", "call"))
+  expect_equal(unclass(survfit)[vals_to_check], unclass(estimate_KM)[vals_to_check])
+
+  estimate_KM <-
+    adtte[1:100, ] %>%
+    visR::estimate_KM(strata = "TRTA")
+  survfit <-
+    survival::survfit(
+      survival::Surv(AVAL, 1 - CNSR) ~ TRTA,
+      data = adtte[1:100, ]
+    ) %>%
+    survival::survfit0()
+  expect_equal(unclass(survfit)[vals_to_check], unclass(estimate_KM)[vals_to_check])
+})
 # END OF CODE -------------------------------------------------------------
