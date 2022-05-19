@@ -21,7 +21,8 @@ Authors@R: c(
    person("James", "Black", , "james.black.jb2@roche.com", "aut"),
    person("Pelagia", "Alexandra Papadopoulou", , "PPapadop@its.jnj.com", "aut"),
    person("Tim", "Treis", , "tim.treis@outlook.de", "aut"),
-   person("Rebecca", "Albrecht", , "rebecca.albrecht.dietsch@gmail.com", "aut"))
+   person("Rebecca", "Albrecht", , "rebecca.albrecht.dietsch@gmail.com", "aut"),
+   person("Matthew", "Secrest", , "secrest.matthew@gene.com", "aut"))
 Maintainer: Mark Baillie <bailliem@gmail.com>
 URL: https://github.com/openpharma/visR
 BugReports: https://github.com/openpharma/visR/issues
@@ -38,7 +39,7 @@ Suggests:
     glue,
     tibble,
     data.table
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 biocViews:
@@ -57,5 +58,8 @@ Imports:
     cowplot,
     gtable,
     gridExtra,
-    rlang
+    rlang,
+    ggalluvial,
+    RColorBrewer,
+    scales
 VignetteBuilder: knitr

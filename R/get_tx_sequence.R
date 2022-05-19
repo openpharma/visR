@@ -18,30 +18,34 @@
 #'
 #' See description for more information.
 #'
-#' @param id \code{character/integer} the column name of the patient id.
+#' @param id \code{character} the column name of the patient id. data[[id]]
+#' must be integer/vector
 #' @param label \code{character} specifying the column name of the
-#' treatment or treatment group.
-#' @param line \code{integer/factor} specifying the column name of the line
-#' number (or line label) columns.
+#' treatment or treatment group. data[[label]] must be character
+#' @param line \code{character} specifying the column name of the line
+#' number (or line label) columns. data[[line]] must be integer or factor
 #' @param mortality_ids \code{character/integer} (optional) vector specifying
 #' which patients should be displayed as dead instead of censored.
+#' @param which_lines \code{integer/factor} (optional) vector of specific
+#' lines to evaluate in the event some lines are not of interest
 #' @param n_groups \code{integer} the maximum number of unique
 #' treatment labels that will be considered (others will be grouped as "other").
 #' Default is 6.
 #'
-#' @usage get_attrition(data, id, label, line, n_groups)
+#' @usage get_tx_sequence(data, id, label, line, n_groups)
 #' @return Treatment sequencing data in lodes form.
 #'
 #'
 #' @examples
 #'
-#' lots <- tibble(
+#' lots <- data.frame(
 #'   patient = c('abc','abc','xyz','xyz','xyz'),
 #'   line_number = c(1,2,1,2,3),
 #'   treatment = c('Drug 1','Drug 3', 'Drug 2', 'Drug 4','Drug 3')
 #' )
 #'
-#' visR::get_attrition(lots,
+#' visR::get_tx_sequence(
+#'   lots,
 #'   id = 'patient',
 #'   label = 'treatment',
 #'   line = 'line_number'
@@ -55,8 +59,10 @@ get_tx_sequence <- function(
   label,
   line,
   mortality_ids = NULL,
+  which_lines = NULL,
   n_groups = 6
-) {
+)
+{
 
   # Verify inputs are correct
   if(!'data.frame' %in% class(data)) {
@@ -134,11 +140,26 @@ get_tx_sequence <- function(
          matches the column '", id, "'"))
   }
 
-  if(!is.null(mortality_ids) & !all(mortality_ids %in% data[[id]])) {
+  if(!is.null(mortality_ids) && !all(mortality_ids %in% data[[id]])) {
     if(!any(mortality_ids %in% data[[id]])) {
       stop("No mortality_ids are in your list of ids!")
     }
     warning("Some of your mortality_ids are not in the data input")
+  }
+
+  if(!is.null(which_lines)) {
+    if(!all(which_lines %in% unique(data[[line]]))) {
+      stop("All lines in which_lines must be present in data")
+    }
+    if(!unique(data[[lines]])[order(unique(data[[line]]))][1] %in%
+       which_lines) {
+      stop("The first line must be included in which_lines,
+           otherwise this may drop patients from your data.
+           Try filtering your data first to set a new first line")
+    }
+    data <- data[data[[line]] %in% which_lines,]
+  } else {
+    which_lines <- unique(data[[line]])
   }
 
   # Clean up and rename data
@@ -148,11 +169,11 @@ get_tx_sequence <- function(
   # Confirm data.frame does not contain >1 row per patient-line
   n_pt_lines <- data %>%
     dplyr::group_by(id, line) %>%
-    dplyr::summarise(n = n(),.groups = "drop")
+    dplyr::summarise(n = dplyr::n(),.groups = "drop")
 
   if(max(n_pt_lines$n)>1) {
     stop(paste0(
-      "data must contain a maximum of 1 patient per line.",
+      "data must contain a maximum of 1 patient per line. ",
       "The following '",id,"' have more than one of the same line:",
       paste0(dplyr::filter(n_pt_lines, n>1)[[1]], collapse = ", ")
     ))
@@ -160,12 +181,12 @@ get_tx_sequence <- function(
   }
 
   # Confirm patients don't skip lines (1L, NA, 3L) or start on wrong line
-  if("integer" %in% class(data[[line]])) {
+  if("integer" %in% class(data$line)) {
     skip_check <- data %>%
       dplyr::group_by(id) %>%
       dplyr::summarise(
         n_lines = max(line) - min(line) + 1,
-        n_rows = n()
+        n_rows = dplyr::n()
         )
     skipped <- skip_check %>%
       dplyr::filter(n_lines!=n_rows)
@@ -178,14 +199,14 @@ get_tx_sequence <- function(
     }
     started_late <- data %>%
       dplyr::distinct(id) %>%
-      left_join(
+      dplyr::left_join(
         data %>%
           dplyr::group_by(id) %>%
           dplyr::summarise(
             min_line = min(line)
           ), by='id'
       ) %>%
-      filter(min_line > min(data$line))
+      dplyr::filter(min_line > min(data$line))
     if(NROW(started_late)>0) {
       stop(paste0("The current version of get_tx_sequence() requires each ",
                   "patient to start on the same first line as others. ",
@@ -195,7 +216,7 @@ get_tx_sequence <- function(
     }
   }
 
-  if("character" %in% class(data[[line]])) {
+  if("character" %in% class(data$line)) {
     skip_check <- data %>%
       dplyr::group_by(id) %>%
       dplyr::summarise(
@@ -221,7 +242,7 @@ get_tx_sequence <- function(
             min_line = min(line)
           ), by='id'
       ) %>%
-      filter(min_line > levels(data$line)[1])
+      dplyr::filter(min_line > levels(data$line)[1])
     if(NROW(started_late)>0) {
       stop(paste0("The current version of get_tx_sequence() requires each ",
                   "patient to start on the same first line as others. ",
@@ -237,9 +258,16 @@ get_tx_sequence <- function(
     dplyr::slice(1:n_groups) %>%
     dplyr::pull(1)
 
+  if (length(top_therapies) < n_groups) {
+    message(paste0("There are fewer than ", n_groups, " regimens to combine into groups. Showing all regimens."))
+    n_groups <- length(top_therapies)
+  }
+
   data$label <- ifelse(data$label %in% top_therapies,
                           data$label,
                           'Other')
+
+  cats <- c(top_therapies, 'Other')
 
   # Now cast to lodes form
   data_wide <- data %>%
@@ -286,24 +314,96 @@ get_tx_sequence <- function(
   tx_sequence <- cbind(df_wide_lines,
                         df_wide_n_id)
 
-  # Prepare labels
-  label_df1 <- data %>%
-    dplyr::group_by(line) %>%
-    dplyr::summarise(
-      total_in_line = n(),
-      .groups = "drop"
-    )
+  lot_lode <- df_wide_summary %>%
+        tidyr::pivot_longer(
+          cols = 1:NROW(which_lines),
+          names_to = "linenumber",
+          values_to = "linename_grouped"
+        ) %>%
+        dplyr::mutate(
+          linename_grouped = factor(linename_grouped,
+                                    levels = c(
+                                      cats[order(cats)],
+                                      "Censored",
+                                      "Dead"
+                                    )
+          )
+        )
+  if (is.numeric(data$line)) {
+    lot_lode <- lot_lode %>%
+          dplyr::mutate(
+            linenumber = factor(linenumber)
+          )
+  } else {
+    lot_lode <- lot_lode %>%
+          dplyr::mutate(
+            linenumber = factor(linenumber, levels = levels(data$line))
+          )
+  }
 
-  label_df2 <- data %>%
-    dplyr::group_by(line, label) %>%
-    dplyr::summarise(
-      total_in_line_on_regimen = n(),
-      .groups = "drop"
-    )
+  # Prepare labels
+  label_df1 <- lot_lode %>%
+      dplyr::group_by(linenumber) %>%
+      dplyr::summarise(
+        total_in_line = sum(n[!linename_grouped %in% c("Censored","Dead")]),
+        total_inc_cens = sum(n),
+        .groups = "drop"
+      )
+
+  label_df2 <- lot_lode %>%
+      dplyr::group_by(linenumber, linename_grouped) %>%
+      dplyr::summarise(
+        total_in_line_on_regimen = sum(n),
+        .groups = "drop"
+      )
+
+     # Add in these labels
+    lot_lode <- lot_lode %>%
+      dplyr::left_join(label_df1, "linenumber") %>%
+      dplyr::left_join(label_df2, c("linenumber", "linename_grouped")) %>%
+      dplyr::mutate(
+        p_on_regimen = ifelse(
+          !linename_grouped %in% c("Censored","Dead"),
+          total_in_line_on_regimen / total_in_line,
+          NA_real_
+        ),
+        p_on_regimen_cln = ifelse(
+          !linename_grouped %in% c("Censored","Dead"),
+          paste0(format(round(100 * p_on_regimen, 1), nsmall = 1), "%"),
+          NA_character_
+        ),
+        label = dplyr::case_when(
+          !linename_grouped %in% c("Censored","Dead") ~ paste0(
+            linename_grouped, "\nN = ",
+            scales::comma(total_in_line_on_regimen, accuracy = 1),
+            " (", p_on_regimen_cln, ")"
+            ),
+          linename_grouped == 'Censored' ~ paste0("Censored\nN = ", scales::comma(total_in_line_on_regimen,
+                                                                                  accuracy = 1
+                                                                                  )),
+          linename_grouped == "Dead" ~ paste0("Dead\nN = ", scales::comma(total_in_line_on_regimen,
+                                                                          accuracy = 1
+          ))
+        ),
+        label_select = ifelse(total_in_line_on_regimen / total_inc_cens > .1,
+          label,
+          ""
+        ),
+        label_select_na = ifelse(total_in_line_on_regimen / total_inc_cens > .1,
+          label,
+          NA_character_
+        )
+      )
 
   class(tx_sequence) <- c("tx_sequence", class(tx_sequence))
   attributes(tx_sequence)$label_1 <- label_df1
   attributes(tx_sequence)$label_2 <- label_df2
+  attributes(tx_sequence)$has_mortality <- !is.null(mortality_ids)
+  attributes(tx_sequence)$which_lines <- which_lines
+  attributes(tx_sequence)$tx_cats <- cats
+  attributes(tx_sequence)$lot_lode <- lot_lode
+  attributes(tx_sequence)$n_groups <- n_groups
+
 
   return(tx_sequence)
 

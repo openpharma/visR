@@ -234,3 +234,24 @@ legendopts <- function(legend_position = "right",
 
 }
 
+#' @title Function factory to convert ggplot2 axis to integer (remove decimals)
+#'
+#' @description This function can be used in the breaks argument of ggplot2:
+#' scale_(x|y)_continuous(breaks = integer_breaks())
+#'
+#' @param n Number of breaks
+#' @param ... Other arguments to pretty()
+#'
+#' @return A function to return breaks in pretty format
+#'
+#' @keywords internal
+#' @noRd
+integer_breaks <- function(n = 5, ...) {
+  fxn <- function(x) {
+    breaks <- floor(pretty(x, n, ...))
+    names(breaks) <- attr(breaks, "labels")
+    breaks
+  }
+  return(fxn)
+}
+

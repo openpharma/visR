@@ -4,7 +4,7 @@
 \alias{get_tx_sequence}
 \title{Generate treatment sequence summaries from one-row-per-patient-line data}
 \usage{
-get_attrition(data, id, label, line, n_groups)
+get_tx_sequence(data, id, label, line, n_groups)
 }
 \arguments{
 \item{data}{\code{data.frame} containing one-row-per-patient-line.
@@ -16,16 +16,20 @@ censorship.
 
 See description for more information.}
 
-\item{id}{\code{character/integer} the column name of the patient id.}
+\item{id}{\code{character} the column name of the patient id. data[\link{id}]
+must be integer/vector}
 
 \item{label}{\code{character} specifying the column name of the
-treatment or treatment group.}
+treatment or treatment group. data[\link{label}] must be character}
 
-\item{line}{\code{integer/factor} specifying the column name of the line
-number (or line label) columns.}
+\item{line}{\code{character} specifying the column name of the line
+number (or line label) columns. data[\link{line}] must be integer or factor}
 
 \item{mortality_ids}{\code{character/integer} (optional) vector specifying
 which patients should be displayed as dead instead of censored.}
+
+\item{which_lines}{\code{integer/factor} (optional) vector of specific
+lines to evaluate in the event some lines are not of interest}
 
 \item{n_groups}{\code{integer} the maximum number of unique
 treatment labels that will be considered (others will be grouped as "other").
@@ -45,13 +49,14 @@ sankey plot.
 }
 \examples{
 
-lots <- tibble(
+lots <- data.frame(
   patient = c('abc','abc','xyz','xyz','xyz'),
   line_number = c(1,2,1,2,3),
   treatment = c('Drug 1','Drug 3', 'Drug 2', 'Drug 4','Drug 3')
 )
 
-visR::get_attrition(lots,
+visR::get_tx_sequence(
+  lots,
   id = 'patient',
   label = 'treatment',
   line = 'line_number'

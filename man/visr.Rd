@@ -5,6 +5,7 @@
 \alias{visr.default}
 \alias{visr.survfit}
 \alias{visr.attrition}
+\alias{visr.tx_sequence}
 \title{Plot a supported S3 object}
 \usage{
 visr(x, ...)
@@ -34,10 +35,11 @@ visr(x, ...)
   border = "black",
   ...
 )
+
+\method{visr}{tx_sequence}(x, palette = "Scales", label = TRUE, label_box = TRUE, title = NULL)
 }
 \arguments{
-\item{x}{Object of class \code{attritiontable} with each row corresponding to an
-inclusion step in the cohort and minimally a description and a count column}
+\item{x}{Object of class \code{tx_sequence} as output by \code{get_tx_sequence()}}
 
 \item{...}{other arguments passed on to the method}
 
@@ -96,9 +98,23 @@ flowchart}
 
 \item{border}{The color (string or hexcode) to use for the borders of the
 boxes in the flowchart}
+
+\item{palette}{\code{character} specifying either a 1) an RColorBrewer
+palette (https://rdrr.io/cran/RColorBrewer/man/ColorBrewer.html) or
+2) 'Scales' for the default palette}
+
+\item{label}{\code{logical} specifying whether to include label information
+as text over the sankeys}
+
+\item{label_box}{\code{logical} specifying whether the label should be
+set in a box}
+
+\item{title}{\code{character} specifying the title of the plot}
 }
 \value{
 Object of class \code{ggplot}  \code{ggsurvplot}.
+
+Object of class \code{ggplot}.
 
 Object of class \code{ggplot}.
 }
@@ -110,7 +126,7 @@ similar to base plot function.
 }
 \examples{
 
-# fit KM 
+# fit KM
 km_fit <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ TRTP, data=adtte)
 
 # plot curves using survival plot function
@@ -130,7 +146,7 @@ visR::visr(survfit_object, fun = "pct")
 
 # Plot cumulative hazard
 visR::visr(survfit_object, fun = "cloglog")
- 
+
 attrition <- visR::get_attrition(adtte,
     criteria_descriptions = c("1. Not in Placebo Group",
                               "2. Be 75 years of age or older.",
@@ -162,6 +178,21 @@ attrition \%>\%
 # Adjust the font size in the boxes
 attrition \%>\%
   visr("Criteria", "Remaining N", font_size = 10)
+
+
+#' lots <- data.frame(
+  patient = c('abc','abc','xyz','xyz','xyz'),
+  line_number = c(1,2,1,2,3),
+  treatment = c('Drug 1','Drug 3', 'Drug 2', 'Drug 4','Drug 3')
+)
+
+visR::get_tx_sequence(
+  lots,
+  id = 'patient',
+  label = 'treatment',
+  line = 'line_number'
+  ) \%>\%
+  visr()
 
 }
 \seealso{

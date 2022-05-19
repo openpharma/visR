@@ -1,10 +1,10 @@
 #' @title Plot a supported S3 object
 #'
-#' @description Method to display a `ggplot` directly from an object 
-#'   through an S3 method. 
-#'   S3 method for creating plots directly from objects using `ggplot2`, 
+#' @description Method to display a `ggplot` directly from an object
+#'   through an S3 method.
+#'   S3 method for creating plots directly from objects using `ggplot2`,
 #'   similar to base plot function.
-#' 
+#'
 #' @seealso \code{\link[ggplot2]{ggplot}}
 #'
 #' @param x object to be passed on to the method
@@ -16,14 +16,14 @@
 
 visr <- function(x, ...){
   UseMethod("visr", x)
-} 
+}
 
 #' @rdname visr
 #' @method visr default
 #' @export
 
 visr.default <- function(x, ...){
-  
+
   if (length(class(x)) > 1) {
     stop("Objects of type `",
          paste0(class(x), collapse = "` / `"),
@@ -31,25 +31,25 @@ visr.default <- function(x, ...){
   } else if (length(class(x)) == 1) {
     stop(paste0("Objects of type `", class(x), "` not supported by visr."))
   }
-  
+
 }
 
 #' @param x Object of class `survfit`
-#' @param x_label \code{character} Label for the x-asis. When not specified, 
-#'   the algorithm will look for "PARAM" information inside the list structure 
+#' @param x_label \code{character} Label for the x-asis. When not specified,
+#'   the algorithm will look for "PARAM" information inside the list structure
 #'   of the `survfit` object.
-#'   Note that this information is automatically added when using 
-#'   visR::estimate_KM and when the input data has the variable "PARAM". 
+#'   Note that this information is automatically added when using
+#'   visR::estimate_KM and when the input data has the variable "PARAM".
 #'   If no "PARAM" information is available "time" is used as label.
-#' @param y_label \code{character} Label for the y-axis. When not specified, 
+#' @param y_label \code{character} Label for the y-axis. When not specified,
 #'   the default will do a proposal, depending on the `fun` argument.
-#' @param x_units Unit to be added to the x_label (x_label (x_unit)). 
+#' @param x_units Unit to be added to the x_label (x_label (x_unit)).
 #'   Default is NULL.
-#' @param x_ticks Ticks for the x-axis. When not specified, the default will 
+#' @param x_ticks Ticks for the x-axis. When not specified, the default will
 #'   do a proposal.
-#' @param y_ticks Ticks for the y-axis. When not specified, 
+#' @param y_ticks Ticks for the y-axis. When not specified,
 #'   the default will do a proposal based on the `fun` argument.
-#' @param fun Change the scale of the estimate. 
+#' @param fun Change the scale of the estimate.
 #'   The current options are:
 #'   \itemize{
 #'   \item{`surv`}{is the survival probability. This is the default.}
@@ -59,36 +59,36 @@ visr.default <- function(x, ...){
 #'   \item{`pct`}{is survival as a percentage}
 #'   \item{`logpct`}{is log survival as a percentage}
 #'   \item{`cumhaz`}{is the cumulative hazard}
-#'   } 
-#' @param legend_position Specifies the legend position in the plot. 
-#'   Character values allowed are "top" "left" "bottom" "right". 
+#'   }
+#' @param legend_position Specifies the legend position in the plot.
+#'   Character values allowed are "top" "left" "bottom" "right".
 #'   Numeric coordinates are also allowed.
 #'   Default is "right".
 #' @param ... other arguments passed on to the method
 #'
 #' @examples
-#' 
-#' # fit KM 
+#'
+#' # fit KM
 #' km_fit <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ TRTP, data=adtte)
-#' 
+#'
 #' # plot curves using survival plot function
 #' plot(km_fit)
-#' 
+#'
 #' # plot same curves using visR::visr plotting function
 #' visR::visr(km_fit)
-#' 
+#'
 #' # estimate KM using visR wrapper
 #' survfit_object <- visR::estimate_KM(data = adtte, strata = "TRTP")
 #'
 #' # Plot survival probability
 #' visR::visr(survfit_object, fun = "surv")
-#' 
+#'
 #' # Plot survival percentage
 #' visR::visr(survfit_object, fun = "pct")
-#' 
+#'
 #' # Plot cumulative hazard
 #' visR::visr(survfit_object, fun = "cloglog")
-#'  
+#'
 #' @return Object of class \code{ggplot}  \code{ggsurvplot}.
 #'
 #' @rdname visr
@@ -108,61 +108,61 @@ visr.survfit <- function(
  ){
 
 # Minimal input validation  ----------------------------------------------------
-  
+
   if (!(is.null(x_label) | is.character(x_label) | is.expression(x_label))) {
-    
+
     stop("Invalid `x_label` argument, must be either `character` or `expression`.")
-    
+
   }
-  
+
   if (!(is.null(y_label) | is.character(y_label) | is.expression(y_label))) {
-    
+
     stop("Invalid `y_label` argument, must be either `character` or `expression`.")
-    
+
   }
-  
+
   if (!(is.null(x_units) | is.character(x_units))) {
-    
+
     stop("Invalid `x_units` argument, must be `character`.")
-    
+
   }
-  
+
   if (!(is.null(x_ticks) | is.numeric(x_ticks))) {
-    
+
     stop("Invalid `x_ticks` argument, must be `numeric`.")
-    
+
   }
-  
+
   if (!(is.null(y_ticks) | is.numeric(y_ticks))) {
-    
+
     stop("Invalid `y_ticks` argument, must be `numeric`.")
-    
+
   }
-  
+
   if (is.character(legend_position) &&
       !legend_position %in% c("top", "bottom", "right", "left", "none")) {
     stop(
       "Invalid legend position given. Must either be [\"top\", \"bottom\", \"right\", \"left\", \"none\"] or a vector with two numbers indicating the position relative to the axis. For example c(0.5, 0.5) to place the legend in the center of the plot."
     )
-    
+
   } else if (is.numeric(legend_position) &&
              length(legend_position) != 2) {
     stop(
       "Invalid legend position given. Must either be [\"top\", \"bottom\", \"right\", \"left\", \"none\"] or a vector with two numbers indicating the position relative to the axis. For example c(0.5, 0.5) to place the legend in the center of the plot."
     )
   }
-  
+
   valid_funs <- c("surv", "log", "event", "cloglog", "pct", "logpct", "cumhaz")
-  
+
   if (is.character(fun)) {
-    
+
     if (!(fun %in% valid_funs)) {
       stop(
         "Unrecognized `fun` argument, must be one of [\"surv\", \"log\", \"event\", \"cloglog\", \"pct\", \"logpct\", \"cumhaz\"] or a user-defined function."
       )
-      
+
     }
-    
+
   }
 
 # Y-label ----------------------------------------------------------------------
@@ -182,7 +182,7 @@ visr.survfit <- function(
   } else if (is.null(y_label) & is.function(fun)) {
     stop("No Y label defined. No default label is available when `fun` is a function.")
   }
-  
+
   if (is.character(fun)){
     .transfun <- base::switch(
       fun,
@@ -201,7 +201,7 @@ visr.survfit <- function(
   } else {
     stop("Error in visr: fun should be a character or a user-defined function.")
   }
-  
+
 # Extended tidy of survfit class + transformation + remove NA after transfo ----
 
   correctme <- NULL
@@ -222,7 +222,7 @@ visr.survfit <- function(
   if (nrow(tidy_object[tidy_object$est == "-Inf",]) > 0) {
     warning("NAs introduced by y-axis transformation.")
   }
-  
+
   tidy_object[ , correctme] <- sapply(tidy_object[, correctme],
                                       FUN = function(x) {
                                         x[which(x == -Inf)] <- min(x[which(x != -Inf)], na.rm = TRUE)
@@ -257,17 +257,17 @@ visr.survfit <- function(
       stop("Unrecognized fun argument")
     )
   } else if (is.null(y_ticks) & is.function(fun)) {
-    
+
     y_ticks = pretty(round(c(ymin, ymax), 0), 5)
-    
+
   }
-  
+
 # Plotit -----------------------------------------------------
 
   yscaleFUN <- function(x) sprintf("%.2f", x)
 
   gg <- ggplot2::ggplot(tidy_object, ggplot2::aes(x = time, group = strata)) +
-    ggplot2::geom_step(ggplot2::aes(y = est, col = strata)) + 
+    ggplot2::geom_step(ggplot2::aes(y = est, col = strata)) +
     ggplot2::scale_x_continuous(name = x_label,
                                 breaks = x_ticks,
                                 limits = c(min(x_ticks), max(x_ticks))) +
@@ -277,28 +277,28 @@ visr.survfit <- function(
                                 limits = c(min(y_ticks), max(y_ticks))) +
     ggplot2::theme(legend.position = legend_position) +
     NULL
-  
+
   class(gg) <- append(class(gg), "ggsurvfit")
-  
+
   return(gg)
 
 }
 
 
-#' @param x Object of class `attritiontable` with each row corresponding to an 
+#' @param x Object of class `attritiontable` with each row corresponding to an
 #'   inclusion step in the cohort and minimally a description and a count column
-#' @param description_column_name \code{character} Name of the column containing 
+#' @param description_column_name \code{character} Name of the column containing
 #'   the inclusion descriptions
-#' @param value_column_name \code{character} Name of the column containing the 
+#' @param value_column_name \code{character} Name of the column containing the
 #'   remaining sample counts
-#' @param complement_column_name \code{character} Optional: Name of the column 
+#' @param complement_column_name \code{character} Optional: Name of the column
 #'   containing the exclusion descriptions
-#' @param box_width \code{character} The box width for each box in the flow 
+#' @param box_width \code{character} The box width for each box in the flow
 #'   chart
 #' @param font_size \code{character} The fontsize in pt
-#' @param fill The color (string or hexcode) to use to fill the boxes in the 
+#' @param fill The color (string or hexcode) to use to fill the boxes in the
 #'   flowchart
-#' @param border The color (string or hexcode) to use for the borders of the 
+#' @param border The color (string or hexcode) to use for the borders of the
 #'   boxes in the flowchart
 #' @param ... other arguments passed on to the method
 #'
@@ -368,35 +368,35 @@ visr.attrition <- function(x,
                 "Please provide a valid column name as string in the input data containing",
                 "complement description or omit this argument for default labels."))
   }
-  
+
   if (!is.numeric(box_width)) {
-    
+
     warning("An invalid input was given for `box_width`, must be `numeric` value. Setting it to 50.")
     box_width <- 50
-    
+
   }
-  
+
   if (!is.numeric(font_size)) {
-    
+
     warning("An invalid input was given for `font_size`, must be `numeric` value. Setting it to 12.")
     font_size <- 12
-    
+
   }
-  
+
   if (!is.character(fill)) {
-    
+
     warning("An invalid input was given for `fill`, must be `character` string. Setting it to \"white\".")
     fill <- "white"
-    
+
   }
-  
+
   if (!is.character(border)) {
-    
+
     warning("An invalid input was given for `border`, must be `character` string. Setting it to \"black\".")
     border <- "black"
-    
+
   }
-  
+
   label <- complement_label <- NULL
   y <- down_ystart <- down_yend <- side_xstart <- side_xend <- side_y <- NULL
   cx <- cy <- NULL
@@ -465,5 +465,181 @@ visr.attrition <- function(x,
 }
 
 
+#' @param x Object of class `tx_sequence` as output by `get_tx_sequence()`
+#' @param palette \code{character} specifying either a 1) an RColorBrewer
+#'  palette (https://rdrr.io/cran/RColorBrewer/man/ColorBrewer.html) or
+#'  2) 'Scales' for the default palette
+#' @param label \code{logical} specifying whether to include label information
+#'  as text over the sankeys
+#' @param label_box \code{logical} specifying whether the label should be
+#' set in a box
+#' @param title \code{character} specifying the title of the plot
+#' @return Object of class \code{ggplot}.
+#'
+#' @rdname visr
+#' @method visr tx_sequence
+#'
+#' @examples
+#'
+#' #' lots <- data.frame(
+#'   patient = c('abc','abc','xyz','xyz','xyz'),
+#'   line_number = c(1,2,1,2,3),
+#'   treatment = c('Drug 1','Drug 3', 'Drug 2', 'Drug 4','Drug 3')
+#' )
+#'
+#' visR::get_tx_sequence(
+#'   lots,
+#'   id = 'patient',
+#'   label = 'treatment',
+#'   line = 'line_number'
+#'   ) %>%
+#'   visr()
+#'
+#' @export
 
+visr.tx_sequence <- function(x,
+                             palette = "Scales",
+                             label = TRUE,
+                             label_box = TRUE,
+                             title = NULL){
 
+  # Input checks
+  if(class(x)[1] != 'tx_sequence') {
+    stop("x must be an object of class tx_sequence output from get_tx_sequence")
+  }
+
+  if (!(is.logical(label)) | NROW(label) > 1) {
+    stop("label argument must be a logical vector of length 1")
+  }
+
+  if (!(is.logical(label_box)) | NROW(label_box) > 1) {
+    stop("label_box argument must be a logical vector of length 1")
+  }
+
+  if (label_box & !label) {
+    stop("label_box should only be TRUE when label = TRUE")
+  }
+
+  if (!is.null(title) & (!(is.character(title)) | NROW(title) > 1)) {
+    stop("title argument must be a character vector of length 1")
+  }
+
+  if (!(is.character(palette)) |
+      NROW(palette) > 1 |
+      !(palette %in% c(rownames(RColorBrewer::brewer.pal.info), "Scales"))) {
+    stop("palette argument must be length 1 character vector specifying
+         1. the RColorBrewer color palette desired
+          (https://rdrr.io/cran/RColorBrewer/man/ColorBrewer.html) or
+         2. 'Scales' for ggplot2 default coloring.
+         Note that the RBrewerPal palette must support
+         attributes(x)$n_groups + 1 color (for 'Other')")
+  }
+
+  if (palette != "Scales" &
+      attributes(x)$n_groups + 1 >
+      RColorBrewer::brewer.pal.info[palette, ]$maxcolors) {
+    stop(paste0(
+      "selected palette '",
+      palette,
+      "' can only accomodate ",
+      RColorBrewer::brewer.pal.info[palette, ]$maxcolors,
+      " colors, which is more than attributes(x)$n_groups + 1 'Other' group.
+      Select another palette, lower n_groups in the call to
+      get_tx_sequence, or go with 'Scales'."
+    ))
+  }
+
+  # Colors
+  if (palette == "Scales") {
+    regimen_colors <- c(scales::hue_pal()(attributes(x)$n_groups + 1),
+                        "lightgray",
+                        "gray")
+    names(regimen_colors) <- c(
+      attributes(x)$tx_cats,
+      "Censored",
+      'Dead'
+    )
+  } else {
+    regimen_colors <- c(
+      RColorBrewer::brewer.pal(
+        name = palette,
+        n = RColorBrewer::brewer.pal.info[palette, ]$maxcolors
+      )[
+        1:(attributes(x)$n_groups + 1)
+      ],
+      "lightgray",
+      "gray"
+    )
+    names(regimen_colors) <- c(
+      attributes(x)$tx_cats,
+      "Censored",
+      'Dead'
+    )
+  }
+
+  if (attributes(x)$has_mortality == FALSE) {
+    regimen_colors <- regimen_colors[names(regimen_colors) != 'Dead']
+  }
+
+  # Plot
+  if(!exists('StatStratum',envir = .GlobalEnv)) {
+    assign('StatStratum',ggalluvial::StatStratum, envir = .GlobalEnv)
+  } else {
+    stop("An unusual error has occurred. Please remove global
+         environmental variable 'StatStratum'")
+  }
+
+  alluvial_plot <- ggplot2::ggplot(
+      data = attributes(x)$lot_lode,
+      mapping = ggplot2::aes(
+        x = linenumber,
+        y = n,
+        alluvium = combo,
+        stratum = linename_grouped,
+        fill = linename_grouped
+      )
+    ) +
+      ggplot2::scale_x_discrete(expand = c(.1, .1)) +
+      ggalluvial::geom_flow() +
+      ggalluvial::geom_stratum() +
+      ggplot2::scale_fill_manual(values = regimen_colors) +
+      ggplot2::labs(
+        x = "Therapy Line",
+        y = "N patients",
+        fill = "Regimen",
+        title = title
+      ) +
+      ggplot2::scale_y_continuous(breaks = integer_breaks())
+
+  if (label == TRUE & label_box == FALSE) {
+    alluvial_plot <- alluvial_plot +
+      ggplot2::geom_text(
+        stat = "stratum",
+        ggplot2::aes(
+          x = linenumber,
+          y = n,
+          alluvium = combo,
+          stratum = linename_grouped,
+          label = label_select
+      ),
+      size = 3
+      )
+  } else if (label == TRUE & label_box == TRUE) {
+    alluvial_plot <- alluvial_plot +
+      ggplot2::geom_label(
+        stat = "stratum",
+        mapping = ggplot2::aes(
+          x =linenumber,
+          y = n,
+          alluvium = combo,
+          stratum = linename_grouped,
+          label = label_select_na
+      ),
+      fill = "white",
+      size = 3
+      )
+  }
+  rm('StatStratum', envir = .GlobalEnv)
+
+  return(alluvial_plot)
+}
