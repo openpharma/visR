@@ -164,7 +164,7 @@ add_risktable.ggsurvfit <- function(
   ggB <- cowplot::plot_grid(plotlist = ggA,
                             align = "none",
                             nrow = length(ggA),
-                            rel_heights = c(1-(rowgutter), rep(rowgutter/(length(ggA)-1), length(ggA)-1))
+                            rel_heights = c(1-(rowgutter*(length(ggA)-1)), rep(rowgutter, length(ggA)-1))
   )
 
   class(ggB) <- c(class(ggB), intersect(class(gg), c("ggsurvfit", "ggtidycmprsk")))
