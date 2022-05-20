@@ -14,7 +14,6 @@
 #' @param strata Stratifying/Grouping variable name(s) as character vector. If NULL, only overall results are returned
 #' @param overall If TRUE, the summary statistics for the overall dataset are also calculated
 #' @param summary_function A function defining summary statistics for numeric and categorical values
-#' @param na.rm If TRUE, the default, the `strata` variables will be eliminated from the table rows as they leads to all NAs.
 #' @details It is possible to provide your own summary function. Please have a loot at summary for inspiration.
 #'
 #' @note All columns in the table will be summarized. If only some columns shall be used, please select only those
@@ -71,7 +70,7 @@
 #'
 #' @export
 
-get_tableone <- function(data, strata = NULL, overall=TRUE, summary_function = summarize_short, na.rm = TRUE){
+get_tableone <- function(data, strata = NULL, overall=TRUE, summary_function = summarize_short){
   UseMethod("get_tableone")
 }
 
@@ -80,16 +79,14 @@ get_tableone <- function(data, strata = NULL, overall=TRUE, summary_function = s
 #' @return object of class tableone. That is a list of data specified summaries
 #'   for all input variables.
 #' @export
-get_tableone.default <- function(data, strata = NULL, overall=TRUE, summary_function = summarize_short, na.rm = TRUE){
+get_tableone.default <- function(data, strata = NULL, overall=TRUE, summary_function = summarize_short){
 
   summary_FUN <- match.fun(summary_function)
 
   if(overall & !is.null(strata)){
-    overall_table1 <- get_tableone(data, strata = NULL, overall = FALSE, summary_function = summary_function)
-    if(na.rm){
-      overall_table1 <- overall_table1 %>%
-        dplyr::filter(!(variable %in% strata))
-    }
+    overall_table1 <- get_tableone(data, strata = NULL, overall = FALSE, summary_function = summary_function) %>%
+      dplyr::filter(!(variable %in% strata))
+
     combine_dfs <- TRUE
   }
   else{

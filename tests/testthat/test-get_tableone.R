@@ -25,8 +25,8 @@
 #' T4.4 An error when the `summary_function` is `summarize_long`
 #' T4.5 No error when the `summary_function` is `summarize_short`
 #' T5. The tableone removes strata variables in rows that leads NA values
-#' T5.1 An error when the the table includes the strata variables if `na.rm = TRUE`
-#' An error when the the table does not include any of the strata variables if `na.rm = FALSE`
+#' T5.1 An error when the the table includes one strata variable
+#' T5.2 An error when the the table includes multiple strata variables
 
 # Requirement T1 ----------------------------------------------------------
 
@@ -180,28 +180,25 @@ testthat::test_that("T4.5 No error when the `summary_function` is `summarize_sho
 
 testthat::context("get_tableone - T5. The tableone removes strata variables in rows that leads NA values")
 
-testthat::test_that("T5.1 An error when the the table includes the strata variables if `na.rm = TRUE`", {
+testthat::test_that("T5.1 An error when the the table includes one strata variable", {
 
-  strata <- c("SEX", "RACE")
+  strata <- c("SEX")
 
   table <- adtte %>%
-    visR::get_tableone(strata = strata,
-                       na.rm = TRUE)
+    visR::get_tableone(strata = strata)
 
   testthat::expect_true(sum(strata %in% unique(table$variable)) == 0)
 
 })
 
-
-testthat::test_that("T5.2 An error when the the table does not include any of the strata variables if `na.rm = FALSE`", {
+testthat::test_that("T5.2 An error when the the table includes multiple strata variables", {
 
   strata <- c("SEX", "RACE")
 
   table <- adtte %>%
-    visR::get_tableone(strata = strata,
-                       na.rm = FALSE)
+    visR::get_tableone(strata = strata)
 
-  testthat::expect_true(sum(strata %in% unique(table$variable)) == length(strata))
+  testthat::expect_true(sum(strata %in% unique(table$variable)) == 0)
 
 })
 
