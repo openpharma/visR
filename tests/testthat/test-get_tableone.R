@@ -200,6 +200,11 @@ testthat::test_that("T5.2 An error when the the table includes multiple strata v
 
   testthat::expect_true(sum(strata %in% unique(table$variable)) == 0)
 
+  table <- adtte %>%
+    visR::get_tableone(strata = strata, overall = FALSE)
+
+  testthat::expect_true(sum(strata %in% unique(table$variable)) == 0)
+
 })
 
 # END OF CODE -------------------------------------------------------------
