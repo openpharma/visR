@@ -1,7 +1,7 @@
 Type: Package
 Package: visR
 Title: Clinical Graphs and Tables Adhering to Graphical Principles
-Version: 0.2.0.9003
+Version: 0.2.0.9004
 Authors@R: c(
     person(given = "Mark",
            family = "Baillie", 
@@ -101,6 +101,6 @@ VignetteBuilder:
 biocViews:
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0
 LazyData: true
 Language: en-US
