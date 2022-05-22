@@ -1,6 +1,6 @@
 #' @title Specifications test-tableone.R
 #' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2022-01-14T14:20:44
+#' @section Last update date: 2022-02-09T15:22:32
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a `data.frame` as the main `data` object.

@@ -1,6 +1,6 @@
 #' @title Specifications test-get_risktable.R
-#' @section Last updated by: Steven Haesendonckx (47894155+SHAESEN2@@users.noreply.github.com)
-#' @section Last update date: 2022-01-22T13:32:27
+#' @section Last updated by: Daniel Sjoberg (danield.sjoberg@@gmail.com)
+#' @section Last update date: 2022-02-16T07:57:46
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a `survfit` object
@@ -467,17 +467,17 @@ testthat::test_that("T7.5 No error when there is only one strata available and c
   testthat::expect_error(visR::get_risktable(survfit_object, collapse = TRUE), NA)
 })
 
-# Requirement T7 ----------------------------------------------------------
+# Requirement T8 ----------------------------------------------------------
 
-testthat::context("get_risktable.survfit - T7. The output dataset is a data.frame with attributes for downstream processing")
+testthat::context("get_risktable.survfit - T8. The output dataset is a data.frame with attributes for downstream processing")
 
-testthat::test_that("T7.1 The output dataset is a data.frame",{
+testthat::test_that("T8.1 The output dataset is a data.frame",{
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
   testthat::expect_true(inherits(visR::get_risktable(survfit_object), "data.frame"))
 })
 
-testthat::test_that("T7.2 The output dataset has the attribute `time_ticks` that specifies the times", {
+testthat::test_that("T8.2 The output dataset has the attribute `time_ticks` that specifies the times", {
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
   times <- c(20, 40, 80)
@@ -485,7 +485,7 @@ testthat::test_that("T7.2 The output dataset has the attribute `time_ticks` that
   testthat::expect_equal(attr(risktable, "time_ticks"), times)
 })
 
-testthat::test_that("T7.3 The output dataset has the attribute `title` that specifies the labels used in downstream functions", {
+testthat::test_that("T8.3 The output dataset has the attribute `title` that specifies the labels used in downstream functions", {
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
 
@@ -497,7 +497,7 @@ testthat::test_that("T7.3 The output dataset has the attribute `title` that spec
                          sub('.*=', '', names(survfit_object$strata)))
 })
 
-testthat::test_that("T7.4 The output dataset has the attribute `statlist` that reflects the ´group´ used", {
+testthat::test_that("T8.4 The output dataset has the attribute `statlist` that reflects the ´group´ used", {
 
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTA")
 
@@ -509,11 +509,11 @@ testthat::test_that("T7.4 The output dataset has the attribute `statlist` that r
                          sub('.*=', '', names(survfit_object$strata)))
 })
 
-# Requirement T8 ----------------------------------------------------------
+# Requirement T9 ----------------------------------------------------------
 
-testthat::context("get_risktable.survfit - T8. Tests for `get_risktable.tidycmprsk()`")
+testthat::context("get_risktable.survfit - T9. Tests for `get_risktable.tidycmprsk()`")
 
-testthat::test_that("T8.1 Results are accurate without error", {
+testthat::test_that("T9.1 Results are accurate without error", {
   cuminc <-
     visR::estimate_cuminc(
       tidycmprsk::trial,
