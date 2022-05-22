@@ -1,6 +1,6 @@
 #' @title Specifications test-tidyme.R
-#' @section Last updated by: shaesen2 (shaesen2@@its.jnj.com)
-#' @section Last update date: 2022-02-06T08:56:54
+#' @section Last updated by: Daniel Sjoberg (danield.sjoberg@@gmail.com)
+#' @section Last update date: 2022-04-20T04:47:32
 #'
 #' @section List of tested specifications
 #' T1. The function accepts an S3 object
@@ -154,7 +154,7 @@ testthat::test_that("T3.4 The S3 method, assocated with a `survfit` object, turn
 
 })
 
-testthat::test_that(" T3.5 The S3 method, associated with a `survfit` object, add the original object as an attribute to the tidied object",{
+testthat::test_that("T3.5 The S3 method, associated with a `survfit` object, add the original object as an attribute to the tidied object",{
 
   survobj <- visR::estimate_KM(adtte, strata = "TRTA")
   visr_tidy <- visR::tidyme(survobj)
@@ -165,7 +165,7 @@ testthat::test_that(" T3.5 The S3 method, associated with a `survfit` object, ad
 
 # Requirement T4 ---------------------------------------------------------------
 
-testthat::context("tidyme - T4 The S3 method, associated with a `survfit` object ensures compatibility with broom-dependent workflows")
+testthat::context("tidyme - T4. The S3 method, associated with a `survfit` object ensures compatibility with broom-dependent workflows")
 
 testthat::test_that("T4.1 The S3 method, associated with a `survfit` object, copies content to columns with the nomenclature used in broom::tidy",{
 
