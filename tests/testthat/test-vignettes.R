@@ -1,6 +1,6 @@
 #' @title Specifications test-vignettes.R
 #' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2022-02-09T15:22:32
+#' @section Last update date: 2022-03-01T16:22:07
 #'
 #' @section List of tested specifications
 #' T1. Data loaded from external sources exists.
