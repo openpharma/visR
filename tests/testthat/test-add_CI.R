@@ -1,6 +1,6 @@
 #' @title Specifications test-add_CI.R
 #' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2022-01-24T12:23:45
+#' @section Last update date: 2022-02-09T15:22:32
 #'
 #' @section List of tested specifications
 #' T1. No errors when confidence intervals are added to the plots.

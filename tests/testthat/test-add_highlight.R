@@ -1,6 +1,6 @@
 #' @title Specifications test-add_highlight.R
-#' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
-#' @section Last update date: 2022-01-14T14:20:44
+#' @section Last updated by: Daniel Sjoberg (danield.sjoberg@@gmail.com)
+#' @section Last update date: 2022-04-20T04:47:32
 #'
 #' @section List of tested specifications
 #' T1. The function modifies a `ggsurvfit` object and returns it.
