@@ -44,7 +44,7 @@ coverage](https://codecov.io/gh/openpharma/visR/branch/develop/graph/badge.svg)]
 [![pkgdown](https://github.com/openpharma/visR/actions/workflows/makedocs.yml/badge.svg)](https://github.com/openpharma/visR/actions/workflows/makedocs.yml)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/visR)](https://CRAN.R-project.org/package=visR)
-<a href=https://github.com/pharmaR/riskmetric><img src=https://img.shields.io/badge/riskmetric-0.54-green></img></a>
+<a href=https://github.com/pharmaR/riskmetric><img src=https://img.shields.io/badge/riskmetric-0.52-green></img></a>
 <!-- badges: end -->
 
 ## Installation
@@ -116,12 +116,12 @@ adtte %>%
   )
 ```
 
-<div id="xodzouwhxg" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="tqdzqfnjpc" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#xodzouwhxg .gt_table {
+#tqdzqfnjpc .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -146,7 +146,7 @@ adtte %>%
   border-left-color: #D3D3D3;
 }
 
-#xodzouwhxg .gt_heading {
+#tqdzqfnjpc .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -158,7 +158,7 @@ adtte %>%
   border-right-color: #D3D3D3;
 }
 
-#xodzouwhxg .gt_title {
+#tqdzqfnjpc .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -170,7 +170,7 @@ adtte %>%
   border-bottom-width: 0;
 }
 
-#xodzouwhxg .gt_subtitle {
+#tqdzqfnjpc .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -182,13 +182,13 @@ adtte %>%
   border-top-width: 0;
 }
 
-#xodzouwhxg .gt_bottom_border {
+#tqdzqfnjpc .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#xodzouwhxg .gt_col_headings {
+#tqdzqfnjpc .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -203,7 +203,7 @@ adtte %>%
   border-right-color: #D3D3D3;
 }
 
-#xodzouwhxg .gt_col_heading {
+#tqdzqfnjpc .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -223,7 +223,7 @@ adtte %>%
   overflow-x: hidden;
 }
 
-#xodzouwhxg .gt_column_spanner_outer {
+#tqdzqfnjpc .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -235,15 +235,15 @@ adtte %>%
   padding-right: 4px;
 }
 
-#xodzouwhxg .gt_column_spanner_outer:first-child {
+#tqdzqfnjpc .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#xodzouwhxg .gt_column_spanner_outer:last-child {
+#tqdzqfnjpc .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#xodzouwhxg .gt_column_spanner {
+#tqdzqfnjpc .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -255,7 +255,7 @@ adtte %>%
   width: 100%;
 }
 
-#xodzouwhxg .gt_group_heading {
+#tqdzqfnjpc .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -280,7 +280,7 @@ adtte %>%
   vertical-align: middle;
 }
 
-#xodzouwhxg .gt_empty_group_heading {
+#tqdzqfnjpc .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -295,15 +295,15 @@ adtte %>%
   vertical-align: middle;
 }
 
-#xodzouwhxg .gt_from_md > :first-child {
+#tqdzqfnjpc .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#xodzouwhxg .gt_from_md > :last-child {
+#tqdzqfnjpc .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#xodzouwhxg .gt_row {
+#tqdzqfnjpc .gt_row {
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 5px;
@@ -322,7 +322,7 @@ adtte %>%
   overflow-x: hidden;
 }
 
-#xodzouwhxg .gt_stub {
+#tqdzqfnjpc .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -335,7 +335,7 @@ adtte %>%
   padding-right: 5px;
 }
 
-#xodzouwhxg .gt_stub_row_group {
+#tqdzqfnjpc .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -349,11 +349,11 @@ adtte %>%
   vertical-align: top;
 }
 
-#xodzouwhxg .gt_row_group_first td {
+#tqdzqfnjpc .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#xodzouwhxg .gt_summary_row {
+#tqdzqfnjpc .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -363,16 +363,16 @@ adtte %>%
   padding-right: 5px;
 }
 
-#xodzouwhxg .gt_first_summary_row {
+#tqdzqfnjpc .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#xodzouwhxg .gt_first_summary_row.thick {
+#tqdzqfnjpc .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#xodzouwhxg .gt_last_summary_row {
+#tqdzqfnjpc .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -382,7 +382,7 @@ adtte %>%
   border-bottom-color: #D3D3D3;
 }
 
-#xodzouwhxg .gt_grand_summary_row {
+#tqdzqfnjpc .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -392,7 +392,7 @@ adtte %>%
   padding-right: 5px;
 }
 
-#xodzouwhxg .gt_first_grand_summary_row {
+#tqdzqfnjpc .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -402,11 +402,11 @@ adtte %>%
   border-top-color: #D3D3D3;
 }
 
-#xodzouwhxg .gt_striped {
+#tqdzqfnjpc .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#xodzouwhxg .gt_table_body {
+#tqdzqfnjpc .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -415,7 +415,7 @@ adtte %>%
   border-bottom-color: #D3D3D3;
 }
 
-#xodzouwhxg .gt_footnotes {
+#tqdzqfnjpc .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -429,7 +429,7 @@ adtte %>%
   border-right-color: #D3D3D3;
 }
 
-#xodzouwhxg .gt_footnote {
+#tqdzqfnjpc .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -438,7 +438,7 @@ adtte %>%
   padding-right: 5px;
 }
 
-#xodzouwhxg .gt_sourcenotes {
+#tqdzqfnjpc .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -452,7 +452,7 @@ adtte %>%
   border-right-color: #D3D3D3;
 }
 
-#xodzouwhxg .gt_sourcenote {
+#tqdzqfnjpc .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -460,36 +460,36 @@ adtte %>%
   padding-right: 5px;
 }
 
-#xodzouwhxg .gt_left {
+#tqdzqfnjpc .gt_left {
   text-align: left;
 }
 
-#xodzouwhxg .gt_center {
+#tqdzqfnjpc .gt_center {
   text-align: center;
 }
 
-#xodzouwhxg .gt_right {
+#tqdzqfnjpc .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#xodzouwhxg .gt_font_normal {
+#tqdzqfnjpc .gt_font_normal {
   font-weight: normal;
 }
 
-#xodzouwhxg .gt_font_bold {
+#tqdzqfnjpc .gt_font_bold {
   font-weight: bold;
 }
 
-#xodzouwhxg .gt_font_italic {
+#tqdzqfnjpc .gt_font_italic {
   font-style: italic;
 }
 
-#xodzouwhxg .gt_super {
+#tqdzqfnjpc .gt_super {
   font-size: 65%;
 }
 
-#xodzouwhxg .gt_two_val_uncert {
+#tqdzqfnjpc .gt_two_val_uncert {
   display: inline-block;
   line-height: 1em;
   text-align: right;
@@ -498,31 +498,31 @@ adtte %>%
   margin-left: 0.1em;
 }
 
-#xodzouwhxg .gt_footnote_marks {
+#tqdzqfnjpc .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#xodzouwhxg .gt_asterisk {
+#tqdzqfnjpc .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#xodzouwhxg .gt_slash_mark {
+#tqdzqfnjpc .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#xodzouwhxg .gt_fraction_numerator {
+#tqdzqfnjpc .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#xodzouwhxg .gt_fraction_denominator {
+#tqdzqfnjpc .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
