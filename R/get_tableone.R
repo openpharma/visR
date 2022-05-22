@@ -84,7 +84,9 @@ get_tableone.default <- function(data, strata = NULL, overall=TRUE, summary_func
   summary_FUN <- match.fun(summary_function)
 
   if(overall & !is.null(strata)){
-    overall_table1 <- get_tableone(data, strata = NULL, overall = FALSE, summary_function = summary_function)
+    overall_table1 <- get_tableone(data, strata = NULL, overall = FALSE, summary_function = summary_function) %>%
+      dplyr::filter(!(variable %in% strata))
+
     combine_dfs <- TRUE
   }
   else{
