@@ -1,7 +1,7 @@
 Type: Package
 Package: visR
 Title: Clinical Graphs and Tables Adhering to Graphical Principles
-Version: 0.2.0.9003
+Version: 0.2.0.9004
 Authors@R: c(
     person(given = "Mark",
            family = "Baillie", 
