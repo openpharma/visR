@@ -1,6 +1,6 @@
 #' @title Specifications test-estimate_KM.R
-#' @section Last updated by: Steven Haesendonckx
-#' @section Last update date: 2022-04-20
+#' @section Last updated by: Daniel Sjoberg (danield.sjoberg@@gmail.com)
+#' @section Last update date: 2022-04-20T04:47:32
 #'
 #' @section List of tested specifications
 #' T1. The function accepts a `data.frame` `tibble` or `data.table`
@@ -33,7 +33,7 @@
 #' T5.4 The function returns an object of class `survfit`
 #' T6. The function adds additional information to the survfit object when available
 #' T6.1 The calculation is not affected by the addition of additional parameters
-#' T6.2 The function add PARAM/PARAMCD when available
+#' T6.2 The function adds PARAM/PARAMCD when available
 #' T6.3 The function adds strata labels from the data when available
 #' T6.4 The function adds strata labels equal to the strata name when strata labels are not available from the data
 #' T7. The function call supports traceability

@@ -15,6 +15,7 @@ add_risktable(gg, ...)
   label = NULL,
   group = "strata",
   collapse = FALSE,
+  rowgutter = 0.16,
   ...
 )
 
@@ -25,11 +26,12 @@ add_risktable(gg, ...)
   label = NULL,
   group = "strata",
   collapse = FALSE,
+  rowgutter = 0.16,
   ...
 )
 }
 \arguments{
-\item{gg}{A ggplot created with visR}
+\item{gg}{visR plot of class \code{ggsurvfit} or \code{ggtidycmprsk}}
 
 \item{...}{other arguments passed on to the method add_risktable}
 
@@ -56,6 +58,9 @@ Default is "strata".}
 
 \item{collapse}{Boolean, indicates whether to present the data overall.
 Default is FALSE.}
+
+\item{rowgutter}{A numeric relative value between 0 and 1 indicates the height used by the table versus the height
+used by the plot, as described in \code{cowplot::plot_grid(rel_heights=)}. The default is 0.16.}
 }
 \value{
 Object of class \code{ggplot} with added risk table.
@@ -82,7 +87,7 @@ adtte \%>\%
   visR::estimate_KM(strata = "TRTP") \%>\%
   visR::visr() \%>\%
   visR::add_risktable( label = c("Subjects at Risk", "Censored")
-                      ,statlist = c("n.risk", "n.censor")
+                      ,statlist = c("n.risk", "n.censor", "n.event")
                       ,group = "statlist"
                      )
 

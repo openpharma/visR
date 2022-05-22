@@ -36,5 +36,10 @@ Authors:
   \item Daniel D. Sjoberg \email{danield.sjoberg@gmail.com} (\href{https://orcid.org/0000-0003-0862-2018}{ORCID})
 }
 
+Other contributors:
+\itemize{
+  \item Ardalan Mirshani \email{ardeeshany@gmail.com} [contributor]
+}
+
 }
 \keyword{internal}

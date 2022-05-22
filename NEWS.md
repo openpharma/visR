@@ -10,6 +10,7 @@
 
 ### Other Updates
 * Stratifying variable names have been removed from legend in `visr.survfit()` figures, and the legend title now describes the stratifying variable(s). (#343)
+* `add_risktable` has a rowgutter argument to allow spacing between plot and risktables
 
 * Improved documentation for `visr()` and other generic functions. (#301)
 
