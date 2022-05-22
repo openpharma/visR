@@ -110,9 +110,10 @@ adtte %>%
 
 The `tableone()` function presents summary statistics in a table format.
 
-```{r table, warning=FALSE, message = FALSE}
+```{r tableone, warning=FALSE, message = FALSE}
 ## table by treatment - without overall and render with GT
-adtte %>%
+tableone <-
+  adtte %>%
   dplyr::select(AGE, SEX, TRTA) %>%
   visR::tableone(
      strata = "TRTA",
@@ -123,6 +124,20 @@ adtte %>%
   )
 ```
 
+```{r tableone_print, include = FALSE}
+# Had to manually save images in temp file, not sure if better way.
+gt::gtsave(tableone, file = file.path(tempdir(), "temp.png"))
+```
+
+```{r out.width = "90%", echo = FALSE}
+# Have to do this workaround since the README needs markdown format for GitHub page but a different format for the website.
+if (identical(Sys.getenv("IN_PKGDOWN"), "true")) {
+  table1 # display true html table
+} else {
+  # show saved image
+  knitr::include_graphics("man/figures/README-tableone_print-1.png")
+} 
+```
 
 ## Cite visR
 
