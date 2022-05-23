@@ -30,7 +30,6 @@
 #'    Use \code{?survival::survfit.formula} and \code{?survival::survfitCI} for more information.
 #' @param formula `r lifecycle::badge('experimental')` formula with `survival::Surv()` on RHS and stratifying variables on the LHS. Use
 #' `~ 1` on the LHS for unstratified estimates. This argument will be passed to `survival::survfit(formula=)`.
-#' @param x object of class 'data.frame' or 'formula'
 #'
 #' @return survfit object, extended by elements PARAM/PARAMCD, ready for downstream processing in estimation or visualization functions and methods.
 #'
@@ -144,7 +143,7 @@ estimate_KM.formula <- function(
 
 #' @rdname estimate_KM
 #' @export
-estimate_KM <- function(x, ...) {
+estimate_KM <- function(...) {
   UseMethod("estimate_KM")
 }
 

@@ -10,7 +10,7 @@
 
 \method{estimate_KM}{formula}(formula = NULL, data = NULL, ...)
 
-estimate_KM(x, ...)
+estimate_KM(...)
 }
 \arguments{
 \item{data}{The name of the dataset. The dataset is expected to have
@@ -29,8 +29,6 @@ Use \code{?survival::survfit.formula} and \code{?survival::survfitCI} for more i
 
 \item{formula}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} formula with \code{survival::Surv()} on RHS and stratifying variables on the LHS. Use
 \code{~ 1} on the LHS for unstratified estimates. This argument will be passed to \code{survival::survfit(formula=)}.}
-
-\item{x}{object of class 'data.frame' or 'formula'}
 }
 \value{
 survfit object, extended by elements PARAM/PARAMCD, ready for downstream processing in estimation or visualization functions and methods.
