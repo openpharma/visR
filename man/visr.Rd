@@ -54,7 +54,7 @@ visr(x, ...)
 
 \item{x_label}{\code{character} Label for the x-axis. When not specified,
 the function will look for \code{"PARAM"} or \code{"PARAMCD"} information in the original data set (CDISC standards).
-If no \code{"PARAM"}/\code{"PARAMCD"} information is available, the default x-axis label is \code{"time"}.}
+If no \code{"PARAM"}/\code{"PARAMCD"} information is available, the default x-axis label is \code{"Time"}.}
 
 \item{y_label}{\code{character} Label for the y-axis. When not specified,
 the default will do a proposal, depending on the \code{fun} argument.}
