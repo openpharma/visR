@@ -84,6 +84,7 @@ Suggests:
     covr,
     knitr,
     learnr,
+    lifecycle,
     rmarkdown,
     rsconnect,
     shiny,

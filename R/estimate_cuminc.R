@@ -3,10 +3,14 @@
 #' @description Function creates a cumulative incidence object using the
 #'     `tidycmprsk::cuminc()` function.
 #'
-#' @param CNSR Column name indicating the outcome and censoring statuses.
-#' Column must be a factor and the first level indicates censoring, the
-#' next level is the outcome of interest, and the remaining levels are the
-#' competing events. Default is `"CNSR"`
+#' @param AVAL,CNSR,strata These arguments are used to construct a formula to be passed to `tidycmprsk::cuminc(formula=)`.
+#' - `AVAL` Analysis value for Time-to-Event analysis. Default is `"AVAL"`, as per CDISC ADaM guiding principles.
+#' - `CNSR` Column name indicating the outcome and censoring statuses.
+#'          Column must be a factor and the first level indicates censoring, the
+#'          next level is the outcome of interest, and the remaining levels are the
+#'          competing events. Default is `"CNSR"`
+#' - `strata` Character vector, representing the strata for Time-to-Event analysis. When NULL, an overall analysis is performed.
+#'    Default is `NULL`.
 #' @param conf.int Confidence internal level. Default is 0.95. Parameter is passed to `tidycmprsk::cuminc(conf.level=)`
 #' @param ... Additional argument passed to `tidycmprsk::cuminc()`
 #' @inheritParams estimate_KM
