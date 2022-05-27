@@ -18,7 +18,7 @@
 #' T2.8 No warning when `x_label` is `NULL` and the `survfit` object has a `PARAM` and a `PARAMCD` column.
 #' T2.9 No warning when `x_label` is `NULL` and the `survfit` object has a `PARAM` but no `PARAMCD` column.
 #' T2.10 No warning when `x_label` is `NULL` and the `survfit` object has no `PARAM` but a `PARAMCD` column.
-#' T2.11 A warning when `x_label` is `NULL` and the `survfit` object has no `PARAM` and no `PARAMCD` column.
+#' T2.11 No warning when `x_label` is `NULL` and the `survfit` object has no `PARAM` and no `PARAMCD` column.
 #' T2.12 When `x_label` is `NULL` and the `survfit` object does have a `PARAM` column, the `x_label` is set to `PARAM`.
 #' T2.13 When `x_label` is `NULL` and the `survfit` object does not have a `PARAM` but a `PARAMCD` column, the `x_label` is set to `PARAMCD`.
 #' T2.14 When `x_label` is `NULL` and the `survfit` object does have a `PARAM` but no `PARAMCD` column, the `x_label` is set to `PARAM`.
@@ -209,13 +209,13 @@ testthat::test_that("T2.10 No warning when `x_label` is `NULL` and the `survfit`
 
 })
 
-testthat::test_that("T2.11 A warning when `x_label` is `NULL` and the `survfit` object has no `PARAM` and no `PARAMCD` column.", {
+testthat::test_that("T2.11 No warning when `x_label` is `NULL` and the `survfit` object has no `PARAM` and no `PARAMCD` column.", {
 
   survfit_object <- adtte %>%
     dplyr::select(-c(PARAM, PARAMCD)) %>%
     visR::estimate_KM("SEX")
 
-  testthat::expect_warning(survfit_object %>% visR::visr(x_label = NULL))
+  testthat::expect_warning(survfit_object %>% visR::visr(x_label = NULL), NA)
 
 })
 
@@ -531,7 +531,7 @@ testthat::test_that("T4.1 The legend follows the model strata levels.", {
 })
 
 testthat::test_that("T4.2 The color legend title represents the strata label.", {
-  
+
   survfit_plot <- adtte %>%
     visR::estimate_KM(strata = "TRTA") %>%
     visR::visr()
