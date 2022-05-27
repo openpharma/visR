@@ -446,6 +446,9 @@ testthat::test_that("T7.2 The function prefixes the function call with survival"
   km2 <- estimate_KM(data = adtte, formula = Surv(AVAL, 1 - CNSR) ~ SEX)
   km1$data_name <- km2$data_name <- km1$call <- km2$call <- NULL
   expect_equal(km1, km2)
+
+  # we see the message about the argument order when data is passed before formula
+  expect_message(estimate_KM(data = adtte, formula = Surv(AVAL, 1 - CNSR) ~ 1))
 })
 
 testthat::test_that("T9.2 The formula method triggers error messages.", {
@@ -505,19 +508,6 @@ testthat::test_that("T9.1 The formula method returns the same results and the da
   km2 <- estimate_KM(formula = Surv(AVAL, 1 - CNSR) ~ SEX, data = adtte)
   km1$call <- km2$call <- NULL
   expect_equal(km1, km2)
-
-  survobj <- adtte %>%
-    dplyr::filter(SEX == "F")%>%
-    visR::estimate_KM(data = ., strata = "RACE")
-  testthat::expect_equal(survobj$data_name, "adtte")
-
-  survobj <- adtte %>%
-    dplyr::filter(SEX == "F")%>%
-    visR::estimate_KM(strata = "RACE")
-  testthat::expect_equal(survobj$data_name, "adtte")
-
-  # no data_name error when there is no data_name
-  expect_error(rlang::inject(visR::estimate_KM(data = !!adtte, strata = "RACE")), NA)
 })
 
 # END OF CODE -------------------------------------------------------------
