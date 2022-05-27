@@ -85,16 +85,11 @@ estimate_KM.data.frame <- function(
   if ("formula" %in% names(dots)) {
     formula <- dots[["formula"]]
     dots[["formula"]] <- NULL
+    message("To use the `estimate_KM(formula=)` argument, place it in the first position.")
     return(rlang::inject(estimate_KM.formula(formula = formula, data = data, !!!dots)))
   }
 
   # Validate argument inputs ---------------------------------------------------
-  if (is.null(data))
-    stop(paste0("Data can't be NULL."))
-
-  if (!is.data.frame(data))
-    stop("Data does not have class `data.frame`.")
-
   reqcols <- c(strata, CNSR, AVAL)
   if (! all(reqcols %in% colnames(data))){
     stop(paste0("Following columns are missing from `data`: ", paste(setdiff(reqcols, colnames(data)), collapse = " "), "."))
