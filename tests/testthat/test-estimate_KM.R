@@ -36,6 +36,8 @@
 #' T6.2 The function adds PARAM/PARAMCD when available
 #' T6.3 The function adds strata labels from the data when available
 #' T6.4 The function adds strata labels equal to the strata name when strata labels are not available from the data
+#' T6.5 The function adds the data set name
+#' T6.6 The function adds the environment to the call
 #' T7. The function call supports traceability
 #' T7.1 The function updates .$data_name when magrittr pipe is used
 #' T7.2 The function prefixes the function call with survival
@@ -44,6 +46,7 @@
 #' T9. The user can specify formula argument
 #' T9.1 The formula method returns the same results and the data method.
 #' T9.2 The formula method triggers error messages.
+
 # Requirement T1 ----------------------------------------------------------
 
 testthat::context("estimate_KM - T1. The function accepts a `data.frame` `tibble` or `data.table`")
@@ -379,6 +382,35 @@ testthat::test_that("T6.4 The function adds strata labels equal to the strata na
 
 })
 
+testthat::test_that("T6.5 The function adds the data set name", {
+
+  survobj <- visR::estimate_KM(data = adtte, strata = "SEX")
+  testthat::expect_equal(survobj$data_name, "adtte")
+
+  survobj <- visR::estimate_KM(data = adtte[adtte$SEX == "F", ], strata = "RACE")
+  testthat::expect_equal(survobj$data_name, "adtte")
+
+  survobj <- adtte %>%
+    dplyr::filter(SEX == "F")%>%
+    visR::estimate_KM(data = ., strata = "RACE")
+  testthat::expect_equal(survobj$data_name, "adtte")
+
+  survobj <- adtte %>%
+    dplyr::filter(SEX == "F")%>%
+    visR::estimate_KM(strata = "RACE")
+  testthat::expect_equal(survobj$data_name, "adtte")
+
+  # no data_name error when there is no data_name
+  expect_error(rlang::inject(visR::estimate_KM(data = !!adtte, strata = "RACE")), NA)
+})
+
+testthat::test_that("T6.6 The function adds the environment to the call", {
+
+  survobj <- visR::estimate_KM(data = adtte, strata = "SEX")
+
+  testthat::expect_true(inherits(attr(survobj$call, ".Environment"), "environment"))
+
+})
 
 # Requirement T7 ---------------------------------------------------------------
 
@@ -389,13 +421,13 @@ testthat::test_that("T7.1 The function updates .$data_name when magrittr pipe is
   survobj_visR <-
     adtte %>%
     visR::estimate_KM(data = ., strata = "SEX")
-  testthat::expect_equal(survobj_visR[["data_name"]], as.symbol("adtte"))
+  testthat::expect_equal(survobj_visR[["data_name"]], "adtte")
 
   # without .
   survobj_visR <-
     adtte %>%
     visR::estimate_KM(strata = "SEX")
-  testthat::expect_equal(survobj_visR[["data_name"]], as.symbol("adtte"))
+  testthat::expect_equal(survobj_visR[["data_name"]], "adtte")
 })
 
 testthat::test_that("T7.2 The function prefixes the function call with survival", {
@@ -404,49 +436,6 @@ testthat::test_that("T7.2 The function prefixes the function call with survival"
     adtte %>%
     visR::estimate_KM(data = ., strata = "SEX")
   call_visR <- as.list(rlang::quo_squash(survobj_visR[["call"]]))
-
-  testthat::expect_equal(call_visR[[1]], quote(survival::survfit))
-})
-
-# Requirement T8 ---------------------------------------------------------------
-
-testthat::context("estimate_KM - T8. Piped datasets still return accurate results")
-
-testthat::test_that("T8.1 Piped datasets still return accurate results",{
-  estimate_KM <-
-    adtte %>%
-    dplyr::filter(SEX == "F", AGE < 60) %>%
-    visR::estimate_KM(strata = "TRTA")
-  survfit <-
-    survival::survfit(
-      survival::Surv(AVAL, 1 - CNSR) ~ TRTA,
-      data =
-        adtte %>%
-        dplyr::filter(SEX == "F", AGE < 60)
-    ) %>%
-    survival::survfit0()
-  vals_to_check <- names(survfit) %>% setdiff(c("strata", "call"))
-  expect_equal(unclass(survfit)[vals_to_check], unclass(estimate_KM)[vals_to_check])
-
-  estimate_KM <-
-    adtte[1:100, ] %>%
-    visR::estimate_KM(strata = "TRTA")
-  survfit <-
-    survival::survfit(
-      survival::Surv(AVAL, 1 - CNSR) ~ TRTA,
-      data = adtte[1:100, ]
-    ) %>%
-    survival::survfit0()
-  expect_equal(unclass(survfit)[vals_to_check], unclass(estimate_KM)[vals_to_check])
-})
-
-testthat::context("estimate_KM - T9. The user can specify formula argument")
-
-testthat::test_that("T9.1 The formula method returns the same results and the data method.", {
-  km1 <- estimate_KM(data = adtte, strata = "SEX")
-  km2 <- estimate_KM(formula = Surv(AVAL, 1 - CNSR) ~ SEX, data = adtte)
-  km1$call <- km2$call <- NULL
-  expect_equal(km1, km2)
 
   km1 <- estimate_KM(data = adtte)
   km2 <- estimate_KM(formula = Surv(AVAL, 1 - CNSR) ~ 1, data = adtte)
@@ -475,5 +464,60 @@ testthat::test_that("T9.2 The formula method triggers error messages.", {
   )
 })
 
+# Requirement T8 ---------------------------------------------------------------
+
+testthat::context("estimate_KM - T8. Piped datasets still return accurate results")
+
+testthat::test_that("T8.1 Piped datasets still return accurate results",{
+  estimate_KM <-
+    adtte %>%
+    dplyr::filter(SEX == "F", AGE < 60) %>%
+    visR::estimate_KM(strata = "TRTA")
+  survfit <-
+    survival::survfit(
+      survival::Surv(AVAL, 1 - CNSR) ~ TRTA,
+      data =
+        adtte %>%
+        dplyr::filter(SEX == "F", AGE < 60)
+    ) %>%
+    survival::survfit0()
+  vals_to_check <- names(survfit) %>% setdiff(c("strata", "call"))
+  testthat::expect_equal(unclass(survfit)[vals_to_check], unclass(estimate_KM)[vals_to_check])
+
+  estimate_KM <-
+    adtte[1:100, ] %>%
+    visR::estimate_KM(strata = "TRTA")
+  survfit <-
+    survival::survfit(
+      survival::Surv(AVAL, 1 - CNSR) ~ TRTA,
+      data = adtte[1:100, ]
+    ) %>%
+    survival::survfit0()
+  testthat::expect_equal(unclass(survfit)[vals_to_check], unclass(estimate_KM)[vals_to_check])
+})
+
+# Requirement T9 ---------------------------------------------------------------
+
+testthat::context("estimate_KM - T9. The user can specify formula argument")
+
+testthat::test_that("T9.1 The formula method returns the same results and the data method.", {
+  km1 <- estimate_KM(data = adtte, strata = "SEX")
+  km2 <- estimate_KM(formula = Surv(AVAL, 1 - CNSR) ~ SEX, data = adtte)
+  km1$call <- km2$call <- NULL
+  expect_equal(km1, km2)
+
+  survobj <- adtte %>%
+    dplyr::filter(SEX == "F")%>%
+    visR::estimate_KM(data = ., strata = "RACE")
+  testthat::expect_equal(survobj$data_name, "adtte")
+
+  survobj <- adtte %>%
+    dplyr::filter(SEX == "F")%>%
+    visR::estimate_KM(strata = "RACE")
+  testthat::expect_equal(survobj$data_name, "adtte")
+
+  # no data_name error when there is no data_name
+  expect_error(rlang::inject(visR::estimate_KM(data = !!adtte, strata = "RACE")), NA)
+})
 
 # END OF CODE -------------------------------------------------------------

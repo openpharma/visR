@@ -3,6 +3,7 @@
 #' @description This function is a wrapper around `survival::survfit.formula()` to perform a Kaplan-Meier analysis, assuming right-censored data.
 #'    The result is an object of class \code{survfit} which can be used in downstream functions and methods that rely on the \code{survfit} class.
 #'    When strata are present, the returned survfit object is supplemented with the a named list of the stratum and associated label, if present.
+#'    To support full traceability, the data set name is captured in the named list and the call is captured within its corresponding environment.
 #'    By default:
 #'    \itemize{
 #'      \item{The Kaplan Meier estimate is estimated directly (stype = 1).}
@@ -86,8 +87,16 @@ estimate_KM.data.frame <- function(
     dots[["formula"]] <- NULL
     return(rlang::inject(estimate_KM.formula(formula = formula, data = data, !!!dots)))
   }
+  # Capture input to validate user input for data argument ---------------------
+  dots <- rlang::dots_list(...)
 
   # Validate argument inputs ---------------------------------------------------
+  if (is.null(data))
+    stop(paste0("Data can't be NULL."))
+
+  if (!is.data.frame(data))
+    stop("Data does not have class `data.frame`.")
+
   reqcols <- c(strata, CNSR, AVAL)
   if (! all(reqcols %in% colnames(data))){
     stop(paste0("Following columns are missing from `data`: ", paste(setdiff(reqcols, colnames(data)), collapse = " "), "."))
@@ -175,6 +184,34 @@ estimate_KM_bridge <- function(
   survfit_object$call[[1]] <- rlang::expr(survival::survfit) # adding `survival::` prefix
   survfit_object$call <- rlang::quo(!!survfit_object$call)
 
+  # Remove NA from the analysis ------------------------------------------------
+  data <-
+    as.data.frame(data) %>%
+    tidyr::drop_na(any_of(c(AVAL, CNSR)))
+
+  if (!is.null(strata)){
+    data <- data %>%
+      tidyr::drop_na(any_of(strata))
+  }
+
+  # Ensure the presence of at least one strata -----------------------------
+
+  formula_rhs <-
+    ifelse(is.null(strata), "1", paste(strata, collapse = " + "))
+
+  # Calculate survival and add time = 0 to survfit object -------------------
+
+  formula <- stats::as.formula(paste0("survival::Surv(", AVAL, ", 1-", CNSR, ") ~ ", formula_rhs))
+
+  survfit_object <-
+    rlang::inject(survival::survfit(!!formula, data = data, !!!dots)) %>% # immediate resolves call arguments
+    survival::survfit0(start.time = 0)
+
+  # convert survfit() call to quo with attached envir --------------------------
+
+  survfit_object$call[[1]] <- rlang::expr(survival::survfit) # adding `survival::` prefix
+  survfit_object$call <- rlang::quo(!!survfit_object$call)
+
   # Add additional metadata ----------------------------------------------------
 
   if ("PARAM" %in% colnames(data) && length(setdiff(c("PARAMCD", "PARAM"), strata)) == 2){
@@ -190,7 +227,6 @@ estimate_KM_bridge <- function(
   survfit_object$data_name <- data_name
 
   # Artificial strata for easy downstream processing when strata=NULL ----------
-
   if (is.null(survfit_object[["strata"]])) {
     survfit_object[["strata"]] <- as.vector(length(survfit_object[["time"]]))
 
