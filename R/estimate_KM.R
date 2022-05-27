@@ -6,6 +6,7 @@
 #'    Alternatively, PARAM/PARAMCD can be used in the \code{strata} argument. \cr
 #'    The result is an object of class \code{survfit} which can be used in downstream functions and methods that rely on the \code{survfit} class.
 #'    When strata are present, the returned survfit object is supplemented with the a named list of the stratum and associated label, if present.
+#'    To support full traceability, the data set name is captured in the named list and the call is captured within its corresponding environment.
 #'    By default:
 #'    \itemize{
 #'      \item{The Kaplan Meier estimate is estimated directly (stype = 1).}
@@ -17,7 +18,8 @@
 #' @seealso \code{\link[survival]{survfit.formula} \link[survival]{survfitCI}}
 #'
 #' @param data The name of the dataset for Time-to-Event analysis based on the Analysis Data Model (ADaM) principles. The dataset is expected to have
-#'    one record per subject per analysis parameter. Rows in which the analysis variable (AVAL) or the censor variable (CNSR) contain NA, are removed during analysis.
+#'    one record per subject per analysis parameter. Rows in which the analysis variable (AVAL), the censor variable (CNSR) or the strata variables
+#'    contain NA, are removed during analysis.
 #' @param strata Character vector, representing the strata for Time-to-Event analysis. When NULL, an overall analysis is performed.
 #'    Default is NULL.
 #' @param AVAL Analysis value for Time-to-Event analysis. Default is "AVAL", as per CDISC ADaM guiding principles.
@@ -65,101 +67,68 @@
 #' visR::estimate_KM(data = veteran_adam, strata = "trt")
 
 estimate_KM <- function(
-   data = NULL
-  ,strata = NULL
-  ,CNSR = "CNSR"
-  ,AVAL = "AVAL"
-  ,...
+    data = NULL
+    ,strata = NULL
+    ,CNSR = "CNSR"
+    ,AVAL = "AVAL"
+    ,...
 ){
 
-# Capture input to validate user input for data argument -----------------
+  # Capture input to validate user input for data argument ---------------------
+
   dots <- rlang::dots_list(...)
 
- ## Get actual data name as symbol
- ### Magrittre pipe returns "." which inactivates recalls to survfit in downstream functions
- ### map passes .x as Call$data
- ### df: catch expressions that represent base R subsets
-  Call <- as.list(match.call())
-  dfExpr <- Call[["data"]]
+  # Validate argument inputs ---------------------------------------------------
 
- ## Validate `data` and capture data name
+  if (is.null(data))
+    stop(paste0("Data can't be NULL."))
 
-  if (is.null(data)) stop(paste0("Data can't be NULL."))
-
-  if (base::length(base::deparse(Call[["data"]])) == 1 && base::deparse(Call[["data"]]) %in% c(".", ".x")){
-    df <- the_lhs()
-    Call[["data"]] <- as.symbol(df)
-  } else {
-     df <- as.character(sub("\\[.*$", "", deparse(dfExpr))[1])
-  }
-
-  if (!(inherits(data, "data.frame") | inherits(data, "tibble") | inherits(data, "data.table"))) stop(paste0("Data can be of `class` dataframe or tibble or data.table."))
-
-  data <- as.data.frame(data)
-
-# Validate columns --------------------------------------------------------
+  if (!is.data.frame(data))
+    stop("Data does not have class `data.frame`.")
 
   reqcols <- c(strata, CNSR, AVAL)
-
   if (! all(reqcols %in% colnames(data))){
     stop(paste0("Following columns are missing from `data`: ", paste(setdiff(reqcols, colnames(data)), collapse = " "), "."))
   }
 
-  if (! is.numeric(data[[AVAL]])){
+  if (!is.numeric(data[[AVAL]])){
     stop("Analysis variable (AVAL) is not numeric.")
   }
 
-  if (! is.numeric(data[[CNSR]])){
+  if (!is.numeric(data[[CNSR]])){
     stop("Censor variable (CNSR) is not numeric.")
   }
 
-# Ensure the presence of at least one strata -----------------------------
+  # Remove NA from the analysis ------------------------------------------------
 
-  if (is.null(strata)){
-    main <- "1"
-  } else {
-    main <- paste(strata, collapse = " + ")
-  }
-
-# Remove NA from the analysis --------------------------------------------
-
-  data <- as.data.frame(data) %>%
-    tidyr::drop_na(AVAL, CNSR)
+  data <-
+    as.data.frame(data) %>%
+    tidyr::drop_na(any_of(c(AVAL, CNSR)))
 
   if (!is.null(strata)){
     data <- data %>%
-      tidyr::drop_na(any_of({{strata}}))
+      tidyr::drop_na(any_of(strata))
   }
 
-# Calculate survival and add time = 0 to survfit object -------------------
+  # Ensure the presence of at least one strata -----------------------------
 
- ## Reverse censoring: see ADaM guidelines versus R survival KM analysis
+  formula_rhs <-
+    ifelse(is.null(strata), "1", paste(strata, collapse = " + "))
 
-  formula <- stats::as.formula(paste0("survival::Surv(", AVAL, ", 1-", CNSR, ") ~ ", main))
+  # Calculate survival and add time = 0 to survfit object -------------------
 
-  survfit_object <- survival::survfit(
-    formula, data = data, ...
-  )
+  formula <- stats::as.formula(paste0("survival::Surv(", AVAL, ", 1-", CNSR, ") ~ ", formula_rhs))
 
-  survfit_object <- survival::survfit0(
-    survfit_object, start.time = 0
-  )
+  survfit_object <-
+    rlang::inject(survival::survfit(!!formula, data = data, !!!dots)) %>% # immediate resolves call arguments
+    survival::survfit0(start.time = 0)
 
+  # convert survfit() call to quo with attached envir --------------------------
 
-# Update Call with original info and dots, similar as update.default ------
+  survfit_object$call[[1]] <- rlang::expr(survival::survfit) # adding `survival::` prefix
+  survfit_object$call <- rlang::quo(!!survfit_object$call)
 
-  survfit_object$call[[1]] <- quote(survival::survfit)
-  survfit_object$call[["formula"]] <- formula
-  survfit_object$call[["data"]] <- Call[["data"]]
-  if (length(dots) > 0){
-    names(survfit_object[["call"]])
-    names(dots)
-    for (i in seq_along(dots)){
-      survfit_object$call[[names(dots)[i]]] <- unlist(dots[i], use.names = FALSE)
-    }
-  }
-
-# Add additional metadata -------------------------------------------------
+  # Add additional metadata ----------------------------------------------------
 
   if ("PARAM" %in% colnames(data) && length(setdiff(c("PARAMCD", "PARAM"), strata)) == 2){
     # we expect only one unique value => catch mistakes
@@ -171,32 +140,34 @@ estimate_KM <- function(
     survfit_object[["PARAMCD"]] <- paste(unique(data[["PARAMCD"]]), collapse = ", ")
   }
 
-# Artificial strata for easy downstream processing when strata=NULL ------
+  survfit_object$data_name <- .call_list_to_name(as.list(match.call()))
 
-  if (is.null(survfit_object[["strata"]])){
+  # Artificial strata for easy downstream processing when strata=NULL ----------
+
+  if (is.null(survfit_object[["strata"]])) {
     survfit_object[["strata"]] <- as.vector(length(survfit_object[["time"]]))
 
-    if (main == "1"){
+    if (is.null(strata)){
       # overall analysis
       attr(survfit_object[["strata"]], "names") <- "Overall"
-    } else {
+    }
+    else {
       # ~ x with One level in variable present
-      attr(survfit_object[["strata"]], "names") <- as.character(paste0(strata, "=", data[1, main]))
+      attr(survfit_object[["strata"]], "names") <- as.character(paste0(strata, "=", data[1, formula_rhs]))
     }
   }
 
   # add strata labels - main goal is for populating legend in visR(): label -- level1 strata -- levelx strata
   # these are the LABEL attributes of the stratifying variables (separate from above, which are the levels of the variables)
   # is null, when no stratifying variables present so legend title is not populated as Overall -- overall
+
   if (!is.null(strata)) {
     survfit_object[["strata_lbls"]] <-
       lapply(as.list(strata), function(x) attr(data[[x]], "label") %||% x) %>%
       rlang::set_names(strata)
   }
 
+  # Return ------------------------------------------------------------------
 
-
-# Return ------------------------------------------------------------------
-
-  return(survfit_object)
+  survfit_object
 }

@@ -99,7 +99,7 @@ testthat::test_that("T3.2 The S3 method, associated with a `survfit` object, has
                                    sum(survfit_object[["strata"]]))
 
   surv_object_df <- surv_object_df %>%
-    dplyr::mutate(call = rep(list(survfit_object[["call"]]),
+    dplyr::mutate(call = rep(list(rlang::quo_squash(survfit_object[["call"]])),
                              sum(survfit_object[["strata"]])))
 
   surv_object_df["PARAM"] <- rep(survfit_object[["PARAM"]],
@@ -125,7 +125,12 @@ testthat::test_that("T3.2 The S3 method, associated with a `survfit` object, has
   colnames(survfit_object_tidy)
   colnames(surv_object_df)
 
-  testthat::expect_equal(surv_object_df, survfit_object_tidy, check.attributes = FALSE)
+  # not checking call because it's a quo with an env attached, and matching the env is ¯\_(ツ)_/¯
+  testthat::expect_equal(
+    surv_object_df %>% dplyr::select(-call),
+    survfit_object_tidy %>% dplyr::select(-call),
+    check.attributes = FALSE
+  )
 
 })
 

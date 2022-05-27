@@ -260,7 +260,9 @@ visr.survfit <- function(
       }
 
     } else {
+
       x_label <- "Time"
+
     }
 
     if (!is.null(x_units)) { x_label = paste0(x_label, " (", x_units, ")") }

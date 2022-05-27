@@ -36,9 +36,13 @@
 #' T6.2 The function adds PARAM/PARAMCD when available
 #' T6.3 The function adds strata labels from the data when available
 #' T6.4 The function adds strata labels equal to the strata name when strata labels are not available from the data
+#' T6.5 The function adds the data set name
+#' T6.6 The function adds the environment to the call
 #' T7. The function call supports traceability
-#' T7.1 The function updates call$data when magrittr pipe is used
+#' T7.1 The function updates .$data_name when magrittr pipe is used
 #' T7.2 The function prefixes the function call with survival
+#' T8. Piped datasets still return accurate results
+#' T8.1 Piped datasets still return accurate results
 
 # Requirement T1 ----------------------------------------------------------
 
@@ -199,7 +203,7 @@ testthat::test_that("T3.7 When more than 1 strata is specified, the stratum labe
   survobj <- visR::estimate_KM(data = data, strata = "SEX")
 
   testthat::expect_equal(survobj$strata_lbls, list(SEX = "Sex"))
-  
+
   survobj <- visR::estimate_KM(data = data, strata = c("RACE", "SEX"))
 
   testthat::expect_equal(survobj$strata_lbls, list(RACE = "Race", SEX = "Sex"))
@@ -349,7 +353,7 @@ testthat::test_that("T6.2 The function adds PARAM/PARAMCD when available", {
   survobj_visR$strata_lbls <- NULL
 
   ## Compare common elements
-  Unique_Nms_visR <- base::setdiff(names(survobj_visR), names(survobj_survival))
+  Unique_Nms_visR <- setdiff(names(survobj_visR), c(names(survobj_survival), "data_name"))
   list_visR <- lapply(survobj_visR, "[")[Unique_Nms_visR]
 
   testthat::expect_equal(list_visR[[2]], "TTDE")
@@ -362,7 +366,7 @@ testthat::test_that("T6.3 The function adds strata labels from the data when ava
   survobj <- visR::estimate_KM(data = data, strata = "SEX")
 
   testthat::expect_equal(survobj$strata_lbls, list(SEX = "Sex"))
-  
+
 })
 
 testthat::test_that("T6.4 The function adds strata labels equal to the strata name when strata labels are not available from the data", {
@@ -375,41 +379,95 @@ testthat::test_that("T6.4 The function adds strata labels equal to the strata na
 
 })
 
+testthat::test_that("T6.5 The function adds the data set name", {
+
+  survobj <- visR::estimate_KM(data = adtte, strata = "SEX")
+  testthat::expect_equal(survobj$data_name, "adtte")
+
+  survobj <- visR::estimate_KM(data = adtte[adtte$SEX == "F", ], strata = "RACE")
+  testthat::expect_equal(survobj$data_name, "adtte")
+
+  survobj <- adtte %>%
+    dplyr::filter(SEX == "F")%>%
+    visR::estimate_KM(data = ., strata = "RACE")
+  testthat::expect_equal(survobj$data_name, "adtte")
+
+  survobj <- adtte %>%
+    dplyr::filter(SEX == "F")%>%
+    visR::estimate_KM(strata = "RACE")
+  testthat::expect_equal(survobj$data_name, "adtte")
+
+  # no data_name error when there is no data_name
+  expect_error(rlang::inject(visR::estimate_KM(data = !!adtte, strata = "RACE")), NA)
+})
+
+testthat::test_that("T6.6 The function adds the environment to the call", {
+
+  survobj <- visR::estimate_KM(data = adtte, strata = "SEX")
+
+  testthat::expect_true(inherits(attr(survobj$call, ".Environment"), "environment"))
+
+})
+
 
 # Requirement T7 ---------------------------------------------------------------
 
 testthat::context("estimate_KM - T7. The function call supports traceability")
 
-testthat::test_that("T7.1 The function updates call$data when magrittr pipe is used", {
-
-  ## survival package
-  survobj_survival <- adtte %>%
-    survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX, data = .) %>%
-    survival::survfit0(start.time = 0)
-  call_survival <- as.list(survobj_survival[["call"]])
-
-  ## survival package
-  survobj_visR <- adtte %>%
+testthat::test_that("T7.1 The function updates .$data_name when magrittr pipe is used", {
+  ## using .
+  survobj_visR <-
+    adtte %>%
     visR::estimate_KM(data = ., strata = "SEX")
-  call_visR <- as.list(survobj_visR[["call"]])
+  testthat::expect_equal(survobj_visR[["data_name"]], "adtte")
 
-  testthat::expect_equal(call_visR[["data"]], as.symbol("adtte"))
+  # without .
+  survobj_visR <-
+    adtte %>%
+    visR::estimate_KM(strata = "SEX")
+  testthat::expect_equal(survobj_visR[["data_name"]], "adtte")
 })
 
 testthat::test_that("T7.2 The function prefixes the function call with survival", {
-
   ## survival package
-  survobj_survival <- adtte %>%
-    survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ SEX, data = .) %>%
-    survival::survfit0(start.time = 0)
-  call_survival <- as.list(survobj_survival[["call"]])
-
-  ## survival package
-  survobj_visR <- adtte %>%
+  survobj_visR <-
+    adtte %>%
     visR::estimate_KM(data = ., strata = "SEX")
-  call_visR <- as.list(survobj_visR[["call"]])
+  call_visR <- as.list(rlang::quo_squash(survobj_visR[["call"]]))
 
   testthat::expect_equal(call_visR[[1]], quote(survival::survfit))
+})
+
+# Requirement T8 ---------------------------------------------------------------
+
+testthat::context("estimate_KM - T8. Piped datasets still return accurate results")
+
+testthat::test_that("T8.1 Piped datasets still return accurate results",{
+  estimate_KM <-
+    adtte %>%
+    dplyr::filter(SEX == "F", AGE < 60) %>%
+    visR::estimate_KM(strata = "TRTA")
+  survfit <-
+    survival::survfit(
+      survival::Surv(AVAL, 1 - CNSR) ~ TRTA,
+      data =
+        adtte %>%
+        dplyr::filter(SEX == "F", AGE < 60)
+    ) %>%
+    survival::survfit0()
+  vals_to_check <- names(survfit) %>% setdiff(c("strata", "call"))
+  testthat::expect_equal(unclass(survfit)[vals_to_check], unclass(estimate_KM)[vals_to_check])
+
+  estimate_KM <-
+    adtte[1:100, ] %>%
+    visR::estimate_KM(strata = "TRTA")
+  survfit <-
+    survival::survfit(
+      survival::Surv(AVAL, 1 - CNSR) ~ TRTA,
+      data = adtte[1:100, ]
+    ) %>%
+    survival::survfit0()
+  testthat::expect_equal(unclass(survfit)[vals_to_check], unclass(estimate_KM)[vals_to_check])
 })
 
 # END OF CODE -------------------------------------------------------------

@@ -8,7 +8,8 @@ estimate_KM(data = NULL, strata = NULL, CNSR = "CNSR", AVAL = "AVAL", ...)
 }
 \arguments{
 \item{data}{The name of the dataset for Time-to-Event analysis based on the Analysis Data Model (ADaM) principles. The dataset is expected to have
-one record per subject per analysis parameter. Rows in which the analysis variable (AVAL) or the censor variable (CNSR) contain NA, are removed during analysis.}
+one record per subject per analysis parameter. Rows in which the analysis variable (AVAL), the censor variable (CNSR) or the strata variables
+contain NA, are removed during analysis.}
 
 \item{strata}{Character vector, representing the strata for Time-to-Event analysis. When NULL, an overall analysis is performed.
 Default is NULL.}
@@ -30,6 +31,7 @@ argument are removed.
 Alternatively, PARAM/PARAMCD can be used in the \code{strata} argument. \cr
 The result is an object of class \code{survfit} which can be used in downstream functions and methods that rely on the \code{survfit} class.
 When strata are present, the returned survfit object is supplemented with the a named list of the stratum and associated label, if present.
+To support full traceability, the data set name is captured in the named list and the call is captured within its corresponding environment.
 By default:
 \itemize{
 \item{The Kaplan Meier estimate is estimated directly (stype = 1).}
