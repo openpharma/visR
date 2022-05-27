@@ -39,7 +39,7 @@ the_lhs <- function() {
   if (length(base::deparse(call_list[["data"]])) == 1 &&
       deparse(call_list[["data"]]) %in% c(".", ".x", "..1")) {
     df <- the_lhs()
-    call_list[["data"]] <- as.symbol(df)
+    call_list[["data"]] <- as.symbol(df) %>% as.character()
   }
   else {
     df <- as.character(sub("\\[.*$", "", deparse(call_list[["data"]]))[1])

@@ -390,9 +390,15 @@ testthat::test_that("T6.5 The function adds the data set name", {
   survobj <- adtte %>%
     dplyr::filter(SEX == "F")%>%
     visR::estimate_KM(data = ., strata = "RACE")
-
   testthat::expect_equal(survobj$data_name, "adtte")
 
+  survobj <- adtte %>%
+    dplyr::filter(SEX == "F")%>%
+    visR::estimate_KM(strata = "RACE")
+  testthat::expect_equal(survobj$data_name, "adtte")
+
+  # no data_name error when there is no data_name
+  expect_error(rlang::inject(visR::estimate_KM(data = !!adtte, strata = "RACE")), NA)
 })
 
 testthat::test_that("T6.6 The function adds the environment to the call", {
@@ -413,13 +419,13 @@ testthat::test_that("T7.1 The function updates .$data_name when magrittr pipe is
   survobj_visR <-
     adtte %>%
     visR::estimate_KM(data = ., strata = "SEX")
-  testthat::expect_equal(survobj_visR[["data_name"]], as.symbol("adtte"))
+  testthat::expect_equal(survobj_visR[["data_name"]], "adtte")
 
   # without .
   survobj_visR <-
     adtte %>%
     visR::estimate_KM(strata = "SEX")
-  testthat::expect_equal(survobj_visR[["data_name"]], as.symbol("adtte"))
+  testthat::expect_equal(survobj_visR[["data_name"]], "adtte")
 })
 
 testthat::test_that("T7.2 The function prefixes the function call with survival", {

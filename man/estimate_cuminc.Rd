@@ -15,7 +15,8 @@ estimate_cuminc(
 }
 \arguments{
 \item{data}{The name of the dataset for Time-to-Event analysis based on the Analysis Data Model (ADaM) principles. The dataset is expected to have
-one record per subject per analysis parameter. Rows in which the analysis variable (AVAL) or the censor variable (CNSR) contain NA, are removed during analysis.}
+one record per subject per analysis parameter. Rows in which the analysis variable (AVAL), the censor variable (CNSR) or the strata variables
+contain NA, are removed during analysis.}
 
 \item{strata}{Character vector, representing the strata for Time-to-Event analysis. When NULL, an overall analysis is performed.
 Default is NULL.}
