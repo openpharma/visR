@@ -87,8 +87,6 @@ estimate_KM.data.frame <- function(
     dots[["formula"]] <- NULL
     return(rlang::inject(estimate_KM.formula(formula = formula, data = data, !!!dots)))
   }
-  # Capture input to validate user input for data argument ---------------------
-  dots <- rlang::dots_list(...)
 
   # Validate argument inputs ---------------------------------------------------
   if (is.null(data))
@@ -176,6 +174,7 @@ estimate_KM_bridge <- function(
   formula_rhs <-
     ifelse(is.null(strata), "1", paste(strata, collapse = " + "))
 
+  # Calculate survival and add time = 0 to survfit object -------------------
   survfit_object <-
     rlang::inject(survival::survfit(!!formula, data = data, !!!dots)) %>% # immediate resolves call arguments
     survival::survfit0(start.time = 0)
@@ -183,29 +182,6 @@ estimate_KM_bridge <- function(
   # convert survfit() call to quo with attached envir --------------------------
   survfit_object$call[[1]] <- rlang::expr(survival::survfit) # adding `survival::` prefix
   survfit_object$call <- rlang::quo(!!survfit_object$call)
-
-  # Remove NA from the analysis ------------------------------------------------
-  data <-
-    as.data.frame(data) %>%
-    tidyr::drop_na(any_of(c(AVAL, CNSR)))
-
-  if (!is.null(strata)){
-    data <- data %>%
-      tidyr::drop_na(any_of(strata))
-  }
-
-  # Ensure the presence of at least one strata -----------------------------
-
-  formula_rhs <-
-    ifelse(is.null(strata), "1", paste(strata, collapse = " + "))
-
-  # Calculate survival and add time = 0 to survfit object -------------------
-
-  formula <- stats::as.formula(paste0("survival::Surv(", AVAL, ", 1-", CNSR, ") ~ ", formula_rhs))
-
-  survfit_object <-
-    rlang::inject(survival::survfit(!!formula, data = data, !!!dots)) %>% # immediate resolves call arguments
-    survival::survfit0(start.time = 0)
 
   # convert survfit() call to quo with attached envir --------------------------
 
