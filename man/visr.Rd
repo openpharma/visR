@@ -48,18 +48,13 @@ visr(x, ...)
 )
 }
 \arguments{
-\item{x}{Object of class \code{survfit}, \code{attritiontable} or \code{visr.tidycuminc}}
+\item{x}{Object of class \code{survfit}, \code{attritiontable}, or \code{tidycuminc}}
 
 \item{...}{other arguments passed on to the method}
 
-\item{x_label}{\code{character} Label for the x-asis. When not specified,
-the algorithm will look for "PARAM" information inside the list structure
-of the \code{survfit} object.
-If no "PARAM" information is available, the algorithm will look for "PARAMCD"
-information inside the list structure.
-If both "PARAM" and "PARAMCD" are missing then "time" is used as label.
-Note that "PARAM"/"PARAMCD" information is automatically added when using
-visR::estimate_KM if the input data follows ADaM data model structure.}
+\item{x_label}{\code{character} Label for the x-axis. When not specified,
+the function will look for \code{"PARAM"} or \code{"PARAMCD"} information in the original data set (CDISC standards).
+If no \code{"PARAM"}/\code{"PARAMCD"} information is available, the default x-axis label is \code{"Time"}.}
 
 \item{y_label}{\code{character} Label for the y-axis. When not specified,
 the default will do a proposal, depending on the \code{fun} argument.}

@@ -5,15 +5,10 @@
 #'
 #' @seealso \code{\link[ggplot2]{ggplot}}
 #'
-#' @param x Object of class `survfit`, `attritiontable` or `visr.tidycuminc`
-#' @param x_label \code{character} Label for the x-asis. When not specified,
-#'   the algorithm will look for "PARAM" information inside the list structure
-#'   of the `survfit` object.
-#'   If no "PARAM" information is available, the algorithm will look for "PARAMCD"
-#'   information inside the list structure.
-#'   If both "PARAM" and "PARAMCD" are missing then "time" is used as label.
-#'   Note that "PARAM"/"PARAMCD" information is automatically added when using
-#'   visR::estimate_KM if the input data follows ADaM data model structure.
+#' @param x Object of class `survfit`, `attritiontable`, or `tidycuminc`
+#' @param x_label \code{character} Label for the x-axis. When not specified,
+#'   the function will look for `"PARAM"` or `"PARAMCD"` information in the original data set (CDISC standards).
+#'   If no `"PARAM"`/`"PARAMCD"` information is available, the default x-axis label is `"Time"`.
 #' @param y_label \code{character} Label for the y-axis. When not specified,
 #'   the default will do a proposal, depending on the `fun` argument.
 #' @param x_units Unit to be added to the x_label (x_label (x_unit)).
