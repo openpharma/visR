@@ -240,7 +240,7 @@ testthat::test_that("T5.1 P-values are accurate when a filtered data frame is pi
     ) %>%
     {pchisq(.$chisq, length(.$n) - 1, lower.tail = FALSE)} %>%
     visR:::.pvalformat()
-  expect_equal(survfit_p, survdiff_p)
+  testthat::expect_equal(survfit_p, survdiff_p)
 })
 
 # END OF CODE -------------------------------------------------------------

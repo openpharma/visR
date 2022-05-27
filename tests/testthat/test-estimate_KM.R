@@ -36,6 +36,8 @@
 #' T6.2 The function adds PARAM/PARAMCD when available
 #' T6.3 The function adds strata labels from the data when available
 #' T6.4 The function adds strata labels equal to the strata name when strata labels are not available from the data
+#' T6.5 The function adds the data set name
+#' T6.6 The function adds the environment to the call
 #' T7. The function call supports traceability
 #' T7.1 The function updates .$data_name when magrittr pipe is used
 #' T7.2 The function prefixes the function call with survival
@@ -377,6 +379,30 @@ testthat::test_that("T6.4 The function adds strata labels equal to the strata na
 
 })
 
+testthat::test_that("T6.5 The function adds the data set name", {
+
+  survobj <- visR::estimate_KM(data = adtte, strata = "SEX")
+  testthat::expect_equal(survobj$data_name, "adtte")
+
+  survobj <- visR::estimate_KM(data = adtte[adtte$SEX == "F", ], strata = "RACE")
+  testthat::expect_equal(survobj$data_name, "adtte")
+
+  survobj <- adtte %>%
+    dplyr::filter(SEX == "F")%>%
+    visR::estimate_KM(data = ., strata = "RACE")
+
+  testthat::expect_equal(survobj$data_name, "adtte")
+
+})
+
+testthat::test_that("T6.6 The function adds the environment to the call", {
+
+  survobj <- visR::estimate_KM(data = adtte, strata = "SEX")
+
+  testthat::expect_true(inherits(attr(survobj$call, ".Environment"), "environment"))
+
+})
+
 
 # Requirement T7 ---------------------------------------------------------------
 
@@ -424,7 +450,7 @@ testthat::test_that("T8.1 Piped datasets still return accurate results",{
     ) %>%
     survival::survfit0()
   vals_to_check <- names(survfit) %>% setdiff(c("strata", "call"))
-  expect_equal(unclass(survfit)[vals_to_check], unclass(estimate_KM)[vals_to_check])
+  testthat::expect_equal(unclass(survfit)[vals_to_check], unclass(estimate_KM)[vals_to_check])
 
   estimate_KM <-
     adtte[1:100, ] %>%
@@ -435,7 +461,7 @@ testthat::test_that("T8.1 Piped datasets still return accurate results",{
       data = adtte[1:100, ]
     ) %>%
     survival::survfit0()
-  expect_equal(unclass(survfit)[vals_to_check], unclass(estimate_KM)[vals_to_check])
+  testthat::expect_equal(unclass(survfit)[vals_to_check], unclass(estimate_KM)[vals_to_check])
 })
 
 # END OF CODE -------------------------------------------------------------

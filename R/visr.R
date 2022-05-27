@@ -53,7 +53,7 @@
 #' @param ... other arguments passed on to the method
 #'
 #' @return Object of class \code{ggplot} and \code{ggsurvplot} for `survfit` objects.
-#' 
+#'
 #' @rdname visr
 #'
 #' @export
@@ -266,9 +266,8 @@ visr.survfit <- function(
 
     } else {
 
-      warning("The x-axis label was not specified and could also not be automatically determined due to absence of 'PARAM' and 'PARAMCD'.")
-
       x_label <- "Time"
+
     }
 
     if (!is.null(x_units)) { x_label = paste0(x_label, " (", x_units, ")") }
@@ -343,7 +342,7 @@ visr.survfit <- function(
 }
 
 #' @examples
-#' 
+#'
 #' ## Create attrition
 #' attrition <- visR::get_attrition(adtte,
 #'     criteria_descriptions = c("1. Not in Placebo Group",
