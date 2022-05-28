@@ -540,6 +540,85 @@ testthat::test_that("T9.1 Results are accurate without error", {
     ignore_attr = TRUE,
     check.attributes = FALSE
   )
+
+  cuminc2 <-
+    visR::estimate_cuminc(
+      tidycmprsk::trial,
+      AVAL = "ttdeath",
+      CNSR = "death_cr",
+      strata = "trt"
+    )
+
+  testthat::expect_equal(
+    cuminc2 %>%
+      get_risktable(times = 12,
+                    statlist = c("n.event", "n.risk", "n.censor"),
+                    collapse = TRUE),
+    cuminc %>%
+      tidycmprsk::tidy(times = 12) %>%
+      dplyr::filter(outcome %in% "death from cancer") %>%
+      dplyr::select(time, n.risk, n.event, n.censor) %>%
+      tidyr::pivot_longer(cols = c(n.risk, n.event, n.censor)) %>%
+      dplyr::mutate(
+        name = factor(name,
+                      levels = c("n.event", "n.risk", "n.censor"),
+                      labels = c("Events", "At Risk", "Censored"))
+      ) %>%
+      dplyr::arrange(.data[["name"]]) %>%
+      rlang::set_names(c("time", "y_values", "Overall")) %>%
+      as.data.frame(),
+    ignore_attr = TRUE,
+    check.attributes = FALSE
+  )
+
+  testthat::expect_equal(
+    cuminc2 %>%
+      get_risktable(times = 12,
+                    statlist = c("n.event", "n.risk", "n.censor"),
+                    collapse = FALSE),
+    cuminc2 %>%
+      tidycmprsk::tidy(times = 12) %>%
+      dplyr::filter(outcome %in% "death from cancer") %>%
+      dplyr::select(time, strata, n.risk, n.event, n.censor) %>%
+      tidyr::pivot_longer(cols = c(n.risk, n.event, n.censor)) %>%
+      tidyr::pivot_wider(
+        id_cols = c(time, name), names_from = strata, values_from = value) %>%
+      dplyr::mutate(
+        name = factor(name,
+                      levels = c("n.event", "n.risk", "n.censor"),
+                      labels = c("Events", "At Risk", "Censored"))
+      ) %>%
+      dplyr::arrange(.data[["name"]]) %>%
+      dplyr::rename(y_values = name) %>%
+      as.data.frame(),
+    ignore_attr = TRUE,
+    check.attributes = FALSE
+  )
+
+  testthat::expect_equal(
+    cuminc2 %>%
+      get_risktable(times = 12,
+                    statlist = c("n.event", "n.risk", "n.censor"),
+                    group = "statlist"),
+    cuminc2 %>%
+      tidycmprsk::tidy(times = 12) %>%
+      dplyr::filter(outcome %in% "death from cancer") %>%
+      dplyr::select(time, strata, n.risk, n.event, cum.event, n.censor, cum.censor) %>%
+      dplyr::rename(y_values = strata) %>%
+      as.data.frame(),
+    ignore_attr = TRUE,
+    check.attributes = FALSE
+  )
+
+  expect_equal(
+    cuminc2 %>%
+      get_risktable(times = 12,
+                    statlist = c("n.event", "n.risk", "n.censor"),
+                    label = c("No. Events", "No. Risk", "No. Censored")) %>%
+      dplyr::pull(y_values) %>%
+      levels(),
+    c("No. Events", "No. Risk", "No. Censored")
+  )
 })
 
 # END OF CODE -------------------------------------------------------------
