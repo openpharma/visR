@@ -26,7 +26,7 @@
 #' @param collapse Boolean, indicates whether to present the data overall.
 #'   Default is FALSE.
 #' @param ... other arguments passed on to the method
-#' 
+#'
 #' @return return list of attributes the form the risk table i.e.
 #'   number of patients at risk per strata
 #' @rdname get_risktable
@@ -228,7 +228,7 @@ get_risktable.survfit <- function(
 #' @export
 get_risktable.tidycuminc <- function(x
                                      ,times = pretty(x$tidy$time, 10)
-                                     ,statlist = c("n.risk")
+                                     ,statlist = "n.risk"
                                      ,label = NULL
                                      ,group = c("strata", "statlist")
                                      ,collapse = FALSE
