@@ -45,3 +45,12 @@ the_lhs <- function() {
     df <- as.character(sub("\\[.*$", "", deparse(call_list[["data"]]))[1])
   }
 }
+
+#' @title Is visR survfit?
+#'
+#' @return logical
+#' @noRd
+is_visr_survfit <- function(x) {
+  # the visr survift object saves a quosure instead of a call
+  inherits(x, "survfit") && rlang::is_quosure(x$call)
+}
