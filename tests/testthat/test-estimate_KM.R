@@ -477,14 +477,14 @@ testthat::test_that("T8.1 Piped datasets still return accurate results",{
 
 testthat::context("estimate_KM - T9. The user can specify formula argument")
 
-testthat::test_that("T9.1 The formula method returns the same results and the data method.", {
+testthat::test_that("T9.1 The formula argument returns the same results and the data method.", {
   km1 <- estimate_KM(data = adtte, strata = "SEX")
   km2 <- estimate_KM(formula = Surv(AVAL, 1 - CNSR) ~ SEX, data = adtte)
   km1$call <- km2$call <- NULL
   expect_equal(km1, km2)
 })
 
-testthat::test_that("T9.2 The formula method triggers error messages.", {
+testthat::test_that("T9.2 The formula argument triggers error messages.", {
   expect_error(
     estimate_KM(formula = Surv(AVAL, 1 - CNSR) ~ SEX, data = letters)
   )
