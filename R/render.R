@@ -28,6 +28,15 @@ render <- function(data,
 
 
 
+#' @param data
+#'
+#' @param title
+#' @param datasource
+#' @param footnote
+#' @param output_format
+#' @param engine
+#' @param download_format
+#'
 #' @rdname render
 #' @method render tableone
 #' @return A table-like data structure, possibly interactive depending on the choice of the engine
@@ -120,6 +129,15 @@ render.tableone <- function(
                     download_format)
 }
 
+#' @param data
+#'
+#' @param title
+#' @param datasource
+#' @param footnote
+#' @param output_format
+#' @param engine
+#' @param download_format
+#'
 #' @rdname render
 #' @method render risktable
 #' @export
@@ -195,6 +213,15 @@ render.risktable <- function(
 }
 
 
+#' @param data
+#'
+#' @param title
+#' @param datasource
+#' @param footnote
+#' @param output_format
+#' @param engine
+#' @param download_format
+#'
 #' @rdname render
 #' @method render data.frame
 #' @export
@@ -296,10 +323,32 @@ render.data.frame <- function(
 
 
 ### Functions for datatable
+#' Title
+#'
+#' @param data
+#' @param title
+#' @param download_format
+#' @param source_cap
+#'
+#' @return
+#' @export
+#'
+#' @examples
 render_datatable <- function(data, title, download_format, source_cap){
   UseMethod("render_datatable")
 }
 
+#' Title
+#'
+#' @param data
+#' @param title
+#' @param download_format
+#' @param source_cap
+#'
+#' @return
+#' @export
+#'
+#' @examples
 render_datatable.tableone <- function(data, title, download_format, source_cap) {
 
   if (is.null(download_format)) {
@@ -331,6 +380,17 @@ render_datatable.tableone <- function(data, title, download_format, source_cap) 
   return(table_out)
 }
 
+#' Title
+#'
+#' @param data
+#' @param title
+#' @param download_format
+#' @param source_cap
+#'
+#' @return
+#' @export
+#'
+#' @examples
 render_datatable.data.frame <- function(data, title, download_format, source_cap) {
 
   if (is.null(download_format)) {
@@ -356,6 +416,17 @@ render_datatable.data.frame <- function(data, title, download_format, source_cap
 
 
 ### Functions for gt rendering
+#' Title
+#'
+#' @param data
+#' @param title
+#' @param datasource
+#' @param footnote
+#'
+#' @return
+#' @export
+#'
+#' @examples
 render_gt <- function(data, title, datasource, footnote){
   # identify numeric columns for special formatting later
   numcols <- data %>% dplyr::select_if(is.numeric) %>% names()
@@ -373,10 +444,28 @@ render_gt <- function(data, title, datasource, footnote){
 }
 
 # Create initial gt object
+#' Title
+#'
+#' @param data
+#' @param numcols
+#'
+#' @return
+#' @export
+#'
+#' @examples
 get_gt <- function(data, numcols){
   UseMethod("get_gt")
 }
 
+#' Title
+#'
+#' @param data
+#' @param numcols
+#'
+#' @return
+#' @export
+#'
+#' @examples
 get_gt.tableone <- function(data, numcols) {
 
   gt <- gt::gt(data, groupname_col = "variable",
@@ -390,6 +479,15 @@ get_gt.tableone <- function(data, numcols) {
   return(gt)
 }
 
+#' Title
+#'
+#' @param data
+#' @param numcols
+#'
+#' @return
+#' @export
+#'
+#' @examples
 get_gt.data.frame <- function(data, numcols) {
 
   gt <- gt::gt(data)
@@ -398,6 +496,17 @@ get_gt.data.frame <- function(data, numcols) {
 }
 
 # add metadata to gt
+#' Title
+#'
+#' @param gt
+#' @param title
+#' @param datasource
+#' @param footnote
+#'
+#' @return
+#' @export
+#'
+#' @examples
 add_metadata_gt <- function(gt, title, datasource, footnote) {
 
   table_out <- gt %>% gt::tab_header(title = title)
@@ -413,6 +522,15 @@ add_metadata_gt <- function(gt, title, datasource, footnote) {
 }
 
 ### Check if the input works
+#' Title
+#'
+#' @param output_format
+#' @param engine
+#'
+#' @return
+#' @export
+#'
+#' @examples
 check_rendering_input <- function(output_format = NULL, engine = NULL) {
 
   if (missing(output_format) | is.null(output_format) | missing(engine) | is.null(engine)) {
