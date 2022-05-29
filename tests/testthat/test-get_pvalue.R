@@ -31,6 +31,9 @@
 #' T4.6 The Chisq statistic has the same precision as the pvalue
 #' T5. Piped datasets still return accurate results
 #' T5.1 P-values are accurate when a filtered data frame is piped
+#' T6. Function works with `survival::survfit()` objects
+#' T6.1 Function works with `survival::survfit()` objects
+#' T6.2 Function messages users appropriately when data is piped, and p-value cannot be calculated
 
 # Requirement T1 ----------------------------------------------------------
 
@@ -242,5 +245,27 @@ testthat::test_that("T5.1 P-values are accurate when a filtered data frame is pi
     visR:::.pvalformat()
   expect_equal(survfit_p, survdiff_p)
 })
+
+# Requirement T6 ---------------------------------------------------------------
+
+testthat::context("get_pvalue - T6. Function works with `survival::survfit()` objects")
+
+testthat::test_that("T6.1 Function works with `survival::survfit()` objects", {
+  expect_error(
+    survival::survfit(survival::Surv(time, status) ~ sex, data = survival::lung) %>%
+      get_pvalue(),
+    NA
+  )
+})
+
+testthat::test_that("T6.2 Function messages users appropriately when data is piped, and p-value cannot be calculated",{
+  expect_error(
+    lung %>%
+      survfit(Surv(time, status) ~ sex, data = .) %>%
+      get_pvalue(),
+    "*estimate_KM*" # error message includes reference to `estimate_KM()` function.
+  )
+})
+
 
 # END OF CODE -------------------------------------------------------------
