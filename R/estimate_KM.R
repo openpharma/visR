@@ -32,7 +32,8 @@
 #' @param ... additional arguments passed on to the ellipsis of the call \code{survival::survfit.formula(data = data, formula = Surv(AVAL, 1-CNSR) ~ strata), ...)} .
 #'    Use \code{?survival::survfit.formula} and \code{?survival::survfitCI} for more information.
 #' @param formula `r lifecycle::badge('experimental')` formula with `survival::Surv()` on RHS and stratifying variables on the LHS. Use
-#' `~ 1` on the LHS for unstratified estimates. This argument will be passed to `survival::survfit(formula=)`.
+#' `~ 1` on the LHS for unstratified estimates. This argument will be passed to `survival::survfit(formula=)`. When this argument is
+#' used, arguments AVAL, CNSR, and strata strata are ignored.
 #'
 #' @return survfit object, extended by elements PARAM/PARAMCD, ready for downstream processing in estimation or visualization functions and methods.
 #'

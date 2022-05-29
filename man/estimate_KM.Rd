@@ -26,7 +26,8 @@ Default is \code{NULL}.
 }}
 
 \item{formula}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} formula with \code{survival::Surv()} on RHS and stratifying variables on the LHS. Use
-\code{~ 1} on the LHS for unstratified estimates. This argument will be passed to \code{survival::survfit(formula=)}.}
+\code{~ 1} on the LHS for unstratified estimates. This argument will be passed to \code{survival::survfit(formula=)}. When this argument is
+used, arguments AVAL, CNSR, and strata strata are ignored.}
 
 \item{...}{additional arguments passed on to the ellipsis of the call \code{survival::survfit.formula(data = data, formula = Surv(AVAL, 1-CNSR) ~ strata), ...)} .
 Use \code{?survival::survfit.formula} and \code{?survival::survfitCI} for more information.}
