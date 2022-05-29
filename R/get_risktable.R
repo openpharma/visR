@@ -31,16 +31,13 @@
 #'   number of patients at risk per strata
 #' @rdname get_risktable
 #'
-#' @export
-
 get_risktable <- function(x, ...){
   UseMethod("get_risktable")
 }
 
 #' @rdname get_risktable
 #' @method get_risktable survfit
-#' @export
-
+#'
 get_risktable.survfit <- function(
   x
   ,times = NULL
@@ -225,7 +222,7 @@ get_risktable.survfit <- function(
 
 #' @rdname get_risktable
 #' @method get_risktable tidycuminc
-#' @export
+#'
 get_risktable.tidycuminc <- function(x
                                      ,times = pretty(x$tidy$time, 10)
                                      ,statlist = "n.risk"
@@ -340,5 +337,3 @@ get_risktable.tidycuminc <- function(x
 
   return(label[seq_along(statlist)])
 }
-
-
