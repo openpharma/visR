@@ -1,6 +1,6 @@
 #' @keywords internal
 #' @importFrom rlang .data .env %||%
-#' @importFrom survival survfit Surv
+#' @importFrom survival survfit
 "_PACKAGE"
 
 ## usethis namespace: start

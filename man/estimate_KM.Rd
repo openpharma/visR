@@ -2,21 +2,31 @@
 % Please edit documentation in R/estimate_KM.R
 \name{estimate_KM}
 \alias{estimate_KM}
-\title{Wrapper for Kaplan Meier Time-to-Event analysis}
+\title{Wrapper for Kaplan-Meier Time-to-Event analysis}
 \usage{
-estimate_KM(data = NULL, strata = NULL, CNSR = "CNSR", AVAL = "AVAL", ...)
+estimate_KM(
+  data = NULL,
+  strata = NULL,
+  CNSR = "CNSR",
+  AVAL = "AVAL",
+  formula = NULL,
+  ...
+)
 }
 \arguments{
-\item{data}{The name of the dataset for Time-to-Event analysis based on the Analysis Data Model (ADaM) principles. The dataset is expected to have
-one record per subject per analysis parameter. Rows in which the analysis variable (AVAL), the censor variable (CNSR) or the strata variables
-contain NA, are removed during analysis.}
+\item{data}{The name of the dataset. The dataset is expected to have
+one record per subject per analysis parameter. Rows with missing observations included in the analysis are removed.}
 
-\item{strata}{Character vector, representing the strata for Time-to-Event analysis. When NULL, an overall analysis is performed.
-Default is NULL.}
+\item{AVAL, CNSR, strata}{These arguments are used to construct a formula to be passed to \code{survival::survfit(formula=)}.
+\itemize{
+\item \code{AVAL} Analysis value for Time-to-Event analysis. Default is \code{"AVAL"}, as per CDISC ADaM guiding principles.
+\item \code{CNSR} Censor for Time-to-Event analysis. Default is \code{"CNSR"}, as per CDISC ADaM guiding principles.
+\item \code{strata} Character vector, representing the strata for Time-to-Event analysis. When NULL, an overall analysis is performed.
+Default is \code{NULL}.
+}}
 
-\item{CNSR}{Censor for Time-to-Event analysis. Default is "CNSR", as per CDISC ADaM guiding principles.}
-
-\item{AVAL}{Analysis value for Time-to-Event analysis. Default is "AVAL", as per CDISC ADaM guiding principles.}
+\item{formula}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} formula with \code{survival::Surv()} on RHS and stratifying variables on the LHS. Use
+\code{~ 1} on the LHS for unstratified estimates. This argument will be passed to \code{survival::survfit(formula=)}.}
 
 \item{...}{additional arguments passed on to the ellipsis of the call \code{survival::survfit.formula(data = data, formula = Surv(AVAL, 1-CNSR) ~ strata), ...)} .
 Use \code{?survival::survfit.formula} and \code{?survival::survfitCI} for more information.}
@@ -25,10 +35,7 @@ Use \code{?survival::survfit.formula} and \code{?survival::survfitCI} for more i
 survfit object, extended by elements PARAM/PARAMCD, ready for downstream processing in estimation or visualization functions and methods.
 }
 \description{
-This function is a wrapper around \code{survival::survfit.formula} to perform a Kaplan-Meier analysis, assuming right-censored data.
-The function expects that the data has been filtered on the parameter (PARAM/PARAMCD) of interest. All NA values in the CNSR, AVAL and strata
-argument are removed.
-Alternatively, PARAM/PARAMCD can be used in the \code{strata} argument. \cr
+This function is a wrapper around \code{survival::survfit.formula()} to perform a Kaplan-Meier analysis, assuming right-censored data.
 The result is an object of class \code{survfit} which can be used in downstream functions and methods that rely on the \code{survfit} class.
 When strata are present, the returned survfit object is supplemented with the a named list of the stratum and associated label, if present.
 To support full traceability, the data set name is captured in the named list and the call is captured within its corresponding environment.
@@ -39,6 +46,12 @@ By default:
 The MLE (H.hat(t) = -log(S.hat(t))) can't be requested.}
 \item{A two-sided pointwise 0.95 confidence interval is estimated using a log transformation (conf.type = "log").}
 }
+
+Function has two S3 methods: one for data frames and one for formulas. The first is optimized for CDISC data, using default naming conventions,
+e.g. \code{"AVAL"} for the analysis variable and \code{"CNSR"} for the censoring variable.
+The function expects that the data has been filtered on the parameter (PARAM/PARAMCD) of interest. All NA values in the CNSR, AVAL and strata
+argument are removed.
+Alternatively, PARAM/PARAMCD can be used in the \code{strata} argument. \cr
 }
 \examples{
 

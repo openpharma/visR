@@ -1,9 +1,8 @@
-#' @title Wrapper for Kaplan Meier Time-to-Event analysis
+
+
+#' @title Wrapper for Kaplan-Meier Time-to-Event analysis
 #'
-#' @description This function is a wrapper around \code{survival::survfit.formula} to perform a Kaplan-Meier analysis, assuming right-censored data.
-#'    The function expects that the data has been filtered on the parameter (PARAM/PARAMCD) of interest. All NA values in the CNSR, AVAL and strata
-#'    argument are removed.
-#'    Alternatively, PARAM/PARAMCD can be used in the \code{strata} argument. \cr
+#' @description This function is a wrapper around `survival::survfit.formula()` to perform a Kaplan-Meier analysis, assuming right-censored data.
 #'    The result is an object of class \code{survfit} which can be used in downstream functions and methods that rely on the \code{survfit} class.
 #'    When strata are present, the returned survfit object is supplemented with the a named list of the stratum and associated label, if present.
 #'    To support full traceability, the data set name is captured in the named list and the call is captured within its corresponding environment.
@@ -15,17 +14,25 @@
 #'      \item{A two-sided pointwise 0.95 confidence interval is estimated using a log transformation (conf.type = "log").}
 #'    }
 #'
+#'    Function has two S3 methods: one for data frames and one for formulas. The first is optimized for CDISC data, using default naming conventions,
+#'    e.g. `"AVAL"` for the analysis variable and `"CNSR"` for the censoring variable.
+#'    The function expects that the data has been filtered on the parameter (PARAM/PARAMCD) of interest. All NA values in the CNSR, AVAL and strata
+#'    argument are removed.
+#'    Alternatively, PARAM/PARAMCD can be used in the \code{strata} argument. \cr
+#'
 #' @seealso \code{\link[survival]{survfit.formula} \link[survival]{survfitCI}}
 #'
-#' @param data The name of the dataset for Time-to-Event analysis based on the Analysis Data Model (ADaM) principles. The dataset is expected to have
-#'    one record per subject per analysis parameter. Rows in which the analysis variable (AVAL), the censor variable (CNSR) or the strata variables
-#'    contain NA, are removed during analysis.
-#' @param strata Character vector, representing the strata for Time-to-Event analysis. When NULL, an overall analysis is performed.
-#'    Default is NULL.
-#' @param AVAL Analysis value for Time-to-Event analysis. Default is "AVAL", as per CDISC ADaM guiding principles.
-#' @param CNSR Censor for Time-to-Event analysis. Default is "CNSR", as per CDISC ADaM guiding principles.
+#' @param data The name of the dataset. The dataset is expected to have
+#'    one record per subject per analysis parameter. Rows with missing observations included in the analysis are removed.
+#' @param AVAL,CNSR,strata These arguments are used to construct a formula to be passed to `survival::survfit(formula=)`.
+#' - `AVAL` Analysis value for Time-to-Event analysis. Default is `"AVAL"`, as per CDISC ADaM guiding principles.
+#' - `CNSR` Censor for Time-to-Event analysis. Default is `"CNSR"`, as per CDISC ADaM guiding principles.
+#' - `strata` Character vector, representing the strata for Time-to-Event analysis. When NULL, an overall analysis is performed.
+#'    Default is `NULL`.
 #' @param ... additional arguments passed on to the ellipsis of the call \code{survival::survfit.formula(data = data, formula = Surv(AVAL, 1-CNSR) ~ strata), ...)} .
 #'    Use \code{?survival::survfit.formula} and \code{?survival::survfitCI} for more information.
+#' @param formula `r lifecycle::badge('experimental')` formula with `survival::Surv()` on RHS and stratifying variables on the LHS. Use
+#' `~ 1` on the LHS for unstratified estimates. This argument will be passed to `survival::survfit(formula=)`.
 #'
 #' @return survfit object, extended by elements PARAM/PARAMCD, ready for downstream processing in estimation or visualization functions and methods.
 #'
@@ -71,6 +78,7 @@ estimate_KM <- function(
     ,strata = NULL
     ,CNSR = "CNSR"
     ,AVAL = "AVAL"
+    ,formula = NULL
     ,...
 ){
 
@@ -86,29 +94,44 @@ estimate_KM <- function(
   if (!is.data.frame(data))
     stop("Data does not have class `data.frame`.")
 
-  reqcols <- c(strata, CNSR, AVAL)
-  if (! all(reqcols %in% colnames(data))){
-    stop(paste0("Following columns are missing from `data`: ", paste(setdiff(reqcols, colnames(data)), collapse = " "), "."))
+  if (is.null(formula)) {
+    reqcols <- c(strata, CNSR, AVAL)
+    if (! all(reqcols %in% colnames(data))){
+      stop(paste0("Following columns are missing from `data`: ", paste(setdiff(reqcols, colnames(data)), collapse = " "), "."))
+    }
+
+    if (!is.numeric(data[[AVAL]])){
+      stop("Analysis variable (AVAL) is not numeric.")
+    }
+
+    if (!is.numeric(data[[CNSR]])){
+      stop("Censor variable (CNSR) is not numeric.")
+    }
+  }
+  else if (!inherits(formula, "formula")) {
+    stop("Argument `formula=` must be class 'formula'.")
   }
 
-  if (!is.numeric(data[[AVAL]])){
-    stop("Analysis variable (AVAL) is not numeric.")
+  # add strata object if user passer formula -----------------------------------
+  if (!is.null(formula)) {
+    # extract strata
+    formula_rhs <- formula
+    rlang::f_lhs(formula_rhs) <- NULL
+    strata <-
+      stats::get_all_vars(formula = formula_rhs, data = data) %>%
+      names() %>%
+      switch(!rlang::is_empty(.), .) # convert empty string to NULL
   }
 
-  if (!is.numeric(data[[CNSR]])){
-    stop("Censor variable (CNSR) is not numeric.")
+  # construct formula if not passed by user ------------------------------------
+  if (is.null(formula)) {
+    formula <-
+      formula <- stats::as.formula(paste0("survival::Surv(", AVAL, ", 1-", CNSR, ") ~ ",
+                                          ifelse(is.null(strata), "1", paste(strata, collapse = " + "))))
   }
 
   # Remove NA from the analysis ------------------------------------------------
-
-  data <-
-    as.data.frame(data) %>%
-    tidyr::drop_na(any_of(c(AVAL, CNSR)))
-
-  if (!is.null(strata)){
-    data <- data %>%
-      tidyr::drop_na(any_of(strata))
-  }
+  data <- tidyr::drop_na(data, dplyr::all_of(all.vars(formula)))
 
   # Ensure the presence of at least one strata -----------------------------
 

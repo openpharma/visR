@@ -43,6 +43,9 @@
 #' T7.2 The function prefixes the function call with survival
 #' T8. Piped datasets still return accurate results
 #' T8.1 Piped datasets still return accurate results
+#' T9. The user can specify formula argument
+#' T9.1 The formula method returns the same results and the data method.
+#' T9.2 The formula method triggers error messages.
 
 # Requirement T1 ----------------------------------------------------------
 
@@ -468,6 +471,33 @@ testthat::test_that("T8.1 Piped datasets still return accurate results",{
     ) %>%
     survival::survfit0()
   testthat::expect_equal(unclass(survfit)[vals_to_check], unclass(estimate_KM)[vals_to_check])
+})
+
+# Requirement T9 ---------------------------------------------------------------
+
+testthat::context("estimate_KM - T9. The user can specify formula argument")
+
+testthat::test_that("T9.1 The formula method returns the same results and the data method.", {
+  km1 <- estimate_KM(data = adtte, strata = "SEX")
+  km2 <- estimate_KM(formula = Surv(AVAL, 1 - CNSR) ~ SEX, data = adtte)
+  km1$call <- km2$call <- NULL
+  expect_equal(km1, km2)
+})
+
+testthat::test_that("T9.2 The formula method triggers error messages.", {
+  expect_error(
+    estimate_KM(formula = Surv(AVAL, 1 - CNSR) ~ SEX, data = letters)
+  )
+  expect_error(
+    estimate_KM(formula = Surv(AVAL, 1 - CNSR) ~ SEX)
+  )
+
+  expect_error(
+    estimate_KM(formula = Surv(AVAL, 1 - CNSR) ~ 1, data = letters)
+  )
+  expect_error(
+    estimate_KM(formula = Surv(AVAL, 1 - CNSR) ~ 1)
+  )
 })
 
 # END OF CODE -------------------------------------------------------------
