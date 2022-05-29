@@ -29,7 +29,6 @@ render <- function(data,
 
 
 #' @param data
-#'
 #' @param title
 #' @param datasource
 #' @param footnote
@@ -40,7 +39,6 @@ render <- function(data,
 #' @rdname render
 #' @method render tableone
 #' @return A table-like data structure, possibly interactive depending on the choice of the engine
-#' @export
 render.tableone <- function(
   data,
   title,
@@ -130,7 +128,6 @@ render.tableone <- function(
 }
 
 #' @param data
-#'
 #' @param title
 #' @param datasource
 #' @param footnote
@@ -140,7 +137,6 @@ render.tableone <- function(
 #'
 #' @rdname render
 #' @method render risktable
-#' @export
 render.risktable <- function(
   data,
   title,
@@ -214,7 +210,6 @@ render.risktable <- function(
 
 
 #' @param data
-#'
 #' @param title
 #' @param datasource
 #' @param footnote
@@ -224,7 +219,6 @@ render.risktable <- function(
 #'
 #' @rdname render
 #' @method render data.frame
-#' @export
 render.data.frame <- function(
   data,
   title,
@@ -322,8 +316,7 @@ render.data.frame <- function(
 }
 
 
-### Functions for datatable
-#' Title
+#' Functions for datatable
 #'
 #' @param data
 #' @param title
@@ -443,8 +436,8 @@ render_gt <- function(data, title, datasource, footnote){
   return(table_out)
 }
 
-# Create initial gt object
-#' Title
+
+#' Create initial gt object
 #'
 #' @param data
 #' @param numcols
@@ -458,7 +451,6 @@ get_gt <- function(data, numcols){
 }
 
 #' Title
-#'
 #' @param data
 #' @param numcols
 #'
