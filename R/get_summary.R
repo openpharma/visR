@@ -11,13 +11,11 @@
 #'
 #' @rdname get_summary
 #'
-#' @export
-
 get_summary <- function(x, ...){
   UseMethod("get_summary", x)
 }
 
-#'  @examples
+#' @examples
 #'
 #' survfit_object <- survival::survfit(data = adtte, survival::Surv(AVAL, 1-CNSR) ~ TRTP)
 #' get_summary(survfit_object)
@@ -26,8 +24,7 @@ get_summary <- function(x, ...){
 #'
 #' @rdname get_summary
 #' @method get_summary survfit
-#' @export
-
+#'
 get_summary.survfit <- function(x,
                                 statlist = c("strata", "records", "events", "median", "LCL", "UCL", "CI"),
                                 ...) {
