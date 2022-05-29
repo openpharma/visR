@@ -12,7 +12,7 @@
 #'      \item{A two-sided pointwise 0.95 confidence interval is estimated using a log transformation (conf.type = "log").}
 #'    }
 #'
-#'    Function has two S3 methods for data frames and formulas. The first is optimized for CDISC data, using default naming conventions,
+#'    Function has two S3 methods: one for data frames and one for formulas. The first is optimized for CDISC data, using default naming conventions,
 #'    e.g. `"AVAL"` for the analysis variable and `"CNSR"` for the censoring variable.
 #'    The function expects that the data has been filtered on the parameter (PARAM/PARAMCD) of interest. All NA values in the CNSR, AVAL and strata
 #'    argument are removed.
