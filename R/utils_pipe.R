@@ -26,3 +26,31 @@ the_lhs <- function() {
 
   return(as.character(gsub(" %.*$", "", left)))
 }
+
+#' @title Find the character that represents the data argument in a call list
+#'
+#' @description This function returns character that represents the data argument in a call list.
+#'
+#' @return Character representing the data.
+#' @noRd
+
+.call_list_to_name <- function(call_list) {
+  call_list[["data"]]
+  if (length(base::deparse(call_list[["data"]])) == 1 &&
+      deparse(call_list[["data"]]) %in% c(".", ".x", "..1")) {
+    df <- the_lhs()
+    call_list[["data"]] <- as.symbol(df) %>% as.character()
+  }
+  else {
+    df <- as.character(sub("\\[.*$", "", deparse(call_list[["data"]]))[1])
+  }
+}
+
+#' @title Is visR survfit?
+#'
+#' @return logical
+#' @noRd
+is_visr_survfit <- function(x) {
+  # the visr survift object saves a quosure instead of a call
+  inherits(x, "survfit") && rlang::is_quosure(x$call)
+}

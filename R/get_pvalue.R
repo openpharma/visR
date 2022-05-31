@@ -44,7 +44,7 @@ get_pvalue <- function(survfit_object,
                        statlist = c("test", "Chisq", "df", "pvalue"),
                        ...) {
 
-# Input validation --------------------------------------------------------
+  # Input validation --------------------------------------------------------
 
   if (!inherits(survfit_object, "survfit"))
     stop("The function expects an object of class `survfit` as input.")
@@ -58,9 +58,9 @@ get_pvalue <- function(survfit_object,
       !base::all(statlist %in% c("test", "df", "Chisq", "pvalue")))
     stop("Specify valid `statlist` arguments.")
 
-# Re-use Call from survival object ----------------------------------------
+  # Re-use Call from survival object ----------------------------------------
 
-  Call <- as.list(survfit_object$call)
+  Call <- as.list(rlang::quo_squash(survfit_object$call))
   NewCall <- append(as.list(parse(text = "survival::survdiff")), Call[names(Call) %in% names(formals(survival::survdiff))])
 
   if ("All" %in% ptype) {
@@ -70,27 +70,46 @@ get_pvalue <- function(survfit_object,
     }
   }
 
-# Summary list ------------------------------------------------------------
+  # Summary list ------------------------------------------------------------
 
   survdifflist <- list(
     `Log-Rank`    = rlang::expr(eval(as.call(
-      append(NewCall, list(rho = 0))
+      append(!!NewCall, list(rho = 0))
     ))),
     `Wilcoxon`    = rlang::expr(eval(as.call(
-      append(NewCall, list(rho = 1))
+      append(!!NewCall, list(rho = 1))
     ))),
     `Tarone-Ware` = rlang::expr(eval(as.call(
-      append(NewCall, list(rho = 1.5))
+      append(!!NewCall, list(rho = 1.5))
     ))),
     `Custom`      = rlang::expr(eval(as.call(
-      append(NewCall, list(rho = rho))
+      append(!!NewCall, list(rho = !!rho))
     )))
   )[ptype]
 
+  survdifflist_eval <-
+    lapply(
+      survdifflist,
+      function(x) {
+        tryCatch(
+          eval(x, envir = attr(survfit_object$call, ".Environment")),
+          error = function(e) {
+            if (!is_visr_survfit(survfit_object)) {
+              stop("There was an error calculating the p-values.\n",
+                   "The 'survfit' object was not created with `visR::estimate_KM()`.\n",
+                   "The the error will likely be resolved by re-estimating the ",
+                   "'survfit' object with visR.\n",
+                   as.character(e), call. = FALSE)
+            }
+            else {
+              e
+            }
+          }
+        )
+      }
+    )
 
-  survdifflist_eval <- lapply(survdifflist, eval, env = environment())
-
-# Statlist ----------------------------------------------------------------
+  # Statlist ----------------------------------------------------------------
 
   statlist <- unique(statlist)
   statlist <- base::sub("test", "Equality across strata", statlist, fixed = TRUE)
@@ -120,7 +139,7 @@ get_pvalue <- function(survfit_object,
     ))
   )[statlist]
 
-# Output to dataframe -----------------------------------------------------
+  # Output to dataframe -----------------------------------------------------
 
   equality <- data.frame(
     lapply(stat_summary, eval, env = environment()),
