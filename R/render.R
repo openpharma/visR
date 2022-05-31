@@ -19,7 +19,7 @@
 #'
 #' @return A table data structure with possible interactive functionality depending on the choice of the engine.
 #' @rdname render
-#'
+#' @export
 render <- function(data,
                    title = "",
                    datasource,
@@ -53,6 +53,7 @@ render <- function(data,
 #'
 #' @return A table data structure with possible interactive functionality depending on the choice of the engine.
 #' @rdname render
+#' @export
 #'
 render.tableone <- function(
   data,
@@ -163,6 +164,7 @@ render.tableone <- function(
 #'
 #' @return A table data structure with possible interactive functionality depending on the choice of the engine.
 #' @rdname render
+#' @export
 #'
 #' @method render risktable
 render.risktable <- function(
@@ -258,6 +260,7 @@ render.risktable <- function(
 #'
 #' @return A table data structure with possible interactive functionality depending on the choice of the engine.
 #' @rdname render
+#' @export
 #'
 render.data.frame <- function(
   data,
