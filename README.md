@@ -29,15 +29,10 @@ question, but want to facilitate and support good practice.
 You can read more about the philosophy and architecture in the [repo
 wiki](https://github.com/openpharma/visR/wiki).
 
-## Lifecycle and status
-
-The package is still experimental and under active development with a
-current focus on developing a stable API.
+## Installation
 
 <!-- badges: start -->
 
-[![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![Codecov test
 coverage](https://codecov.io/gh/openpharma/visR/branch/develop/graph/badge.svg)](https://codecov.io/gh/openpharma/visR?branch=main)
 [![R-CMD-check](https://github.com/openpharma/visR/workflows/R-CMD-check/badge.svg)](https://github.com/openpharma/visR/actions)
@@ -46,8 +41,6 @@ coverage](https://codecov.io/gh/openpharma/visR/branch/develop/graph/badge.svg)]
 status](https://www.r-pkg.org/badges/version/visR)](https://CRAN.R-project.org/package=visR)
 <a href=https://github.com/pharmaR/riskmetric><img src=https://img.shields.io/badge/riskmetric-0.53-green></img></a>
 <!-- badges: end -->
-
-## Installation
 
 The easiest way to get `visR` is to install from CRAN:
 
