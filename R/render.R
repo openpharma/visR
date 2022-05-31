@@ -1,3 +1,4 @@
+#' `r lifecycle::badge("experimental")`
 #' Render a data.frame or tibble
 #'
 #' @description Render a previously created data.frame to html,

@@ -95,7 +95,8 @@ Suggests:
     tibble,
     tidycmprsk (>= 0.1.1),
     vdiffr,
-    spelling
+    spelling,
+    lifecycle
 VignetteBuilder: 
     knitr
 biocViews:
