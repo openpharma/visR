@@ -10,6 +10,7 @@
 #' @param ... other arguments passed on to the method
 #'
 #' @rdname get_summary
+#' @export
 #'
 get_summary <- function(x, ...){
   UseMethod("get_summary", x)
