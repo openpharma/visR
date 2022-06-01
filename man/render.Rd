@@ -5,11 +5,11 @@
 \alias{render.tableone}
 \alias{render.risktable}
 \alias{render.data.frame}
-\title{Render a data.frame or tibble}
+\title{Render a data.frame, risktable, or tableone object as a table}
 \usage{
 render(
   data,
-  title,
+  title = "",
   datasource,
   footnote = "",
   output_format = "html",
@@ -48,27 +48,32 @@ render(
 )
 }
 \arguments{
-\item{data}{The data.frame or tibble to visualize}
+\item{data}{Input data.frame or tibble to visualize}
 
-\item{title}{Table title to include in the rendered table}
+\item{title}{Specify the title as a text string to be displayed in the rendered table.
+Default is no title.}
 
-\item{datasource}{String specifying the data source underlying the data set}
+\item{datasource}{String specifying the data source underlying the data set.
+Default is no title.}
 
-\item{footnote}{String specifying additional information to be displayed in the table note alongside the data source and specifications of statistical tests.}
+\item{footnote}{String specifying additional information to be displayed as a footnote
+alongside the data source and specifications of statistical tests.}
 
-\item{output_format}{Type of output that is returned, can be html or latex}
+\item{output_format}{Type of output that is returned, can be "html" or "latex".
+Default is "html".}
 
-\item{engine}{If html is selected as output format, one can chose between
-using kable, gt and DT as engine to create the output table}
+\item{engine}{If "html" is selected as \code{output_format}, one can chose between
+using \code{kable}, \code{gt} and \code{DT} as engine to render the output table. Default is "gt".}
 
-\item{download_format}{Options generated for downloading the data}
+\item{download_format}{Options formats generated for downloading the data.
+Default is a list "c('copy', 'csv', 'excel')".}
 }
 \value{
-A table-like data structure, possibly interactive depending on the choice of the engine
-
-A table-like data structure, possibly interactive depending on the choice of the engine
+A table data structure with possible interactive functionality depending on the choice of the engine.
 }
 \description{
-Render a previously created data.frame to html,
-rtf or latex
+Render a previously created data.frame, tibble or tableone object to html, rtf or latex
+}
+\details{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 }
