@@ -2,16 +2,53 @@
 % Please edit documentation in R/utils_table.R
 \name{summarize_short}
 \alias{summarize_short}
+\alias{summarize_short.factor}
+\alias{summarize_short.numeric}
+\alias{summarize_short.integer}
+\alias{summarize_short.default}
 \title{Create abbreviated variable summary for table1}
 \usage{
 summarize_short(x)
+
+\method{summarize_short}{factor}(x)
+
+\method{summarize_short}{numeric}(x)
+
+\method{summarize_short}{integer}(x)
+
+\method{summarize_long}{default}(x)
 }
 \arguments{
-\item{x}{a vector to be summarized}
+\item{x}{an object of any other class}
 }
 \value{
 A summarized less detailed version of the input.
+
+Short list of summary statistics for the input factors
+
+Short list of summary statistics for the input.
+
+Short list of summary statistics for the input.
+
+List of counts for unique and missing values in \code{x}.
 }
 \description{
-This function creates summaries combines multiple summary measures in a single formatted string.
+This function creates summaries combines multiple summary
+measures in a single formatted string.
+
+Create variable summary for factors. Calculates N and \% of
+occurrence for each factor value
+
+Create variable summary for numeric variables. Calculates mean
+(standard deviation), median (IQR), min-max range and N/\% missing elements
+for a numeric vector.
+
+Create variable summary for integer variables
+Calculates mean (standard deviation), median (IQR), min-max range
+and N/\% missing elements for a integer vector.
+
+Create variable summary for all other variable types
+}
+\details{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 }

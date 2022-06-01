@@ -1,17 +1,20 @@
-#' Calculate summary statistics for a vector
+#' `r lifecycle::badge("experimental")`
+#' @title Calculate summary statistics for a vector
 #'
-#' Calculates several summary statistics for a vector depending on the vector class
+#' @description Calculates several summary statistics for a vector depending on the vector class
 #'
 #' @param x an object
 #' @return A summarized version of the input.
+#' @rdname summarize_long
 #' @export
 summarize_long <- function(x) UseMethod("summarize_long")
 
 
-#' Create variable summary for factors
+#' @title Create variable summary for factors
 #'
 #' @param x an object of class "factor"
 #' @return Long list of summary statistics for the input factors.
+#' @method summarize_long factor
 #' @export
 summarize_long.factor <- function(x){
   x1 <- forcats::fct_explicit_na(x, na_level = "Missing")
@@ -25,19 +28,23 @@ summarize_long.factor <- function(x){
   list(dat)
 }
 
-#' Create variable summary for numeric variables
+#' @description Create variable summary for numeric variables
 #'
 #' @param x an object of class "integer"
 #' @return Long list of summary statistics for the input.
+#' @method summarize_long integer
+#' @rdname summarize_long
 #' @export
 summarize_long.integer <- function(x){
   summarize_long.numeric(x)
 }
 
-#' Create variable summary for numeric variables
+#' @description Create variable summary for numeric variables
 #'
 #' @param x an object of class "numeric"
 #' @return Long list of summary statistics for the input.
+#' @method summarize_long numeric
+#' @rdname summarize_long
 #' @export
 summarize_long.numeric <- function(x){
   dat <- list(
@@ -52,10 +59,12 @@ summarize_long.numeric <- function(x){
   list(dat)
 }
 
-#' Create variable summary for all other variable types
+#' @description Create variable summary for all other variable types
 #'
 #' @param x an object of any other class
 #' @return List of counts for unique and missing values in `x`.
+#' @method summarize_long default
+#' @rdname summarize_long
 #' @export
 summarize_long.default <- function(x){
   dat <- list(
@@ -65,20 +74,26 @@ summarize_long.default <- function(x){
   list(dat)
 }
 
-#' Create abbreviated variable summary for table1
+#' `r lifecycle::badge("experimental")`
+#' @title Create abbreviated variable summary for table1
 #'
-#' This function creates summaries combines multiple summary measures in a single formatted string.
+#' @description This function creates summaries combines multiple summary
+#' measures in a single formatted string.
 #'
 #' @param x a vector to be summarized
 #' @return A summarized less detailed version of the input.
+#' @rdname summarize_short
+#' @export
 summarize_short <- function(x) UseMethod("summarize_short")
 
-#' Create variable summary for factors
-#'
-#' Calculates N and % of occurrence for each factor value
+
+#' @description Create variable summary for factors. Calculates N and % of
+#' occurrence for each factor value
 #'
 #' @param x an object of class "factor"
-#' @return Short list of summary statistics for the input factors.
+#' @return Short list of summary statistics for the input factors
+#' @method summarize_short factor
+#' @rdname summarize_short
 #' @export
 summarize_short.factor <- function(x){
   x1 <- forcats::fct_explicit_na(x, na_level = "Missing")
@@ -93,13 +108,14 @@ summarize_short.factor <- function(x){
   list(dat)
 }
 
-#' Create variable summary for numeric variables
-#'
-#' Calculates mean (standard deviation), median (IQR), min-max range and N/% missing elements
+#' @description Create variable summary for numeric variables. Calculates mean
+#' (standard deviation), median (IQR), min-max range and N/% missing elements
 #' for a numeric vector.
 #'
 #' @param x an object of class "numeric"
 #' @return Short list of summary statistics for the input.
+#' @method summarize_short numeric
+#' @rdname summarize_short
 #' @export
 summarize_short.numeric <- function(x){
   dat <- list(
@@ -113,22 +129,25 @@ summarize_short.numeric <- function(x){
   list(dat)
 }
 
-#' Create variable summary for integer variables
-#'
-#' Calculates mean (standard deviation), median (IQR), min-max range and N/% missing elements
-#' for a integer vector.
+#' @description Create variable summary for integer variables
+#' Calculates mean (standard deviation), median (IQR), min-max range
+#' and N/% missing elements for a integer vector.
 #'
 #' @param x an object of class "integer"
 #' @return Short list of summary statistics for the input.
+#' @method summarize_short integer
+#' @rdname summarize_short
 #' @export
 summarize_short.integer <- function(x){
   summarize_short.numeric(x)
 }
 
-#' Create variable summary for all other variable types
+#' @description Create variable summary for all other variable types
 #'
 #' @param x an object of any other class
 #' @return List of counts for unique and missing values in `x`.
+#' @method summarize_long default
+#' @rdname summarize_short
 #' @export
 summarize_short.default <- function(x){
   dat <- list(

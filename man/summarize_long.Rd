@@ -2,16 +2,40 @@
 % Please edit documentation in R/utils_table.R
 \name{summarize_long}
 \alias{summarize_long}
+\alias{summarize_long.integer}
+\alias{summarize_long.numeric}
+\alias{summarize_long.default}
 \title{Calculate summary statistics for a vector}
 \usage{
 summarize_long(x)
+
+\method{summarize_long}{integer}(x)
+
+\method{summarize_long}{numeric}(x)
+
+\method{summarize_long}{default}(x)
 }
 \arguments{
-\item{x}{an object}
+\item{x}{an object of any other class}
 }
 \value{
 A summarized version of the input.
+
+Long list of summary statistics for the input.
+
+Long list of summary statistics for the input.
+
+List of counts for unique and missing values in \code{x}.
 }
 \description{
 Calculates several summary statistics for a vector depending on the vector class
+
+Create variable summary for numeric variables
+
+Create variable summary for numeric variables
+
+Create variable summary for all other variable types
+}
+\details{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 }
