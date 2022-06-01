@@ -1,13 +1,16 @@
 #' `r lifecycle::badge("experimental")`
-#' @title Calculate summary statistics for a vector
+#' @title Calculate summary statistics from a vector
 #'
-#' @description Calculates several summary statistics for a vector depending on the vector class
+#' @description Calculates several summary statistics. The summary statistics
+#' depend on the vector class
 #'
 #' @param x an object
 #' @return A summarized version of the input.
 #' @rdname summarize_long
 #' @export
-summarize_long <- function(x) UseMethod("summarize_long")
+summarize_long <- function(x){
+  UseMethod("summarize_long")
+  }
 
 
 #' @title Create variable summary for factors
@@ -84,7 +87,9 @@ summarize_long.default <- function(x){
 #' @return A summarized less detailed version of the input.
 #' @rdname summarize_short
 #' @export
-summarize_short <- function(x) UseMethod("summarize_short")
+summarize_short <- function(x) {
+  UseMethod("summarize_short")
+  }
 
 
 #' @description Create variable summary for factors. Calculates N and % of
@@ -146,7 +151,7 @@ summarize_short.integer <- function(x){
 #'
 #' @param x an object of any other class
 #' @return List of counts for unique and missing values in `x`.
-#' @method summarize_long default
+#' @method summarize_short default
 #' @rdname summarize_short
 #' @export
 summarize_short.default <- function(x){

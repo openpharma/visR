@@ -5,7 +5,7 @@
 \alias{summarize_long.integer}
 \alias{summarize_long.numeric}
 \alias{summarize_long.default}
-\title{Calculate summary statistics for a vector}
+\title{Calculate summary statistics from a vector}
 \usage{
 summarize_long(x)
 
@@ -28,7 +28,8 @@ Long list of summary statistics for the input.
 List of counts for unique and missing values in \code{x}.
 }
 \description{
-Calculates several summary statistics for a vector depending on the vector class
+Calculates several summary statistics. The summary statistics
+depend on the vector class
 
 Create variable summary for numeric variables
 

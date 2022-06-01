@@ -16,7 +16,7 @@ summarize_short(x)
 
 \method{summarize_short}{integer}(x)
 
-\method{summarize_long}{default}(x)
+\method{summarize_short}{default}(x)
 }
 \arguments{
 \item{x}{an object of any other class}
