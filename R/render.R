@@ -32,7 +32,6 @@ render <- function(data,
 
 
 #' @inheritParams render
-#' @rdname render
 #' @export
 #' @method render tableone
 #'
@@ -125,7 +124,6 @@ render.tableone <- function(
 }
 
 #' @inheritParams render
-#' @rdname render
 #' @export
 #'
 #' @method render risktable
@@ -203,7 +201,6 @@ render.risktable <- function(
 
 #' @inheritParams render
 #'
-#' @rdname render
 #' @method render data.frame
 #' @export
 render.data.frame <- function(
@@ -325,7 +322,6 @@ render_datatable <- function(data, title, download_format, source_cap){
 
 #' @inheritParams render_datatable
 #'
-#' @rdname render_datatable
 #' @method render_datatable tableone
 #'
 render_datatable.tableone <- function(data, title, download_format, source_cap) {
@@ -361,7 +357,6 @@ render_datatable.tableone <- function(data, title, download_format, source_cap) 
 
 #' @inheritParams render_datatable
 #'
-#' @rdname render_datatable
 #' @method render_datatable data.frame
 #'
 render_datatable.data.frame <- function(data, title, download_format, source_cap) {
@@ -436,7 +431,6 @@ get_gt <- function(data, numcols){
 
 #' @inheritParams get_gt
 #'
-#' @rdname get_gt
 #' @method get_gt tableone
 #'
 get_gt.tableone <- function(data, numcols) {
@@ -454,7 +448,6 @@ get_gt.tableone <- function(data, numcols) {
 
 #' @inheritParams get_gt
 #'
-#' @rdname get_gt
 #' @method get_gt data.frame
 #'
 get_gt.data.frame <- function(data, numcols) {

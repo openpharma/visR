@@ -71,7 +71,6 @@ summarize_long.default <- function(x){
 #'
 #' @param x a vector to be summarized
 #' @return A summarized less detailed version of the input.
-#' @export
 summarize_short <- function(x) UseMethod("summarize_short")
 
 #' Create variable summary for factors

@@ -28,7 +28,10 @@ A data frame with summary measures from a \code{survfit} object
 \description{
 S3 method for extracting descriptive statistics across strata.
 No default method is available at the moment.
+}
+\examples{
 
 survfit_object <- survival::survfit(data = adtte, survival::Surv(AVAL, 1-CNSR) ~ TRTP)
 get_summary(survfit_object)
+
 }

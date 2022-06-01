@@ -2,44 +2,11 @@
 % Please edit documentation in R/render.R
 \name{render}
 \alias{render}
-\alias{render.tableone}
-\alias{render.risktable}
-\alias{render.data.frame}
 \title{Render a data.frame, risktable, or tableone object as a table}
 \usage{
 render(
   data,
   title = "",
-  datasource,
-  footnote = "",
-  output_format = "html",
-  engine = "gt",
-  download_format = c("copy", "csv", "excel")
-)
-
-\method{render}{tableone}(
-  data,
-  title,
-  datasource,
-  footnote = "",
-  output_format = "html",
-  engine = "gt",
-  download_format = NULL
-)
-
-\method{render}{risktable}(
-  data,
-  title,
-  datasource,
-  footnote = "",
-  output_format = "html",
-  engine = "gt",
-  download_format = NULL
-)
-
-\method{render}{data.frame}(
-  data,
-  title,
   datasource,
   footnote = "",
   output_format = "html",

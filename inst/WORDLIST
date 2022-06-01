@@ -26,8 +26,6 @@ RGBA
 RRGGBB
 RRGGBBAA
 SDTM
-Surv
-TRTP
 Tarone
 UCL
 UX
@@ -41,10 +39,12 @@ colours
 conf
 coxph
 cran
+csv
 ctype
 cuminc
 cumsum
 datasource
+datatable
 df
 doi
 dplyr

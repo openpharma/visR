@@ -28,9 +28,9 @@
 #'                    align = "none",
 #'                    nrow=2)
 #' }
+#'
 #' @export
-
-
+#'
 align_plots <- function(pltlist) {
 
   if (missing(pltlist) | is.null(pltlist)) {
