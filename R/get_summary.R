@@ -25,6 +25,7 @@ get_summary <- function(x, ...){
 #'
 #' @rdname get_summary
 #' @method get_summary survfit
+#' @export
 #'
 get_summary.survfit <- function(x,
                                 statlist = c("strata", "records", "events", "median", "LCL", "UCL", "CI"),

@@ -2,15 +2,9 @@
 % Please edit documentation in R/render.R
 \name{render_datatable}
 \alias{render_datatable}
-\alias{render_datatable.tableone}
-\alias{render_datatable.data.frame}
 \title{Experimental internal function to help render a data.frame, risktable or tableone object as a datatable}
 \usage{
 render_datatable(data, title, download_format, source_cap)
-
-\method{render_datatable}{tableone}(data, title, download_format, source_cap)
-
-\method{render_datatable}{data.frame}(data, title, download_format, source_cap)
 }
 \arguments{
 \item{data}{Input data.frame or tibble to visualize}

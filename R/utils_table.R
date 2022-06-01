@@ -4,6 +4,7 @@
 #'
 #' @param x an object
 #' @return A summarized version of the input.
+#' @export
 summarize_long <- function(x) UseMethod("summarize_long")
 
 
@@ -11,6 +12,7 @@ summarize_long <- function(x) UseMethod("summarize_long")
 #'
 #' @param x an object of class "factor"
 #' @return Long list of summary statistics for the input factors.
+#' @export
 summarize_long.factor <- function(x){
   x1 <- forcats::fct_explicit_na(x, na_level = "Missing")
 
@@ -27,6 +29,7 @@ summarize_long.factor <- function(x){
 #'
 #' @param x an object of class "integer"
 #' @return Long list of summary statistics for the input.
+#' @export
 summarize_long.integer <- function(x){
   summarize_long.numeric(x)
 }
@@ -35,6 +38,7 @@ summarize_long.integer <- function(x){
 #'
 #' @param x an object of class "numeric"
 #' @return Long list of summary statistics for the input.
+#' @export
 summarize_long.numeric <- function(x){
   dat <- list(
     mean = mean(x, na.rm = TRUE),
@@ -52,6 +56,7 @@ summarize_long.numeric <- function(x){
 #'
 #' @param x an object of any other class
 #' @return List of counts for unique and missing values in `x`.
+#' @export
 summarize_long.default <- function(x){
   dat <- list(
     unique_values = length(unique(x)),
@@ -74,6 +79,7 @@ summarize_short <- function(x) UseMethod("summarize_short")
 #'
 #' @param x an object of class "factor"
 #' @return Short list of summary statistics for the input factors.
+#' @export
 summarize_short.factor <- function(x){
   x1 <- forcats::fct_explicit_na(x, na_level = "Missing")
 
@@ -94,6 +100,7 @@ summarize_short.factor <- function(x){
 #'
 #' @param x an object of class "numeric"
 #' @return Short list of summary statistics for the input.
+#' @export
 summarize_short.numeric <- function(x){
   dat <- list(
     `Mean (SD)` = paste0(format(mean(x, na.rm = TRUE), digits = 3), " (", format(sd(x, na.rm = TRUE), digits = 3), ")"),
@@ -113,6 +120,7 @@ summarize_short.numeric <- function(x){
 #'
 #' @param x an object of class "integer"
 #' @return Short list of summary statistics for the input.
+#' @export
 summarize_short.integer <- function(x){
   summarize_short.numeric(x)
 }
@@ -121,6 +129,7 @@ summarize_short.integer <- function(x){
 #'
 #' @param x an object of any other class
 #' @return List of counts for unique and missing values in `x`.
+#' @export
 summarize_short.default <- function(x){
   dat <- list(
     `Unique values` = format(length(unique(x))),

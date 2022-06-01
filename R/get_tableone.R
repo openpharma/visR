@@ -67,6 +67,7 @@
 #'   visR::get_tableone(strata = "TRTA", overall = FALSE)
 #'
 #' @rdname get_tableone
+#' @export
 #'
 get_tableone <- function(data, strata = NULL, overall=TRUE, summary_function = summarize_short){
   UseMethod("get_tableone")
@@ -76,7 +77,7 @@ get_tableone <- function(data, strata = NULL, overall=TRUE, summary_function = s
 #' @method get_tableone default
 #' @return object of class tableone. That is a list of data specified summaries
 #'   for all input variables.
-#'
+#' @export
 get_tableone.default <- function(data, strata = NULL, overall=TRUE, summary_function = summarize_short){
 
   summary_FUN <- match.fun(summary_function)

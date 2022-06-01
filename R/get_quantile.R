@@ -24,6 +24,7 @@
 #' @return A data frame with quantiles of the object
 #'
 #' @rdname get_quantile
+#' @export
 #'
 get_quantile <- function(x, ...){
   UseMethod("get_quantile", x)
@@ -32,7 +33,6 @@ get_quantile <- function(x, ...){
 #' @rdname get_quantile
 #' @method get_quantile survfit
 #' @export
-
 get_quantile.survfit <- function(x,
                                  ...,
                                  probs = c(0.25, 0.50, 0.75),

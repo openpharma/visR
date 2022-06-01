@@ -8,7 +8,8 @@
 #' blah <- function(x) the_lhs()
 #' adtte %>%
 #'   blah()
-
+#' @export
+#'
 the_lhs <- function() {
   parents <- lapply(sys.frames(), parent.env)
 
