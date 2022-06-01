@@ -1,7 +1,7 @@
 #' `r lifecycle::badge("experimental")`
-#' @title Render a data.frame or tibble
+#' @title Render a data.frame, risktable, or tableone object as a table
 #'
-#' @description Render a previously created data.frame to html, rtf or latex
+#' @description Render a previously created data.frame, tibble or tableone object to html, rtf or latex
 #'
 #' @param data Input data.frame or tibble to visualize
 #' @param title Specify the title as a text string to be displayed in the rendered table.
@@ -31,29 +31,10 @@ render <- function(data,
 }
 
 
-
-#' `r lifecycle::badge("experimental")`
-#' @title Render a data.frame or tibble specific to producing tableone.
-#'
-#' @description Render a previously created data.frame to html, rtf or latex
-#'
-#' @param data Input data.frame or tibble to visualize
-#' @param title Specify the title as a text string to be displayed in the rendered table.
-#' Default is no title.
-#' @param datasource String specifying the data source underlying the data set.
-#' Default is no title.
-#' @param footnote String specifying additional information to be displayed as a footnote
-#' alongside the data source and specifications of statistical tests.
-#' @param output_format Type of output that is returned, can be "html" or "latex".
-#' Default is "html".
-#' @param engine If "html" is selected as `output_format`, one can chose between
-#' using `kable`, `gt` and `DT` as engine to render the output table.  Default is "gt".
-#' @param download_format Options formats generated for downloading the data.
-#' Default is a list "c('copy', 'csv', 'excel')".
-#'
-#' @return A table data structure with possible interactive functionality depending on the choice of the engine.
+#' @inheritParams render
 #' @rdname render
 #' @export
+#' @method render tableone
 #'
 render.tableone <- function(
   data,
@@ -143,26 +124,7 @@ render.tableone <- function(
                     download_format)
 }
 
-#' `r lifecycle::badge("experimental")`
-#' @title Render a data.frame or tibble specific to producing a risktable
-#'
-#' @description Render a previously created data.frame to html, rtf or latex
-#'
-#' @param data Input data.frame or tibble to visualize
-#' @param title Specify the title as a text string to be displayed in the rendered table.
-#' Default is no title.
-#' @param datasource String specifying the data source underlying the data set.
-#' Default is no title.
-#' @param footnote String specifying additional information to be displayed as a footnote
-#' alongside the data source and specifications of statistical tests.
-#' @param output_format Type of output that is returned, can be "html" or "latex".
-#' Default is "html".
-#' @param engine If "html" is selected as `output_format`, one can chose between
-#' using `kable`, `gt` and `DT` as engine to render the output table.  Default is "gt".
-#' @param download_format Options formats generated for downloading the data.
-#' Default is NULL.
-#'
-#' @return A table data structure with possible interactive functionality depending on the choice of the engine.
+#' @inheritParams render
 #' @rdname render
 #' @export
 #'
@@ -239,29 +201,11 @@ render.risktable <- function(
 }
 
 
-#' `r lifecycle::badge("experimental")`
-#' @title Render a data.frame.
+#' @inheritParams render
 #'
-#' @description Render a previously created data.frame to html, rtf or latex
-#'
-#' @param data Input data.frame or tibble to visualize
-#' @param title Specify the title as a text string to be displayed in the rendered table.
-#' Default is no title.
-#' @param datasource String specifying the data source underlying the data set.
-#' Default is no title.
-#' @param footnote String specifying additional information to be displayed as a footnote
-#' alongside the data source and specifications of statistical tests.
-#' @param output_format Type of output that is returned, can be "html" or "latex".
-#' Default is "html".
-#' @param engine If "html" is selected as `output_format`, one can chose between
-#' using `kable`, `gt` and `DT` as engine to render the output table.  Default is "gt".
-#' @param download_format Options formats generated for downloading the data.
-#' Default is a list "c('copy', 'csv', 'excel')".
-#'
-#' @return A table data structure with possible interactive functionality depending on the choice of the engine.
 #' @rdname render
+#' @method render data.frame
 #' @export
-#'
 render.data.frame <- function(
   data,
   title,
@@ -359,8 +303,10 @@ render.data.frame <- function(
 }
 
 
+
+
 #' `r lifecycle::badge("experimental")`
-#' @title Experimental function to render a datatable.
+#' @title Experimental internal function to help render a data.frame, risktable or tableone object as a datatable
 #'
 #' @description Render a previously created datatable to html, rtf or latex
 #'
@@ -376,19 +322,12 @@ render_datatable <- function(data, title, download_format, source_cap){
   UseMethod("render_datatable")
 }
 
-#' `r lifecycle::badge("experimental")`
-#' @title Experimental function to render a datatable for tableone.
+
+#' @inheritParams render_datatable
 #'
-#' @description Render a previously created datatable to html, rtf or latex
-#'
-#' @param data Input data.frame or tibble to visualize
-#' @param title Specify the title as a text string to be displayed in the rendered table.
-#' Default is no title.
-#' @param download_format Options formats generated for downloading the data.
-#' Default is a list "c('copy', 'csv', 'excel')".'
-#' @param source_cap String automatically compiled of data source and captions.
-#' @return A table data structure with possible interactive functionality depending on the choice of the engine.
 #' @rdname render_datatable
+#' @method render_datatable tableone
+#'
 render_datatable.tableone <- function(data, title, download_format, source_cap) {
 
   if (is.null(download_format)) {
@@ -420,19 +359,11 @@ render_datatable.tableone <- function(data, title, download_format, source_cap) 
   return(table_out)
 }
 
-#' `r lifecycle::badge("experimental")`
-#' @title Experimental function to render a datatable for a data.frame
+#' @inheritParams render_datatable
 #'
-#' @description Render a previously created datatable to html, rtf or latex
-#'
-#' @param data Input data.frame or tibble to visualize
-#' @param title Specify the title as a text string to be displayed in the rendered table.
-#' Default is no title.
-#' @param download_format Options formats generated for downloading the data.
-#' Default is a list "c('copy', 'csv', 'excel')".'
-#' @param source_cap int
-#' @return A table data structure with possible interactive functionality depending on the choice of the engine.
 #' @rdname render_datatable
+#' @method render_datatable data.frame
+#'
 render_datatable.data.frame <- function(data, title, download_format, source_cap) {
 
   if (is.null(download_format)) {
@@ -500,15 +431,14 @@ get_gt <- function(data, numcols){
   UseMethod("get_gt")
 }
 
-#' `r lifecycle::badge("experimental")`
-#' @title Internal function Get gt object for tableone
-#' @description Internal function Get gt object for tableone
 
+
+
+#' @inheritParams get_gt
 #'
-#' @param data input data set
-#' @param numcols number of columns
+#' @rdname get_gt
+#' @method get_gt tableone
 #'
-#' @return gt object
 get_gt.tableone <- function(data, numcols) {
 
   gt <- gt::gt(data, groupname_col = "variable",
@@ -522,15 +452,11 @@ get_gt.tableone <- function(data, numcols) {
   return(gt)
 }
 
-#' `r lifecycle::badge("experimental")`
-#' @title Internal function Get gt object for a data.frame
-#' @description Internal function Get gt object for tableone
-
+#' @inheritParams get_gt
 #'
-#' @param data input data set
-#' @param numcols number of columns
+#' @rdname get_gt
+#' @method get_gt data.frame
 #'
-#' @return gt object
 get_gt.data.frame <- function(data, numcols) {
 
   gt <- gt::gt(data)

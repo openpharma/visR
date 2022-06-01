@@ -5,7 +5,7 @@
 \alias{render.tableone}
 \alias{render.risktable}
 \alias{render.data.frame}
-\title{Render a data.frame or tibble}
+\title{Render a data.frame, risktable, or tableone object as a table}
 \usage{
 render(
   data,
@@ -63,35 +63,17 @@ alongside the data source and specifications of statistical tests.}
 Default is "html".}
 
 \item{engine}{If "html" is selected as \code{output_format}, one can chose between
-using \code{kable}, \code{gt} and \code{DT} as engine to render the output table.  Default is "gt".}
+using \code{kable}, \code{gt} and \code{DT} as engine to render the output table. Default is "gt".}
 
 \item{download_format}{Options formats generated for downloading the data.
 Default is a list "c('copy', 'csv', 'excel')".}
 }
 \value{
 A table data structure with possible interactive functionality depending on the choice of the engine.
-
-A table data structure with possible interactive functionality depending on the choice of the engine.
-
-A table data structure with possible interactive functionality depending on the choice of the engine.
-
-A table data structure with possible interactive functionality depending on the choice of the engine.
 }
 \description{
-Render a previously created data.frame to html, rtf or latex
-
-Render a previously created data.frame to html, rtf or latex
-
-Render a previously created data.frame to html, rtf or latex
-
-Render a previously created data.frame to html, rtf or latex
+Render a previously created data.frame, tibble or tableone object to html, rtf or latex
 }
 \details{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
-
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
-
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
-
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 }

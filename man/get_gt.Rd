@@ -2,9 +2,15 @@
 % Please edit documentation in R/render.R
 \name{get_gt}
 \alias{get_gt}
+\alias{get_gt.tableone}
+\alias{get_gt.data.frame}
 \title{Internal function Get gt object}
 \usage{
 get_gt(data, numcols)
+
+\method{get_gt}{tableone}(data, numcols)
+
+\method{get_gt}{data.frame}(data, numcols)
 }
 \arguments{
 \item{data}{input data set}

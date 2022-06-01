@@ -4,7 +4,7 @@
 \alias{render_datatable}
 \alias{render_datatable.tableone}
 \alias{render_datatable.data.frame}
-\title{Experimental function to render a datatable.}
+\title{Experimental internal function to help render a data.frame, risktable or tableone object as a datatable}
 \usage{
 render_datatable(data, title, download_format, source_cap)
 
@@ -21,26 +21,14 @@ Default is no title.}
 \item{download_format}{Options formats generated for downloading the data.
 Default is a list "c('copy', 'csv', 'excel')".'}
 
-\item{source_cap}{int}
+\item{source_cap}{String automatically compiled of data source and captions.}
 }
 \value{
-A table data structure with possible interactive functionality depending on the choice of the engine.
-
-A table data structure with possible interactive functionality depending on the choice of the engine.
-
 A table data structure with possible interactive functionality depending on the choice of the engine.
 }
 \description{
 Render a previously created datatable to html, rtf or latex
-
-Render a previously created datatable to html, rtf or latex
-
-Render a previously created datatable to html, rtf or latex
 }
 \details{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
-
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
-
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 }
