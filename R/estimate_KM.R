@@ -1,5 +1,3 @@
-
-
 #' @title Wrapper for Kaplan-Meier Time-to-Event analysis
 #'
 #' @description This function is a wrapper around `survival::survfit.formula()` to perform a Kaplan-Meier analysis, assuming right-censored data.
@@ -14,26 +12,21 @@
 #'      \item{A two-sided pointwise 0.95 confidence interval is estimated using a log transformation (conf.type = "log").}
 #'    }
 #'
-#'    Function has two S3 methods: one for data frames and one for formulas. The first is optimized for CDISC data, using default naming conventions,
-#'    e.g. `"AVAL"` for the analysis variable and `"CNSR"` for the censoring variable.
-#'    The function expects that the data has been filtered on the parameter (PARAM/PARAMCD) of interest. All NA values in the CNSR, AVAL and strata
-#'    argument are removed.
-#'    Alternatively, PARAM/PARAMCD can be used in the \code{strata} argument. \cr
-#'
 #' @seealso \code{\link[survival]{survfit.formula} \link[survival]{survfitCI}}
 #'
-#' @param data The name of the dataset. The dataset is expected to have
+#' @param data A data frame. The dataset is expected to have
 #'    one record per subject per analysis parameter. Rows with missing observations included in the analysis are removed.
-#' @param AVAL,CNSR,strata These arguments are used to construct a formula to be passed to `survival::survfit(formula=)`.
+#' @param AVAL,CNSR,strata These arguments are used to construct a formula to be passed to
+#' `survival::survfit(formula=Surv(AVAL, 1-CNSR)~strata)`.
 #' - `AVAL` Analysis value for Time-to-Event analysis. Default is `"AVAL"`, as per CDISC ADaM guiding principles.
 #' - `CNSR` Censor for Time-to-Event analysis. Default is `"CNSR"`, as per CDISC ADaM guiding principles.
 #' - `strata` Character vector, representing the strata for Time-to-Event analysis. When NULL, an overall analysis is performed.
 #'    Default is `NULL`.
-#' @param ... additional arguments passed on to the ellipsis of the call \code{survival::survfit.formula(data = data, formula = Surv(AVAL, 1-CNSR) ~ strata), ...)} .
+#' @param ... additional arguments passed on to the ellipsis of the call `survival::survfit.formula(...)`.
 #'    Use \code{?survival::survfit.formula} and \code{?survival::survfitCI} for more information.
-#' @param formula `r lifecycle::badge('experimental')` formula with `survival::Surv()` on RHS and stratifying variables on the LHS. Use
-#' `~ 1` on the LHS for unstratified estimates. This argument will be passed to `survival::survfit(formula=)`. When this argument is
-#' used, arguments AVAL, CNSR, and strata strata are ignored.
+#' @param formula `r lifecycle::badge('experimental')` formula with `Surv()` on RHS and stratifying variables on the LHS. Use
+#' `~1` on the LHS for unstratified estimates. This argument will be passed to `survival::survfit(formula=)`. When this argument is
+#' used, arguments AVAL, CNSR, and strata are ignored.
 #'
 #' @return survfit object, extended by elements PARAM/PARAMCD, ready for downstream processing in estimation or visualization functions and methods.
 #'
@@ -63,16 +56,10 @@
 #'   type = "kaplan-meier", conf.int = FALSE, timefix = TRUE)
 #'
 #' ## Example working with non CDISC data
-#' head(survival::veteran)
+#' head(survival::veteran[c("time", "status", "trt")])
 #'
-#' # convert time and censoring data to ADaM variables
-#' # convert censoring status to CDISC principles
-#' veteran_adam <- survival::veteran %>%
-#'  dplyr::mutate(AVAL = time,
-#'                CNSR = dplyr::if_else(status == 1, 0, 1)
-#'  )
-#'
-#' visR::estimate_KM(data = veteran_adam, strata = "trt")
+#' # Using non-CDSIC data
+#' visR::estimate_KM(data = survival::veteran, formula = Surv(time, status) ~ trt)
 
 estimate_KM <- function(
     data = NULL
@@ -140,9 +127,6 @@ estimate_KM <- function(
     ifelse(is.null(strata), "1", paste(strata, collapse = " + "))
 
   # Calculate survival and add time = 0 to survfit object -------------------
-
-  formula <- stats::as.formula(paste0("survival::Surv(", AVAL, ", 1-", CNSR, ") ~ ", formula_rhs))
-
   survfit_object <-
     rlang::inject(survival::survfit(!!formula, data = data, !!!dots)) %>% # immediate resolves call arguments
     survival::survfit0(start.time = 0)

@@ -14,10 +14,11 @@ estimate_KM(
 )
 }
 \arguments{
-\item{data}{The name of the dataset. The dataset is expected to have
+\item{data}{A data frame. The dataset is expected to have
 one record per subject per analysis parameter. Rows with missing observations included in the analysis are removed.}
 
-\item{AVAL, CNSR, strata}{These arguments are used to construct a formula to be passed to \code{survival::survfit(formula=)}.
+\item{AVAL, CNSR, strata}{These arguments are used to construct a formula to be passed to
+\code{survival::survfit(formula=Surv(AVAL, 1-CNSR)~strata)}.
 \itemize{
 \item \code{AVAL} Analysis value for Time-to-Event analysis. Default is \code{"AVAL"}, as per CDISC ADaM guiding principles.
 \item \code{CNSR} Censor for Time-to-Event analysis. Default is \code{"CNSR"}, as per CDISC ADaM guiding principles.
@@ -25,11 +26,11 @@ one record per subject per analysis parameter. Rows with missing observations in
 Default is \code{NULL}.
 }}
 
-\item{formula}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} formula with \code{survival::Surv()} on RHS and stratifying variables on the LHS. Use
-\code{~ 1} on the LHS for unstratified estimates. This argument will be passed to \code{survival::survfit(formula=)}. When this argument is
-used, arguments AVAL, CNSR, and strata strata are ignored.}
+\item{formula}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} formula with \code{Surv()} on RHS and stratifying variables on the LHS. Use
+\code{~1} on the LHS for unstratified estimates. This argument will be passed to \code{survival::survfit(formula=)}. When this argument is
+used, arguments AVAL, CNSR, and strata are ignored.}
 
-\item{...}{additional arguments passed on to the ellipsis of the call \code{survival::survfit.formula(data = data, formula = Surv(AVAL, 1-CNSR) ~ strata), ...)} .
+\item{...}{additional arguments passed on to the ellipsis of the call \code{survival::survfit.formula(...)}.
 Use \code{?survival::survfit.formula} and \code{?survival::survfitCI} for more information.}
 }
 \value{
@@ -47,12 +48,6 @@ By default:
 The MLE (H.hat(t) = -log(S.hat(t))) can't be requested.}
 \item{A two-sided pointwise 0.95 confidence interval is estimated using a log transformation (conf.type = "log").}
 }
-
-Function has two S3 methods: one for data frames and one for formulas. The first is optimized for CDISC data, using default naming conventions,
-e.g. \code{"AVAL"} for the analysis variable and \code{"CNSR"} for the censoring variable.
-The function expects that the data has been filtered on the parameter (PARAM/PARAMCD) of interest. All NA values in the CNSR, AVAL and strata
-argument are removed.
-Alternatively, PARAM/PARAMCD can be used in the \code{strata} argument. \cr
 }
 \examples{
 
@@ -76,16 +71,10 @@ visR::estimate_KM(data = adtte, strata = NULL,
   type = "kaplan-meier", conf.int = FALSE, timefix = TRUE)
 
 ## Example working with non CDISC data
-head(survival::veteran)
+head(survival::veteran[c("time", "status", "trt")])
 
-# convert time and censoring data to ADaM variables
-# convert censoring status to CDISC principles
-veteran_adam <- survival::veteran \%>\%
- dplyr::mutate(AVAL = time,
-               CNSR = dplyr::if_else(status == 1, 0, 1)
- )
-
-visR::estimate_KM(data = veteran_adam, strata = "trt")
+# Using non-CDSIC data
+visR::estimate_KM(data = survival::veteran, formula = Surv(time, status) ~ trt)
 }
 \references{
 \url{https://github.com/therneau/survival}

@@ -14,7 +14,7 @@ estimate_cuminc(
 )
 }
 \arguments{
-\item{data}{The name of the dataset. The dataset is expected to have
+\item{data}{A data frame. The dataset is expected to have
 one record per subject per analysis parameter. Rows with missing observations included in the analysis are removed.}
 
 \item{AVAL, CNSR, strata}{These arguments are used to construct a formula to be passed to \code{tidycmprsk::cuminc(formula=)}.
