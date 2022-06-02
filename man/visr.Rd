@@ -36,7 +36,14 @@ visr(x, ...)
   ...
 )
 
-\method{visr}{tx_sequence}(x, palette = "Scales", label = TRUE, label_box = TRUE, title = NULL)
+\method{visr}{tx_sequence}(
+  x,
+  palette = "Scales",
+  color_map = NULL,
+  label = TRUE,
+  label_box = TRUE,
+  title = NULL
+)
 }
 \arguments{
 \item{x}{Object of class \code{tx_sequence} as output by \code{get_tx_sequence()}}
@@ -102,6 +109,9 @@ boxes in the flowchart}
 \item{palette}{\code{character} specifying either a 1) an RColorBrewer
 palette (https://rdrr.io/cran/RColorBrewer/man/ColorBrewer.html) or
 2) 'Scales' for the default palette}
+
+\item{color_map}{\code{labeled character vector} vector specifying the
+values and labels (names) of treatment groups of interest.}
 
 \item{label}{\code{logical} specifying whether to include label information
 as text over the sankeys}

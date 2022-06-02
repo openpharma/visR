@@ -151,7 +151,7 @@ get_tx_sequence <- function(
     if(!all(which_lines %in% unique(data[[line]]))) {
       stop("All lines in which_lines must be present in data")
     }
-    if(!unique(data[[lines]])[order(unique(data[[line]]))][1] %in%
+    if(!unique(data[[line]])[order(unique(data[[line]]))][1] %in%
        which_lines) {
       stop("The first line must be included in which_lines,
            otherwise this may drop patients from your data.

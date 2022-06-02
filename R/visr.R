@@ -469,6 +469,8 @@ visr.attrition <- function(x,
 #' @param palette \code{character} specifying either a 1) an RColorBrewer
 #'  palette (https://rdrr.io/cran/RColorBrewer/man/ColorBrewer.html) or
 #'  2) 'Scales' for the default palette
+#' @param color_map \code{labeled character vector} vector specifying the
+#' values and labels (names) of treatment groups of interest.
 #' @param label \code{logical} specifying whether to include label information
 #'  as text over the sankeys
 #' @param label_box \code{logical} specifying whether the label should be
@@ -499,9 +501,13 @@ visr.attrition <- function(x,
 
 visr.tx_sequence <- function(x,
                              palette = "Scales",
+                             color_map = NULL,
                              label = TRUE,
                              label_box = TRUE,
                              title = NULL){
+
+  # Require ggalluvial for some global environment requirements
+  require(ggalluvial)
 
   # Input checks
   if(class(x)[1] != 'tx_sequence') {
@@ -550,31 +556,59 @@ visr.tx_sequence <- function(x,
   }
 
   # Colors
-  if (palette == "Scales") {
-    regimen_colors <- c(scales::hue_pal()(attributes(x)$n_groups + 1),
+  if (!is.null(color_map)) {
+    message("color_map specified, so palette is ignored")
+    if(! all(attributes(x)$tx_cats %in% names(color_map))) {
+      stop(paste0("Not all treatment categories are included in 'color_map'",
+                  "The following groups were not given a color:",
+                  paste0(attributes(x)$tx_cats[
+                    !attributes(x)$tx_cats %in% names(color_map)
+                  ], collapse  = ", ")))
+    }
+
+    if(any(c("Censored","Dead") %in% names(color_map))) {
+      stop("Please remove the columns 'Censored' and 'Dead' from 'tx_cats'")
+    }
+
+    if(any(c("lightgray","gray","#d3d3d3","#bebebe") %in% color_map)) {
+      stop("lightgray and gray are reseved, please specify other
+           colors in 'tx_cats'")
+    }
+
+    regimen_colors <- c(color_map,
                         "lightgray",
                         "gray")
-    names(regimen_colors) <- c(
-      attributes(x)$tx_cats,
-      "Censored",
-      'Dead'
-    )
+    names(regimen_colors) <- c(names(color_map),
+                               'Censored',
+                               'Dead')
   } else {
-    regimen_colors <- c(
-      RColorBrewer::brewer.pal(
-        name = palette,
-        n = RColorBrewer::brewer.pal.info[palette, ]$maxcolors
-      )[
-        1:(attributes(x)$n_groups + 1)
-      ],
-      "lightgray",
-      "gray"
-    )
-    names(regimen_colors) <- c(
-      attributes(x)$tx_cats,
-      "Censored",
-      'Dead'
-    )
+
+    if (palette == "Scales") {
+      regimen_colors <- c(scales::hue_pal()(attributes(x)$n_groups + 1),
+                          "lightgray",
+                          "gray")
+      names(regimen_colors) <- c(
+        attributes(x)$tx_cats,
+        "Censored",
+        'Dead'
+      )
+    } else {
+      regimen_colors <- c(
+        RColorBrewer::brewer.pal(
+          name = palette,
+          n = RColorBrewer::brewer.pal.info[palette, ]$maxcolors
+        )[
+          1:(attributes(x)$n_groups + 1)
+        ],
+        "lightgray",
+        "gray"
+      )
+      names(regimen_colors) <- c(
+        attributes(x)$tx_cats,
+        "Censored",
+        'Dead'
+      )
+    }
   }
 
   if (attributes(x)$has_mortality == FALSE) {
@@ -582,12 +616,6 @@ visr.tx_sequence <- function(x,
   }
 
   # Plot
-  if(!exists('StatStratum',envir = .GlobalEnv)) {
-    assign('StatStratum',ggalluvial::StatStratum, envir = .GlobalEnv)
-  } else {
-    stop("An unusual error has occurred. Please remove global
-         environmental variable 'StatStratum'")
-  }
 
   alluvial_plot <- ggplot2::ggplot(
       data = attributes(x)$lot_lode,
@@ -639,7 +667,6 @@ visr.tx_sequence <- function(x,
       size = 3
       )
   }
-  rm('StatStratum', envir = .GlobalEnv)
 
   return(alluvial_plot)
 }
