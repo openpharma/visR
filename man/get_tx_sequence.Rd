@@ -34,6 +34,9 @@ lines to evaluate in the event some lines are not of interest}
 \item{n_groups}{\code{integer} the maximum number of unique
 treatment labels that will be considered (others will be grouped as "other").
 Default is 6.}
+
+\item{dont_group}{\code{logical} whether to group the regimens (F)
+or whether the data have already been grouped appropriately (T)}
 }
 \value{
 Treatment sequencing data in lodes form.

@@ -31,6 +31,8 @@
 #' @param n_groups \code{integer} the maximum number of unique
 #' treatment labels that will be considered (others will be grouped as "other").
 #' Default is 6.
+#' @param dont_group \code{logical} whether to group the regimens (F)
+#' or whether the data have already been grouped appropriately (T)
 #'
 #' @usage get_tx_sequence(data, id, label, line, n_groups)
 #' @return Treatment sequencing data in lodes form.
@@ -60,7 +62,8 @@ get_tx_sequence <- function(
   line,
   mortality_ids = NULL,
   which_lines = NULL,
-  n_groups = 6
+  n_groups = 6,
+  dont_group = F
 )
 {
 
@@ -253,21 +256,32 @@ get_tx_sequence <- function(
   }
 
   # Group n_groups together
-  top_therapies <- data %>%
-    dplyr::count(label, sort = T) %>%
-    dplyr::slice(1:n_groups) %>%
-    dplyr::pull(1)
+  if( !dont_group) {
+    top_therapies <- data %>%
+      dplyr::count(label, sort = T) %>%
+      dplyr::slice(1:n_groups) %>%
+      dplyr::pull(1)
 
-  if (length(top_therapies) < n_groups) {
-    message(paste0("There are fewer than ", n_groups, " regimens to combine into groups. Showing all regimens."))
-    n_groups <- length(top_therapies)
+    if (length(top_therapies) < n_groups) {
+      message(paste0("There are fewer than ", n_groups, " regimens to combine into groups. Showing all regimens."))
+      n_groups <- length(top_therapies)
+    }
+
+    data$label <- ifelse(data$label %in% top_therapies,
+                            data$label,
+                            'Other')
+
+    cats <- c(top_therapies, 'Other')
+
+  } else {
+
+    top_therapies <- data %>%
+      dplyr::count(label, sort = T) %>%
+      dplyr::pull(1)
+
+    cats <- top_therapies
+
   }
-
-  data$label <- ifelse(data$label %in% top_therapies,
-                          data$label,
-                          'Other')
-
-  cats <- c(top_therapies, 'Other')
 
   # Now cast to lodes form
   data_wide <- data %>%
