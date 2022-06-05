@@ -1,19 +1,15 @@
 
 #' @title Find the "lhs" in the pipeline
-#'
 #' @description This function finds the left-hand sided symbol in a magrittr pipe and returns it as a character.
-#'
 #' @return Left-hand sided symbol as string in the magrittr pipe.
-#'
 #' @references \url{https://github.com/tidyverse/magrittr/issues/115#issuecomment-173894787}
-#'
-#' @export
 #'
 #' @examples
 #' blah <- function(x) the_lhs()
 #' adtte %>%
 #'   blah()
-
+#' @export
+#'
 the_lhs <- function() {
   parents <- lapply(sys.frames(), parent.env)
 

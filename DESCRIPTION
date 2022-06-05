@@ -1,7 +1,7 @@
 Type: Package
 Package: visR
 Title: Clinical Graphs and Tables Adhering to Graphical Principles
-Version: 0.2.0.9006
+Version: 0.2.0.9008
 Authors@R: c(
     person(given = "Mark",
            family = "Baillie", 
@@ -96,7 +96,8 @@ Suggests:
     tibble,
     tidycmprsk (>= 0.1.1),
     vdiffr,
-    spelling
+    spelling,
+    lifecycle
 VignetteBuilder: 
     knitr
 biocViews:
