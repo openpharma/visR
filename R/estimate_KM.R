@@ -2,15 +2,26 @@
 #'
 #' @description This function is a wrapper around `survival::survfit.formula()` to perform a Kaplan-Meier analysis, assuming right-censored data.
 #'    The result is an object of class \code{survfit} which can be used in downstream functions and methods that rely on the \code{survfit} class.
-#'    When strata are present, the returned survfit object is supplemented with the a named list of the stratum and associated label, if present.
-#'    To support full traceability, the data set name is captured in the named list and the call is captured within its corresponding environment.
-#'    By default:
+#'
+#'
+#' @section Estimation of survfit object:
+#'
+#' The `estimate_KM()` function utilizes the defaults in `survival::survfit()`:
 #'    \itemize{
 #'      \item{The Kaplan Meier estimate is estimated directly (stype = 1).}
 #'      \item{The cumulative hazard is estimated using the Nelson-Aalen estimator (ctype = 1): H.tilde = cumsum(x$n.event/x$n.risk).
 #'      The MLE (H.hat(t) = -log(S.hat(t))) can't be requested.}
 #'      \item{A two-sided pointwise 0.95 confidence interval is estimated using a log transformation (conf.type = "log").}
 #'    }
+#'
+#' When strata are present, the returned survfit object is supplemented with the a named list of the stratum and associated label, if present.
+#' To support full traceability, the data set name is captured in the named list and the call is captured within its corresponding environment.
+#'
+#' @section PARAM/PARAMCD:
+#'
+#' If the data frame includes columns PARAM/PARAMCD (part of the CDSIC format),
+#'   the function expects the data has been filtered on the parameter of interest;
+#'   that is, these columns should be constant in the data frame.
 #'
 #' @seealso \code{\link[survival]{survfit.formula} \link[survival]{survfitCI}}
 #'
@@ -114,8 +125,8 @@ estimate_KM <- function(
   # construct formula if not passed by user ------------------------------------
   if (is.null(formula)) {
     formula <-
-      formula <- stats::as.formula(paste0("survival::Surv(", AVAL, ", 1-", CNSR, ") ~ ",
-                                          ifelse(is.null(strata), "1", paste(strata, collapse = " + "))))
+      stats::as.formula(paste0("survival::Surv(", AVAL, ", 1-", CNSR, ") ~ ",
+                               ifelse(is.null(strata), "1", paste(strata, collapse = " + "))))
   }
 
   # Remove NA from the analysis ------------------------------------------------

@@ -39,16 +39,30 @@ survfit object, extended by elements PARAM/PARAMCD, ready for downstream process
 \description{
 This function is a wrapper around \code{survival::survfit.formula()} to perform a Kaplan-Meier analysis, assuming right-censored data.
 The result is an object of class \code{survfit} which can be used in downstream functions and methods that rely on the \code{survfit} class.
-When strata are present, the returned survfit object is supplemented with the a named list of the stratum and associated label, if present.
-To support full traceability, the data set name is captured in the named list and the call is captured within its corresponding environment.
-By default:
+}
+\section{Estimation of survfit object}{
+
+
+The \code{estimate_KM()} function utilizes the defaults in \code{survival::survfit()}:
 \itemize{
 \item{The Kaplan Meier estimate is estimated directly (stype = 1).}
 \item{The cumulative hazard is estimated using the Nelson-Aalen estimator (ctype = 1): H.tilde = cumsum(x$n.event/x$n.risk).
 The MLE (H.hat(t) = -log(S.hat(t))) can't be requested.}
 \item{A two-sided pointwise 0.95 confidence interval is estimated using a log transformation (conf.type = "log").}
 }
+
+When strata are present, the returned survfit object is supplemented with the a named list of the stratum and associated label, if present.
+To support full traceability, the data set name is captured in the named list and the call is captured within its corresponding environment.
 }
+
+\section{PARAM/PARAMCD}{
+
+
+If the data frame includes columns PARAM/PARAMCD (part of the CDSIC format),
+the function expects the data has been filtered on the parameter of interest;
+that is, these columns should be constant in the data frame.
+}
+
 \examples{
 
 ## No stratification

@@ -44,8 +44,8 @@
 #' T8. Piped datasets still return accurate results
 #' T8.1 Piped datasets still return accurate results
 #' T9. The user can specify formula argument
-#' T9.1 The formula method returns the same results and the data method.
-#' T9.2 The formula method triggers error messages.
+#' T9.1 The formula argument returns the same results and the data method.
+#' T9.2 The formula argument triggers error messages with incorrect function specification.
 
 # Requirement T1 ----------------------------------------------------------
 
@@ -477,7 +477,7 @@ testthat::test_that("T8.1 Piped datasets still return accurate results",{
 
 testthat::context("estimate_KM - T9. The user can specify formula argument")
 
-testthat::test_that("T9.1 The formula argument returns the same results and the data AVAL,CNSR,strata verso=ion", {
+testthat::test_that("T9.1 The formula argument returns the same results and the data AVAL,CNSR,strata version", {
   # with CDISC data
   km1 <- visR::estimate_KM(data = adtte, strata = "SEX")
   km2 <- visR::estimate_KM(formula = Surv(AVAL, 1 - CNSR) ~ SEX, data = adtte)
@@ -492,6 +492,12 @@ testthat::test_that("T9.1 The formula argument returns the same results and the 
     ) %>%
     visR::estimate_KM(strata = "trt")
   km2 <- visR::estimate_KM(data = survival::veteran, formula = Surv(time, status) ~ trt)
+  km1$call <- km2$call <- NULL
+  testthat::expect_equal(km1, km2)
+
+  # CDICS args are ignored when formula arg is used
+  km1 <- visR::estimate_KM(data = adtte, strata = "SEX")
+  km2 <- visR::estimate_KM(strata = "SEX", AVAL = "AVAL", CNSR = "CNSR", formula = Surv(AVAL, 1 - CNSR) ~ SEX, data = adtte)
   km1$call <- km2$call <- NULL
   testthat::expect_equal(km1, km2)
 })
@@ -512,6 +518,9 @@ testthat::test_that("T9.2 The formula argument triggers error messages with inco
   )
   testthat::expect_error(
     visR::estimate_KM(formula = Surv(AVAL, 1 - CNSR) ~ 1)
+  )
+  testthat::expect_error(
+    visR::estimate_KM(formula = Surv(AVAL, 1 - CNSR) ~ NOT_A_VARIABLE, data = adtte)
   )
 })
 
