@@ -19,7 +19,7 @@
 #'
 #' @section PARAM/PARAMCD:
 #'
-#' If the data frame includes columns PARAM/PARAMCD (part of the CDSIC format),
+#' If the data frame includes columns PARAM/PARAMCD (part of the CDISC format),
 #'   the function expects the data has been filtered on the parameter of interest;
 #'   that is, these columns should be constant in the data frame.
 #'
