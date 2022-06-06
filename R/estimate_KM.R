@@ -113,6 +113,16 @@ estimate_KM <- function(
 
   # add strata object if user passer formula -----------------------------------
   if (!is.null(formula)) {
+    if (any(!all.vars(formula) %in% names(data))) {
+      vars_missing_in_data <-
+        all.vars(formula) %>%
+        setdiff(names(data)) %>%
+        {paste(shQuote(., type = "csh"), collapse = ", ")}
+      paste("The following columns found in `formula=` are missing from the data frame:",
+            vars_missing_in_data) %>%
+        stop(call. = FALSE)
+    }
+
     # extract strata
     formula_rhs <- formula
     rlang::f_lhs(formula_rhs) <- NULL
