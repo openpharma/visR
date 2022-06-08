@@ -18,7 +18,7 @@ estimate_KM(
 one record per subject per analysis parameter. Rows with missing observations included in the analysis are removed.}
 
 \item{AVAL, CNSR, strata}{These arguments are used to construct a formula to be passed to
-\code{survival::survfit(formula=Surv(AVAL, 1-CNSR)~strata)}.
+\code{survival::survfit(formula=Surv(AVAL, 1-CNSR)~strata)}. These arguments' default values follow the naming conventions in CDISC.
 \itemize{
 \item \code{AVAL} Analysis value for Time-to-Event analysis. Default is \code{"AVAL"}, as per CDISC ADaM guiding principles.
 \item \code{CNSR} Censor for Time-to-Event analysis. Default is \code{"CNSR"}, as per CDISC ADaM guiding principles.
@@ -34,13 +34,15 @@ used, arguments AVAL, CNSR, and strata are ignored.}
 Use \code{?survival::survfit.formula} and \code{?survival::survfitCI} for more information.}
 }
 \value{
-survfit object, extended by elements PARAM/PARAMCD, ready for downstream processing in estimation or visualization functions and methods.
+survfit object ready for downstream processing in estimation or visualization functions and methods.
 }
 \description{
-This function is a wrapper around \code{survival::survfit.formula()} to perform a Kaplan-Meier analysis, assuming right-censored data.
-The result is an object of class \code{survfit} which can be used in downstream functions and methods that rely on the \code{survfit} class.
+This function is a wrapper around \code{survival::survfit.formula()}
+to perform a Kaplan-Meier analysis, assuming right-censored data.
+The result is an object of class \code{survfit} which can be used in
+downstream functions and methods that rely on the \code{survfit} class.
 }
-\section{Estimation of survfit object}{
+\section{Estimation of 'survfit' object}{
 
 
 The \code{estimate_KM()} function utilizes the defaults in \code{survival::survfit()}:
@@ -51,11 +53,13 @@ The MLE (H.hat(t) = -log(S.hat(t))) can't be requested.}
 \item{A two-sided pointwise 0.95 confidence interval is estimated using a log transformation (conf.type = "log").}
 }
 
-When strata are present, the returned survfit object is supplemented with the a named list of the stratum and associated label, if present.
-To support full traceability, the data set name is captured in the named list and the call is captured within its corresponding environment.
+When strata are present, the returned survfit object is supplemented with
+the a named list of the stratum and associated label.
+To support full traceability, the data set name is captured in the named
+list and the call is captured within its corresponding environment.
 }
 
-\section{PARAM/PARAMCD}{
+\section{PARAM/PARAMCD and CDISC Data}{
 
 
 If the data frame includes columns PARAM/PARAMCD (part of the CDISC format),

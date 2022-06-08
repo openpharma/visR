@@ -1,10 +1,12 @@
 #' @title Wrapper for Kaplan-Meier Time-to-Event analysis
 #'
-#' @description This function is a wrapper around `survival::survfit.formula()` to perform a Kaplan-Meier analysis, assuming right-censored data.
-#'    The result is an object of class \code{survfit} which can be used in downstream functions and methods that rely on the \code{survfit} class.
+#' @description This function is a wrapper around `survival::survfit.formula()`
+#'    to perform a Kaplan-Meier analysis, assuming right-censored data.
+#'    The result is an object of class \code{survfit} which can be used in
+#'    downstream functions and methods that rely on the \code{survfit} class.
 #'
 #'
-#' @section Estimation of survfit object:
+#' @section Estimation of 'survfit' object:
 #'
 #' The `estimate_KM()` function utilizes the defaults in `survival::survfit()`:
 #'    \itemize{
@@ -14,10 +16,12 @@
 #'      \item{A two-sided pointwise 0.95 confidence interval is estimated using a log transformation (conf.type = "log").}
 #'    }
 #'
-#' When strata are present, the returned survfit object is supplemented with the a named list of the stratum and associated label, if present.
-#' To support full traceability, the data set name is captured in the named list and the call is captured within its corresponding environment.
+#' When strata are present, the returned survfit object is supplemented with
+#'   the a named list of the stratum and associated label.
+#' To support full traceability, the data set name is captured in the named
+#'   list and the call is captured within its corresponding environment.
 #'
-#' @section PARAM/PARAMCD:
+#' @section PARAM/PARAMCD and CDISC Data:
 #'
 #' If the data frame includes columns PARAM/PARAMCD (part of the CDISC format),
 #'   the function expects the data has been filtered on the parameter of interest;
@@ -28,7 +32,7 @@
 #' @param data A data frame. The dataset is expected to have
 #'    one record per subject per analysis parameter. Rows with missing observations included in the analysis are removed.
 #' @param AVAL,CNSR,strata These arguments are used to construct a formula to be passed to
-#' `survival::survfit(formula=Surv(AVAL, 1-CNSR)~strata)`.
+#' `survival::survfit(formula=Surv(AVAL, 1-CNSR)~strata)`. These arguments' default values follow the naming conventions in CDISC.
 #' - `AVAL` Analysis value for Time-to-Event analysis. Default is `"AVAL"`, as per CDISC ADaM guiding principles.
 #' - `CNSR` Censor for Time-to-Event analysis. Default is `"CNSR"`, as per CDISC ADaM guiding principles.
 #' - `strata` Character vector, representing the strata for Time-to-Event analysis. When NULL, an overall analysis is performed.
@@ -39,7 +43,7 @@
 #' `~1` on the LHS for unstratified estimates. This argument will be passed to `survival::survfit(formula=)`. When this argument is
 #' used, arguments AVAL, CNSR, and strata are ignored.
 #'
-#' @return survfit object, extended by elements PARAM/PARAMCD, ready for downstream processing in estimation or visualization functions and methods.
+#' @return survfit object ready for downstream processing in estimation or visualization functions and methods.
 #'
 #' @references \url{https://github.com/therneau/survival}
 #'
