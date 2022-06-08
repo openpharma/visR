@@ -41,6 +41,16 @@ Surv_CDISC <- function(AVAL, CNSR) {
   else if (missing(CNSR))
     stop("Default 'CNSR' value not found. Specify argument in `Surv_CDISC(CNSR=)`.")
 
+  # checking inputs ------------------------------------------------------------
+  if (!is.numeric(AVAL) || !is.numeric(CNSR))
+    stop("Expecting arguments 'AVAL' and 'CNSR' to be numeric.")
+
+  if (na.omit(CNSR) %>% setdiff(c(0, 1)) %>% {!rlang::is_empty(.)})
+    stop("Expecting 'CNSR' argument to be binary coded with `0/1`.")
+
+  if (any(AVAL < 0))
+    warning("Values of 'AVAL' are less than zero, which is likely a data error.")
+
   # pass args to `survival::Surv()` --------------------------------------------
   survival::Surv(time = AVAL, event = 1 - CNSR, type = "right", origin = 0)
 }
