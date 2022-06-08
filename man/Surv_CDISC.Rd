@@ -17,8 +17,9 @@ When no argument is passed, the default value is a column/vector named \code{CNS
 Object of class 'Surv'
 }
 \description{
-Create a survival object, usually used as a response variable in a model
-formula. The arguments are named after the CDISC data standard.
+Create a survival object, which are usually used as the response variable
+survival model. The arguments are named after the CDISC data standard, with
+defaults values following the data standard..
 The \code{CNSR} argument expects a numeric column/vector that indicates
 an observation is censored.
 
