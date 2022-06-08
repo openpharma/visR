@@ -46,7 +46,7 @@ Surv_CDISC <- function(AVAL, CNSR) {
     stop("Expecting arguments 'AVAL' and 'CNSR' to be numeric.")
 
   if (na.omit(CNSR) %>% setdiff(c(0, 1)) %>% {!rlang::is_empty(.)})
-    stop("Expecting 'CNSR' argument to be binary coded with `0/1`.")
+    stop("Expecting 'CNSR' argument to be binary with values `0/1`.")
 
   if (any(AVAL < 0))
     warning("Values of 'AVAL' are less than zero, which is likely a data error.")
