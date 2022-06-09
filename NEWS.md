@@ -10,6 +10,7 @@
 
 ### Other Updates
 * Stratifying variable names have been removed from legend in `visr.survfit()` figures, and the legend title now describes the stratifying variable(s). (#343)
+* The `estimate_KM()` function gains an experimental `formula=` argument. When the argument is used, the AVAL, CNSR, and strata arguments typically used to construct the formula are ignored. (#379)
 * `add_risktable` has a rowgutter argument to allow spacing between plot and risktables
 * The strata variable is now removed from the body of `tableone()` results. (#254) 
 * The `visr.survfit()` function no longer warns about x-axis label when `PARAM` column not found in original data set. (#378)
