@@ -43,6 +43,9 @@
 #' T7.2 The function prefixes the function call with survival
 #' T8. Piped datasets still return accurate results
 #' T8.1 Piped datasets still return accurate results
+#' T9. The user can specify formula argument
+#' T9.1 The formula argument returns the same results and the data method.
+#' T9.2 The formula argument triggers error messages with incorrect function specification.
 
 # Requirement T1 ----------------------------------------------------------
 
@@ -468,6 +471,57 @@ testthat::test_that("T8.1 Piped datasets still return accurate results",{
     ) %>%
     survival::survfit0()
   testthat::expect_equal(unclass(survfit)[vals_to_check], unclass(estimate_KM)[vals_to_check])
+})
+
+# Requirement T9 ---------------------------------------------------------------
+
+testthat::context("estimate_KM - T9. The user can specify formula argument")
+
+testthat::test_that("T9.1 The formula argument returns the same results and the data AVAL,CNSR,strata version", {
+  # with CDISC data
+  km1 <- visR::estimate_KM(data = adtte, strata = "SEX")
+  km2 <- visR::estimate_KM(formula = Surv(AVAL, 1 - CNSR) ~ SEX, data = adtte)
+  km1$call <- km2$call <- NULL
+  testthat::expect_equal(km1, km2)
+
+  # without CDISC data
+  km1 <-
+    survival::veteran %>%
+    dplyr::mutate(AVAL = time,
+                  CNSR = dplyr::if_else(status == 1, 0, 1)
+    ) %>%
+    visR::estimate_KM(strata = "trt")
+  km2 <- visR::estimate_KM(data = survival::veteran, formula = Surv(time, status) ~ trt)
+  km1$call <- km2$call <- NULL
+  testthat::expect_equal(km1, km2)
+
+  # CDICS args are ignored when formula arg is used
+  km1 <- visR::estimate_KM(data = adtte, strata = "SEX")
+  km2 <- visR::estimate_KM(strata = "SEX", AVAL = "AVAL", CNSR = "CNSR", formula = Surv(AVAL, 1 - CNSR) ~ SEX, data = adtte)
+  km1$call <- km2$call <- NULL
+  testthat::expect_equal(km1, km2)
+})
+
+testthat::test_that("T9.2 The formula argument triggers error messages with incorrect function specification.", {
+  testthat::expect_error(
+    visR::estimate_KM(formula = Surv(AVAL, 1 - CNSR) ~ SEX, data = letters)
+  )
+  testthat::expect_error(
+    visR::estimate_KM(formula = letters, data = survival::lung)
+  )
+  testthat::expect_error(
+    visR::estimate_KM(formula = Surv(AVAL, 1 - CNSR) ~ SEX)
+  )
+
+  testthat::expect_error(
+    visR::estimate_KM(formula = Surv(AVAL, 1 - CNSR) ~ 1, data = letters)
+  )
+  testthat::expect_error(
+    visR::estimate_KM(formula = Surv(AVAL, 1 - CNSR) ~ 1)
+  )
+  testthat::expect_error(
+    visR::estimate_KM(formula = Surv(AVAL, 1 - CNSR) ~ NOT_A_VARIABLE, data = adtte)
+  )
 })
 
 # END OF CODE -------------------------------------------------------------

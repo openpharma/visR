@@ -14,19 +14,19 @@ estimate_cuminc(
 )
 }
 \arguments{
-\item{data}{The name of the dataset for Time-to-Event analysis based on the Analysis Data Model (ADaM) principles. The dataset is expected to have
-one record per subject per analysis parameter. Rows in which the analysis variable (AVAL), the censor variable (CNSR) or the strata variables
-contain NA, are removed during analysis.}
+\item{data}{A data frame. The dataset is expected to have
+one record per subject per analysis parameter. Rows with missing observations included in the analysis are removed.}
 
-\item{strata}{Character vector, representing the strata for Time-to-Event analysis. When NULL, an overall analysis is performed.
-Default is NULL.}
-
-\item{CNSR}{Column name indicating the outcome and censoring statuses.
+\item{AVAL, CNSR, strata}{These arguments are used to construct a formula to be passed to \code{tidycmprsk::cuminc(formula=)}.
+\itemize{
+\item \code{AVAL} Analysis value for Time-to-Event analysis. Default is \code{"AVAL"}, as per CDISC ADaM guiding principles.
+\item \code{CNSR} Column name indicating the outcome and censoring statuses.
 Column must be a factor and the first level indicates censoring, the
 next level is the outcome of interest, and the remaining levels are the
-competing events. Default is \code{"CNSR"}}
-
-\item{AVAL}{Analysis value for Time-to-Event analysis. Default is "AVAL", as per CDISC ADaM guiding principles.}
+competing events. Default is \code{"CNSR"}
+\item \code{strata} Character vector, representing the strata for Time-to-Event analysis. When NULL, an overall analysis is performed.
+Default is \code{NULL}.
+}}
 
 \item{conf.int}{Confidence internal level. Default is 0.95. Parameter is passed to \code{tidycmprsk::cuminc(conf.level=)}}
 
