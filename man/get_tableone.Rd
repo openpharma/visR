@@ -46,6 +46,8 @@ By default the following summary stats are calculated:
 }
 }
 \details{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 It is possible to provide your own summary function. Please have a loot at summary for inspiration.
 }
 \note{
