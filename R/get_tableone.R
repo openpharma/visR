@@ -1,3 +1,4 @@
+#' `r lifecycle::badge("experimental")`
 #' @title Calculate summary statistics
 #'
 #' @description S3 method for creating a table of summary statistics.

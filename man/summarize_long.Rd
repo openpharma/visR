@@ -2,9 +2,21 @@
 % Please edit documentation in R/utils_table.R
 \name{summarize_long}
 \alias{summarize_long}
-\title{Calculate summary statistics for a vector}
+\alias{summarize_long.factor}
+\alias{summarize_long.integer}
+\alias{summarize_long.numeric}
+\alias{summarize_long.default}
+\title{Calculate summary statistics from a vector}
 \usage{
 summarize_long(x)
+
+\method{summarize_long}{factor}(x)
+
+\method{summarize_long}{integer}(x)
+
+\method{summarize_long}{numeric}(x)
+
+\method{summarize_long}{default}(x)
 }
 \arguments{
 \item{x}{an object}
@@ -13,5 +25,9 @@ summarize_long(x)
 A summarized version of the input.
 }
 \description{
-Calculates several summary statistics for a vector depending on the vector class
+Calculates several summary statistics. The summary statistics
+depend on the vector class
+}
+\details{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 }
