@@ -507,7 +507,7 @@ testthat::test_that("T9.2 The formula argument triggers error messages with inco
     visR::estimate_KM(formula = Surv(AVAL, 1 - CNSR) ~ SEX, data = letters)
   )
   testthat::expect_error(
-    visR::estimate_KM(formula = letters, data = suvival::lung)
+    visR::estimate_KM(formula = letters, data = survival::lung)
   )
   testthat::expect_error(
     visR::estimate_KM(formula = Surv(AVAL, 1 - CNSR) ~ SEX)

@@ -260,7 +260,7 @@ testthat::test_that("T6.1 Function works with `survival::survfit()` objects", {
 
 testthat::test_that("T6.2 Function messages users appropriately when data is piped, and p-value cannot be calculated",{
   expect_error(
-    lung %>%
+    survival::lung %>%
       survfit(Surv(time, status) ~ sex, data = .) %>%
       get_pvalue(),
     "*estimate_KM*" # error message includes reference to `estimate_KM()` function.

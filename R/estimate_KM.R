@@ -1,10 +1,14 @@
 #' @title Wrapper for Kaplan-Meier Time-to-Event analysis
 #'
-#' @description This function is a wrapper around `survival::survfit.formula()`
+#' @description
+#' This function is a wrapper around `survival::survfit.formula()`
 #'    to perform a Kaplan-Meier analysis, assuming right-censored data.
 #'    The result is an object of class \code{survfit} which can be used in
 #'    downstream functions and methods that rely on the \code{survfit} class.
 #'
+#' The function can leverage
+#' [CDISC ADaM ADTTE data model](https://www.cdisc.org/standards/foundational/adam/adam-basic-data-structure-bds-time-event-tte-analyses-v1-0)
+#' and more explicitly the conventions and controlled vocabulary of the data model.
 #'
 #' @section Estimation of 'survfit' object:
 #'
@@ -21,11 +25,10 @@
 #' To support full traceability, the data set name is captured in the named
 #'   list and the call is captured within its corresponding environment.
 #'
-#' @section PARAM/PARAMCD and CDISC Data:
+#' @section PARAM/PARAMCD and CDISC:
 #'
 #' If the data frame includes columns PARAM/PARAMCD (part of the CDISC format),
-#'   the function expects the data has been filtered on the parameter of interest;
-#'   that is, these columns should be constant in the data frame.
+#'   the function expects the data has been filtered on the parameter of interest.
 #'
 #' @seealso \code{\link[survival]{survfit.formula} \link[survival]{survfitCI}}
 #'
