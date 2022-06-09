@@ -6,7 +6,7 @@
 #' Create a survival object (e.g. `survival::Surv()`), which is usually used as
 #' the response variable in survival models.
 #' The function is designed to leverage the
-#' \link[CDISC ADaM ADTTE data model](https://www.cdisc.org/standards/foundational/adam/adam-basic-data-structure-bds-time-event-tte-analyses-v1-0)
+#' [CDISC ADaM ADTTE data model](https://www.cdisc.org/standards/foundational/adam/adam-basic-data-structure-bds-time-event-tte-analyses-v1-0)
 #' and more explicitly the conventions and controlled vocabulary of the data model.
 #' The `CNSR` argument expects a numeric column/vector that indicates
 #' an observation is censored.
@@ -49,7 +49,7 @@ Surv_CDISC <- function(AVAL, CNSR) {
   if (!is.numeric(AVAL) || !is.numeric(CNSR))
     stop("Expecting arguments 'AVAL' and 'CNSR' to be numeric.")
 
-  if (na.omit(CNSR) %>% setdiff(c(0, 1)) %>% {!rlang::is_empty(.)})
+  if (stats::na.omit(CNSR) %>% setdiff(c(0, 1)) %>% {!rlang::is_empty(.)})
     stop("Expecting 'CNSR' argument to be binary with values `0/1`.")
 
   if (any(AVAL < 0))

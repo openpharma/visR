@@ -22,7 +22,7 @@ Object of class 'Surv'
 Create a survival object (e.g. \code{survival::Surv()}), which is usually used as
 the response variable in survival models.
 The function is designed to leverage the
-\link\href{https://www.cdisc.org/standards/foundational/adam/adam-basic-data-structure-bds-time-event-tte-analyses-v1-0}{CDISC ADaM ADTTE data model}
+\href{https://www.cdisc.org/standards/foundational/adam/adam-basic-data-structure-bds-time-event-tte-analyses-v1-0}{CDISC ADaM ADTTE data model}
 and more explicitly the conventions and controlled vocabulary of the data model.
 The \code{CNSR} argument expects a numeric column/vector that indicates
 an observation is censored.

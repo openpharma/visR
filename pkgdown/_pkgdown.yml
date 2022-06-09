@@ -47,6 +47,7 @@ reference:
       - get_pvalue
       - get_quantile
       - get_COX_HR
+      - Surv_CDISC
 
   - title: Data Summary
   - contents:
