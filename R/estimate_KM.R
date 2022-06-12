@@ -8,7 +8,7 @@
 #'
 #' The function can leverage the conventions and controlled vocabulary from
 #' [CDISC ADaM ADTTE data model](https://www.cdisc.org/standards/foundational/adam/adam-basic-data-structure-bds-time-event-tte-analyses-v1-0),
-#' and also works with non-CDISC datasets through the `formula` argument.
+#' and also works with standard, non-CDISC datasets through the `formula` argument.
 #'
 #' @section Estimation of 'survfit' object:
 #'

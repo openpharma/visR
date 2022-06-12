@@ -44,7 +44,7 @@ downstream functions and methods that rely on the \code{survfit} class.
 
 The function can leverage the conventions and controlled vocabulary from
 \href{https://www.cdisc.org/standards/foundational/adam/adam-basic-data-structure-bds-time-event-tte-analyses-v1-0}{CDISC ADaM ADTTE data model},
-and also works with non-CDISC datasets through the \code{formula} argument.
+and also works with standard, non-CDISC datasets through the \code{formula} argument.
 }
 \section{Estimation of 'survfit' object}{
 
