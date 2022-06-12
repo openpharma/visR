@@ -6,9 +6,9 @@
 #'    The result is an object of class \code{survfit} which can be used in
 #'    downstream functions and methods that rely on the \code{survfit} class.
 #'
-#' The function can leverage
-#' [CDISC ADaM ADTTE data model](https://www.cdisc.org/standards/foundational/adam/adam-basic-data-structure-bds-time-event-tte-analyses-v1-0)
-#' and more explicitly the conventions and controlled vocabulary of the data model.
+#' The function leverages the conventions and controlled vocabulary from
+#' [CDISC ADaM ADTTE data model](https://www.cdisc.org/standards/foundational/adam/adam-basic-data-structure-bds-time-event-tte-analyses-v1-0),
+#' but also allows to work with non-CDISC datasets through the `formula` argument.
 #'
 #' @section Estimation of 'survfit' object:
 #'
@@ -118,7 +118,8 @@ estimate_KM <- function(
     stop("Argument `formula=` must be class 'formula'.")
   }
 
-  # add strata object if user passer formula -----------------------------------
+
+  # Check formula arguments and add strata object if user passer formula  -----
   if (!is.null(formula)) {
     if (any(!all.vars(formula) %in% names(data))) {
       vars_missing_in_data <-

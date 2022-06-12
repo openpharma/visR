@@ -102,7 +102,6 @@ get_pvalue <- function(survfit_object,
                    as.character(e), call. = FALSE)
             }
             else {
-              e
             }
           }
         )
