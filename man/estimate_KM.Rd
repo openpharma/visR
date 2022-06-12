@@ -42,9 +42,9 @@ to perform a Kaplan-Meier analysis, assuming right-censored data.
 The result is an object of class \code{survfit} which can be used in
 downstream functions and methods that rely on the \code{survfit} class.
 
-The function can leverage
-\href{https://www.cdisc.org/standards/foundational/adam/adam-basic-data-structure-bds-time-event-tte-analyses-v1-0}{CDISC ADaM ADTTE data model}
-and more explicitly the conventions and controlled vocabulary of the data model.
+The function can leverage the conventions and controlled vocabulary from
+\href{https://www.cdisc.org/standards/foundational/adam/adam-basic-data-structure-bds-time-event-tte-analyses-v1-0}{CDISC ADaM ADTTE data model},
+and also works with non-CDISC datasets through the \code{formula} argument.
 }
 \section{Estimation of 'survfit' object}{
 
