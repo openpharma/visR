@@ -24,22 +24,18 @@ the response variable in survival models.
 The function is designed to leverage the
 \href{https://www.cdisc.org/standards/foundational/adam/adam-basic-data-structure-bds-time-event-tte-analyses-v1-0}{CDISC ADaM ADTTE data model}
 and more explicitly the conventions and controlled vocabulary of the data model.
-The \code{CNSR} argument expects a numeric column/vector that indicates
-an observation is censored.
 
 The \code{AVAL} and \code{CNSR} arguments are passed to
 \code{survival::Surv(time = AVAL, event = 1 - CNSR, type = 'right', origin = 0)}.
 }
 \examples{
-library(survival)
-
-survfit(Surv_CDISC() ~ SEX, data = adtte)
+survival::survfit(visR::Surv_CDISC() ~ SEX, data = adtte)
 adtte \%>\%
-  estimate_KM(formula = Surv_CDISC() ~ SEX)
+ visR:: estimate_KM(formula = visR::Surv_CDISC() ~ SEX)
 
 # When using CDSIC data, you can specify arguments or rely on defaults
-with(adtte, Surv_CDISC(AVAL, CNSR)) \%>\% head()
-with(adtte, Surv_CDISC()) \%>\% head()
+with(adtte, visR::Surv_CDISC(AVAL, CNSR)) \%>\% head()
+with(adtte, visR::Surv_CDISC()) \%>\% head()
 }
 \seealso{
 \code{\link[survival:Surv]{survival::Surv()}}, \code{\link[=estimate_KM]{estimate_KM()}}
