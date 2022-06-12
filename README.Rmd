@@ -24,8 +24,6 @@ riskmetric_score <- "visR" %>%
   riskmetric::pkg_score() %>%
   dplyr::pull("pkg_score") %>%
   round(2)
-
-
 ```
 
 # visR <img src='man/figures/logo.png' align="right" height="131.5" />
