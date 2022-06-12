@@ -94,15 +94,17 @@ get_pvalue <- function(survfit_object,
         tryCatch(
           eval(x, envir = attr(survfit_object$call, ".Environment")),
           error = function(e) {
+            error_msg <- as.character(e)
             if (!is_visr_survfit(survfit_object)) {
-              stop("There was an error calculating the p-values.\n",
-                   "The 'survfit' object was not created with `visR::estimate_KM()`.\n",
-                   "The the error will likely be resolved by re-estimating the ",
-                   "'survfit' object with visR.\n",
-                   as.character(e), call. = FALSE)
+              error_msg <-
+                paste0(
+                  "There was an error calculating the p-values.\n",
+                  "The 'survfit' object was not created with `visR::estimate_KM()`.\n",
+                  "The the error will likely be resolved by re-estimating the ",
+                  "'survfit' object with visR.\n",
+                  error_msg)
             }
-            else {
-            }
+            stop(error_msg, call. = FALSE)
           }
         )
       }
