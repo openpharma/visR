@@ -3,18 +3,21 @@
 #' @section Last update date:
 #'
 #' @section List of tested specifications
-#' T1. The function returns a `Surv` object.
-#' T1.1. No error when arguments are used as indicated in documentation.
-#' T2. Errors are triggered with bad argument inputs.
-#' T2.1. Errors are triggered with bad argument inputs.
-#' T3. Results match when not using Surv_CDISC.
-#' T3.1. Surv_CDISC() and Surv() results match
+#' T1. The function returns a Surv object
+#' T1.1 The function returns a Surv object
+#' T1.2 The results of the estimation match between Surv_CDISC and Surv with inverted censoring
+#' T2. The function relies on the presence of two numeric variables, specified through AVAL and CNSR, to be present in the envrionment in which they are called
+#' T2.1 An error when column name specified through AVAL is not present in the environment
+#' T2.2 An error when column name specified through AVAL in the environment is not numeric
+#' T2.3 An error when the column name specified through CNSR is not present in the environment
+#' T2.4 An error when the column name specified through CNSR in the environment is not numeric
+#' T2.5 A warning when the column specified through AVAL has negative values
 
 # Requirement T1 ----------------------------------------------------------
 
-testthat::context("Surv_CDISC - T1. The function returns a `Surv` object.")
+testthat::context("Surv_CDISC - T1. The function returns a Surv object")
 
-testthat::test_that("T1.1. No error when arguments are used as indicated in documentation.", {
+testthat::test_that("T1.1 The function returns a Surv object", {
   testthat::expect_error(survival::survfit(visR::Surv_CDISC() ~ 1, data = adtte), NA)
   testthat::expect_error(survival::survfit(visR::Surv_CDISC() ~ SEX, data = adtte), NA)
 
@@ -27,7 +30,10 @@ testthat::test_that("T1.1. No error when arguments are used as indicated in docu
   testthat::expect_error(adtte %>% visR::estimate_KM(formula = visR::Surv_CDISC(AVAL, CNSR) ~ 1), NA)
   testthat::expect_error(adtte %>% visR::estimate_KM(formula = visR::Surv_CDISC(AVAL, CNSR) ~ SEX), NA)
 
-  testthat::expect_error(with(adtte, visR::Surv_CDISC(AVAL, CNSR)), NA)
+  testthat::expect_error(surv1 <- with(adtte, visR::Surv_CDISC()), NA)
+  testthat::expect_error(surv2 <- with(adtte, visR::Surv_CDISC(AVAL, CNSR)), NA)
+  testthat::expect_true(inherits(surv1, "Surv"))
+  testthat::expect_true(inherits(surv2, "Surv"))
 
   # WHEN THIS TEST FAILS, THAT IS OUR SIGNAL THAT {survival} HAS BEEN UPDATED ON CRAN!!
   # AT THAT POINT WE SHOULD DO THE FOLLOWING
@@ -39,26 +45,7 @@ testthat::test_that("T1.1. No error when arguments are used as indicated in docu
   testthat::expect_error(survival::coxph(visR::Surv_CDISC() ~ SEX, data = adtte))
 })
 
-# Requirement T2 ----------------------------------------------------------
-
-testthat::context("Surv_CDISC - T2. Errors are triggered with bad argument inputs.")
-
-testthat::test_that("T2.1. Errors are triggered with bad argument inputs.", {
-  testthat::expect_error(survival::survfit(visR::Surv_CDISC() ~ 1, data = survival::lung))
-  testthat::expect_error(survival::survfit(visR::Surv_CDISC() ~ sex, data = survival::lung))
-  testthat::expect_error(survival::survfit(visR::Surv_CDISC() ~ 1, data = survival::lung %>% dplyr::rename(AVAL = time)))
-  testthat::expect_error(survival::survfit(visR::Surv_CDISC() ~ sex, data = survival::lung %>% dplyr::rename(AVAL = time)))
-
-  testthat::expect_error(survival::survfit(visR::Surv_CDISC(AVAL = time) ~ 1, data = survival::lung %>% dplyr::mutate(CNSR = as.character(status))))
-  testthat::expect_error(survival::survfit(visR::Surv_CDISC(AVAL = time) ~ 1, data = survival::lung %>% dplyr::mutate(CNSR = status)))
-  testthat::expect_warning(survival::survfit(visR::Surv_CDISC() ~ 1, data = adtte %>% dplyr::mutate(AVAL = AVAL - 10000)))
-})
-
-# Requirement T3 ----------------------------------------------------------
-
-testthat::context("Surv_CDISC - T3. Results match when not using Surv_CDISC.")
-
-testthat::test_that("T3.1. Surv_CDISC() and Surv() results match", {
+testthat::test_that("T1.2 The results of the estimation match between Surv_CDISC and Surv with inverted censoring", {
   testthat::expect_equal(
     with(adtte, visR::Surv_CDISC()),
     with(adtte, survival::Surv(AVAL, 1 - CNSR))
@@ -68,4 +55,40 @@ testthat::test_that("T3.1. Surv_CDISC() and Surv() results match", {
   km2 <- adtte %>% visR::estimate_KM()
   km1$call <- km2$call <- NULL
   testthat::expect_equal(km1, km2)
+
+  km1 <- adtte %>% visR::estimate_KM(formula = visR::Surv_CDISC(AVAL, CNSR) ~ SEX)
+  km2 <- adtte %>% visR::estimate_KM(strata = "SEX")
+  km1$call <- km2$call <- NULL
+  testthat::expect_equal(km1, km2)
 })
+
+# Requirement T2 ----------------------------------------------------------
+
+testthat::test_that("T2.1 An error when column name specified through AVAL is not present in the environment", {
+  testthat::expect_error(survival::survfit(visR::Surv_CDISC() ~ 1, data = survival::lung))
+  testthat::expect_error(survival::survfit(visR::Surv_CDISC() ~ sex, data = survival::lung))
+})
+
+testthat::test_that("T2.2 An error when column name specified through AVAL in the environment is not numeric", {
+  testthat::expect_error(survival::survfit(visR::Surv_CDISC(AVAL = time) ~ 1, data = survival::lung %>% dplyr::mutate(CNSR = as.character(status))))
+})
+
+testthat::test_that("T2.3 An error when the column name specified through CNSR is not present in the environment", {
+  testthat::expect_error(survival::survfit(visR::Surv_CDISC() ~ 1, data = survival::lung %>% dplyr::rename(AVAL = time)))
+  testthat::expect_error(survival::survfit(visR::Surv_CDISC() ~ sex, data = survival::lung %>% dplyr::rename(AVAL = time)))
+  testthat::expect_error(survival::survfit(visR::Surv_CDISC(AVAL = time) ~ 1, data = survival::lung %>% dplyr::mutate(CNSR = status)))
+})
+
+testthat::test_that("T2.4 An error when the column name specified through CNSR in the environment is not numeric", {
+  testthat::expect_error(survival::survfit(visR::Surv_CDISC(AVAL = time) ~ 1, data = survival::lung %>% dplyr::mutate(CNSR = as.character(status))))
+})
+
+testthat::test_that("T2.5 A warning when the column specified through AVAL has negative values", {
+  testthat::expect_warning(survival::survfit(visR::Surv_CDISC() ~ 1, data = adtte %>% dplyr::mutate(AVAL = AVAL - 10000)))
+})
+
+
+
+
+
+
