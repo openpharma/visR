@@ -1,3 +1,4 @@
+#' `r lifecycle::badge("experimental")`
 #' @title Calculate summary statistics
 #'
 #' @description S3 method for creating a table of summary statistics.
@@ -18,7 +19,7 @@
 #'
 #' @note All columns in the table will be summarized. If only some columns shall be used, please select only those
 #' variables prior to creating the summary table by using dplyr::select()
-
+#'
 #' @examples
 #'
 #' # Example using the ovarian data set
@@ -67,9 +68,8 @@
 #'   visR::get_tableone(strata = "TRTA", overall = FALSE)
 #'
 #' @rdname get_tableone
-#'
 #' @export
-
+#'
 get_tableone <- function(data, strata = NULL, overall=TRUE, summary_function = summarize_short){
   UseMethod("get_tableone")
 }

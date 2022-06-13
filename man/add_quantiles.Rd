@@ -42,12 +42,12 @@ library(visR)
 adtte \%>\%
   estimate_KM("SEX") \%>\%
   visr() \%>\%
-  add_quantiles() 
+  add_quantiles()
 
 adtte \%>\%
   estimate_KM("SEX") \%>\%
   visr() \%>\%
-  add_quantiles(quantiles = c(0.25, 0.50)) 
+  add_quantiles(quantiles = c(0.25, 0.50))
 
 adtte \%>\%
   estimate_KM("SEX") \%>\%
@@ -56,7 +56,7 @@ adtte \%>\%
     quantiles = c(0.25, 0.50),
     linetype = "solid",
     linecolour = "grey"
- ) 
+ )
 
 adtte \%>\%
   estimate_KM("SEX") \%>\%
@@ -65,6 +65,6 @@ adtte \%>\%
     quantiles = c(0.25, 0.50),
     linetype = "mixed",
     linecolour = "strata"
- ) 
+ )
 
 }

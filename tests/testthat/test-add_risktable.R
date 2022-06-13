@@ -3,8 +3,8 @@
 #' @section Last update date: 2022-05-01T15:52:08
 #'
 #' @section List of tested specifications
-#' T1. The function accepts a `ggsurvfit` object.
-#' T1.1 No error when a `ggsurvfit` object is passed to the function.
+#' T1. The function accepts a `ggsurvfit` and `ggtidycuminc` objects.
+#' T1.1 No error when a `ggsurvfit` and `ggtidycuminc` objects is passed to the function.
 #' T1.2 An error when a non-`ggsurvfit` object is passed to the function.
 #' T2. The risktables are `ggplot` representations of the actual risktables.
 #' T2.1 When no strata were specified, an artificial strata is displayed 'Overall'.
@@ -31,7 +31,11 @@ testthat::context("add_risktable.survfit - T1. The function accepts a `ggsurvfit
 testthat::test_that("T1.1 No error when a `ggsurvfit` object is passed to the function.", {
 
   visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::visr()
+  testthat::expect_error(visR::add_risktable(visR_plot), NA)
 
+  visR_plot <-
+    visR::estimate_cuminc(tidycmprsk::trial, AVAL = "ttdeath", CNSR = "death_cr") %>%
+    visR::visr(x_units = "Months")
   testthat::expect_error(visR::add_risktable(visR_plot), NA)
 
 })

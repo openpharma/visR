@@ -28,9 +28,9 @@
 #'                    align = "none",
 #'                    nrow=2)
 #' }
+#'
 #' @export
-
-
+#'
 align_plots <- function(pltlist) {
 
   if (missing(pltlist) | is.null(pltlist)) {
@@ -542,9 +542,9 @@ legendopts <- function(legend_position = "right",
 #' @noRd
 .extract_estimate_object <- function(gg) {
   if (inherits(gg, "ggsurvfit")) {
-    call <- as.character(gg$data$call[[1]])
+    call <- as.character(rlang::quo_squash(gg$data$call[[1]]))
 
-    survfit_object <- eval(gg$data$call[[1]])
+    survfit_object <- rlang::eval_tidy(gg$data$call[[1]])
 
     #Since this call is using survival instead of visR, some characteristics are missing eg strata = "Overall" when no strata present
     main <- base::trimws(base::sub(".*~", "", call[[2]]), which = "both")

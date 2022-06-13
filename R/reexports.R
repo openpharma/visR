@@ -3,8 +3,6 @@
 #' @importFrom dplyr %>%
 dplyr::`%>%`
 
-
-
 # survival ------------------------------------------------------------------------
 #' @export
 #' @importFrom survival strata
@@ -29,3 +27,7 @@ survival::ridge
 #' @export
 #' @importFrom survival pspline
 survival::pspline
+
+#' @export
+#' @importFrom survival Surv
+survival::Surv

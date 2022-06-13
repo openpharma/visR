@@ -12,6 +12,7 @@ context("validate_watchdog - T1. Details on last change for test files are recor
 # skip on GH Actions and CRAN
 testthat::skip_if(isTRUE(as.logical(Sys.getenv("CI"))))
 testthat::skip_on_cran()
+testthat::skip_on_os("windows")
 
 testthat::test_that("T1.1 executed.",{
 

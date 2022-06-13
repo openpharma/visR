@@ -35,6 +35,7 @@ cowplot::plot_grid(plotlist = visR::align_plots(pltlist = list(p1, p2)),
                    align = "none",
                    nrow=2)
 }
+
 }
 \references{
 \url{https://stackoverflow.com/questions/26159495}
