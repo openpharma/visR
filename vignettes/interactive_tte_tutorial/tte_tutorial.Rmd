@@ -524,17 +524,3 @@ m %>%
   ggplot2::geom_line(data = half_surv_df, ggplot2::aes(pos1, pos2, group = strata), linetype = "dashed")
 
 ```
-
-
-## Upcoming features
-
-A second release of [`visR`](https://openpharma.github.io/visR/) to CRAN is planned for October. It will include a few bug fixes and UX improvements. However, it will also add new features:
-
-* `add_highlight()` -> Adjusts the transparency of strata in the survival plots to highlight specific ones.
-
-![](add_highlight.png)
-
-
-* `tabletwo()` -> A set of functions to generate Table 2 statistics with forest plots.
-
-![](table_two.png){width=90%}

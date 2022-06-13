@@ -1,7 +1,8 @@
-#' `r lifecycle::badge("experimental")`
 #' @title Render a data.frame, risktable, or tableone object as a table
 #'
-#' @description Render a previously created data.frame, tibble or tableone object to html, rtf or latex
+#' @description
+#' `r lifecycle::badge("questioning")`
+#' Render a previously created data.frame, tibble or tableone object to html, rtf or latex
 #'
 #' @param data Input data.frame or tibble to visualize
 #' @param title Specify the title as a text string to be displayed in the rendered table.

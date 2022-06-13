@@ -1,6 +1,8 @@
 #' @title Display a summary Table (i.e. table one)
 #'
-#' @description Wrapper function to produce a summary table (i.e. Table One).
+#' @description
+#' `r lifecycle::badge("questioning")`
+#' Wrapper function to produce a summary table (i.e. Table One).
 #' Create and render a summary table for a dataset.
 #' A typical example of a summary table are "table one", the first table in an applied medical research manuscript.
 #'
@@ -21,19 +23,19 @@
 #' \if{html}{tableone(engine = "gt")}
 #'
 #' \if{html}{\figure{tableone_gt_ex.png}{options: width=65\%}}
-#' 
+#'
 #' \if{html}{tableone(engine = "DT")}
 #'
 #' \if{html}{\figure{tableone_DT_ex.png}{options: width=65\%}}
-#' 
+#'
 #' \if{html}{tableone(engine = "kable")}
 #'
 #' \if{html}{\figure{tableone_kable_html_ex.png}{options: width=65\%}}
-#' 
+#'
 #' \if{html}{tableone(engine = "kable", output_format = "latex")}
 #'
 #' \if{html}{\figure{tableone_kable_latex_ex.png}{options: width=65\%}}
-#' 
+#'
 #' @examples
 #'
 #' # metadata for table
@@ -55,7 +57,7 @@
 #'      footnote = t1_fn,
 #'      engine = "gt"
 #'   )
-#'    
+#'
 #' ## table by treatment - without overall and render with DT
 #' tbl_DT <-
 #'    adtte %>%
@@ -102,7 +104,7 @@
 #'
 #'
 #' @return A table-like data structure, possibly interactive depending on the choice of the engine
-#' 
+#'
 #' @rdname tableone
 #'
 #' @export
@@ -120,14 +122,14 @@ tableone <- function(
     ...
     # engine = "gt"
 ) {
-    tab1_rendered <- get_tableone(data, 
-                                  strata = strata, 
-                                  summary_function = summary_function, 
+    tab1_rendered <- get_tableone(data,
+                                  strata = strata,
+                                  summary_function = summary_function,
                                   overall = overall) %>%
-        render(title = title, 
-               datasource = datasource, 
+        render(title = title,
+               datasource = datasource,
                footnote = footnote,
                ...)
-    
+
     return(tab1_rendered)
 }

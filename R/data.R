@@ -7,8 +7,9 @@
 #' @title adtte - CDISC ADaM compliant time to event data set
 #'
 #' @description ADTTE data copied from the 2013 CDISC Pilot
-#' @source CDISC SDTM/ADAM Pilot Project. \url{https://bitbucket.cdisc.org/projects/CED}
-#' 
+#' @source CDISC SDTM/ADAM Pilot Project.
+#'   \url{https://github.com/phuse-org/phuse-scripts/tree/master/data}
+#'
 #' @format A data frame with 254 rows and 26 variables:
 #' \describe{
 #'  \item{STUDYID}{Study Identifier}
