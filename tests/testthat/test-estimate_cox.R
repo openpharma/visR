@@ -22,7 +22,7 @@
 #' T3.3 When no equation is specified, the 'null model' is displayed
 #' T3.4 When the equation has a term with only one factor, expect an error
 #' T4. The function allows `conf.int` argument to be passed, specific for survival::summary.coxph
-#' T4.1 An error when the `conf.int` is not numeric
+#' T4.1 A warning when the `conf.int` is not numeric
 #' T4.2 An error when the `conf.int` is numeric but not between 0 and 1
 #' T4.3 No error when the `conf.int` is numeric and between 0 and 1
 #' T5.  The function removes all rows with NA values inside CNSR or AVAL
@@ -175,10 +175,9 @@ testthat::test_that("T3.4 When the equation has a term with only one factor, exp
 
 testthat::context("estimate_cox - T4. The function allows `conf.int` argument to be passed, specific for survival::summary.coxph")
 
-testthat::test_that("T4.1 An error when the `conf.int` is not numeric", {
-
+testthat::test_that("T4.1 A warning when the `conf.int` is not numeric", {
   data <- adtte
-  testthat::expect_error(
+  testthat::expect_warning(
     visR::estimate_cox(data = data, equation = "SEX + AGE", conf.int = "blah"))
 
 })

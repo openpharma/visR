@@ -14,8 +14,6 @@
 #' @param ... additional arguments passed on to the ellipsis of the call \code{survival::coxph(data = data, formula = survival::Surv(AVAL, 1-CNSR) ~ equation), ...)}.
 #'    Use \code{?survival::coxph} and \code{?survival::summary.coxph} for more information.
 #'
-#' @inheritParams survival::coxph
-#' @inheritParams survival::summary.coxph
 #'
 #' @return an object of coxph, with additional components of the class of\code{survival::summary.coxph}. Use \code{?survival::coxph} and \code{?survival::summary.coxph} for more information.
 #'

@@ -24,13 +24,13 @@ Default is NULL.}
 
 \item{AVAL}{Analysis value for the Cox model. Default is "AVAL", as per CDISC ADaM guiding principles.}
 
-\item{conf.int}{Confidence intervals used for the estimation.}
+\item{conf.int}{Confidence intervals used for the estimation. Conf.int argument is used from the \code{survival::summary.coxph}. The default is 0.95.}
 
-\item{...}{additional arguments passed on to the ellipsis of the call \code{survival::coxph(data = data, formula = survival::Surv(AVAL, 1-CNSR) ~ equation), ...)} .
+\item{...}{additional arguments passed on to the ellipsis of the call \code{survival::coxph(data = data, formula = survival::Surv(AVAL, 1-CNSR) ~ equation), ...)}.
 Use \code{?survival::coxph} and \code{?survival::summary.coxph} for more information.}
 }
 \value{
-a coxph model
+an object of coxph, with additional components of the class of\code{survival::summary.coxph}. Use \code{?survival::coxph} and \code{?survival::summary.coxph} for more information.
 }
 \description{
 This function is a wrapper around \code{survival::coxph} to fit a Cox Proportional Hazards Regression model, assuming right-censored data.
