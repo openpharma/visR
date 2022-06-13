@@ -38,6 +38,7 @@ Pre-implemented functions are summarize_long and summarize_short}
 A table-like data structure, possibly interactive depending on the choice of the engine
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#questioning}{\figure{lifecycle-questioning.svg}{options: alt='[Questioning]'}}}{\strong{[Questioning]}}
 Wrapper function to produce a summary table (i.e. Table One).
 Create and render a summary table for a dataset.
 A typical example of a summary table are "table one", the first table in an applied medical research manuscript.
@@ -84,7 +85,7 @@ tbl_gt <-
      footnote = t1_fn,
      engine = "gt"
   )
-   
+
 ## table by treatment - without overall and render with DT
 tbl_DT <-
    adtte \%>\%
