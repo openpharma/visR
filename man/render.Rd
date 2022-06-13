@@ -39,8 +39,6 @@ Default is a list "c('copy', 'csv', 'excel')".}
 A table data structure with possible interactive functionality depending on the choice of the engine.
 }
 \description{
-Render a previously created data.frame, tibble or tableone object to html, rtf or latex
-}
-\details{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#questioning}{\figure{lifecycle-questioning.svg}{options: alt='[Questioning]'}}}{\strong{[Questioning]}}
+Render a previously created data.frame, tibble or tableone object to html, rtf or latex
 }
