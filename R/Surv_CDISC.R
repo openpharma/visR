@@ -3,32 +3,53 @@
 #' @description
 #' `r lifecycle::badge('experimental')`
 #'
-#' Create a survival object (e.g. `survival::Surv()`), which is usually used as
-#' the response variable in survival models.
-#' The function is designed to leverage the
-#' [CDISC ADaM ADTTE data model](https://www.cdisc.org/standards/foundational/adam/adam-basic-data-structure-bds-time-event-tte-analyses-v1-0)
-#' and more explicitly the conventions and controlled vocabulary of the data model.
+#' The aim of `Surv_CDISC()` is to map the inconsistency in convention between
+#' the [survival](https://cran.r-project.org/package=survival) package and
+#' [CDISC ADaM ADTTE data model](https://www.cdisc.org/standards/foundational/adam/adam-basic-data-structure-bds-time-event-tte-analyses-v1-0).
+#'
+#' The function creates a survival object (e.g. `survival::Surv()`) that
+#' uses CDISC ADaM ADTTE coding conventions and converts the arguments to the
+#' status/event variable convention used in the
+#' [survival](https://cran.r-project.org/package=survival) package.
 #'
 #' The `AVAL` and `CNSR` arguments are passed to
-#' `survival::Surv(time = AVAL, event = 1 - CNSR, type = 'right', origin = 0)`.
+#' `survival::Surv(time = AVAL, event = 1 - CNSR, type = "right", origin = 0)`.
+#'
+#' @section Details:
+#'
+#' The `Surv_CDISC()` function creates a survival object utilizing the
+#' expected data structure in the CDISC ADaM ADTTE data model,
+#' mapping the CDISC ADaM ADTTE coding conventions with the expected
+#' status/event variable convention used in the survival package---specifically,
+#' the coding convention used for the status/event indicator.
+#' The survival package expects the status/event indicator in the
+#' following format: `0=alive`, `1=dead`. Other accepted choices are
+#' `TRUE`/`FALSE` (`TRUE = death`) or `1`/`2` (`2=death`).
+#' A final but risky option is to omit the indicator variable, in which case
+#' all subjects are assumed to have an event.
+#'
+#' The CDISC ADaM ADTTE data model adopts a different coding convention for
+#' the event/status indicator. Using this convention, the event/status variable
+#' is named `'CNSR'` and uses the following coding: `censor = 0`, `status/event = 1`.
 #'
 #' @param AVAL The follow-up time. The follow-up time is assumed to originate from zero.
-#' When no argument is passed, the default value is a column/vector named `AVAL`
+#' When no argument is passed, the default value is a column/vector named `AVAL`.
 #' @param CNSR The censoring indicator where `1=censored` and `0=death/event`.
-#' When no argument is passed, the default value is a column/vector named `CNSR`
+#' When no argument is passed, the default value is a column/vector named `CNSR`.
 #'
 #' @return Object of class 'Surv'
 #' @seealso [`survival::Surv()`], [`estimate_KM()`]
 #' @export
 #'
 #' @examples
-#' survival::survfit(visR::Surv_CDISC() ~ SEX, data = adtte)
+#' # Use the `Surv_CDISC()` function with visR functions
 #' adtte %>%
 #'  visR:: estimate_KM(formula = visR::Surv_CDISC() ~ SEX)
 #'
-#' # When using CDSIC data, you can specify arguments or rely on defaults
-#' with(adtte, visR::Surv_CDISC(AVAL, CNSR)) %>% head()
-#' with(adtte, visR::Surv_CDISC()) %>% head()
+#' # Use the `Surv_CDISC()` function with functions from other packages as well
+#' survival::survfit(visR::Surv_CDISC() ~ SEX, data = adtte)
+#' survival::survreg(visR::Surv_CDISC() ~ SEX + AGE, data = adtte) %>%
+#'   broom::tidy()
 
 Surv_CDISC <- function(AVAL, CNSR) {
   # set default values if not passed by user -----------------------------------
