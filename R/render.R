@@ -1,4 +1,4 @@
-#' `r lifecycle::badge("experimental")`
+#' `r lifecycle::badge("questioning")`
 #' @title Render a data.frame, risktable, or tableone object as a table
 #'
 #' @description Render a previously created data.frame, tibble or tableone object to html, rtf or latex

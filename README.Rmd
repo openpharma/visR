@@ -24,15 +24,14 @@ riskmetric_score <- "visR" %>%
   riskmetric::pkg_score() %>%
   dplyr::pull("pkg_score") %>%
   round(2)
-
-
 ```
 
 # visR <img src='man/figures/logo.png' align="right" height="131.5" />
 
 <!-- badges: start -->
 
-[![Codecov test coverage](https://codecov.io/gh/openpharma/visR/branch/develop/graph/badge.svg)](https://codecov.io/gh/openpharma/visR?branch=main)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![Codecov test coverage](https://codecov.io/gh/openpharma/visR/branch/develop/graph/badge.svg)](https://app.codecov.io/gh/openpharma/visR?branch=main)
 [![R-CMD-check](https://github.com/openpharma/visR/workflows/R-CMD-check/badge.svg)](https://github.com/openpharma/visR/actions)
 [![pkgdown](https://github.com/openpharma/visR/actions/workflows/makedocs.yml/badge.svg)](https://github.com/openpharma/visR/actions/workflows/makedocs.yml)
 [![CRAN status](https://www.r-pkg.org/badges/version/visR)](https://CRAN.R-project.org/package=visR)
@@ -98,40 +97,6 @@ adtte %>%
     statlist = c("n.risk", "n.event", "n.censor"),
     label = c("At risk", "Event", "Censor")
   )
-```
-
-
-#### Summary Table
-
-The `tableone()` function presents summary statistics in a table format.
-
-```{r tableone, warning=FALSE, message = FALSE}
-## table by treatment - without overall and render with GT
-tableone <-
-  adtte %>%
-  dplyr::select(AGE, SEX, TRTA) %>%
-  visR::tableone(
-     strata = "TRTA",
-     overall = TRUE,
-     title = "Cohort Summary",
-     datasource = "ADaM Interim Dataset for Time-to-Event Analysis",
-     engine = "gt"
-  )
-```
-
-```{r tableone_print, include = FALSE}
-# Had to manually save images in temp file, not sure if better way.
-gt::gtsave(tableone, file = file.path(tempdir(), "temp.png"))
-```
-
-```{r out.width = "90%", echo = FALSE}
-# Have to do this workaround since the README needs markdown format for GitHub page but a different format for the website.
-if (identical(Sys.getenv("IN_PKGDOWN"), "true")) {
-  table1 # display true html table
-} else {
-  # show saved image
-  knitr::include_graphics("man/figures/README-tableone_print-1.png")
-} 
 ```
 
 ## Cite visR
