@@ -42,6 +42,7 @@ reference:
   - title: Survival Analysis
   - contents:
       - estimate_KM
+      - estimate_cox
       - estimate_cuminc
       - get_risktable
       - get_pvalue

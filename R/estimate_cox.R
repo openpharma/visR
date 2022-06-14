@@ -1,6 +1,9 @@
 #' @title Wrapper for Cox Proportional Hazard analysis
 #'
-#' @description This function is a wrapper around \code{survival::coxph} to fit a Cox Proportional Hazards Regression model, assuming right-censored data.
+#' @description
+#' `r lifecycle::badge('experimental')`
+#'
+#' This function is a wrapper around \code{survival::coxph} to fit a Cox Proportional Hazards Regression model, assuming right-censored data.
 #'    The function expects that the data has been filtered on the parameter (PARAM/PARAMCD) of interest.
 #'    The result is an object of class \code{coxph} which can be used in downstream functions and methods that rely on the \code{coxph} class.
 #'
@@ -30,7 +33,7 @@
 #' # Stratified Kaplan-Meier analysis by `TRTP`
 #' visR::estimate_cox(data = adtte, equation = "TRTP")
 #'
-#' ## Multivariate Cox model using the covariates: `TRTP` and `SEX`
+#' ## Multivariable Cox model using the covariates: `TRTP` and `SEX`
 #' visR::estimate_cox(data = adtte, equation = "TRTP + SEX")
 #'
 #' ## Stratified Cox model (strata with three levels)

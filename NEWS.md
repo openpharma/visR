@@ -4,6 +4,7 @@
 * Highlight specific strata in survival plots using `add_highlight()`.
 * Indicate quantiles in survival plots using `add_quantiles()`.
 * Estimation and Plotting of cumulative competing risks via `estimate_cuminc()` and `visr()`. (#293)
+* `estimate_cox` added to fit a Cox Proportional Hazards Regression model. 
 
 ### Utility functions
 * `AlignPlots()` has been renamed to `align_plots()`.
