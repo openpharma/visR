@@ -3,7 +3,7 @@
 #' @description
 #' `r lifecycle::badge('experimental')`
 #'
-#' The aim of `Surv_CDISC()` is to map the inconsistency in convention between
+#' The aim of `Surv_CNSR()` is to map the inconsistency in convention between
 #' the [survival](https://cran.r-project.org/package=survival) package and
 #' [CDISC ADaM ADTTE data model](https://www.cdisc.org/standards/foundational/adam/adam-basic-data-structure-bds-time-event-tte-analyses-v1-0).
 #'
@@ -17,7 +17,7 @@
 #'
 #' @section Details:
 #'
-#' The `Surv_CDISC()` function creates a survival object utilizing the
+#' The `Surv_CNSR()` function creates a survival object utilizing the
 #' expected data structure in the CDISC ADaM ADTTE data model,
 #' mapping the CDISC ADaM ADTTE coding conventions with the expected
 #' status/event variable convention used in the survival package---specifically,
@@ -42,25 +42,25 @@
 #' @export
 #'
 #' @examples
-#' # Use the `Surv_CDISC()` function with visR functions
+#' # Use the `Surv_CNSR()` function with visR functions
 #' adtte %>%
-#'  visR:: estimate_KM(formula = visR::Surv_CDISC() ~ SEX)
+#'  visR:: estimate_KM(formula = visR::Surv_CNSR() ~ SEX)
 #'
-#' # Use the `Surv_CDISC()` function with functions from other packages as well
-#' survival::survfit(visR::Surv_CDISC() ~ SEX, data = adtte)
-#' survival::survreg(visR::Surv_CDISC() ~ SEX + AGE, data = adtte) %>%
+#' # Use the `Surv_CNSR()` function with functions from other packages as well
+#' survival::survfit(visR::Surv_CNSR() ~ SEX, data = adtte)
+#' survival::survreg(visR::Surv_CNSR() ~ SEX + AGE, data = adtte) %>%
 #'   broom::tidy()
 
-Surv_CDISC <- function(AVAL, CNSR) {
+Surv_CNSR <- function(AVAL, CNSR) {
   # set default values if not passed by user -----------------------------------
   if (missing(AVAL) && exists("AVAL", envir = rlang::caller_env()))
     AVAL <- get("AVAL", envir = rlang::caller_env())
   else if (missing(AVAL))
-    stop("Default 'AVAL' value not found. Specify argument in `Surv_CDISC(AVAL=)`.")
+    stop("Default 'AVAL' value not found. Specify argument in `Surv_CNSR(AVAL=)`.")
   if (missing(CNSR) && exists("CNSR", envir = rlang::caller_env()))
     CNSR <- get("CNSR", envir = rlang::caller_env())
   else if (missing(CNSR))
-    stop("Default 'CNSR' value not found. Specify argument in `Surv_CDISC(CNSR=)`.")
+    stop("Default 'CNSR' value not found. Specify argument in `Surv_CNSR(CNSR=)`.")
 
   # checking inputs ------------------------------------------------------------
   if (!is.numeric(AVAL) || !is.numeric(CNSR))
