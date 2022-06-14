@@ -9,29 +9,18 @@
 #' T2. The function relies on the presence of two numeric variables, specified through AVAL and CNSR, to be present in the envrionment in which they are called
 #' T2.1 An error when column name specified through AVAL is not present in the environment
 #' T2.2 An error when column name specified through AVAL in the environment is not numeric
-#' T2.3 An error when the column name specified through CNSR is not present in the environment
-#' T2.4 An error when the column name specified through CNSR in the environment is not numeric
-#' T2.5 A warning when the column specified through AVAL has negative values
+#' T2.3 A warning when the column specified through AVAL has negative values
+#' T2.4 An error when the column name specified through CNSR is not present in the environment
+#' T2.5 An error when the column name specified through CNSR in the environment is not numeric
 
 # Requirement T1 ----------------------------------------------------------
 
 testthat::context("Surv_CDISC - T1. The function returns a Surv object")
 
 testthat::test_that("T1.1 The function returns a Surv object", {
-  testthat::expect_error(survival::survfit(visR::Surv_CDISC() ~ 1, data = adtte), NA)
-  testthat::expect_error(survival::survfit(visR::Surv_CDISC() ~ SEX, data = adtte), NA)
-
-  testthat::expect_error(adtte %>% visR::estimate_KM(formula = Surv_CDISC() ~ 1), NA)
-  testthat::expect_error(adtte %>% visR::estimate_KM(formula = Surv_CDISC() ~ SEX), NA)
-
-  testthat::expect_error(survival::survfit(visR::Surv_CDISC(AVAL, CNSR) ~ 1, data = adtte), NA)
-  testthat::expect_error(survival::survfit(visR::Surv_CDISC(AVAL, CNSR) ~ SEX, data = adtte), NA)
-
-  testthat::expect_error(adtte %>% visR::estimate_KM(formula = visR::Surv_CDISC(AVAL, CNSR) ~ 1), NA)
-  testthat::expect_error(adtte %>% visR::estimate_KM(formula = visR::Surv_CDISC(AVAL, CNSR) ~ SEX), NA)
 
   testthat::expect_error(surv1 <- with(adtte, visR::Surv_CDISC()), NA)
-  testthat::expect_error(surv2 <- with(adtte, visR::Surv_CDISC(AVAL, CNSR)), NA)
+  testthat::expect_error(surv2 <- with(adtte, visR::Surv_CDISC()), NA)
   testthat::expect_true(inherits(surv1, "Surv"))
   testthat::expect_true(inherits(surv2, "Surv"))
 
@@ -51,12 +40,12 @@ testthat::test_that("T1.2 The results of the estimation match between Surv_CDISC
     with(adtte, survival::Surv(AVAL, 1 - CNSR))
   )
 
-  km1 <- adtte %>% visR::estimate_KM(formula = visR::Surv_CDISC(AVAL, CNSR) ~ 1)
+  km1 <- adtte %>% visR::estimate_KM(formula = visR::Surv_CDISC() ~ 1)
   km2 <- adtte %>% visR::estimate_KM()
   km1$call <- km2$call <- NULL
   testthat::expect_equal(km1, km2)
 
-  km1 <- adtte %>% visR::estimate_KM(formula = visR::Surv_CDISC(AVAL, CNSR) ~ SEX)
+  km1 <- adtte %>% visR::estimate_KM(formula = visR::Surv_CDISC() ~ SEX)
   km2 <- adtte %>% visR::estimate_KM(strata = "SEX")
   km1$call <- km2$call <- NULL
   testthat::expect_equal(km1, km2)
@@ -70,24 +59,23 @@ testthat::test_that("T2.1 An error when column name specified through AVAL is no
 })
 
 testthat::test_that("T2.2 An error when column name specified through AVAL in the environment is not numeric", {
-  testthat::expect_error(survival::survfit(visR::Surv_CDISC(AVAL = time) ~ 1, data = survival::lung %>% dplyr::mutate(CNSR = as.character(status))))
+  adtte[["AVAL"]] <- as.character(adtte[["AVAL"]])
+  testthat::expect_error(survival::survfit(visR::Surv_CDISC() ~ 1, data = adtte))
 })
 
 testthat::test_that("T2.3 An error when the column name specified through CNSR is not present in the environment", {
   testthat::expect_error(survival::survfit(visR::Surv_CDISC() ~ 1, data = survival::lung %>% dplyr::rename(AVAL = time)))
   testthat::expect_error(survival::survfit(visR::Surv_CDISC() ~ sex, data = survival::lung %>% dplyr::rename(AVAL = time)))
-  testthat::expect_error(survival::survfit(visR::Surv_CDISC(AVAL = time) ~ 1, data = survival::lung %>% dplyr::mutate(CNSR = status)))
+  adtte[["CNSR"]] <- NULL
+  testthat::expect_error(survival::survfit(visR::Surv_CDISC() ~ 1, data = adtte))
 })
 
 testthat::test_that("T2.4 An error when the column name specified through CNSR in the environment is not numeric", {
-  testthat::expect_error(survival::survfit(visR::Surv_CDISC(AVAL = time) ~ 1, data = survival::lung %>% dplyr::mutate(CNSR = as.character(status))))
+  adtte[["CNSR"]] <- NULL
+  testthat::expect_error(survival::survfit(visR::Surv_CDISC() ~ 1, data = adtte))
 })
 
-testthat::test_that("T2.5 A warning when the column specified through AVAL has negative values", {
-  testthat::expect_warning(survival::survfit(visR::Surv_CDISC() ~ 1, data = adtte %>% dplyr::mutate(AVAL = AVAL - 10000)))
-})
-
-
+# END OF CODE -------------------------------------------------------------
 
 
 
