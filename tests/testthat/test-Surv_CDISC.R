@@ -8,10 +8,9 @@
 #' T1.2 The results of the estimation match between Surv_CDISC and Surv with inverted censoring
 #' T2. The function relies on the presence of two numeric variables, specified through AVAL and CNSR, to be present in the envrionment in which they are called
 #' T2.1 An error when column name specified through AVAL is not present in the environment
-#' T2.2 An error when column name specified through AVAL in the environment is not numeric
-#' T2.3 A warning when the column specified through AVAL has negative values
-#' T2.4 An error when the column name specified through CNSR is not present in the environment
-#' T2.5 An error when the column name specified through CNSR in the environment is not numeric
+#' T2.2 A warning when the column specified through AVAL has negative values
+#' T2.3 An error when the column name specified through CNSR is not present in the environment
+#' T2.4 An error when the column name specified through CNSR in the environment is not numeric
 
 # Requirement T1 ----------------------------------------------------------
 
