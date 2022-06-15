@@ -13,6 +13,7 @@
 #' T2.3 A warning when the column specified through AVAL has negative values
 #' T2.4 An error when the column name specified through CNSR is not present in the environment
 #' T2.5 An error when the column name specified through CNSR in the environment is not numeric
+#' T2.6 An error when the column name specified through CNSR is not coded as 0/1
 
 # Requirement T1 ----------------------------------------------------------
 
@@ -99,6 +100,10 @@ testthat::test_that("T2.5 An error when the column name specified through CNSR i
   testthat::expect_error(survival::survfit(visR::Surv_CNSR() ~ 1, data = adtte))
 
   testthat::expect_error(survival::survfit(visR::Surv_CDISC(AVAL = time) ~ 1, data = survival::lung %>% dplyr::mutate(CNSR = as.character(status))))
+})
+
+testthat::test_that("T2.6 An error when the column name specified through CNSR is not coded as 0/1", {
+  testthat::expect_error(survival::survfit(visR::Surv_CNSR(time, status) ~ 1, data = survival::lung))
 })
 
 # END OF CODE -------------------------------------------------------------
