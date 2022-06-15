@@ -30,7 +30,7 @@
 #'
 #' The CDISC ADaM ADTTE data model adopts a different coding convention for
 #' the event/status indicator. Using this convention, the event/status variable
-#' is named `'CNSR'` and uses the following coding: `censor = 0`, `status/event = 1`.
+#' is named `'CNSR'` and uses the following coding: `censor = 1`, `status/event = 0`.
 #'
 #' @param AVAL The follow-up time. The follow-up time is assumed to originate from zero.
 #' When no argument is passed, the default value is a column/vector named `AVAL`.
@@ -49,7 +49,7 @@
 #' # Use the `Surv_CNSR()` function with functions from other packages as well
 #' survival::survfit(visR::Surv_CNSR() ~ SEX, data = adtte)
 #' survival::survreg(visR::Surv_CNSR() ~ SEX + AGE, data = adtte) %>%
-#'   broom::tidy()
+#'   visR::tidyme()
 
 Surv_CNSR <- function(AVAL, CNSR) {
   # set default values if not passed by user -----------------------------------
