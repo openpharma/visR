@@ -49,7 +49,7 @@
 #' # Use the `Surv_CNSR()` function with functions from other packages as well
 #' survival::survfit(visR::Surv_CNSR() ~ SEX, data = adtte)
 #' survival::survreg(visR::Surv_CNSR() ~ SEX + AGE, data = adtte) %>%
-#'   visR::tidyme()
+#'   broom::tidy()
 
 Surv_CNSR <- function(AVAL, CNSR) {
   # set default values if not passed by user -----------------------------------

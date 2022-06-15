@@ -47,7 +47,7 @@ all subjects are assumed to have an event.
 
 The CDISC ADaM ADTTE data model adopts a different coding convention for
 the event/status indicator. Using this convention, the event/status variable
-is named \code{'CNSR'} and uses the following coding: \code{censor = 0}, \code{status/event = 1}.
+is named \code{'CNSR'} and uses the following coding: \code{censor = 1}, \code{status/event = 0}.
 }
 
 \examples{
