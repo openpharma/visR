@@ -21,7 +21,8 @@ one record per subject per analysis parameter. Rows with missing observations in
 \code{survival::survfit(formula=Surv(AVAL, 1-CNSR)~strata)}. These arguments' default values follow the naming conventions in CDISC.
 \itemize{
 \item \code{AVAL} Analysis value for Time-to-Event analysis. Default is \code{"AVAL"}, as per CDISC ADaM guiding principles.
-\item \code{CNSR} Censor for Time-to-Event analysis. Default is \code{"CNSR"}, as per CDISC ADaM guiding principles.
+\item \code{CNSR} Censor for Time-to-Event analysis. Default is \code{"CNSR"}, as per CDISC ADaM guiding principles. It is expected that CNSR = 1
+for censoring and CNSR = 0 for the event of interest.
 \item \code{strata} Character vector, representing the strata for Time-to-Event analysis. When NULL, an overall analysis is performed.
 Default is \code{NULL}.
 }}

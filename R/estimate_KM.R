@@ -37,7 +37,8 @@
 #' @param AVAL,CNSR,strata These arguments are used to construct a formula to be passed to
 #' `survival::survfit(formula=Surv(AVAL, 1-CNSR)~strata)`. These arguments' default values follow the naming conventions in CDISC.
 #' - `AVAL` Analysis value for Time-to-Event analysis. Default is `"AVAL"`, as per CDISC ADaM guiding principles.
-#' - `CNSR` Censor for Time-to-Event analysis. Default is `"CNSR"`, as per CDISC ADaM guiding principles.
+#' - `CNSR` Censor for Time-to-Event analysis. Default is `"CNSR"`, as per CDISC ADaM guiding principles. It is expected that CNSR = 1
+#'    for censoring and CNSR = 0 for the event of interest.
 #' - `strata` Character vector, representing the strata for Time-to-Event analysis. When NULL, an overall analysis is performed.
 #'    Default is `NULL`.
 #' @param ... additional arguments passed on to the ellipsis of the call `survival::survfit.formula(...)`.
