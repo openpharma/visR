@@ -1,7 +1,7 @@
 #' @title Provides a simple wrapper for themes
 #'
 #' @description This function collects several lists if they are present. If absent, reasonable defaults are used.
-#'
+#'    When strata are not defined in the theme, they default to grey50 and will not be presented in the legend.
 #' @param strata list containing the different strata and name:colour value pairs
 #' @param fontsizes list containing the font sizes for different options
 #' @param fontfamily string with the name of a supported font
@@ -16,10 +16,6 @@
 #' theme <- visR::define_theme(
 #'   strata = list("SEX" = list("F" = "red",
 #'                              "M" = "blue"
-#'                            ),
-#'                "TRTA" = list("Placebo" = "cyan",
-#'                              "Xanomeline High Dose" = "purple",
-#'                              "Xanomeline Low Dose" = "brown"
 #'                            )
 #'             ),
 #'   fontsizes = list("axis" = 12,
@@ -277,6 +273,24 @@ apply_theme <- function(gg, visR_theme_dict = NULL) {
 
       cols <- unlist(cols)
 
+      # find group used in plot and extract levels from the data => select these from cols
+      # if these levels were not defined, use default as present in plot
+      colneed <- as.character(unique(gg$data[[gg$labels$group]]))
+
+      skipcolor <- FALSE
+      # from the strata in the theme, which were used in the estimation
+      lvl1 <- lapply(visR_theme_dict[["strata"]], unlist)
+      lvl2 <- lapply(lvl1, function(x) any(colneed %in% names(x)))
+      ttl <- names(which(lvl2 == TRUE))
+
+      if (!any(colneed %in% names(cols))) {
+        skipcolor <- TRUE
+      }
+
+      if (length(intersect(names(cols), colneed))>0){
+        cols <- cols[intersect(names(cols), colneed)]
+      }
+
     }
 
     # fonts and text -----------------------------------------------------------
@@ -443,9 +457,15 @@ apply_theme <- function(gg, visR_theme_dict = NULL) {
   # Reset background
   gg <- gg + ggplot2::theme_minimal()
 
+  if (!skipcolor) {
+    gg <- gg +
+      ggplot2::scale_colour_manual(labels = names(cols),
+                                   values = cols,
+                                   aesthetics = c("colour", "fill"), na.value = "grey50") +
+      guides(color=guide_legend(ttl))
+  }
+
   gg <- gg +
-    ggplot2::scale_colour_manual(values = cols,
-                                 aesthetics = c("colour", "fill")) +
     ggplot2::theme(
       text = font_family,
       axis.title.x = axis_title,
@@ -460,6 +480,6 @@ apply_theme <- function(gg, visR_theme_dict = NULL) {
       legend.position = legend_position
     )
 
+
   return(gg)
 }
-
