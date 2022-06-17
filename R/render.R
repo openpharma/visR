@@ -303,11 +303,11 @@ render.data.frame <- function(
 
 
 
-#' `r lifecycle::badge("experimental")`
+
 #' @title Experimental internal function to help render a data.frame, risktable or tableone object as a datatable
 #'
 #' @description Render a previously created datatable to html, rtf or latex
-#'
+#' `r lifecycle::badge("questioning")`
 #' @param data Input data.frame or tibble to visualize
 #' @param title Specify the title as a text string to be displayed in the rendered table.
 #' Default is no title.
@@ -316,6 +316,7 @@ render.data.frame <- function(
 #' @param source_cap String automatically compiled of data source and captions.
 #' @return A table data structure with possible interactive functionality depending on the choice of the engine.
 #' @rdname render_datatable
+#' @noRd
 render_datatable <- function(data, title, download_format, source_cap){
   UseMethod("render_datatable")
 }
@@ -324,7 +325,7 @@ render_datatable <- function(data, title, download_format, source_cap){
 #' @inheritParams render_datatable
 #'
 #' @method render_datatable tableone
-#'
+#' @noRd
 render_datatable.tableone <- function(data, title, download_format, source_cap) {
 
   if (is.null(download_format)) {
@@ -359,7 +360,7 @@ render_datatable.tableone <- function(data, title, download_format, source_cap) 
 #' @inheritParams render_datatable
 #'
 #' @method render_datatable data.frame
-#'
+#' @noRd
 render_datatable.data.frame <- function(data, title, download_format, source_cap) {
 
   if (is.null(download_format)) {
@@ -384,11 +385,11 @@ render_datatable.data.frame <- function(data, title, download_format, source_cap
 }
 
 
-#' `r lifecycle::badge("experimental")`
+
 #' @title Experimental function to render to a gt table.
 #'
 #' @description Render a previously created datatable to gt
-#'
+#' `r lifecycle::badge("questioning")`
 #' @param data Input data.frame or tibble to visualize
 #' @param title Specify the title as a text string to be displayed in the rendered table.
 #' Default is no title.
@@ -398,6 +399,7 @@ render_datatable.data.frame <- function(data, title, download_format, source_cap
 #' alongside the data source and specifications of statistical tests.
 #' @return A gt object.
 #' @rdname render_gt
+#' @noRd
 render_gt <- function(data, title, datasource, footnote){
   # identify numeric columns for special formatting later
   numcols <- data %>% dplyr::select_if(is.numeric) %>% names()
@@ -414,14 +416,14 @@ render_gt <- function(data, title, datasource, footnote){
   return(table_out)
 }
 
-#' `r lifecycle::badge("experimental")`
+
 #' @title Internal function Get gt object
 #' @description Internal function Get gt object for tableone
-
+#' `r lifecycle::badge("questioning")`
 #'
 #' @param data input data set
 #' @param numcols number of columns
-#'
+#' @noRd
 #' @return gt object
 get_gt <- function(data, numcols){
   UseMethod("get_gt")
@@ -433,7 +435,7 @@ get_gt <- function(data, numcols){
 #' @inheritParams get_gt
 #'
 #' @method get_gt tableone
-#'
+#' @noRd
 get_gt.tableone <- function(data, numcols) {
 
   gt <- gt::gt(data, groupname_col = "variable",
@@ -458,10 +460,10 @@ get_gt.data.frame <- function(data, numcols) {
   return(gt)
 }
 
-#' `r lifecycle::badge("experimental")`
+
 #' @title Internal function to add metadata to a gt object
 #' @description Internal function to add metadata to a gt object
-
+#' `r lifecycle::badge("questioning")`
 #'
 #' @param gt input gt object
 #' @param title Specify the title as a text string to be displayed in the rendered table.
@@ -470,7 +472,7 @@ get_gt.data.frame <- function(data, numcols) {
 #' Default is no title.
 #' @param footnote String specifying additional information to be displayed as a footnote
 #' alongside the data source and specifications of statistical tests.
-#'
+#' @noRd
 #' @return gt object
 add_metadata_gt <- function(gt, title, datasource, footnote) {
 
@@ -487,12 +489,12 @@ add_metadata_gt <- function(gt, title, datasource, footnote) {
 }
 
 
-#' `r lifecycle::badge("experimental")`
+
 #' @title Internal function to check if the input works
-#'
+#' `r lifecycle::badge("questioning")`
 #' @param output_format format for output i.e. html
 #' @param engine engine to render output.
-#'
+#' @noRd
 #' @return Warning message
 check_rendering_input <- function(output_format = NULL, engine = NULL) {
 
