@@ -26,7 +26,7 @@ the_lhs <- function() {
 #' @title Find the character that represents the data argument in a call list
 #'
 #' @description This function returns character that represents the data argument in a call list.
-#'
+#' @param call_list A list from a call
 #' @return Character representing the data.
 #' @noRd
 

@@ -210,7 +210,7 @@ apply_theme <- function(gg, visR_theme_dict = NULL) {
 
   # Manually define colour-blind friendly palette, taken from
   # http://mkweb.bcgsc.ca/biovis2012/krzywinski-visualizing-biological-data.pdf
-  cols <- c(
+  coldefault <- c(
     grDevices::rgb(  0,   0,   0, maxColorValue = 255),  #  1
     grDevices::rgb( 73,   0, 146, maxColorValue = 255),  #  6
     grDevices::rgb(146,   0,   0, maxColorValue = 255),  # 11
@@ -228,6 +228,9 @@ apply_theme <- function(gg, visR_theme_dict = NULL) {
     grDevices::rgb(109, 182, 255, maxColorValue = 255),  #  9
     grDevices::rgb( 36, 255,  36, maxColorValue = 255)   # 14
   )
+
+  skipcolordef <- FALSE
+  skipcolor <- TRUE
 
   font_family <- ggplot2::element_text(family = "Helvetica")
 
@@ -260,6 +263,9 @@ apply_theme <- function(gg, visR_theme_dict = NULL) {
     if ("strata" %in% base::names(visR_theme_dict)) {
 
       cols <- c()
+      skipcolordef <- TRUE
+      skipcolor <- FALSE
+
       named_strata <- base::names(visR_theme_dict[["strata"]])
 
       for (s in named_strata) {
@@ -277,20 +283,29 @@ apply_theme <- function(gg, visR_theme_dict = NULL) {
       # if these levels were not defined, use default as present in plot
       colneed <- as.character(unique(gg$data[[gg$labels$group]]))
 
-      skipcolor <- FALSE
-      # from the strata in the theme, which were used in the estimation
+      # Take title to match strata in theme
       lvl1 <- lapply(visR_theme_dict[["strata"]], unlist)
       lvl2 <- lapply(lvl1, function(x) any(colneed %in% names(x)))
       ttl <- names(which(lvl2 == TRUE))
 
+      # from the strata in the theme, which were used in the estimation
       if (!any(colneed %in% names(cols))) {
         skipcolor <- TRUE
       }
 
       if (length(intersect(names(cols), colneed))>0){
         cols <- cols[intersect(names(cols), colneed)]
+      } else if (length(colneed) <= length(coldefault)) {
+        cols <- coldefault[1:length(colneed)]
+        names(cols) <- colneed
+      } else {
+        ## too many strata, keep as is
+        # layer <- ggplot2::layer_data(gg)
+        # cols <- layer[unique(layer[["group"]]), "colour"]
+        # names(cols) <- colneed
+        skipcolordef <- TRUE
+        skipcolor <- TRUE
       }
-
     }
 
     # fonts and text -----------------------------------------------------------
@@ -458,11 +473,23 @@ apply_theme <- function(gg, visR_theme_dict = NULL) {
   gg <- gg + ggplot2::theme_minimal()
 
   if (!skipcolor) {
+
     gg <- gg +
       ggplot2::scale_colour_manual(labels = names(cols),
                                    values = cols,
                                    aesthetics = c("colour", "fill"), na.value = "grey50") +
-      guides(color=guide_legend(ttl))
+      ggplot2::guides(color=ggplot2::guide_legend(ttl))
+
+  } else if (!skipcolordef){
+
+    ## apply color friendly palette
+    if (length(unique(ggplot2::layer_data(gg)[["group"]])) > length(coldefault))  {
+      warning(paste0(length(coldefault), " is the max. number of strata supported."))
+    } else {
+      gg <- gg +
+        ggplot2::scale_colour_manual(values = coldefault,
+                                    aesthetics = c("colour", "fill"), na.value = "grey50")
+    }
   }
 
   gg <- gg +

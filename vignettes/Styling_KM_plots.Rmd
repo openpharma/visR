@@ -22,7 +22,6 @@ knitr::opts_chunk$set(
 # Introduction
 
 ```{r libraries, include = TRUE}
-library(ggplot2)
 library(visR)
 ```
 
@@ -144,15 +143,4 @@ The second one would be to apply a nested list of lists to, ideally generated th
 lung_suvival_object %>%
   visR::visr() %>%
   visR::apply_theme(theme)
-```
-
-Applying a theme does not prevent the user from further applying modifications, as for example the addition of confidence intervals, censoring indicators or risk tables.
-
-```{r visr-apply_theme-non-empty-fancy, warning=FALSE}
-lung_suvival_object %>%
-  visR::visr() %>%
-  visR::apply_theme(theme) %>%
-  visR::add_CI() %>%
-  visR::add_CNSR() %>%
-  visR::add_risktable()
 ```
