@@ -293,7 +293,7 @@ apply_theme <- function(gg, visR_theme_dict = NULL) {
         skipcolor <- TRUE
       }
 
-      if (length(intersect(names(cols), colneed))>0){
+      if (length(intersect(names(cols), colneed)) > 0) {
         cols <- cols[intersect(names(cols), colneed)]
       } else if (length(colneed) <= length(coldefault)) {
         cols <- coldefault[1:length(colneed)]

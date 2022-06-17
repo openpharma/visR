@@ -31,16 +31,13 @@ Nested list with styling preferences for a ggplot object
 }
 \description{
 This function collects several lists if they are present. If absent, reasonable defaults are used.
+When strata are not defined in the theme, they default to grey50 and will not be presented in the legend.
 }
 \examples{
 
 theme <- visR::define_theme(
   strata = list("SEX" = list("F" = "red",
                              "M" = "blue"
-                           ),
-               "TRTA" = list("Placebo" = "cyan",
-                             "Xanomeline High Dose" = "purple",
-                             "Xanomeline Low Dose" = "brown"
                            )
             ),
   fontsizes = list("axis" = 12,
