@@ -1,6 +1,6 @@
 #' @title Specifications test-apply_theme.R
-#' @section Last updated by: ardeeshany (ardeeshany@@gmail.com)
-#' @section Last update date: 2022-05-22T03:20:16
+#' @section Last updated by: Tim Treis (tim.treis@@outlook.de)
+#' @section Last update date: 2022-06-18T00:09:49
 #'
 #' @section List of tested specifications
 #' T1. The `define_theme()` function returns a `visR_theme` object can contain valid input parameters for `apply_theme()`.
@@ -44,6 +44,9 @@
 #' T2.13 The background applied through `visR::apply_theme()` is used in the resulting `ggplot` object.
 #' T2.14 The legend_position applied through `visR::apply_theme()` is used in the resulting `ggplot` object.
 #' T2.15 The legend_position defined in `visR::visr()` is correctly passed through to the resulting `ggplot` object.
+#' T2.16 If a strata has no colour assigned, the default colour (grey50) is used.
+#' T2.17 When the theme dict contains no colour information for the strata of the ggplot object, the default visR colours are used.
+#' T2.18 When the strata requires more colours than the visR palette holds, the default ggplot2 ones are chosen.
 
 # Requirement T1 ----------------------------------------------------------
 
@@ -537,11 +540,77 @@ testthat::test_that("T2.16 If a strata has no colour assigned, the default colou
 
   ggb <- ggplot2::ggplot_build(gg)
 
-  # F is set to NULL, so it should be filled with grey50.
+  # The colour for strata "F" is set to NULL, so it should be filled with "grey50".
   testthat::expect_true("grey50" %in% unlist(unique(ggb$data[[1]]["fill"])))
 
 })
 
+testthat::test_that("T2.17 When the theme dict contains no colour information for the strata of the ggplot object, the default visR colours are used.", {
 
+  theme <- visR::define_theme(strata = list("TRTA" = list("Placebo" = "cyan",
+                                                          "Xanomeline High Dose" = "purple",
+                                                          "Xanomeline Low Dose" = "brown")),
+                              fontsizes = list("axis" = 12,
+                                               "ticks" = 10,
+                                               "legend_title" = 10,
+                                               "legend_text" = 8),
+                              fontfamily = "Helvetica",
+                              grid = FALSE,
+                              bg = "transparent",
+                              legend_position = "top")
+
+  gg <- adtte %>%
+    visR::estimate_KM(strata = "SEX") %>%
+    visR::visr() %>%
+    visR::add_CI() %>%
+    visR::apply_theme(theme)
+
+  ggb <- ggplot2::ggplot_build(gg)
+
+  # No colours for strata "SEX" given, so the first two colours of the visR
+  # palette will be used -> "#000000" and "#490092"
+  testthat::expect_true("#000000" %in% unlist(unique(ggb$data[[1]]["fill"])))
+  testthat::expect_true("#490092" %in% unlist(unique(ggb$data[[1]]["fill"])))
+
+})
+
+testthat::test_that("T2.18 When the strata requires more colours than the visR palette holds, the default ggplot2 ones are chosen.", {
+
+  theme <- visR::define_theme(strata = list("TRTDUR" = list("F" = "red",
+                                                         "M" = "blue")),
+                              fontsizes = list("axis" = 12,
+                                               "ticks" = 10,
+                                               "legend_title" = 10,
+                                               "legend_text" = 8),
+                              fontfamily = "Helvetica",
+                              grid = FALSE,
+                              bg = "transparent",
+                              legend_position = "top")
+
+  adtte2 <- adtte
+  adtte2$TRTDUR <- round(adtte$TRTDUR/10)
+  gg <- adtte2 %>%
+    visR::estimate_KM(strata = "TRTDUR") %>%
+    visR::visr() %>%
+    visR::add_CI() %>%
+    visR::apply_theme(theme)
+
+  # Get expected colours
+  # https://stackoverflow.com/questions/8197559/emulate-ggplot2-default-color-palette
+  gg_colour_hue <- function(n) {
+    hues = seq(15, 375, length = n + 1)
+    hcl(h = hues, l = 65, c = 100)[1:n]
+  }
+  cols_expected <- gg_colour_hue(length(unique(adtte2$TRTDUR)))
+
+  # Get used colours and strip off the alpha part
+  ggb <- ggplot2::ggplot_build(gg)
+  cols_observed <- unlist(unique(ggb$data[[1]]["fill"]))
+  cols_observed <- gsub(".{2}$", "", cols_observed)
+  names(cols_observed) <- NULL
+
+  testthat::expect_equal(cols_expected, cols_observed)
+
+})
 
 # END OF CODE -------------------------------------------------------------

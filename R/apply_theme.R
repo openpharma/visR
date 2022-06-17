@@ -298,6 +298,7 @@ apply_theme <- function(gg, visR_theme_dict = NULL) {
       } else if (length(colneed) <= length(coldefault)) {
         cols <- coldefault[1:length(colneed)]
         names(cols) <- colneed
+        skipcolordef <- FALSE
       } else {
         ## too many strata, keep as is
         # layer <- ggplot2::layer_data(gg)
@@ -478,9 +479,9 @@ apply_theme <- function(gg, visR_theme_dict = NULL) {
       ggplot2::scale_colour_manual(labels = names(cols),
                                    values = cols,
                                    aesthetics = c("colour", "fill"), na.value = "grey50") +
-      ggplot2::guides(color=ggplot2::guide_legend(ttl))
+      ggplot2::guides(color = ggplot2::guide_legend(ttl))
 
-  } else if (!skipcolordef){
+  } else if (!skipcolordef) {
 
     ## apply color friendly palette
     if (length(unique(ggplot2::layer_data(gg)[["group"]])) > length(coldefault))  {
