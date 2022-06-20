@@ -30,7 +30,6 @@
 #' gg <- adtte %>%
 #'   visR::estimate_KM(strata = "SEX") %>%
 #'   visR::visr() %>%
-#'   visR::add_CI() %>%
 #'   visR::apply_theme(theme)
 #' gg
 #'
@@ -123,19 +122,19 @@ apply_theme <- function(gg, visR_theme_dict = NULL) {
         skipcolor <- TRUE
       }
 
-      if (length(intersect(names(cols), colneed)) > 0) {
+      if (length(colneed) > length(coldefault)){
+        ## too many strata, keep as is
+        # layer <- ggplot2::layer_data(gg)
+        # cols <- layer[unique(layer[["group"]]), "colour"]
+        # names(cols) <- colneed
+        skipcolordef <- FALSE
+        skipcolor <- TRUE
+      } else if (length(intersect(names(cols), colneed)) > 0) {
         cols <- cols[intersect(names(cols), colneed)]
       } else if (length(colneed) <= length(coldefault)) {
         cols <- coldefault[1:length(colneed)]
         names(cols) <- colneed
         skipcolordef <- FALSE
-      } else {
-        ## too many strata, keep as is
-        # layer <- ggplot2::layer_data(gg)
-        # cols <- layer[unique(layer[["group"]]), "colour"]
-        # names(cols) <- colneed
-        skipcolordef <- TRUE
-        skipcolor <- TRUE
       }
     }
 

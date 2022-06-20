@@ -399,6 +399,14 @@ testthat::test_that("T1.16 If no strata colors can be mapped to the graph, the d
 
 testthat::test_that("T1.17 If no strata colors can be mapped to the graph, the original colors are retained if there are more than 15 strata levels.", {
 
+  ## not a relevant strata list, but is required to test the requirement easily
+  theme <- visR::define_theme(
+    strata = list("Sex" = list("Female" = "blue",
+                               "Male" = "red"),
+                  "ph.ecog" = list("0" = "cyan",
+                                   "1" = "purple",
+                                   "2" = "brown")))
+
   survobj <- survival::lung %>%
     dplyr::mutate(sex = as.factor(ifelse(sex == 1, "Male", "Female")))  %>%
     dplyr::mutate(status = status - 1) %>%
@@ -428,13 +436,36 @@ testthat::test_that("T1.17 If no strata colors can be mapped to the graph, the o
 
 testthat::test_that("T1.18 If no strata colors can be mapped to the graph, a warning about the presence of more than 15 strata levels.", {
 
+  ## not a relevant strata list, but is required to test the requirement easily
+  theme <- visR::define_theme(
+    strata = list("Age*pat.karno" = list("39, 90 " = "red",
+                                     "40, 80 " = "blue",
+                                     "41, 80 " = "blue",
+                                     "42, 80 " = "blue",
+                                     "43, 90 " = "blue",
+                                     "44, 80 " = "blue",
+                                     "44, 90 " = "blue",
+                                     "44, 100" = "blue",
+                                     "45, 100" = "blue",
+                                     "46, 100" = "blue",
+                                     "47, 90 " = "blue",
+                                     "48, 60 " = "blue",
+                                     "48, 80 " = "blue",
+                                     "48, 90 " = "blue",
+                                     "49, 60 " = "blue",
+                                     "49, 70 " = "blue",
+                                     "50, 60 " = "blue",
+                                     "50, 80 " = "blue",
+                                     "50, 100" = "blue")))
+
+
   survobj <- survival::lung %>%
     dplyr::mutate(sex = as.factor(ifelse(sex == 1, "Male", "Female")))  %>%
     dplyr::mutate(status = status - 1) %>%
     dplyr::rename(Age = "age", Sex = "sex", Status = "status", Days = "time")  %>%
     visR::estimate_KM(strata = c("Age", "pat.karno"), CNSR = "Status", AVAL = "Days")
 
-  testthat::expect_warning(survobj %>% visR::visr() %>% visR::apply_theme(theme))
+  testthat::expect_warning(survobj %>% visR::visr() %>% apply_theme(theme))
 })
 
 testthat::test_that("T1.19 The named list is used in the legend title.", {

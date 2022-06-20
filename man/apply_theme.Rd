@@ -17,6 +17,9 @@ object of class \code{ggplot}
 \description{
 Takes in the styling options defined through \code{visR::define_theme} and applies them to a plot.
 }
+\details{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+}
 \examples{
 
 library(visR)
@@ -39,7 +42,6 @@ theme <- visR::define_theme(strata = list("SEX" = list("F" = "red",
 gg <- adtte \%>\%
   visR::estimate_KM(strata = "SEX") \%>\%
   visR::visr() \%>\%
-  visR::add_CI() \%>\%
   visR::apply_theme(theme)
 gg
 
