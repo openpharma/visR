@@ -44,33 +44,40 @@
 #' @examples
 #' # Use the `Surv_CNSR()` function with visR functions
 #' adtte %>%
-#'  visR:: estimate_KM(formula = visR::Surv_CNSR() ~ SEX)
+#'   visR::estimate_KM(formula = visR::Surv_CNSR() ~ SEX)
 #'
 #' # Use the `Surv_CNSR()` function with functions from other packages as well
 #' survival::survfit(visR::Surv_CNSR() ~ SEX, data = adtte)
 #' survival::survreg(visR::Surv_CNSR() ~ SEX + AGE, data = adtte) %>%
 #'   broom::tidy()
-
 Surv_CNSR <- function(AVAL, CNSR) {
   # set default values if not passed by user -----------------------------------
-  if (missing(AVAL) && exists("AVAL", envir = rlang::caller_env()))
+  if (missing(AVAL) && exists("AVAL", envir = rlang::caller_env())) {
     AVAL <- get("AVAL", envir = rlang::caller_env())
-  else if (missing(AVAL))
+  } else if (missing(AVAL)) {
     stop("Default 'AVAL' value not found. Specify argument in `Surv_CNSR(AVAL=)`.")
-  if (missing(CNSR) && exists("CNSR", envir = rlang::caller_env()))
+  }
+  if (missing(CNSR) && exists("CNSR", envir = rlang::caller_env())) {
     CNSR <- get("CNSR", envir = rlang::caller_env())
-  else if (missing(CNSR))
+  } else if (missing(CNSR)) {
     stop("Default 'CNSR' value not found. Specify argument in `Surv_CNSR(CNSR=)`.")
+  }
 
   # checking inputs ------------------------------------------------------------
-  if (!is.numeric(AVAL) || !is.numeric(CNSR))
+  if (!is.numeric(AVAL) || !is.numeric(CNSR)) {
     stop("Expecting arguments 'AVAL' and 'CNSR' to be numeric.")
+  }
 
-  if (stats::na.omit(CNSR) %>% setdiff(c(0, 1)) %>% {!rlang::is_empty(.)})
+  if (stats::na.omit(CNSR) %>% setdiff(c(0, 1)) %>%
+    {
+      !rlang::is_empty(.)
+    }) {
     stop("Expecting 'CNSR' argument to be binary with values `0/1`.")
+  }
 
-  if (any(AVAL < 0))
+  if (any(AVAL < 0)) {
     warning("Values of 'AVAL' are less than zero, which is likely a data error.")
+  }
 
   # pass args to `survival::Surv()` --------------------------------------------
   survival::Surv(time = AVAL, event = 1 - CNSR, type = "right", origin = 0)

@@ -21,7 +21,7 @@ define_theme(
 \item{fontfamily}{string with the name of a supported font}
 
 \item{grid}{boolean that specifies whether the major and minor grid should be drawn. The drawing of major and minor
-gridlines can be manipulated seperately by using a boolean indicator in a named \code{list} with elements \code{major}
+gridlines can be manipulated separately by using a boolean indicator in a named \code{list} with elements \code{major}
 and \code{minor}.}
 
 \item{bg}{string defining the colour for the background of the plot}
@@ -39,18 +39,21 @@ When strata are not defined in the theme, they default to grey50 and will not be
 \examples{
 
 theme <- visR::define_theme(
-  strata = list("SEX" = list("F" = "red",
-                             "M" = "blue"
-                           )
-            ),
-  fontsizes = list("axis" = 12,
-                   "ticks" = 10,
-                   "legend_title" = 10,
-                   "legend_text" = 8),
+  strata = list("SEX" = list(
+    "F" = "red",
+    "M" = "blue"
+  )),
+  fontsizes = list(
+    "axis" = 12,
+    "ticks" = 10,
+    "legend_title" = 10,
+    "legend_text" = 8
+  ),
   fontfamily = "Helvetica",
-  grid = list("major" = FALSE,
-              "minor" = FALSE
-             ),
+  grid = list(
+    "major" = FALSE,
+    "minor" = FALSE
+  ),
   bg = "transparent",
   legend_position = "top"
 )

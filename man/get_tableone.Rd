@@ -91,13 +91,13 @@ adtte \%>\%
 ## By actual treatment
 adtte \%>\%
   dplyr::filter(SAFFL == "Y") \%>\%
-  dplyr::select(AGE, AGEGR1, SEX, RACE, TRTA ) \%>\%
+  dplyr::select(AGE, AGEGR1, SEX, RACE, TRTA) \%>\%
   visR::get_tableone(strata = "TRTA")
 
 ## By actual treatment, without overall
 adtte \%>\%
   dplyr::filter(SAFFL == "Y") \%>\%
-  dplyr::select(AGE, AGEGR1, SEX, EVNTDESC, TRTA ) \%>\%
+  dplyr::select(AGE, AGEGR1, SEX, EVNTDESC, TRTA) \%>\%
   visR::get_tableone(strata = "TRTA", overall = FALSE)
 
 }

@@ -53,7 +53,7 @@ is named \code{'CNSR'} and uses the following coding: \code{censor = 1}, \code{s
 \examples{
 # Use the `Surv_CNSR()` function with visR functions
 adtte \%>\%
- visR:: estimate_KM(formula = visR::Surv_CNSR() ~ SEX)
+  visR::estimate_KM(formula = visR::Surv_CNSR() ~ SEX)
 
 # Use the `Surv_CNSR()` function with functions from other packages as well
 survival::survfit(visR::Surv_CNSR() ~ SEX, data = adtte)

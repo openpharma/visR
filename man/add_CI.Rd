@@ -39,7 +39,7 @@ No default method is available at the moment.
 library(visR)
 
 # Estimate KM curves by treatment group
-survfit_object <- survival::survfit(data = adtte, survival::Surv(AVAL, 1-CNSR) ~ TRTP)
+survfit_object <- survival::survfit(data = adtte, survival::Surv(AVAL, 1 - CNSR) ~ TRTP)
 
 ## plot without confidence intervals (CI)
 p <- visR::visr(survfit_object)

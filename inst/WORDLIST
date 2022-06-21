@@ -14,6 +14,7 @@ Covid
 DT
 Kaplan
 Karnakata
+Lifecycle
 NCCTG
 ORCID
 PARAM
@@ -29,7 +30,6 @@ SDTM
 Surv
 Tarone
 UCL
-UX
 adtte
 al
 analysed
@@ -45,7 +45,6 @@ ctype
 cuminc
 cumsum
 datasource
-datatable
 df
 doi
 dplyr
@@ -56,6 +55,7 @@ ggplot
 github
 graphicsprinciples
 grey
+gridlines
 hexcode
 https
 img

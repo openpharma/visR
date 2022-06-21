@@ -21,18 +21,20 @@ testthat::test_that("T1.1 Data from Bankar et al. is still hosted on GitHub.", {
     try(
       open.connection(
         url(bankar_link),
-        timeout = 5),
-      silent = TRUE)[1]
+        timeout = 5
+      ),
+      silent = TRUE
+    )[1]
   )
 
   suppressWarnings(
     try(
-      close.connection(url(bankar_link)), 
-      silent = TRUE)
+      close.connection(url(bankar_link)),
+      silent = TRUE
+    )
   )
 
   testthat::expect_true(is.null(check))
-
 })
 
 # END OF CODE -------------------------------------------------------------

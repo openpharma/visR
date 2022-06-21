@@ -12,7 +12,7 @@
 #' @rdname get_COX_HR
 #' @export
 
-get_COX_HR <- function(x, ...){
+get_COX_HR <- function(x, ...) {
   UseMethod("get_COX_HR", x)
 }
 
@@ -34,7 +34,8 @@ get_COX_HR <- function(x, ...){
 #' ## update formula of KM estimates by treatment to include "AGE" for
 #' ## HR estimation with ties considered via the efron method
 #' visR::get_COX_HR(survfit_object_trt,
-#'   update_formula = ". ~ . + survival::strata(AGE)", ties = "efron")
+#'   update_formula = ". ~ . + survival::strata(AGE)", ties = "efron"
+#' )
 #'
 #' @return A tidied object of class \code{coxph} containing Hazard Ratios
 #'
@@ -42,13 +43,11 @@ get_COX_HR <- function(x, ...){
 #' @method get_COX_HR survfit
 #' @export
 
-get_COX_HR.survfit <- function(
-  x,
-  update_formula = NULL,
-  ...
-){
+get_COX_HR.survfit <- function(x,
+                               update_formula = NULL,
+                               ...) {
 
-# Update formula ----------------------------------------------------------
+  # Update formula ----------------------------------------------------------
   updated_call <- rlang::quo_squash(x$call)
   updated_call[["data"]] <- rlang::inject(!!updated_call[["data"]], env = attr(x$call, ".Environment"))
   updated_object <- eval(updated_call, envir = attr(x$call, ".Environment"))
@@ -57,13 +56,13 @@ get_COX_HR.survfit <- function(
       stats::update(updated_object, formula = stats::as.formula(update_formula), evaluate = TRUE)
   }
 
-# Change Call -------------------------------------------------------------
+  # Change Call -------------------------------------------------------------
   SurvCall <- as.list(updated_object$call)
   CoxArgs <- base::formals(survival::coxph)
   CoxCall <- append(quote(survival::coxph), SurvCall[names(SurvCall) %in% names(CoxArgs)])
   CoxCall <- append(CoxCall, list(...))
 
-# Tidy output -------------------------------------------------------------
+  # Tidy output -------------------------------------------------------------
   cox <-
     eval(as.call(CoxCall), envir = attr(x$call, ".Environment")) %>%
     tidyme()

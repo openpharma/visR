@@ -89,14 +89,17 @@ visR::estimate_KM(data = adtte, strata = "PARAMCD")
 visR::estimate_KM(data = adtte[adtte$SEX == "F", ])
 
 ## Modify the default analysis by using the ellipsis
-visR::estimate_KM(data = adtte, strata = NULL,
-  type = "kaplan-meier", conf.int = FALSE, timefix = TRUE)
+visR::estimate_KM(
+  data = adtte, strata = NULL,
+  type = "kaplan-meier", conf.int = FALSE, timefix = TRUE
+)
 
 ## Example working with non CDISC data
 head(survival::veteran[c("time", "status", "trt")])
 
 # Using non-CDSIC data
 visR::estimate_KM(data = survival::veteran, formula = Surv(time, status) ~ trt)
+
 }
 \references{
 \url{https://github.com/therneau/survival}

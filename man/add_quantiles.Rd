@@ -56,7 +56,7 @@ adtte \%>\%
     quantiles = c(0.25, 0.50),
     linetype = "solid",
     linecolour = "grey"
- )
+  )
 
 adtte \%>\%
   estimate_KM("SEX") \%>\%
@@ -65,6 +65,6 @@ adtte \%>\%
     quantiles = c(0.25, 0.50),
     linetype = "mixed",
     linecolour = "strata"
- )
+  )
 
 }

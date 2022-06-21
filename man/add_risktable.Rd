@@ -86,26 +86,28 @@ in the final object to allow post-modification of the individual plots if desire
 adtte \%>\%
   visR::estimate_KM(strata = "TRTP") \%>\%
   visR::visr() \%>\%
-  visR::add_risktable( label = c("Subjects at Risk", "Censored")
-                      ,statlist = c("n.risk", "n.censor", "n.event")
-                      ,group = "statlist"
-                     )
+  visR::add_risktable(
+    label = c("Subjects at Risk", "Censored"),
+    statlist = c("n.risk", "n.censor", "n.event"),
+    group = "statlist"
+  )
 
 ## Display overall risk table at selected times
 adtte \%>\%
   visR::estimate_KM(strata = "TRTP") \%>\%
   visR::visr() \%>\%
-  visR::add_risktable( label = c("Subjects at Risk", "Censored")
-                      ,statlist = c("n.risk", "n.censor")
-                      ,collapse = TRUE
-                      ,times = c(0,20,40,60)
-                     )
+  visR::add_risktable(
+    label = c("Subjects at Risk", "Censored"),
+    statlist = c("n.risk", "n.censor"),
+    collapse = TRUE,
+    times = c(0, 20, 40, 60)
+  )
 
 ## Add risk set as specified times
 adtte \%>\%
   visR::estimate_KM(strata = "TRTP") \%>\%
   visR::visr() \%>\%
-  visR::add_risktable(times = c(0, 20, 40, 100,111, 200))
+  visR::add_risktable(times = c(0, 20, 40, 100, 111, 200))
 
 }
 \seealso{

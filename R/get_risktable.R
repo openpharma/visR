@@ -32,86 +32,95 @@
 #' @rdname get_risktable
 #' @export
 #'
-get_risktable <- function(x, ...){
+get_risktable <- function(x, ...) {
   UseMethod("get_risktable")
 }
 
 #' @rdname get_risktable
 #' @method get_risktable survfit
 #' @export
-get_risktable.survfit <- function(
-  x
-  ,times = NULL
-  ,statlist = "n.risk"
-  ,label = NULL
-  ,group = c("strata", "statlist")
-  ,collapse = FALSE
-  ,...
-){
+get_risktable.survfit <- function(x,
+                                  times = NULL,
+                                  statlist = "n.risk",
+                                  label = NULL,
+                                  group = c("strata", "statlist"),
+                                  collapse = FALSE,
+                                  ...) {
 
-# User input validation ---------------------------------------------------
+  # User input validation ---------------------------------------------------
   group <- match.arg(group)
 
-  if (!base::all(statlist %in% c("n.risk", "n.censor", "n.event",
-                                 "cum.censor", "cum.event")))
+  if (!base::all(statlist %in% c(
+    "n.risk", "n.censor", "n.event",
+    "cum.censor", "cum.event"
+  ))) {
     stop("statlist argument not valid. Current options are n.risk, n.censor,
          n.event, cum.event, cum.censor")
+  }
 
-  if (!is.null(label) & !base::all(is.character(label)) & !base::inherits(label, "factor"))
+  if (!is.null(label) & !base::all(is.character(label)) & !base::inherits(label, "factor")) {
     stop("label arguments should be of class `character` or `factor`.")
+  }
 
-  if (!base::is.logical(collapse))
+  if (!base::is.logical(collapse)) {
     stop("Error in get_risktable: collapse is expected to be boolean.")
+  }
 
-  if (base::any(times < 0))
+  if (base::any(times < 0)) {
     stop("Negative times are not valid.")
+  }
 
-# Clean input ------------------------------------------------------------
+  # Clean input ------------------------------------------------------------
 
   tidy_object <- tidyme(x)
   statlist <- unique(statlist)
 
-# Match amount of elements in label with statlist -------------------------
+  # Match amount of elements in label with statlist -------------------------
 
   if (length(label) <= length(statlist)) {
-
-    vlookup <- data.frame(statlist = c("n.risk", "n.censor", "n.event",
-                                       "cum.censor", "cum.event")
-                          ,label = c("At risk", "Censored", "Events",
-                                     "Cum. Censored", "Cum. Events")
-                          ,check.names = FALSE
-                          ,stringsAsFactors = FALSE)
+    vlookup <- data.frame(
+      statlist = c(
+        "n.risk", "n.censor", "n.event",
+        "cum.censor", "cum.event"
+      ),
+      label = c(
+        "At risk", "Censored", "Events",
+        "Cum. Censored", "Cum. Events"
+      ),
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    )
 
     if (is.null(label)) label <- NA
-    label <- c(label, rep(NA, length(statlist)-length(label)))
+    label <- c(label, rep(NA, length(statlist) - length(label)))
 
-    have <- data.frame( cbind(label, statlist)
-                       ,check.names = FALSE
-                       ,stringsAsFactors = TRUE)
+    have <- data.frame(cbind(label, statlist),
+      check.names = FALSE,
+      stringsAsFactors = TRUE
+    )
 
     label_lookup <- vlookup %>%
       dplyr::right_join(have, by = "statlist") %>%
       dplyr::mutate(label = dplyr::coalesce(label.y, label.x)) %>%
       dplyr::select(-label.x, -label.y) %>%
       as.data.frame()
-
   } else if (length(label) > length(statlist)) {
-
-    label_lookup <- data.frame( statlist = statlist
-                               ,label = label[1:length(statlist)]
-                               ,check.names = FALSE
-                               ,stringsAsFactors = TRUE)
-
+    label_lookup <- data.frame(
+      statlist = statlist,
+      label = label[1:length(statlist)],
+      check.names = FALSE,
+      stringsAsFactors = TRUE
+    )
   }
 
 
-# Ensure the order of the label corresponds to statlist order-------------
+  # Ensure the order of the label corresponds to statlist order-------------
 
   statlist_order <- factor(statlist, levels = statlist)
   label_lookup[["statlist"]] <- factor(label_lookup[["statlist"]], levels = statlist)
   label_lookup <- label_lookup[order(label_lookup[["statlist"]]), ]
 
-# Generate time ticks ----------------------------------------------------
+  # Generate time ticks ----------------------------------------------------
 
   if (is.null(times)) {
     times <- pretty(x$time, 10)
@@ -127,12 +136,13 @@ get_risktable.survfit <- function(
 
   ## labels of risk table are strata, titles are specified through `label
 
- per_statlist <-
+  per_statlist <-
     data.frame(
       time = survfit_summary$time,
       strata =
         base::factor(.get_strata(survfit_summary[["strata"]]),
-                     levels = unique(.get_strata(survfit_summary[["strata"]]))),
+          levels = unique(.get_strata(survfit_summary[["strata"]]))
+        ),
       n.risk = survfit_summary[["n.risk"]],
       n.event = survfit_summary[["n.event"]],
       n.censor = survfit_summary[["n.censor"]]
@@ -147,36 +157,41 @@ get_risktable.survfit <- function(
     dplyr::rename(y_values = strata) %>%
     as.data.frame()
 
-  final <- per_statlist[ , c("time", "y_values", levels(statlist_order))]
+  final <- per_statlist[, c("time", "y_values", levels(statlist_order))]
 
-  attr(final, 'time_ticks') <- times
+  attr(final, "time_ticks") <- times
   attr(final, "title") <- label_lookup[["label"]]
   attr(final, "statlist") <- levels(label_lookup[["statlist"]])
 
   # Organize the risk tables per strata => reorganize the data --------------
 
-  if (group == "strata" & collapse == FALSE){
+  if (group == "strata" & collapse == FALSE) {
     per_strata <- per_statlist %>%
       dplyr::arrange(time) %>%
-      tidyr::pivot_longer( cols = c("n.risk", "n.censor", "n.event",
-                                    "cum.censor", "cum.event")
-                          ,names_to = "statlist"
-                          ,values_to = "values") %>%
+      tidyr::pivot_longer(
+        cols = c(
+          "n.risk", "n.censor", "n.event",
+          "cum.censor", "cum.event"
+        ),
+        names_to = "statlist",
+        values_to = "values"
+      ) %>%
       tidyr::pivot_wider(names_from = "y_values", values_from = values) %>%
       dplyr::rename(y_values = statlist) %>%
-      dplyr::filter(y_values %in% statlist)%>%
+      dplyr::filter(y_values %in% statlist) %>%
       as.data.frame()
 
     per_strata[["y_values"]] <-
       factor(per_strata[["y_values"]],
-             levels = levels(label_lookup[["statlist"]]),
-             labels = label_lookup[["label"]])
+        levels = levels(label_lookup[["statlist"]]),
+        labels = label_lookup[["label"]]
+      )
     per_strata <- per_strata[order(per_strata[["y_values"]]), ]
 
     title <- levels(per_statlist[["y_values"]])
 
     final <- per_strata
-    attr(final, 'time_ticks') <- times
+    attr(final, "time_ticks") <- times
     attr(final, "title") <- title
     attr(final, "statlist") <- title
   }
@@ -189,18 +204,22 @@ get_risktable.survfit <- function(
       dplyr::mutate(strata = "Overall") %>%
       dplyr::group_by(time, strata) %>%
       dplyr::summarise(
-        n.risk = sum(n.risk)
-        ,n.event = sum(n.event)
-        ,n.censor = sum(n.censor)
-        ,cum.event = sum(.data[["cum.event"]])
-        ,cum.censor = sum(.data[["cum.censor"]])
+        n.risk = sum(n.risk),
+        n.event = sum(n.event),
+        n.censor = sum(n.censor),
+        cum.event = sum(.data[["cum.event"]]),
+        cum.censor = sum(.data[["cum.censor"]])
       ) %>%
       dplyr::ungroup() %>%
       dplyr::select(-strata) %>%
-      tidyr::pivot_longer( cols = c("n.risk", "n.censor", "n.event",
-                                    "cum.censor", "cum.event")
-                           ,names_to = "y_values"
-                           ,values_to = "Overall") %>%
+      tidyr::pivot_longer(
+        cols = c(
+          "n.risk", "n.censor", "n.event",
+          "cum.censor", "cum.event"
+        ),
+        names_to = "y_values",
+        values_to = "Overall"
+      ) %>%
       dplyr::filter(y_values %in% statlist) %>%
       as.data.frame()
 
@@ -210,9 +229,9 @@ get_risktable.survfit <- function(
 
     final <- collapsed
 
-    attr(final, 'time_ticks') <- times
-    attr(final, 'title') <- "Overall"
-    attr(final, 'statlist') <- "Overall"
+    attr(final, "time_ticks") <- times
+    attr(final, "title") <- "Overall"
+    attr(final, "statlist") <- "Overall"
   }
 
   class(final) <- c("risktable", class(final))
@@ -224,24 +243,26 @@ get_risktable.survfit <- function(
 #' @rdname get_risktable
 #' @method get_risktable tidycuminc
 #' @export
-get_risktable.tidycuminc <- function(x
-                                     ,times = pretty(x$tidy$time, 10)
-                                     ,statlist = "n.risk"
-                                     ,label = NULL
-                                     ,group = c("strata", "statlist")
-                                     ,collapse = FALSE
-                                     ,...) {
+get_risktable.tidycuminc <- function(x,
+                                     times = pretty(x$tidy$time, 10),
+                                     statlist = "n.risk",
+                                     label = NULL,
+                                     group = c("strata", "statlist"),
+                                     collapse = FALSE,
+                                     ...) {
   # check for installation of tidycmprsk package
   rlang::check_installed("tidycmprsk", version = "0.1.1")
   group <- match.arg(group)
 
   # list of statistics and their default labels
   lst_stat_labels_default <-
-    list(n.risk = "At Risk",
-         n.event = "Events",
-         n.censor = "Censored",
-         cum.event = "Cum. Events",
-         cum.censor = "Cum. Censored")
+    list(
+      n.risk = "At Risk",
+      n.event = "Events",
+      n.censor = "Censored",
+      cum.event = "Cum. Events",
+      cum.censor = "Cum. Censored"
+    )
 
   label <-
     .reconcile_statlist_and_labels(
@@ -264,21 +285,28 @@ get_risktable.tidycuminc <- function(x
       dplyr::group_by(dplyr::across(dplyr::any_of(c("time", "outcome", "strata")))) %>%
       dplyr::mutate(
         dplyr::across(
-          dplyr::any_of(c("n.risk", "n.event", "cum.event",
-                          "n.censor", "cum.censor")),
-          ~sum(., na.rm = TRUE))
+          dplyr::any_of(c(
+            "n.risk", "n.event", "cum.event",
+            "n.censor", "cum.censor"
+          )),
+          ~ sum(., na.rm = TRUE)
+        )
       ) %>%
       dplyr::filter(dplyr::row_number() == 1L) %>%
       dplyr::ungroup()
   }
 
   if (group == "strata" || isTRUE(collapse)) {
-    strata_levels <- unique(tidy[["strata"]]) %>% sort() %>% as.character()
+    strata_levels <- unique(tidy[["strata"]]) %>%
+      sort() %>%
+      as.character()
 
     result <-
       tidy %>%
-      dplyr::select(dplyr::any_of(c("time", "strata", "n.risk", "n.event",
-                                    "cum.event", "n.censor", "cum.censor"))) %>%
+      dplyr::select(dplyr::any_of(c(
+        "time", "strata", "n.risk", "n.event",
+        "cum.event", "n.censor", "cum.censor"
+      ))) %>%
       tidyr::pivot_longer(cols = -c(.data[["time"]], .data[["strata"]])) %>%
       tidyr::pivot_wider(
         id_cols = c(.data[["time"]], .data[["name"]]),
@@ -296,18 +324,23 @@ get_risktable.tidycuminc <- function(x
       as.data.frame()
     attr(result, "title") <- names(result) %>% setdiff(c("time", "y_values"))
     attr(result, "statlist") <- names(result) %>% setdiff(c("time", "y_values"))
-  }
-  else if (group == "statlist") {
+  } else if (group == "statlist") {
     result <-
       tidy %>%
-      dplyr::select(.data[["time"]], y_values = .data[["strata"]],
-                    dplyr::any_of(c("n.risk",
-                                    "n.event", "cum.event",
-                                    "n.censor", "cum.censor"))) %>%
+      dplyr::select(.data[["time"]],
+        y_values = .data[["strata"]],
+        dplyr::any_of(c(
+          "n.risk",
+          "n.event", "cum.event",
+          "n.censor", "cum.censor"
+        ))
+      ) %>%
       as.data.frame()
 
     attr(result, "statlist") <- names(lst_stat_labels_default[statlist])
-    attr(result, "title") <- lst_stat_labels_default[statlist] %>% unlist() %>% unname()
+    attr(result, "title") <- lst_stat_labels_default[statlist] %>%
+      unlist() %>%
+      unname()
   }
 
   attr(result, "time_ticks") <- unique(result$time) %>% sort()

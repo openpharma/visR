@@ -10,23 +10,26 @@
 #'
 #' @examples
 #' adtte_filtered <- visR::apply_attrition(adtte,
-#'  criteria_conditions = c("TRTP=='Placebo'","AGE>=75",
-#'                          "RACE=='WHITE'", "SITEID==709"))
+#'   criteria_conditions = c(
+#'     "TRTP=='Placebo'", "AGE>=75",
+#'     "RACE=='WHITE'", "SITEID==709"
+#'   )
+#' )
 #'
-apply_attrition <- function(data, criteria_conditions){
-    if(missing(data)){
-        stop("Please provide input dataframe.")
-    }
-    if(missing(criteria_conditions)){
-        stop("Please provide a character vector with conditions to filter input data.")
-    }
+apply_attrition <- function(data, criteria_conditions) {
+  if (missing(data)) {
+    stop("Please provide input dataframe.")
+  }
+  if (missing(criteria_conditions)) {
+    stop("Please provide a character vector with conditions to filter input data.")
+  }
 
-    if( rlang::is_empty(criteria_conditions)){
-        stop("Please provide a non-empty list of filtering critera as strings for the data.")
-    }
+  if (rlang::is_empty(criteria_conditions)) {
+    stop("Please provide a non-empty list of filtering critera as strings for the data.")
+  }
 
-    filters <- paste(criteria_conditions, collapse = ") & (") %>% paste0("(", .,")")
-    adf <- data %>%
-        dplyr::filter(eval(parse(text=filters)))
-    return(adf)
+  filters <- paste(criteria_conditions, collapse = ") & (") %>% paste0("(", ., ")")
+  adf <- data %>%
+    dplyr::filter(eval(parse(text = filters)))
+  return(adf)
 }

@@ -21,7 +21,10 @@ Apply list of inclusion/exclusion criteria to a patient-level dataframe
 }
 \examples{
 adtte_filtered <- visR::apply_attrition(adtte,
- criteria_conditions = c("TRTP=='Placebo'","AGE>=75",
-                         "RACE=='WHITE'", "SITEID==709"))
+  criteria_conditions = c(
+    "TRTP=='Placebo'", "AGE>=75",
+    "RACE=='WHITE'", "SITEID==709"
+  )
+)
 
 }

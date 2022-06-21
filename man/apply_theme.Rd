@@ -22,19 +22,29 @@ Takes in the styling options defined through \code{visR::define_theme} and appli
 
 library(visR)
 
-theme <- visR::define_theme(strata = list("SEX" = list("F" = "red",
-                                                       "M" = "blue"),
-                                          "TRTA" = list("Placebo" = "cyan",
-                                                        "Xanomeline High Dose" = "purple",
-                                                        "Xanomeline Low Dose" = "brown")),
-                            fontsizes = list("axis" = 12,
-                                             "ticks" = 10,
-                                             "legend_title" = 10,
-                                             "legend_text" = 8),
-                            fontfamily = "Helvetica",
-                            grid = FALSE,
-                            bg = "transparent",
-                            legend_position = "top")
+theme <- visR::define_theme(
+  strata = list(
+    "SEX" = list(
+      "F" = "red",
+      "M" = "blue"
+    ),
+    "TRTA" = list(
+      "Placebo" = "cyan",
+      "Xanomeline High Dose" = "purple",
+      "Xanomeline Low Dose" = "brown"
+    )
+  ),
+  fontsizes = list(
+    "axis" = 12,
+    "ticks" = 10,
+    "legend_title" = 10,
+    "legend_text" = 8
+  ),
+  fontfamily = "Helvetica",
+  grid = FALSE,
+  bg = "transparent",
+  legend_position = "top"
+)
 
 
 gg <- adtte \%>\%

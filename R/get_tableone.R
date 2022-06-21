@@ -59,19 +59,19 @@
 #' ## By actual treatment
 #' adtte %>%
 #'   dplyr::filter(SAFFL == "Y") %>%
-#'   dplyr::select(AGE, AGEGR1, SEX, RACE, TRTA ) %>%
+#'   dplyr::select(AGE, AGEGR1, SEX, RACE, TRTA) %>%
 #'   visR::get_tableone(strata = "TRTA")
 #'
 #' ## By actual treatment, without overall
 #' adtte %>%
 #'   dplyr::filter(SAFFL == "Y") %>%
-#'   dplyr::select(AGE, AGEGR1, SEX, EVNTDESC, TRTA ) %>%
+#'   dplyr::select(AGE, AGEGR1, SEX, EVNTDESC, TRTA) %>%
 #'   visR::get_tableone(strata = "TRTA", overall = FALSE)
 #'
 #' @rdname get_tableone
 #' @export
 #'
-get_tableone <- function(data, strata = NULL, overall=TRUE, summary_function = summarize_short){
+get_tableone <- function(data, strata = NULL, overall = TRUE, summary_function = summarize_short) {
   UseMethod("get_tableone")
 }
 
@@ -80,21 +80,19 @@ get_tableone <- function(data, strata = NULL, overall=TRUE, summary_function = s
 #' @return object of class tableone. That is a list of data specified summaries
 #'   for all input variables.
 #' @export
-get_tableone.default <- function(data, strata = NULL, overall=TRUE, summary_function = summarize_short){
-
+get_tableone.default <- function(data, strata = NULL, overall = TRUE, summary_function = summarize_short) {
   summary_FUN <- match.fun(summary_function)
 
-  if(overall & !is.null(strata)){
+  if (overall & !is.null(strata)) {
     overall_table1 <- get_tableone(data, strata = NULL, overall = FALSE, summary_function = summary_function) %>%
       dplyr::filter(!(variable %in% strata))
 
     combine_dfs <- TRUE
-  }
-  else{
-    combine_dfs = FALSE
+  } else {
+    combine_dfs <- FALSE
   }
 
-  if(is.null(strata)){
+  if (is.null(strata)) {
     data <- data %>%
       dplyr::mutate(all = "Total")
     strata <- c("all")
@@ -119,12 +117,11 @@ get_tableone.default <- function(data, strata = NULL, overall=TRUE, summary_func
     dplyr::rename(statistic = summary_id) %>%
     dplyr::select(variable, statistic, everything())
 
-  if(overall & combine_dfs){
-    data_table1 <- overall_table1 %>% dplyr::left_join(data_table1, by=c("variable", "statistic"))
+  if (overall & combine_dfs) {
+    data_table1 <- overall_table1 %>% dplyr::left_join(data_table1, by = c("variable", "statistic"))
   }
 
   class(data_table1) <- c("tableone", class(data_table1))
 
   return(data_table1)
 }
-
