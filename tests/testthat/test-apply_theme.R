@@ -489,10 +489,8 @@ testthat::test_that("T1.19 The named list is used in the legend title.", {
     visR::visr() %>%
     visR::apply_theme(theme)
 
-  ggb <- ggplot2::ggplot_build(gg)
 
-
-  testthat::expect_error("We need a test to see if legend says SEX", NA)
+  testthat::expect_equal(get_legend_title(gg), "SEX")
 
   ## example 2
   theme <- visR::define_theme(
@@ -509,9 +507,7 @@ testthat::test_that("T1.19 The named list is used in the legend title.", {
     visR::visr() %>%
     visR::apply_theme(theme)
 
-  ggb <- ggplot2::ggplot_build(gg)
-
-  testthat::expect_error("We need a test to see if legend says Sex, Ph.ecog if it does not make sense", NA)
+  testthat::expect_equal(get_legend_title(gg), "Sex, ph.ecog")
 
 })
 
