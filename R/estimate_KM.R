@@ -71,23 +71,23 @@
 #' visR::estimate_KM(data = adtte[adtte$SEX == "F", ])
 #'
 #' ## Modify the default analysis by using the ellipsis
-#' visR::estimate_KM(data = adtte, strata = NULL,
-#'   type = "kaplan-meier", conf.int = FALSE, timefix = TRUE)
+#' visR::estimate_KM(
+#'   data = adtte, strata = NULL,
+#'   type = "kaplan-meier", conf.int = FALSE, timefix = TRUE
+#' )
 #'
 #' ## Example working with non CDISC data
 #' head(survival::veteran[c("time", "status", "trt")])
 #'
 #' # Using non-CDSIC data
 #' visR::estimate_KM(data = survival::veteran, formula = Surv(time, status) ~ trt)
-
-estimate_KM <- function(
-    data = NULL
-    ,strata = NULL
-    ,CNSR = "CNSR"
-    ,AVAL = "AVAL"
-    ,formula = NULL
-    ,...
-){
+#'
+estimate_KM <- function(data = NULL,
+                        strata = NULL,
+                        CNSR = "CNSR",
+                        AVAL = "AVAL",
+                        formula = NULL,
+                        ...) {
 
   # Capture input to validate user input for data argument ---------------------
 
@@ -95,27 +95,28 @@ estimate_KM <- function(
 
   # Validate argument inputs ---------------------------------------------------
 
-  if (is.null(data))
+  if (is.null(data)) {
     stop(paste0("Data can't be NULL."))
+  }
 
-  if (!is.data.frame(data))
+  if (!is.data.frame(data)) {
     stop("Data does not have class `data.frame`.")
+  }
 
   if (is.null(formula)) {
     reqcols <- c(strata, CNSR, AVAL)
-    if (! all(reqcols %in% colnames(data))){
+    if (!all(reqcols %in% colnames(data))) {
       stop(paste0("Following columns are missing from `data`: ", paste(setdiff(reqcols, colnames(data)), collapse = " "), "."))
     }
 
-    if (!is.numeric(data[[AVAL]])){
+    if (!is.numeric(data[[AVAL]])) {
       stop("Analysis variable (AVAL) is not numeric.")
     }
 
-    if (!is.numeric(data[[CNSR]])){
+    if (!is.numeric(data[[CNSR]])) {
       stop("Censor variable (CNSR) is not numeric.")
     }
-  }
-  else if (!inherits(formula, "formula")) {
+  } else if (!inherits(formula, "formula")) {
     stop("Argument `formula=` must be class 'formula'.")
   }
 
@@ -126,9 +127,13 @@ estimate_KM <- function(
       vars_missing_in_data <-
         all.vars(formula) %>%
         setdiff(names(data)) %>%
-        {paste(shQuote(., type = "csh"), collapse = ", ")}
-      paste("The following columns found in `formula=` are missing from the data frame:",
-            vars_missing_in_data) %>%
+        {
+          paste(shQuote(., type = "csh"), collapse = ", ")
+        }
+      paste(
+        "The following columns found in `formula=` are missing from the data frame:",
+        vars_missing_in_data
+      ) %>%
         stop(call. = FALSE)
     }
 
@@ -138,14 +143,18 @@ estimate_KM <- function(
     strata <-
       stats::get_all_vars(formula = formula_rhs, data = data) %>%
       names() %>%
-      switch(!rlang::is_empty(.), .) # convert empty string to NULL
+      switch(!rlang::is_empty(.),
+        .
+      ) # convert empty string to NULL
   }
 
   # construct formula if not passed by user ------------------------------------
   if (is.null(formula)) {
     formula <-
-      stats::as.formula(paste0("survival::Surv(", AVAL, ", 1-", CNSR, ") ~ ",
-                               ifelse(is.null(strata), "1", paste(strata, collapse = " + "))))
+      stats::as.formula(paste0(
+        "survival::Surv(", AVAL, ", 1-", CNSR, ") ~ ",
+        ifelse(is.null(strata), "1", paste(strata, collapse = " + "))
+      ))
   }
 
   # Remove NA from the analysis ------------------------------------------------
@@ -168,12 +177,12 @@ estimate_KM <- function(
 
   # Add additional metadata ----------------------------------------------------
 
-  if ("PARAM" %in% colnames(data) && length(setdiff(c("PARAMCD", "PARAM"), strata)) == 2){
+  if ("PARAM" %in% colnames(data) && length(setdiff(c("PARAMCD", "PARAM"), strata)) == 2) {
     # we expect only one unique value => catch mistakes
     survfit_object[["PARAM"]] <- paste(unique(data[["PARAM"]]), collapse = ", ")
   }
 
-  if ("PARAMCD" %in% colnames(data) && length(setdiff(c("PARAMCD", "PARAM"), strata)) == 2){
+  if ("PARAMCD" %in% colnames(data) && length(setdiff(c("PARAMCD", "PARAM"), strata)) == 2) {
     # we expect only one unique value => catch mistakes
     survfit_object[["PARAMCD"]] <- paste(unique(data[["PARAMCD"]]), collapse = ", ")
   }
@@ -185,11 +194,10 @@ estimate_KM <- function(
   if (is.null(survfit_object[["strata"]])) {
     survfit_object[["strata"]] <- as.vector(length(survfit_object[["time"]]))
 
-    if (is.null(strata)){
+    if (is.null(strata)) {
       # overall analysis
       attr(survfit_object[["strata"]], "names") <- "Overall"
-    }
-    else {
+    } else {
       # ~ x with One level in variable present
       attr(survfit_object[["strata"]], "names") <- as.character(paste0(strata, "=", data[1, formula_rhs]))
     }

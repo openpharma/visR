@@ -115,7 +115,7 @@ similar to the base R \code{plot()} function.
 \examples{
 
 # fit KM
-km_fit <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ TRTP, data = adtte)
+km_fit <- survival::survfit(survival::Surv(AVAL, 1 - CNSR) ~ TRTP, data = adtte)
 
 # plot curves using survival plot function
 plot(km_fit)
@@ -138,15 +138,20 @@ visR::visr(survfit_object, fun = "cloglog")
 
 ## Create attrition
 attrition <- visR::get_attrition(adtte,
-    criteria_descriptions = c("1. Not in Placebo Group",
-                              "2. Be 75 years of age or older.",
-                              "3. White",
-                              "4. Female"),
-    criteria_conditions   = c("TRTP != 'Placebo'",
-                              "AGE >= 75",
-                              "RACE=='WHITE'",
-                              "SEX=='F'"),
-    subject_column_name   = "USUBJID")
+  criteria_descriptions = c(
+    "1. Not in Placebo Group",
+    "2. Be 75 years of age or older.",
+    "3. White",
+    "4. Female"
+  ),
+  criteria_conditions = c(
+    "TRTP != 'Placebo'",
+    "AGE >= 75",
+    "RACE=='WHITE'",
+    "SEX=='F'"
+  ),
+  subject_column_name = "USUBJID"
+)
 
 ## Draw a CONSORT attrition chart without specifying extra text for the complement
 attrition \%>\%
@@ -154,11 +159,13 @@ attrition \%>\%
 
 ## Add detailed complement descriptions to the "exclusion" part of the CONSORT diagram
 # Step 1. Add new column to attrition dataframe
-attrition$Complement <- c("NA",
-                          "Placebo Group",
-                          "Younger than 75 years",
-                          "Non-White",
-                          "Male")
+attrition$Complement <- c(
+  "NA",
+  "Placebo Group",
+  "Younger than 75 years",
+  "Non-White",
+  "Male"
+)
 
 # Step 2. Define the name of the column in the call to the plotting function
 attrition \%>\%
@@ -167,7 +174,7 @@ attrition \%>\%
 ## Styling the CONSORT flowchart
 # Change the fill and outline of the boxes in the flowchart
 attrition \%>\%
-  visr("Criteria", "Remaining N", "Complement", fill = "lightblue", border="grey")
+  visr("Criteria", "Remaining N", "Complement", fill = "lightblue", border = "grey")
 
 ## Adjust the font size in the boxes
 attrition \%>\%

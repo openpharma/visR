@@ -37,13 +37,12 @@
 #'   visR::visr() %>%
 #'   visR::add_CI() %>%
 #'   visR::add_risktable(statlist = c("n.risk", "cum.event"))
-
-estimate_cuminc <- function( data = NULL
-                            ,strata = NULL
-                            ,CNSR = "CNSR"
-                            ,AVAL = "AVAL"
-                            ,conf.int = 0.95
-                            ,...) {
+estimate_cuminc <- function(data = NULL,
+                            strata = NULL,
+                            CNSR = "CNSR",
+                            AVAL = "AVAL",
+                            conf.int = 0.95,
+                            ...) {
 
 
   # check for installation of tidycmprsk package -------------------------
@@ -58,15 +57,15 @@ estimate_cuminc <- function( data = NULL
   # Validate columns -----------------------------------------------------
   reqcols <- c(strata, CNSR, AVAL)
 
-  if (! all(reqcols %in% colnames(data))){
+  if (!all(reqcols %in% colnames(data))) {
     stop(paste0("Following columns are missing from `data`: ", paste(setdiff(reqcols, colnames(data)), collapse = " "), "."))
   }
 
-  if (! is.numeric(data[[AVAL]])){
+  if (!is.numeric(data[[AVAL]])) {
     stop("Analysis variable (AVAL) is not numeric.")
   }
 
-  if (! is.factor(data[[CNSR]])){
+  if (!is.factor(data[[CNSR]])) {
     stop("Censor variable (CNSR) is not a factor")
   }
 
@@ -75,9 +74,9 @@ estimate_cuminc <- function( data = NULL
   data <- data %>%
     tidyr::drop_na(AVAL, CNSR)
 
-  if (!is.null(strata)){
+  if (!is.null(strata)) {
     data <- data %>%
-      tidyr::drop_na(any_of({{strata}}))
+      tidyr::drop_na(any_of({{ strata }}))
   }
 
   # Ensure the presence of at least one strata ---------------------------
@@ -117,5 +116,3 @@ visr_tidy_tidycuminc <- function(x, times = NULL) {
 
   as.data.frame(df_visr_tidy)
 }
-
-

@@ -16,35 +16,33 @@
 #'   ggplot2::geom_histogram(bins = 15)
 #'
 #' p2 <- ggplot2::ggplot(adtte, ggplot2::aes(x = as.numeric(AGE))) +
-#'  ggplot2::geom_histogram(bins = 15)
+#'   ggplot2::geom_histogram(bins = 15)
 #'
 #' ## default alignment does not take into account legend size
-#' cowplot::plot_grid(plotlist = list(p1,p2),
-#'                    align = "none",
-#'                    nrow=2)
+#' cowplot::plot_grid(
+#'   plotlist = list(p1, p2),
+#'   align = "none",
+#'   nrow = 2
+#' )
 #'
 #' ## align_plots() takes into account legend width
-#' cowplot::plot_grid(plotlist = visR::align_plots(pltlist = list(p1, p2)),
-#'                    align = "none",
-#'                    nrow=2)
+#' cowplot::plot_grid(
+#'   plotlist = visR::align_plots(pltlist = list(p1, p2)),
+#'   align = "none",
+#'   nrow = 2
+#' )
 #' }
 #'
 #' @export
 #'
 align_plots <- function(pltlist) {
-
   if (missing(pltlist) | is.null(pltlist)) {
-
     base::stop("Please provide a list of valid `ggplot` objects.")
-
   }
 
   for (plt in pltlist) {
-
     if (!inherits(plt, "ggplot")) {
-
       base::stop("Not all elements of the provided list are `ggplot` objects.")
-
     }
   }
 
@@ -55,28 +53,25 @@ align_plots <- function(pltlist) {
   maxcols <- max(unlist(ncols))
 
   ### Function to add more columns to compensate for eg missing legend
-  .addcols <- function(x){
-
+  .addcols <- function(x) {
     diffcols <- maxcols - dim(x)[[2]]
 
-    if (diffcols > 0){
-
+    if (diffcols > 0) {
       for (i in seq(1:diffcols)) {
         x <- gtable::gtable_add_cols(x, widths = grid::unit(1, "null"), pos = 8)
       }
-
     }
 
     x
   }
 
   ### TableGrob 1 has 11 columns while the others have only 9 because lacking legend+spacer
-   ## => add two columns and then resize
+  ## => add two columns and then resize
   plots_grobs_xcols <- lapply(plots_grobs, .addcols)
 
   ### assign max length to ensure alignment
   max_width <- do.call(grid::unit.pmax, lapply(plots_grobs_xcols, "[[", "widths"))
-  for (i in seq(1,length(plots_grobs_xcols))) {
+  for (i in seq(1, length(plots_grobs_xcols))) {
     plots_grobs_xcols[[i]]$widths <- max_width
   }
 
@@ -157,9 +152,8 @@ align_plots <- function(pltlist) {
 #' @keywords internal
 
 .get_strata <- function(strata) {
-
   x1 <- base::strsplit(as.character(strata), ",")
-  x2 <- lapply(x1, FUN = function(x) base::sub('.*=', '', x))
+  x2 <- lapply(x1, FUN = function(x) base::sub(".*=", "", x))
   x3 <- base::lapply(x2, FUN = function(x) base::paste0(x, collapse = ", "))
   x4 <- base::unlist(trimws(x3, which = "both"))
 
@@ -215,29 +209,25 @@ legendopts <- function(legend_position = "right",
         orientation = .ucoalesce(legend_orientation, "v")
       )
     } else if (legend_position == "none") {
-      showlegend <-  FALSE
+      showlegend <- FALSE
       leg_opts <- NULL
     }
   } else {
-
     if (length(legend_position) == 2) {
-
-      leg_opts <- list(x = legend_position[1],
-                       y = legend_position[2])
-
+      leg_opts <- list(
+        x = legend_position[1],
+        y = legend_position[2]
+      )
     } else if (length(legend_position) > 2) {
-
       warning("The provided vector for the legend position contains more than 2 elements, only using the first two.")
 
-      leg_opts <- list(x = legend_position[1],
-                       y = legend_position[2])
-
+      leg_opts <- list(
+        x = legend_position[1],
+        y = legend_position[2]
+      )
     } else {
-
       stop("Invalid argument for 'legend_position'. Use 'bottom', 'right', 'top', 'left', 'none' or a vector indicating the desired absolute x/y position, as for examle c(1, 2).")
-
     }
-
   }
 
   return(list(leg_opts = leg_opts, showlegend = showlegend))
@@ -258,8 +248,7 @@ legendopts <- function(legend_position = "right",
 #'
 #' @keywords internal
 #' @noRd
-.get_labels <- function(data, description_column_name, value_column_name, complement_column_name="", wrap_width=50){
-
+.get_labels <- function(data, description_column_name, value_column_name, complement_column_name = "", wrap_width = 50) {
   label <- complement_label <- NULL
 
   plotting_data <- data %>%
@@ -270,20 +259,24 @@ legendopts <- function(legend_position = "right",
     dplyr::mutate(label = sprintf("%s\nN = %d", label, get(value_column_name)))
 
 
-  if(complement_column_name != ""){
+  if (complement_column_name != "") {
     plotting_data <- plotting_data %>%
       # below needs update to complement_column_name instead of Complement
       dplyr::mutate(complement_label = paste(strwrap(get(complement_column_name), width = wrap_width), collapse = "\n")) %>%
       dplyr::ungroup() %>%
       # below needs update to value_column_name instead of `Remaining N`
-      dplyr::mutate(complement_label = sprintf("%s\nN = %d",
-                                               complement_label,
-                                               dplyr::lag(get(value_column_name)) - get(value_column_name)))
+      dplyr::mutate(complement_label = sprintf(
+        "%s\nN = %d",
+        complement_label,
+        dplyr::lag(get(value_column_name)) - get(value_column_name)
+      ))
   } else {
     plotting_data <- plotting_data %>%
       dplyr::ungroup() %>%
-      dplyr::mutate(complement_label = sprintf("%s N = %d", "Excluded",
-                                               dplyr::lag(get(value_column_name)) - get(value_column_name)))
+      dplyr::mutate(complement_label = sprintf(
+        "%s N = %d", "Excluded",
+        dplyr::lag(get(value_column_name)) - get(value_column_name)
+      ))
   }
 
   return(plotting_data)
@@ -302,16 +295,18 @@ legendopts <- function(legend_position = "right",
 #' @keywords internal
 #' @noRd
 #'
-.get_labelsizes <- function(data, label, complement_label){
+.get_labelsizes <- function(data, label, complement_label) {
   labelheight <- labelwidth <- complementheight <- complementwidth <- maxwidth <- maxheight <- NULL
 
   plotting_data <- data %>%
-    dplyr::mutate(labelwidth = graphics::strwidth({{label}}, units = "inch"),
-                  complementwidth = graphics::strwidth({{complement_label}}, units = "inch"),
-                  maxwidth = max(labelwidth, complementwidth),
-                  labelheight = graphics::strheight({{label}}, units = "inch"),
-                  complementheight = graphics::strheight({{complement_label}}, units = "inch"),
-                  maxheight = max(labelheight, complementheight)) %>%
+    dplyr::mutate(
+      labelwidth = graphics::strwidth({{ label }}, units = "inch"),
+      complementwidth = graphics::strwidth({{ complement_label }}, units = "inch"),
+      maxwidth = max(labelwidth, complementwidth),
+      labelheight = graphics::strheight({{ label }}, units = "inch"),
+      complementheight = graphics::strheight({{ complement_label }}, units = "inch"),
+      maxheight = max(labelheight, complementheight)
+    ) %>%
     dplyr::select(labelwidth, complementwidth, maxwidth, labelheight, complementheight, maxheight, dplyr::everything())
   return(plotting_data)
 }
@@ -329,33 +324,40 @@ legendopts <- function(legend_position = "right",
 #'
 #' @keywords internal
 #' @noRd
-.get_coordinates <- function(data, box_width, box_height, field_height){
-
+.get_coordinates <- function(data, box_width, box_height, field_height) {
   y <- ymin <- ymax <- down_ystart <- down_yend <- x <- side_xend <- side_y <- NULL
 
   plotting_data <- data %>%
     dplyr::ungroup() %>%
-    dplyr::mutate(x = 50,
-                  y = 100 - dplyr::row_number() * field_height + box_height/2) %>%
+    dplyr::mutate(
+      x = 50,
+      y = 100 - dplyr::row_number() * field_height + box_height / 2
+    ) %>%
     # coordinates of text box
     dplyr::mutate(
       box_width = box_width,
       box_height = box_height,
-      ymin = y - (box_height/2),
-      ymax = y + (box_height/2)) %>%
+      ymin = y - (box_height / 2),
+      ymax = y + (box_height / 2)
+    ) %>%
     # coordinates of down arrow
-    dplyr::mutate(down_ystart = dplyr::lag(ymin),
-                  down_yend = ymax) %>%
+    dplyr::mutate(
+      down_ystart = dplyr::lag(ymin),
+      down_yend = ymax
+    ) %>%
     # coordinates of side arrow
-    dplyr::mutate(side_y = down_ystart - 0.5*(down_ystart-down_yend),
-                  side_xstart = x,
-                  side_xend = x + (box_width/2) + 10) %>%
+    dplyr::mutate(
+      side_y = down_ystart - 0.5 * (down_ystart - down_yend),
+      side_xstart = x,
+      side_xend = x + (box_width / 2) + 10
+    ) %>%
     # complement coordinates
-    dplyr::mutate(cx = side_xend + (box_width/2) ,
-                  cy = side_y)
+    dplyr::mutate(
+      cx = side_xend + (box_width / 2),
+      cy = side_y
+    )
 
   return(plotting_data)
-
 }
 
 #' @title Extract the numerical alpha representation of #RRGGBBAA colour
@@ -374,32 +376,22 @@ legendopts <- function(legend_position = "right",
 #' @keywords internal
 
 .get_alpha_from_hex_colour <- function(hex_colour = NULL) {
-
   if (missing(hex_colour) | !is.character(hex_colour)) {
-
     stop("Please provide a colour in hex representation as a string for `hex_colour`.")
-
   }
 
   if (!nchar(hex_colour) == 9) {
-
     stop("Please provide a hex colour in the format #RRGGBBAA.")
-
   } else {
-
     colour_parts <- strsplit(hex_colour, "")[[1]]
 
     if (colour_parts[1] != "#") {
-
       stop("Please provide a hex colour in the format #RRGGBBAA.")
-
     } else {
-
-      alpha <- grDevices::col2rgb(hex_colour, alpha = TRUE)["alpha",][[1]]
-      alpha <- round(alpha/255, 2)
+      alpha <- grDevices::col2rgb(hex_colour, alpha = TRUE)["alpha", ][[1]]
+      alpha <- round(alpha / 255, 2)
 
       return(alpha)
-
     }
   }
 }
@@ -416,61 +408,45 @@ legendopts <- function(legend_position = "right",
 #' @keywords internal
 
 .convert_alpha <- function(numeric_alpha = NULL, hex_alpha = NULL) {
-
   if (missing(numeric_alpha) & missing(hex_alpha)) {
-
     stop("Either `numeric_alpha` or `hex_alpha` has to be specified.")
-
   } else if (!missing(numeric_alpha) & missing(hex_alpha)) {
 
     # Two separate ifs so that is.na(NULL) doesn't cause an error
-    if (is.null(numeric_alpha)) { return("00") }
-    if (is.na(numeric_alpha)) { return("00") }
+    if (is.null(numeric_alpha)) {
+      return("00")
+    }
+    if (is.na(numeric_alpha)) {
+      return("00")
+    }
 
     if (is.numeric(numeric_alpha)) {
-
       if (numeric_alpha > 1 | numeric_alpha < 0) {
-
         stop("Please enter a numeric value between 0 and 1 for `numeric_alpha`.")
-
       } else {
-
-        alpha_decimal = base::round((numeric_alpha * 100) * (255/100))
-        alpha_hex = base::format(base::as.hexmode(alpha_decimal),
-                                 width = 2,
-                                 upper.case = TRUE)
+        alpha_decimal <- base::round((numeric_alpha * 100) * (255 / 100))
+        alpha_hex <- base::format(base::as.hexmode(alpha_decimal),
+          width = 2,
+          upper.case = TRUE
+        )
 
         return(alpha_hex)
-
       }
-
     } else {
-
       stop("Please enter a numeric value between 0 and 1 for `numeric_alpha`.")
-
     }
-
   } else if (missing(numeric_alpha) & !missing(hex_alpha)) {
-
     if (is.character(hex_alpha) & nchar(hex_alpha) == 2) {
-
-      alpha <- grDevices::col2rgb(paste0("#FFFFFF", hex_alpha), alpha = TRUE)["alpha",][[1]]
-      alpha <- round(alpha/255, 2)
+      alpha <- grDevices::col2rgb(paste0("#FFFFFF", hex_alpha), alpha = TRUE)["alpha", ][[1]]
+      alpha <- round(alpha / 255, 2)
 
       return(alpha)
-
     } else {
-
       stop("Please specify a two-letter character string for `hex_alpha`.")
-
     }
-
   } else if (!missing(numeric_alpha) & !missing(hex_alpha)) {
-
     stop("Please choose either `numeric_alpha` or `hex_alpha`.")
-
   }
-
 }
 
 #' @title Replaces the AA part of a #RRGGBBAA hex-colour.
@@ -485,39 +461,25 @@ legendopts <- function(legend_position = "right",
 #' @keywords internal
 
 .replace_hex_alpha <- function(colour, new_alpha) {
-
   if (missing(colour) | missing(new_alpha)) {
-
     stop("Please provide a `colour` and a `new_alpha` in hex representation as strings.")
-
   }
 
   if (!(is.character(new_alpha) & nchar(new_alpha) == 2)) {
-
     stop("Please provide a two-character string for the hex representation of the new alpha.")
-
   }
 
   if (!(is.character(colour))) {
-
     stop("Please provide a hex colour as a string.")
-
   } else {
-
     if (!nchar(colour) == 9) {
-
       stop("Please provide a hex colour in the format #RRGGBBAA.")
-
     } else {
-
       colour_parts <- strsplit(colour, "")[[1]]
 
       if (colour_parts[1] != "#") {
-
         stop("Please provide a hex colour in the format #RRGGBBAA.")
-
       } else {
-
         colour_red <- paste0(colour_parts[2:3], collapse = "")
         colour_green <- paste0(colour_parts[4:5], collapse = "")
         colour_blue <- paste0(colour_parts[6:7], collapse = "")
@@ -526,7 +488,6 @@ legendopts <- function(legend_position = "right",
         new_colour <- paste0("#", colour_red, colour_green, colour_blue, new_alpha)
 
         return(new_colour)
-
       }
     }
   }
@@ -546,7 +507,7 @@ legendopts <- function(legend_position = "right",
 
     survfit_object <- rlang::eval_tidy(gg$data$call[[1]])
 
-    #Since this call is using survival instead of visR, some characteristics are missing eg strata = "Overall" when no strata present
+    # Since this call is using survival instead of visR, some characteristics are missing eg strata = "Overall" when no strata present
     main <- base::trimws(base::sub(".*~", "", call[[2]]), which = "both")
 
     if (is.null(survfit_object$strata) && main == "1") {
@@ -554,8 +515,7 @@ legendopts <- function(legend_position = "right",
       attr(survfit_object$strata, "names") <- "Overall"
     }
     return(survfit_object)
-  }
-  else if (inherits(gg, "ggtidycuminc")) {
+  } else if (inherits(gg, "ggtidycuminc")) {
     return(attr(gg, "tidycuminc"))
   }
 }
@@ -569,27 +529,28 @@ legendopts <- function(legend_position = "right",
 #' @return string
 #' @noRd
 .construct_strata_label <- function(x, sep = ", ") {
-  tryCatch({
-    if (inherits(x, "survfit") && is.null(x$strata_lbl)) {
-      strata_label <- ""
-    }
-    else if (inherits(x, "survfit")) {
-      strata_label <- unlist(x$strata_lbl) %>% paste(collapse = ", ")
-    }
-    else if (inherits(x, "tidycuminc")) {
-      strata <- .extract_strata_varlist(x)
-      strata_label <-
-        lapply(
-          as.list(strata),
-          function(variable) attr(x$data[[variable]], "label") %||% x
-        ) %>%
-        unlist() %>%
-        paste(collapse = ", ")
-    }
+  tryCatch(
+    {
+      if (inherits(x, "survfit") && is.null(x$strata_lbl)) {
+        strata_label <- ""
+      } else if (inherits(x, "survfit")) {
+        strata_label <- unlist(x$strata_lbl) %>% paste(collapse = ", ")
+      } else if (inherits(x, "tidycuminc")) {
+        strata <- .extract_strata_varlist(x)
+        strata_label <-
+          lapply(
+            as.list(strata),
+            function(variable) attr(x$data[[variable]], "label") %||% x
+          ) %>%
+          unlist() %>%
+          paste(collapse = ", ")
+      }
 
-    strata_label
-  },
-  error = function(e) return("")
+      strata_label
+    },
+    error = function(e) {
+      return("")
+    }
   )
 }
 
@@ -616,15 +577,16 @@ legendopts <- function(legend_position = "right",
 #' @return vector of variable names
 #' @noRd
 .formula_to_strata_varlist <- function(formula, data) {
-  tryCatch({
-    strata <- stats::model.frame(formula, data = data)[, -1, drop = FALSE] %>% names()
-    if (rlang::is_empty(strata)) {
-      strata <- NULL
+  tryCatch(
+    {
+      strata <- stats::model.frame(formula, data = data)[, -1, drop = FALSE] %>% names()
+      if (rlang::is_empty(strata)) {
+        strata <- NULL
+      }
+      strata
+    },
+    error = function(e) {
+      return(NULL)
     }
-    strata
-  },
-  error = function(e) return(NULL)
   )
 }
-
-

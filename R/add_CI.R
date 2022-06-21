@@ -18,7 +18,7 @@
 #' library(visR)
 #'
 #' # Estimate KM curves by treatment group
-#' survfit_object <- survival::survfit(data = adtte, survival::Surv(AVAL, 1-CNSR) ~ TRTP)
+#' survfit_object <- survival::survfit(data = adtte, survival::Surv(AVAL, 1 - CNSR) ~ TRTP)
 #'
 #' ## plot without confidence intervals (CI)
 #' p <- visR::visr(survfit_object)
@@ -42,7 +42,7 @@
 #'
 #' @export
 
-add_CI <- function(gg, ...){
+add_CI <- function(gg, ...) {
   UseMethod("add_CI", gg)
 }
 
@@ -53,64 +53,58 @@ add_CI <- function(gg, ...){
 add_CI.ggsurvfit <- function(gg,
                              alpha = 0.1,
                              style = "ribbon",
-                             linetype, ...){
-
-  if (! base::all(c("est.lower", "est.upper") %in% colnames(gg$data))) {
-
+                             linetype, ...) {
+  if (!base::all(c("est.lower", "est.upper") %in% colnames(gg$data))) {
     stop("Confidence limits were not part of original estimation.")
-
   }
 
   if ((alpha > 1) | (alpha < 0)) {
-
     warning("Invalid `alpha` argument, must be between 0 and 1. Setting it to 0.1.")
     alpha <- 0.1
-
   }
 
-  if (! base::any(c("ribbon", "step") %in% style)) {
-
+  if (!base::any(c("ribbon", "step") %in% style)) {
     warning("Invalid `style` argument. Setting `style` to `ribbon`.")
     style <- "ribbon"
-
   }
 
   gg_gb <- ggplot2::ggplot_build(gg)
   strata_colours <- unique(gg_gb$data[[1]]$colour)
 
-  if (style == "ribbon"){
-
+  if (style == "ribbon") {
     if (!missing(linetype)) {
-
       warning("Argument `linetype` not used for style ribbon.")
-
     }
 
     gg <- gg +
-      ggplot2::geom_ribbon(ggplot2::aes(ymin = est.lower,
-                                        ymax = est.upper),
-                           na.rm = TRUE,
-                           show.legend = FALSE) +
+      ggplot2::geom_ribbon(ggplot2::aes(
+        ymin = est.lower,
+        ymax = est.upper
+      ),
+      na.rm = TRUE,
+      show.legend = FALSE
+      ) +
       ggplot2::scale_fill_manual(values = ggplot2::alpha(strata_colours, alpha))
   }
 
-  if (style == "step"){
-
+  if (style == "step") {
     if (missing(linetype)) {
 
       # Set a default linetype of solid (2) if the user didn't specify any
       linetype <- 2
-
     }
 
     gg <- gg +
-      ggplot2::geom_ribbon(ggplot2::aes(ymin   = est.lower,
-                                        ymax   = est.upper,
-                                        colour = strata),
-                           outline.type = "both",
-                           linetype = linetype,
-                           show.legend = FALSE,
-                           na.rm = TRUE) +
+      ggplot2::geom_ribbon(ggplot2::aes(
+        ymin = est.lower,
+        ymax = est.upper,
+        colour = strata
+      ),
+      outline.type = "both",
+      linetype = linetype,
+      show.legend = FALSE,
+      na.rm = TRUE
+      ) +
       ggplot2::scale_fill_manual(values = ggplot2::alpha(strata_colours, 0))
   }
 

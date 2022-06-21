@@ -63,12 +63,12 @@ visR::visr(surv_object) \%>\%
 ## to the plot data area. Here we are plotting outside of the data area.
 visR::visr(surv_object) \%>\%
   visR::add_annotation(
-  label = "My simple comment",
-  base_family = "sans",
-  base_size = 15,
-  xmin = 210,
-  xmax = 380,
-  ymin = 1.0
+    label = "My simple comment",
+    base_family = "sans",
+    base_size = 15,
+    xmin = 210,
+    xmax = 380,
+    ymin = 1.0
   )
 
 
@@ -78,8 +78,9 @@ visR::visr(surv_object) \%>\%
 
 ## we calculate p-values for "Equality across strata"
 lbl <- visR::get_pvalue(surv_object,
-             statlist = c("test", "pvalue"),
-             type = "All")
+  statlist = c("test", "pvalue"),
+  type = "All"
+)
 
 ## display p-values
 lbl

@@ -38,12 +38,12 @@
 #' ## to the plot data area. Here we are plotting outside of the data area.
 #' visR::visr(surv_object) %>%
 #'   visR::add_annotation(
-#'   label = "My simple comment",
-#'   base_family = "sans",
-#'   base_size = 15,
-#'   xmin = 210,
-#'   xmax = 380,
-#'   ymin = 1.0
+#'     label = "My simple comment",
+#'     base_family = "sans",
+#'     base_size = 15,
+#'     xmin = 210,
+#'     xmax = 380,
+#'     ymin = 1.0
 #'   )
 #'
 #'
@@ -53,8 +53,9 @@
 #'
 #' ## we calculate p-values for "Equality across strata"
 #' lbl <- visR::get_pvalue(surv_object,
-#'              statlist = c("test", "pvalue"),
-#'              type = "All")
+#'   statlist = c("test", "pvalue"),
+#'   type = "All"
+#' )
 #'
 #' ## display p-values
 #' lbl
@@ -74,60 +75,58 @@
 #'
 #' @export
 
-add_annotation <- function(
-  gg = NULL,
-  label = NULL,
-  base_family = "sans",
-  base_size = 11,
-  xmin = -Inf,
-  xmax = Inf,
-  ymin = -Inf,
-  ymax = Inf
-  ){
+add_annotation <- function(gg = NULL,
+                           label = NULL,
+                           base_family = "sans",
+                           base_size = 11,
+                           xmin = -Inf,
+                           xmax = Inf,
+                           ymin = -Inf,
+                           ymax = Inf) {
 
-# User input validation ---------------------------------------------------
+  # User input validation ---------------------------------------------------
 
   if (!base::inherits(gg, "ggplot")) stop("Error in add_annotation: gg is not of class `ggplot`")
   if (is.null(label)) stop("Error in add_annotation: label does not exist")
   if (!base_family %in% c("sans", "serif", "mono")) stop("Error in add_annotation: Specified font not supported")
   if (!base::any(unlist(lapply(as.list(c(xmin, xmax, ymin, ymax, base_size)), is.numeric)))) stop("Error in add_annotation: One of the coordinates are not numeric.")
 
-# ggtable -----------------------------------------------------------------
+  # ggtable -----------------------------------------------------------------
 
   if (base::inherits(label, "gtable")) {
-
     gganno <- gg +
       ggplot2::annotation_custom(label, xmin = xmin, ymin = ymin, xmax = xmax, ymax = ymax)
 
 
     ### Add individual components
-    components <- append(list(gg), label)                # Note: The append changes the structure of the gtable object
-    names(components) = c("visR_plot", names(label))
+    components <- append(list(gg), label) # Note: The append changes the structure of the gtable object
+    names(components) <- c("visR_plot", names(label))
     gganno[["components"]] <- components
 
-    return (gganno)
-
+    return(gganno)
   } else {
 
     ### Prepare label: turn into dataframe and avoid factors + add manual bolding to avoid parsing issues with `` in colnames
 
-    df <- data.frame(lapply(label, as.character), stringsAsFactors = FALSE, check.names = FALSE) #as.character to protect leading zero in numeric
+    df <- data.frame(lapply(label, as.character), stringsAsFactors = FALSE, check.names = FALSE) # as.character to protect leading zero in numeric
 
     colnames(df) <- as.vector(paste(paste0("bold(\"", colnames(df), "\")")))
 
     ### Layout of gtable: access and modify options eg tt1$colhead
-     ## First column to left, rest rightaligned
+    ## First column to left, rest rightaligned
 
-    core_alignment_matrix <- matrix(rep(0, nrow(df)*dim(df)[2]), nrow = nrow(df), ncol = dim(df)[2])
-    if (dim(core_alignment_matrix)[2] > 1) {core_alignment_matrix[,2:dim(core_alignment_matrix)[2]] <- 1}
+    core_alignment_matrix <- matrix(rep(0, nrow(df) * dim(df)[2]), nrow = nrow(df), ncol = dim(df)[2])
+    if (dim(core_alignment_matrix)[2] > 1) {
+      core_alignment_matrix[, 2:dim(core_alignment_matrix)[2]] <- 1
+    }
     core_alignment_head <- rep(1, dim(core_alignment_matrix)[2])
     core_alignment_head[1] <- 0
 
-    tt1 <-  gridExtra::ttheme_minimal(
+    tt1 <- gridExtra::ttheme_minimal(
       base_size = base_size,
       base_family = base_family,
-      core=list(
-        fg_params=list(
+      core = list(
+        fg_params = list(
           hjust = as.vector(core_alignment_matrix),
           x = as.vector(core_alignment_matrix),
           fontface = "plain"
@@ -135,7 +134,7 @@ add_annotation <- function(
       ),
       colhead = list(
         fg_params = list(
-          hjust =  core_alignment_head,
+          hjust = core_alignment_head,
           x = core_alignment_head,
           fontface = 2,
           parse = TRUE
@@ -155,8 +154,8 @@ add_annotation <- function(
 
     ### Add individual components
 
-    components <- append(list(gg), dfGrob)               # Note: The append changes the structure of the tableGrob object
-    names(components) = c("visR_plot", names(dfGrob))
+    components <- append(list(gg), dfGrob) # Note: The append changes the structure of the tableGrob object
+    names(components) <- c("visR_plot", names(dfGrob))
     gganno[["components"]] <- components
 
     return(gganno)

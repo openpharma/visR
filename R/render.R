@@ -25,9 +25,9 @@ render <- function(data,
                    title = "",
                    datasource,
                    footnote = "",
-                   output_format="html",
-                   engine="gt",
-                   download_format = c('copy', 'csv', 'excel')){
+                   output_format = "html",
+                   engine = "gt",
+                   download_format = c("copy", "csv", "excel")) {
   UseMethod("render")
 }
 
@@ -36,138 +36,111 @@ render <- function(data,
 #' @export
 #' @method render tableone
 #'
-render.tableone <- function(
-  data,
-  title,
-  datasource,
-  footnote = "",
-  output_format = "html",
-  engine = "gt",
-  download_format = NULL) {
-
+render.tableone <- function(data,
+                            title,
+                            datasource,
+                            footnote = "",
+                            output_format = "html",
+                            engine = "gt",
+                            download_format = NULL) {
   if (!inherits(data, "tableone")) {
-
     stop("Please provide a valid `tableone` object.")
-
   }
 
   if (missing(title)) {
-
     stop("Please provide a valid `title`.")
-
   }
 
   if (missing(datasource)) {
-
     stop("Please provide a valid `datasource`.")
-
   }
 
   if (!(output_format %in% c("html", "latex"))) {
-
     stop("Invalid output_format. Currently, 'html' and 'latex' are supported.")
-
   } else if (output_format == "latex" & !(engine %in% c("gt", "kable"))) {
-
     stop("Currently, 'latex' output is only implemented with 'gt' or 'kable' as a table engine.")
-
   }
 
   download_formats <- c()
 
   if (engine %in% c("dt", "datatable", "datatables")) {
-
-    if ("copy" %in% download_format)  { download_formats <- c(download_formats, "copy") }
-    if ("csv" %in% download_format)   { download_formats <- c(download_formats, "csv") }
-    if ("excel" %in% download_format) { download_formats <- c(download_formats, "excel") }
+    if ("copy" %in% download_format) {
+      download_formats <- c(download_formats, "copy")
+    }
+    if ("csv" %in% download_format) {
+      download_formats <- c(download_formats, "csv")
+    }
+    if ("excel" %in% download_format) {
+      download_formats <- c(download_formats, "excel")
+    }
 
     for (f in download_format) {
-
       if (!(is.null(f)) & !(f %in% c("copy", "csv", "excel"))) {
-
         warning("Currently, only 'copy', 'csv' and 'excel' are supported as 'download_format'.")
-
       }
-
     }
-
   } else {
-
     if (!is.null(download_format)) {
-
       warning("Currently, 'download_format' is only supported for the following engines: dt, datatable, datatables.")
-
     }
-
   }
 
   if (!inherits(data, "risktable")) {
-
     sample <- data[data$variable == "Sample", ]
     sample <- sample[3:length(sample)]
-    sample_names = colnames(sample)
-    new_sample_names <- sapply(1:length(sample), function(i){
-      vec = c(sample_names[i], " (N=", sample[i], ")")
+    sample_names <- colnames(sample)
+    new_sample_names <- sapply(1:length(sample), function(i) {
+      vec <- c(sample_names[i], " (N=", sample[i], ")")
       paste(vec, collapse = "")
     })
     colnames(data) <- c(colnames(data)[1:2], new_sample_names)
     data <- data[data$variable != "Sample", ]
-
   }
 
-  render.data.frame(data,
-                    title,
-                    datasource,
-                    footnote,
-                    output_format,
-                    engine,
-                    download_format)
+  render.data.frame(
+    data,
+    title,
+    datasource,
+    footnote,
+    output_format,
+    engine,
+    download_format
+  )
 }
 
 #' @inheritParams render
 #' @export
 #'
 #' @method render risktable
-render.risktable <- function(
-  data,
-  title,
-  datasource,
-  footnote = "",
-  output_format = "html",
-  engine = "gt",
-  download_format = NULL) {
-
+render.risktable <- function(data,
+                             title,
+                             datasource,
+                             footnote = "",
+                             output_format = "html",
+                             engine = "gt",
+                             download_format = NULL) {
   if (!inherits(data, "risktable")) {
-
     stop("Please provide a valid `risktable` object.")
-
   } else {
 
     # Many tidyr operations don't work on non-standard class objects. Therefore,
     # we remove the class and add it back later.
     class(data) <- class(data)[class(data) != "risktable"]
-
   }
 
   if (missing(title)) {
-
     stop("Please provide a valid `title`.")
-
   }
 
   if (missing(datasource)) {
-
     stop("Please provide a valid `datasource`.")
-
   }
 
   strata <- colnames(data)[3:ncol(data)]
 
-  if (!is.null(attributes(data)$title) & length(attributes(data)$title) == length(strata)){
-
+  if (!is.null(attributes(data)$title) & length(attributes(data)$title) == length(strata)) {
     data <- data %>% dplyr::rename_at(dplyr::vars(strata), ~ attributes(data)$title)
     strata <- colnames(data)[3:ncol(data)]
-
   }
 
   y_lables <- unique(data$y_values)
@@ -175,12 +148,10 @@ render.risktable <- function(
   complete_tab <- c()
 
   for (s in strata) {
-
     tab <- data[c(coln, s)] %>%
-      tidyr::pivot_wider(names_from = "time", values_from=s)
+      tidyr::pivot_wider(names_from = "time", values_from = s)
     tab$variable <- s
     complete_tab <- rbind(complete_tab, tab)
-
   }
 
   colnames(complete_tab) <- c("statistic", colnames(tab)[2:ncol(tab)])
@@ -189,14 +160,15 @@ render.risktable <- function(
   complete_tab <- complete_tab %>%
     dplyr::select(variable, statistic, dplyr::everything())
 
-  render.tableone(complete_tab,
-                  title,
-                  datasource,
-                  footnote,
-                  output_format,
-                  engine,
-                  download_format)
-
+  render.tableone(
+    complete_tab,
+    title,
+    datasource,
+    footnote,
+    output_format,
+    engine,
+    download_format
+  )
 }
 
 
@@ -204,14 +176,13 @@ render.risktable <- function(
 #'
 #' @method render data.frame
 #' @export
-render.data.frame <- function(
-  data,
-  title,
-  datasource,
-  footnote = "",
-  output_format = "html",
-  engine = "gt",
-  download_format = c('copy', 'csv', 'excel')){
+render.data.frame <- function(data,
+                              title,
+                              datasource,
+                              footnote = "",
+                              output_format = "html",
+                              engine = "gt",
+                              download_format = c("copy", "csv", "excel")) {
   # TODO: add code for rtf output
   # TODO: do we need a routine for falling back on minimal?
   # TODO: do we need features to further specify styling of the table?
@@ -219,19 +190,24 @@ render.data.frame <- function(
   check_rendering_input(output_format, engine)
 
   # Kable output
-  if(tolower(engine) == "kable"){
-    if(tolower(output_format) %in% c("html", "latex")){
+  if (tolower(engine) == "kable") {
+    if (tolower(output_format) %in% c("html", "latex")) {
       table_out <- data %>%
-        knitr::kable(format = output_format,
-                     caption = title,
-                     digits = 2,
-                     booktabs = TRUE) %>%
-        kableExtra::collapse_rows(valign="top") %>%
-        kableExtra::footnote(general = footnote,
-                             general_title = "Additional Note:") %>%
-        kableExtra::footnote(general = datasource,
-                             general_title = "Data Source:")
-
+        knitr::kable(
+          format = output_format,
+          caption = title,
+          digits = 2,
+          booktabs = TRUE
+        ) %>%
+        kableExtra::collapse_rows(valign = "top") %>%
+        kableExtra::footnote(
+          general = footnote,
+          general_title = "Additional Note:"
+        ) %>%
+        kableExtra::footnote(
+          general = datasource,
+          general_title = "Data Source:"
+        )
     } else {
 
       # Currently can't be triggered due to check_rendering_input()
@@ -249,16 +225,14 @@ render.data.frame <- function(
   #--------------------
   # GT output
   else if (tolower(engine) == "gt") {
-
     if (!tolower(output_format) %in% c("html", "latex")) {
 
       # Currently can't be triggered due to check_rendering_input()
       # Uncommented for possible later use with rtf
       # warning(paste("Supported output format of the gt engine are html and latex and not", output_format, " - falling back to html"))
+    }
 
-      }
-
-    table_out <- render_gt(data=data, title=title, datasource=datasource, footnote=footnote)
+    table_out <- render_gt(data = data, title = title, datasource = datasource, footnote = footnote)
 
     if (output_format == "latex") {
       # note: after this step, the table is not a gt object anymore and thus cannot be further styled
@@ -269,11 +243,11 @@ render.data.frame <- function(
   #--------------------
   # jQuery DT output
   else if (tolower(engine) %in% c("dt", "datatables", "datatable")) {
-
     if (!tolower(output_format) %in% c("html")) {
-
-      warning(paste("DT engine only supports html output and not", output_format,
-                    "- falling back to html. Please pick a different engine to create other outputs"))
+      warning(paste(
+        "DT engine only supports html output and not", output_format,
+        "- falling back to html. Please pick a different engine to create other outputs"
+      ))
     }
 
     # WIP: we may want to create a custom container to allow for stratification of more than one value and merge cells in the description
@@ -317,7 +291,7 @@ render.data.frame <- function(
 #' @return A table data structure with possible interactive functionality depending on the choice of the engine.
 #' @rdname render_datatable
 #' @noRd
-render_datatable <- function(data, title, download_format, source_cap){
+render_datatable <- function(data, title, download_format, source_cap) {
   UseMethod("render_datatable")
 }
 
@@ -327,31 +301,35 @@ render_datatable <- function(data, title, download_format, source_cap){
 #' @method render_datatable tableone
 #' @noRd
 render_datatable.tableone <- function(data, title, download_format, source_cap) {
-
   if (is.null(download_format)) {
-
     table_out <- data %>%
-      DT::datatable(caption = title,
-                    filter = "none",
-                    # container = sketch,
-                    options = list(paging = FALSE,
-                                   ordering = FALSE,
-                                   info = FALSE,
-                                   drawCallback = DT::JS(source_cap)))
-
+      DT::datatable(
+        caption = title,
+        filter = "none",
+        # container = sketch,
+        options = list(
+          paging = FALSE,
+          ordering = FALSE,
+          info = FALSE,
+          drawCallback = DT::JS(source_cap)
+        )
+      )
   } else {
-
     table_out <- data %>%
-      DT::datatable(caption = title,
-                    filter = "none",
-                    # container = sketch,
-                    extensions = 'Buttons',
-                    options = list(paging = FALSE,
-                                   info = FALSE,
-                                   ordering = FALSE,
-                                   drawCallback = DT::JS(source_cap),
-                                   dom = 'Bfrtip',
-                                   buttons = download_format))
+      DT::datatable(
+        caption = title,
+        filter = "none",
+        # container = sketch,
+        extensions = "Buttons",
+        options = list(
+          paging = FALSE,
+          info = FALSE,
+          ordering = FALSE,
+          drawCallback = DT::JS(source_cap),
+          dom = "Bfrtip",
+          buttons = download_format
+        )
+      )
   }
 
   return(table_out)
@@ -362,23 +340,25 @@ render_datatable.tableone <- function(data, title, download_format, source_cap) 
 #' @method render_datatable data.frame
 #' @noRd
 render_datatable.data.frame <- function(data, title, download_format, source_cap) {
-
   if (is.null(download_format)) {
-
     table_out <- data %>%
-      DT::datatable(caption = title,
-                    options = list(
-                    drawCallback = DT::JS(source_cap)))
-
+      DT::datatable(
+        caption = title,
+        options = list(
+          drawCallback = DT::JS(source_cap)
+        )
+      )
   } else {
-
     table_out <- data %>%
-      DT::datatable(caption = title,
-                    extensions = 'Buttons',
-                    options = list(drawCallback = DT::JS(source_cap),
-                                   dom = 'Bfrtip',
-                                   buttons = download_format))
-
+      DT::datatable(
+        caption = title,
+        extensions = "Buttons",
+        options = list(
+          drawCallback = DT::JS(source_cap),
+          dom = "Bfrtip",
+          buttons = download_format
+        )
+      )
   }
 
   return(table_out)
@@ -400,18 +380,23 @@ render_datatable.data.frame <- function(data, title, download_format, source_cap
 #' @return A gt object.
 #' @rdname render_gt
 #' @noRd
-render_gt <- function(data, title, datasource, footnote){
+render_gt <- function(data, title, datasource, footnote) {
   # identify numeric columns for special formatting later
-  numcols <- data %>% dplyr::select_if(is.numeric) %>% names()
+  numcols <- data %>%
+    dplyr::select_if(is.numeric) %>%
+    names()
   # create gt table
   table_out <- data %>%
     get_gt(numcols) %>%
     gt::fmt_number(
       columns = numcols,
       decimals = 2
-    )%>% add_metadata_gt(title = title,
-                         datasource = datasource,
-                         footnote = footnote)
+    ) %>%
+    add_metadata_gt(
+      title = title,
+      datasource = datasource,
+      footnote = footnote
+    )
 
   return(table_out)
 }
@@ -425,7 +410,7 @@ render_gt <- function(data, title, datasource, footnote){
 #' @param numcols number of columns
 #' @noRd
 #' @return gt object
-get_gt <- function(data, numcols){
+get_gt <- function(data, numcols) {
   UseMethod("get_gt")
 }
 
@@ -437,14 +422,16 @@ get_gt <- function(data, numcols){
 #' @method get_gt tableone
 #' @noRd
 get_gt.tableone <- function(data, numcols) {
-
-  gt <- gt::gt(data, groupname_col = "variable",
-         rowname_col = "statistic") %>%
-         # no decimal points for sample count
-         gt::fmt_number(
-           columns = numcols,
-           rows = grepl("^N$", statistic),
-           decimals = 0)
+  gt <- gt::gt(data,
+    groupname_col = "variable",
+    rowname_col = "statistic"
+  ) %>%
+    # no decimal points for sample count
+    gt::fmt_number(
+      columns = numcols,
+      rows = grepl("^N$", statistic),
+      decimals = 0
+    )
 
   return(gt)
 }
@@ -454,7 +441,6 @@ get_gt.tableone <- function(data, numcols) {
 #' @method get_gt data.frame
 #'
 get_gt.data.frame <- function(data, numcols) {
-
   gt <- gt::gt(data)
 
   return(gt)
@@ -475,7 +461,6 @@ get_gt.data.frame <- function(data, numcols) {
 #' @noRd
 #' @return gt object
 add_metadata_gt <- function(gt, title, datasource, footnote) {
-
   table_out <- gt %>% gt::tab_header(title = title)
 
   table_out <- table_out %>%
@@ -497,13 +482,12 @@ add_metadata_gt <- function(gt, title, datasource, footnote) {
 #' @noRd
 #' @return Warning message
 check_rendering_input <- function(output_format = NULL, engine = NULL) {
-
   if (missing(output_format) | is.null(output_format) | missing(engine) | is.null(engine)) {
     stop("Please provide an output_format and an engine.")
   }
 
   # stop if output format is not supported
-  if (!tolower(output_format) %in% c("html", "latex")) { #"rtf",
+  if (!tolower(output_format) %in% c("html", "latex")) { # "rtf",
     stop(paste("Currently supported output formats are html and latex.", output_format, "is not yet supported."))
   }
 

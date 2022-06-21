@@ -31,7 +31,7 @@ No default method is available at the moment.
 }
 \examples{
 
-survfit_object <- survival::survfit(data = adtte, survival::Surv(AVAL, 1-CNSR) ~ TRTP)
+survfit_object <- survival::survfit(data = adtte, survival::Surv(AVAL, 1 - CNSR) ~ TRTP)
 get_summary(survfit_object)
 
 }

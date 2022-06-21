@@ -26,7 +26,7 @@
 #' @rdname get_quantile
 #' @export
 #'
-get_quantile <- function(x, ...){
+get_quantile <- function(x, ...) {
   UseMethod("get_quantile", x)
 }
 
@@ -37,29 +37,31 @@ get_quantile.survfit <- function(x,
                                  ...,
                                  probs = c(0.25, 0.50, 0.75),
                                  conf.int = TRUE,
-                                 tolerance = sqrt(.Machine$double.eps)
-                                ) {
+                                 tolerance = sqrt(.Machine$double.eps)) {
 
 
-# User input validation ---------------------------------------------------
+  # User input validation ---------------------------------------------------
 
-  if (conf.int == TRUE & !base::all(c("lower", "upper") %in% names(x)))
+  if (conf.int == TRUE & !base::all(c("lower", "upper") %in% names(x))) {
     stop("Confidence limits were not part of original estimation.")
+  }
 
-  if (!base::all(is.numeric(probs) == TRUE) | (!base::all(probs < 1)))
+  if (!base::all(is.numeric(probs) == TRUE) | (!base::all(probs < 1))) {
     stop("probs should be a numeric vector.")
+  }
 
-  if (!is.numeric(tolerance))
+  if (!is.numeric(tolerance)) {
     stop("tolerance should be numeric")
+  }
 
-# Extract quantiles -------------------------------------------------------
+  # Extract quantiles -------------------------------------------------------
 
-  q <- quantile( x
-                ,probs = probs
-                ,conf.int = conf.int
-                ,tolerance = tolerance
-                ,type = 3
-               )
+  q <- quantile(x,
+    probs = probs,
+    conf.int = conf.int,
+    tolerance = tolerance,
+    type = 3
+  )
 
   qdf <- do.call(rbind.data.frame, q)
 
@@ -67,12 +69,12 @@ get_quantile.survfit <- function(x,
   quantity <- unlist(lapply(strsplit(rownames(qdf), "\\.", fixed = FALSE), `[[`, 1))
 
   final <- data.frame(
-    cbind(strata, quantity, qdf)
-   ,row.names = NULL
-   ,check.names = FALSE
+    cbind(strata, quantity, qdf),
+    row.names = NULL,
+    check.names = FALSE
   )
 
-  final <- final[ order( final[, "strata"], final[, "quantity"] ),  ]
+  final <- final[order(final[, "strata"], final[, "quantity"]), ]
 
   return(final)
 }

@@ -78,57 +78,56 @@ tbl_gt <-
   dplyr::filter(SAFFL == "Y") \%>\%
   dplyr::select(AGE, AGEGR1, SEX, EVNTDESC, TRTA) \%>\%
   visR::tableone(
-     strata = "TRTA",
-     overall = FALSE,
-     title = t1_title,
-     datasource = t1_ds,
-     footnote = t1_fn,
-     engine = "gt"
+    strata = "TRTA",
+    overall = FALSE,
+    title = t1_title,
+    datasource = t1_ds,
+    footnote = t1_fn,
+    engine = "gt"
   )
 
 ## table by treatment - without overall and render with DT
 tbl_DT <-
-   adtte \%>\%
-   dplyr::filter(SAFFL == "Y") \%>\%
-   dplyr::select(AGE, AGEGR1, SEX, EVNTDESC, TRTA) \%>\%
-   visR::tableone(
-      strata = "TRTA",
-      overall = FALSE,
-      title = t1_title,
-      datasource = t1_ds,
-      footnote = t1_fn,
-      engine = "DT"
-   )
+  adtte \%>\%
+  dplyr::filter(SAFFL == "Y") \%>\%
+  dplyr::select(AGE, AGEGR1, SEX, EVNTDESC, TRTA) \%>\%
+  visR::tableone(
+    strata = "TRTA",
+    overall = FALSE,
+    title = t1_title,
+    datasource = t1_ds,
+    footnote = t1_fn,
+    engine = "DT"
+  )
 
 ## table by treatment - without overall and render with kable
 tbl_kable_html <-
-   adtte \%>\%
-   dplyr::filter(SAFFL == "Y") \%>\%
-   dplyr::select(AGE, AGEGR1, SEX, EVNTDESC, TRTA) \%>\%
-   visR::tableone(
-      strata = "TRTA",
-      overall = FALSE,
-      title = t1_title,
-      datasource = t1_ds,
-      footnote = t1_fn,
-      engine = "kable"
-   )
+  adtte \%>\%
+  dplyr::filter(SAFFL == "Y") \%>\%
+  dplyr::select(AGE, AGEGR1, SEX, EVNTDESC, TRTA) \%>\%
+  visR::tableone(
+    strata = "TRTA",
+    overall = FALSE,
+    title = t1_title,
+    datasource = t1_ds,
+    footnote = t1_fn,
+    engine = "kable"
+  )
 
 ## table by treatment - without overall and render with kable as
 ## a latex table format rather than html
 tbl_kable_latex <-
-   adtte \%>\%
-   dplyr::filter(SAFFL == "Y") \%>\%
-   dplyr::select(AGE, AGEGR1, SEX, EVNTDESC, TRTA) \%>\%
-   visR::tableone(
-      strata = "TRTA",
-      overall = FALSE,
-      title = t1_title,
-      datasource = t1_ds,
-      footnote = t1_fn,
-      output_format = "latex",
-      engine = "kable"
-   )
-
+  adtte \%>\%
+  dplyr::filter(SAFFL == "Y") \%>\%
+  dplyr::select(AGE, AGEGR1, SEX, EVNTDESC, TRTA) \%>\%
+  visR::tableone(
+    strata = "TRTA",
+    overall = FALSE,
+    title = t1_title,
+    datasource = t1_ds,
+    footnote = t1_fn,
+    output_format = "latex",
+    engine = "kable"
+  )
 
 }

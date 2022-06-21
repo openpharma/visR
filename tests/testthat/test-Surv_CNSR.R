@@ -67,7 +67,7 @@ testthat::test_that("T1.3 The results of the estimation match between Surv_CNSR 
 # Requirement T2 ----------------------------------------------------------
 
 testthat::test_that("T2.1 An error when column name specified through AVAL is not present in the environment", {
-  testthat::expect_true(! "AVAL" %in% colnames(survival::lung))
+  testthat::expect_true(!"AVAL" %in% colnames(survival::lung))
   testthat::expect_error(survival::survfit(visR::Surv_CNSR() ~ 1, data = survival::lung))
   testthat::expect_error(survival::survfit(visR::Surv_CNSR() ~ sex, data = survival::lung))
 
@@ -87,7 +87,7 @@ testthat::test_that("T2.3 A warning when the column specified through AVAL has n
 })
 
 testthat::test_that("T2.4 An error when the column name specified through CNSR is not present in the environment", {
-  testthat::expect_true(! "CNSR" %in% colnames(survival::lung))
+  testthat::expect_true(!"CNSR" %in% colnames(survival::lung))
   testthat::expect_error(survival::survfit(visR::Surv_CNSR() ~ 1, data = survival::lung %>% dplyr::rename(AVAL = time)))
   testthat::expect_error(survival::survfit(visR::Surv_CNSR() ~ sex, data = survival::lung %>% dplyr::rename(AVAL = time)))
 

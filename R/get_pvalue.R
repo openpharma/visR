@@ -40,23 +40,28 @@
 
 get_pvalue <- function(survfit_object,
                        ptype = "All",
-                       rho   = NULL,
+                       rho = NULL,
                        statlist = c("test", "Chisq", "df", "pvalue"),
                        ...) {
 
   # Input validation --------------------------------------------------------
 
-  if (!inherits(survfit_object, "survfit"))
+  if (!inherits(survfit_object, "survfit")) {
     stop("The function expects an object of class `survfit` as input.")
-  if (length(names(survfit_object[["strata"]])) <= 1)
+  }
+  if (length(names(survfit_object[["strata"]])) <= 1) {
     stop("Main effect has only 1 level. Test of equality over strata can't be determined.")
-  if (!base::any(c("Log-Rank", "Wilcoxon", "Tarone-Ware", "Custom", "All") %in% ptype))
+  }
+  if (!base::any(c("Log-Rank", "Wilcoxon", "Tarone-Ware", "Custom", "All") %in% ptype)) {
     stop("Specify a valid type")
-  if ("Custom" %in% ptype & is.null(rho))
+  }
+  if ("Custom" %in% ptype & is.null(rho)) {
     stop("ptype = `Custom`. Please, specify rho.")
+  }
   if (is.null(statlist) |
-      !base::all(statlist %in% c("test", "df", "Chisq", "pvalue")))
+    !base::all(statlist %in% c("test", "df", "Chisq", "pvalue"))) {
     stop("Specify valid `statlist` arguments.")
+  }
 
   # Re-use Call from survival object ----------------------------------------
 
@@ -64,25 +69,25 @@ get_pvalue <- function(survfit_object,
   NewCall <- append(as.list(parse(text = "survival::survdiff")), Call[names(Call) %in% names(formals(survival::survdiff))])
 
   if ("All" %in% ptype) {
-    ptype = c("Log-Rank", "Wilcoxon", "Tarone-Ware")
+    ptype <- c("Log-Rank", "Wilcoxon", "Tarone-Ware")
     if (!is.null(rho)) {
-      ptype = c(ptype, "Custom")
+      ptype <- c(ptype, "Custom")
     }
   }
 
   # Summary list ------------------------------------------------------------
 
   survdifflist <- list(
-    `Log-Rank`    = rlang::expr(eval(as.call(
+    `Log-Rank` = rlang::expr(eval(as.call(
       append(!!NewCall, list(rho = 0))
     ))),
-    `Wilcoxon`    = rlang::expr(eval(as.call(
+    `Wilcoxon` = rlang::expr(eval(as.call(
       append(!!NewCall, list(rho = 1))
     ))),
     `Tarone-Ware` = rlang::expr(eval(as.call(
       append(!!NewCall, list(rho = 1.5))
     ))),
-    `Custom`      = rlang::expr(eval(as.call(
+    `Custom` = rlang::expr(eval(as.call(
       append(!!NewCall, list(rho = !!rho))
     )))
   )[ptype]
@@ -102,7 +107,8 @@ get_pvalue <- function(survfit_object,
                   "The 'survfit' object was not created with `visR::estimate_KM()`.\n",
                   "The the error will likely be resolved by re-estimating the ",
                   "'survfit' object with visR.\n",
-                  error_msg)
+                  error_msg
+                )
             }
             stop(error_msg, call. = FALSE)
           }
@@ -124,19 +130,22 @@ get_pvalue <- function(survfit_object,
       Nms,
       fixed = TRUE
     )),
-    `Chisq`    = rlang::expr(unlist(
-      lapply(survdifflist_eval, function(x)
+    `Chisq` = rlang::expr(unlist(
+      lapply(survdifflist_eval, function(x) {
         format(round(x$chisq, 3), nsmall = 3, justify = "right", width = 6, scientific = FALSE)
-      ))),
-    df        = rlang::expr(unlist(
-      lapply(survdifflist_eval, function(x)
-        length(x$n) - 1)
+      })
+    )),
+    df = rlang::expr(unlist(
+      lapply(survdifflist_eval, function(x) {
+        length(x$n) - 1
+      })
     )),
     `p-value` = rlang::expr(unlist(
-      lapply(survdifflist_eval, function(x)
+      lapply(survdifflist_eval, function(x) {
         .pvalformat(
           stats::pchisq(x$chisq, length(x$n) - 1, lower.tail = FALSE)
-        ))
+        )
+      })
     ))
   )[statlist]
 
