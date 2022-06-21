@@ -14,7 +14,7 @@ coverage](https://codecov.io/gh/openpharma/visR/branch/develop/graph/badge.svg)]
 [![pkgdown](https://github.com/openpharma/visR/actions/workflows/makedocs.yml/badge.svg)](https://github.com/openpharma/visR/actions/workflows/makedocs.yml)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/visR)](https://CRAN.R-project.org/package=visR)
-<a href=https://github.com/pharmaR/riskmetric><img src=https://img.shields.io/badge/riskmetric--1.31-green></img></a>
+<a href=https://github.com/pharmaR/riskmetric><img src=https://img.shields.io/badge/riskmetric--1.39-green></img></a>
 <!-- badges: end -->
 
 The goal of visR is to enable fit-for-purpose, reusable clinical and
@@ -92,26 +92,6 @@ adtte %>%
 ```
 
 <img src="man/figures/README-example-1.png" width="100%" />
-
-#### Summary Table
-
-The `tableone()` function presents summary statistics in a table format.
-
-``` r
-## table by treatment - without overall and render with GT
-tableone <-
-  adtte %>%
-  dplyr::select(AGE, SEX, TRTA) %>%
-  visR::tableone(
-     strata = "TRTA",
-     overall = TRUE,
-     title = "Cohort Summary",
-     datasource = "ADaM Interim Dataset for Time-to-Event Analysis",
-     engine = "gt"
-  )
-```
-
-<img src="man/figures/README-tableone_print-1.png" width="90%" />
 
 ## Cite visR
 

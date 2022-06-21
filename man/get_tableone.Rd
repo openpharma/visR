@@ -33,6 +33,7 @@ object of class tableone. That is a list of data specified summaries
 for all input variables.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#questioning}{\figure{lifecycle-questioning.svg}{options: alt='[Questioning]'}}}{\strong{[Questioning]}}
 S3 method for creating a table of summary statistics.
 The summary statistics can be used for presentation in tables such as table one or baseline and demography tables.
 
@@ -46,8 +47,6 @@ By default the following summary stats are calculated:
 }
 }
 \details{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
-
 It is possible to provide your own summary function. Please have a loot at summary for inspiration.
 }
 \note{

@@ -1,181 +1,8 @@
-#' @title Provides a simple wrapper for themes
-#'
-#' @description This function collects several lists if they are present. If absent, reasonable defaults are used.
-#'
-#' @param strata list containing the different strata and name:colour value pairs
-#' @param fontsizes list containing the font sizes for different options
-#' @param fontfamily string with the name of a supported font
-#' @param grid boolean that specifies whether the grid should be drawn or not
-#' @param bg string giving the colour for the background of the plot
-#' @param legend_position string indicating the legend position
-#'
-#' @return Nested list with styling preferences for a ggplot object
-#'
-#' @examples
-#'
-#' theme <- visR::define_theme(
-#'   strata = list("SEX" = list("F" = "red",
-#'                              "M" = "blue"
-#'                            ),
-#'                "TRTA" = list("Placebo" = "cyan",
-#'                              "Xanomeline High Dose" = "purple",
-#'                              "Xanomeline Low Dose" = "brown"
-#'                            )
-#'             ),
-#'   fontsizes = list("axis" = 12,
-#'                    "ticks" = 10,
-#'                    "legend_title" = 10,
-#'                    "legend_text" = 8),
-#'   fontfamily = "Helvetica",
-#'   grid = list("major" = FALSE,
-#'               "minor" = FALSE
-#'              ),
-#'   bg = "transparent",
-#'   legend_position = "top"
-#')
-#'
-#' @export
-
-define_theme <- function(strata = NULL,
-                         fontsizes = NULL,
-                         fontfamily = "Helvetica",
-                         grid = FALSE,
-                         bg = "transparent",
-                         legend_position = NULL) {
-  theme <- list()
-
-  if (!base::is.null(strata)) {
-
-    if (base::is.list(strata)) {
-
-      if (base::length(base::names(strata)) > 0) {
-
-        theme[["strata"]] <- strata
-
-      } else {
-
-        base::warning("Invalid argument for `strata`. Please provide a named list as described in the documentation. Setting strata to `NULL` (which results in no specific theming for stratification).")
-        theme[["strata"]] <- NULL
-
-      }
-    }
-  }
-
-  if (!base::is.null(fontsizes)) {
-
-    if (base::is.list(fontsizes)) {
-
-      if (base::length(base::names(fontsizes)) > 0) {
-
-        theme[["fontsizes"]] <- fontsizes
-
-      } else {
-
-        base::warning("Invalid argument for `fontsizes`. Please provide a named list for the individual plot elements as described in the documentation. Setting fontsizes to `NULL`.")
-        theme[["fontsizes"]] <- NULL
-
-      }
-
-    } else if (base::is.numeric(fontsizes)) {
-
-      base::message("Setting all fontsizes to the provided numeric value. It is recommended to use a named list as described in the documentation.")
-      theme[["fontsizes"]] <- fontsizes
-
-    } else {
-
-      base::warning("Invalid argument for `fontsizes`. Please provide a named list as described in the documentation. Setting fontsizes to `NULL`.")
-      theme[["fontsizes"]] <- NULL
-
-    }
-  }
-
-  if (!base::is.character(fontfamily)) {
-
-    base::warning("Invalid argument for `fontfamily`. Please provide the name of a valid font family as a string. Setting to default `Helvetica`.")
-    theme[["fontfamily"]] <- "Helvetica"
-
-  } else if (base::is.character(fontfamily) & (base::length(fontfamily) > 1)) {
-
-    base::warning(paste0("Invalid amount of arguments for `fontfamily`. Using the first one: ", fontfamily[[1]]))
-    theme[["fontfamily"]] <- fontfamily[[1]]
-
-  } else if (base::is.character(fontfamily) &
-            (base::length(fontfamily) == 1) &
-            (base::nchar(fontfamily) == 0)) {
-
-    base::warning("Invalid argument for `fontfamily`. Please provide the name of a valid font family as a string. Setting to default `Helvetica`.")
-    theme[["fontfamily"]] <- "Helvetica"
-
-  } else {
-
-    theme[["fontfamily"]] <- fontfamily
-
-  }
-
-  if (base::is.logical(grid)) {
-
-    if (grid == TRUE) {
-
-      theme[["grid"]] <- list("major" = TRUE,
-                              "minor" = FALSE)
-
-    } else {
-
-      theme[["grid"]] <- grid
-
-    }
-
-  } else if (is.list(grid)) {
-
-    if (("major" %in% names(grid)) | ("minor" %in% names(grid))) {
-
-      theme[["grid"]] <- grid
-
-    } else {
-
-      base::warning("Invalid argument for `grid`. Please use a boolean or a list to indicate whether you want a background grid. Setting to default `FALSE`.")
-      theme[["grid"]] <- FALSE
-
-    }
-
-  } else {
-
-    base::warning("Invalid argument for `grid`. Please use a boolean or a list to indicate whether you want a background grid. Setting to default `FALSE`.")
-    theme[["grid"]] <- FALSE
-
-  }
-
-  if (!base::is.character(bg)) {
-
-    base::warning("Invalid argument for `bg`. Please provide the name of a valid colour as a string. Setting to default `transparent`.")
-    theme[["bg"]] <- "transparent"
-
-  } else {
-
-    theme[["bg"]] <- bg
-
-  }
-
-  if (base::is.null(legend_position) | base::is.character(legend_position)) {
-
-    theme[["legend_position"]] <- legend_position
-
-  } else {
-
-    base::warning("Invalid argument for `legend_position`. Setting it to default \"right\".")
-    theme[["legend_position"]] <- "right"
-
-  }
-
-  base::class(theme) <- c( "visR_theme", class(theme))
-
-  return(theme)
-
-}
-
 #' @title Applies a theme to a ggplot object.
 #'
-#' @description Takes in the styling options defined through `visR::define_theme` and applies them to a plot.
+#' @description
+#' `r lifecycle::badge("experimental")`
+#' Takes in the styling options defined through `visR::define_theme` and applies them to a plot.
 #'
 #' @param gg object of class \code{ggplot}
 #' @param visR_theme_dict nested list containing possible font options
@@ -204,7 +31,6 @@ define_theme <- function(strata = NULL,
 #' gg <- adtte %>%
 #'   visR::estimate_KM(strata = "SEX") %>%
 #'   visR::visr() %>%
-#'   visR::add_CI() %>%
 #'   visR::apply_theme(theme)
 #' gg
 #'
@@ -214,7 +40,7 @@ apply_theme <- function(gg, visR_theme_dict = NULL) {
 
   # Manually define colour-blind friendly palette, taken from
   # http://mkweb.bcgsc.ca/biovis2012/krzywinski-visualizing-biological-data.pdf
-  cols <- c(
+  coldefault <- c(
     grDevices::rgb(  0,   0,   0, maxColorValue = 255),  #  1
     grDevices::rgb( 73,   0, 146, maxColorValue = 255),  #  6
     grDevices::rgb(146,   0,   0, maxColorValue = 255),  # 11
@@ -232,6 +58,9 @@ apply_theme <- function(gg, visR_theme_dict = NULL) {
     grDevices::rgb(109, 182, 255, maxColorValue = 255),  #  9
     grDevices::rgb( 36, 255,  36, maxColorValue = 255)   # 14
   )
+
+  skipcolordef <- FALSE
+  skipcolor <- TRUE
 
   font_family <- ggplot2::element_text(family = "Helvetica")
 
@@ -264,6 +93,9 @@ apply_theme <- function(gg, visR_theme_dict = NULL) {
     if ("strata" %in% base::names(visR_theme_dict)) {
 
       cols <- c()
+      skipcolordef <- TRUE
+      skipcolor <- FALSE
+
       named_strata <- base::names(visR_theme_dict[["strata"]])
 
       for (s in named_strata) {
@@ -277,6 +109,34 @@ apply_theme <- function(gg, visR_theme_dict = NULL) {
 
       cols <- unlist(cols)
 
+      # find group used in plot and extract levels from the data => select these from cols
+      # if these levels were not defined, use default as present in plot
+      colneed <- as.character(unique(gg$data[[gg$labels$group]]))
+
+      # Take title to match strata in theme
+      lvl1 <- lapply(visR_theme_dict[["strata"]], unlist)
+      lvl2 <- lapply(lvl1, function(x) any(colneed %in% names(x)))
+      ttl <- names(which(lvl2 == TRUE))
+
+      # from the strata in the theme, which were used in the estimation
+      if (!any(colneed %in% names(cols))) {
+        skipcolor <- TRUE
+      }
+
+      if (length(colneed) > length(coldefault)){
+        ## too many strata, keep as is
+        # layer <- ggplot2::layer_data(gg)
+        # cols <- layer[unique(layer[["group"]]), "colour"]
+        # names(cols) <- colneed
+        skipcolordef <- FALSE
+        skipcolor <- TRUE
+      } else if (length(intersect(names(cols), colneed)) > 0) {
+        cols <- cols[intersect(names(cols), colneed)]
+      } else if (length(colneed) <= length(coldefault)) {
+        cols <- coldefault[1:length(colneed)]
+        names(cols) <- colneed
+        skipcolordef <- FALSE
+      }
     }
 
     # fonts and text -----------------------------------------------------------
@@ -443,9 +303,27 @@ apply_theme <- function(gg, visR_theme_dict = NULL) {
   # Reset background
   gg <- gg + ggplot2::theme_minimal()
 
+  if (!skipcolor) {
+
+    gg <- gg +
+      ggplot2::scale_colour_manual(labels = names(cols),
+                                   values = cols,
+                                   aesthetics = c("colour", "fill"), na.value = "grey50") +
+      ggplot2::guides(color = ggplot2::guide_legend(ttl))
+
+  } else if (!skipcolordef) {
+
+    ## apply color friendly palette
+    if (length(unique(ggplot2::layer_data(gg)[["group"]])) > length(coldefault))  {
+      warning(paste0(length(coldefault), " is the max. number of strata supported."))
+    } else {
+      gg <- gg +
+        ggplot2::scale_colour_manual(values = coldefault,
+                                    aesthetics = c("colour", "fill"), na.value = "grey50")
+    }
+  }
+
   gg <- gg +
-    ggplot2::scale_colour_manual(values = cols,
-                                 aesthetics = c("colour", "fill")) +
     ggplot2::theme(
       text = font_family,
       axis.title.x = axis_title,
@@ -460,6 +338,8 @@ apply_theme <- function(gg, visR_theme_dict = NULL) {
       legend.position = legend_position
     )
 
+
   return(gg)
 }
 
+# END OF CODE -------------------------------------------------------------

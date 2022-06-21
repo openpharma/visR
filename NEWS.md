@@ -15,6 +15,7 @@
 * The strata variable is now removed from the body of `tableone()` results. (#254) 
 * The `visr.survfit()` function no longer warns about x-axis label when `PARAM` column not found in original data set. (#378)
 * The call saved in the `estimate_KM()` object has been updated to a quosure--ensuring the original function call can always be recalled.
+* `define_theme()`updated to ensure that only the strata present in the theme are displayed. (#388)
 
 * Improved documentation for `visr()` and other generic functions. (#301)
 
