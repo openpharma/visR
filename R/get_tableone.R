@@ -1,7 +1,8 @@
-#' `r lifecycle::badge("experimental")`
 #' @title Calculate summary statistics
 #'
-#' @description S3 method for creating a table of summary statistics.
+#' @description
+#' `r lifecycle::badge("questioning")`
+#' S3 method for creating a table of summary statistics.
 #' The summary statistics can be used for presentation in tables such as table one or baseline and demography tables.
 #'
 #' The summary statistics estimated are conditional on the variable type: continuous, binary, categorical, etc.

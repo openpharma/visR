@@ -15,10 +15,8 @@ apply_theme(gg, visR_theme_dict = NULL)
 object of class \code{ggplot}
 }
 \description{
-Takes in the styling options defined through \code{visR::define_theme} and applies them to a plot.
-}
-\details{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+Takes in the styling options defined through \code{visR::define_theme} and applies them to a plot.
 }
 \examples{
 

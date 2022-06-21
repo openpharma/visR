@@ -32,11 +32,9 @@ and \code{minor}.}
 Nested list with styling preferences for a ggplot object
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 This function collects several lists if they are present. If absent, reasonable defaults are used.
 When strata are not defined in the theme, they default to grey50 and will not be presented in the legend.
-}
-\details{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 }
 \examples{
 

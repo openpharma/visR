@@ -1,8 +1,9 @@
-#' `r lifecycle::badge("experimental")`
 #' @title Provides a simple wrapper for themes
 #'
-#' @description This function collects several lists if they are present. If absent, reasonable defaults are used.
-#'    When strata are not defined in the theme, they default to grey50 and will not be presented in the legend.
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'  This function collects several lists if they are present. If absent, reasonable defaults are used.
+#'  When strata are not defined in the theme, they default to grey50 and will not be presented in the legend.
 #' @param strata named list containing the different strata and name:colour value pairs
 #' @param fontsizes named list containing the font sizes for different options
 #' @param fontfamily string with the name of a supported font

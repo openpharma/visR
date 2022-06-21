@@ -1,7 +1,8 @@
-#' `r lifecycle::badge("experimental")`
 #' @title Applies a theme to a ggplot object.
 #'
-#' @description Takes in the styling options defined through `visR::define_theme` and applies them to a plot.
+#' @description
+#' `r lifecycle::badge("experimental")`
+#' Takes in the styling options defined through `visR::define_theme` and applies them to a plot.
 #'
 #' @param gg object of class \code{ggplot}
 #' @param visR_theme_dict nested list containing possible font options
