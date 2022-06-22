@@ -19,6 +19,6 @@ Checklist for PR reviewer
 - [ ] `usethis::use_spell_check()` runs with no spelling errors in documentation
 - [ ] Has `NEWS.md` been updated with the changes from this pull request under the heading indicating the latest version. If there is an issue associated with the pull request, reference it in parentheses at the end update (see `NEWS.md` for examples).
 - [ ] Has the version number been incremented using `usethis::use_version(which = "dev")` 
-- [ ] Has the README been knitted before merging to ensure each PR has the most up-to-date readme?
+- [ ] Run `devtools::build_readme()` to build the `README.md` file.
 - [ ] Approve Pull Request
 - [ ] Merge the PR. Please use "Squash and merge".
