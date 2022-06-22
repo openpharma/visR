@@ -62,18 +62,11 @@ The easiest way to get `visR` is to install from CRAN:
 install.packages("visR")
 ```
 
-
-Install the *development* version from [GitHub](https://github.com/) with:
+Install the *development* version from [GitHub](https://github.com/openpharma/visR) with:
 
 ``` r
 # defaults to develop branch
 devtools::install_github("openpharma/visR") 
-```
-
-Install the *latest stable* version from [GitHub](https://github.com/) with:
-
-``` r
-devtools::install_github("openpharma/visR", ref = "main")
 ```
 
 ## Examples
