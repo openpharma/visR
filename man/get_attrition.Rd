@@ -39,10 +39,15 @@ criteria_descriptions and criteria_conditions need to be of same length
 }
 \examples{
 visR::get_attrition(adtte,
-    criteria_descriptions =
-       c("1. Placebo Group", "2. Be 75 years of age or older.",
-         "3. White", "4. Site 709"),
-    criteria_conditions   = c("TRTP=='Placebo'","AGE>=75",
-                              "RACE=='WHITE'", "SITEID==709"),
-    subject_column_name   = 'USUBJID')
+  criteria_descriptions =
+    c(
+      "1. Placebo Group", "2. Be 75 years of age or older.",
+      "3. White", "4. Site 709"
+    ),
+  criteria_conditions = c(
+    "TRTP=='Placebo'", "AGE>=75",
+    "RACE=='WHITE'", "SITEID==709"
+  ),
+  subject_column_name = "USUBJID"
+)
 }

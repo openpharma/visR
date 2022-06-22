@@ -1,6 +1,8 @@
 #' @title Calculate summary statistics
 #'
-#' @description S3 method for creating a table of summary statistics.
+#' @description
+#' `r lifecycle::badge("questioning")`
+#' S3 method for creating a table of summary statistics.
 #' The summary statistics can be used for presentation in tables such as table one or baseline and demography tables.
 #'
 #' The summary statistics estimated are conditional on the variable type: continuous, binary, categorical, etc.
@@ -14,14 +16,12 @@
 #' @param strata Stratifying/Grouping variable name(s) as character vector. If NULL, only overall results are returned
 #' @param overall If TRUE, the summary statistics for the overall dataset are also calculated
 #' @param summary_function A function defining summary statistics for numeric and categorical values
-#' @return A list of data specified summaries for all input variables. 
 #' @details It is possible to provide your own summary function. Please have a loot at summary for inspiration.
 #'
 #' @note All columns in the table will be summarized. If only some columns shall be used, please select only those
 #' variables prior to creating the summary table by using dplyr::select()
 #'
 #' @examples
-
 #'
 #' # Example using the ovarian data set
 #'
@@ -59,41 +59,40 @@
 #' ## By actual treatment
 #' adtte %>%
 #'   dplyr::filter(SAFFL == "Y") %>%
-#'   dplyr::select(AGE, AGEGR1, SEX, RACE, TRTA ) %>%
+#'   dplyr::select(AGE, AGEGR1, SEX, RACE, TRTA) %>%
 #'   visR::get_tableone(strata = "TRTA")
 #'
 #' ## By actual treatment, without overall
 #' adtte %>%
 #'   dplyr::filter(SAFFL == "Y") %>%
-#'   dplyr::select(AGE, AGEGR1, SEX, EVNTDESC, TRTA ) %>%
+#'   dplyr::select(AGE, AGEGR1, SEX, EVNTDESC, TRTA) %>%
 #'   visR::get_tableone(strata = "TRTA", overall = FALSE)
 #'
 #' @rdname get_tableone
-#'
 #' @export
-
-get_tableone <- function(data, strata = NULL, overall=TRUE, summary_function = summarize_short){
+#'
+get_tableone <- function(data, strata = NULL, overall = TRUE, summary_function = summarize_short) {
   UseMethod("get_tableone")
 }
 
 #' @rdname get_tableone
 #' @method get_tableone default
-#' @return object of class tableone. That is a list of data specified summaries 
-#'   for all input variables.  
+#' @return object of class tableone. That is a list of data specified summaries
+#'   for all input variables.
 #' @export
-get_tableone.default <- function(data, strata = NULL, overall=TRUE, summary_function = summarize_short){
-
+get_tableone.default <- function(data, strata = NULL, overall = TRUE, summary_function = summarize_short) {
   summary_FUN <- match.fun(summary_function)
 
-  if(overall & !is.null(strata)){
-    overall_table1 <- get_tableone(data, strata = NULL, overall = FALSE, summary_function = summary_function)
+  if (overall & !is.null(strata)) {
+    overall_table1 <- get_tableone(data, strata = NULL, overall = FALSE, summary_function = summary_function) %>%
+      dplyr::filter(!(variable %in% strata))
+
     combine_dfs <- TRUE
-  }
-  else{
-    combine_dfs = FALSE
+  } else {
+    combine_dfs <- FALSE
   }
 
-  if(is.null(strata)){
+  if (is.null(strata)) {
     data <- data %>%
       dplyr::mutate(all = "Total")
     strata <- c("all")
@@ -104,7 +103,7 @@ get_tableone.default <- function(data, strata = NULL, overall=TRUE, summary_func
 
   data_ns <- data %>%
     dplyr::summarise(summary = dplyr::n()) %>%
-    tidyr::pivot_wider(names_from = tidyselect::any_of(strata), values_from = "summary") %>%
+    tidyr::pivot_wider(names_from = dplyr::any_of(strata), values_from = "summary") %>%
     dplyr::mutate(variable = "Sample", summary_id = "N")
 
   data_summary <- data %>%
@@ -112,18 +111,17 @@ get_tableone.default <- function(data, strata = NULL, overall=TRUE, summary_func
     dplyr::ungroup() %>%
     tidyr::pivot_longer(cols = setdiff(names(.), strata), names_to = "variable", values_to = "summary") %>%
     tidyr::unnest_longer(summary) %>%
-    tidyr::pivot_wider(names_from = tidyselect::any_of(strata), values_from = "summary")
+    tidyr::pivot_wider(names_from = dplyr::any_of(strata), values_from = "summary")
 
   data_table1 <- rbind(data_ns, data_summary) %>%
     dplyr::rename(statistic = summary_id) %>%
     dplyr::select(variable, statistic, everything())
 
-  if(overall & combine_dfs){
-    data_table1 <- overall_table1 %>% dplyr::left_join(data_table1, by=c("variable", "statistic"))
+  if (overall & combine_dfs) {
+    data_table1 <- overall_table1 %>% dplyr::left_join(data_table1, by = c("variable", "statistic"))
   }
 
   class(data_table1) <- c("tableone", class(data_table1))
 
   return(data_table1)
 }
-

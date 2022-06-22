@@ -29,12 +29,11 @@ get_tableone(
 \item{summary_function}{A function defining summary statistics for numeric and categorical values}
 }
 \value{
-A list of data specified summaries for all input variables.
-
 object of class tableone. That is a list of data specified summaries
 for all input variables.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#questioning}{\figure{lifecycle-questioning.svg}{options: alt='[Questioning]'}}}{\strong{[Questioning]}}
 S3 method for creating a table of summary statistics.
 The summary statistics can be used for presentation in tables such as table one or baseline and demography tables.
 
@@ -92,13 +91,13 @@ adtte \%>\%
 ## By actual treatment
 adtte \%>\%
   dplyr::filter(SAFFL == "Y") \%>\%
-  dplyr::select(AGE, AGEGR1, SEX, RACE, TRTA ) \%>\%
+  dplyr::select(AGE, AGEGR1, SEX, RACE, TRTA) \%>\%
   visR::get_tableone(strata = "TRTA")
 
 ## By actual treatment, without overall
 adtte \%>\%
   dplyr::filter(SAFFL == "Y") \%>\%
-  dplyr::select(AGE, AGEGR1, SEX, EVNTDESC, TRTA ) \%>\%
+  dplyr::select(AGE, AGEGR1, SEX, EVNTDESC, TRTA) \%>\%
   visR::get_tableone(strata = "TRTA", overall = FALSE)
 
 }

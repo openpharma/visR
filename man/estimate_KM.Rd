@@ -2,40 +2,75 @@
 % Please edit documentation in R/estimate_KM.R
 \name{estimate_KM}
 \alias{estimate_KM}
-\title{Wrapper for Kaplan Meier Time-to-Event analysis}
+\title{Wrapper for Kaplan-Meier Time-to-Event analysis}
 \usage{
-estimate_KM(data = NULL, strata = NULL, CNSR = "CNSR", AVAL = "AVAL", ...)
+estimate_KM(
+  data = NULL,
+  strata = NULL,
+  CNSR = "CNSR",
+  AVAL = "AVAL",
+  formula = NULL,
+  ...
+)
 }
 \arguments{
-\item{data}{The name of the dataset for Time-to-Event analysis based on the Analysis Data Model (ADaM) principles. The dataset is expected to have
-one record per subject per analysis parameter. Rows in which the analysis variable (AVAL) or the sensor variable (CNSR) contain NA, are removed during analysis.}
+\item{data}{A data frame. The dataset is expected to have
+one record per subject per analysis parameter. Rows with missing observations included in the analysis are removed.}
 
-\item{strata}{Character vector, representing the strata for Time-to-Event analysis. When NULL, an overall analysis is performed.
-Default is NULL.}
+\item{AVAL, CNSR, strata}{These arguments are used to construct a formula to be passed to
+\code{survival::survfit(formula=Surv(AVAL, 1-CNSR)~strata)}. These arguments' default values follow the naming conventions in CDISC.
+\itemize{
+\item \code{AVAL} Analysis value for Time-to-Event analysis. Default is \code{"AVAL"}, as per CDISC ADaM guiding principles.
+\item \code{CNSR} Censor for Time-to-Event analysis. Default is \code{"CNSR"}, as per CDISC ADaM guiding principles. It is expected that CNSR = 1
+for censoring and CNSR = 0 for the event of interest.
+\item \code{strata} Character vector, representing the strata for Time-to-Event analysis. When NULL, an overall analysis is performed.
+Default is \code{NULL}.
+}}
 
-\item{CNSR}{Censor for Time-to-Event analysis. Default is "CNSR", as per CDISC ADaM guiding principles.}
+\item{formula}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} formula with \code{Surv()} on RHS and stratifying variables on the LHS. Use
+\code{~1} on the LHS for unstratified estimates. This argument will be passed to \code{survival::survfit(formula=)}. When this argument is
+used, arguments AVAL, CNSR, and strata are ignored.}
 
-\item{AVAL}{Analysis value for Time-to-Event analysis. Default is "AVAL", as per CDISC ADaM guiding principles.}
-
-\item{...}{additional arguments passed on to the ellipsis of the call \code{survival::survfit.formula(data = data, formula = Surv(AVAL, 1-CNSR) ~ strata), ...)} .
+\item{...}{additional arguments passed on to the ellipsis of the call \code{survival::survfit.formula(...)}.
 Use \code{?survival::survfit.formula} and \code{?survival::survfitCI} for more information.}
 }
 \value{
-survfit object, extended by elements PARAM/PARAMCD, ready for downstream processing in estimation or visualization functions and methods.
+survfit object ready for downstream processing in estimation or visualization functions and methods.
 }
 \description{
-This function is a wrapper around \code{survival::survfit.formula} to perform a Kaplan-Meier analysis, assuming right-censored data.
-The function expects that the data has been filtered on the parameter (PARAM/PARAMCD) of interest.
-Alternatively, PARAM/PARAMCD can be used in the \code{strata} argument. \cr
-The result is an object of class \code{survfit} which can be used in downstream functions and methods that rely on the \code{survfit} class.
-By default:
+This function is a wrapper around \code{survival::survfit.formula()}
+to perform a Kaplan-Meier analysis, assuming right-censored data.
+The result is an object of class \code{survfit} which can be used in
+downstream functions and methods that rely on the \code{survfit} class.
+
+The function can leverage the conventions and controlled vocabulary from
+\href{https://www.cdisc.org/standards/foundational/adam/adam-basic-data-structure-bds-time-event-tte-analyses-v1-0}{CDISC ADaM ADTTE data model},
+and also works with standard, non-CDISC datasets through the \code{formula} argument.
+}
+\section{Estimation of 'survfit' object}{
+
+
+The \code{estimate_KM()} function utilizes the defaults in \code{survival::survfit()}:
 \itemize{
 \item{The Kaplan Meier estimate is estimated directly (stype = 1).}
 \item{The cumulative hazard is estimated using the Nelson-Aalen estimator (ctype = 1): H.tilde = cumsum(x$n.event/x$n.risk).
 The MLE (H.hat(t) = -log(S.hat(t))) can't be requested.}
 \item{A two-sided pointwise 0.95 confidence interval is estimated using a log transformation (conf.type = "log").}
 }
+
+When strata are present, the returned survfit object is supplemented with
+the a named list of the stratum and associated label.
+To support full traceability, the data set name is captured in the named
+list and the call is captured within its corresponding environment.
 }
+
+\section{PARAM/PARAMCD and CDISC}{
+
+
+If the data frame includes columns PARAM/PARAMCD (part of the CDISC format),
+the function expects the data has been filtered on the parameter of interest.
+}
+
 \examples{
 
 ## No stratification
@@ -54,20 +89,17 @@ visR::estimate_KM(data = adtte, strata = "PARAMCD")
 visR::estimate_KM(data = adtte[adtte$SEX == "F", ])
 
 ## Modify the default analysis by using the ellipsis
-visR::estimate_KM(data = adtte, strata = NULL, 
-  type = "kaplan-meier", conf.int = FALSE, timefix = TRUE)
+visR::estimate_KM(
+  data = adtte, strata = NULL,
+  type = "kaplan-meier", conf.int = FALSE, timefix = TRUE
+)
 
 ## Example working with non CDISC data
-head(survival::veteran)
+head(survival::veteran[c("time", "status", "trt")])
 
-# convert time and censoring data to ADaM variables 
-# convert censoring status to CDISC principles
-veteran_adam <- survival::veteran \%>\%
- dplyr::mutate(AVAL = time, 
-               CNSR = dplyr::if_else(status == 1, 0, 1) 
- )
+# Using non-CDSIC data
+visR::estimate_KM(data = survival::veteran, formula = Surv(time, status) ~ trt)
 
-visR::estimate_KM(data = veteran_adam, strata = "trt")
 }
 \references{
 \url{https://github.com/therneau/survival}

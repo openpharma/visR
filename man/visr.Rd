@@ -5,6 +5,7 @@
 \alias{visr.default}
 \alias{visr.survfit}
 \alias{visr.attrition}
+\alias{visr.tidycuminc}
 \title{Plot a supported S3 object}
 \usage{
 visr(x, ...)
@@ -34,19 +35,26 @@ visr(x, ...)
   border = "black",
   ...
 )
+
+\method{visr}{tidycuminc}(
+  x = NULL,
+  x_label = "Time",
+  y_label = "Cumulative Incidence",
+  x_units = NULL,
+  x_ticks = pretty(x$tidy$time, 10),
+  y_ticks = pretty(c(0, 1), 5),
+  legend_position = "right",
+  ...
+)
 }
 \arguments{
-\item{x}{Object of class \code{attritiontable} with each row corresponding to an
-inclusion step in the cohort and minimally a description and a count column}
+\item{x}{Object of class \code{survfit}, \code{attritiontable}, or \code{tidycuminc}}
 
 \item{...}{other arguments passed on to the method}
 
-\item{x_label}{\code{character} Label for the x-asis. When not specified,
-the algorithm will look for "PARAM" information inside the list structure
-of the \code{survfit} object.
-Note that this information is automatically added when using
-visR::estimate_KM and when the input data has the variable "PARAM".
-If no "PARAM" information is available "time" is used as label.}
+\item{x_label}{\code{character} Label for the x-axis. When not specified,
+the function will look for \code{"PARAM"} or \code{"PARAMCD"} information in the original data set (CDISC standards).
+If no \code{"PARAM"}/\code{"PARAMCD"} information is available, the default x-axis label is \code{"Time"}.}
 
 \item{y_label}{\code{character} Label for the y-axis. When not specified,
 the default will do a proposal, depending on the \code{fun} argument.}
@@ -60,16 +68,16 @@ do a proposal.}
 \item{y_ticks}{Ticks for the y-axis. When not specified,
 the default will do a proposal based on the \code{fun} argument.}
 
-\item{fun}{Change the scale of the estimate.
+\item{fun}{Function that represents the scale of the estimate.
 The current options are:
 \itemize{
-\item{\code{surv}}{is the survival probability. This is the default.}
-\item{\code{log}}{is log of the survival probability}
-\item{\code{event}}{is the failure probability}
-\item{\code{cloglog}}{is log(-log(survival probability))}
-\item{\code{pct}}{is survival as a percentage}
-\item{\code{logpct}}{is log survival as a percentage}
-\item{\code{cumhaz}}{is the cumulative hazard}
+\item{\code{surv}}{ is the survival probability. This is the default.}
+\item{\code{log}}{ is log of the survival probability}
+\item{\code{event}}{ is the failure probability}
+\item{\code{cloglog}}{ is log(-log(survival probability))}
+\item{\code{pct}}{ is survival as a percentage}
+\item{\code{logpct}}{ is log survival as a percentage}
+\item{\code{cumhaz}}{ is the cumulative hazard}
 }}
 
 \item{legend_position}{Specifies the legend position in the plot.
@@ -98,20 +106,16 @@ flowchart}
 boxes in the flowchart}
 }
 \value{
-Object of class \code{ggplot}  \code{ggsurvplot}.
-
-Object of class \code{ggplot}.
+Object of class \code{ggplot} and \code{ggsurvplot} for \code{survfit} objects.
 }
 \description{
-Method to display a \code{ggplot} directly from an object
-through an S3 method.
 S3 method for creating plots directly from objects using \code{ggplot2},
-similar to base plot function.
+similar to the base R \code{plot()} function.
 }
 \examples{
 
-# fit KM 
-km_fit <- survival::survfit(survival::Surv(AVAL, 1-CNSR) ~ TRTP, data=adtte)
+# fit KM
+km_fit <- survival::survfit(survival::Surv(AVAL, 1 - CNSR) ~ TRTP, data = adtte)
 
 # plot curves using survival plot function
 plot(km_fit)
@@ -130,36 +134,49 @@ visR::visr(survfit_object, fun = "pct")
 
 # Plot cumulative hazard
 visR::visr(survfit_object, fun = "cloglog")
- 
-attrition <- visR::get_attrition(adtte,
-    criteria_descriptions = c("1. Not in Placebo Group",
-                              "2. Be 75 years of age or older.",
-                              "3. White",
-                              "4. Female"),
-    criteria_conditions   = c("TRTP != 'Placebo'",
-                              "AGE >= 75",
-                              "RACE=='WHITE'",
-                              "SEX=='F'"),
-    subject_column_name   = "USUBJID")
 
-# Draw a CONSORT attrition chart without specifying extra text for the complement
+
+## Create attrition
+attrition <- visR::get_attrition(adtte,
+  criteria_descriptions = c(
+    "1. Not in Placebo Group",
+    "2. Be 75 years of age or older.",
+    "3. White",
+    "4. Female"
+  ),
+  criteria_conditions = c(
+    "TRTP != 'Placebo'",
+    "AGE >= 75",
+    "RACE=='WHITE'",
+    "SEX=='F'"
+  ),
+  subject_column_name = "USUBJID"
+)
+
+## Draw a CONSORT attrition chart without specifying extra text for the complement
 attrition \%>\%
   visr("Criteria", "Remaining N")
 
-# Adding more detailed complement descriptions to the "exclusion" part of the CONSORT diagram
+## Add detailed complement descriptions to the "exclusion" part of the CONSORT diagram
 # Step 1. Add new column to attrition dataframe
-attrition$Complement <- c("NA", "Placebo Group", "Younger than 75 years", "Non-White", "Male")
+attrition$Complement <- c(
+  "NA",
+  "Placebo Group",
+  "Younger than 75 years",
+  "Non-White",
+  "Male"
+)
 
 # Step 2. Define the name of the column in the call to the plotting function
 attrition \%>\%
   visr("Criteria", "Remaining N", "Complement")
 
-# Styling the CONSORT flowchart
+## Styling the CONSORT flowchart
 # Change the fill and outline of the boxes in the flowchart
 attrition \%>\%
-  visr("Criteria", "Remaining N", "Complement", fill = "lightblue", border="grey")
+  visr("Criteria", "Remaining N", "Complement", fill = "lightblue", border = "grey")
 
-# Adjust the font size in the boxes
+## Adjust the font size in the boxes
 attrition \%>\%
   visr("Criteria", "Remaining N", font_size = 10)
 

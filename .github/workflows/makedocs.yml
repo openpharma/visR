@@ -33,6 +33,7 @@ jobs:
           install.packages("vdiffr")
           install.packages("textshaping", type = "binary")
           remotes::install_github("lorenzwalthert/gitsum")
+          remotes::install_github("pharmaR/riskmetric")
           install.packages("ggthemes")
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}

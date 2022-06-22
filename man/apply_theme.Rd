@@ -15,31 +15,41 @@ apply_theme(gg, visR_theme_dict = NULL)
 object of class \code{ggplot}
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 Takes in the styling options defined through \code{visR::define_theme} and applies them to a plot.
 }
 \examples{
 
 library(visR)
 
-theme <- visR::define_theme(strata = list("SEX" = list("F" = "red",
-                                                       "M" = "blue"),
-                                          "TRTA" = list("Placebo" = "cyan",
-                                                        "Xanomeline High Dose" = "purple",
-                                                        "Xanomeline Low Dose" = "brown")),
-                            fontsizes = list("axis" = 12,
-                                             "ticks" = 10,
-                                             "legend_title" = 10,
-                                             "legend_text" = 8),
-                            fontfamily = "Helvetica",
-                            grid = FALSE,
-                            bg = "transparent",
-                            legend_position = "top")
+theme <- visR::define_theme(
+  strata = list(
+    "SEX" = list(
+      "F" = "red",
+      "M" = "blue"
+    ),
+    "TRTA" = list(
+      "Placebo" = "cyan",
+      "Xanomeline High Dose" = "purple",
+      "Xanomeline Low Dose" = "brown"
+    )
+  ),
+  fontsizes = list(
+    "axis" = 12,
+    "ticks" = 10,
+    "legend_title" = 10,
+    "legend_text" = 8
+  ),
+  fontfamily = "Helvetica",
+  grid = FALSE,
+  bg = "transparent",
+  legend_position = "top"
+)
 
 
 gg <- adtte \%>\%
   visR::estimate_KM(strata = "SEX") \%>\%
   visR::visr() \%>\%
-  visR::add_CI() \%>\%
   visR::apply_theme(theme)
 gg
 

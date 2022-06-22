@@ -3,11 +3,14 @@
 \name{add_CI}
 \alias{add_CI}
 \alias{add_CI.ggsurvfit}
+\alias{add_CI.ggtidycuminc}
 \title{Add confidence interval (CI) to visR object}
 \usage{
 add_CI(gg, ...)
 
 \method{add_CI}{ggsurvfit}(gg, alpha = 0.1, style = "ribbon", linetype, ...)
+
+\method{add_CI}{ggtidycuminc}(gg, alpha = 0.1, style = "ribbon", linetype, ...)
 }
 \arguments{
 \item{gg}{A ggplot created with visR}
@@ -35,17 +38,17 @@ No default method is available at the moment.
 
 library(visR)
 
-# Estimate KM curves by treatment group 
-survfit_object <- survival::survfit(data = adtte, survival::Surv(AVAL, 1-CNSR) ~ TRTP)
+# Estimate KM curves by treatment group
+survfit_object <- survival::survfit(data = adtte, survival::Surv(AVAL, 1 - CNSR) ~ TRTP)
 
 ## plot without confidence intervals (CI)
-p <- visR::visr(survfit_object) 
+p <- visR::visr(survfit_object)
 p
 
 # add CI to plot with default settings
 p \%>\% add_CI()
 
-# change transparency of CI ribbon  
+# change transparency of CI ribbon
 p \%>\% add_CI(alpha = 0.9, style = "ribbon")
 
 # plot CI as a step line instead of ribbon

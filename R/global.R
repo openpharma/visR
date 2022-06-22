@@ -2,6 +2,7 @@
 #'
 #' @docType package
 #' @name visR Global
+#' @keywords internal
 #'
 #' @description Set global variables
 NULL
@@ -11,12 +12,12 @@ NULL
 ## For "visible binding note solution" see
 ## here \href{https://github.com/STAT545-UBC/Discussion/issues/451}
 ## TODO: move to more maintainable solution
-if (getRversion() >= "2.15.1")
+if (getRversion() >= "2.15.1") {
   utils::globalVariables(
     c(
       "est.lower",
       "est.upper",
-      "strata" ,
+      "strata",
       "n.censor",
       "time",
       "est",
@@ -27,6 +28,7 @@ if (getRversion() >= "2.15.1")
       "statistic",
       "quantile",
       "surv",
+      "std.err",
       "lower",
       "upper",
       "variable",
@@ -64,3 +66,4 @@ if (getRversion() >= "2.15.1")
       "Condition"
     )
   )
+}

@@ -2,7 +2,6 @@
 /notebooks/libs
 /notebooks/*.html
 .Rproj.user
-visR.Rproj
 .Rbuildignore
 inst/doc
 .Rhistory
@@ -37,3 +36,6 @@ vignettes/*.pdf
 .Renviron
 inst/doc
 README.html
+docs/
+tests/testthat/_snaps/
+.Rprofile

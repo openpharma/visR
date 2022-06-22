@@ -38,8 +38,9 @@ visR::get_COX_HR(survfit_object_trt, update_formula = ". ~ . + SEX")
 
 ## update formula of KM estimates by treatment to include "AGE" for
 ## HR estimation with ties considered via the efron method
-visR::get_COX_HR(survfit_object_trt, 
-  update_formula = ". ~ . + survival::strata(AGE)", ties = "efron")
+visR::get_COX_HR(survfit_object_trt,
+  update_formula = ". ~ . + survival::strata(AGE)", ties = "efron"
+)
 
 }
 \seealso{

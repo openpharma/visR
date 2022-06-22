@@ -3,6 +3,7 @@
 \name{get_risktable}
 \alias{get_risktable}
 \alias{get_risktable.survfit}
+\alias{get_risktable.tidycuminc}
 \title{Obtain risk tables for tables and plots}
 \usage{
 get_risktable(x, ...)
@@ -10,25 +11,36 @@ get_risktable(x, ...)
 \method{get_risktable}{survfit}(
   x,
   times = NULL,
-  statlist = c("n.risk"),
+  statlist = "n.risk",
   label = NULL,
-  group = "strata",
+  group = c("strata", "statlist"),
+  collapse = FALSE,
+  ...
+)
+
+\method{get_risktable}{tidycuminc}(
+  x,
+  times = pretty(x$tidy$time, 10),
+  statlist = "n.risk",
+  label = NULL,
+  group = c("strata", "statlist"),
   collapse = FALSE,
   ...
 )
 }
 \arguments{
-\item{x}{an object of class \code{survfit}}
+\item{x}{an object of class \code{survfit} or \code{tidycuminc}}
 
 \item{...}{other arguments passed on to the method}
 
 \item{times}{Numeric vector indicating the times at which the risk set, censored subjects, events are calculated.}
 
-\item{statlist}{Character vector indicating which summary data to present. Current choices are "n.risk" "n.event" "n.censor".
+\item{statlist}{Character vector indicating which summary data to present. Current choices are "n.risk" "n.event"
+"n.censor", "cum.event", "cum.censor".
 Default is "n.risk".}
 
-\item{label}{Character vector with labels for the statlist. Default matches "n.risk" with "At risk", "n.event" with "Events" and "n.censor"
-with "Censored".}
+\item{label}{Character vector with labels for the statlist. Default matches "n.risk" with "At risk", "n.event" with
+"Events", "n.censor" with "Censored", "cum.event" with "Cum. Event", and "cum.censor" with "Cum. Censor".}
 
 \item{group}{String indicating the grouping variable for the risk tables.
 Current options are:
@@ -46,9 +58,6 @@ Default is "strata".}
 Default is FALSE.}
 }
 \value{
-return list of attributes the form the risk table i.e.
-number of patients at risk per strata
-
 return list of attributes the form the risk table i.e.
 number of patients at risk per strata
 }

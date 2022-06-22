@@ -23,12 +23,13 @@ knitr::opts_chunk$set(
 
 ```{r libraries, include = TRUE}
 library(visR)
-library(survival)
-library(ggplot2)
 ```
 
 
-This tutorial illustrates the usage of the styling function that `visR` provides. By default, `visR::visr()` does not apply any form of visual changes to the generated survival plots. Therefore, the default output looks like you would expect from a standard `ggplot2::ggplot()` plot.
+This tutorial illustrates the usage of the styling function that `visR` provides.
+By default, `visR::visr()` does not apply any form of visual changes to the generated survival plots.
+Therefore, the default output looks like you would expect from a standard `ggplot2::ggplot()` plot.
+While the examples below visualize the results from `estimate_KM()`, these principles apply to competing risks cumulative incidence objects created with `estimate_cuminc()` as well.
 
 ## Preparation of the data
 
@@ -142,15 +143,4 @@ The second one would be to apply a nested list of lists to, ideally generated th
 lung_suvival_object %>%
   visR::visr() %>%
   visR::apply_theme(theme)
-```
-
-Applying a theme does not prevent the user from further applying modifications, as for example the addition of confidence intervals, censoring indicators or risk tables.
-
-```{r visr-apply_theme-non-empty-fancy, warning=FALSE}
-lung_suvival_object %>%
-  visR::visr() %>%
-  visR::apply_theme(theme) %>%
-  visR::add_CI() %>%
-  visR::add_CNSR() %>%
-  visR::add_risktable()
 ```

@@ -3,6 +3,7 @@
 \name{add_risktable}
 \alias{add_risktable}
 \alias{add_risktable.ggsurvfit}
+\alias{add_risktable.ggtidycuminc}
 \title{Add risk tables to visR plots through an S3 method}
 \usage{
 add_risktable(gg, ...)
@@ -10,25 +11,38 @@ add_risktable(gg, ...)
 \method{add_risktable}{ggsurvfit}(
   gg,
   times = NULL,
-  statlist = c("n.risk"),
-  label = "At risk",
+  statlist = "n.risk",
+  label = NULL,
   group = "strata",
   collapse = FALSE,
+  rowgutter = 0.16,
+  ...
+)
+
+\method{add_risktable}{ggtidycuminc}(
+  gg,
+  times = NULL,
+  statlist = "n.risk",
+  label = NULL,
+  group = "strata",
+  collapse = FALSE,
+  rowgutter = 0.16,
   ...
 )
 }
 \arguments{
-\item{gg}{visR plot of class \code{ggsurvfit}}
+\item{gg}{visR plot of class \code{ggsurvfit} or \code{ggtidycmprsk}}
 
 \item{...}{other arguments passed on to the method add_risktable}
 
 \item{times}{Numeric vector indicating the times at which the risk set, censored subjects, events are calculated.}
 
-\item{statlist}{Character vector indicating which summary data to present. Current choices are "n.risk" "n.event" "n.censor".
+\item{statlist}{Character vector indicating which summary data to present. Current choices are "n.risk" "n.event"
+"n.censor", "cum.event", "cum.censor".
 Default is "n.risk".}
 
-\item{label}{Character vector with labels for the statlist. Default matches "n.risk" with "At risk", "n.event" with "Events" and "n.censor"
-with "Censored".}
+\item{label}{Character vector with labels for the statlist. Default matches "n.risk" with "At risk", "n.event" with
+"Events", "n.censor" with "Censored", "cum.event" with "Cum. Event", and "cum.censor" with "Cum. Censor".}
 
 \item{group}{String indicating the grouping variable for the risk tables.
 Current options are:
@@ -44,6 +58,9 @@ Default is "strata".}
 
 \item{collapse}{Boolean, indicates whether to present the data overall.
 Default is FALSE.}
+
+\item{rowgutter}{A numeric relative value between 0 and 1 indicates the height used by the table versus the height
+used by the plot, as described in \code{cowplot::plot_grid(rel_heights=)}. The default is 0.16.}
 }
 \value{
 Object of class \code{ggplot} with added risk table.
@@ -69,26 +86,28 @@ in the final object to allow post-modification of the individual plots if desire
 adtte \%>\%
   visR::estimate_KM(strata = "TRTP") \%>\%
   visR::visr() \%>\%
-  visR::add_risktable( label = c("Subjects at Risk", "Censored")
-                      ,statlist = c("n.risk", "n.censor")
-                      ,group = "statlist"
-                     )
+  visR::add_risktable(
+    label = c("Subjects at Risk", "Censored"),
+    statlist = c("n.risk", "n.censor", "n.event"),
+    group = "statlist"
+  )
 
 ## Display overall risk table at selected times
 adtte \%>\%
   visR::estimate_KM(strata = "TRTP") \%>\%
   visR::visr() \%>\%
-  visR::add_risktable( label = c("Subjects at Risk", "Censored")
-                      ,statlist = c("n.risk", "n.censor")
-                      ,collapse = TRUE
-                      ,times = c(0,20,40,60)
-                     )
-                     
+  visR::add_risktable(
+    label = c("Subjects at Risk", "Censored"),
+    statlist = c("n.risk", "n.censor"),
+    collapse = TRUE,
+    times = c(0, 20, 40, 60)
+  )
+
 ## Add risk set as specified times
 adtte \%>\%
   visR::estimate_KM(strata = "TRTP") \%>\%
   visR::visr() \%>\%
-  visR::add_risktable(times = c(0, 20, 40, 100,111, 200))
+  visR::add_risktable(times = c(0, 20, 40, 100, 111, 200))
 
 }
 \seealso{

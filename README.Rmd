@@ -13,10 +13,31 @@ knitr::opts_chunk$set(
   out.width = "100%"
 )
 
-library(magrittr)
+library(visR)
+library(riskmetric)
+library(usethis)
+
+riskmetric_score <- "visR" %>%
+  riskmetric::pkg_ref() %>%
+  dplyr::as_tibble() %>%
+  riskmetric::pkg_assess() %>%
+  riskmetric::pkg_score() %>%
+  dplyr::pull("pkg_score") %>%
+  round(2)
 ```
 
 # visR <img src='man/figures/logo.png' align="right" height="131.5" />
+
+<!-- badges: start -->
+
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![Codecov test coverage](https://codecov.io/gh/openpharma/visR/branch/develop/graph/badge.svg)](https://app.codecov.io/gh/openpharma/visR?branch=main)
+[![R-CMD-check](https://github.com/openpharma/visR/workflows/R-CMD-check/badge.svg)](https://github.com/openpharma/visR/actions)
+[![pkgdown](https://github.com/openpharma/visR/actions/workflows/makedocs.yml/badge.svg)](https://github.com/openpharma/visR/actions/workflows/makedocs.yml)
+[![CRAN status](https://www.r-pkg.org/badges/version/visR)](https://CRAN.R-project.org/package=visR)
+<a href=https://github.com/pharmaR/riskmetric><img src=https://img.shields.io/badge/riskmetric-`r riskmetric_score`-green></img></a>
+<!-- badges: end -->
+
 
 The goal of visR is to enable fit-for-purpose, reusable clinical and medical research focused visualizations and tables with sensible defaults and based on sound [graphical principles](https://graphicsprinciples.github.io/).
 
@@ -33,28 +54,11 @@ We are not judging on what visualisation you chose for your research question, b
 
 You can read more about the philosophy and architecture in the [repo wiki](https://github.com/openpharma/visR/wiki).
 
-## Lifecycle and status
-
-The package is still experimental and under active development with a current focus on developing a stable API. 
-
-<!-- badges: start -->
-
-| Badge | Description
-|----------------------|-------------------|
-| [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)     | Development stage |
-| [![Codecov test coverage](https://codecov.io/gh/openpharma/visR/branch/develop/graph/badge.svg)](https://codecov.io/gh/openpharma/visR?branch=main) | Unit testing coverage - on `main` |
-| [![Codecov test coverage](https://codecov.io/gh/openpharma/visR/branch/develop/graph/badge.svg)](https://codecov.io/gh/openpharma/visR?branch=develop) | Unit testing coverage - on `develop` |
-| [![R-CMD-check](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml/badge.svg?branch=develop)](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml) | `develop` branch |
-| [![R-CMD-check](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml/badge.svg?branch=main)](https://github.com/openpharma/visR/actions/workflows/check-standard.yaml) | `main` branch |
-| [![pkgdown](https://github.com/openpharma/visR/actions/workflows/makedocs.yml/badge.svg)](https://github.com/openpharma/visR/actions/workflows/makedocs.yml) | Documentation building to [Github pages](https://openpharma.github.io/visR/) |
-| [![CRAN status](https://www.r-pkg.org/badges/version/visR)](https://CRAN.R-project.org/package=visR)| Latest CRAN release |
-<!-- badges: end -->
-
-
 ## Installation
 
-```{r}
-# The easiest way to get visR is to install from cran:
+The easiest way to get `visR` is to install from CRAN:
+
+``` r
 install.packages("visR")
 ```
 
@@ -62,7 +66,8 @@ install.packages("visR")
 Install the *development* version from [GitHub](https://github.com/) with:
 
 ``` r
-devtools::install_github("openpharma/visR") # defaults to develop branch
+# defaults to develop branch
+devtools::install_github("openpharma/visR") 
 ```
 
 Install the *latest stable* version from [GitHub](https://github.com/) with:
@@ -71,16 +76,17 @@ Install the *latest stable* version from [GitHub](https://github.com/) with:
 devtools::install_github("openpharma/visR", ref = "main")
 ```
 
-## Example
+## Examples
 
-This is a basic example to demonstrate how the API can be used to add layers to a visualisation. In this example a time to event analysis. The example calculates stratified Kaplan-Meier by treatment and then plots. Additional functions can be used to add uncertainty intervals, censoring information and a risk table. 
+#### Visualization
+
+This is a basic example to demonstrate how the API can be used to add layers to a visualization. This example demonstrates a time-to-event analysis. The example calculates and then plots stratified Kaplan-Meier by treatment. It is possible to add uncertainty intervals, censoring information, and a risk table using additional functions.
 
 ```{r example, warning=FALSE, message = FALSE}
 library(visR)
 library(ggplot2)
 
 theme_set(theme_minimal())
-
 
 adtte %>%
   estimate_KM(strata = "TRTP", conf.int = 0.90) %>%
@@ -93,127 +99,18 @@ adtte %>%
   )
 ```
 
+## Cite visR
 
-## Contribution 
+```{text, comment="", eval = FALSE}
+> citation("visR")
+```
+
+## Contributing
 
 Please note that the `visR` project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
+Thank you to all contributors:
 
-```{r getcontributions, echo=FALSE, warning=FALSE, message = FALSE}
-library(dplyr)
-library(glue)
-library(ggplot2)
-#library(GithubMetrics) #remotes::install_github("openpharma/GithubMetrics")
-library(gitsum) #remotes::install_github("lorenzwalthert/gitsum")
-
-local_repo <- parse_log_detailed()
-
-# commits <- gh_commits_get(
-#   full_names = "openpharma/visR",
-#   days_back = 365*10,
-#   .token = Sys.getenv("GH_API_TOKEN_README")
-#   ) %>%
-#   mutate(date = as.Date(datetime)) %>%
-#   filter(!author %in% c(".gitconfig missing email","actions-user"))
-# 
-# left_join(
-#   commits %>%
-#     group_by(author) %>%
-#     summarise(commits_all = n()),
-#   commits %>%
-#     filter(date > Sys.Date() - 28*6) %>%
-#     group_by(author) %>%
-#     summarise(commits_6months = n())
-#   ) %>%
-#   arrange(-commits_6months) %>%
-#   left_join(
-#     gh_user_get(unique(commits$author),
-#     .token = Sys.getenv("GH_API_TOKEN_README")
-#     ),
-#     by = c("author"="username")
-#   ) %>%
-#   mutate(
-#     blog = case_when(
-#       blog == "" ~ "",
-#       TRUE ~ as.character(glue('<a href="{blog}">link</a>'))
-#       ),
-#     author = case_when(
-#       !is.na(name) ~ paste0(name,"(",author,")"),
-#       TRUE ~ author
-#     ),
-#     author = glue('<img src="{avatar}" alt="" height="30"> {author}')
-#     ) %>%
-#   select(author,commits_all,commits_6months,company,location,blog) %>%
-#   knitr::kable()
+```{r warning=FALSE, echo=FALSE, message=FALSE}
+contr <- usethis::use_tidy_thanks("https://github.com/openpharma/visR")
 ```
-
-```{r plotcontriuptake, echo=FALSE, warning=FALSE, message = FALSE}
-
-# plot
-local_repo %>%
-  arrange(
-    date
-  ) %>%
-  group_by(author_email) %>% 
-  slice(1) %>% ungroup %>%
-  ggplot(aes(x = date)) +
-  stat_bin(aes(y = cumsum(..count..)),geom = "step") +
-  theme_minimal() +
-  labs(
-    title = "Uptake in new contributors to visR",
-    subtitle = "Based on recorded unique git email addresses",
-    y = "Contributors",
-    x = "Date"
-  ) + theme(legend.position = "none")
-```
-
-
-```{r plotcontributions, echo=FALSE, warning=FALSE, message = FALSE}
-
-# plot
-local_repo %>%
-  group_by(
-    Month = lubridate::floor_date(date, "month"),
-    author_name
-    ) %>%
-  summarise(
-    Commits = n()
-  ) %>%
-  ggplot() +
-  geom_col(
-    aes(x = Month, y = Commits, fill = author_name)
-  ) +
-  theme_minimal() +
-  labs(
-    title = "Commit activity in openpharma/visR",
-    subtitle = "Colour = author (names hidden)"
-  ) + theme(legend.position = "none")
-```
-
-```{r, echo=FALSE, warning=FALSE, message = FALSE}
-# lines <- local_repo %>%
-#   unnest_log() %>%
-#   set_changed_file_to_latest_name() %>%
-#   add_line_history()
-
-#r_files <- grep("^R/", lines$changed_file, value = TRUE)
-
-#glimpse(r_files)
-
-# to_plot <- lines %>%
-#   filter(changed_file %in% r_files) %>%
-#   add_n_times_changed_file() %>%
-#   filter(n_times_changed_file >= 10)
-# ggplot(to_plot, aes(x = date, y = current_lines)) + 
-#   geom_step() + 
-#   scale_y_continuous(name = "Number of Lines", limits = c(0, NA)) + 
-#   facet_wrap(~changed_file, scales = "free_y", ncol = 4) +
-#   ggthemes::theme_hc()
-```
-
-## Code coverage 
-
-Last time readme built.
-
-```{r}
-covr::package_coverage()
-```
+`r unique(c(paste((paste0("[&#x0040;",contr,"](https://github.com/", contr, ")")), collapse = ", "), "[&#x0040;cschaerfe ](https://github.com/cschaerfe)", "[&#x0040;AlexandraP-21 ](https://github.com/AlexandraP-21)"))`

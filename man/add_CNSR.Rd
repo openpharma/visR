@@ -3,11 +3,14 @@
 \name{add_CNSR}
 \alias{add_CNSR}
 \alias{add_CNSR.ggsurvfit}
+\alias{add_CNSR.ggtidycuminc}
 \title{Add censoring symbols to a visR object}
 \usage{
 add_CNSR(gg, ...)
 
 \method{add_CNSR}{ggsurvfit}(gg, shape = 3, size = 2, ...)
+
+\method{add_CNSR}{ggtidycuminc}(gg, shape = 3, size = 2, ...)
 }
 \arguments{
 \item{gg}{A ggplot created with visR}
@@ -32,11 +35,11 @@ No default method is available at the moment.
 
 library(visR)
 
-# Estimate KM curves by treatment group 
-survfit_object <- survival::survfit(data = adtte, survival::Surv(AVAL, 1-CNSR) ~ TRTP)
+# Estimate KM curves by treatment group
+survfit_object <- survival::survfit(data = adtte, survival::Surv(AVAL, 1 - CNSR) ~ TRTP)
 
 ## plot without confidence intervals
-p <- visR::visr(survfit_object) 
+p <- visR::visr(survfit_object)
 p
 
 # add censoring to plot
