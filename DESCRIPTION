@@ -3,7 +3,7 @@ Package: visR
 Title: Clinical Graphs and Tables Adhering to Graphical Principles
 Version: 0.2.0.9012
 Authors@R: c(
-    person("Mark", "Baillie", , "bailliem@gmail.com", role = c("aut", "cre")),
+    person("Mark", "Baillie", , "bailliem@gmail.com", role = c("aut", "cre", "cph")),
     person("Diego", "Saldana", , "diego.saldana@roche.com", role = "aut"),
     person("Charlotta", "Fruechtenicht", , "charlotta.fruechtenicht@roche.com", role = "aut"),
     person("Marc", "Vandemeulebroecke", , "marc.vandemeulebroecke@novartis.com", role = "aut"),
@@ -18,7 +18,6 @@ Authors@R: c(
     person("Daniel D.", "Sjoberg", , "danield.sjoberg@gmail.com", role = "aut",
            comment = c(ORCID = "0000-0003-0862-2018"))
   )
-Maintainer: Mark Baillie <bailliem@gmail.com>
 Description: To enable fit-for-purpose, reusable clinical and medical
     research focused visualizations and tables with sensible defaults and
     based on graphical principles as described in: "Vandemeulebroecke et
