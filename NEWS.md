@@ -15,9 +15,21 @@
 * `AlignPlots()` has been renamed to `align_plots()`.
 
 ### Bug Fixes
-TODO: fill in this section
+
 * Fix in `get_pvalue()` for `estimate_KM()` objects when data piped in with modifications (e.g. `dplyr::filter()`, `dplyr::mutate()`).
+
 * Fix in `add_risktable()` with estimates being assigned the incorrect label.
+
+* Review unit testing for `estimate_KM(formula=)` argument. (#399)
+
+* Fixed bug in `define_theme(strata=)`. (#388)
+
+* Fix a discrepancy issue when saving `survfit()` call in `estimate_KM()`. (#365)
+
+* Added check for no `class(x)== `. (#358)
+
+* Fix the documentation of the S3 method `visr()`. (#301)
+
 
 ### Other Updates
 
@@ -41,11 +53,11 @@ TODO: fill in this section
 
 * Improved documentation for `visr()` and other generic functions. (#301) (#357)
 
-* TODO: Add something on code coverage and unit testing?
+* Unit testing updated where relevant to have 100% code coverage and function requirements tested.
 
-* The `README` page has been updated with additional examples. ()
+* The `README` page has been updated with additional examples. (#425)
 
-* DRAFT: Place `lifecycle` badges at the function level to indicate functions that are still in experimental or questioning phases. 
+* `lifecycle` badges have been added at the function level to indicate functions that are still in `experimental` or `questioning` phases. (#398) 
 
 # visR 0.2.0
 
