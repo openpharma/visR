@@ -19,3 +19,4 @@
 ^CRAN-RELEASE$
 ^cran-comments\.md$
 ^tests/testthat/_snaps$
+^CRAN-SUBMISSION$
