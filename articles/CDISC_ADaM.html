@@ -4,20 +4,20 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Survival Analysis with visR using CDISC ADaM standard • visR</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="visR">
+<title>Survival Analysis with visR using CDISC ADaM Time-To-Event Analysis Dataset (ADTTE) • visR</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
-<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Survival Analysis with visR using CDISC ADaM standard">
+<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Survival Analysis with visR using CDISC ADaM Time-To-Event Analysis Dataset (ADTTE)">
 <meta property="og:description" content="visR">
 <meta property="og:image" content="https://openpharma.github.io/visR/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -25,138 +25,126 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body data-spy="scroll" data-target="#toc">
-    <div class="container template-article">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">visR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
-      </span>
-    </div>
+<body>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
+    
 
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
+    <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-primary"><div class="container">
+    
+    <a class="navbar-brand me-2" href="../index.html">visR</a>
+
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.0</small>
+
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse ms-3">
+      <ul class="navbar-nav me-auto">
+<li class="nav-item">
+  <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="../articles/CDISC_ADaM.html">Survival Analysis with visR using CDISC ADaM standard</a>
-    </li>
-    <li>
-      <a href="../articles/Consort_flow_diagram.html">Creating consort flow diagram with visR</a>
-    </li>
-    <li>
-      <a href="../articles/Styling_KM_plots.html">Styling survival plots</a>
-    </li>
-    <li>
-      <a href="../articles/Time_to_event_analysis.html">Survival Analysis with visR</a>
-    </li>
-  </ul>
-</li>
-<li>
-  <a href="../news/index.html">Changelog</a>
-</li>
-      </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/openpharma/visR/">
-    <span class="fab fa-github fa-lg"></span>
-     
-  </a>
-</li>
-      </ul>
-</div>
-<!--/.nav-collapse -->
+<li class="active nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/CDISC_ADaM.html">Survival Analysis with visR using CDISC ADaM Time-To-Event Analysis Dataset (ADTTE)</a>
+    <a class="dropdown-item" href="../articles/Consort_flow_diagram.html">Creating consort flow diagram with visR</a>
+    <a class="dropdown-item" href="../articles/interactive_tte_tutorial/tte_tutorial.html">visR</a>
+    <a class="dropdown-item" href="../articles/Styling_KM_plots.html">Styling survival plots</a>
+    <a class="dropdown-item" href="../articles/Time_to_event_analysis.html">Survival Analysis with visR</a>
   </div>
-<!--/.container -->
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="../news/index.html">Changelog</a>
+</li>
+      </ul>
+<form class="form-inline my-2 my-lg-0" role="search">
+        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
+</form>
+
+      <ul class="navbar-nav">
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/openpharma/visR/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
-<!--/.navbar -->
 
-      
+    
+  </div>
+</nav><div class="container template-article">
 
-      </header><script src="CDISC_ADaM_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
-  <div class="col-md-9 contents">
-    <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Survival Analysis with visR using CDISC ADaM standard</h1>
+
+
+
+<div class="row">
+  <main id="main"><div class="page-header">
+      <img src="../logo.png" class="logo" alt=""><h1>Survival Analysis with visR using CDISC ADaM Time-To-Event Analysis Dataset (ADTTE)</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/openpharma/visR/blob/master/vignettes/CDISC_ADaM.Rmd"><code>vignettes/CDISC_ADaM.Rmd</code></a></small>
-      <div class="hidden name"><code>CDISC_ADaM.Rmd</code></div>
-
+      <small class="dont-index">Source: <a href="https://github.com/openpharma/visR/blob/HEAD/vignettes/CDISC_ADaM.Rmd" class="external-link"><code>vignettes/CDISC_ADaM.Rmd</code></a></small>
+      <div class="d-none name"><code>CDISC_ADaM.Rmd</code></div>
     </div>
 
     
     
-<div id="introduction" class="section level2">
-<h2 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h2>
-<p>This very short tutorial illustrates how a standard time-to-event analysis can be done very efficiently when the data set adheres to the <a href="https://www.cdisc.org/standards/foundational/adam/adam-basic-data-structure-bds-time-event-tte-analyses-v1-0">CDISC ADaM standard</a>. A more detailed time-to-event analysis with a more broad overview of visR’s functionality is presented in another vignette.</p>
+<div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
+<p>This tutorial illustrates how a standard time-to-event analysis can
+be done very efficiently when the data set adheres to the <a href="https://www.cdisc.org/standards/foundational/adam/adam-basic-data-structure-bds-time-event-tte-analyses-v1-0" class="external-link">CDISC
+ADaM standard</a>. A more detailed time-to-event analysis with a more
+broad overview of visR’s functionality is presented in another
+vignette.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/openpharma/visR">visR</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/openpharma/visR" class="external-link">visR</a></span><span class="op">)</span></code></pre></div>
 </div>
-<div id="global-document-setup" class="section level2">
-<h2 class="hasAnchor">
-<a href="#global-document-setup" class="anchor"></a>Global Document Setup</h2>
+<div class="section level2">
+<h2 id="global-document-setup">Global Document Setup<a class="anchor" aria-label="anchor" href="#global-document-setup"></a>
+</h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Constants</span>
-<span class="va">DATASET</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Analysis data - time to event"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="co"># Metadata Title</span>
+<span class="va">DATASET</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Analyis Data Time-To-Event (ADTTE)"</span><span class="op">)</span>
 
 <span class="co"># Save original options()</span>
-<span class="va">old</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span><span class="op">)</span>  
+<span class="va">old</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="op">)</span>  
 
 <span class="co"># Global formatting options</span>
-<span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
 
 <span class="co"># Global ggplot settings</span>
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html" class="external-link">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># Global table settings </span>
-<span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>DT.options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>pageLength <span class="op">=</span> <span class="fl">10</span>, 
-                          language <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>search <span class="op">=</span> <span class="st">'Filter:'</span><span class="op">)</span>, 
+<span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>DT.options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>pageLength <span class="op">=</span> <span class="fl">10</span>, 
+                          language <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>search <span class="op">=</span> <span class="st">'Filter:'</span><span class="op">)</span>, 
                           scrollX <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
 
-<span class="co"># load data set adtte already adhering to the CDISC ADaM standard </span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">adtte</span><span class="op">)</span>
+<span class="co"># load ADTTE from CDISC pilot </span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">adtte</span><span class="op">)</span>
 
 <span class="co"># Restore original options()</span>
-<span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span><span class="va">old</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="va">old</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="time-to-event-analysis" class="section level2">
-<h2 class="hasAnchor">
-<a href="#time-to-event-analysis" class="anchor"></a>Time-to-event analysis</h2>
-<p>visR includes a wrapper function to easily display summary tables (e.g. <code>tableone</code>)</p>
+<div class="section level2">
+<h2 id="time-to-event-analysis">Time-to-event analysis<a class="anchor" aria-label="anchor" href="#time-to-event-analysis"></a>
+</h2>
+<p>visR includes a wrapper function to easily display summary tables
+(e.g. <code>tableone</code>)</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Display a summary table (e.g. tableone)</span>
-<span class="fu"><a href="../reference/tableone.html">tableone</a></span><span class="op">(</span><span class="va">adtte</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"TRTP"</span>, <span class="st">"AGE"</span><span class="op">)</span><span class="op">]</span>,
+<span class="fu">visR</span><span class="fu">::</span><span class="fu"><a href="../reference/tableone.html">tableone</a></span><span class="op">(</span><span class="va">adtte</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TRTP"</span>, <span class="st">"AGE"</span><span class="op">)</span><span class="op">]</span>,
          title <span class="op">=</span> <span class="st">"Demographic summary"</span> , datasource <span class="op">=</span> <span class="va">DATASET</span><span class="op">)</span></code></pre></div>
-<div id="phhfvrzaaj" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="fkzrtvzlcf" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#phhfvrzaaj .gt_table {
+#fkzrtvzlcf .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -181,7 +169,7 @@
   border-left-color: #D3D3D3;
 }
 
-#phhfvrzaaj .gt_heading {
+#fkzrtvzlcf .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -193,33 +181,37 @@
   border-right-color: #D3D3D3;
 }
 
-#phhfvrzaaj .gt_title {
+#fkzrtvzlcf .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
   padding-top: 4px;
   padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
   border-bottom-color: #FFFFFF;
   border-bottom-width: 0;
 }
 
-#phhfvrzaaj .gt_subtitle {
+#fkzrtvzlcf .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
   padding-top: 0;
-  padding-bottom: 4px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
 
-#phhfvrzaaj .gt_bottom_border {
+#fkzrtvzlcf .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#phhfvrzaaj .gt_col_headings {
+#fkzrtvzlcf .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -234,7 +226,7 @@
   border-right-color: #D3D3D3;
 }
 
-#phhfvrzaaj .gt_col_heading {
+#fkzrtvzlcf .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -254,7 +246,7 @@
   overflow-x: hidden;
 }
 
-#phhfvrzaaj .gt_column_spanner_outer {
+#fkzrtvzlcf .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -266,28 +258,31 @@
   padding-right: 4px;
 }
 
-#phhfvrzaaj .gt_column_spanner_outer:first-child {
+#fkzrtvzlcf .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#phhfvrzaaj .gt_column_spanner_outer:last-child {
+#fkzrtvzlcf .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#phhfvrzaaj .gt_column_spanner {
+#fkzrtvzlcf .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
   vertical-align: bottom;
   padding-top: 5px;
-  padding-bottom: 6px;
+  padding-bottom: 5px;
   overflow-x: hidden;
   display: inline-block;
   width: 100%;
 }
 
-#phhfvrzaaj .gt_group_heading {
-  padding: 8px;
+#fkzrtvzlcf .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -308,7 +303,7 @@
   vertical-align: middle;
 }
 
-#phhfvrzaaj .gt_empty_group_heading {
+#fkzrtvzlcf .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -323,15 +318,15 @@
   vertical-align: middle;
 }
 
-#phhfvrzaaj .gt_from_md > :first-child {
+#fkzrtvzlcf .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#phhfvrzaaj .gt_from_md > :last-child {
+#fkzrtvzlcf .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#phhfvrzaaj .gt_row {
+#fkzrtvzlcf .gt_row {
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 5px;
@@ -350,7 +345,7 @@
   overflow-x: hidden;
 }
 
-#phhfvrzaaj .gt_stub {
+#fkzrtvzlcf .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -359,10 +354,29 @@
   border-right-style: solid;
   border-right-width: 2px;
   border-right-color: #D3D3D3;
-  padding-left: 12px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#phhfvrzaaj .gt_summary_row {
+#fkzrtvzlcf .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#fkzrtvzlcf .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#fkzrtvzlcf .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -372,17 +386,26 @@
   padding-right: 5px;
 }
 
-#phhfvrzaaj .gt_first_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
+#fkzrtvzlcf .gt_first_summary_row {
   border-top-style: solid;
-  border-top-width: 2px;
   border-top-color: #D3D3D3;
 }
 
-#phhfvrzaaj .gt_grand_summary_row {
+#fkzrtvzlcf .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#fkzrtvzlcf .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#fkzrtvzlcf .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -392,7 +415,7 @@
   padding-right: 5px;
 }
 
-#phhfvrzaaj .gt_first_grand_summary_row {
+#fkzrtvzlcf .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -402,11 +425,11 @@
   border-top-color: #D3D3D3;
 }
 
-#phhfvrzaaj .gt_striped {
+#fkzrtvzlcf .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#phhfvrzaaj .gt_table_body {
+#fkzrtvzlcf .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -415,7 +438,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#phhfvrzaaj .gt_footnotes {
+#fkzrtvzlcf .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -429,13 +452,16 @@
   border-right-color: #D3D3D3;
 }
 
-#phhfvrzaaj .gt_footnote {
+#fkzrtvzlcf .gt_footnote {
   margin: 0px;
   font-size: 90%;
-  padding: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#phhfvrzaaj .gt_sourcenotes {
+#fkzrtvzlcf .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -449,44 +475,80 @@
   border-right-color: #D3D3D3;
 }
 
-#phhfvrzaaj .gt_sourcenote {
+#fkzrtvzlcf .gt_sourcenote {
   font-size: 90%;
-  padding: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#phhfvrzaaj .gt_left {
+#fkzrtvzlcf .gt_left {
   text-align: left;
 }
 
-#phhfvrzaaj .gt_center {
+#fkzrtvzlcf .gt_center {
   text-align: center;
 }
 
-#phhfvrzaaj .gt_right {
+#fkzrtvzlcf .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#phhfvrzaaj .gt_font_normal {
+#fkzrtvzlcf .gt_font_normal {
   font-weight: normal;
 }
 
-#phhfvrzaaj .gt_font_bold {
+#fkzrtvzlcf .gt_font_bold {
   font-weight: bold;
 }
 
-#phhfvrzaaj .gt_font_italic {
+#fkzrtvzlcf .gt_font_italic {
   font-style: italic;
 }
 
-#phhfvrzaaj .gt_super {
+#fkzrtvzlcf .gt_super {
   font-size: 65%;
 }
 
-#phhfvrzaaj .gt_footnote_marks {
+#fkzrtvzlcf .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
+#fkzrtvzlcf .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
-  font-size: 65%;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#fkzrtvzlcf .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#fkzrtvzlcf .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#fkzrtvzlcf .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#fkzrtvzlcf .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
 }
 </style>
 <table class="table gt_table">
@@ -501,41 +563,41 @@
 <tr class="gt_group_heading_row">
 <td colspan="2" class="gt_group_heading">TRTP</td>
     </tr>
-<tr>
-<td class="gt_row gt_left gt_stub">Placebo</td>
+<tr class="gt_row_group_first">
+<td class="gt_row gt_right gt_stub">Placebo</td>
 <td class="gt_row gt_left">86 (33.9%)</td>
 </tr>
 <tr>
-<td class="gt_row gt_left gt_stub">Xanomeline High Dose</td>
+<td class="gt_row gt_right gt_stub">Xanomeline High Dose</td>
 <td class="gt_row gt_left">84 (33.1%)</td>
 </tr>
 <tr>
-<td class="gt_row gt_left gt_stub">Xanomeline Low Dose</td>
+<td class="gt_row gt_right gt_stub">Xanomeline Low Dose</td>
 <td class="gt_row gt_left">84 (33.1%)</td>
 </tr>
 <tr class="gt_group_heading_row">
 <td colspan="2" class="gt_group_heading">AGE</td>
     </tr>
-<tr>
-<td class="gt_row gt_left gt_stub">Mean (SD)</td>
+<tr class="gt_row_group_first">
+<td class="gt_row gt_right gt_stub">Mean (SD)</td>
 <td class="gt_row gt_left">75.1 (8.25)</td>
 </tr>
 <tr>
-<td class="gt_row gt_left gt_stub">Median (IQR)</td>
+<td class="gt_row gt_right gt_stub">Median (IQR)</td>
 <td class="gt_row gt_left">77 (70-81)</td>
 </tr>
 <tr>
-<td class="gt_row gt_left gt_stub">Min-max</td>
+<td class="gt_row gt_right gt_stub">Min-max</td>
 <td class="gt_row gt_left">51-89</td>
 </tr>
 <tr>
-<td class="gt_row gt_left gt_stub">Missing</td>
+<td class="gt_row gt_right gt_stub">Missing</td>
 <td class="gt_row gt_left">0 (0%)</td>
 </tr>
 </tbody>
 <tfoot class="gt_sourcenotes">
 <tr>
-<td class="gt_sourcenote" colspan="2">Data Source: Analysis data - time to event</td>
+<td class="gt_sourcenote" colspan="2">Data Source: Analyis Data Time-To-Event (ADTTE)</td>
     </tr>
 <tr>
 <td class="gt_sourcenote" colspan="2"></td>
@@ -543,28 +605,37 @@
 </tfoot>
 </table>
 </div>
-<p>A wrapper function to estimate a Kaplan-Meier curve that is compatible with <code><a href="../reference/%&gt;%.html">%&gt;%</a></code> and purrr::map functions without losing traceability of the dataset name is included in visR. If a data set adhere to the CDISC ADaM standard, only a stratifier needs to be specified.</p>
+<p>The wrapper function to estimate a Kaplan-Meier curve is compatible
+with <code>%&gt;%</code> and purrr::map functions without losing
+traceability of the dataset name inside the call of the object. If a
+data set adheres to the CDISC ADaM standards, only a stratifier needs to
+be specified.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Estimate a survival object</span>
-<span class="va">survfit_object</span> <span class="op">&lt;-</span>  <span class="fu"><a href="../reference/estimate_KM.html">estimate_KM</a></span><span class="op">(</span><span class="va">adtte</span>, strata <span class="op">=</span> <span class="st">"TRTP"</span><span class="op">)</span>
+<span class="va">survfit_object</span> <span class="op">&lt;-</span>  <span class="va">adtte</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu">visR</span><span class="fu">::</span><span class="fu"><a href="../reference/estimate_KM.html">estimate_KM</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">.</span>, strata <span class="op">=</span> <span class="st">"TRTP"</span><span class="op">)</span>
 <span class="va">survfit_object</span>
-<span class="co">#&gt; Call: survival::survfit(formula = survival::Surv(AVAL, 1 - CNSR) ~ </span>
-<span class="co">#&gt;     TRTP, data = adtte)</span>
+<span class="co">#&gt; Call: ~survival::survfit(formula = survival::Surv(AVAL, 1 - CNSR) ~ </span>
+<span class="co">#&gt;     TRTP, data = data)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;                            n events median 0.95LCL 0.95UCL</span>
 <span class="co">#&gt; TRTP=Placebo              86     29     NA      NA      NA</span>
 <span class="co">#&gt; TRTP=Xanomeline High Dose 84     61     36      25      47</span>
 <span class="co">#&gt; TRTP=Xanomeline Low Dose  84     62     33      28      51</span></code></pre></div>
-<p>Given a survival object visR includes several functions to easily to get additional information from the survival object (e.g. test statistics and p-values) and a general function to display a table (<code>render</code>).</p>
+<p>Given a survival object, visR includes several functions to quickly
+extract additional information from the survival object (e.g. test
+statistics and p-values) and a general function to display a table
+(<code>render</code>).</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Display test statistics associated with the survival estimate</span>
-<span class="fu"><a href="../reference/render.html">render</a></span><span class="op">(</span><span class="va">survfit_object</span>  <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/get_pvalue.html">get_pvalue</a></span><span class="op">(</span><span class="op">)</span>, title <span class="op">=</span> <span class="st">"P-values"</span>, datasource <span class="op">=</span> <span class="va">DATASET</span><span class="op">)</span></code></pre></div>
-<div id="cxthipumtw" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+
+<span class="fu">visR</span><span class="fu">::</span><span class="fu"><a href="../reference/render.html">render</a></span><span class="op">(</span><span class="va">survfit_object</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/get_pvalue.html">get_pvalue</a></span><span class="op">(</span><span class="op">)</span>, title <span class="op">=</span> <span class="st">"P-values"</span>, datasource <span class="op">=</span> <span class="va">DATASET</span><span class="op">)</span></code></pre></div>
+<div id="aehyghnjra" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#cxthipumtw .gt_table {
+#aehyghnjra .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -589,7 +660,7 @@
   border-left-color: #D3D3D3;
 }
 
-#cxthipumtw .gt_heading {
+#aehyghnjra .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -601,33 +672,37 @@
   border-right-color: #D3D3D3;
 }
 
-#cxthipumtw .gt_title {
+#aehyghnjra .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
   padding-top: 4px;
   padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
   border-bottom-color: #FFFFFF;
   border-bottom-width: 0;
 }
 
-#cxthipumtw .gt_subtitle {
+#aehyghnjra .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
   padding-top: 0;
-  padding-bottom: 4px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
 
-#cxthipumtw .gt_bottom_border {
+#aehyghnjra .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#cxthipumtw .gt_col_headings {
+#aehyghnjra .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -642,7 +717,7 @@
   border-right-color: #D3D3D3;
 }
 
-#cxthipumtw .gt_col_heading {
+#aehyghnjra .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -662,7 +737,7 @@
   overflow-x: hidden;
 }
 
-#cxthipumtw .gt_column_spanner_outer {
+#aehyghnjra .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -674,28 +749,31 @@
   padding-right: 4px;
 }
 
-#cxthipumtw .gt_column_spanner_outer:first-child {
+#aehyghnjra .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#cxthipumtw .gt_column_spanner_outer:last-child {
+#aehyghnjra .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#cxthipumtw .gt_column_spanner {
+#aehyghnjra .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
   vertical-align: bottom;
   padding-top: 5px;
-  padding-bottom: 6px;
+  padding-bottom: 5px;
   overflow-x: hidden;
   display: inline-block;
   width: 100%;
 }
 
-#cxthipumtw .gt_group_heading {
-  padding: 8px;
+#aehyghnjra .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -716,7 +794,7 @@
   vertical-align: middle;
 }
 
-#cxthipumtw .gt_empty_group_heading {
+#aehyghnjra .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -731,15 +809,15 @@
   vertical-align: middle;
 }
 
-#cxthipumtw .gt_from_md > :first-child {
+#aehyghnjra .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#cxthipumtw .gt_from_md > :last-child {
+#aehyghnjra .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#cxthipumtw .gt_row {
+#aehyghnjra .gt_row {
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 5px;
@@ -758,7 +836,7 @@
   overflow-x: hidden;
 }
 
-#cxthipumtw .gt_stub {
+#aehyghnjra .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -767,10 +845,29 @@
   border-right-style: solid;
   border-right-width: 2px;
   border-right-color: #D3D3D3;
-  padding-left: 12px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#cxthipumtw .gt_summary_row {
+#aehyghnjra .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#aehyghnjra .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#aehyghnjra .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -780,17 +877,26 @@
   padding-right: 5px;
 }
 
-#cxthipumtw .gt_first_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
+#aehyghnjra .gt_first_summary_row {
   border-top-style: solid;
-  border-top-width: 2px;
   border-top-color: #D3D3D3;
 }
 
-#cxthipumtw .gt_grand_summary_row {
+#aehyghnjra .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#aehyghnjra .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#aehyghnjra .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -800,7 +906,7 @@
   padding-right: 5px;
 }
 
-#cxthipumtw .gt_first_grand_summary_row {
+#aehyghnjra .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -810,11 +916,11 @@
   border-top-color: #D3D3D3;
 }
 
-#cxthipumtw .gt_striped {
+#aehyghnjra .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#cxthipumtw .gt_table_body {
+#aehyghnjra .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -823,7 +929,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#cxthipumtw .gt_footnotes {
+#aehyghnjra .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -837,13 +943,16 @@
   border-right-color: #D3D3D3;
 }
 
-#cxthipumtw .gt_footnote {
+#aehyghnjra .gt_footnote {
   margin: 0px;
   font-size: 90%;
-  padding: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#cxthipumtw .gt_sourcenotes {
+#aehyghnjra .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -857,44 +966,80 @@
   border-right-color: #D3D3D3;
 }
 
-#cxthipumtw .gt_sourcenote {
+#aehyghnjra .gt_sourcenote {
   font-size: 90%;
-  padding: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#cxthipumtw .gt_left {
+#aehyghnjra .gt_left {
   text-align: left;
 }
 
-#cxthipumtw .gt_center {
+#aehyghnjra .gt_center {
   text-align: center;
 }
 
-#cxthipumtw .gt_right {
+#aehyghnjra .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#cxthipumtw .gt_font_normal {
+#aehyghnjra .gt_font_normal {
   font-weight: normal;
 }
 
-#cxthipumtw .gt_font_bold {
+#aehyghnjra .gt_font_bold {
   font-weight: bold;
 }
 
-#cxthipumtw .gt_font_italic {
+#aehyghnjra .gt_font_italic {
   font-style: italic;
 }
 
-#cxthipumtw .gt_super {
+#aehyghnjra .gt_super {
   font-size: 65%;
 }
 
-#cxthipumtw .gt_footnote_marks {
+#aehyghnjra .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
+#aehyghnjra .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
-  font-size: 65%;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#aehyghnjra .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#aehyghnjra .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#aehyghnjra .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#aehyghnjra .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
 }
 </style>
 <table class="table gt_table">
@@ -903,33 +1048,33 @@
     </tr></thead>
 <thead class="gt_col_headings"><tr>
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Equality across strata</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Chisq</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Chisq</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">df</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">p-value</th>
     </tr></thead>
 <tbody class="gt_table_body">
 <tr>
 <td class="gt_row gt_left">Log-Rank</td>
-<td class="gt_row gt_right">60.27</td>
+<td class="gt_row gt_left">60.270</td>
 <td class="gt_row gt_right">2.00</td>
 <td class="gt_row gt_left">&lt;0.001</td>
 </tr>
 <tr>
 <td class="gt_row gt_left">Wilcoxon</td>
-<td class="gt_row gt_right">48.02</td>
+<td class="gt_row gt_left">48.023</td>
 <td class="gt_row gt_right">2.00</td>
 <td class="gt_row gt_left">&lt;0.001</td>
 </tr>
 <tr>
 <td class="gt_row gt_left">Tarone-Ware</td>
-<td class="gt_row gt_right">41.85</td>
+<td class="gt_row gt_left">41.850</td>
 <td class="gt_row gt_right">2.00</td>
 <td class="gt_row gt_left">&lt;0.001</td>
 </tr>
 </tbody>
 <tfoot class="gt_sourcenotes">
 <tr>
-<td class="gt_sourcenote" colspan="4">Data Source: Analysis data - time to event</td>
+<td class="gt_sourcenote" colspan="4">Data Source: Analyis Data Time-To-Event (ADTTE)</td>
     </tr>
 <tr>
 <td class="gt_sourcenote" colspan="4"></td>
@@ -937,37 +1082,38 @@
 </tfoot>
 </table>
 </div>
-<p>A survival object can be plotted using the visR function <code>visr</code>. Additional information like confidence intervals and a risktable can be added to the plot.</p>
+<p>A survival object can be plotted using the visR function
+<code>visr</code>. Additional information like confidence intervals and
+a risktable can be added to the plot.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Create and display a Kaplan-Meier from the survival object and add a risktable</span>
-<span class="fu"><a href="../reference/visr.html">visr</a></span><span class="op">(</span><span class="va">survfit_object</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/add_CI.html">add_CI</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/add_risktable.html">add_risktable</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p><img src="CDISC_ADaM_files/figure-html/km_plot_1-1.png" width="700"></p>
+<span class="fu"><a href="../reference/visr.html">visr</a></span><span class="op">(</span><span class="va">survfit_object</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu">visR</span><span class="fu">::</span><span class="fu"><a href="../reference/add_CI.html">add_CI</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu">visR</span><span class="fu">::</span><span class="fu"><a href="../reference/add_risktable.html">add_risktable</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p><img src="CDISC_ADaM_files/figure-html/km_plot_1-1.png" width="576" style="display: block; margin: auto;"></p>
 </div>
-  </div>
-
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-
-        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
-    </nav>
-</div>
-
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
 
-      <footer><div class="copyright">
-  <p>Developed by Diego Saldana, Charlotta Fruechtenicht, Mark Baillie, Marc Vandemeulebroecke, Thanos Siadimas, Pawel Kawski, Steven Haesendonckx, James Black, Pelagia Alexandra Papadopoulou, Tim Treis, Rebecca Albrecht.</p>
+    <footer><div class="pkgdown-footer-left">
+  <p></p>
+<p>Developed by Mark Baillie, Diego Saldana, Charlotta Fruechtenicht, Marc Vandemeulebroecke, Thanos Siadimas, Pawel Kawski, <a href="https://www.linkedin.com/in/stevenhaesendonckx/" class="external-link">Steven Haesendonckx</a>, <a href="https://www.epijim.uk/" class="external-link">James Black</a>, Pelagia Alexandra Papadopoulou, Tim Treis, Rebecca Albrecht, <a href="https://www.danieldsjoberg.com/" class="external-link">Daniel D. Sjoberg</a>.</p>
 </div>
 
-<div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+<div class="pkgdown-footer-right">
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
-      </footer>
+    </footer>
 </div>
 
   
 
+  
 
   </body>
 </html>
