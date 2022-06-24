@@ -1,7 +1,8 @@
-#' `r lifecycle::badge("experimental")`
 #' @title Calculate summary statistics from a vector
 #'
-#' @description Calculates several summary statistics. The summary statistics
+#' @description
+#' `r lifecycle::badge("questioning")`
+#' Calculates several summary statistics. The summary statistics
 #' depend on the vector class
 #'
 #' @param x an object
@@ -62,10 +63,11 @@ summarize_long.default <- function(x) {
   list(dat)
 }
 
-#' `r lifecycle::badge("experimental")`
 #' @title Create abbreviated variable summary for table1
 #'
-#' @description This function creates summaries combines multiple summary
+#' @description
+#' `r lifecycle::badge("questioning")`
+#' This function creates summaries combines multiple summary
 #' measures in a single formatted string. Create variable summary for numeric variables. Calculates mean
 #' (standard deviation), median (IQR), min-max range and N/% missing elements
 #' for a numeric vector.
