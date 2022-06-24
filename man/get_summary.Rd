@@ -23,6 +23,8 @@ they are displayed in the final result. Default is the strata ("strata"), number
 the median survival time ("median"), the Confidence Interval ("CI"), the Lower Confidence Limit ("UCL") and the Upper Confidence Limit ("UCL").}
 }
 \value{
+list of summary statistics from survfit object
+
 A data frame with summary measures from a \code{survfit} object
 }
 \description{
