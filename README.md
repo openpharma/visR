@@ -52,7 +52,7 @@ Install the *development* version from
 [GitHub](https://github.com/openpharma/visR) with:
 
 ``` r
-# defaults to develop branch
+# defaults to main branch
 devtools::install_github("openpharma/visR") 
 ```
 
