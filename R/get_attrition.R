@@ -1,7 +1,7 @@
 #' Generate cohort attrition table
 #'
 #' @description
-#' `r lifecycle::badge("experimental")`
+#' `r lifecycle::badge("questioning")`
 #' This is an experimental function that may be developed over time.
 #'
 #' This function calculates the subjects counts excluded and included

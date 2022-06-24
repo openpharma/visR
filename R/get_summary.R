@@ -9,6 +9,8 @@
 #'    the median survival time ("median"), the Confidence Interval ("CI"), the Lower Confidence Limit ("UCL") and the Upper Confidence Limit ("UCL").
 #' @param ... other arguments passed on to the method
 #'
+#' @return list of summary statistics from survfit object
+#'
 #' @rdname get_summary
 #' @export
 #'

@@ -280,8 +280,9 @@ render.data.frame <- function(data,
 
 #' @title Experimental internal function to help render a data.frame, risktable or tableone object as a datatable
 #'
-#' @description Render a previously created datatable to html, rtf or latex
+#' @description
 #' `r lifecycle::badge("questioning")`
+#' Render a previously created datatable to html, rtf or latex
 #' @param data Input data.frame or tibble to visualize
 #' @param title Specify the title as a text string to be displayed in the rendered table.
 #' Default is no title.

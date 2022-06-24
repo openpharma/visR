@@ -28,7 +28,7 @@ The counts and percentages of the remaining and excluded subjects
 for each step of the cohort selection in a table format.
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#questioning}{\figure{lifecycle-questioning.svg}{options: alt='[Questioning]'}}}{\strong{[Questioning]}}
 This is an experimental function that may be developed over time.
 
 This function calculates the subjects counts excluded and included

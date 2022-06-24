@@ -25,6 +25,7 @@ summarize_short(x)
 A summarized less detailed version of the input.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#questioning}{\figure{lifecycle-questioning.svg}{options: alt='[Questioning]'}}}{\strong{[Questioning]}}
 This function creates summaries combines multiple summary
 measures in a single formatted string. Create variable summary for numeric variables. Calculates mean
 (standard deviation), median (IQR), min-max range and N/\% missing elements
@@ -33,7 +34,4 @@ for a numeric vector.
 Create variable summary for integer variables
 Calculates mean (standard deviation), median (IQR), min-max range
 and N/\% missing elements for a integer vector.
-}
-\details{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 }
