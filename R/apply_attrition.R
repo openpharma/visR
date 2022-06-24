@@ -1,3 +1,7 @@
+#' @title Apply list of inclusion/exclusion criteria to a patient-level dataframe
+#'
+#' @description
+#' `r lifecycle::badge("questioning")`
 #' Apply list of inclusion/exclusion criteria to a patient-level dataframe
 #'
 #' @param data \code{data.frame}. Data set to be filtered
