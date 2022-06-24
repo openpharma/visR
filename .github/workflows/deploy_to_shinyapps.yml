@@ -55,6 +55,7 @@ jobs:
         remotes::install_cran("car")
         remotes::install_cran("carData")
         remotes::install_cran("caret")
+        remotes::install_cran("shiny")
         remotes::install_cran("corrplot")
         remotes::install_cran("ggpubr")
         remotes::install_cran("ggrepel")
