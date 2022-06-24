@@ -97,17 +97,6 @@ Please note that the `visR` project is released with a [Contributor Code
 of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you
 agree to abide by its terms. Thank you to all contributors:
 
-[@AlexandraP-21](https://github.com/AlexandraP-21),
-[@ardeeshany](https://github.com/ardeeshany),
 [@bailliem](https://github.com/bailliem),
-[@ddsjoberg](https://github.com/ddsjoberg),
-[@epijim](https://github.com/epijim),
-[@gdario](https://github.com/gdario),
-[@joanacmbarros](https://github.com/joanacmbarros),
-[@lcomm](https://github.com/lcomm),
-[@prabhushanmup](https://github.com/prabhushanmup),
-[@rebecca-albrecht](https://github.com/rebecca-albrecht),
-[@SHAESEN2](https://github.com/SHAESEN2),
-[@timtreis](https://github.com/timtreis),
 [@cschaerfe](https://github.com/cschaerfe),
 [@AlexandraP-21](https://github.com/AlexandraP-21)
