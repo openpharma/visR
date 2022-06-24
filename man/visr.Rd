@@ -111,6 +111,9 @@ Object of class \code{ggplot} and \code{ggsurvplot} for \code{survfit} objects.
 \description{
 S3 method for creating plots directly from objects using \code{ggplot2},
 similar to the base R \code{plot()} function.
+
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#questioning}{\figure{lifecycle-questioning.svg}{options: alt='[Questioning]'}}}{\strong{[Questioning]}}
+S3 function to draw a Consort flow diagram chart.
 }
 \examples{
 

@@ -14,7 +14,7 @@ coverage](https://codecov.io/gh/openpharma/visR/branch/develop/graph/badge.svg)]
 [![pkgdown](https://github.com/openpharma/visR/actions/workflows/makedocs.yml/badge.svg)](https://github.com/openpharma/visR/actions/workflows/makedocs.yml)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/visR)](https://CRAN.R-project.org/package=visR)
-<a href=https://github.com/pharmaR/riskmetric><img src=https://img.shields.io/badge/riskmetric-0.52-green></img></a>
+<a href=https://github.com/pharmaR/riskmetric><img src=https://img.shields.io/badge/riskmetric--1.37-green></img></a>
 <!-- badges: end -->
 
 The goal of visR is to enable fit-for-purpose, reusable clinical and
@@ -49,12 +49,19 @@ The easiest way to get `visR` is to install from CRAN:
 install.packages("visR")
 ```
 
-Install the *development* version from
-[GitHub](https://github.com/openpharma/visR) with:
+Install the *development* version from [GitHub](https://github.com/)
+with:
 
 ``` r
 # defaults to develop branch
 devtools::install_github("openpharma/visR") 
+```
+
+Install the *latest stable* version from [GitHub](https://github.com/)
+with:
+
+``` r
+devtools::install_github("openpharma/visR", ref = "main")
 ```
 
 ## Examples

@@ -17,6 +17,7 @@ data set and obtain final analysis data set}
 Filtered data frame
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#questioning}{\figure{lifecycle-questioning.svg}{options: alt='[Questioning]'}}}{\strong{[Questioning]}}
 Apply list of inclusion/exclusion criteria to a patient-level dataframe
 }
 \examples{
