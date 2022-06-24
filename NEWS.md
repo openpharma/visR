@@ -1,4 +1,4 @@
-# visR (development version)
+# visR 0.3.0
 
 ### New functions
 

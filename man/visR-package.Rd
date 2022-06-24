@@ -19,7 +19,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Mark Baillie \email{bailliem@gmail.com}
+\strong{Maintainer}: Mark Baillie \email{bailliem@gmail.com} [copyright holder]
 
 Authors:
 \itemize{
