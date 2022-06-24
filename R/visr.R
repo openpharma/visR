@@ -306,6 +306,10 @@ visr.survfit <- function(x = NULL,
   return(gg)
 }
 
+#' @descirption
+#' `r lifecycle::badge("questioning")`
+#' S3 function to draw a Consort flow diagram chart.
+#'
 #' @examples
 #'
 #' ## Create attrition
