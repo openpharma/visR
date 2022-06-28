@@ -23,6 +23,7 @@ Papadopoulou
 Pharma
 Pre
 RCT
+README
 RGBA
 RRGGBB
 RRGGBBAA
@@ -66,7 +67,6 @@ linetype
 magrittr
 mskcc
 openpharma
-pkgdown
 psp
 pst
 purrr
