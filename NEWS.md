@@ -1,5 +1,10 @@
 # visR (development version)
 
+### Bug Fixes
+
+* ReadMe update. (#435)
+
+
 # visR 0.3.0
 
 ### New functions

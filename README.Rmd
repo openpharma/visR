@@ -103,20 +103,7 @@ Please note that the `visR` project is released with a [Contributor Code of Cond
 Thank you to all contributors:
 
 ```{r warning=FALSE, echo=FALSE, message=FALSE}
-contr <- usethis::use_tidy_thanks("https://github.com/openpharma/visR")
+contr <- usethis::use_tidy_thanks("https://github.com/openpharma/visR", from = "2020-01-01", to = NULL)
 ```
-`r unique(c(paste((paste0("[&#x0040;",contr,"](https://github.com/", contr, ")")), collapse = ", "), 
-"[&#x0040;AlexandraP-21](https://github.com/AlexandraP-21)",
-"[&#x0040;ardeeshany](https://github.com/ardeeshany)",
-"[&#x0040;bailliem](https://github.com/bailliem)",
-"[&#x0040;ddsjoberg](https://github.com/ddsjoberg)",
-"[&#x0040;epijim](https://github.com/epijim)",
-"[&#x0040;gdario](https://github.com/gdario)",
-"[&#x0040;joanacmbarros](https://github.com/joanacmbarros)",
-"[&#x0040;lcomm](https://github.com/lcomm)",
-"[&#x0040;prabhushanmup](https://github.com/prabhushanmup)",
-"[&#x0040;rebecca-albrecht](https://github.com/rebecca-albrecht)",
-"[&#x0040;SHAESEN2](https://github.com/SHAESEN2)",
-"[&#x0040;timtreis](https://github.com/timtreis)",
-"[&#x0040;cschaerfe](https://github.com/cschaerfe)",
-"[&#x0040;AlexandraP-21](https://github.com/AlexandraP-21)"))`
+`r unique(c(paste((paste0("[&#x0040;",contr,"](https://github.com/", contr, ")")), collapse = ", ")
+))`

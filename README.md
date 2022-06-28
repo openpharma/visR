@@ -13,7 +13,7 @@ coverage](https://codecov.io/gh/openpharma/visR/branch/develop/graph/badge.svg)]
 [![R-CMD-check](https://github.com/openpharma/visR/workflows/R-CMD-check/badge.svg)](https://github.com/openpharma/visR/actions)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/visR)](https://CRAN.R-project.org/package=visR)
-<a href=https://github.com/pharmaR/riskmetric><img src=https://img.shields.io/badge/riskmetric--1.38-green></img></a>
+<a href=https://github.com/pharmaR/riskmetric><img src=https://img.shields.io/badge/riskmetric-0.52-green></img></a>
 <!-- badges: end -->
 
 The goal of visR is to enable fit-for-purpose, reusable clinical and
@@ -83,7 +83,7 @@ adtte %>%
   )
 ```
 
-<img src="man/figures/README-example-1.png" width="100%" />
+<img src="man/figures/README-example-1.svg" width="100%" />
 
 ## Cite visR
 
@@ -97,6 +97,29 @@ Please note that the `visR` project is released with a [Contributor Code
 of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you
 agree to abide by its terms. Thank you to all contributors:
 
+[@AlexandraP-21](https://github.com/AlexandraP-21),
+[@ardeeshany](https://github.com/ardeeshany),
 [@bailliem](https://github.com/bailliem),
 [@cschaerfe](https://github.com/cschaerfe),
-[@AlexandraP-21](https://github.com/AlexandraP-21)
+[@ddsjoberg](https://github.com/ddsjoberg),
+[@diego-s](https://github.com/diego-s),
+[@epijim](https://github.com/epijim),
+[@galachad](https://github.com/galachad),
+[@gdario](https://github.com/gdario),
+[@ginberg](https://github.com/ginberg),
+[@jameshunterbr](https://github.com/jameshunterbr),
+[@jinjooshim](https://github.com/jinjooshim),
+[@joanacmbarros](https://github.com/joanacmbarros),
+[@Jonnie-Bevan](https://github.com/Jonnie-Bevan),
+[@kawap](https://github.com/kawap),
+[@kentm4](https://github.com/kentm4),
+[@kzalocusky](https://github.com/kzalocusky),
+[@lcomm](https://github.com/lcomm),
+[@lesniewa](https://github.com/lesniewa),
+[@prabhushanmup](https://github.com/prabhushanmup),
+[@rebecca-albrecht](https://github.com/rebecca-albrecht),
+[@SHAESEN2](https://github.com/SHAESEN2),
+[@thanos-siadimas](https://github.com/thanos-siadimas),
+[@thomas-neitmann](https://github.com/thomas-neitmann),
+[@timtreis](https://github.com/timtreis),
+[@yonicd](https://github.com/yonicd)
