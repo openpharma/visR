@@ -2,7 +2,7 @@
 
 ### Bug Fixes
 
-* ReadMe update. (#435)
+* README update to contributor listing. (#435)
 
 
 # visR 0.3.0
