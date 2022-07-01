@@ -1,6 +1,6 @@
 # visR (development version)
 
-* We now zoom in on figure (e.g. Kaplan-Meier figure) with `ggplot2::coord_cartesean()` instead of using `xlim=` and `ylim=`. The latter first remove data outside the limits, then construct the line. Zooming in constructs the full line, then zooms into the limits. This is useful because the risktable often reports estimates near the end of a KM figure, but the line is cutoff and not shown at the last timepoint. (#402)
+* We now zoom in on a figure (e.g. Kaplan-Meier figure) with `ggplot2::coord_cartesian()` instead of using `scale_x_continuous(limits=)` and `scale_y_continuous(limits=)`. The latter first removes data outside the limits, then constructs the line. Zooming constructs the full line, then zooms into the limits. This is useful because the risktable often reports estimates near the end of a KM figure, but the line is cutoff and not shown at the last time point. (#402)
 
 * README update to contributor listing. (#435)
 
