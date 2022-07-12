@@ -47,6 +47,8 @@
 #' T5. The final object is a ggplot of class `ggsurvfit`.
 #' T5.1 The final object is a ggplot of class `ggplot`.
 #' T5.2 The final object is a ggplot of class `ggsurvfit`.
+#' T6. The final object does not exclude parts of KM estimate.
+#' T6.1 The final object zooms and does not exclude trialing pieces of lines.
 
 # Requirement T1 ----------------------------------------------------------
 
@@ -508,6 +510,22 @@ testthat::test_that("T5.2 The final object is a ggplot of class `ggsurvfit`.", {
     visR::visr(fun = "log")
 
   testthat::expect_true(inherits(survfit_plot, "ggsurvfit"))
+})
+
+# Requirement T6 ---------------------------------------------------------------
+
+testthat::context("visr_plot - T6. The final object does not exclude parts of KM estimate.")
+
+testthat::test_that("T6.1 The final object zooms and does not exclude trialing pieces of lines.", {
+  plot.zoom <-
+    visR::estimate_KM(
+      data = survival::lung %>% dplyr::mutate(time = ifelse(time > 1000, 2001, time)),
+      formula = survival::Surv(time, status) ~ 1
+    ) %>%
+    visR::visr(x_ticks = seq(0, 2000, by = 200)) %>%
+    visR::add_risktable()
+
+  vdiffr::expect_doppelganger("plot-zoom", plot.zoom)
 })
 
 # END OF CODE -------------------------------------------------------------
