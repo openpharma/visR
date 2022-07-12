@@ -81,6 +81,7 @@ add_CI.ggsurvfit <- function(gg,
         ymin = est.lower,
         ymax = est.upper
       ),
+      stat = "stepribbon",
       na.rm = TRUE,
       show.legend = FALSE
       ) +
