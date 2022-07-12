@@ -71,13 +71,16 @@ often aesthetics, used to set an aesthetic to a fixed value, like
 \code{colour = "red"} or \code{size = 3}. They may also be parameters
 to the paired geom/stat.}
 }
+\value{
+a ggplot
+}
 \description{
 Provides stairstep values for ribbon plots
 }
 \examples{
 library(ggplot2)
 
-survfit(Surv(time, status) ~ 1, data = survival::lung) \%>\%
+survival::survfit(survival::Surv(time, status) ~ 1, data = survival::lung) \%>\%
   survival::survfit0() \%>\%
   broom::tidy() \%>\%
   ggplot(aes(x = time, y = estimate, ymin = conf.low, ymax = conf.high)) +

@@ -8,10 +8,11 @@
 #' @param direction `hv` for horizontal-vertical steps, `vh` for
 #'   vertical-horizontal steps
 #' @references [https://groups.google.com/forum/?fromgroups=#!topic/ggplot2/9cFWHaH1CPs]()
+#' @return a ggplot
 #' @examples
 #' library(ggplot2)
 #'
-#' survfit(Surv(time, status) ~ 1, data = survival::lung) %>%
+#' survival::survfit(survival::Surv(time, status) ~ 1, data = survival::lung) %>%
 #'   survival::survfit0() %>%
 #'   broom::tidy() %>%
 #'   ggplot(aes(x = time, y = estimate, ymin = conf.low, ymax = conf.high)) +
