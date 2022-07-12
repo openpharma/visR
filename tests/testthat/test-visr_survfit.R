@@ -48,7 +48,7 @@
 #' T5.1 The final object is a ggplot of class `ggplot`.
 #' T5.2 The final object is a ggplot of class `ggsurvfit`.
 #' T6. The final object does not exclude parts of KM estimate.
-#' T6.1 The final object zooms and does not exclude trialing pieces of lines..
+#' T6.1 The final object zooms and does not exclude trialing pieces of lines.
 
 # Requirement T1 ----------------------------------------------------------
 
