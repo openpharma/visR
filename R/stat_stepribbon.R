@@ -1,6 +1,8 @@
 #' Step ribbon statistic
 #'
-#' Provides stairstep values for ribbon plots
+#' Provides stair-step values for ribbon plots.
+#' The step ribbon can be added with `stat_stepribbon()` or
+#' identically with `ggplot2::geom_ribbon(stat = "stepribbon")`
 #'
 #' @name stat_stepribbon
 #' @inheritParams ggplot2::geom_ribbon
@@ -10,14 +12,21 @@
 #' @references [https://groups.google.com/forum/?fromgroups=#!topic/ggplot2/9cFWHaH1CPs]()
 #' @return a ggplot
 #' @examples
-#' library(ggplot2)
-#'
+#' # using ggplot2::geom_ribbon()
 #' survival::survfit(survival::Surv(time, status) ~ 1, data = survival::lung) %>%
 #'   survival::survfit0() %>%
 #'   broom::tidy() %>%
-#'   ggplot(aes(x = time, y = estimate, ymin = conf.low, ymax = conf.high)) +
-#'   geom_step() +
-#'   geom_ribbon(stat = "stepribbon", alpha = 0.2)
+#'   ggplot2::ggplot(ggplot2::aes(x = time, y = estimate, ymin = conf.low, ymax = conf.high)) +
+#'   ggplot2::geom_step() +
+#'   ggplot2::geom_ribbon(stat = "stepribbon", alpha = 0.2)
+#'
+#' # using stat_stepribbon() with the same result
+#' survival::survfit(survival::Surv(time, status) ~ 1, data = survival::lung) %>%
+#'   survival::survfit0() %>%
+#'   broom::tidy() %>%
+#'   ggplot2::ggplot(ggplot2::aes(x = time, y = estimate, ymin = conf.low, ymax = conf.high)) +
+#'   ggplot2::geom_step() +
+#'   stat_stepribbon(alpha = 0.2)
 NULL
 
 #' @rdname stat_stepribbon
