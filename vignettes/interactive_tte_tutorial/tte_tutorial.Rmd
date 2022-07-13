@@ -19,7 +19,8 @@ tutorial_options(exercise.timelimit = 120)
 
 # Do all the prep work in one chunk as well so we can always reference this one as 
 # the "exercise-setup" chunk
-data = read.csv("https://raw.githubusercontent.com/vntkumar8/covid-survival/main/data/final.csv")
+con = url("https://raw.githubusercontent.com/vntkumar8/covid-survival/main/data/final.csv")
+data = read.csv(con)
 data$Status = abs(data$Status - 2)
 data = data %>%
    dplyr::mutate(
@@ -36,6 +37,7 @@ assign("TITLE",      TITLE,      envir = globalenv())
 assign("mod",        mod,        envir = globalenv())
 
 theme_set(theme_bw())
+close(con)
 
 ```
 
@@ -158,8 +160,9 @@ Patients who were admitted to Karnakata, South India, were recruited. The final 
 theme_set(theme_bw())
 
 # Then, we directly load the data from their GitHub repository
-data = read.csv("https://raw.githubusercontent.com/vntkumar8/covid-survival/main/data/final.csv")
-
+con = url("https://raw.githubusercontent.com/vntkumar8/covid-survival/main/data/final.csv")
+data = read.csv(con)
+close(con)
 data
 
 ```
