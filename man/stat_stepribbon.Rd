@@ -75,7 +75,8 @@ to the paired geom/stat.}
 a ggplot
 }
 \description{
-Provides stair-step values for ribbon plots.
+Provides stair-step values for ribbon plots, often using in
+conjunction with \code{ggplot2::geom_step()}.
 The step ribbon can be added with \code{stat_stepribbon()} or
 identically with \code{ggplot2::geom_ribbon(stat = "stepribbon")}
 }

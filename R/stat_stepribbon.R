@@ -1,6 +1,7 @@
 #' Step ribbon statistic
 #'
-#' Provides stair-step values for ribbon plots.
+#' Provides stair-step values for ribbon plots, often using in
+#' conjunction with `ggplot2::geom_step()`.
 #' The step ribbon can be added with `stat_stepribbon()` or
 #' identically with `ggplot2::geom_ribbon(stat = "stepribbon")`
 #'
