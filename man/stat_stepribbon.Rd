@@ -94,7 +94,7 @@ survival::survfit(survival::Surv(time, status) ~ 1, data = survival::lung) \%>\%
   broom::tidy() \%>\%
   ggplot2::ggplot(ggplot2::aes(x = time, y = estimate, ymin = conf.low, ymax = conf.high)) +
   ggplot2::geom_step() +
-  stat_stepribbon(alpha = 0.2)
+  visR::stat_stepribbon(alpha = 0.2)
 }
 \references{
 \url{https://groups.google.com/forum/?fromgroups=#!topic/ggplot2/9cFWHaH1CPs}

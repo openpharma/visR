@@ -26,7 +26,7 @@
 #'   broom::tidy() %>%
 #'   ggplot2::ggplot(ggplot2::aes(x = time, y = estimate, ymin = conf.low, ymax = conf.high)) +
 #'   ggplot2::geom_step() +
-#'   stat_stepribbon(alpha = 0.2)
+#'   visR::stat_stepribbon(alpha = 0.2)
 NULL
 
 #' @rdname stat_stepribbon
