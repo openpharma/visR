@@ -29,88 +29,88 @@
 
 # Requirement T1 ----------------------------------------------------------
 
-testthat::context("add_highlight - T1. The function modifies a `ggsurvfit` object and returns it.")
+context("add_highlight - T1. The function modifies a `ggsurvfit` object and returns it.")
 
-testthat::test_that("T1.1 No error when `add_highlight` is called on a `ggsurvfit` object.", {
+test_that("T1.1 No error when `add_highlight` is called on a `ggsurvfit` object.", {
   gg <- adtte %>%
     visR::estimate_KM(strata = "TRTP") %>%
     visR::visr()
 
-  testthat::expect_true(inherits(gg, "ggsurvfit"))
+  expect_true(inherits(gg, "ggsurvfit"))
 
   gg %>%
     visR::add_highlight(strata = "Placebo") %>%
-    testthat::expect_error(NA)
+    expect_error(NA)
 })
 
-testthat::test_that("T1.2 An error when `add_highlight` is called without a plot.", {
-  visR::add_highlight() %>% testthat::expect_error()
+test_that("T1.2 An error when `add_highlight` is called without a plot.", {
+  visR::add_highlight() %>% expect_error()
 })
 
-testthat::test_that("T1.3 An error when `add_highlight` is called on a non-`ggplot` object", {
+test_that("T1.3 An error when `add_highlight` is called on a non-`ggplot` object", {
   visR::add_highlight(NULL) %>%
-    testthat::expect_error()
+    expect_error()
 
   visR::add_highlight("visR") %>%
-    testthat::expect_error()
+    expect_error()
 
   visR::add_highlight(1) %>%
-    testthat::expect_error()
+    expect_error()
 
   model <- stats::lm(data = adtte, "AGE ~ TRTDUR")
   class(model) <- c(class(model), "ggsurvfit")
 
   visR::add_highlight(model) %>%
-    testthat::expect_error()
+    expect_error()
 })
 
-testthat::test_that("T1.4 An error when `add_highlight` is called on a `ggplot` but non-`ggsurvfit` object.", {
+test_that("T1.4 An error when `add_highlight` is called on a `ggplot` but non-`ggsurvfit` object.", {
   gg <- adtte %>%
     ggplot2::ggplot(ggplot2::aes(x = AGE, y = TRTDUR)) +
     ggplot2::geom_point()
 
-  testthat::expect_true(inherits(gg, "ggplot"))
-  testthat::expect_false(inherits(gg, "ggsurvfit"))
+  expect_true(inherits(gg, "ggplot"))
+  expect_false(inherits(gg, "ggsurvfit"))
 
   gg %>%
     add_highlight() %>%
-    testthat::expect_error()
+    expect_error()
 })
 
-testthat::test_that("T1.5 The function returns a modified object of type `ggsurvfit`.", {
+test_that("T1.5 The function returns a modified object of type `ggsurvfit`.", {
   gg <- adtte %>%
     visR::estimate_KM(strata = "TRTP") %>%
     visR::visr()
 
-  testthat::expect_true(inherits(gg, "ggsurvfit"))
+  expect_true(inherits(gg, "ggsurvfit"))
 
   gg_with_highlight <- gg %>% add_highlight("Placebo")
 
-  testthat::expect_true(inherits(gg_with_highlight, "ggsurvfit"))
+  expect_true(inherits(gg_with_highlight, "ggsurvfit"))
 
-  testthat::expect_false(base::identical(gg, gg_with_highlight))
+  expect_false(base::identical(gg, gg_with_highlight))
 })
 
 # Requirement T2 ---------------------------------------------------------------
 
-testthat::context("add_highlight - T2. No errors when one or more strata are highlighted with default parameters.")
+context("add_highlight - T2. No errors when one or more strata are highlighted with default parameters.")
 
-testthat::test_that("T2.1 No error when `strata` is a character string found in the plot strata.", {
+test_that("T2.1 No error when `strata` is a character string found in the plot strata.", {
   gg <- adtte %>%
     visR::estimate_KM(strata = "TRTP") %>%
     visR::visr()
 
   gg %>%
     visR::add_highlight(strata = "Placebo") %>%
-    testthat::expect_error(NA)
+    expect_error(NA)
 
-  testthat::skip_on_cran()
+  skip_on_cran()
   gg %>%
     visR::add_highlight(strata = "Placebo") %>%
     vdiffr::expect_doppelganger(title = "add_highlight_T2_1_no_error_when_strata_is_string")
 })
 
-testthat::test_that("T2.2 An error when `strata` is a character string not found in the plot strata.", {
+test_that("T2.2 An error when `strata` is a character string not found in the plot strata.", {
   gg <- adtte %>%
     visR::estimate_KM(strata = "TRTP") %>%
     visR::visr()
@@ -119,20 +119,20 @@ testthat::test_that("T2.2 An error when `strata` is a character string not found
 
   gg %>%
     visR::add_highlight(strata = "visR") %>%
-    testthat::expect_error(expected_error)
+    expect_error(expected_error)
 })
 
-testthat::test_that("T2.3 No error when `strata` is a `list` with a single non-character element.", {
+test_that("T2.3 No error when `strata` is a `list` with a single non-character element.", {
   expected_error <- "A 'strata' must be either a single character string or a list of them."
 
   adtte %>%
     visR::estimate_KM("SEX") %>%
     visR::visr() %>%
     visR::add_highlight(list(1)) %>%
-    testthat::expect_error(expected_error)
+    expect_error(expected_error)
 })
 
-testthat::test_that("T2.4 No error when `strata` is a `list` or `vector` of character strings found in the plot strata.", {
+test_that("T2.4 No error when `strata` is a `list` or `vector` of character strings found in the plot strata.", {
   strata_list <- list("Placebo", "Xanomeline Low Dose")
   strata_vector <- c("Placebo", "Xanomeline Low Dose")
 
@@ -142,13 +142,13 @@ testthat::test_that("T2.4 No error when `strata` is a `list` or `vector` of char
 
   gg %>%
     visR::add_highlight(strata = strata_list) %>%
-    testthat::expect_error(NA)
+    expect_error(NA)
 
   gg %>%
     visR::add_highlight(strata = strata_vector) %>%
-    testthat::expect_error(NA)
+    expect_error(NA)
 
-  testthat::skip_on_cran()
+  skip_on_cran()
 
   gg %>%
     visR::add_highlight(strata = strata_list) %>%
@@ -159,7 +159,7 @@ testthat::test_that("T2.4 No error when `strata` is a `list` or `vector` of char
     vdiffr::expect_doppelganger(title = "add_highlight_T2_4_no_error_when_strata_is_string_vec") # 'vector' shortened because of tarball size
 })
 
-testthat::test_that("T2.5 An error when `strata` is a `list` or `vector` that holds non-character-string elements.", {
+test_that("T2.5 An error when `strata` is a `list` or `vector` that holds non-character-string elements.", {
   strata <- c(1, 2, 3)
 
   gg <- adtte %>%
@@ -170,10 +170,10 @@ testthat::test_that("T2.5 An error when `strata` is a `list` or `vector` that ho
 
   gg %>%
     visR::add_highlight(strata = strata) %>%
-    testthat::expect_error(expected_error)
+    expect_error(expected_error)
 })
 
-testthat::test_that("T2.6 An error when `strata` is not a character string or a list.", {
+test_that("T2.6 An error when `strata` is not a character string or a list.", {
   gg <- adtte %>%
     visR::estimate_KM(strata = "TRTP") %>%
     visR::visr()
@@ -182,28 +182,28 @@ testthat::test_that("T2.6 An error when `strata` is not a character string or a 
 
   gg %>%
     visR::add_highlight(strata = NA) %>%
-    testthat::expect_error(expected_error)
+    expect_error(expected_error)
 
   gg %>%
     visR::add_highlight(strata = 1) %>%
-    testthat::expect_error(expected_error)
+    expect_error(expected_error)
 })
 
-testthat::test_that("T2.7 An error when `strata` is `NULL` or missing.", {
+test_that("T2.7 An error when `strata` is `NULL` or missing.", {
   gg <- adtte %>%
     visR::estimate_KM(strata = "TRTP") %>%
     visR::visr()
 
   gg %>%
     visR::add_highlight(strata = NULL) %>%
-    testthat::expect_error()
+    expect_error()
 
   gg %>%
     visR::add_highlight() %>%
-    testthat::expect_error()
+    expect_error()
 })
 
-testthat::test_that("T2.8 An error when `strata` is not a character string or a list.", {
+test_that("T2.8 An error when `strata` is not a character string or a list.", {
   gg <- adtte %>%
     visR::estimate_KM(strata = "TRTP") %>%
     visR::visr()
@@ -212,18 +212,18 @@ testthat::test_that("T2.8 An error when `strata` is not a character string or a 
 
   gg %>%
     visR::add_highlight(strata = NA) %>%
-    testthat::expect_error(expected_error)
+    expect_error(expected_error)
 
   gg %>%
     visR::add_highlight(strata = 1) %>%
-    testthat::expect_error(expected_error)
+    expect_error(expected_error)
 })
 
 # Requirement T3 ---------------------------------------------------------------
 
-testthat::context("add_highlight - T3. The opacity of the background strata can be changed through `bg_alpha`.")
+context("add_highlight - T3. The opacity of the background strata can be changed through `bg_alpha`.")
 
-testthat::test_that("T3.1 No error when `bg_alpha` is a `numberic`.", {
+test_that("T3.1 No error when `bg_alpha` is a `numberic`.", {
   gg <- adtte %>%
     visR::estimate_KM(strata = "TRTP") %>%
     visR::visr()
@@ -233,10 +233,10 @@ testthat::test_that("T3.1 No error when `bg_alpha` is a `numberic`.", {
       strata = "Placebo",
       bg_alpha = 0.2
     ) %>%
-    testthat::expect_error(NA)
+    expect_error(NA)
 })
 
-testthat::test_that("T3.2 An error when `bg_alpha` is a not a `numberic`.", {
+test_that("T3.2 An error when `bg_alpha` is a not a `numberic`.", {
   gg <- adtte %>%
     visR::estimate_KM(strata = "TRTP") %>%
     visR::visr()
@@ -248,10 +248,10 @@ testthat::test_that("T3.2 An error when `bg_alpha` is a not a `numberic`.", {
       strata = "Placebo",
       bg_alpha = "visR"
     ) %>%
-    testthat::expect_error(expected_error)
+    expect_error(expected_error)
 })
 
-testthat::test_that("T3.3 An error when `bg_alpha` is outside of [0, 1].", {
+test_that("T3.3 An error when `bg_alpha` is outside of [0, 1].", {
   gg <- adtte %>%
     visR::estimate_KM(strata = "TRTP") %>%
     visR::visr()
@@ -263,22 +263,22 @@ testthat::test_that("T3.3 An error when `bg_alpha` is outside of [0, 1].", {
       strata = "Placebo",
       bg_alpha = -1
     ) %>%
-    testthat::expect_error(expected_error)
+    expect_error(expected_error)
 
   gg %>%
     visR::add_highlight(
       strata = "Placebo",
       bg_alpha = 2
     ) %>%
-    testthat::expect_error(expected_error)
+    expect_error(expected_error)
 })
 
-testthat::test_that("T3.4 The alpha of the background strata changes with `bg_alpha`.", {
+test_that("T3.4 The alpha of the background strata changes with `bg_alpha`.", {
   gg <- adtte %>%
     visR::estimate_KM(strata = "TRTP") %>%
     visR::visr()
 
-  testthat::skip_on_cran()
+  skip_on_cran()
 
   gg %>%
     visR::add_highlight(
@@ -304,9 +304,9 @@ testthat::test_that("T3.4 The alpha of the background strata changes with `bg_al
 
 # Requirement T4 ---------------------------------------------------------------
 
-testthat::context("add_highlight - T4. The function modifies the underlying data structure than is interpreted during plotting.")
+context("add_highlight - T4. The function modifies the underlying data structure than is interpreted during plotting.")
 
-testthat::test_that("T4.1 The function adds the alpha channel to the hex-encoded colour.", {
+test_that("T4.1 The function adds the alpha channel to the hex-encoded colour.", {
   gg <- adtte %>%
     visR::estimate_KM(strata = "TRTP") %>%
     visR::visr()
@@ -324,10 +324,10 @@ testthat::test_that("T4.1 The function adds the alpha channel to the hex-encoded
     gsub(c, "", gg_with_highlight_colours[gg_colours == c])
   }))
 
-  testthat::expect_identical(alphas, c("FF", "33", "33"))
+  expect_identical(alphas, c("FF", "33", "33"))
 })
 
-testthat::test_that("T4.2 The function also reduces the alpha value of the confidence intervals introduced by `add_CI`.", {
+test_that("T4.2 The function also reduces the alpha value of the confidence intervals introduced by `add_CI`.", {
   ci_alpha <- 0.5
   bg_alpha <- 0.2
 
@@ -362,16 +362,16 @@ testthat::test_that("T4.2 The function also reduces the alpha value of the confi
     }) %>%
     as.vector()
 
-  testthat::expect_equal(
+  expect_equal(
     gg_CI_fills_numeric,
     rep(ci_alpha, length(gg_CI_fills_numeric))
   )
 
   # To not over-engineer the test here, we take for granted that the foreground
   # strata is the first of the three in the evaluation order
-  testthat::expect_equal(gg_with_highlight_CI_fills_numeric[1], ci_alpha)
-  testthat::expect_equal(gg_with_highlight_CI_fills_numeric[2], ci_alpha * bg_alpha)
-  testthat::expect_equal(gg_with_highlight_CI_fills_numeric[3], ci_alpha * bg_alpha)
+  expect_equal(gg_with_highlight_CI_fills_numeric[1], ci_alpha)
+  expect_equal(gg_with_highlight_CI_fills_numeric[2], ci_alpha * bg_alpha)
+  expect_equal(gg_with_highlight_CI_fills_numeric[3], ci_alpha * bg_alpha)
 })
 
 # END OF CODE -------------------------------------------------------------

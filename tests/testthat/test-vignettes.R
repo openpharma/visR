@@ -8,9 +8,9 @@
 
 # Requirement T1 ----------------------------------------------------------
 
-testthat::context("vignettes - T1. Data loaded from external sources exists.")
+context("vignettes - T1. Data loaded from external sources exists.")
 
-testthat::test_that("T1.1 Data from Bankar et al. is still hosted on GitHub.", {
+test_that("T1.1 Data from Bankar et al. is still hosted on GitHub.", {
 
   # Our interactive vignette loads public data so that people can follow along
   # This test ensures that it is still publicly available
@@ -34,7 +34,7 @@ testthat::test_that("T1.1 Data from Bankar et al. is still hosted on GitHub.", {
     )
   )
 
-  testthat::expect_true(is.null(check))
+  expect_true(is.null(check))
 })
 
 # END OF CODE -------------------------------------------------------------

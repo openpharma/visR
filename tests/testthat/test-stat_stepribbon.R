@@ -13,7 +13,7 @@
 
 # Requirement T1 ----------------------------------------------------------
 
-testthat::context("stat_stepribbon - T1. visR::stat_stepribbon() accepts aes() args ymin and ymax.")
+context("stat_stepribbon - T1. visR::stat_stepribbon() accepts aes() args ymin and ymax.")
 
 test_that("T1.1 visR::stat_stepribbon() inherits aes from ggplot()", {
   survfit_tidy <-
@@ -21,7 +21,7 @@ test_that("T1.1 visR::stat_stepribbon() inherits aes from ggplot()", {
     survival::survfit0() %>%
     broom::tidy()
 
-  testthat::expect_error(
+  expect_error(
     gg_step1 <-
       survfit_tidy %>%
       ggplot2::ggplot(ggplot2::aes(x = time, y = estimate, ymin = conf.low, ymax = conf.high)) +
@@ -31,7 +31,7 @@ test_that("T1.1 visR::stat_stepribbon() inherits aes from ggplot()", {
   )
   vdiffr::expect_doppelganger("geom_ribbon-stepribbon-ggplot-aes", gg_step1)
 
-  testthat::expect_error(
+  expect_error(
     gg_step2 <-
       survfit_tidy %>%
       ggplot2::ggplot(ggplot2::aes(x = time, y = estimate, ymin = conf.low, ymax = conf.high)) +
@@ -48,7 +48,7 @@ test_that("T1.2 visR::stat_stepribbon() respects aes from visR::stat_stepribbon(
     survival::survfit0() %>%
     broom::tidy()
 
-  testthat::expect_error(
+  expect_error(
     gg_step1 <-
       survfit_tidy %>%
       ggplot2::ggplot(ggplot2::aes(x = time, y = estimate)) +
@@ -59,7 +59,7 @@ test_that("T1.2 visR::stat_stepribbon() respects aes from visR::stat_stepribbon(
   )
   vdiffr::expect_doppelganger("geom_ribbon-stepribbon-geom_ribbon-aes", gg_step1)
 
-  testthat::expect_error(
+  expect_error(
     gg_step2 <-
       survfit_tidy %>%
       ggplot2::ggplot(ggplot2::aes(x = time, y = estimate)) +
@@ -73,7 +73,7 @@ test_that("T1.2 visR::stat_stepribbon() respects aes from visR::stat_stepribbon(
 
 # Requirement T2 ----------------------------------------------------------
 
-testthat::context("stat_stepribbon - visR::stat_stepribbon() works with the color/fill aesthetic.")
+context("stat_stepribbon - visR::stat_stepribbon() works with the color/fill aesthetic.")
 
 test_that("T2.1 The step ribbon is correctly applied when there are multiple lines from the color/fill aesthetic.", {
   survfit_tidy <-
@@ -81,7 +81,7 @@ test_that("T2.1 The step ribbon is correctly applied when there are multiple lin
     survival::survfit0() %>%
     broom::tidy()
 
-  testthat::expect_error(
+  expect_error(
     gg_step1 <-
       survfit_tidy %>%
       ggplot2::ggplot(ggplot2::aes(x = time, y = estimate,
@@ -96,7 +96,7 @@ test_that("T2.1 The step ribbon is correctly applied when there are multiple lin
 
 # Requirement T3 ----------------------------------------------------------
 
-testthat::context("stat_stepribbon - visR::stat_stepribbon(direction=) argument is respected.")
+context("stat_stepribbon - visR::stat_stepribbon(direction=) argument is respected.")
 
 test_that("T3.1 The visR::stat_stepribbon(direction=) argument is able to produce figures based on both argument options.", {
   survfit_tidy <-
@@ -104,7 +104,7 @@ test_that("T3.1 The visR::stat_stepribbon(direction=) argument is able to produc
     survival::survfit0() %>%
     broom::tidy()
 
-  testthat::expect_error(
+  expect_error(
     gg_step1 <-
       survfit_tidy %>%
       ggplot2::ggplot(ggplot2::aes(x = time, y = estimate,
@@ -116,7 +116,7 @@ test_that("T3.1 The visR::stat_stepribbon(direction=) argument is able to produc
   )
   vdiffr::expect_doppelganger("geom_ribbon-stepribbon-direction-vh", gg_step1)
 
-  testthat::expect_error(
+  expect_error(
     gg_step2 <-
       survfit_tidy %>%
       ggplot2::ggplot(ggplot2::aes(x = time, y = estimate,

@@ -291,59 +291,59 @@ testthat::test_that("T2.20 An error when `x_units` is not `NULL` or a `character
 
   testthat::expect_error(survfit_object %>% visR::visr(x_units = 1))
   testthat::expect_error(survfit_object %>% visR::visr(x_units = NA))
-  testthat::expect_error(survfit_object %>% visR::visr(x_units = TRUE))
-  testthat::expect_error(survfit_object %>% visR::visr(x_units = list()))
-  testthat::expect_error(survfit_object %>% visR::visr(x_units = stats::lm(AGE ~ TRTDUR, adtte)))
+  expect_error(survfit_object %>% visR::visr(x_units = TRUE))
+  expect_error(survfit_object %>% visR::visr(x_units = list()))
+  expect_error(survfit_object %>% visR::visr(x_units = stats::lm(AGE ~ TRTDUR, adtte)))
 })
 
-testthat::test_that("T2.21 An error when `x_ticks` is not `NULL` or a `numeric`.", {
+test_that("T2.21 An error when `x_ticks` is not `NULL` or a `numeric`.", {
   survfit_object <- adtte %>%
     visR::estimate_KM("SEX")
 
-  testthat::expect_error(survfit_object %>% visR::visr(x_ticks = "visR"))
-  testthat::expect_error(survfit_object %>% visR::visr(x_ticks = NA))
-  testthat::expect_error(survfit_object %>% visR::visr(x_ticks = TRUE))
-  testthat::expect_error(survfit_object %>% visR::visr(x_ticks = list()))
-  testthat::expect_error(survfit_object %>% visR::visr(x_ticks = stats::lm(AGE ~ TRTDUR, adtte)))
+  expect_error(survfit_object %>% visR::visr(x_ticks = "visR"))
+  expect_error(survfit_object %>% visR::visr(x_ticks = NA))
+  expect_error(survfit_object %>% visR::visr(x_ticks = TRUE))
+  expect_error(survfit_object %>% visR::visr(x_ticks = list()))
+  expect_error(survfit_object %>% visR::visr(x_ticks = stats::lm(AGE ~ TRTDUR, adtte)))
 })
 
-testthat::test_that("T2.22 An error when `y_ticks` is not `NULL` or a `numeric`.", {
+test_that("T2.22 An error when `y_ticks` is not `NULL` or a `numeric`.", {
   survfit_object <- adtte %>%
     visR::estimate_KM("SEX")
 
-  testthat::expect_error(survfit_object %>% visR::visr(y_ticks = "visR"))
-  testthat::expect_error(survfit_object %>% visR::visr(y_ticks = NA))
-  testthat::expect_error(survfit_object %>% visR::visr(y_ticks = TRUE))
-  testthat::expect_error(survfit_object %>% visR::visr(y_ticks = list()))
-  testthat::expect_error(survfit_object %>% visR::visr(y_ticks = stats::lm(AGE ~ TRTDUR, adtte)))
+  expect_error(survfit_object %>% visR::visr(y_ticks = "visR"))
+  expect_error(survfit_object %>% visR::visr(y_ticks = NA))
+  expect_error(survfit_object %>% visR::visr(y_ticks = TRUE))
+  expect_error(survfit_object %>% visR::visr(y_ticks = list()))
+  expect_error(survfit_object %>% visR::visr(y_ticks = stats::lm(AGE ~ TRTDUR, adtte)))
 })
 
-testthat::test_that("T2.23 No error when a valid option is passed to `legend_position`.", {
+test_that("T2.23 No error when a valid option is passed to `legend_position`.", {
   survfit_object <- adtte %>%
     visR::estimate_KM("SEX")
 
-  testthat::expect_error(survfit_object %>% visR::visr(legend_position = "top"), NA)
-  testthat::expect_error(survfit_object %>% visR::visr(legend_position = "bottom"), NA)
-  testthat::expect_error(survfit_object %>% visR::visr(legend_position = "right"), NA)
-  testthat::expect_error(survfit_object %>% visR::visr(legend_position = "left"), NA)
-  testthat::expect_error(survfit_object %>% visR::visr(legend_position = "none"), NA)
-  testthat::expect_error(survfit_object %>% visR::visr(legend_position = c(0.5, 0.5)), NA)
+  expect_error(survfit_object %>% visR::visr(legend_position = "top"), NA)
+  expect_error(survfit_object %>% visR::visr(legend_position = "bottom"), NA)
+  expect_error(survfit_object %>% visR::visr(legend_position = "right"), NA)
+  expect_error(survfit_object %>% visR::visr(legend_position = "left"), NA)
+  expect_error(survfit_object %>% visR::visr(legend_position = "none"), NA)
+  expect_error(survfit_object %>% visR::visr(legend_position = c(0.5, 0.5)), NA)
 })
 
-testthat::test_that("T2.24 An error when the string is not amongst the valid options for `legend_position`.", {
+test_that("T2.24 An error when the string is not amongst the valid options for `legend_position`.", {
   survfit_object <- adtte %>%
     visR::estimate_KM("SEX")
 
-  testthat::expect_error(survfit_object %>% visR::visr(legend_position = "visR"))
+  expect_error(survfit_object %>% visR::visr(legend_position = "visR"))
 })
 
-testthat::test_that("T2.25 An error when an undefined option is passed to `legend_position`.", {
+test_that("T2.25 An error when an undefined option is passed to `legend_position`.", {
   survfit_object <- adtte %>%
     visR::estimate_KM("SEX")
 
-  testthat::expect_error(survfit_object %>% visR::visr(legend_position = "visR"))
-  testthat::expect_error(survfit_object %>% visR::visr(legend_position = c(0)))
-  testthat::expect_error(survfit_object %>% visR::visr(legend_position = c(0.5, 0.5, 0.5)))
+  expect_error(survfit_object %>% visR::visr(legend_position = "visR"))
+  expect_error(survfit_object %>% visR::visr(legend_position = c(0)))
+  expect_error(survfit_object %>% visR::visr(legend_position = c(0.5, 0.5, 0.5)))
 
   could_set_to_NA <- tryCatch(
     {
@@ -355,7 +355,7 @@ testthat::test_that("T2.25 An error when an undefined option is passed to `legen
     }
   )
 
-  testthat::expect_false(could_set_to_NA)
+  expect_false(could_set_to_NA)
 
   could_set_to_bool <- tryCatch(
     {
@@ -367,7 +367,7 @@ testthat::test_that("T2.25 An error when an undefined option is passed to `legen
     }
   )
 
-  testthat::expect_false(could_set_to_bool)
+  expect_false(could_set_to_bool)
 
   could_set_to_list <- tryCatch(
     {
@@ -379,78 +379,78 @@ testthat::test_that("T2.25 An error when an undefined option is passed to `legen
     }
   )
 
-  testthat::expect_false(could_set_to_list)
+  expect_false(could_set_to_list)
 })
 
 # Requirement T3 ---------------------------------------------------------------
 
-testthat::context("visr_plot - T3. The y-axis properties are correctly deducted from the provided `fun` when applying `visR::visr()` to a `survfit` object.")
+context("visr_plot - T3. The y-axis properties are correctly deducted from the provided `fun` when applying `visR::visr()` to a `survfit` object.")
 
-testthat::test_that("T3.1 No error when `y_label` is `NULL` and `fun` is one of the valid string options.", {
+test_that("T3.1 No error when `y_label` is `NULL` and `fun` is one of the valid string options.", {
   survfit_object <- adtte %>%
     visR::estimate_KM("SEX")
 
-  testthat::expect_error(survfit_object %>% visR::visr(y_label = NULL, fun = "surv"), NA)
-  testthat::expect_error(survfit_object %>% visR::visr(y_label = NULL, fun = "log"), NA)
-  testthat::expect_error(survfit_object %>% visR::visr(y_label = NULL, fun = "event"), NA)
-  testthat::expect_warning(survfit_object %>% visR::visr(y_label = NULL, fun = "cloglog")) # No error, but data causes introduction of NAs.
-  testthat::expect_error(survfit_object %>% visR::visr(y_label = NULL, fun = "pct"), NA)
-  testthat::expect_error(survfit_object %>% visR::visr(y_label = NULL, fun = "logpct"), NA)
-  testthat::expect_error(survfit_object %>% visR::visr(y_label = NULL, fun = "cumhaz"), NA)
+  expect_error(survfit_object %>% visR::visr(y_label = NULL, fun = "surv"), NA)
+  expect_error(survfit_object %>% visR::visr(y_label = NULL, fun = "log"), NA)
+  expect_error(survfit_object %>% visR::visr(y_label = NULL, fun = "event"), NA)
+  expect_warning(survfit_object %>% visR::visr(y_label = NULL, fun = "cloglog")) # No error, but data causes introduction of NAs.
+  expect_error(survfit_object %>% visR::visr(y_label = NULL, fun = "pct"), NA)
+  expect_error(survfit_object %>% visR::visr(y_label = NULL, fun = "logpct"), NA)
+  expect_error(survfit_object %>% visR::visr(y_label = NULL, fun = "cumhaz"), NA)
 })
 
-testthat::test_that("T3.2 An error when `y_label` is `NULL`, `fun` is a string but not one of the valid options.", {
+test_that("T3.2 An error when `y_label` is `NULL`, `fun` is a string but not one of the valid options.", {
   survfit_object <- adtte %>%
     visR::estimate_KM("SEX")
 
-  testthat::expect_error(survfit_object %>% visR::visr(y_label = NULL, fun = "visR"))
+  expect_error(survfit_object %>% visR::visr(y_label = NULL, fun = "visR"))
 })
 
-testthat::test_that("T3.3 No error when `y_label` is a string and `fun` is a function.", {
+test_that("T3.3 No error when `y_label` is a string and `fun` is a function.", {
   survfit_object <- adtte %>%
     visR::estimate_KM("SEX")
 
-  testthat::expect_error(survfit_object %>% visR::visr(y_label = "visR", fun = log), NA)
+  expect_error(survfit_object %>% visR::visr(y_label = "visR", fun = log), NA)
 })
 
-testthat::test_that("T3.4 An error when `y_label` is `NULL` and `fun` is a function.", {
+test_that("T3.4 An error when `y_label` is `NULL` and `fun` is a function.", {
   survfit_object <- adtte %>%
     visR::estimate_KM("SEX")
 
-  testthat::expect_error(survfit_object %>% visR::visr(y_label = NULL, fun = log))
+  expect_error(survfit_object %>% visR::visr(y_label = NULL, fun = log))
 })
 
-testthat::test_that("T3.5 A warning when the provided function causes undefined values, f.e. log(-log(2)).", {
+test_that("T3.5 A warning when the provided function causes undefined values, f.e. log(-log(2)).", {
   survfit_object <- adtte %>%
     visR::estimate_KM("SEX")
 
-  testthat::expect_warning(survfit_object %>% visR::visr(y_label = NULL, fun = "cloglog"))
+  expect_warning(survfit_object %>% visR::visr(y_label = NULL, fun = "cloglog"))
 })
 
-testthat::test_that("T3.6 An error when `fun` is neither a `character` string nor a function.", {
+test_that("T3.6 An error when `fun` is neither a `character` string nor a function.", {
   survfit_object <- adtte %>%
     visR::estimate_KM("SEX")
 
-  testthat::expect_error(survfit_object %>% visR::visr(fun = 1))
-  testthat::expect_error(survfit_object %>% visR::visr(fun = NULL))
-  testthat::expect_error(survfit_object %>% visR::visr(fun = NA))
-  testthat::expect_error(survfit_object %>% visR::visr(fun = TRUE))
-  testthat::expect_error(survfit_object %>% visR::visr(fun = list()))
+  expect_error(survfit_object %>% visR::visr(fun = 1))
+  expect_error(survfit_object %>% visR::visr(fun = NULL))
+  expect_error(survfit_object %>% visR::visr(fun = NA))
+  expect_error(survfit_object %>% visR::visr(fun = TRUE))
+  expect_error(survfit_object %>% visR::visr(fun = list()))
 })
 
-testthat::test_that("T3.7 The `fun` argument is stored in the final object as attribute `fun`.", {
+test_that("T3.7 The `fun` argument is stored in the final object as attribute `fun`.", {
   survfit_plot <- adtte %>%
     visR::estimate_KM("SEX") %>%
     visR::visr(fun = "log")
 
-  testthat::expect_true(inherits(attr(survfit_plot, "fun"), "function"))
+  expect_true(inherits(attr(survfit_plot, "fun"), "function"))
 })
 
 # Requirement T4 ---------------------------------------------------------------
 
-testthat::context("visr_plot - T4. The legend follows the model strata label and levels.")
+context("visr_plot - T4. The legend follows the model strata label and levels.")
 
-testthat::test_that("T4.1 The legend follows the model strata levels.", {
+test_that("T4.1 The legend follows the model strata levels.", {
   dt <- adtte
   dt[["TRTA"]] <- factor(dt[["TRTA"]], levels = c("Placebo", "Xanomeline Low Dose", "Xanomeline High Dose"))
 
@@ -460,15 +460,15 @@ testthat::test_that("T4.1 The legend follows the model strata levels.", {
   leg <- ggplot2::ggplot_build(survfit_plot)
   labs <- leg$plot$scales$scales[[4]]$get_labels()
 
-  testthat::expect_equal(paste0(levels(dt$TRTA)), labs)
+  expect_equal(paste0(levels(dt$TRTA)), labs)
 })
 
-testthat::test_that("T4.2 The color legend title represents the strata label.", {
+test_that("T4.2 The color legend title represents the strata label.", {
   survfit_plot <- adtte %>%
     visR::estimate_KM(strata = "TRTA") %>%
     visR::visr()
 
-  testthat::expect_equal(
+  expect_equal(
     survfit_plot$labels$colour,
     "Actual Treatment"
   )
@@ -477,7 +477,7 @@ testthat::test_that("T4.2 The color legend title represents the strata label.", 
     visR::estimate_KM(strata = c("TRTA", "SEX")) %>%
     visR::visr()
 
-  testthat::expect_equal(
+  expect_equal(
     survfit_plot$labels$colour,
     "Actual Treatment, Sex"
   )
@@ -486,7 +486,7 @@ testthat::test_that("T4.2 The color legend title represents the strata label.", 
     visR::estimate_KM() %>%
     visR::visr()
 
-  testthat::expect_equal(
+  expect_equal(
     survfit_plot$labels$colour,
     ""
   )
@@ -494,29 +494,29 @@ testthat::test_that("T4.2 The color legend title represents the strata label.", 
 
 # Requirement T5 ---------------------------------------------------------------
 
-testthat::context("visr_plot - T5. The final object is a ggplot of class `ggsurvfit`.")
+context("visr_plot - T5. The final object is a ggplot of class `ggsurvfit`.")
 
-testthat::test_that("T5.1 The final object is a ggplot of class `ggplot`.", {
+test_that("T5.1 The final object is a ggplot of class `ggplot`.", {
   survfit_plot <- adtte %>%
     visR::estimate_KM("SEX") %>%
     visR::visr(fun = "log")
 
-  testthat::expect_true(inherits(survfit_plot, "ggplot"))
+  expect_true(inherits(survfit_plot, "ggplot"))
 })
 
-testthat::test_that("T5.2 The final object is a ggplot of class `ggsurvfit`.", {
+test_that("T5.2 The final object is a ggplot of class `ggsurvfit`.", {
   survfit_plot <- adtte %>%
     visR::estimate_KM("SEX") %>%
     visR::visr(fun = "log")
 
-  testthat::expect_true(inherits(survfit_plot, "ggsurvfit"))
+  expect_true(inherits(survfit_plot, "ggsurvfit"))
 })
 
 # Requirement T6 ---------------------------------------------------------------
 
-testthat::context("visr_plot - T6. The final object does not exclude parts of KM estimate.")
+context("visr_plot - T6. The final object does not exclude parts of KM estimate.")
 
-testthat::test_that("T6.1 The final object zooms and does not exclude trialing pieces of lines.", {
+test_that("T6.1 The final object zooms and does not exclude trialing pieces of lines.", {
   plot.zoom <-
     visR::estimate_KM(
       data = survival::lung %>% dplyr::mutate(time = ifelse(time > 1000, 2001, time)),

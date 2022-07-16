@@ -12,9 +12,9 @@
 
 # Requirement T1 ---------------------------------------------------------------
 
-testthat::context("CRAN_watchdog - T1. Our codebase doesn't violate CRAN style-guidelines.")
+context("CRAN_watchdog - T1. Our codebase doesn't violate CRAN style-guidelines.")
 
-testthat::test_that("T1.1 TRUE/FALSE are used instead of T/F.", {
+test_that("T1.1 TRUE/FALSE are used instead of T/F.", {
   test_files <- .get_visR_files(
     functions = TRUE,
     tests = TRUE,
@@ -48,10 +48,10 @@ testthat::test_that("T1.1 TRUE/FALSE are used instead of T/F.", {
     cat(paste0(CRAN_incompabilities, collapse = ";"))
   }
 
-  testthat::expect_true(base::nrow(CRAN_incompabilities) == 0)
+  expect_true(base::nrow(CRAN_incompabilities) == 0)
 })
 
-testthat::test_that("T1.2 Each function documentation contains a \\value{} tag.", {
+test_that("T1.2 Each function documentation contains a \\value{} tag.", {
   test_files <- .get_visR_files(documentation = TRUE)
 
   # List of files in which we don't expect a return value.
@@ -90,10 +90,10 @@ testthat::test_that("T1.2 Each function documentation contains a \\value{} tag."
     print(CRAN_incompabilities)
   }
 
-  testthat::expect_true(base::nrow(CRAN_incompabilities) == 0)
+  expect_true(base::nrow(CRAN_incompabilities) == 0)
 })
 
-testthat::test_that("T1.3 The existence of packages is not checked through 'installed.packages()'.", {
+test_that("T1.3 The existence of packages is not checked through 'installed.packages()'.", {
 
   # installed.packages might be slow on CRAN servers
 
@@ -123,10 +123,10 @@ testthat::test_that("T1.3 The existence of packages is not checked through 'inst
     print(CRAN_incompabilities)
   }
 
-  testthat::expect_true(base::nrow(CRAN_incompabilities) == 0)
+  expect_true(base::nrow(CRAN_incompabilities) == 0)
 })
 
-testthat::test_that("T1.4 No \\dontrun{} tags unless the code actually takes a long time.", {
+test_that("T1.4 No \\dontrun{} tags unless the code actually takes a long time.", {
   test_files <- .get_visR_files(documentation = TRUE)
 
   # List of files in which we don't expect a return value.
@@ -158,10 +158,10 @@ testthat::test_that("T1.4 No \\dontrun{} tags unless the code actually takes a l
     print(CRAN_incompabilities)
   }
 
-  testthat::expect_true(base::nrow(CRAN_incompabilities) == 0)
+  expect_true(base::nrow(CRAN_incompabilities) == 0)
 })
 
-testthat::test_that("T1.5 The use of 'options()' is immediately preemptively reverted.", {
+test_that("T1.5 The use of 'options()' is immediately preemptively reverted.", {
   test_files <- .get_visR_files(
     functions = TRUE,
     tests = TRUE,
@@ -191,5 +191,5 @@ testthat::test_that("T1.5 The use of 'options()' is immediately preemptively rev
     print(CRAN_incompabilities)
   }
 
-  testthat::expect_true(base::nrow(CRAN_incompabilities) == 0)
+  expect_true(base::nrow(CRAN_incompabilities) == 0)
 })

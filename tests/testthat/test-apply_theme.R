@@ -27,28 +27,28 @@
 
 # Requirement T1 ----------------------------------------------------------
 
-testthat::context("apply_theme - T1. The function applies the specified changes to a `ggplot` object.")
+context("apply_theme - T1. The function applies the specified changes to a `ggplot` object.")
 
-testthat::test_that("T1.1 No error when a `ggplot` plot is provided, but no theme.", {
+test_that("T1.1 No error when a `ggplot` plot is provided, but no theme.", {
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
     visR::visr()
 
-  testthat::expect_error(visR::apply_theme(gg), NA)
+  expect_error(visR::apply_theme(gg), NA)
 })
 
-testthat::test_that("T1.2 No error when a `ggplot` plot and a minimal `visR::define_theme` object are provided.", {
+test_that("T1.2 No error when a `ggplot` plot and a minimal `visR::define_theme` object are provided.", {
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
     visR::visr()
 
   theme <- visR::define_theme()
 
-  testthat::expect_error(visR::apply_theme(gg, theme), NA)
-  testthat::expect_error(gg %>% visR::apply_theme(theme), NA)
+  expect_error(visR::apply_theme(gg, theme), NA)
+  expect_error(gg %>% visR::apply_theme(theme), NA)
 })
 
-testthat::test_that("T1.3 No error when a `ggplot` plot and a complex `visR::define_theme` object are provided.", {
+test_that("T1.3 No error when a `ggplot` plot and a complex `visR::define_theme` object are provided.", {
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
     visR::visr()
@@ -74,25 +74,25 @@ testthat::test_that("T1.3 No error when a `ggplot` plot and a complex `visR::def
     bg = "transparent"
   )
 
-  testthat::expect_error(visR::apply_theme(gg, theme), NA)
-  testthat::expect_error(gg %>% visR::apply_theme(theme), NA)
+  expect_error(visR::apply_theme(gg, theme), NA)
+  expect_error(gg %>% visR::apply_theme(theme), NA)
 })
 
-testthat::test_that("T1.4 A message when a theme not generated through `visR::define_theme` is provided.", {
+test_that("T1.4 A message when a theme not generated through `visR::define_theme` is provided.", {
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
     visR::visr()
 
   theme <- list("fontfamily" = "Palatino")
 
-  testthat::expect_error(visR::apply_theme(gg, theme), NA)
-  testthat::expect_error(gg %>% visR::apply_theme(theme), NA)
+  expect_error(visR::apply_theme(gg, theme), NA)
+  expect_error(gg %>% visR::apply_theme(theme), NA)
 
-  testthat::expect_message(visR::apply_theme(gg, theme))
-  testthat::expect_message(gg %>% visR::apply_theme(theme))
+  expect_message(visR::apply_theme(gg, theme))
+  expect_message(gg %>% visR::apply_theme(theme))
 })
 
-testthat::test_that("T1.5 If `fontsizes` is a `numeric`, the other font occurrences are derived from it.", {
+test_that("T1.5 If `fontsizes` is a `numeric`, the other font occurrences are derived from it.", {
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
     visR::visr()
@@ -102,14 +102,14 @@ testthat::test_that("T1.5 If `fontsizes` is a `numeric`, the other font occurren
   gg <- gg %>% visR::apply_theme(theme)
   ggb <- ggplot2::ggplot_build(gg)
 
-  testthat::expect_equal(theme$fontsizes, ggb$plot$theme$axis.title.x$size)
-  testthat::expect_equal(theme$fontsizes, ggb$plot$theme$axis.title.y$size)
-  testthat::expect_equal(theme$fontsizes, ggb$plot$theme$axis.text$size)
-  testthat::expect_equal(theme$fontsizes, ggb$plot$theme$legend.title$size)
-  testthat::expect_equal(theme$fontsizes, ggb$plot$theme$legend.text$size)
+  expect_equal(theme$fontsizes, ggb$plot$theme$axis.title.x$size)
+  expect_equal(theme$fontsizes, ggb$plot$theme$axis.title.y$size)
+  expect_equal(theme$fontsizes, ggb$plot$theme$axis.text$size)
+  expect_equal(theme$fontsizes, ggb$plot$theme$legend.title$size)
+  expect_equal(theme$fontsizes, ggb$plot$theme$legend.text$size)
 })
 
-testthat::test_that("T1.6 If `fontsizes` is a `list`, the individual fonts are extracted and used.", {
+test_that("T1.6 If `fontsizes` is a `list`, the individual fonts are extracted and used.", {
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
     visR::visr()
@@ -124,14 +124,14 @@ testthat::test_that("T1.6 If `fontsizes` is a `list`, the individual fonts are e
   gg <- gg %>% visR::apply_theme(theme)
   ggb <- ggplot2::ggplot_build(gg)
 
-  testthat::expect_equal(theme$fontsizes$axis, ggb$plot$theme$axis.title.x$size)
-  testthat::expect_equal(theme$fontsizes$axis, ggb$plot$theme$axis.title.y$size)
-  testthat::expect_equal(theme$fontsizes$ticks, ggb$plot$theme$axis.text$size)
-  testthat::expect_equal(theme$fontsizes$legend_title, ggb$plot$theme$legend.title$size)
-  testthat::expect_equal(theme$fontsizes$legend_text, ggb$plot$theme$legend.text$size)
+  expect_equal(theme$fontsizes$axis, ggb$plot$theme$axis.title.x$size)
+  expect_equal(theme$fontsizes$axis, ggb$plot$theme$axis.title.y$size)
+  expect_equal(theme$fontsizes$ticks, ggb$plot$theme$axis.text$size)
+  expect_equal(theme$fontsizes$legend_title, ggb$plot$theme$legend.title$size)
+  expect_equal(theme$fontsizes$legend_text, ggb$plot$theme$legend.text$size)
 })
 
-testthat::test_that("T1.7 The fontfamily applied through `visR::apply_theme()` is used in the resulting `ggplot` object.", {
+test_that("T1.7 The fontfamily applied through `visR::apply_theme()` is used in the resulting `ggplot` object.", {
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
     visR::visr()
@@ -141,10 +141,10 @@ testthat::test_that("T1.7 The fontfamily applied through `visR::apply_theme()` i
   gg <- gg %>% visR::apply_theme(theme)
   ggb <- ggplot2::ggplot_build(gg)
 
-  testthat::expect_equal(theme$fontfamily, ggb$plot$theme$text$family)
+  expect_equal(theme$fontfamily, ggb$plot$theme$text$family)
 })
 
-testthat::test_that("T1.8 If `grid` is a single `logical`, it is used for both major and minor grid.", {
+test_that("T1.8 If `grid` is a single `logical`, it is used for both major and minor grid.", {
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
     visR::visr()
@@ -162,14 +162,14 @@ testthat::test_that("T1.8 If `grid` is a single `logical`, it is used for both m
   ggb_grid_true <- ggplot2::ggplot_build(gg_grid_true)
   ggb_grid_false <- ggplot2::ggplot_build(gg_grid_false)
 
-  testthat::expect_true((inherits(ggb_grid_true$plot$theme$panel.grid.major, "element_line")) &
+  expect_true((inherits(ggb_grid_true$plot$theme$panel.grid.major, "element_line")) &
     (inherits(ggb_grid_true$plot$theme$panel.grid.minor, "element_line")))
 
-  testthat::expect_true((inherits(ggb_grid_false$plot$theme$panel.grid.major, "element_blank")) &
+  expect_true((inherits(ggb_grid_false$plot$theme$panel.grid.major, "element_blank")) &
     (inherits(ggb_grid_false$plot$theme$panel.grid.minor, "element_blank")))
 })
 
-testthat::test_that("T1.9 If `grid` is a named list containing 'major' and/or 'minor' as single `logical`s, these are used for their respective options.", {
+test_that("T1.9 If `grid` is a named list containing 'major' and/or 'minor' as single `logical`s, these are used for their respective options.", {
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
     visR::visr()
@@ -195,17 +195,17 @@ testthat::test_that("T1.9 If `grid` is a named list containing 'major' and/or 'm
   ggb_grid_only_minor <- ggplot2::ggplot_build(gg_grid_only_minor)
   ggb_grid_minor_and_major <- ggplot2::ggplot_build(gg_grid_minor_and_major)
 
-  testthat::expect_true((inherits(ggb_grid_none$plot$theme$panel.grid.major, "element_blank")) &
+  expect_true((inherits(ggb_grid_none$plot$theme$panel.grid.major, "element_blank")) &
     (inherits(ggb_grid_none$plot$theme$panel.grid.minor, "element_blank")))
 
-  testthat::expect_true((inherits(ggb_grid_only_minor$plot$theme$panel.grid.major, "element_blank")) &
+  expect_true((inherits(ggb_grid_only_minor$plot$theme$panel.grid.major, "element_blank")) &
     (inherits(ggb_grid_only_minor$plot$theme$panel.grid.minor, "element_line")))
 
-  testthat::expect_true((inherits(ggb_grid_minor_and_major$plot$theme$panel.grid.major, "element_line")) &
+  expect_true((inherits(ggb_grid_minor_and_major$plot$theme$panel.grid.major, "element_line")) &
     (inherits(ggb_grid_minor_and_major$plot$theme$panel.grid.minor, "element_line")))
 })
 
-testthat::test_that("T1.10 A warning when `grid` is a named list containing 'major' and/or 'minor' that are not single `logical`s.", {
+test_that("T1.10 A warning when `grid` is a named list containing 'major' and/or 'minor' that are not single `logical`s.", {
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
     visR::visr()
@@ -219,11 +219,11 @@ testthat::test_that("T1.10 A warning when `grid` is a named list containing 'maj
     "minor" = TRUE
   ))
 
-  testthat::expect_warning(gg %>% visR::apply_theme(theme_major_correct))
-  testthat::expect_warning(gg %>% visR::apply_theme(theme_minor_correct))
+  expect_warning(gg %>% visR::apply_theme(theme_major_correct))
+  expect_warning(gg %>% visR::apply_theme(theme_minor_correct))
 })
 
-testthat::test_that("T1.11 A warning when `grid` is a named list that does not contain 'major' and/or 'minor'.", {
+test_that("T1.11 A warning when `grid` is a named list that does not contain 'major' and/or 'minor'.", {
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
     visR::visr()
@@ -235,10 +235,10 @@ testthat::test_that("T1.11 A warning when `grid` is a named list that does not c
 
   names(theme$grid) <- c("visR", "Rsiv")
 
-  testthat::expect_warning(gg %>% visR::apply_theme(theme))
+  expect_warning(gg %>% visR::apply_theme(theme))
 })
 
-testthat::test_that("T1.12 The background applied through `visR::apply_theme()` is used in the resulting `ggplot` object.", {
+test_that("T1.12 The background applied through `visR::apply_theme()` is used in the resulting `ggplot` object.", {
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
     visR::visr()
@@ -248,10 +248,10 @@ testthat::test_that("T1.12 The background applied through `visR::apply_theme()` 
   gg <- gg %>% visR::apply_theme(theme)
   ggb <- ggplot2::ggplot_build(gg)
 
-  testthat::expect_equal(theme$bg, ggb$plot$theme$panel.background$fill)
+  expect_equal(theme$bg, ggb$plot$theme$panel.background$fill)
 })
 
-testthat::test_that("T1.13 The legend_position applied through `visR::apply_theme()` is used in the resulting `ggplot` object.", {
+test_that("T1.13 The legend_position applied through `visR::apply_theme()` is used in the resulting `ggplot` object.", {
   gg <- adtte %>%
     visR::estimate_KM("SEX") %>%
     visR::visr()
@@ -271,13 +271,13 @@ testthat::test_that("T1.13 The legend_position applied through `visR::apply_them
   ggb_bottom <- ggplot2::ggplot_build(gg_bottom)
   ggb_left <- ggplot2::ggplot_build(gg_left)
 
-  testthat::expect_equal(theme_top$legend_position, ggb_top$plot$theme$legend.position)
-  testthat::expect_equal(theme_right$legend_position, ggb_right$plot$theme$legend.position)
-  testthat::expect_equal(theme_bottom$legend_position, ggb_bottom$plot$theme$legend.position)
-  testthat::expect_equal(theme_left$legend_position, ggb_left$plot$theme$legend.position)
+  expect_equal(theme_top$legend_position, ggb_top$plot$theme$legend.position)
+  expect_equal(theme_right$legend_position, ggb_right$plot$theme$legend.position)
+  expect_equal(theme_bottom$legend_position, ggb_bottom$plot$theme$legend.position)
+  expect_equal(theme_left$legend_position, ggb_left$plot$theme$legend.position)
 })
 
-testthat::test_that("T1.14 The legend_position defined in `visR::visr()` is used when not defined through `visR::apply_theme()`.", {
+test_that("T1.14 The legend_position defined in `visR::visr()` is used when not defined through `visR::apply_theme()`.", {
   gg_top <- adtte %>%
     visR::estimate_KM("SEX") %>%
     visR::visr(legend_position = "top")
@@ -301,13 +301,13 @@ testthat::test_that("T1.14 The legend_position defined in `visR::visr()` is used
   ggb_bottom <- ggplot2::ggplot_build(gg_bottom)
   ggb_left <- ggplot2::ggplot_build(gg_left)
 
-  testthat::expect_true("top" %in% ggb_top$plot$theme$legend.position)
-  testthat::expect_true("right" %in% ggb_right$plot$theme$legend.position)
-  testthat::expect_true("bottom" %in% ggb_bottom$plot$theme$legend.position)
-  testthat::expect_true("left" %in% ggb_left$plot$theme$legend.position)
+  expect_true("top" %in% ggb_top$plot$theme$legend.position)
+  expect_true("right" %in% ggb_right$plot$theme$legend.position)
+  expect_true("bottom" %in% ggb_bottom$plot$theme$legend.position)
+  expect_true("left" %in% ggb_left$plot$theme$legend.position)
 })
 
-testthat::test_that("T1.15 If a stratum has no colour assigned, the default colour (grey50) is used.", {
+test_that("T1.15 If a stratum has no colour assigned, the default colour (grey50) is used.", {
   theme <- visR::define_theme(
     strata = list(
       "SEX" = list(
@@ -339,8 +339,8 @@ testthat::test_that("T1.15 If a stratum has no colour assigned, the default colo
 
   ggb <- ggplot2::ggplot_build(gg)
 
-  testthat::expect_true("grey50" %in% unlist(unique(ggb$data[[1]]["fill"])))
-  testthat::expect_true("blue" %in% unlist(unique(ggb$data[[1]]["fill"])))
+  expect_true("grey50" %in% unlist(unique(ggb$data[[1]]["fill"])))
+  expect_true("blue" %in% unlist(unique(ggb$data[[1]]["fill"])))
 
   ## example 2
   theme <- visR::define_theme(
@@ -363,12 +363,12 @@ testthat::test_that("T1.15 If a stratum has no colour assigned, the default colo
   ggb <- ggplot2::ggplot_build(gg)
 
   cols <- unlist(unique(ggb$data[[1]]["fill"]))
-  testthat::expect_true("grey50" %in% cols)
-  testthat::expect_true("red" %in% cols)
-  testthat::expect_true("blue" %in% cols)
+  expect_true("grey50" %in% cols)
+  expect_true("red" %in% cols)
+  expect_true("blue" %in% cols)
 })
 
-testthat::test_that("T1.16 If no strata colors can be mapped to the graph, the default visR palette is used as long as there are less than 15 strata levels.", {
+test_that("T1.16 If no strata colors can be mapped to the graph, the default visR palette is used as long as there are less than 15 strata levels.", {
 
   ## example 1
   theme <- visR::define_theme(
@@ -401,7 +401,7 @@ testthat::test_that("T1.16 If no strata colors can be mapped to the graph, the d
   cols <- unlist(unique(ggb$data[[1]]["fill"]))
   names(cols) <- NULL
 
-  testthat::expect_true(length(setdiff(c("#000000", "#490092", "#920000", "#009292", "#B66DFF", "#DBD100", "#FFB677"), cols)) == 0)
+  expect_true(length(setdiff(c("#000000", "#490092", "#920000", "#009292", "#B66DFF", "#DBD100", "#FFB677"), cols)) == 0)
 
   ## example 2
   theme <- visR::define_theme()
@@ -421,10 +421,10 @@ testthat::test_that("T1.16 If no strata colors can be mapped to the graph, the d
   cols <- unlist(unique(ggb$data[[1]]["fill"]))
   names(cols) <- NULL
 
-  testthat::expect_true(length(setdiff(c("#000000"), cols)) == 0)
+  expect_true(length(setdiff(c("#000000"), cols)) == 0)
 })
 
-testthat::test_that("T1.17 If no strata colors can be mapped to the graph, the original colors are retained if there are more than 15 strata levels.", {
+test_that("T1.17 If no strata colors can be mapped to the graph, the original colors are retained if there are more than 15 strata levels.", {
 
   ## not a relevant strata list, but is required to test the requirement easily
   theme <- visR::define_theme(
@@ -465,10 +465,10 @@ testthat::test_that("T1.17 If no strata colors can be mapped to the graph, the o
   cols <- unlist(unique(ggb$data[[1]]["fill"]))
   names(cols) <- NULL
 
-  testthat::expect_true(length(cols_expected %in% cols) > 1)
+  expect_true(length(cols_expected %in% cols) > 1)
 })
 
-testthat::test_that("T1.18 If no strata colors can be mapped to the graph, a warning about the presence of more than 15 strata levels.", {
+test_that("T1.18 If no strata colors can be mapped to the graph, a warning about the presence of more than 15 strata levels.", {
 
   ## not a relevant strata list, but is required to test the requirement easily
   theme <- visR::define_theme(
@@ -502,10 +502,10 @@ testthat::test_that("T1.18 If no strata colors can be mapped to the graph, a war
     dplyr::rename(Age = "age", Sex = "sex", Status = "status", Days = "time") %>%
     visR::estimate_KM(strata = c("Age", "pat.karno"), CNSR = "Status", AVAL = "Days")
 
-  testthat::expect_warning(survobj %>% visR::visr() %>% apply_theme(theme))
+  expect_warning(survobj %>% visR::visr() %>% apply_theme(theme))
 })
 
-testthat::test_that("T1.19 The named list is used in the legend title.", {
+test_that("T1.19 The named list is used in the legend title.", {
   theme <- visR::define_theme(
     strata = list(
       "SEX" = list(
@@ -536,7 +536,7 @@ testthat::test_that("T1.19 The named list is used in the legend title.", {
     visR::apply_theme(theme)
 
 
-  testthat::expect_equal(get_legend_title(gg), "SEX")
+  expect_equal(get_legend_title(gg), "SEX")
 
   ## example 2
   theme <- visR::define_theme(
@@ -556,10 +556,10 @@ testthat::test_that("T1.19 The named list is used in the legend title.", {
     visR::visr() %>%
     visR::apply_theme(theme)
 
-  testthat::expect_equal(get_legend_title(gg), "Sex, ph.ecog")
+  expect_equal(get_legend_title(gg), "Sex, ph.ecog")
 })
 
-# testthat::test_that("T1.18 When the strata requires more colours than the visR palette holds, the default ggplot2 ones are chosen.", {
+# test_that("T1.18 When the strata requires more colours than the visR palette holds, the default ggplot2 ones are chosen.", {
 #
 #   theme <- visR::define_theme(strata = list("TRTDUR" = list("F" = "red",
 #                                                          "M" = "blue")),
@@ -587,7 +587,7 @@ testthat::test_that("T1.19 The named list is used in the legend title.", {
 #   cols_observed <- gsub(".{2}$", "", cols_observed)
 #   names(cols_observed) <- NULL
 #
-#   testthat::expect_equal(cols_expected, cols_observed)
+#   expect_equal(cols_expected, cols_observed)
 #
 # })
 

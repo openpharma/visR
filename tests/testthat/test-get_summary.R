@@ -27,86 +27,86 @@
 
 # Requirement T1 ----------------------------------------------------------
 
-testthat::context("get_summary - T1. The function accepts a survival object")
+context("get_summary - T1. The function accepts a survival object")
 
-testthat::test_that("T1.1 No error when `survfit_object` is a survfit object", {
+test_that("T1.1 No error when `survfit_object` is a survfit object", {
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTP")
-  testthat::expect_error(visR::get_summary(survfit_object), NA)
+  expect_error(visR::get_summary(survfit_object), NA)
 })
 
-testthat::test_that("T1.2 An error when `survfit_object` is a data.frame", {
+test_that("T1.2 An error when `survfit_object` is a data.frame", {
   survfit_object <- visR::adtte
-  testthat::expect_error(visR::get_summary(survfit_object))
+  expect_error(visR::get_summary(survfit_object))
 })
 
-testthat::test_that("T1.3 An error when `survfit_object` is a tibble", {
+test_that("T1.3 An error when `survfit_object` is a tibble", {
   survfit_object <- tibble::as_tibble(visR::adtte)
-  testthat::expect_error(visR::get_summary(survfit_object))
+  expect_error(visR::get_summary(survfit_object))
 })
 
-testthat::test_that("T1.4 An error when `survfit_object` is a data.table", {
+test_that("T1.4 An error when `survfit_object` is a data.table", {
   survfit_object <- data.table::as.data.table(visR::adtte)
-  testthat::expect_error(visR::get_summary(survfit_object))
+  expect_error(visR::get_summary(survfit_object))
 })
 
-testthat::test_that("T1.5 An error when `survfit_object` is a random object", {
+test_that("T1.5 An error when `survfit_object` is a random object", {
   survfit_object <- "A"
-  testthat::expect_error(visR::get_summary(survfit_object))
+  expect_error(visR::get_summary(survfit_object))
 })
 
-testthat::test_that("T1.6 An error when `survfit_object` is NULL", {
+test_that("T1.6 An error when `survfit_object` is NULL", {
   survfit_object <- NULL
-  testthat::expect_error(visR::get_summary(survfit_object))
+  expect_error(visR::get_summary(survfit_object))
 })
 
 # Requirement T2 ---------------------------------------------------------------
 
-testthat::context("get_summary - T2. The function accepts an argument that specifies the summaries to be displayed")
+context("get_summary - T2. The function accepts an argument that specifies the summaries to be displayed")
 
-testthat::test_that("T2.1 An error when `statlist` is NULL", {
+test_that("T2.1 An error when `statlist` is NULL", {
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTP")
 
-  testthat::expect_error(visR::get_summary(survfit_object, statlist = NULL))
+  expect_error(visR::get_summary(survfit_object, statlist = NULL))
 })
 
-testthat::test_that("T2.2 An error when the `statlist` contains non-allowed strings e.g. `blah`", {
+test_that("T2.2 An error when the `statlist` contains non-allowed strings e.g. `blah`", {
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTP")
   statlist <- c("strata", "blah")
 
-  testthat::expect_error(visR::get_summary(survfit_object, statlist = statlist))
+  expect_error(visR::get_summary(survfit_object, statlist = statlist))
 })
 
-testthat::test_that("T2.3 No error when the `statlist` contains arguments `strata`, `records`, `events`, `median`, `LCL`, `UCL`, or `CI`", {
+test_that("T2.3 No error when the `statlist` contains arguments `strata`, `records`, `events`, `median`, `LCL`, `UCL`, or `CI`", {
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTP")
   statlist <- c("strata", "records", "events", "median", "LCL", "UCL", "CI")
 
-  testthat::expect_error(visR::get_summary(survfit_object, statlist = statlist), NA)
+  expect_error(visR::get_summary(survfit_object, statlist = statlist), NA)
 })
 
-testthat::test_that("T2.4 The values in the column `strata` are the same as the `strata` in the `survfit` object", {
+test_that("T2.4 The values in the column `strata` are the same as the `strata` in the `survfit` object", {
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTP")
   strata <- unlist(visR::get_summary(survfit_object, statlist = c("strata")))
 
-  testthat::expect_equal(names(survfit_object$strata), unname(strata))
+  expect_equal(names(survfit_object$strata), unname(strata))
 })
 
-testthat::test_that("T2.5. The values in the column `strata` contain 'Overall' when no strata are present in the `survfit` object", {
+test_that("T2.5. The values in the column `strata` contain 'Overall' when no strata are present in the `survfit` object", {
   survfit_object <- survival::survfit(survival::Surv(AVAL, 1 - CNSR) ~ 1,
     data = adtte
   )
   strata <- unlist(visR::get_summary(survfit_object, statlist = c("strata")))
 
-  testthat::expect_equal("Overall", unname(strata))
+  expect_equal("Overall", unname(strata))
 })
 
-testthat::test_that("T2.6 The values in the column `No. of subjects` are the same as the values of `n` in the `survfit` object", {
+test_that("T2.6 The values in the column `No. of subjects` are the same as the values of `n` in the `survfit` object", {
   survfit_object <- visR::estimate_KM(adtte)
   strata <- unlist(visR::get_summary(survfit_object, statlist = "records"))
 
-  testthat::expect_equal(survfit_object$n, unname(strata))
+  expect_equal(survfit_object$n, unname(strata))
 })
 
-testthat::test_that("T2.7 The values in the column `No. of events` are the same as the events in the `survfit` object", {
+test_that("T2.7 The values in the column `No. of events` are the same as the events in the `survfit` object", {
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTP")
   df <- data.frame(
     `n.events` = survfit_object$n.event,
@@ -115,10 +115,10 @@ testthat::test_that("T2.7 The values in the column `No. of events` are the same 
   aggregated_events <- stats::aggregate(n.events ~ strata, data = df, sum)$n.events
   strata <- unlist(visR::get_summary(survfit_object, statlist = c("events")))
 
-  testthat::expect_equal(aggregated_events, unname(strata))
+  expect_equal(aggregated_events, unname(strata))
 })
 
-testthat::test_that("T2.8 The values in the column `Median(surv.time)` are the same as the median values in the `survfit` object", {
+test_that("T2.8 The values in the column `Median(surv.time)` are the same as the median values in the `survfit` object", {
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTP")
 
   df <- data.frame(
@@ -139,10 +139,10 @@ testthat::test_that("T2.8 The values in the column `Median(surv.time)` are the s
     df[df$strata == as.character(ind[1]), ][as.numeric(ind[2]), "time"]
   })
 
-  testthat::expect_equal(medians, unname(strata))
+  expect_equal(medians, unname(strata))
 })
 
-testthat::test_that("T2.9 The values in the column `0.95LCL` are the same as the lower confidence values in the `survfit` object", {
+test_that("T2.9 The values in the column `0.95LCL` are the same as the lower confidence values in the `survfit` object", {
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTP")
 
   df <- data.frame(
@@ -163,10 +163,10 @@ testthat::test_that("T2.9 The values in the column `0.95LCL` are the same as the
 
   strata <- unlist(visR::get_summary(survfit_object, statlist = c("LCL")))
 
-  testthat::expect_equal(lower, unname(strata))
+  expect_equal(lower, unname(strata))
 })
 
-testthat::test_that("T2.10 The values in the column `0.95UCL` are the same as the upper confidence values in the `survfit` object", {
+test_that("T2.10 The values in the column `0.95UCL` are the same as the upper confidence values in the `survfit` object", {
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTP")
 
   df <- data.frame(
@@ -187,10 +187,10 @@ testthat::test_that("T2.10 The values in the column `0.95UCL` are the same as th
 
   strata <- unlist(visR::get_summary(survfit_object, statlist = c("UCL")))
 
-  testthat::expect_equal(upper, unname(strata))
+  expect_equal(upper, unname(strata))
 })
 
-testthat::test_that("T2.11 The values in the column `0.95CI` are the same as the confidence intervals in the `survfit` object", {
+test_that("T2.11 The values in the column `0.95CI` are the same as the confidence intervals in the `survfit` object", {
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTP")
 
   df <- data.frame(
@@ -224,20 +224,20 @@ testthat::test_that("T2.11 The values in the column `0.95CI` are the same as the
 
   strata <- unlist(visR::get_summary(survfit_object, statlist = c("CI")))
 
-  testthat::expect_equal(ci, unname(strata))
+  expect_equal(ci, unname(strata))
 })
 
-testthat::test_that("T2.12 An error when the confidence intervals are requested and not calculated in the survival object", {
+test_that("T2.12 An error when the confidence intervals are requested and not calculated in the survival object", {
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTP", conf.type = "none")
   suppressWarnings(
-    testthat::expect_error(visR::get_summary(survfit_object, statlist = c("CI")))
+    expect_error(visR::get_summary(survfit_object, statlist = c("CI")))
   )
 })
 
-testthat::test_that("T2.13 Column name for confidence intervals changes for different confidence levels", {
+test_that("T2.13 Column name for confidence intervals changes for different confidence levels", {
   survfit_object <- visR::estimate_KM(adtte, strata = "TRTP", conf.int = 0.80)
   ci_colnames <- colnames(visR::get_summary(survfit_object, statlist = c("CI")))
-  testthat::expect_equal("0.8CI", ci_colnames)
+  expect_equal("0.8CI", ci_colnames)
 })
 
 # END OF CODE -------------------------------------------------------------

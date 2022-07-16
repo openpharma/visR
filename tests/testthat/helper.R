@@ -101,7 +101,7 @@
 
 .get_test_TOC <- function(path_to_file) {
   txt <- paste(readLines(path_to_file, warn = FALSE), collapse = "\n")
-  tests <- gregexpr("testthat::test_that\\(\\\"(.+?)\"", txt)
+  tests <- gregexpr("test_that\\(\\\"(.+?)\"", txt)
   contexts <- gregexpr("context\\(\\\"(.+?)\"", txt)
 
   context_df <- data.frame("pos" = unlist(contexts))
@@ -125,7 +125,7 @@
   test_df["content"] <- regmatches(txt, tests)
 
   test_df$content <- base::lapply(test_df$content, function(c) {
-    c <- gsub(pattern = "testthat::test_that\\(\\\"T", replacement = "T", x = c)
+    c <- gsub(pattern = "test_that\\(\\\"T", replacement = "T", x = c)
     c <- gsub(pattern = "\"", replacement = "", x = c)
     c
   }) %>% unlist()

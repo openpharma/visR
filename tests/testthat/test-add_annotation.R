@@ -31,9 +31,9 @@
 
 # Requirement T1 ----------------------------------------------------------
 
-testthat::context("add_annotation - T1. The function adds annotations to an object of class `ggplot`")
+context("add_annotation - T1. The function adds annotations to an object of class `ggplot`")
 
-testthat::test_that("T1.1 No error when a `ggplot` object is passed to the function in the presence of a label", {
+test_that("T1.1 No error when a `ggplot` object is passed to the function in the presence of a label", {
   visR_KM_plot <- adtte %>%
     visR::estimate_KM(strata = "TRTA") %>%
     visR::visr()
@@ -42,59 +42,59 @@ testthat::test_that("T1.1 No error when a `ggplot` object is passed to the funct
   visR_cuminc_plot <- visR::estimate_cuminc(data = data, CNSR = "death_cr", AVAL = "ttdeath") %>%
     visR::visr()
 
-  testthat::expect_error(visR_KM_plot %>% visR::add_annotation(label = "blah"), NA)
-  testthat::expect_error(visR_cuminc_plot %>% visR::add_annotation(label = "blah"), NA)
+  expect_error(visR_KM_plot %>% visR::add_annotation(label = "blah"), NA)
+  expect_error(visR_cuminc_plot %>% visR::add_annotation(label = "blah"), NA)
 })
 
-testthat::test_that("T1.2 An error when a non-`ggplot` object is passed to the function in the presence of a label", {
+test_that("T1.2 An error when a non-`ggplot` object is passed to the function in the presence of a label", {
   visR_plot <- "blah"
 
-  testthat::expect_error(visR::add_annotation(gg = visR_plot, label = "blah"))
+  expect_error(visR::add_annotation(gg = visR_plot, label = "blah"))
 })
 
-testthat::test_that("T1.3 An error when NULL is passed to the function in the presence of a label", {
-  testthat::expect_error(visR::add_annotation(gg = NULL, label = "blah"))
+test_that("T1.3 An error when NULL is passed to the function in the presence of a label", {
+  expect_error(visR::add_annotation(gg = NULL, label = "blah"))
 })
 
 
 # Requirement T2 ---------------------------------------------------------------
 
-testthat::context("add_annotation - T2. The function accepts a label of class `character`, `data.frame` or customized objects of class `gtable`")
+context("add_annotation - T2. The function accepts a label of class `character`, `data.frame` or customized objects of class `gtable`")
 
-testthat::test_that("T2.1 An error when a `ggplot` object is passed to the function in the absence of a label", {
+test_that("T2.1 An error when a `ggplot` object is passed to the function in the absence of a label", {
   visR_KM_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::visr()
 
   data <- tidycmprsk::trial
   visR_cuminc_plot <- visR::estimate_cuminc(data = data, CNSR = "death_cr", AVAL = "ttdeath") %>%
     visR::visr()
 
-  testthat::expect_error(visR::add_annotation(visR_KM_plot, label = NULL))
-  testthat::expect_error(visR::add_annotation(visR_cuminc_plot, label = NULL))
+  expect_error(visR::add_annotation(visR_KM_plot, label = NULL))
+  expect_error(visR::add_annotation(visR_cuminc_plot, label = NULL))
 })
 
-testthat::test_that("T2.2 No error when label is of class `character`", {
+test_that("T2.2 No error when label is of class `character`", {
   visR_KM_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::visr()
 
   data <- tidycmprsk::trial
   visR_cuminc_plot <- visR::estimate_cuminc(data = data, CNSR = "death_cr", AVAL = "ttdeath") %>%
     visR::visr()
 
-  testthat::expect_error(visR::add_annotation(visR_KM_plot, label = "blah"), NA)
-  testthat::expect_error(visR::add_annotation(visR_cuminc_plot, label = "blah"), NA)
+  expect_error(visR::add_annotation(visR_KM_plot, label = "blah"), NA)
+  expect_error(visR::add_annotation(visR_cuminc_plot, label = "blah"), NA)
 })
 
-testthat::test_that("T2.3 No error when label is of class `data.frame`", {
+test_that("T2.3 No error when label is of class `data.frame`", {
   visR_KM_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::visr()
 
   data <- tidycmprsk::trial
   visR_cuminc_plot <- visR::estimate_cuminc(data = data, CNSR = "death_cr", AVAL = "ttdeath") %>%
     visR::visr()
 
-  testthat::expect_error(visR::add_annotation(visR_KM_plot, label = adtte[1:5, ]), NA)
-  testthat::expect_error(visR::add_annotation(visR_cuminc_plot, label = adtte[1:5, ]), NA)
+  expect_error(visR::add_annotation(visR_KM_plot, label = adtte[1:5, ]), NA)
+  expect_error(visR::add_annotation(visR_cuminc_plot, label = adtte[1:5, ]), NA)
 })
 
-testthat::test_that("T2.3 No error when label is of class `gtable`", {
+test_that("T2.3 No error when label is of class `gtable`", {
   visR_KM_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::visr()
 
   data <- tidycmprsk::trial
@@ -103,15 +103,15 @@ testthat::test_that("T2.3 No error when label is of class `gtable`", {
 
   lbl <- gridExtra::tableGrob(adtte[1:5, ])
 
-  testthat::expect_error(visR::add_annotation(visR_KM_plot, label = lbl), NA)
-  testthat::expect_error(visR::add_annotation(visR_cuminc_plot, label = lbl), NA)
+  expect_error(visR::add_annotation(visR_KM_plot, label = lbl), NA)
+  expect_error(visR::add_annotation(visR_cuminc_plot, label = lbl), NA)
 })
 
 # Requirement T3 ---------------------------------------------------------------
 
-testthat::context("add_annotation - T3. The annotation are representations of the actual label")
+context("add_annotation - T3. The annotation are representations of the actual label")
 
-testthat::test_that("T3.1 An object of type `character` passed to label is not affected by the transformation to an annotation", {
+test_that("T3.1 An object of type `character` passed to label is not affected by the transformation to an annotation", {
   lbl <- "blah"
 
   visR_KM_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>%
@@ -123,11 +123,11 @@ testthat::test_that("T3.1 An object of type `character` passed to label is not a
     visR::visr() %>%
     visR::add_annotation(label = lbl)
 
-  testthat::expect_equal(visR_KM_plot$components$grobs[[1]]$label, lbl)
-  testthat::expect_equal(visR_cuminc_plot$components$grobs[[1]]$label, lbl)
+  expect_equal(visR_KM_plot$components$grobs[[1]]$label, lbl)
+  expect_equal(visR_cuminc_plot$components$grobs[[1]]$label, lbl)
 })
 
-testthat::test_that("T3.2 The content of a `data.frame` passed to label is not affected by the transformation to an annotation", {
+test_that("T3.2 The content of a `data.frame` passed to label is not affected by the transformation to an annotation", {
   anno <- adtte[1:6, 1:5]
 
   visR_KM_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>%
@@ -175,11 +175,11 @@ testthat::test_that("T3.2 The content of a `data.frame` passed to label is not a
 
   lbl <- data.frame(lapply(anno, as.character), stringsAsFactors = FALSE)
 
-  testthat::expect_equal(d_KM, lbl, check.attributes = FALSE)
-  testthat::expect_equal(d_cuminc, lbl, check.attributes = FALSE)
+  expect_equal(d_KM, lbl, check.attributes = FALSE)
+  expect_equal(d_cuminc, lbl, check.attributes = FALSE)
 })
 
-testthat::test_that("T3.3 The content of a `gtable` passed to label is not affected by the transformation to an annotation", {
+test_that("T3.3 The content of a `gtable` passed to label is not affected by the transformation to an annotation", {
   visR_KM_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::visr()
 
   data <- tidycmprsk::trial
@@ -196,15 +196,15 @@ testthat::test_that("T3.3 The content of a `gtable` passed to label is not affec
 
   gtab <- append(anno, NULL) # Mimic gtable addition to structure
 
-  testthat::expect_equal(gtab, visR_KM_plot$components)
-  testthat::expect_equal(gtab, visR_cuminc_plot$components)
+  expect_equal(gtab, visR_KM_plot$components)
+  expect_equal(gtab, visR_cuminc_plot$components)
 })
 
 # Requirement T4 ---------------------------------------------------------------
 
-testthat::context("add_annotation - T4. The annotation can be placed on the plot by specifying the coordinates")
+context("add_annotation - T4. The annotation can be placed on the plot by specifying the coordinates")
 
-testthat::test_that("T4.1 An error when one of the coordinates is not numeric", {
+test_that("T4.1 An error when one of the coordinates is not numeric", {
   lbl <- "blah"
 
   visR_KM_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::visr()
@@ -213,11 +213,11 @@ testthat::test_that("T4.1 An error when one of the coordinates is not numeric", 
   visR_cuminc_plot <- visR::estimate_cuminc(data = data, CNSR = "death_cr", AVAL = "ttdeath") %>%
     visR::visr()
 
-  testthat::expect_error(visR_KM_plot %>% visR::add_annotation(label = lbl, xmin = "blah"))
-  testthat::expect_error(visR_cuminc_plot %>% visR::add_annotation(label = lbl, xmin = "blah"))
+  expect_error(visR_KM_plot %>% visR::add_annotation(label = lbl, xmin = "blah"))
+  expect_error(visR_cuminc_plot %>% visR::add_annotation(label = lbl, xmin = "blah"))
 })
 
-testthat::test_that("T4.2 The annotation can be moved on the plot by specifying the x coordinates", {
+test_that("T4.2 The annotation can be moved on the plot by specifying the x coordinates", {
   lbl <- "blah"
 
   visR_KM_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>%
@@ -237,11 +237,11 @@ testthat::test_that("T4.2 The annotation can be moved on the plot by specifying 
     visR::visr() %>%
     visR::add_annotation(label = lbl)
 
-  testthat::expect_false(isTRUE(all.equal(visR_KM_plot$layers, visR_KM_plot2$layers)))
-  testthat::expect_false(isTRUE(all.equal(visR_cuminc_plot$layers, visR_cuminc_plot2$layers)))
+  expect_false(isTRUE(all.equal(visR_KM_plot$layers, visR_KM_plot2$layers)))
+  expect_false(isTRUE(all.equal(visR_cuminc_plot$layers, visR_cuminc_plot2$layers)))
 })
 
-testthat::test_that("T4.3 The annotation can be moved on the plot by specifying the y coordinates", {
+test_that("T4.3 The annotation can be moved on the plot by specifying the y coordinates", {
   lbl <- "blah"
 
   visR_KM_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>%
@@ -261,15 +261,15 @@ testthat::test_that("T4.3 The annotation can be moved on the plot by specifying 
     visR::visr() %>%
     visR::add_annotation(label = lbl)
 
-  testthat::expect_false(isTRUE(all.equal(visR_KM_plot$layers, visR_KM_plot2$layers)))
-  testthat::expect_false(isTRUE(all.equal(visR_cuminc_plot$layers, visR_cuminc_plot2$layers)))
+  expect_false(isTRUE(all.equal(visR_KM_plot$layers, visR_KM_plot2$layers)))
+  expect_false(isTRUE(all.equal(visR_cuminc_plot$layers, visR_cuminc_plot2$layers)))
 })
 
 # Requirement T5 ---------------------------------------------------------------
 
-testthat::context("add_annotation - T5. The layout of the annotation can be modified to a certain extend")
+context("add_annotation - T5. The layout of the annotation can be modified to a certain extend")
 
-testthat::test_that("T5.1 The annotation has bold columnheaders when the passed object is of class `data.frame`", {
+test_that("T5.1 The annotation has bold columnheaders when the passed object is of class `data.frame`", {
   anno <- adtte[1:6, 1:5]
 
   visR_KM_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>%
@@ -292,11 +292,11 @@ testthat::test_that("T5.1 The annotation has bold columnheaders when the passed 
   cN_KM <- extracted_lbl_KM[1:length(colnames(anno))]
   cN_cuminc <- extracted_lbl_cuminc[1:length(colnames(anno))]
 
-  testthat::expect_match(unique(sub('\".*\"', "", cN_KM)), "bold()")
-  testthat::expect_match(unique(sub('\".*\"', "", cN_cuminc)), "bold()")
+  expect_match(unique(sub('\".*\"', "", cN_KM)), "bold()")
+  expect_match(unique(sub('\".*\"', "", cN_cuminc)), "bold()")
 })
 
-testthat::test_that("T5.2 The font size can be changed", {
+test_that("T5.2 The font size can be changed", {
   lbl <- "blah"
 
   visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>%
@@ -316,11 +316,11 @@ testthat::test_that("T5.2 The font size can be changed", {
     visR::visr() %>%
     visR::add_annotation(label = lbl, base_size = 5)
 
-  testthat::expect_false(isTRUE(all.equal(visR_plot$layers, visR_plot2$layers)))
-  testthat::expect_false(isTRUE(all.equal(visR_cuminc_plot$layers, visR_cuminc_plot2$layers)))
+  expect_false(isTRUE(all.equal(visR_plot$layers, visR_plot2$layers)))
+  expect_false(isTRUE(all.equal(visR_cuminc_plot$layers, visR_cuminc_plot2$layers)))
 })
 
-testthat::test_that("T5.3 The font family can be chosen between 'sans', 'serif' and 'mono'", {
+test_that("T5.3 The font family can be chosen between 'sans', 'serif' and 'mono'", {
   anno <- "blah"
 
   visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::visr()
@@ -329,38 +329,38 @@ testthat::test_that("T5.3 The font family can be chosen between 'sans', 'serif' 
   visR_cuminc_plot <- visR::estimate_cuminc(data = data, CNSR = "death_cr", AVAL = "ttdeath") %>%
     visR::visr()
 
-  testthat::expect_error(visR_plot %>% visR::add_annotation(
+  expect_error(visR_plot %>% visR::add_annotation(
     label = anno,
     base_family = "sans"
   ), NA)
-  testthat::expect_error(visR_cuminc_plot %>% visR::add_annotation(
+  expect_error(visR_cuminc_plot %>% visR::add_annotation(
     label = anno,
     base_family = "sans"
   ), NA)
 
-  testthat::expect_error(visR_plot %>% visR::add_annotation(
+  expect_error(visR_plot %>% visR::add_annotation(
     label = anno,
     base_family = "serif"
   ), NA)
-  testthat::expect_error(visR_cuminc_plot %>% visR::add_annotation(
+  expect_error(visR_cuminc_plot %>% visR::add_annotation(
     label = anno,
     base_family = "serif"
   ), NA)
 
-  testthat::expect_error(visR_plot %>% visR::add_annotation(
+  expect_error(visR_plot %>% visR::add_annotation(
     label = anno,
     base_family = "mono"
   ), NA)
-  testthat::expect_error(visR_cuminc_plot %>% visR::add_annotation(
+  expect_error(visR_cuminc_plot %>% visR::add_annotation(
     label = anno,
     base_family = "mono"
   ), NA)
 
-  testthat::expect_error(visR_plot %>% visR::add_annotation(
+  expect_error(visR_plot %>% visR::add_annotation(
     label = anno,
     base_family = "blah"
   ))
-  testthat::expect_error(visR_cuminc_plot %>% visR::add_annotation(
+  expect_error(visR_cuminc_plot %>% visR::add_annotation(
     label = anno,
     base_family = "blah"
   ))
@@ -368,9 +368,9 @@ testthat::test_that("T5.3 The font family can be chosen between 'sans', 'serif' 
 
 # Requirement T6 ---------------------------------------------------------------
 
-testthat::context("add_annotation - T6. The output object has an additional attribute `components`")
+context("add_annotation - T6. The output object has an additional attribute `components`")
 
-testthat::test_that("T6.1 The attribute components[['visR_plot']] contains the plot used as input", {
+test_that("T6.1 The attribute components[['visR_plot']] contains the plot used as input", {
   anno <- "blah"
 
   visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>% visR::visr()
@@ -381,11 +381,11 @@ testthat::test_that("T6.1 The attribute components[['visR_plot']] contains the p
     visR::visr()
   visR_cuminc_plot_anno <- visR_cuminc_plot %>% visR::add_annotation(label = anno)
 
-  testthat::expect_equal(visR_plot, visR_plot_anno$components$visR_plot)
-  testthat::expect_equal(visR_cuminc_plot, visR_cuminc_plot_anno$components$visR_plot)
+  expect_equal(visR_plot, visR_plot_anno$components$visR_plot)
+  expect_equal(visR_cuminc_plot, visR_cuminc_plot_anno$components$visR_plot)
 })
 
-testthat::test_that("T6.2 The attribute components contains the annotation", {
+test_that("T6.2 The attribute components contains the annotation", {
   anno <- adtte[1:6, 1:5]
 
   visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>%
@@ -397,11 +397,11 @@ testthat::test_that("T6.2 The attribute components contains the annotation", {
     visR::visr() %>%
     visR::add_annotation(label = anno)
 
-  testthat::expect_equal(names(visR_plot$components)[[2]], "grobs")
-  testthat::expect_equal(names(visR_cuminc_plot$components)[[2]], "grobs")
+  expect_equal(names(visR_plot$components)[[2]], "grobs")
+  expect_equal(names(visR_cuminc_plot$components)[[2]], "grobs")
 })
 
-testthat::test_that("T6.3 The output has the same class as the original ggplot", {
+test_that("T6.3 The output has the same class as the original ggplot", {
   anno <- adtte[1:6, 1:5]
 
   visR_plot <- visR::estimate_KM(data = adtte, strata = "TRTA") %>%
@@ -417,8 +417,8 @@ testthat::test_that("T6.3 The output has the same class as the original ggplot",
   visR_cuminc_plot2 <- visR_cuminc_plot %>%
     visR::add_annotation(label = anno)
 
-  testthat::expect_equal(class(visR_plot), class(visR_plot2))
-  testthat::expect_equal(class(visR_cuminc_plot), class(visR_cuminc_plot2))
+  expect_equal(class(visR_plot), class(visR_plot2))
+  expect_equal(class(visR_cuminc_plot), class(visR_cuminc_plot2))
 })
 
 # END OF CODE -------------------------------------------------------------

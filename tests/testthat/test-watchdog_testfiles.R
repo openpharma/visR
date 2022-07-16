@@ -10,11 +10,11 @@
 
 context("validate_watchdog - T1. Details on last change for test files are recorded.")
 # skip on GH Actions and CRAN
-testthat::skip_if(isTRUE(as.logical(Sys.getenv("CI"))))
-testthat::skip_on_cran()
-testthat::skip_on_os("windows")
+skip_if(isTRUE(as.logical(Sys.getenv("CI"))))
+skip_on_cran()
+skip_on_os("windows")
 
-testthat::test_that("T1.1 executed.", {
+test_that("T1.1 executed.", {
   test_files <- .get_visR_files(tests = TRUE)
 
   test_files <- test_files[!(grepl("watchdog", test_files))]
@@ -64,7 +64,7 @@ testthat::test_that("T1.1 executed.", {
       new_header,
       "# Requirement T1 ",
       paste0(rep("-", 58), collapse = ""),
-      "\n\ntestthat::context"
+      "\n\ncontext"
     )
 
     file_content <- gsub(
@@ -96,5 +96,5 @@ testthat::test_that("T1.1 executed.", {
     cat(file_content, file = x["full_path"])
   })
 
-  testthat::expect_true(TRUE)
+  expect_true(TRUE)
 })
