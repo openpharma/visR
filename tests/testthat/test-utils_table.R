@@ -35,13 +35,19 @@ test_that("T1.3. Correct max value for numeric values", {
 test_that("T1.4. Correct Q1 value for numeric values", {
   values <- 1:5
   summary <- visR::summarize_long(values)
-  testthat::expect_equal(summary[[1]]$Q1, stats::quantile(values)[2])
+  testthat::expect_equal(
+    summary[[1]]$Q1,
+    stats::quantile(values, names = FALSE)[2]
+  )
 })
 
 test_that("T1.5. Correct Q3 value for numeric values", {
   values <- 1:5
   summary <- visR::summarize_long(values)
-  testthat::expect_equal(summary[[1]]$Q3, stats::quantile(values)[4])
+  testthat::expect_equal(
+    summary[[1]]$Q3,
+    stats::quantile(values, names = FALSE)[4]
+  )
 })
 
 test_that("T1.6. Correct SD value for numeric values", {
