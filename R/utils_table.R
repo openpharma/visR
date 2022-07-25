@@ -43,9 +43,9 @@ summarize_long.numeric <- function(x) {
   dat <- list(
     mean = mean(x, na.rm = TRUE),
     min = min(x, na.rm = TRUE),
-    Q1 = quantile(x, probs = 0.25, na.rm = TRUE),
+    Q1 = quantile(x, probs = 0.25, na.rm = TRUE, names = FALSE),
     median = median(x, na.rm = TRUE),
-    Q3 = quantile(x, probs = 0.75, na.rm = TRUE),
+    Q3 = quantile(x, probs = 0.75, na.rm = TRUE, names = FALSE),
     max = max(x, na.rm = TRUE),
     sd = sd(x, na.rm = TRUE)
   )
