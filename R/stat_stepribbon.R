@@ -1,5 +1,7 @@
 #' Step ribbon statistic
 #'
+#' @description
+#' `r lifecycle::badge("experimental")`
 #' Provides stair-step values for ribbon plots, often using in
 #' conjunction with `ggplot2::geom_step()`.
 #' The step ribbon can be added with `stat_stepribbon()` or
