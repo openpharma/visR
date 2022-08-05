@@ -13,7 +13,7 @@ coverage](https://codecov.io/gh/openpharma/visR/branch/develop/graph/badge.svg)]
 [![R-CMD-check](https://github.com/openpharma/visR/workflows/R-CMD-check/badge.svg)](https://github.com/openpharma/visR/actions)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/visR)](https://CRAN.R-project.org/package=visR)
-<a href=https://github.com/pharmaR/riskmetric><img src=https://img.shields.io/badge/riskmetric-0.52-green></img></a>
+<a href=https://github.com/pharmaR/riskmetric><img src=https://img.shields.io/badge/riskmetric--1.5-green></img></a>
 <!-- badges: end -->
 
 The goal of visR is to enable fit-for-purpose, reusable clinical and
@@ -83,7 +83,7 @@ adtte %>%
   )
 ```
 
-<img src="man/figures/README-example-1.svg" width="100%" />
+<img src="man/figures/README-example-1.png" width="100%" />
 
 ## Cite visR
 
@@ -112,7 +112,9 @@ agree to abide by its terms. Thank you to all contributors:
 [@joanacmbarros](https://github.com/joanacmbarros),
 [@Jonnie-Bevan](https://github.com/Jonnie-Bevan),
 [@kawap](https://github.com/kawap),
+[@kawap93](https://github.com/kawap93),
 [@kentm4](https://github.com/kentm4),
+[@krystian8207](https://github.com/krystian8207),
 [@kzalocusky](https://github.com/kzalocusky),
 [@lcomm](https://github.com/lcomm),
 [@lesniewa](https://github.com/lesniewa),
