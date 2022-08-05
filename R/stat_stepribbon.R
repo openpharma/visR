@@ -39,7 +39,7 @@ stat_stepribbon <- function(mapping = NULL, data = NULL, geom = "ribbon",
   ggplot2::layer(
     data = data,
     mapping = mapping,
-    stat = StatStepribbon,
+    stat = visR::StatStepribbon,
     geom = geom,
     position = position,
     show.legend = show.legend,
