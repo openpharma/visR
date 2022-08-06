@@ -36,14 +36,7 @@ testthat::test_that("T1.2 The function is compatible with the survival package",
   testthat::expect_error(survival::survfit(visR::Surv_CNSR(AVAL, CNSR) ~ 1, data = adtte), NA)
   testthat::expect_error(survival::survfit(visR::Surv_CNSR(AVAL, CNSR) ~ SEX, data = adtte), NA)
 
-  # WHEN THIS TEST FAILS, THAT IS OUR SIGNAL THAT {survival} HAS BEEN UPDATED ON CRAN!!
-  # AT THAT POINT WE SHOULD DO THE FOLLOWING
-  # 1. UPDATE THIS UNIT TEST TO ASSURE THERE IS _NO_ ERROR WITH coxph()
-  # 2. ADD A MIN VERSION REQUIREMENT FOR THE {survival} PACKAGE
-  #    THIS CAN BE DONE IN TWO WAYS:
-  #      1. in the DESCRIPTION file
-  #      2. using rlang::check_installed("survival", version = <add required version number>)
-  testthat::expect_error(survival::coxph(visR::Surv_CNSR() ~ SEX, data = adtte))
+  testthat::expect_error(survival::coxph(visR::Surv_CNSR() ~ SEX, data = adtte), NA)
 })
 
 
