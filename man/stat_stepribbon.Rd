@@ -75,6 +75,7 @@ to the paired geom/stat.}
 a ggplot
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 Provides stair-step values for ribbon plots, often using in
 conjunction with \code{ggplot2::geom_step()}.
 The step ribbon can be added with \code{stat_stepribbon()} or
