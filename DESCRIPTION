@@ -38,7 +38,7 @@ Imports:
     gtable,
     kableExtra,
     rlang (>= 1.0.0),
-    survival,
+    survival (>= 3.4-0),
     tidyr (>= 1.0.0)
 Suggests:
     covr,
@@ -57,6 +57,7 @@ Suggests:
     tibble,
     tidycmprsk (>= 0.1.1),
     vdiffr
+Remotes: therneau/survival
 VignetteBuilder: 
     knitr
 biocViews:
@@ -64,4 +65,4 @@ Encoding: UTF-8
 Language: en-US
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.1
