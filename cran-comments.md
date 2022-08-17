@@ -1,7 +1,7 @@
 ## Resubmission
 This is a resubmission. In this version I have:
 
-* Resolved a warning from a failing test.
+* Resolved a warning from a failing test - see update below, 
 * Updated DESCRIPTION file to require latest version of survival (>= 3.4-0).
 
 ## Test environments
