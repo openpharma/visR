@@ -48,7 +48,7 @@ visr(x, ...)
 )
 }
 \arguments{
-\item{x}{Object of class \code{survfit}, \code{attritiontable}, or \code{tidycuminc}}
+\item{x}{Object of class \code{attritiontable}}
 
 \item{...}{other arguments passed on to the method}
 
@@ -112,8 +112,11 @@ Object of class \code{ggplot} and \code{ggsurvplot} for \code{survfit} objects.
 S3 method for creating plots directly from objects using \code{ggplot2},
 similar to the base R \code{plot()} function.
 
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Methods \code{visr.survfit()} and \code{visr.tidycuminc()} have been deprecated
+in favor of \code{ggsurvfit::ggsurvfit()} and \code{ggsurvfit::ggcuminc()}, respectively.
+
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#questioning}{\figure{lifecycle-questioning.svg}{options: alt='[Questioning]'}}}{\strong{[Questioning]}}
-S3 function to draw a Consort flow diagram chart.
+\code{visr.attrition()} function to draw a Consort flow diagram chart is currently being questioned.
 }
 \examples{
 

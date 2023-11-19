@@ -1,7 +1,7 @@
 Type: Package
 Package: visR
 Title: Clinical Graphs and Tables Adhering to Graphical Principles
-Version: 0.3.1
+Version: 0.4.0
 Authors@R: c(
     person("Mark", "Baillie", , "bailliem@gmail.com", role = c("aut", "cre", "cph")),
     person("Diego", "Saldana", , "diego.saldana@roche.com", role = "aut"),
@@ -37,6 +37,7 @@ Imports:
     gridExtra,
     gtable,
     kableExtra,
+    lifecycle,
     rlang (>= 1.0.0),
     survival (>= 3.4-0),
     tidyr (>= 1.0.0)
@@ -48,7 +49,6 @@ Suggests:
     gt (>= 0.3.0),
     knitr,
     learnr,
-    lifecycle,
     rmarkdown,
     rsconnect,
     shiny,
@@ -64,4 +64,4 @@ Encoding: UTF-8
 Language: en-US
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3

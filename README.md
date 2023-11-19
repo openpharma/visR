@@ -7,13 +7,13 @@
 <!-- badges: start -->
 
 [![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+questioning](https://img.shields.io/badge/lifecycle-questioning-blue)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![Codecov test
 coverage](https://codecov.io/gh/openpharma/visR/branch/develop/graph/badge.svg)](https://app.codecov.io/gh/openpharma/visR?branch=main)
 [![R-CMD-check](https://github.com/openpharma/visR/workflows/R-CMD-check/badge.svg)](https://github.com/openpharma/visR/actions)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/visR)](https://CRAN.R-project.org/package=visR)
-<a href=https://github.com/pharmaR/riskmetric><img src=https://img.shields.io/badge/riskmetric--1.5-green></img></a>
+<a href=https://github.com/pharmaR/riskmetric><img src=https://img.shields.io/badge/riskmetric-0.5-green></img></a>
 <!-- badges: end -->
 
 The goal of visR is to enable fit-for-purpose, reusable clinical and
@@ -29,10 +29,10 @@ By using a common package for visualising data analysis results in the
 clinical development process, we want to have a **positive influence**
 on
 
--   **choice of visualisation** by making it easy explore different
-    visualisation and to use impactful visualisations fit-for-purpose
--   effective visual communication by making it easy to **implement best
-    practices**
+- **choice of visualisation** by making it easy explore different
+  visualisation and to use impactful visualisations fit-for-purpose
+- effective visual communication by making it easy to **implement best
+  practices**
 
 We are not judging on what visualisation you chose for your research
 question, but want to facilitate and support good practice.
@@ -55,35 +55,6 @@ Install the *development* version from
 # defaults to main branch
 devtools::install_github("openpharma/visR") 
 ```
-
-## Examples
-
-#### Visualization
-
-This is a basic example to demonstrate how the API can be used to add
-layers to a visualization. This example demonstrates a time-to-event
-analysis. The example calculates and then plots stratified Kaplan-Meier
-by treatment. It is possible to add uncertainty intervals, censoring
-information, and a risk table using additional functions.
-
-``` r
-library(visR)
-library(ggplot2)
-
-theme_set(theme_minimal())
-
-adtte %>%
-  estimate_KM(strata = "TRTP", conf.int = 0.90) %>%
-  visr(legend_position = "right", x_unit = "Days") %>%
-  add_CI(style = "ribbon") %>%
-  add_CNSR(shape = 3, size = 1) %>%
-  add_risktable(
-    statlist = c("n.risk", "n.event", "n.censor"),
-    label = c("At risk", "Event", "Censor")
-  )
-```
-
-<img src="man/figures/README-example-1.png" width="100%" />
 
 ## Cite visR
 
@@ -122,6 +93,7 @@ agree to abide by its terms. Thank you to all contributors:
 [@rebecca-albrecht](https://github.com/rebecca-albrecht),
 [@SHAESEN2](https://github.com/SHAESEN2),
 [@thanos-siadimas](https://github.com/thanos-siadimas),
+[@therneau](https://github.com/therneau),
 [@thomas-neitmann](https://github.com/thomas-neitmann),
 [@timtreis](https://github.com/timtreis),
 [@yonicd](https://github.com/yonicd)
