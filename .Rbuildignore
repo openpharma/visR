@@ -21,3 +21,4 @@
 ^tests/testthat/_snaps$
 ^CRAN-SUBMISSION$
 ^revdep$
+^vignettes/interactive_tte_tutorial$
