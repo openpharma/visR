@@ -36,7 +36,6 @@ Imports:
     DT,
     forcats,
     ggplot2,
-    ggsurvfit,
     graphics,
     grDevices,
     grid,
