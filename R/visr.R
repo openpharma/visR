@@ -20,17 +20,19 @@
 #'   do a proposal.
 #' @param y_ticks Ticks for the y-axis. When not specified,
 #'   the default will do a proposal based on the `fun` argument.
+#'
 #' @param fun Function that represents the scale of the estimate.
 #'   The current options are:
-#'   \itemize{
-#'   \item{`surv`}{ is the survival probability. This is the default.}
-#'   \item{`log`}{ is log of the survival probability}
-#'   \item{`event`}{ is the failure probability}
-#'   \item{`cloglog`}{ is log(-log(survival probability))}
-#'   \item{`pct`}{ is survival as a percentage}
-#'   \item{`logpct`}{ is log survival as a percentage}
-#'   \item{`cumhaz`}{ is the cumulative hazard}
+#'   \tabular{ll}{
+#'   \code{surv} \tab is the survival probability. This is the default \cr
+#'   \code{log} \tab is log of the survival probability \cr
+#'   \code{event} \tab is the failure probability \cr
+#'   \code{cloglog} \tab is log(-log(survival probability)) \cr
+#'   \code{pct} \tab is survival as a percentage \cr
+#'   \code{logpct} \tab is log survival as a percentage \cr
+#'   \code{cumhaz} \tab is the cumulative hazard \cr
 #'   }
+#'
 #' @param legend_position Specifies the legend position in the plot.
 #'   Character values allowed are "top" "left" "bottom" "right".
 #'   Numeric coordinates are also allowed.
