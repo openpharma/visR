@@ -4,34 +4,7 @@
     <loc>https://openpharma.github.io/visR/404.html</loc>
   </url>
   <url>
-    <loc>https://openpharma.github.io/visR/articles/CDISC_ADaM.html</loc>
-  </url>
-  <url>
-    <loc>https://openpharma.github.io/visR/articles/Consort_flow_diagram.html</loc>
-  </url>
-  <url>
-    <loc>https://openpharma.github.io/visR/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://openpharma.github.io/visR/articles/interactive_tte_tutorial/tte_tutorial.html</loc>
-  </url>
-  <url>
-    <loc>https://openpharma.github.io/visR/articles/Styling_KM_plots.html</loc>
-  </url>
-  <url>
-    <loc>https://openpharma.github.io/visR/articles/Time_to_event_analysis.html</loc>
-  </url>
-  <url>
-    <loc>https://openpharma.github.io/visR/authors.html</loc>
-  </url>
-  <url>
     <loc>https://openpharma.github.io/visR/CODE_OF_CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>https://openpharma.github.io/visR/contributing.html</loc>
-  </url>
-  <url>
-    <loc>https://openpharma.github.io/visR/index.html</loc>
   </url>
   <url>
     <loc>https://openpharma.github.io/visR/LICENSE-text.html</loc>
@@ -40,19 +13,49 @@
     <loc>https://openpharma.github.io/visR/LICENSE.html</loc>
   </url>
   <url>
+    <loc>https://openpharma.github.io/visR/articles/CDISC_ADaM.html</loc>
+  </url>
+  <url>
+    <loc>https://openpharma.github.io/visR/articles/Consort_flow_diagram.html</loc>
+  </url>
+  <url>
+    <loc>https://openpharma.github.io/visR/articles/Styling_KM_plots.html</loc>
+  </url>
+  <url>
+    <loc>https://openpharma.github.io/visR/articles/Time_to_event_analysis.html</loc>
+  </url>
+  <url>
+    <loc>https://openpharma.github.io/visR/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://openpharma.github.io/visR/articles/interactive_tte_tutorial/tte_tutorial.html</loc>
+  </url>
+  <url>
+    <loc>https://openpharma.github.io/visR/authors.html</loc>
+  </url>
+  <url>
+    <loc>https://openpharma.github.io/visR/contributing.html</loc>
+  </url>
+  <url>
+    <loc>https://openpharma.github.io/visR/index.html</loc>
+  </url>
+  <url>
     <loc>https://openpharma.github.io/visR/news/index.html</loc>
   </url>
   <url>
     <loc>https://openpharma.github.io/visR/pull_request_template.html</loc>
   </url>
   <url>
-    <loc>https://openpharma.github.io/visR/reference/add_annotation.html</loc>
+    <loc>https://openpharma.github.io/visR/reference/Surv_CNSR.html</loc>
   </url>
   <url>
     <loc>https://openpharma.github.io/visR/reference/add_CI.html</loc>
   </url>
   <url>
     <loc>https://openpharma.github.io/visR/reference/add_CNSR.html</loc>
+  </url>
+  <url>
+    <loc>https://openpharma.github.io/visR/reference/add_annotation.html</loc>
   </url>
   <url>
     <loc>https://openpharma.github.io/visR/reference/add_highlight.html</loc>
@@ -94,16 +97,16 @@
     <loc>https://openpharma.github.io/visR/reference/dot-replace_hex_alpha.html</loc>
   </url>
   <url>
-    <loc>https://openpharma.github.io/visR/reference/estimate_cuminc.html</loc>
-  </url>
-  <url>
     <loc>https://openpharma.github.io/visR/reference/estimate_KM.html</loc>
   </url>
   <url>
-    <loc>https://openpharma.github.io/visR/reference/get_attrition.html</loc>
+    <loc>https://openpharma.github.io/visR/reference/estimate_cuminc.html</loc>
   </url>
   <url>
     <loc>https://openpharma.github.io/visR/reference/get_COX_HR.html</loc>
+  </url>
+  <url>
+    <loc>https://openpharma.github.io/visR/reference/get_attrition.html</loc>
   </url>
   <url>
     <loc>https://openpharma.github.io/visR/reference/get_pvalue.html</loc>
@@ -133,13 +136,13 @@
     <loc>https://openpharma.github.io/visR/reference/render.html</loc>
   </url>
   <url>
+    <loc>https://openpharma.github.io/visR/reference/stat_stepribbon.html</loc>
+  </url>
+  <url>
     <loc>https://openpharma.github.io/visR/reference/summarize_long.html</loc>
   </url>
   <url>
     <loc>https://openpharma.github.io/visR/reference/summarize_short.html</loc>
-  </url>
-  <url>
-    <loc>https://openpharma.github.io/visR/reference/Surv_CNSR.html</loc>
   </url>
   <url>
     <loc>https://openpharma.github.io/visR/reference/tableone.html</loc>

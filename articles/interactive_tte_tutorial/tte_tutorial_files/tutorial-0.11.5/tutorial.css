@@ -1,0 +1,256 @@
+.tutorial-exercise-support {
+  display: none;
+}
+
+.slide .tutorial-exercise {
+  line-height: 1.4;
+}
+
+.tutorial-exercise {
+  position: relative;
+}
+
+.tutorial-exercise-input {
+  margin-top: 15px;
+}
+
+.tutorial-panel-heading {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: 8px;
+  padding-right: 8px;
+  font-size: 0.8em;
+  font-weight: 500;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.tutorial-panel-heading-left,
+.tutorial-panel-heading-right {
+  display: flex;
+  align-items: center;
+}
+
+.tutorial-quiz-title {
+  font-weight: 300;
+  font-size: 18px;
+  padding-top: 6px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 8px;
+  width: 100%;
+}
+
+.tutorial-is-bs3 .tutorial-question .loading .placeholder {
+  display: none;
+}
+
+.tutorial-is-bs3 .tutorial-question .loading::before {
+  content: "Loading...";
+}
+
+.tutorial-question .loading ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.tutorial-question .loading ul li {
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.tutorial-question-container {
+  margin-top: 2em;
+  margin-bottom: 2em;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+.tutorial-question {
+  padding-top: 10px;
+  padding-bottom: 15px;
+}
+
+.tutorial-question .control-label {
+  margin-bottom: 1em;
+}
+
+.tutorial-question .control-label > :last-child {
+  margin-bottom: 0;
+}
+
+.tutorial-question .radio-inline,
+.tutorial-question .checkbox-inline {
+  display: block;
+  line-height: 1.5;
+}
+
+.tutorial-question .radio-inline + .radio-inline,
+.tutorial-question .checkbox-inline + .checkbox-inline {
+  margin-left: 0;
+  margin-top: 10px;
+}
+
+.panel .tutorial-question .checkbox-inline,
+.panel .tutorial-question .radio-inline {
+  position: relative;
+  padding-left: 1.25em;
+}
+
+.panel .tutorial-question .checkbox-inline input,
+.panel .tutorial-question .radio-inline input {
+  position: absolute;
+  width: 1.25em;
+  top: 0px;
+}
+
+.tutorial-question .question-final .checkbox-inline,
+.tutorial-question .question-final .radio-inline {
+  position: relative;
+  padding-left: 1.25em;
+}
+
+.tutorial-question .question-final .checkbox-inline input,
+.tutorial-question .question-final .radio-inline input {
+  position: absolute;
+  width: 1.25em;
+  top: 0px;
+}
+
+.tutorial-question .question-final .correct::before {
+  content: '\2713';
+  position: absolute;
+  left: 2px;
+  top: 0;
+}
+
+.tutorial-question .question-final .incorrect::before {
+  content: '\2717';
+  position: absolute;
+  left: 2px;
+  top: 0;
+}
+
+.tutorial-question .question-final .radio-inline label,
+.tutorial-question .question-final .checkbox-inline label {
+  position: relative;
+  padding-left: 1.25em;
+}
+
+.tutorial-question .question-final .radio-inline input.disabled,
+.tutorial-question .question-final .checkbox-inline input.disabled {
+  display: none;
+}
+
+.tutorial-question [id$="message_container"] > div:last-of-type {
+  margin-bottom: 0;
+}
+
+.tutorial-question [id$="button_container"] {
+  margin-top: 1em;
+}
+
+.tutorial-exercise .tutorial-exercise-input {
+  margin-bottom: 1em;
+}
+
+.tutorial-exercise .card-body {
+  padding: 0;
+}
+
+.tutorial-exercise-input .btn-xs,
+.tutorial-exercise-input .btn-sm {
+  margin-right: 0;
+  margin-top: -1px;
+  font-size: 11px;
+  margin-left: 12px;
+  padding-right: 8px;
+  font-weight: normal;
+}
+
+.btn-light {
+  color: #333;
+  background-color: #fff;
+  border-color: #ccc;
+}
+
+.tutorial-exercise-input .btn-tutorial-solution {
+  margin-left: 15px;
+}
+
+.tutorial-exercise-input .btn-tutorial-next-hint {
+  margin-left: 15px;
+  padding-right: 4px;
+}
+
+.tutorial-exercise-input .btn-xs i
+.tutorial-exercise-input .btn-sm i{
+  width: 10px;
+  margin-right: 1px;
+}
+
+.tutorial-exercise-input .panel-body {
+  padding: 0;
+}
+
+.tutorial-exercise-output .alert > :last-child {
+  margin-bottom: 0;
+}
+
+.tutorial-exercise-code-editor {
+  width: 100%;
+}
+
+.tutorial-solution-popover {
+  max-width: none;
+  width: 100%;
+}
+
+.tutorial-solution-popover.top>.arrow {
+  margin-left: 0;
+}
+
+.tutorial-hint {
+}
+
+.ace-tm {
+  font-family: monospace;
+  font-size: 90%;
+}
+
+.tutorial-video-container {
+  position: relative;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.tutorial-exercise-output>pre {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.tutorial-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: solid 1px #cccccc;
+}
+
+.tutorial_engine_icon {
+  vertical-align: middle;
+  fill: currentColor;
+  height: 20px;
+  width: 20px;
+  margin-right: -9px; /* net 6px */
+}
+
+/* Add outline indicator when tab key can change focus
+   to the next or previous element. `.ace_indent_off` is
+   a class added by learnr when the tab key is disabled.
+*/
+.ace_indent_off.ace_focus {
+  outline: 1px solid currentColor;
+}
