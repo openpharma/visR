@@ -1,7 +1,8 @@
 ## Resubmission
 This is a resubmission. In this version I have:
 
-* added notes that we are deprecating visr.survfit() and visr.tidycuminc(), recommending the use of {ggsurvfit} instead.  
+* added notes that we are deprecating `visr.survfit()` and `visr.tidycuminc()`, recommending the use of {ggsurvfit} instead.  
+* Minor edit to documentation in `vis.R` to remove a note due to an itemized list. 
 
 
 ## Test environments
