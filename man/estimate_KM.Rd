@@ -38,6 +38,8 @@ Use \code{?survival::survfit.formula} and \code{?survival::survfitCI} for more i
 survfit object ready for downstream processing in estimation or visualization functions and methods.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
 This function is a wrapper around \code{survival::survfit.formula()}
 to perform a Kaplan-Meier analysis, assuming right-censored data.
 The result is an object of class \code{survfit} which can be used in

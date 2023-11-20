@@ -1,6 +1,8 @@
 #' @title Wrapper for Kaplan-Meier Time-to-Event analysis
 #'
 #' @description
+#' `r lifecycle::badge("deprecated")`
+#'
 #' This function is a wrapper around `survival::survfit.formula()`
 #'    to perform a Kaplan-Meier analysis, assuming right-censored data.
 #'    The result is an object of class \code{survfit} which can be used in
@@ -88,6 +90,11 @@ estimate_KM <- function(data = NULL,
                         AVAL = "AVAL",
                         formula = NULL,
                         ...) {
+  lifecycle::deprecate_warn(
+    when = "0.4.0",
+    what = "visR::estimate_KM()",
+    details = "Please use `ggsurvfit::ggsurvfit()` instead."
+  )
 
   # Capture input to validate user input for data argument ---------------------
 
