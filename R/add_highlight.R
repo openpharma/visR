@@ -86,7 +86,8 @@ add_highlight.ggsurvfit <- function(gg = NULL,
   gg_gb <- ggplot2::ggplot_build(gg)
 
   if ("get_guide_data" %in% getNamespaceExports("ggplot2")) {
-    strata_labels <- ggplot2::get_guide_data(gg_gb, "colour")$.label
+    get_guide_data <- get("get_guide_data", asNamespace("ggplot2"))
+    strata_labels  <- get_guide_data(gg_gb, "colour")$.label
   } else {
     gg_gtable <- ggplot2::ggplot_gtable(gg_gb)
     gg_guidebox_id <- base::which(base::sapply(
