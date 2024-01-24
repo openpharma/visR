@@ -207,6 +207,11 @@ get_legend_title <- function(gg) {
   ggb <- ggplot2::ggplot_build(gg)
   ggt <- ggplot2::ggplot_gtable(ggb)
 
+  if (inherits(ggb$plot$guides, "Guides")) {
+    params <- ggb$plot$guides$get_params(1)
+    return(params$title)
+  }
+
   legend_grob_id <- which(sapply(ggt$grobs, function(x) x$name) == "guide-box")
   legend_grob <- ggt$grobs[[legend_grob_id]]
 

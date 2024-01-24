@@ -84,26 +84,32 @@ add_highlight.ggsurvfit <- function(gg = NULL,
 
   # Extract names of strata objects
   gg_gb <- ggplot2::ggplot_build(gg)
-  gg_gtable <- ggplot2::ggplot_gtable(gg_gb)
-  gg_guidebox_id <- base::which(base::sapply(
-    gg_gtable$grobs,
-    function(x) x$name
-  ) == "guide-box")
-  gg_table_grob <- gg_gtable$grobs[[gg_guidebox_id]]$grobs[[1]]
 
-  # Get IDs of elements containing strata labels
-  strata_label_ids <- base::grep("label", gg_table_grob$layout$name)
+  if ("get_guide_data" %in% getNamespaceExports("ggplot2")) {
+    get_guide_data <- get("get_guide_data", asNamespace("ggplot2"))
+    strata_labels  <- get_guide_data(gg_gb, "colour")$.label
+  } else {
+    gg_gtable <- ggplot2::ggplot_gtable(gg_gb)
+    gg_guidebox_id <- base::which(base::sapply(
+      gg_gtable$grobs,
+      function(x) x$name
+    ) == "guide-box")
+    gg_table_grob <- gg_gtable$grobs[[gg_guidebox_id]]$grobs[[1]]
 
-  extract_strata_name_by_id <- function(gg_table_grob, id) {
-    label <- gg_table_grob$grobs[[id]]$children[[1]]$children[[1]]$label
+    # Get IDs of elements containing strata labels
+    strata_label_ids <- base::grep("label", gg_table_grob$layout$name)
 
-    return(label)
+    extract_strata_name_by_id <- function(gg_table_grob, id) {
+      label <- gg_table_grob$grobs[[id]]$children[[1]]$children[[1]]$label
+
+      return(label)
+    }
+
+    strata_labels <- base::sapply(strata_label_ids,
+                                  extract_strata_name_by_id,
+                                  gg_table_grob = gg_table_grob
+    )
   }
-
-  strata_labels <- base::sapply(strata_label_ids,
-    extract_strata_name_by_id,
-    gg_table_grob = gg_table_grob
-  )
 
   base::sapply(c(strata), function(s) {
     if (!(s %in% strata_labels)) {

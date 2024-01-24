@@ -92,6 +92,10 @@ testthat::test_that("T1.3 An error when a list containing non-`ggplot` objects i
 testthat::context("utils_visr - T2. `align_plots()` aligns multiple `ggplot` objects, taking the legend into account.")
 
 testthat::test_that("T2.1 Columns are added to the grob-converted plot.", {
+  # From ggplot2 3.5.0 onwards ggplots have stable gtable dimensions with
+  # regards to legend placement
+  skip_if(utils::packageVersion("ggplot2") >= "3.5.0")
+
   gg_sex <- adtte %>%
     visR::estimate_KM("SEX") %>%
     visR::visr()
