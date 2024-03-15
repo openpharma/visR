@@ -13,7 +13,7 @@ coverage](https://codecov.io/gh/openpharma/visR/branch/develop/graph/badge.svg)]
 [![R-CMD-check](https://github.com/openpharma/visR/workflows/R-CMD-check/badge.svg)](https://github.com/openpharma/visR/actions)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/visR)](https://CRAN.R-project.org/package=visR)
-<a href=https://github.com/pharmaR/riskmetric><img src=https://img.shields.io/badge/riskmetric-0.5-green></img></a>
+<a href=https://github.com/pharmaR/riskmetric><img src=https://img.shields.io/badge/riskmetric-0.48-green></img></a>
 <!-- badges: end -->
 
 The goal of visR is to enable fit-for-purpose, reusable clinical and
@@ -68,6 +68,7 @@ Please note that the `visR` project is released with a [Contributor Code
 of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you
 agree to abide by its terms. Thank you to all contributors:
 
+[@ablack3](https://github.com/ablack3),
 [@AlexandraP-21](https://github.com/AlexandraP-21),
 [@ardeeshany](https://github.com/ardeeshany),
 [@bailliem](https://github.com/bailliem),
@@ -89,9 +90,11 @@ agree to abide by its terms. Thank you to all contributors:
 [@kzalocusky](https://github.com/kzalocusky),
 [@lcomm](https://github.com/lcomm),
 [@lesniewa](https://github.com/lesniewa),
+[@olivroy](https://github.com/olivroy),
 [@prabhushanmup](https://github.com/prabhushanmup),
 [@rebecca-albrecht](https://github.com/rebecca-albrecht),
 [@SHAESEN2](https://github.com/SHAESEN2),
+[@teunbrand](https://github.com/teunbrand),
 [@thanos-siadimas](https://github.com/thanos-siadimas),
 [@therneau](https://github.com/therneau),
 [@thomas-neitmann](https://github.com/thomas-neitmann),
