@@ -18,7 +18,7 @@ jobs:
       deployments: write
     steps:
       - name: Checkout repo 🛎
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Build report 🏗
         uses: insightsengineering/thevalidatoR@main
