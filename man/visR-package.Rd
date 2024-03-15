@@ -13,6 +13,7 @@ To enable fit-for-purpose, reusable clinical and medical research focused visual
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://openpharma.github.io/visR/}
   \item \url{https://github.com/openpharma/visR}
   \item Report bugs at \url{https://github.com/openpharma/visR/issues}
 }

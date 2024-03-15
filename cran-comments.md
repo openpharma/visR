@@ -1,9 +1,7 @@
 ## Resubmission
 This is a resubmission. In this version I have:
 
-* added notes that we are deprecating `visr.survfit()` and `visr.tidycuminc()`, recommending the use of {ggsurvfit} instead.  
-* Minor edit to documentation in `vis.R` to remove a note due to an itemized list. 
-
+* updated package to ensure ompatibility with incoming version of ggplot2 3.5.0
 
 ## Test environments
 * Ubuntu 18.04 LTS (on github actions), devel, release, oldrel-1, oldrel-2, oldrel-3, oldrel-4

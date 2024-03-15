@@ -1,7 +1,7 @@
 Type: Package
 Package: visR
 Title: Clinical Graphs and Tables Adhering to Graphical Principles
-Version: 0.4.0
+Version: 0.4.1
 Authors@R: c(
     person("Mark", "Baillie", , "bailliem@gmail.com", role = c("aut", "cre", "cph")),
     person("Diego", "Saldana", , "diego.saldana@roche.com", role = "aut"),

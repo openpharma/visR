@@ -1,3 +1,5 @@
+# visR 0.4.1
+
 # visR 0.4.0
 
 * Functions `estimate_KM()` and `visr.survfit()` have been deprecated in favor of `ggsurvfit::ggsurvfit()`.
