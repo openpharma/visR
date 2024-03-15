@@ -16,6 +16,10 @@ status](https://www.r-pkg.org/badges/version/visR)](https://CRAN.R-project.org/p
 <a href=https://github.com/pharmaR/riskmetric><img src=https://img.shields.io/badge/riskmetric-0.48-green></img></a>
 <!-- badges: end -->
 
+**Note**: We aim to keep visR maintained, but cannot commit to any
+future development. For all your KM plot needs, we would recommend
+checking out [ggsurvit](https://www.danieldsjoberg.com/ggsurvfit/).
+
 The goal of visR is to enable fit-for-purpose, reusable clinical and
 medical research focused visualizations and tables with sensible
 defaults and based on sound [graphical
